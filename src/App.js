@@ -1,8 +1,9 @@
-import React from 'react';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import Layout from './components/layout/Layout';
-import About from './pages/about/About';
-import Home from './pages/home/Home';
+import React from "react";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import Layout from "./components/layout/Layout";
+import About from "./pages/about/About";
+import Home from "./pages/home/Home";
+import LoginPage from "./pages/LoginPage/LoginPage";
 
 function App() {
   return (
@@ -11,6 +12,7 @@ function App() {
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
           <Route path="about" element={<About />} />
+          <Route path="Login" element={<LoginPage />} />
         </Route>
       </Routes>
     </BrowserRouter>
