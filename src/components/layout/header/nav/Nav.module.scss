@@ -6,6 +6,16 @@
   font-size: 20px;
 }
 
+.mainMenu {
+  position: relative;
+}
+
+.depth {
+  position: absolute;
+  top: 100%;
+  left: 0;
+}
+
 .spot {
   margin-bottom: 16px;
   font-size: 14px;
