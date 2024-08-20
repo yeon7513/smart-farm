@@ -13,7 +13,11 @@
     display: flex;
     flex-direction: column;
     gap: 16px;
-
+    span {
+      font-size: 40px;
+      color: var(--accent-color);
+      font-family: var(--title-font);
+    }
     h2 {
       font-family: var(--title-font);
       color: var(--common-color);

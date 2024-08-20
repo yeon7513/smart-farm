@@ -19,12 +19,14 @@ function Forms({ title, getDataForm, firebaseError }) {
     address,
     farmAddress,
     required,
+    name,
   }) => {
     getDataForm(email, password, {
       number: number,
       address: address,
       farmAddress: farmAddress,
       required: required,
+      name: name,
     });
     reset();
   };
@@ -58,8 +60,17 @@ function Forms({ title, getDataForm, firebaseError }) {
     <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
       <div>
         <input
+          type="text"
+          placeholder="닉네임"
+          autoComplete="off"
+          {...register("name")}
+        />
+      </div>
+      <div>
+        <input
           type="email"
           placeholder="이메일 입력"
+          autoComplete="off"
           {...register("email", userEmail)}
         />
         {errors?.email && (
@@ -72,6 +83,7 @@ function Forms({ title, getDataForm, firebaseError }) {
         <input
           type="password"
           placeholder="비밀번호 입력(문자, 숫자, 특수문자 포함 8~20자)"
+          autoComplete="off"
           {...register("password", userPassword)}
         />
         {errors?.password && (
@@ -84,6 +96,7 @@ function Forms({ title, getDataForm, firebaseError }) {
         <input
           type="password"
           placeholder="비밀번호 재입력"
+          autoComplete="off"
           {...register("password", userPassword)}
         />
         {errors?.password && (
@@ -96,6 +109,7 @@ function Forms({ title, getDataForm, firebaseError }) {
         <input
           type="text"
           placeholder="전화번호"
+          autoComplete="off"
           {...register("number", number)}
         />
         {errors?.password && (
@@ -108,6 +122,7 @@ function Forms({ title, getDataForm, firebaseError }) {
         <input
           type="text"
           placeholder="주소"
+          autoComplete="off"
           {...register("address", address)}
         />
         {errors?.password && (
@@ -120,11 +135,17 @@ function Forms({ title, getDataForm, firebaseError }) {
         <input
           type="text"
           placeholder="농장주소"
+          autoComplete="off"
           {...register("farmAddress")}
         />
       </div>
       <div>
-        <input type="text" placeholder="요청사항" {...register("required")} />
+        <input
+          type="text"
+          placeholder="요청사항"
+          autoComplete="off"
+          {...register("required")}
+        />
       </div>
       <button>{title}</button>
       {firebaseError && <span className={styles.form_error}>에러메세지</span>}
