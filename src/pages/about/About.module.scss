@@ -1,0 +1,93 @@
+.main {
+  //   display: inline-block;
+  //   background-color: rgba(0, 0, 0, 0.7);
+  position: relative;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+
+  img {
+    z-index: -1;
+    width: 100%;
+    height: 900px;
+    background-color: rgba(0, 0, 0, 0.7);
+  }
+}
+.main_title {
+  h1 {
+    color: #fff;
+    position: absolute;
+    top: 30%;
+    left: 15%;
+    font-weight: 600;
+    font-size: 60px;
+  }
+  p {
+    width: 600px;
+    position: absolute;
+    top: 40%;
+    left: 15%;
+    color: #fff;
+    padding: 20px;
+    font-size: 25px;
+  }
+}
+.middle {
+  margin: 100px 50px;
+}
+.vision {
+  margin-top: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 30px;
+  img {
+    width: 400px;
+    height: 450px;
+  }
+}
+.vision_title {
+  width: 450px;
+  font-size: 22px;
+  text-align: end;
+
+  h2 {
+    margin: 0;
+  }
+  h4 {
+    color: #00712d;
+    font-size: large;
+    margin: 0 0 10px 0;
+  }
+  span {
+    color: #800000;
+    font-weight: 600;
+  }
+}
+.mission {
+  margin-top: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 30px;
+  img {
+    width: 400px;
+    height: 450px;
+  }
+}
+.mission_title {
+  width: 450px;
+  font-size: 22px;
+  text-align: start;
+
+  h2 {
+    margin: 0;
+  }
+  h4 {
+    color: #800000;
+    font-size: large;
+    margin: 0 0 10px 0;
+  }
+}

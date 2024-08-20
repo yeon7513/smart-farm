@@ -1,6 +1,6 @@
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
-import { collection, getFirestore } from "firebase/firestore";
+import { collection, doc, getFirestore, setDoc } from "firebase/firestore";
 
 const firebaseConfig = {
   apiKey: "AIzaSyBz9TEYoPHVv_Lz28BzcTa1DrLMI7wnBWc",
@@ -22,4 +22,8 @@ function getCollection(collectionName) {
 
 export function getUserAuth() {
   return auth;
+}
+
+export async function joinUser(uid, email) {
+  await setDoc(doc(db, "users", uid), { email: email });
 }
