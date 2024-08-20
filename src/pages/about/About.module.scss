@@ -1,29 +1,37 @@
 .main {
   //   display: inline-block;
+  //   background-color: rgba(0, 0, 0, 0.7);
   position: relative;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
 
   img {
+    z-index: -1;
     width: 100%;
-    // object-fit: cover;
-    display: block;
-    height: 400px;
+    height: 900px;
+    background-color: rgba(0, 0, 0, 0.7);
   }
 }
 .main_title {
   h1 {
     color: #fff;
     position: absolute;
-    top: 10px;
-    left: 30px;
+    top: 30%;
+    left: 15%;
     font-weight: 600;
-    font-size: 40px;
+    font-size: 60px;
   }
   p {
+    width: 600px;
     position: absolute;
-    top: 50px;
+    top: 40%;
+    left: 15%;
     color: #fff;
     padding: 20px;
-    font-size: 20px;
+    font-size: 25px;
   }
 }
 .middle {

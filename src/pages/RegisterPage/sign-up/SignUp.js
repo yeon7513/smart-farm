@@ -5,6 +5,7 @@ import { getUserAuth, joinUser } from "../../../api/firebase";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import Form from "./../../../components/form/Form";
 import { setUser } from "../../../store/user/UserSlice";
+import Forms from "../../../components/form/Forms";
 
 function SingUp(props) {
   const [firebaseError, setFirebaseError] = useState("");
@@ -12,7 +13,7 @@ function SingUp(props) {
   const auth = getUserAuth();
   const navigate = useNavigate();
 
-  const handleSignupAndLogin = async (email, password) => {
+  const handleSignupAndLogin = async (email, password, userInfo) => {
     try {
       const userCredential = await createUserWithEmailAndPassword(
         auth,
@@ -32,7 +33,7 @@ function SingUp(props) {
   };
   return (
     <div>
-      <Form
+      <Forms
         title={"회원가입"}
         getDataForm={handleSignupAndLogin}
         firebaseError={firebaseError}
