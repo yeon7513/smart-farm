@@ -1,6 +1,6 @@
 header {
-  background-color: transparent;
   box-shadow: var(--down-shadow);
+  background-color: var(--main-color);
 
   &.home {
     position: fixed;
@@ -10,15 +10,11 @@ header {
     z-index: 10;
     color: var(--main-color);
     transition: 0.3s linear;
-    button {
-      color: var(--main-color);
-    }
+    background-color: transparent;
+
     &:hover {
       background-color: var(--main-color);
       color: #333;
-      button {
-        color: #333;
-      }
     }
   }
 }
