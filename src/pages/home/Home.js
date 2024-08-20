@@ -1,23 +1,35 @@
 import { Container } from "@mui/material";
-import React from "react";
+import React, { useEffect } from "react";
 import styles from "./Home.module.scss";
+import gsap from "gsap";
 
 function Home() {
+  useEffect(() => {
+    gsap.to(".mainText", {
+      scrollTrigger: {
+        trigger: ".mainText",
+        start: "top 80%",
+        end: "top 0%",
+        scrub: true,
+      },
+      opacity: 0,
+      duration: 3,
+    });
+  }, []);
+
   return (
     <div className={styles.container}>
       <div className={styles.main}>
-        <img src="/exImg.jpg" />
-        <div>
+        <div className="mainText">
           <h1>아이팜</h1>
           <p>ICT와 접목한 농장을 만듭니다.</p>
           <button>scroll Down</button>
         </div>
       </div>
       <div className={styles.one}>
-        <h1>스마트팜이란</h1>
-        <p>설명</p>
         <div>
-          <img />
+          <h1>스마트팜이란</h1>
+          <p>설명</p>
         </div>
       </div>
       <div className={styles.two}>
