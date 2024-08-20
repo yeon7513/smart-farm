@@ -21,7 +21,7 @@ function CustomerServiceCenter() {
         </div>
         {isVisible && (
           <div className={styles.description}>
-            <h4>내?용</h4>
+            <h4>됬은 없는 단어입니다. 됀은 없는 단어입니다.</h4>
           </div>
         )}
       </div>
