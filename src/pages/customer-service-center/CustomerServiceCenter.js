@@ -1,11 +1,18 @@
 import React, { useState } from "react";
 import styles from "./CustomerServiceCenter.module.scss";
+import up from "../../../src/assets/arrow/up.png";
+import down from "../../../src/assets/arrow/down.png";
 
 function CustomerServiceCenter() {
-  const [isVisible, setIsVisible] = useState(false);
+  // down 버튼을 누르면 description(내용)이 보이고
+  // up 버튼을 누르면 description(내용)이 보이지 않게 됩니다.
+  // const [isVisible, setIsVisible] = useState(false);
+  const [openId, setOpenId] = useState(null);
 
-  const toggleVisibility = () => {
-    setIsVisible((prevState) => !prevState);
+  // up, down버튼 클릭에 따라 description(내용)표시 여부를 변경합니다.
+  const toggleVisibility = (id) => {
+    // setIsVisible((prevState) => !prevState);
+    setOpenId((prevId) => (prevId === id ? null : id));
   };
 
   return (
@@ -13,13 +20,36 @@ function CustomerServiceCenter() {
       <div className={styles.faq}>
         <div className={styles.title}>
           <h3>제?목</h3>
-          {!isVisible ? (
-            <button onClick={toggleVisibility}>화살표 아래 버튼</button>
+          {openId === 1 ? (
+            <button onClick={toggleVisibility}>
+              <img src={down} alt="자세히 보기" />
+            </button>
           ) : (
-            <button onClick={toggleVisibility}>화살표 위 버튼</button>
+            <button onClick={toggleVisibility}>
+              <img src={up} alt="간략히 보기" />
+            </button>
           )}
         </div>
-        {isVisible && (
+        {openId === 2 && (
+          <div className={styles.description}>
+            <h4>됬은 없는 단어입니다. 됀은 없는 단어입니다.</h4>
+          </div>
+        )}
+      </div>
+      <div className={styles.faq}>
+        <div className={styles.title}>
+          <h3>제?목</h3>
+          {openId === 3 ? (
+            <button onClick={toggleVisibility}>
+              <img src={down} alt="자세히 보기" />
+            </button>
+          ) : (
+            <button onClick={toggleVisibility}>
+              <img src={up} alt="간략히 보기" />
+            </button>
+          )}
+        </div>
+        {openId === 4 && (
           <div className={styles.description}>
             <h4>됬은 없는 단어입니다. 됀은 없는 단어입니다.</h4>
           </div>

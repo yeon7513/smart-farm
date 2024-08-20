@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { getUserAuth } from '../../../../api/firebase';
@@ -7,26 +7,19 @@ import { removeUser } from '../../../../store/user/UserSlice';
 import styles from './Nav.module.scss';
 
 function NavLink({ className, path, depth, children }) {
-  const [isHovered, setIsHovered] = useState(false);
-
   return (
-    <li
-      className={className}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-    >
+    <li className={className}>
       {depth ? (
         <>
           <Link to={path}>{children}</Link>
-          {isHovered && (
-            <ul className={styles.depth}>
-              {depth.map((menu, idx) => (
-                <li key={idx}>
-                  <Link to={menu.path}>{menu.name}</Link>
-                </li>
-              ))}
-            </ul>
-          )}
+
+          <ul className={styles.depth}>
+            {depth.map((menu, idx) => (
+              <li key={idx}>
+                <Link to={menu.path}>{menu.name}</Link>
+              </li>
+            ))}
+          </ul>
         </>
       ) : (
         <Link to={path}>{children}</Link>
