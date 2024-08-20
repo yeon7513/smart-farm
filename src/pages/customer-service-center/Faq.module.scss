@@ -1,9 +1,16 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
 .faq {
-  border: 1px solid #000;
-  max-width: 560px;
+  border: 1px solid #ccc;
+  max-width: 960px;
   border-radius: 16px;
   box-shadow: 0 4px 8px rgba(0 0 0 / 20%);
   margin-bottom: 20px;
+  padding: 0 8px;
 }
 
 .title {
