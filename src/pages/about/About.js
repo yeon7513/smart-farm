@@ -1,15 +1,47 @@
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import prairie from "../../assets/abou/식1.jpg";
 import plant from "../../assets/abou/식2.png";
 import styles from "./About.module.scss";
+import gsap from "gsap";
+
 function About() {
+  const textRef = useRef(null);
+  const textRe = useRef(null);
+  const imageRef = useRef(null);
+  useEffect(() => {
+    gsap.fromTo(
+      textRef.current,
+      { opacity: 0, y: -50 },
+      { opacity: 1, y: 0, duration: 2, ease: "power2.out" }
+    );
+    gsap.fromTo(
+      textRe.current,
+      { opacity: 0, y: -50 },
+      { opacity: 1, y: 0, duration: 2, ease: "power2.out" }
+    );
+    if (imageRef.current) {
+      gsap.fromTo(
+        imageRef.current,
+        { x: 0 },
+        {
+          x: 10,
+          y: -5,
+          duration: 0.9,
+          repeat: -1,
+          yoyo: true,
+          ease: "power1.inOut",
+        }
+      );
+    }
+  }, []);
+
   return (
     <div>
       <div className={styles.main}>
         <img src={prairie} />
         <div className={styles.main_title}>
-          <h1>아이팜</h1>
-          <p>
+          <h1 ref={textRe}>아이팜</h1>
+          <p ref={textRef}>
             아이팜(iFarm)은 AI와 IoT기반의 첨단 농업 기술을 통해 스마트한 농업
             환경을 제공하고 있으며, 농업자동화 시스템,데이터 분석기술 등
             혁신적인 친환경 솔루션을 결합하여 농부들이 보다 생산적이고 안정적인
@@ -28,9 +60,7 @@ function About() {
               <span>NO.1</span> 기업으로 성장해나가겠습니다.
             </div>
           </div>
-          {/* <div className={styles.vision_img}> */}
           <img src={plant} />
-          {/* </div> */}
         </div>
         <div className={styles.mission}>
           <img src={plant} />
@@ -42,7 +72,6 @@ function About() {
               한다.
             </div>
           </div>
-          {/* <div className={styles.vision_img}> */}
         </div>
       </div>
     </div>
