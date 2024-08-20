@@ -62,7 +62,7 @@ function MyPage() {
         </button>
       </form>
 
-      <div className={styles.buttons}>
+      <div className={styles.myPageButtons}>
         <button className={styles.manageFarmButton}>농장 관리창</button>
         <button className={styles.deleteAccountButton}>회원탈퇴</button>
         {!user.isMember && (

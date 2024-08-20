@@ -1,16 +1,20 @@
 import React from "react";
+import styles from "./CustomerServiceCenter.module.scss";
+import RequestForQuote from "./RequestForQuote";
+import Faq from "./Faq";
 
-function CustomerServiceCenter() {
+function CustomerServiceCenter({ id }) {
   return (
-    <>
-      <div className="faq">
-        <div className="title">
-          <h3>제?목</h3>
-          <button>눌러보셈</button>
+    <div>
+      <h1>견적요청</h1>
+      <RequestForQuote />
+      <h1>FAQ</h1>
+      <div className={styles.page}>
+        <div>
+          <Faq key={id} />
         </div>
-        <div className="description">내?용</div>
       </div>
-    </>
+    </div>
   );
 }
 
