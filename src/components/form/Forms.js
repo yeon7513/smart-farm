@@ -2,7 +2,7 @@ import React from "react";
 import styles from "./Form.module.scss";
 import { useForm } from "react-hook-form";
 
-function Form({ title, getDataForm, firebaseError }) {
+function Forms({ title, getDataForm, firebaseError }) {
   const {
     register,
     handleSubmit,
@@ -11,7 +11,7 @@ function Form({ title, getDataForm, firebaseError }) {
   } = useForm({
     mode: "onChange",
   });
-  const onSubmit = ({ email, password }) => {
+  const onSubmit = ({ email, password, userInfo }) => {
     getDataForm(email, password);
     reset();
   };
@@ -23,8 +23,14 @@ function Form({ title, getDataForm, firebaseError }) {
   const userPassword = {
     required: "필수 필드입니다.",
     minLength: {
-      value: 6,
-      message: "최소 6자 이상.",
+      value: 8,
+      message: "최소 8자 이상.",
+    },
+    pattern: {
+      // value:
+      //   /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
+      message:
+        "대문자, 소문자, 숫자, 특수 문자를 포함한 최소 8자 이상이어야 합니다.",
     },
   };
 
@@ -33,7 +39,7 @@ function Form({ title, getDataForm, firebaseError }) {
       <div>
         <input
           type="email"
-          placeholder="Email"
+          placeholder="이메일 입력"
           {...register("email", userEmail)}
         />
         {errors?.email && (
@@ -45,7 +51,7 @@ function Form({ title, getDataForm, firebaseError }) {
       <div>
         <input
           type="password"
-          placeholder="Password"
+          placeholder="비밀번호 입력(문자, 숫자, 특수문자 포함 8~20자)"
           {...register("password", userPassword)}
         />
         {errors?.password && (
@@ -54,10 +60,34 @@ function Form({ title, getDataForm, firebaseError }) {
           </div>
         )}
       </div>
+      <div>
+        <input
+          type="password"
+          placeholder="비밀번호 재입력"
+          {...register("password", userPassword)}
+        />
+        {errors?.password && (
+          <div>
+            <span className={styles.form_error}>{errors.password.message}</span>
+          </div>
+        )}
+      </div>
+      <div>
+        <input type="text" placeholder="전화번호" />
+      </div>
+      <div>
+        <input type="text" placeholder="주소" />
+      </div>
+      <div>
+        <input type="text" placeholder="농장주소" />
+      </div>
+      <div>
+        <input type="text" placeholder="요청사항" />
+      </div>
       <button>{title}</button>
       {firebaseError && <span className={styles.form_error}>에러메세지</span>}
     </form>
   );
 }
 
-export default Form;
+export default Forms;
