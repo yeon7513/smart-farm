@@ -4,8 +4,11 @@ import up from "../../../src/assets/arrow/up.png";
 import down from "../../../src/assets/arrow/down.png";
 
 function CustomerServiceCenter() {
+  // down 버튼을 누르면 description(내용)이 보이고
+  // up 버튼을 누르면 description(내용)이 보이지 않게 됩니다.
   const [isVisible, setIsVisible] = useState(false);
 
+  // up, down버튼 클릭에 따라 description(내용)표시 여부를 변경합니다.
   const toggleVisibility = () => {
     setIsVisible((prevState) => !prevState);
   };
