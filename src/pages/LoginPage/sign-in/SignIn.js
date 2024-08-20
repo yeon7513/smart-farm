@@ -24,9 +24,6 @@ function SignIn(props) {
       dispatch(
         setUser({ email: user.email, token: user.refreshToken, uid: user.uid })
       );
-      // await joinUser(user.uid, user.email);
-      // await syncCart(user.uid, cartItems);
-
       navigate("/");
     } catch (error) {
       console.log(error);

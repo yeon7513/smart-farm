@@ -8,12 +8,46 @@
 
 .mainMenu {
   position: relative;
-}
+  padding-bottom: 8px;
+  &:hover {
+    color: var(--hover-color);
+  }
 
-.depth {
-  position: absolute;
-  top: 100%;
-  left: 0;
+  &:hover .depth {
+    display: block;
+    visibility: visible;
+    opacity: 1;
+  }
+
+  .depth {
+    display: none;
+    visibility: hidden;
+    opacity: 0;
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    z-index: 50;
+    width: 130px;
+    font-size: 16px;
+    transform: translateX(-50%);
+    background-color: var(--main-color);
+    box-shadow: var(--down-shadow);
+    li {
+      padding: 16px;
+      text-align: center;
+      border-bottom: 1px solid #eaeaea;
+      a {
+        width: 100%;
+        height: 100%;
+      }
+      &:last-child {
+        border-bottom: 0;
+      }
+      &:hover a {
+        color: var(--hover-color);
+      }
+    }
+  }
 }
 
 .spot {
@@ -24,5 +58,11 @@
     justify-content: right;
     align-items: center;
     gap: 8px;
+
+    li {
+      &:hover {
+        color: var(--hover-color);
+      }
+    }
   }
 }

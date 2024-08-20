@@ -1,61 +1,20 @@
-import React, { useState } from "react";
+import React from "react";
 import styles from "./CustomerServiceCenter.module.scss";
-import up from "../../../src/assets/arrow/up.png";
-import down from "../../../src/assets/arrow/down.png";
+import RequestForQuote from "./RequestForQuote";
+import Faq from "./Faq";
 
-function CustomerServiceCenter() {
-  // down 버튼을 누르면 description(내용)이 보이고
-  // up 버튼을 누르면 description(내용)이 보이지 않게 됩니다.
-  // const [isVisible, setIsVisible] = useState(false);
-  const [openId, setOpenId] = useState(null);
-
-  // up, down버튼 클릭에 따라 description(내용)표시 여부를 변경합니다.
-  const toggleVisibility = (id) => {
-    // setIsVisible((prevState) => !prevState);
-    setOpenId((prevId) => (prevId === id ? null : id));
-  };
-
+function CustomerServiceCenter({ id }) {
   return (
-    <>
-      <div className={styles.faq}>
-        <div className={styles.title}>
-          <h3>제?목</h3>
-          {openId === 1 ? (
-            <button onClick={toggleVisibility}>
-              <img src={down} alt="자세히 보기" />
-            </button>
-          ) : (
-            <button onClick={toggleVisibility}>
-              <img src={up} alt="간략히 보기" />
-            </button>
-          )}
+    <div>
+      <h1>견적요청</h1>
+      <RequestForQuote />
+      <h1>FAQ</h1>
+      <div className={styles.page}>
+        <div>
+          <Faq key={id} />
         </div>
-        {openId === 2 && (
-          <div className={styles.description}>
-            <h4>됬은 없는 단어입니다. 됀은 없는 단어입니다.</h4>
-          </div>
-        )}
       </div>
-      <div className={styles.faq}>
-        <div className={styles.title}>
-          <h3>제?목</h3>
-          {openId === 3 ? (
-            <button onClick={toggleVisibility}>
-              <img src={down} alt="자세히 보기" />
-            </button>
-          ) : (
-            <button onClick={toggleVisibility}>
-              <img src={up} alt="간략히 보기" />
-            </button>
-          )}
-        </div>
-        {openId === 4 && (
-          <div className={styles.description}>
-            <h4>됬은 없는 단어입니다. 됀은 없는 단어입니다.</h4>
-          </div>
-        )}
-      </div>
-    </>
+    </div>
   );
 }
 

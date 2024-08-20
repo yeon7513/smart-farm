@@ -11,8 +11,21 @@ function Forms({ title, getDataForm, firebaseError }) {
   } = useForm({
     mode: "onChange",
   });
-  const onSubmit = ({ email, password, userInfo }) => {
-    getDataForm(email, password);
+
+  const onSubmit = ({
+    email,
+    password,
+    number,
+    address,
+    farmAddress,
+    required,
+  }) => {
+    getDataForm(email, password, {
+      number: number,
+      address: address,
+      farmAddress: farmAddress,
+      required: required,
+    });
     reset();
   };
 
@@ -20,6 +33,13 @@ function Forms({ title, getDataForm, firebaseError }) {
     required: "필수 필드입니다.",
   };
 
+  const number = {
+    required: "필수 필드입니다.",
+  };
+
+  const address = {
+    required: "필수 필드입니다.",
+  };
   const userPassword = {
     required: "필수 필드입니다.",
     minLength: {
@@ -73,16 +93,38 @@ function Forms({ title, getDataForm, firebaseError }) {
         )}
       </div>
       <div>
-        <input type="text" placeholder="전화번호" />
+        <input
+          type="text"
+          placeholder="전화번호"
+          {...register("number", number)}
+        />
+        {errors?.password && (
+          <div>
+            <span className={styles.form_error}>{errors.password.message}</span>
+          </div>
+        )}
       </div>
       <div>
-        <input type="text" placeholder="주소" />
+        <input
+          type="text"
+          placeholder="주소"
+          {...register("address", address)}
+        />
+        {errors?.password && (
+          <div>
+            <span className={styles.form_error}>{errors.password.message}</span>
+          </div>
+        )}
       </div>
       <div>
-        <input type="text" placeholder="농장주소" />
+        <input
+          type="text"
+          placeholder="농장주소"
+          {...register("farmAddress")}
+        />
       </div>
       <div>
-        <input type="text" placeholder="요청사항" />
+        <input type="text" placeholder="요청사항" {...register("required")} />
       </div>
       <button>{title}</button>
       {firebaseError && <span className={styles.form_error}>에러메세지</span>}
