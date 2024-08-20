@@ -6,7 +6,7 @@ import Faq from "./Faq";
 function CustomerServiceCenter() {
   return (
     <div>
-      <h1>견적요청</h1>
+      <h1>견적 의뢰서</h1>
       <RequestForQuote />
       <h1>FAQ</h1>
       <div className={styles.page}>

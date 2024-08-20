@@ -16,7 +16,7 @@ function RequestForQuote() {
       <form>
         <div className={styles.id}>
           {/* 회원의 경우 input창은 disabled 처리가 되어있음. */}
-          <h3>견적 요청 아이디</h3>
+          <h3>견적 의뢰 아이디</h3>
           {/* <input type="text" placeholder="1234@naver.com" /> */}
           <input type="text" placeholder="1234@naver.com" />
         </div>
