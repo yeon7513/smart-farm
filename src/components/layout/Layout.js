@@ -1,7 +1,7 @@
-import React from 'react';
-import { Outlet } from 'react-router-dom';
-import Footer from './footer/Footer';
-import Header from './header/Header';
+import React from "react";
+import { Outlet } from "react-router-dom";
+import Footer from "./footer/Footer";
+import Header from "./header/Header";
 
 function Layout() {
   return (
@@ -11,7 +11,7 @@ function Layout() {
         <Outlet />
       </main>
       <Footer />
-      {user ? <button onClick={handleLogout}>로그아웃</button> : ""}
+      {/* {user ? <button onClick={handleLogout}>로그아웃</button> : ""} */}
     </>
   );
 }
