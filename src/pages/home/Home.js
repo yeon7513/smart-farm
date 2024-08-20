@@ -4,7 +4,7 @@ import styles from "./Home.module.scss";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/all";
 import { RiScrollToBottomLine } from "react-icons/ri";
-import contentImg from "./content.jpg";
+import contentImg from "../../assets/main/content2.jpg";
 
 gsap.registerPlugin(ScrollTrigger);
 function Home() {
@@ -20,6 +20,16 @@ function Home() {
         // markers: true,
       },
     });
+    gsap.to(".scroll", {
+      opacity: 0,
+      duration: 1,
+      scrollTrigger: {
+        trigger: ".scroll",
+        start: "top 90%",
+        end: "top 100%",
+        scrub: 1,
+      },
+    });
   }, []);
 
   return (
@@ -29,40 +39,47 @@ function Home() {
           <h1>아이팜</h1>
           <p>ICT와 접목한 농장을 만듭니다.</p>
         </div>
-        <RiScrollToBottomLine className={styles.scroll} />
+        <RiScrollToBottomLine className={`scroll ${styles.scroll}`} />
       </div>
+
       <div className={styles.content_one}>
         <div>
-          <h1>스마트팜이란</h1>
+          <h1>스마트팜이란?</h1>
+          <br />
           <p>
-            비닐하우스·유리온실·축사 등에 ICT를 접목하여
+            정보통신기술(ICT)을 활용해 원격·자동으로
             <br />
-            원격·자동으로 작물과 가축의 생육환경을
+            '시간과 공간의 제약 없이'
             <br />
-            적정하게 유지·관리할 수 있는 농장
+            농장을 관측하고 최적의 상태로 관리하는 과학 기반의 농업방식
           </p>
         </div>
-        <img src={contentImg} />
+        {/* <img src={contentImg} /> */}
       </div>
+
       <div className={styles.content_two}>
         <h1>아이팜은 000을 만듭니다.</h1>
         {/* 배경이미지 삽입 (슬라이드 사용 고려) */}
       </div>
+
       <div className={styles.content_three}>
         <h1>아이팜만의 차별화된 시스템을 만나보세요.</h1>
         {/* 휴대폰에 서비스화면 구축된 이미지 삽입 */}
       </div>
+
+      <div>
+        <p>스마트팜 이용현황</p>
+        <div>지역별(지도)</div>
+        <p>게시판</p>
+        <div>공지사항</div>
+        <div>견적 요청</div>
+      </div>
+
       <div className={styles.case}>
         <p>구축사례 만나보기</p>
         <div></div>
         <div></div>
         <div></div>
-      </div>
-      <div className={styles.estimate}>
-        <p>견적 요청하기</p>
-        <button>견적요청</button>
-        <button>견적문의</button>
-        {/* 배경이미지 삽입 */}
       </div>
     </div>
   );
