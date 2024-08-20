@@ -22,7 +22,7 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 
-function getCollection(collectionName) {
+export function getCollection(collectionName) {
   return collection(db, collectionName);
 }
 
