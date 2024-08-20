@@ -8,6 +8,7 @@ import Home from "./pages/home/Home";
 import Simulation from "./pages/simulation/Simulation";
 import Detail from "./pages/simulation/details/Detail";
 import "./scss/global.scss";
+import CustomerServiceCenter from "./pages/customer-service-center/CustomerServiceCenter";
 
 function App() {
   return (
@@ -21,6 +22,10 @@ function App() {
           </Route>
           <Route path="login" element={<LoginPage />} />
           <Route path="register" element={<RegisterPage />} />
+          <Route
+            path="customer-service-center"
+            element={<CustomerServiceCenter />}
+          />
         </Route>
       </Routes>
     </BrowserRouter>
