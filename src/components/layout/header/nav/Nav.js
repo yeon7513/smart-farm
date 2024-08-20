@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link, useNavigate } from 'react-router-dom';
+import { getUserAuth } from '../../../../api/firebase';
 import { paths } from '../../../../lib/menu';
+import { removeUser } from '../../../../store/user/UserSlice';
 import styles from './Nav.module.scss';
 
 function NavLink({ className, path, depth, children }) {
@@ -33,16 +36,36 @@ function NavLink({ className, path, depth, children }) {
 }
 
 function Nav() {
+  const auth = getUserAuth();
+  const { isAuthenticated } = useSelector((state) => state.UserSlice);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    auth.signOut();
+    dispatch(removeUser());
+    navigate('/', { replace: true });
+  };
+
   return (
     <>
       <nav className={styles.nav}>
         <div className={styles.spot}>
           <ul>
-            {paths.spot.map((menu, idx) => (
-              <NavLink key={idx} path={menu.path}>
-                {menu.name}
-              </NavLink>
-            ))}
+            {isAuthenticated ? (
+              <>
+                <li>
+                  <Link onClick={handleLogout}>로그아웃</Link>
+                </li>
+                <NavLink path={'/mypage'}>마이페이지</NavLink>
+              </>
+            ) : (
+              paths.spot.map((menu, idx) => (
+                <NavLink key={idx} path={menu.path}>
+                  {menu.name}
+                </NavLink>
+              ))
+            )}
           </ul>
         </div>
         <ul className={styles.main}>
