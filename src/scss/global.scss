@@ -6,7 +6,9 @@
   --common-color: #a2ca71;
   --accent-color: #387f39;
   --hover-color: #669900;
-  --box-shadow: 0px 3px 5px 0 rgba(0, 0, 0, 0.15);
+  --box-shadow: 3px 3px 5px 0 rgba(0, 0, 0, 0.15);
+  --up-shadow: 0px -3px 5px 0 rgba(0, 0, 0, 0.15);
+  --down-shadow: 0px 3px 5px 0 rgba(0, 0, 0, 0.15);
   --main-font: 'TheJamsil', sans-serif;
   --title-font: 'KOHIBaeum', sans-serif;
 }

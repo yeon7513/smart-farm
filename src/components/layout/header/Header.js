@@ -1,15 +1,19 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import Container from '../container/Container';
 import styles from './Header.module.scss';
 import Nav from './nav/Nav';
 
 function Header() {
+  const { pathname } = useLocation();
+
   return (
-    <header>
+    <header className={pathname === '/' ? styles.home : ''}>
       <Container className={styles.container}>
         <h1 className={styles.logo}>
-          <Link to="/">아이팜</Link>
+          <Link to="/" state="home">
+            아이팜
+          </Link>
         </h1>
         <Nav />
       </Container>
