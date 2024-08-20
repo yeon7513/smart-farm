@@ -1,13 +1,13 @@
 import React, { useEffect, useRef, useState } from "react";
 import prairie from "../../assets/abou/식1.jpg";
-import plant from "../../assets/abou/식2.png";
+import plant1 from "../../assets/abou/식2.png";
+import plant2 from "../../assets/abou/식3.jpg";
 import styles from "./About.module.scss";
 import gsap from "gsap";
 
 function About() {
   const textRef = useRef(null);
   const textRe = useRef(null);
-  const imageRef = useRef(null);
   useEffect(() => {
     gsap.fromTo(
       textRef.current,
@@ -19,26 +19,14 @@ function About() {
       { opacity: 0, y: -50 },
       { opacity: 1, y: 0, duration: 2, ease: "power2.out" }
     );
-    if (imageRef.current) {
-      gsap.fromTo(
-        imageRef.current,
-        { x: 0 },
-        {
-          x: 10,
-          y: -5,
-          duration: 0.9,
-          repeat: -1,
-          yoyo: true,
-          ease: "power1.inOut",
-        }
-      );
-    }
   }, []);
 
   return (
     <div>
       <div className={styles.main}>
-        <img src={prairie} />
+        <div className={styles.main_img}>
+          <img src={prairie} />
+        </div>
         <div className={styles.main_title}>
           <h1 ref={textRe}>아이팜</h1>
           <p ref={textRef}>
@@ -60,10 +48,14 @@ function About() {
               <span>NO.1</span> 기업으로 성장해나가겠습니다.
             </div>
           </div>
-          <img src={plant} />
+          <div className={styles.img}>
+            <img src={plant1} />
+          </div>
         </div>
         <div className={styles.mission}>
-          <img src={plant} />
+          <div className={styles.img}>
+            <img src={plant2} />
+          </div>
           <div className={styles.mission_title}>
             <h2>미션</h2>
             <h4>MISSION</h4>
