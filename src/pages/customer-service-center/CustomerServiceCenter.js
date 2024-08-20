@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import styles from "./CustomerServiceCenter.module.scss";
+import up from "../../../src/assets/arrow/up.png";
+import down from "../../../src/assets/arrow/down.png";
 
 function CustomerServiceCenter() {
   const [isVisible, setIsVisible] = useState(false);
@@ -14,9 +16,13 @@ function CustomerServiceCenter() {
         <div className={styles.title}>
           <h3>제?목</h3>
           {!isVisible ? (
-            <button onClick={toggleVisibility}>화살표 아래 버튼</button>
+            <button onClick={toggleVisibility}>
+              <img src={down} alt="자세히 보기" />
+            </button>
           ) : (
-            <button onClick={toggleVisibility}>화살표 위 버튼</button>
+            <button onClick={toggleVisibility}>
+              <img src={up} alt="간략히 보기" />
+            </button>
           )}
         </div>
         {isVisible && (
