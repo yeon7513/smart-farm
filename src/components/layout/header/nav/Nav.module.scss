@@ -1,0 +1,18 @@
+@import '/src/scss/mixins.scss';
+
+.main {
+  @include flexCenter();
+  gap: 16px;
+  font-size: 20px;
+}
+
+.spot {
+  margin-bottom: 16px;
+  font-size: 14px;
+  ul {
+    display: flex;
+    justify-content: right;
+    align-items: center;
+    gap: 8px;
+  }
+}

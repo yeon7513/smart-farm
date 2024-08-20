@@ -1,0 +1,16 @@
+header {
+  padding: 24px 0;
+  box-shadow: var(--box-shadow);
+}
+
+.container {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+.logo {
+  font-family: var(--title-font);
+  font-weight: 400;
+  font-size: 30px;
+}
