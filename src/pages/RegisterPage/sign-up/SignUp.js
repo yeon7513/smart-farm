@@ -1,32 +1,30 @@
-import { signInWithEmailAndPassword } from "firebase/auth";
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { getUserAuth, joinUser } from "../../../api/firebase";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import Form from "./../../../components/form/Form";
 import { setUser } from "../../../store/user/UserSlice";
-import { getUserAuth } from "../../../api/firebase";
-import Form from "../../../components/form/Form";
 
-function SignIn(props) {
+function SingUp(props) {
   const [firebaseError, setFirebaseError] = useState("");
   const dispatch = useDispatch();
   const auth = getUserAuth();
   const navigate = useNavigate();
 
-  const handleLogin = async (email, password) => {
+  const handleSignupAndLogin = async (email, password) => {
     try {
-      const userCredential = await signInWithEmailAndPassword(
+      const userCredential = await createUserWithEmailAndPassword(
         auth,
         email,
         password
       );
+      console.log(userCredential);
       const { user } = userCredential;
-
+      await joinUser(user.uid, user.email);
       dispatch(
         setUser({ email: user.email, token: user.refreshToken, uid: user.uid })
       );
-      // await joinUser(user.uid, user.email);
-      // await syncCart(user.uid, cartItems);
-
       navigate("/");
     } catch (error) {
       console.log(error);
@@ -34,12 +32,13 @@ function SignIn(props) {
     }
   };
   return (
-    <Form
-      title={"로그인"}
-      getDataForm={handleLogin}
-      firebaseError={firebaseError}
-    />
+    <div>
+      <Form
+        title={"회원가입"}
+        getDataForm={handleSignupAndLogin}
+        firebaseError={firebaseError}
+      />
+    </div>
   );
 }
-
-export default SignIn;
+export default SingUp;
