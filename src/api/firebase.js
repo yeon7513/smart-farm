@@ -25,7 +25,7 @@ export function getUserAuth() {
 }
 
 export async function joinUser(uid, email, password, userInfo) {
-  const { address, number, farmAddress, required } = userInfo;
+  const { address, number, farmAddress, required, name } = userInfo;
   const userData = {
     email: email,
     password: password,
@@ -33,6 +33,7 @@ export async function joinUser(uid, email, password, userInfo) {
     ...(number !== undefined && { number: number }),
     ...(farmAddress !== undefined && { farmAddress: farmAddress }),
     ...(required !== undefined && { required: required }),
+    ...(name !== undefined && { name: name }),
   };
   await setDoc(doc(db, "users", uid), userData);
 }

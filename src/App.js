@@ -1,16 +1,17 @@
-import React from 'react';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import Layout from './components/layout/Layout';
-import LoginPage from './pages/LoginPage/LoginPage';
-import MyPage from './pages/MyPage/MyPage';
-import RegisterPage from './pages/RegisterPage/RegisterPage';
-import About from './pages/about/About';
-import Service from './pages/about/Service';
-import CustomerServiceCenter from './pages/customer-service-center/CustomerServiceCenter';
-import Home from './pages/home/Home';
-import Simulation from './pages/simulation/Simulation';
-import Detail from './pages/simulation/details/Detail';
-import './scss/global.scss';
+import React from "react";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import Layout from "./components/layout/Layout";
+import LoginPage from "./pages/LoginPage/LoginPage";
+import RegisterPage from "./pages/RegisterPage/RegisterPage";
+import About from "./pages/about/About";
+import Home from "./pages/home/Home";
+import Simulation from "./pages/simulation/Simulation";
+import Detail from "./pages/simulation/details/Detail";
+import "./scss/global.scss";
+import CustomerServiceCenter from "./pages/customer-service-center/CustomerServiceCenter";
+import MyPage from "./pages/MyPage/MyPage";
+import SearchPw from "./pages/LoginPage/searchPw/SearchPw";
+import SearchEm from "./pages/LoginPage/searchEm/SearchEm";
 
 function App() {
   return (
@@ -18,15 +19,15 @@ function App() {
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
-          <Route path="about">
-            <Route index element={<About />} />
-            <Route path="service" element={<Service />} />
-          </Route>
+          <Route path="about" element={<About />} />
           <Route path="simulation" element={<Simulation />}>
             <Route path=":id" element={<Detail />} />
           </Route>
           <Route path="login" element={<LoginPage />} />
           <Route path="register" element={<RegisterPage />} />
+          <Route path="MyPage" element={<MyPage />} />
+          <Route path="SearchEm" element={<SearchEm />} />
+          <Route path="SearchPw" element={<SearchPw />} />
           <Route path="MyPage" element={<MyPage />} />
           <Route
             path="customer-service-center"

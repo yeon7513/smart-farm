@@ -33,6 +33,8 @@ function SignIn(props) {
   return (
     <Form
       title={"로그인"}
+      placeholder1={"Email"}
+      placeholder2={"Password"}
       getDataForm={handleLogin}
       firebaseError={firebaseError}
     />
