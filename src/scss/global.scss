@@ -1,9 +1,18 @@
+@import url("https://webfontworld.github.io/TheJamsil/TheJamsil.css");
+
 :root {
   --main-color: #FCF8F3;
   --common-color: #A2CA71;
   --accent-color: #387F39
   --hover-color: #669900;
+  --box-shadow: 5px 5px 10px 0 rgba(0, 0, 0, 0.5);
+  --font-family: "TheJamsil";
 }
+:flexbox(#root) {
+  display: flex;
+  flex-direction: column;
+}
+
 body {
   height: 100%;
 }
@@ -20,8 +29,11 @@ a {
 li {
   list-style-type: none;
 }
+.global_btn {
+  padding: 20px;
+}
 
-// 각 페이지 컴포넌트를 위한 wrapper
+//
 .page {
   text-align: center;
 
@@ -29,7 +41,7 @@ li {
   }
 }
 
-// page 안에 있는 wrapper
+//
 .container {
   margin: 0 auto;
 
@@ -39,11 +51,7 @@ li {
   }
 }
 
-// login, register page
 .form_container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
   height: auto;
   margin: 0 auto;
 
