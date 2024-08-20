@@ -1,6 +1,5 @@
-import { Container } from "@mui/material";
-import React from "react";
-import styles from "./Home.module.scss";
+import React from 'react';
+import styles from './Home.module.scss';
 
 function Home() {
   return (
