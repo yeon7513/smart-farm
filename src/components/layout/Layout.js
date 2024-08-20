@@ -14,12 +14,12 @@ function Layout() {
   };
   return (
     <>
-      {user ? <button onClick={handleLogout}>로그아웃</button> : ""}
       <Header />
       <main>
         <Outlet />
       </main>
       <Footer />
+      {user ? <button onClick={handleLogout}>로그아웃</button> : ""}
     </>
   );
 }

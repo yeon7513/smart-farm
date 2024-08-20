@@ -24,7 +24,7 @@ function Form({ title, getDataForm, firebaseError }) {
     required: "필수 필드입니다.",
     minLength: {
       value: 6,
-      message: "최소 6자 입니다.",
+      message: "최소 6자 이상.",
     },
   };
 
