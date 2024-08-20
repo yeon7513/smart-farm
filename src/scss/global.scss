@@ -1,77 +1,44 @@
-@import url("https://webfontworld.github.io/TheJamsil/TheJamsil.css");
+@import url('https://webfontworld.github.io/TheJamsil/TheJamsil.css');
+@import url('https://webfontworld.github.io/kohi/KOHIBaeum.css');
 
 :root {
-  --main-color: #FCF8F3;
-  --common-color: #A2CA71;
-  --accent-color: #387F39
+  --main-color: #fcf8f3;
+  --common-color: #a2ca71;
+  --accent-color: #387f39;
   --hover-color: #669900;
   --box-shadow: 5px 5px 10px 0 rgba(0, 0, 0, 0.5);
-  --font-family: "TheJamsil";
-}
-:flexbox(#root) {
-  display: flex;
-  flex-direction: column;
+  --main-font: 'TheJamsil', sans-serif;
+  --title-font: 'KOHIBaeum', sans-serif;
 }
 
-body {
-  height: 100%;
-}
 * {
-  box-sizing: border-box;
   margin: 0;
   padding: 0;
+  box-sizing: border-box;
 }
 a {
   text-decoration: none;
   color: inherit;
+  transition: 0.3s all linear;
 }
 
 li {
   list-style-type: none;
 }
-.global_btn {
-  padding: 20px;
+
+main {
+  min-height: 100vh;
 }
 
-//
-.page {
-  text-align: center;
-
-  @media (min-width: 768px) {
-  }
+button,
+input {
+  appearance: none;
+  border: 0;
+  outline: 0;
+  background-color: transparent;
+  transition: 0.3s all linear;
 }
 
-//
-.container {
-  margin: 0 auto;
-
-  @media (min-width: 576px) {
-  }
-  @media (min-width: 990px) {
-  }
-}
-
-.form_container {
-  height: auto;
-  margin: 0 auto;
-
-  a {
-    color: var(--main-color);
-
-    &:hover {
-      color: var(--second-color);
-      cursor: pointer;
-      transition: 0.3s all ease;
-    }
-  }
-
-  @media (min-width: 576px) {
-    width: 70%;
-  }
-  @media (min-width: 768px) {
-    width: 60%;
-  }
-  @media (min-width: 992px) {
-    width: 30%;
-  }
+button {
+  cursor: pointer;
 }
