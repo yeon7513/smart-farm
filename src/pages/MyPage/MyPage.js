@@ -4,11 +4,6 @@ import styles from "./MyPage.module.scss";
 
 const userInfo = JSON.parse(localStorage.getItem("users"));
 
-if (!userInfo) {
-  alert("로그인을 해주세요.");
-  window.location.href = "../";
-}
-
 function MyPage() {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);

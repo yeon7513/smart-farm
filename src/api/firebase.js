@@ -43,14 +43,3 @@ export async function joinUser(uid, email, password, userInfo) {
   };
   await setDoc(doc(db, "users", uid), userData);
 }
-
-export async function getDatas(collectionName) {
-  try {
-    const collect = collection(db, collectionName);
-    const snapshot = await getDocs(collect);
-    return snapshot;
-  } catch (error) {
-    console.error("Error getting documents: ", error);
-    throw error;
-  }
-}

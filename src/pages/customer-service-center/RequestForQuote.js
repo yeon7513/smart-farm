@@ -18,7 +18,7 @@ function RequestForQuote() {
           {/* 회원의 경우 input창은 disabled 처리가 되어있음. */}
           <h3>견적 요청 아이디</h3>
           {/* <input type="text" placeholder="1234@naver.com" /> */}
-          <input disabled type="text" placeholder="1234@naver.com" />
+          <input type="text" placeholder="1234@naver.com" />
         </div>
         <div className={styles.paymentDate}>
           <h3>결제 날짜</h3>
@@ -33,9 +33,7 @@ function RequestForQuote() {
           {/* <input type="text" placeholder="사랑시 고백구 행복동" /> */}
           <input disabled type="text" placeholder="사랑시 고백구 행복동" />
         </div>
-        <button className={styles.submit} type="submit">
-          결제하기
-        </button>
+        <button className={styles.submit}>결제하기</button>
       </form>
     </div>
   );

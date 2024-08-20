@@ -3,7 +3,7 @@ import styles from "./CustomerServiceCenter.module.scss";
 import RequestForQuote from "./RequestForQuote";
 import Faq from "./Faq";
 
-function CustomerServiceCenter({ id }) {
+function CustomerServiceCenter() {
   return (
     <div>
       <h1>견적요청</h1>
@@ -11,7 +11,7 @@ function CustomerServiceCenter({ id }) {
       <h1>FAQ</h1>
       <div className={styles.page}>
         <div>
-          <Faq key={id} />
+          <Faq />
         </div>
       </div>
     </div>
