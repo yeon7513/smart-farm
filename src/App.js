@@ -7,6 +7,7 @@ import Home from "./pages/home/Home";
 import Simulation from "./pages/simulation/Simulation";
 import Detail from "./pages/simulation/details/Detail";
 import "./scss/global.scss";
+import RegisterPage from "./pages/RegisterPage/RegisterPage";
 
 function App() {
   return (

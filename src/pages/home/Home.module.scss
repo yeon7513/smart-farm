@@ -1,0 +1,46 @@
+.container {
+  text-align: center;
+}
+
+.main {
+  font-family: var(--title-font);
+  position: relative;
+  color: #fff;
+  letter-spacing: 3px;
+
+  img {
+    width: 100%;
+    height: 100vh;
+  }
+  div {
+    position: absolute;
+    top: 30%;
+    left: 50%;
+    transform: translateX(-50%);
+    // transform: translateY(-50%);
+  }
+  button {
+    margin-top: 500px;
+    border: 1px solid #fff;
+    padding: 10px;
+    border-radius: 50%;
+  }
+}
+
+.one {
+  width: 70%;
+  height: 50vh;
+  margin: 50px auto;
+}
+
+.two {
+}
+
+.three {
+}
+
+.content {
+}
+
+.btn {
+}
