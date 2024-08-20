@@ -32,7 +32,10 @@ function Service(props) {
           <img src={smtImg} />
         </div>
         <div className={styles.farm_title}>
-          <h2>스마트팜이란?</h2>
+          <h2>
+            <span>스마트팜</span>
+            이란?
+          </h2>
           <p>
             농업기술에 정보통신기술 (ICT)을 접목해 과수원, 비닐하우스 등에서
             스마트폰, PC등 IT기기를 통해 작물의 생육 환경을 적정하게
@@ -43,7 +46,7 @@ function Service(props) {
       <div className={styles.core}>
         <div
           className={styles.technology_img}
-          ref={(el) => (imgRef.current[2] = el)}
+          ref={(el) => (imgRef.current[1] = el)}
         >
           {<img src={technology} />}
         </div>
