@@ -1,10 +1,11 @@
-import { Container } from "@mui/material";
-import React, { useEffect } from "react";
-import styles from "./Home.module.scss";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/all";
+import React, { useEffect } from "react";
 import { RiScrollToBottomLine } from "react-icons/ri";
-import contentImg from "../../assets/main/content2.jpg";
+import threeImg from "../../assets/main/content0.png";
+import mapImg from "../../assets/main/map.png";
+import styles from "./Home.module.scss";
+import MainSlide from "./slide/MainSlide";
 
 gsap.registerPlugin(ScrollTrigger);
 function Home() {
@@ -54,33 +55,67 @@ function Home() {
             농장을 관측하고 최적의 상태로 관리하는 과학 기반의 농업방식
           </p>
         </div>
-        {/* <img src={contentImg} /> */}
-        {/* 스크롤이 일정 이상 내려오면 텍스트가 왼쪽에서 오른방향으로 스르륵 나오게 설정 */}
+        <div></div>
       </div>
 
       <div className={styles.content_two}>
-        <h1>아이팜은 000을 만듭니다.</h1>
-        {/* 배경이미지 삽입 (슬라이드 사용 고려) */}
+        <MainSlide />
+        <h1>
+          여러분의 농장에 <span>융통성</span>을 선물합니다 .
+        </h1>
       </div>
 
       <div className={styles.content_three}>
         <h1>아이팜만의 차별화된 시스템을 만나보세요.</h1>
-        {/* 휴대폰에 서비스화면 구축된 이미지 삽입 */}
-      </div>
-      {/* 아래 지도와 서비스 이용을 휴대폰 화면 안에 담아 총 3개의 휴대폰을 나열하는 것도 나쁘지 않을 듯 */}
-      <div>
-        <p>스마트팜 이용현황</p>
-        <div>지역별(지도)</div>
-        <p>서비스 이용</p>
-        <div>시뮬레이션</div>
-        <div>견적 요청</div>
+        <div>
+          <img src={phoneImg} />
+          <img className={styles.big} src={phoneImg} />
+          <img src={phoneImg} />
+          {/* 휴대폰 화면 안에 주요 서비스? 등을 넣어서 나타나게.. 하면.. */}
+        </div>
       </div>
 
-      <div className={styles.case}>
-        <p>구축사례 만나보기</p>
-        <div></div>
-        <div></div>
-        <div></div>
+      <div className={styles.state}>
+        <section>
+          <h3>스마트팜 이용현황</h3>
+          <img src={mapImg} />
+        </section>
+        <section>
+          <img src={chartImg} />
+          {/* 사용자의 현재 위치에 맞는 지역의 정보가 나타나게 .. */}
+        </section>
+      </div>
+
+      {/* <div className={styles.case_community}>
+        <section>
+          <h3>우수 사례</h3>
+          <div className={styles.case}>
+            <img src={caseImg} />
+            <h3>충남 공주 / 딸기</h3>
+            <h4>박정훈님</h4>
+            <p>
+              "아이팜과 함께한 뒤로 삶이 훨씬 더 여유로워졌습니다. 예부터 농사는
+              부지런해야 한다고들 하는데 이제는 집에서도 밖에서도 할 수 있으니
+              얼마나 편해졌는지 모르겠습니다."
+            </p>
+          </div>
+        </section>
+        <section>
+          <p>커뮤니티</p>
+          <div className={styles.community}>
+            <ul>
+              <li>2박 3일 여행가는데...</li>
+              <li>자기 전엔 다들...</li>
+              <li>오늘 날씨 너무 덥네요</li>
+            </ul>
+          </div>
+        </section>
+      </div> */}
+
+      <div className={styles.service}>
+        <button>스마트팜 체험해보기</button>
+        <button>스마트팜 견적 요청하기</button>
+        <button>자주 묻는 질문</button>
       </div>
     </div>
   );

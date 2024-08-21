@@ -1,9 +1,12 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styles from "./Service.module.scss";
 import smtImg from "../../assets/abou/스마트팜.png";
 import technology from "../../assets/abou/식4.jpg";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/all";
+import UpButton from "../../components/up-button/UpButton";
+import { core } from "../../lib/core";
+import Container from "../../components/layout/container/Container";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -14,12 +17,14 @@ function Service(props) {
     imgRef.current.forEach((technology_img, index) => {
       gsap.from(technology_img, {
         opacity: 0,
-        y: 50,
+        y: -50,
         duration: 1,
         scrollTrigger: {
           trigger: technology_img,
-          start: "top 80%", // 스크롤 위치 설정
-          toggleActions: "play none none none",
+          start: "top 100%", // 스크롤 위치 설정
+          end: "top 100%",
+          markers: true,
+          toggleActions: "restart none none none",
         },
       });
     });
@@ -43,17 +48,34 @@ function Service(props) {
           </p>
         </div>
       </div>
-      <div className={styles.core}>
-        <div
-          className={styles.technology_img}
-          ref={(el) => (imgRef.current[1] = el)}
-        >
-          {<img src={technology} />}
-        </div>
+      <div className={styles.core} ref={(el) => (imgRef.current[1] = el)}>
+        <div className={styles.technology_img}>{<img src={technology} />}</div>
         <div>
           <h1>아이팜의 핵심가치</h1>
         </div>
       </div>
+      {/* 핵심내용 */}
+      {core.map((item, idx) => (
+        <div
+          className={styles.core_items}
+          key={item.id}
+          ref={(el) => (imgRef.current[idx + 2] = el)}
+        >
+          <Container className={styles.core_item}>
+            <img src={item.image} />
+            <div>
+              <h2>{item.name}</h2>
+              <p>{item.title}</p>
+              <p>{item.detail}</p>
+            </div>
+          </Container>
+        </div>
+      ))}
+
+      <UpButton />
+      {/* <button onClick={scrollTotop} className={styles.btn}>
+        up
+      </button> */}
     </div>
   );
 }

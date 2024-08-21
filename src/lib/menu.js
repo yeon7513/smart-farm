@@ -13,25 +13,25 @@ export const paths = {
       ],
     },
     {
-      path: 'simulation',
-      name: '시뮬레이션',
+      path: 'info',
+      name: '정보',
       depth: [
+        { path: '/info/usage-status', name: '이용 현황' },
         {
-          path: '/simulation',
-          name: '과채',
+          path: '/info/simulation',
+          name: '시뮬레이션',
         },
-        { path: '/simulation', name: '과수' },
       ],
     },
     {
       path: 'customer-service-center',
       name: '고객센터',
       depth: [
+        { path: '/customer-service-center/faq', name: 'FAQ' },
         {
-          path: '/',
-          name: '견적 요청',
+          path: '/customer-service-center/request',
+          name: '견적 의뢰',
         },
-        { path: '/', name: 'FAQ' },
       ],
     },
   ],
