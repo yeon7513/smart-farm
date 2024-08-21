@@ -1,7 +1,9 @@
-import React, { useState } from "react";
-import styles from "./Faq.module.scss";
-import up from "../../../src/assets/arrow/up.png";
-import down from "../../../src/assets/arrow/down.png";
+import React, { useState } from 'react';
+import down from '../../../src/assets/arrow/down.png';
+import up from '../../../src/assets/arrow/up.png';
+import Title from '../../components/layout/title/Title';
+import { faq } from '../../lib/intro';
+import styles from './Faq.module.scss';
 
 function Faq() {
   // down 버튼을 누르면 description(내용)이 보이고
@@ -16,6 +18,7 @@ function Faq() {
   };
   return (
     <div className={styles.page}>
+      <Title {...faq} />
       <div className={styles.faq}>
         <div className={styles.title}>
           <h3>스마트팜이 뭔가요?</h3>
