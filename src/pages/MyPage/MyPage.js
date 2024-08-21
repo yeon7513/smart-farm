@@ -29,8 +29,6 @@ function MyPage() {
       <div className={styles.myPageButtons}>
         <button className={styles.manageFarmButton}>농장 관리창</button>
         <button className={styles.deleteAccountButton}>회원탈퇴</button>
-
-        <button className={styles.nonMemberButton}>비회원 전용 버튼</button>
       </div>
     </div>
   );

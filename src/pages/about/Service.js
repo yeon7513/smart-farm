@@ -5,24 +5,17 @@ import technology from "../../assets/abou/식4.jpg";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/all";
 import agriculture from "../../assets/abou/농업관리.png";
-import date from "../../assets/abou/데이터2.jpeg";
+import platform from "../../assets/abou/사용자_친화적.png";
+import platfor from "../../assets/abou/사용자_친화적인.png";
+import saving from "../../assets/abou/절약.png";
+import date from "../../assets/abou/데이터.png";
+import UpButton from "../../components/up-button/UpButton";
 
 gsap.registerPlugin(ScrollTrigger);
 
 function Service(props) {
   const imgRef = useRef([]);
-  const [isVisible, setIsVisible] = useState(false);
 
-  const handleScroll = () => {
-    if (window.scroll > 300) {
-      setIsVisible(true);
-    } else {
-      setIsVisible(false);
-    }
-  };
-  const scrollTotop = () => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  };
   useEffect(() => {
     imgRef.current.forEach((technology_img, index) => {
       gsap.from(technology_img, {
@@ -38,7 +31,6 @@ function Service(props) {
         },
       });
     });
-    window.addEventListener("scroll", handleScroll);
   }, []);
 
   return (
@@ -82,29 +74,30 @@ function Service(props) {
         </div>
       </div>
       <div className={styles.core_item} ref={(el) => (imgRef.current[4] = el)}>
-        <img src={agriculture} />
+        <img src={saving} />
         <div>
           <h2>친환경 및 지속가능성</h2>
           <p>자원을 절약하며 환경에 미치는 영향 최소화.</p>
         </div>
       </div>
       <div className={styles.core_item} ref={(el) => (imgRef.current[5] = el)}>
-        <img src={agriculture} />
+        <img src={platfor} />
         <div>
           <h2>사용자 친화적인 플랫폼</h2>
           <p>누구나 간편하게 스마트 농업 도입 가능.</p>
         </div>
       </div>
       <div className={styles.core_item} ref={(el) => (imgRef.current[6] = el)}>
-        <img src={agriculture} />
+        <img src={platform} />
         <div>
           <h2>맞춤형 솔루션 제공</h2>
           <p>농장 특성에 맞춘 최적의 재배 전략 제공.</p>
         </div>
       </div>
-      <button onClick={scrollTotop} className={styles.btn}>
+      <UpButton />
+      {/* <button onClick={scrollTotop} className={styles.btn}>
         up
-      </button>
+      </button> */}
     </div>
   );
 }

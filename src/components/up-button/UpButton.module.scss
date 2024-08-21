@@ -1,0 +1,18 @@
+.main {
+  position: fixed;
+  bottom: 20px;
+  right: 50px;
+  .btn {
+    display: flex;
+    align-items: center;
+    padding: 5px;
+    background-color: rgb(0, 0, 0, 0.3);
+    font-size: 30px;
+    border-radius: 6px;
+    color: rgb(0, 0, 0, 0.6);
+    &:hover {
+      background-color: rgb(0, 0, 0, 0.6);
+      color: rgb(0, 0, 0, 0.3);
+    }
+  }
+}
