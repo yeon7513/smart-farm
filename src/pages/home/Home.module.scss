@@ -38,15 +38,14 @@
 
 .content_one {
   width: 100%;
-  height: 60vh;
-  margin: 0 auto;
-  // display: flex;
-  // justify-content: center;
-  // align-items: center;
-  // gap: 100px;
-  // position: relative;
-  background: url("../../assets/main/content2.jpg") no-repeat right;
-  background-size: contain;
+  height: 65vh;
+  margin: 20px auto;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  // background: url("../../assets/main/content2.jpg") no-repeat right;
+  // background-size: contain;
+  position: relative;
 
   h1 {
     font-family: var(--title-font);
@@ -57,32 +56,80 @@
     line-height: 1.5rem;
     font-size: 20px;
   }
-  // img {
-  //   width: 700px;
-  //   height: 500px;
-  //   opacity: 0.7;
-  // }
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: url("../../assets/main/content2.jpg") no-repeat right;
+    background-size: contain;
+    opacity: 0.8;
+    z-index: -1;
+  }
 }
 
 .content_two {
   width: 100%;
-  height: 70vh;
+  height: 50vh;
   margin: 0 auto;
-  // background: url("./house.jpg") no-repeat center/cover;
+  position: relative;
 
   h1 {
-    font-size: 40px;
-    color: var(--accent-color);
-    text-align: start;
-    padding: 50px;
+    font-family: var(--title-font);
+    font-size: 36px;
+    font-weight: 500;
+    color: var(--hover-color);
+    position: absolute;
+    top: 15%;
+    left: 5%;
+    z-index: 1;
   }
 }
 
-.three {
+.content_three {
+  margin: 100px auto;
+  width: 100%;
+  height: 80vh;
+
+  h1 {
+    font-weight: 600;
+    font-size: 40px;
+    color: var(--hover-color);
+  }
+  img {
+    width: 70%;
+    height: 80%;
+  }
 }
 
-.content {
+.service {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 100px;
+
+  div {
+    border: 2px solid black;
+    width: 400px;
+    height: 200px;
+  }
 }
 
-.btn {
+.case_container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.case {
+  display: flex;
+  gap: 100px;
+
+  div {
+    width: 280px;
+    height: 420px;
+    border: 2px solid black;
+  }
 }
