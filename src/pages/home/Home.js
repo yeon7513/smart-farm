@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { Container } from "@mui/material";
 import React, { useEffect } from "react";
 import styles from "./Home.module.scss";
@@ -5,30 +6,42 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/all";
 import { RiScrollToBottomLine } from "react-icons/ri";
 import MainSlide from "./slide/MainSlide";
-import threeImg from "../../assets/main/content0.png";
-import mapImg from "../../assets/main/map.png";
+import phoneImg from "../../assets/main/phone.png";
+import mapImg from "../../assets/main/map2.jpg";
+// import caseImg from "../../assets/main/strawberry.jpg";
+import chartImg from "../../assets/main/chart.png";
+=======
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/all';
+import React, { useEffect } from 'react';
+import { RiScrollToBottomLine } from 'react-icons/ri';
+import threeImg from '../../assets/main/content0.png';
+import mapImg from '../../assets/main/map.png';
+import styles from './Home.module.scss';
+import MainSlide from './slide/MainSlide';
+>>>>>>> f7b53da58003449d3ee4d4cdcdf36d231db7df4a
 
 gsap.registerPlugin(ScrollTrigger);
 function Home() {
   useEffect(() => {
-    gsap.to(".mainText", {
+    gsap.to('.mainText', {
       opacity: 0,
       duration: 0.5,
       scrollTrigger: {
-        trigger: ".mainText",
-        start: "top 100px",
-        end: "top 100%",
+        trigger: '.mainText',
+        start: 'top 100px',
+        end: 'top 100%',
         scrub: 1,
         // markers: true,
       },
     });
-    gsap.to(".scroll", {
+    gsap.to('.scroll', {
       opacity: 0,
       duration: 1,
       scrollTrigger: {
-        trigger: ".scroll",
-        start: "top 90%",
-        end: "top 100%",
+        trigger: '.scroll',
+        start: 'top 90%',
+        end: 'top 100%',
         scrub: 1,
       },
     });
@@ -61,35 +74,62 @@ function Home() {
 
       <div className={styles.content_two}>
         <MainSlide />
-        <h1>아이팜은 농장의 융통성을 만듭니다.</h1>
+        <h1>
+          여러분의 농장에 <span>융통성</span>을 선물합니다 .
+        </h1>
       </div>
 
       <div className={styles.content_three}>
         <h1>아이팜만의 차별화된 시스템을 만나보세요.</h1>
-        <img src={threeImg} />
+        <div>
+          <img src={phoneImg} />
+          <img className={styles.big} src={phoneImg} />
+          <img src={phoneImg} />
+          {/* 휴대폰 화면 안에 주요 서비스? 등을 넣어서 나타나게.. 하면.. */}
+        </div>
       </div>
-      {/* 아래 지도와 서비스 이용을 휴대폰 화면 안에 담아 총 3개의 휴대폰을 나열하는 것도 나쁘지 않을 듯 */}
-      <div className={styles.service}>
+
+      <div className={styles.state}>
         <section>
           <h3>스마트팜 이용현황</h3>
           <img src={mapImg} />
         </section>
         <section>
-          <h3>서비스 이용</h3>
-          <p>시뮬레이션</p>
-          <div>네모박스</div>
-          <p>견적 요청</p>
-          <div>네모박스</div>
+          <img src={chartImg} />
+          {/* 사용자의 현재 위치에 맞는 지역의 정보가 나타나게 .. */}
         </section>
       </div>
 
-      <div className={styles.case_container}>
-        <p>구축사례 만나보기</p>
-        <div className={styles.case}>
-          <div></div>
-          <div></div>
-          <div></div>
-        </div>
+      {/* <div className={styles.case_community}>
+        <section>
+          <h3>우수 사례</h3>
+          <div className={styles.case}>
+            <img src={caseImg} />
+            <h3>충남 공주 / 딸기</h3>
+            <h4>박정훈님</h4>
+            <p>
+              "아이팜과 함께한 뒤로 삶이 훨씬 더 여유로워졌습니다. 예부터 농사는
+              부지런해야 한다고들 하는데 이제는 집에서도 밖에서도 할 수 있으니
+              얼마나 편해졌는지 모르겠습니다."
+            </p>
+          </div>
+        </section>
+        <section>
+          <p>커뮤니티</p>
+          <div className={styles.community}>
+            <ul>
+              <li>2박 3일 여행가는데...</li>
+              <li>자기 전엔 다들...</li>
+              <li>오늘 날씨 너무 덥네요</li>
+            </ul>
+          </div>
+        </section>
+      </div> */}
+
+      <div className={styles.service}>
+        <button>스마트팜 체험해보기</button>
+        <button>스마트팜 견적 요청하기</button>
+        <button>자주 묻는 질문</button>
       </div>
     </div>
   );

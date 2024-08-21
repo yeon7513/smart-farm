@@ -4,7 +4,7 @@ import Container from '../../components/layout/container/Container';
 import Title from '../../components/layout/title/Title';
 import { info } from '../../lib/intro';
 
-function Info(props) {
+function Info() {
   return (
     <div>
       <Title {...info} />
