@@ -1,13 +1,13 @@
-import React from "react";
-import styles from "./RequestForQuote.module.scss";
-import { getDatas } from "../../api/firebase";
+import React from 'react';
+import { getDatas } from '../../api/firebase';
+import styles from './RequestForQuote.module.scss';
 
 function RequestForQuote() {
   const test = async () => {
     // localStorage에 있는 사용자의 정보를 추출합니다.
-    const userInfo = JSON.parse(localStorage.getItem("users"));
+    const userInfo = JSON.parse(localStorage.getItem('users'));
     // Firestore에서 "users" 컬렉션의 데이터를 가져옵니다.
-    const snapshot = await getDatas("users");
+    const snapshot = await getDatas('users');
 
     // localStorage의 사용자 정보의 docId를 추출합니다.
     const userDocId = userInfo?.uid;
