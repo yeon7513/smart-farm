@@ -9,7 +9,14 @@ function Footer() {
     <footer>
       <Container className={styles.container}>
         <h1 className={styles.logo}>
-          <Link to="/">아이팜</Link>
+          <Link to="/">
+            <img
+              className="logo-icon"
+              src={require('../../../assets/main/logo.png')}
+              alt=""
+            />
+            아이팜
+          </Link>
         </h1>
         <div className={styles.info}>
           <ul>
