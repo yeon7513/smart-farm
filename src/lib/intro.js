@@ -12,9 +12,9 @@ export const service = {
   imgUrl: prairie,
 };
 
-export const simul = {
-  title: '시뮬레이션',
-  desc: '미리 체험해보세요.',
+export const info = {
+  title: '정보 페이지',
+  desc: '정보 페이지',
   imgUrl: prairie,
 };
 
