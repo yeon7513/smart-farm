@@ -50,8 +50,7 @@
 }
 
 .manageFarmButton,
-.deleteAccountButton,
-.nonMemberButton {
+.deleteAccountButton {
   padding: 10px;
   background-color: #007bff;
   color: white;
@@ -67,8 +66,4 @@
 
 .deleteAccountButton {
   background-color: #dc3545;
-}
-
-.nonMemberButton {
-  background-color: #6c757d;
 }
