@@ -25,6 +25,7 @@
     "redux": "^4.2.1",
     "sass": "^1.77.8",
     "smart-farm": "file:",
+    "swiper": "^11.1.9",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
