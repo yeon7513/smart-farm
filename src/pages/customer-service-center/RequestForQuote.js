@@ -1,24 +1,50 @@
 import React from "react";
-import styles from "./RequestForQuote.module.scss";
 import { getDatas } from "../../api/firebase";
+import styles from "./RequestForQuote.module.scss";
 
 function RequestForQuote() {
   const test = async () => {
-    // localStorage에 있는 사용자의 정보를 추출합니다.
-    const userInfo = JSON.parse(localStorage.getItem("users"));
-    // Firestore에서 "users" 컬렉션의 데이터를 가져옵니다.
-    const snapshot = await getDatas("users");
-
-    // localStorage의 사용자 정보의 docId를 추출합니다.
-    const userDocId = userInfo?.uid;
-
-    snapshot.docs.forEach((doc) => {
-      const data = doc.data();
-      if (data.docId === userDocId) {
-        console.log(data.email, data.farmAddress);
-        console.log(userInfo);
+    try {
+      // localStorage에 있는 사용자의 정보를 추출합니다.
+      const userStr = localStorage.getItem("user");
+      if (!userStr) {
+        console.error("No user information found in localStoarge.");
+        return;
       }
-    });
+
+      // JSON 문자열을 객체로 변환합니다.
+      const userInfo = JSON.parse(userStr);
+      const userUid = userInfo.uid;
+      if (!userUid) {
+        console.error("User UID not found in localStorage.");
+        return;
+      }
+
+      // Firestore에서 "users" 컬렉션의 데이터를 가져옵니다.
+      const snapshot = await getDatas("users");
+
+      // Firestore에서 해당 사용자의 정보를 찾습니다.
+      const userDocs = snapshot.docs.filter((doc) => {
+        const data = doc.data();
+        // if (data.uid === userDocId) {
+        //   console.log(`이메일:`, data.email, `\n주소:`, data.farmAddress);
+        //   console.log(JSON.parse(localStorage.getItem("user")));
+        // }
+        return data.uid === userUid;
+      });
+
+      // 결과를 출력합니다.
+      if (userDocs.length > 0) {
+        userDocs.forEach((doc) => {
+          const data = doc.data();
+          console.log(`이메일:`, data.email, `\n주소:`, data.farmAddress);
+        });
+      } else {
+        console.log("No matching user found in Firestore");
+      }
+    } catch (error) {
+      console.error("Error fetching user data:", error);
+    }
   };
   return (
     <div>

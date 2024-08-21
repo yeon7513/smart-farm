@@ -1,7 +1,9 @@
 import React, { useState } from "react";
-import styles from "./Faq.module.scss";
-import up from "../../../src/assets/arrow/up.png";
 import down from "../../../src/assets/arrow/down.png";
+import up from "../../../src/assets/arrow/up.png";
+import Title from "../../components/layout/title/Title";
+import { faq } from "../../lib/intro";
+import styles from "./Faq.module.scss";
 
 function Faq() {
   // down 버튼을 누르면 description(내용)이 보이고
@@ -16,6 +18,7 @@ function Faq() {
   };
   return (
     <div className={styles.page}>
+      <Title {...faq} />
       <div className={styles.faq}>
         <div className={styles.title}>
           <h3>스마트팜이 뭔가요?</h3>
@@ -42,7 +45,7 @@ function Faq() {
       </div>
       <div className={styles.faq}>
         <div className={styles.title}>
-          <h3>비용은 어떻게 되나요?</h3>
+          <h3>스마트농업은 왜 필요한가요?</h3>
           {openId === 2 ? (
             <button onClick={() => toggleVisibility(2)}>
               <img src={down} alt="자세히 보기" />
@@ -56,9 +59,10 @@ function Faq() {
         {openId === 2 && (
           <div className={styles.description}>
             <h4>
-              스마트팜은 시설을 갖추는 비용이 돈이 많이 들지만 관행농업보다 좋은
-              품질의 농산물을 30~50% 정도 더 많이 수확할 수 있고, 7년만 고생하면
-              초기 투자에 들어간 빚을 모두 갚을 수 있습니다.
+              스마트농업은 지속 가능한 농업을 실현하는 방법 중 하나입니다. 현재
+              농업은 기후변화, 고령화, 농촌소멸 등으로 어려움을 겪고 있습니다.
+              로봇, 드론, 자율주행 등 자동화 기술을 도입하면 한층 편리하게
+              농작업을 할 수 있고, 작물 생산성을 높일 수 있습니다.
             </h4>
           </div>
         )}
