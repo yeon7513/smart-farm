@@ -18,7 +18,7 @@ function Faq() {
     <div className={styles.page}>
       <div className={styles.faq}>
         <div className={styles.title}>
-          <h3>요새 농산물 값이 왜이리 비싼가요?</h3>
+          <h3>스마트팜이 뭔가요?</h3>
           {openId === 1 ? (
             <button onClick={() => toggleVisibility(1)}>
               <img src={down} alt="자세히 보기" />
@@ -32,15 +32,17 @@ function Faq() {
         {openId === 1 && (
           <div className={styles.description}>
             <h4>
-              농산물 값이 비싸다고 생각되신다면 너가 직접 농사 지어서 수확해서
-              드시면 됩니다.
+              스마트팜은 센서, 정보통신기술, 기기제어, 빅데이터 등으로
+              복합환경제어를 자동으로 할 수 있는 시설농업기술입니다. 즉,
+              스마트농업이 농업 전체를 의미한다면 스마트팜은 시설농업기술을
+              뜻합니다.
             </h4>
           </div>
         )}
       </div>
       <div className={styles.faq}>
         <div className={styles.title}>
-          <h3>딸기가 먹고 싶어요.</h3>
+          <h3>비용은 어떻게 되나요?</h3>
           {openId === 2 ? (
             <button onClick={() => toggleVisibility(2)}>
               <img src={down} alt="자세히 보기" />
@@ -54,8 +56,9 @@ function Faq() {
         {openId === 2 && (
           <div className={styles.description}>
             <h4>
-              너 돈으로 직접 사서 드시면 됩니다. 그리고 너가 딸기 먹고 싶은 거
-              알빠노?
+              스마트팜은 시설을 갖추는 비용이 돈이 많이 들지만 관행농업보다 좋은
+              품질의 농산물을 30~50% 정도 더 많이 수확할 수 있고, 7년만 고생하면
+              초기 투자에 들어간 빚을 모두 갚을 수 있습니다.
             </h4>
           </div>
         )}
