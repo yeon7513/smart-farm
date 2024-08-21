@@ -9,6 +9,7 @@ import { getUserAuth, joinUser } from "../../api/firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useDispatch } from "react-redux";
 import { setUser } from "../../store/user/UserSlice";
+import styles from "./LoginPage.module.scss";
 
 function LoginPage(props) {
   const auth = getUserAuth();
@@ -37,9 +38,9 @@ function LoginPage(props) {
   }
 
   return (
-    <div>
-      <div>
-        <h1>로그인</h1>
+    <div className={styles.container}>
+      <div className={styles.nav}>
+        <h1 className={styles.h1}>로그인</h1>
         <SignIn />
         <button
           type="submit"
@@ -52,7 +53,8 @@ function LoginPage(props) {
           </span>
         </button>
         <p>
-          <Link>Email 찾기</Link>| <Link>비밀번호 찾기</Link>
+          <Link to="/searchEm">Email 찾기</Link>
+          <Link to="/searchPw">비밀번호 찾기</Link>
         </p>
         <p>
           아직 회원이 아니신가요? <Link to={"/register"}>회원가입</Link>

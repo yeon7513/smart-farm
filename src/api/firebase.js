@@ -1,6 +1,12 @@
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
-import { collection, doc, getFirestore, setDoc } from "firebase/firestore";
+import {
+  collection,
+  doc,
+  getDocs,
+  getFirestore,
+  setDoc,
+} from "firebase/firestore";
 
 const firebaseConfig = {
   apiKey: "AIzaSyBz9TEYoPHVv_Lz28BzcTa1DrLMI7wnBWc",
@@ -16,7 +22,7 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 
-function getCollection(collectionName) {
+export function getCollection(collectionName) {
   return collection(db, collectionName);
 }
 
@@ -25,7 +31,7 @@ export function getUserAuth() {
 }
 
 export async function joinUser(uid, email, password, userInfo) {
-  const { address, number, farmAddress, required } = userInfo;
+  const { address, number, farmAddress, required, name } = userInfo;
   const userData = {
     email: email,
     password: password,
@@ -33,6 +39,18 @@ export async function joinUser(uid, email, password, userInfo) {
     ...(number !== undefined && { number: number }),
     ...(farmAddress !== undefined && { farmAddress: farmAddress }),
     ...(required !== undefined && { required: required }),
+    ...(name !== undefined && { name: name }),
   };
   await setDoc(doc(db, "users", uid), userData);
+}
+
+export async function getDatas(collectionName) {
+  try {
+    const collect = collection(db, collectionName);
+    const snapshot = await getDocs(collect);
+    return snapshot;
+  } catch (error) {
+    console.error("Error getting documents: ", error);
+    throw error;
+  }
 }

@@ -2,7 +2,13 @@ import React from "react";
 import styles from "./Form.module.scss";
 import { useForm } from "react-hook-form";
 
-function Form({ title, getDataForm, firebaseError }) {
+function Form({
+  title,
+  getDataForm,
+  firebaseError,
+  placeholder1,
+  placeholder2,
+}) {
   const {
     register,
     handleSubmit,
@@ -33,7 +39,8 @@ function Form({ title, getDataForm, firebaseError }) {
       <div>
         <input
           type="email"
-          placeholder="Email"
+          placeholder={placeholder1}
+          autoComplete="off"
           {...register("email", userEmail)}
         />
         {errors?.email && (
@@ -45,7 +52,8 @@ function Form({ title, getDataForm, firebaseError }) {
       <div>
         <input
           type="password"
-          placeholder="Password"
+          placeholder={placeholder2}
+          autoComplete="off"
           {...register("password", userPassword)}
         />
         {errors?.password && (
