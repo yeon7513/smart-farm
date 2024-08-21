@@ -4,7 +4,9 @@ import styles from "./Home.module.scss";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/all";
 import { RiScrollToBottomLine } from "react-icons/ri";
-import contentImg from "../../assets/main/content2.jpg";
+import MainSlide from "./slide/MainSlide";
+import threeImg from "../../assets/main/content0.png";
+import mapImg from "../../assets/main/map.png";
 
 gsap.registerPlugin(ScrollTrigger);
 function Home() {
@@ -54,33 +56,40 @@ function Home() {
             농장을 관측하고 최적의 상태로 관리하는 과학 기반의 농업방식
           </p>
         </div>
-        {/* <img src={contentImg} /> */}
-        {/* 스크롤이 일정 이상 내려오면 텍스트가 왼쪽에서 오른방향으로 스르륵 나오게 설정 */}
+        <div></div>
       </div>
 
       <div className={styles.content_two}>
-        <h1>아이팜은 000을 만듭니다.</h1>
-        {/* 배경이미지 삽입 (슬라이드 사용 고려) */}
+        <MainSlide />
+        <h1>아이팜은 농장의 융통성을 만듭니다.</h1>
       </div>
 
       <div className={styles.content_three}>
         <h1>아이팜만의 차별화된 시스템을 만나보세요.</h1>
-        {/* 휴대폰에 서비스화면 구축된 이미지 삽입 */}
+        <img src={threeImg} />
       </div>
       {/* 아래 지도와 서비스 이용을 휴대폰 화면 안에 담아 총 3개의 휴대폰을 나열하는 것도 나쁘지 않을 듯 */}
-      <div>
-        <p>스마트팜 이용현황</p>
-        <div>지역별(지도)</div>
-        <p>서비스 이용</p>
-        <div>시뮬레이션</div>
-        <div>견적 요청</div>
+      <div className={styles.service}>
+        <section>
+          <h3>스마트팜 이용현황</h3>
+          <img src={mapImg} />
+        </section>
+        <section>
+          <h3>서비스 이용</h3>
+          <p>시뮬레이션</p>
+          <div>네모박스</div>
+          <p>견적 요청</p>
+          <div>네모박스</div>
+        </section>
       </div>
 
-      <div className={styles.case}>
+      <div className={styles.case_container}>
         <p>구축사례 만나보기</p>
-        <div></div>
-        <div></div>
-        <div></div>
+        <div className={styles.case}>
+          <div></div>
+          <div></div>
+          <div></div>
+        </div>
       </div>
     </div>
   );

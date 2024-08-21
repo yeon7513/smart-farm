@@ -27,11 +27,11 @@ export const paths = {
       path: 'customer-service-center',
       name: '고객센터',
       depth: [
+        { path: '/customer-service-center/faq', name: 'FAQ' },
         {
-          path: '/',
-          name: '견적 요청',
+          path: '/customer-service-center/request',
+          name: '견적 의뢰',
         },
-        { path: '/', name: 'FAQ' },
       ],
     },
   ],
