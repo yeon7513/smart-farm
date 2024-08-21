@@ -80,16 +80,33 @@
     font-family: var(--title-font);
     font-size: 36px;
     font-weight: 500;
-    color: var(--hover-color);
+    color: #fff;
     position: absolute;
-    top: 15%;
+    top: 18%;
     left: 5%;
     z-index: 1;
+    // opacity: 0;
+    // transform: translateX(-100%);
+    // animation: slideText 3s ease forwards;
+  }
+
+  // @keyframes slideText {
+  //   to {
+  //     opacity: 1;
+  //     transform: translateX(0);
+  //   }
+  // }
+
+  span {
+    font-family: var(--title-font);
+    font-size: 36px;
+    font-weight: 500;
+    color: var(--hover-color);
   }
 }
 
 .content_three {
-  margin: 100px auto;
+  margin: 100px auto 0;
   width: 100%;
   height: 80vh;
 
@@ -98,38 +115,94 @@
     font-size: 40px;
     color: var(--hover-color);
   }
-  img {
-    width: 70%;
+  div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 120px;
     height: 80%;
+  }
+  img {
+    margin-top: 80px;
+    width: 270px;
+
+    &:hover {
+      transform: scale(1.04);
+      transition: 0.5s ease;
+    }
+  }
+  .big {
+    width: 290px;
+    margin-bottom: 15px;
   }
 }
 
-.service {
+.state {
+  background-color: var(--back-color);
+  padding: 50px;
+  margin: 20px auto;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 100px;
 
-  div {
-    border: 2px solid black;
+  img {
     width: 400px;
-    height: 200px;
   }
 }
 
-.case_container {
+.case_community {
+  margin: 20px auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 100px;
+}
+.case {
+  width: 270px;
+  height: auto;
+  background-color: #bedd94;
+  border-radius: 20px;
+  padding: 25px;
+
+  img {
+    width: 220px;
+    height: 180px;
+    border-radius: 50%;
+  }
+  h3 {
+    margin-top: 15px;
+  }
+  h4 {
+    margin-top: 10px;
+  }
+  p {
+    margin-top: 15px;
+    letter-spacing: 0.5px;
+    line-height: 1.25;
+  }
+}
+.community {
+  background-color: var(--main-color);
+  padding: 30px;
+  border-radius: 20px;
+}
+
+.service {
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
-}
+  justify-content: center;
+  gap: 15px;
+  margin: 20px auto;
 
-.case {
-  display: flex;
-  gap: 100px;
-
-  div {
-    width: 280px;
-    height: 420px;
-    border: 2px solid black;
+  button {
+    width: 40%;
+    background-color: var(--common-color);
+    padding: 20px;
+    border-radius: 9999px;
+    color: #fff;
+    font-size: 18px;
   }
 }
