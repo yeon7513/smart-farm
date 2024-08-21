@@ -24,9 +24,6 @@ function SignIn(props) {
       dispatch(
         setUser({ email: user.email, token: user.refreshToken, uid: user.uid })
       );
-      // await joinUser(user.uid, user.email);
-      // await syncCart(user.uid, cartItems);
-
       navigate("/");
     } catch (error) {
       console.log(error);
@@ -36,6 +33,8 @@ function SignIn(props) {
   return (
     <Form
       title={"로그인"}
+      placeholder1={"Email"}
+      placeholder2={"Password"}
       getDataForm={handleLogin}
       firebaseError={firebaseError}
     />

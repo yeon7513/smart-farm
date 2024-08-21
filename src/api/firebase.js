@@ -1,6 +1,12 @@
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
-import { collection, doc, getFirestore, setDoc } from "firebase/firestore";
+import {
+  collection,
+  doc,
+  getDocs,
+  getFirestore,
+  setDoc,
+} from "firebase/firestore";
 
 const firebaseConfig = {
   apiKey: "AIzaSyBz9TEYoPHVv_Lz28BzcTa1DrLMI7wnBWc",
@@ -24,6 +30,16 @@ export function getUserAuth() {
   return auth;
 }
 
-export async function joinUser(uid, email) {
-  await setDoc(doc(db, "users", uid), { email: email });
+export async function joinUser(uid, email, password, userInfo) {
+  const { address, number, farmAddress, required, name } = userInfo;
+  const userData = {
+    email: email,
+    password: password,
+    ...(address !== undefined && { address: address }),
+    ...(number !== undefined && { number: number }),
+    ...(farmAddress !== undefined && { farmAddress: farmAddress }),
+    ...(required !== undefined && { required: required }),
+    ...(name !== undefined && { name: name }),
+  };
+  await setDoc(doc(db, "users", uid), userData);
 }
