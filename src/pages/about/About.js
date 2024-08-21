@@ -4,6 +4,7 @@ import plant1 from "../../assets/abou/식2.png";
 import plant2 from "../../assets/abou/식3.jpg";
 import styles from "./About.module.scss";
 import gsap from "gsap";
+import UpButton from "../../components/up-button/UpButton";
 
 function About() {
   const textRef = useRef(null);
@@ -66,6 +67,7 @@ function About() {
           </div>
         </div>
       </div>
+      <UpButton />
     </div>
   );
 }
