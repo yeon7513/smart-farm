@@ -24,7 +24,7 @@ function RequestForQuote() {
         const parsedUser = JSON.parse(userStr);
         if (parsedUser && parsedUser.isAuthenticated) {
           setUser(parsedUser);
-          farmAddressExtraction(parsedUser.uid);
+          farmAddressExtraction(parsedUser);
         } else {
           console.error("Email not found in user object");
         }
