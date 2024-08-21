@@ -68,6 +68,7 @@
   img {
     width: 300px;
     height: 250px;
+    margin-right: 100px;
   }
 }
 .core_item1 {
@@ -75,10 +76,12 @@
   // flex-direction: column;
   align-items: center;
   justify-content: center;
+  // gap: 100px;
   // background-color: #fff5e4;
   img {
     width: 300px;
     height: 250px;
+    margin-right: 100px;
   }
 }
 .btn {

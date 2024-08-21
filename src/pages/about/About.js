@@ -1,9 +1,10 @@
-import React from 'react';
-import plant1 from '../../assets/abou/식2.png';
-import plant2 from '../../assets/abou/식3.jpg';
-import Title from '../../components/layout/title/Title';
-import { company } from '../../lib/intro';
-import styles from './About.module.scss';
+import React from "react";
+import plant1 from "../../assets/abou/식2.png";
+import plant2 from "../../assets/abou/식3.jpg";
+import Title from "../../components/layout/title/Title";
+import { company } from "../../lib/intro";
+import styles from "./About.module.scss";
+import UpButton from "../../components/up-button/UpButton";
 
 function About() {
   return (
@@ -38,6 +39,7 @@ function About() {
           </div>
         </div>
       </div>
+      <UpButton />
     </div>
   );
 }
