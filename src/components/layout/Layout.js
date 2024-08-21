@@ -1,7 +1,8 @@
-import React from "react";
-import { Outlet } from "react-router-dom";
-import Footer from "./footer/Footer";
-import Header from "./header/Header";
+import React from 'react';
+import { Outlet } from 'react-router-dom';
+import Contact from '../contact/Contact';
+import Footer from './footer/Footer';
+import Header from './header/Header';
 
 function Layout() {
   return (
@@ -10,6 +11,7 @@ function Layout() {
       <main>
         <Outlet />
       </main>
+      <Contact />
       <Footer />
     </>
   );

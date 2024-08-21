@@ -52,7 +52,7 @@ function MainSlide() {
           <img src="/content4.jpg" />
         </SwiperSlide>
         <SwiperSlide>
-          <img src="/strawberry.jpg" />
+          <img src="/smartfarm4.jpg" />
         </SwiperSlide>
       </Swiper>
     </>

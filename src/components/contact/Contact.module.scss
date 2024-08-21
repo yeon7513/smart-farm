@@ -1,0 +1,36 @@
+.contact {
+  position: fixed;
+  left: 10%;
+  bottom: 5%;
+
+  .btns {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+
+    button {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 10px;
+      border-radius: 9999px;
+      outline: 1px dotted red;
+
+      svg {
+        font-size: 30px;
+      }
+
+      &::before {
+        width: 0;
+        transition: 0.3s width linear;
+      }
+
+      &:hover::before {
+        content: '';
+        display: block;
+        width: 50px;
+        font-size: 16px;
+      }
+    }
+  }
+}
