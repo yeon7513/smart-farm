@@ -13,14 +13,14 @@ export const paths = {
       ],
     },
     {
-      path: 'simulation',
-      name: '시뮬레이션',
+      path: 'info',
+      name: '정보',
       depth: [
+        { path: '/info/usage-status', name: '이용 현황' },
         {
-          path: '/simulation',
-          name: '과채',
+          path: '/info/simulation',
+          name: '시뮬레이션',
         },
-        { path: '/simulation', name: '과수' },
       ],
     },
     {

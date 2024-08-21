@@ -17,7 +17,9 @@ import Service from './pages/about/Service';
 import Faq from './pages/customer-service-center/Faq';
 import RequestForQuote from './pages/customer-service-center/RequestForQuote';
 import Home from './pages/home/Home';
-import Simulation from './pages/simulation/Simulation';
+import Info from './pages/info/Info';
+import Simulation from './pages/info/simulation/Simulation';
+import UsageStatus from './pages/info/usage-status/UsageStatus';
 import './scss/global.scss';
 
 function App() {
@@ -30,7 +32,11 @@ function App() {
             <Route index element={<About />} />
             <Route path="service" element={<Service />} />
           </Route>
-          <Route path="simulation" element={<Simulation />}></Route>
+          <Route path="info" element={<Info />}>
+            <Route index element={<Navigate to="usage-status" />} />
+            <Route path="usage-status" element={<UsageStatus />} />
+            <Route path="simulation" element={<Simulation />} />
+          </Route>
           <Route path="login" element={<LoginPage />} />
           <Route path="register" element={<RegisterPage />} />
           <Route path="MyPage" element={<MyPage />} />
