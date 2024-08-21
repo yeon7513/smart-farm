@@ -1,7 +1,25 @@
-import React from "react";
-import styles from "./RequestForQuote.module.scss";
+import React from 'react';
+import { getDatas } from '../../api/firebase';
+import styles from './RequestForQuote.module.scss';
 
 function RequestForQuote() {
+  const test = async () => {
+    // localStorage에 있는 사용자의 정보를 추출합니다.
+    const userInfo = JSON.parse(localStorage.getItem('users'));
+    // Firestore에서 "users" 컬렉션의 데이터를 가져옵니다.
+    const snapshot = await getDatas('users');
+
+    // localStorage의 사용자 정보의 docId를 추출합니다.
+    const userDocId = userInfo?.uid;
+
+    snapshot.docs.forEach((doc) => {
+      const data = doc.data();
+      if (data.docId === userDocId) {
+        console.log(data.email, data.farmAddress);
+        console.log(userInfo);
+      }
+    });
+  };
   return (
     <div>
       {/* 견적을 요청하고 사용자의 정보를 입력하면 결제 페이지로 넘어갑니다. &nbsp;
@@ -33,7 +51,9 @@ function RequestForQuote() {
         {/* <input type="text" placeholder="사랑시 고백구 행복동" /> */}
         <input disabled type="text" placeholder="사랑시 고백구 행복동" />
       </div>
-      <button className={styles.submit}>결제하기</button>
+      <button className={styles.submit} onClick={test}>
+        결제하기
+      </button>
       {/* </form> */}
     </div>
   );
