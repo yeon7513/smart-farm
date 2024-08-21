@@ -5,7 +5,13 @@ import { getDatas } from "../../api/firebase";
 function RequestForQuote() {
   const test = async () => {
     // localStorage에 있는 사용자의 정보를 추출합니다.
-    const userInfo = JSON.parse(localStorage.getItem("users"));
+    const userInfo = localStorage.getItem("user");
+
+    if (!userInfo) {
+      console.error("No user information found in localStorage.");
+      return;
+    }
+
     // Firestore에서 "users" 컬렉션의 데이터를 가져옵니다.
     const snapshot = await getDatas("users");
 
@@ -14,9 +20,9 @@ function RequestForQuote() {
 
     snapshot.docs.forEach((doc) => {
       const data = doc.data();
-      if (data.docId === userDocId) {
-        console.log(data.email, data.farmAddress);
-        console.log(userInfo);
+      if (data.uid === userDocId) {
+        console.log(`이메일:`, data.email, `\n주소:`, data.farmAddress);
+        console.log(JSON.parse(localStorage.getItem("user")));
       }
     });
   };
