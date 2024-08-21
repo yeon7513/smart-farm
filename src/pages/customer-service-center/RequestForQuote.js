@@ -1,41 +1,59 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./RequestForQuote.module.scss";
 import { getDatas } from "../../api/firebase";
 
 function RequestForQuote() {
   // user 상태를 선언합니다.
   const [user, setUser] = useState(null);
-  const test = async () => {
-    // localStorage에 있는 사용자의 정보를 추출합니다.
-    const userStr = localStorage.getItem("user");
+  const [userEmail, setUserEmail] = useState("");
+  const [farmAddress, setFarmAddress] = useState("");
 
-    // "user" 키에 데이터가 저장되어 있지 않은 경우
-    if (!userStr) {
-      console.error("No user information found in localStoarge.");
-      return;
-    }
+  useEffect(() => {
+    const emailExtraction = async () => {
+      // localStorage에 있는 사용자의 정보를 추출합니다.
+      const userStr = localStorage.getItem("user");
 
-    // JSON 문자열을 객체로 변환
+      // "user" 키에 데이터가 저장되어 있지 않은 경우
+      if (!userStr) {
+        console.error("No user information found in localStoarge.");
+        return;
+      }
+
+      // JSON 문자열을 객체로 변환
+      try {
+        const parsedUser = JSON.parse(userStr);
+        if (parsedUser && parsedUser.isAuthenticated) {
+          setUser(parsedUser);
+          farmAddressExtraction(parsedUser.uid);
+        } else {
+          console.error("Email not found in user object");
+        }
+      } catch (error) {
+        console.error("JSON parsing error:", error);
+      }
+    };
+    emailExtraction();
+  }, []);
+
+  const farmAddressExtraction = async (userUid) => {
     try {
-      const parsedUser = JSON.parse(userStr);
-      if (parsedUser && parsedUser.uid) {
-        setUser(parsedUser);
-        // console.log(user.email);
+      const snapshot = await getDatas("users");
+      const userDoc = snapshot.docs.find((doc) => {
+        const data = doc.data();
+        return data.uid === userUid;
+      });
+
+      if (userDoc) {
+        const data = userDoc.data();
+        setUserEmail(data.email || "");
+        setFarmAddress(data.farmAddress || "");
       } else {
-        console.error("Email not found in user object");
+        console.error("No matching user found in Firestore.");
       }
     } catch (error) {
-      console.error("JSON parsing error:", error);
+      console.error("Error fetching user data from Firestore:", error);
     }
   };
-
-  // Firestore에서 "users" 컬렉션의 데이터를 가져옵니다.
-
-  // JSON 문자열을 객체로 변환합니다.
-
-  // Firestore에서 해당 사용자의 정보를 찾습니다.
-
-  // 결과를 출력합니다.
 
   return (
     <div>
@@ -52,8 +70,8 @@ function RequestForQuote() {
       <div className={styles.id}>
         {/* 회원의 경우 input창은 disabled 처리가 되어있음. */}
         <h3>견적 의뢰 아이디</h3>
-        {user && user.email ? (
-          <input type="text" value={user.email} />
+        {user && user.isAuthenticated ? (
+          <input type="text" value={user.email} readOnly />
         ) : (
           <input type="text" placeholder="이메일을 입력해주세요." />
         )}
@@ -68,12 +86,13 @@ function RequestForQuote() {
       </div>
       <div className={styles.farmAddress}>
         <h3>농장 주소</h3>
-        {/* <input type="text" placeholder="사랑시 고백구 행복동" /> */}
-        <input disabled type="text" placeholder="사랑시 고백구 행복동" />
+        {user && user.isAuthenticated ? (
+          <input type="text" value={farmAddress} />
+        ) : (
+          <input type="text" placeholder="농장 주소를 입력해주세요." />
+        )}
       </div>
-      <button className={styles.submit} onClick={test}>
-        결제하기
-      </button>
+      <button className={styles.submit}>결제하기</button>
       {/* </form> */}
     </div>
   );
