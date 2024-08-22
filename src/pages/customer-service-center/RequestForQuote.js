@@ -45,9 +45,13 @@ function RequestForQuote() {
         console.error("No user information found in Firebase database.");
       }
 
-      setUserEmail(userStr.email);
-      setFarmAddress(userStr.farmAddress);
-      console.log(setFarmAddress);
+      try {
+        const farmAddress = userStr;
+        setFarmAddress(userStr.farmAddress);
+        console.log(farmAddress);
+      } catch (error) {
+        console.error("Firebase database error");
+      }
     };
 
     idExtraction();
