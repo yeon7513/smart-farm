@@ -21,6 +21,8 @@ import Info from "./pages/info/Info";
 import Simulation from "./pages/info/simulation/Simulation";
 import UsageStatus from "./pages/info/usage-status/UsageStatus";
 import "./scss/global.scss";
+import DashBorard from "./pages/dashboard/DashBoard";
+import DashBoard from "./pages/dashboard/DashBoard";
 
 function App() {
   return (
@@ -31,6 +33,7 @@ function App() {
           <Route path="about">
             <Route index element={<About />} />
             <Route path="service" element={<Service />} />
+            <Route path="dashboard" element={<DashBoard />} />
           </Route>
           <Route path="info" element={<Info />}>
             <Route index element={<Navigate to="usage-status" />} />
@@ -43,6 +46,7 @@ function App() {
           <Route path="SearchEm" element={<SearchEm />} />
           <Route path="SearchPw" element={<SearchPw />} />
           <Route path="MyPage" element={<MyPage />} />
+          {/* <Route path="Basic" element={<MyPage />} /> */}
           <Route path="customer-service-center" element={<Outlet />}>
             <Route index element={<Navigate to="faq" replace />} />
             <Route path="request" element={<RequestForQuote />} />

@@ -13,6 +13,7 @@ import hum3 from "../../assets/abou/사람3.png";
 import hum4 from "../../assets/abou/사람4.png";
 import { systems } from "./system";
 import SystemItem from "./system/SystemItem";
+import { Link } from "react-router-dom";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -38,6 +39,9 @@ function Service(props) {
 
   return (
     <div>
+      <Link to={"dashborard"}>
+        <button>대시보드</button>
+      </Link>
       <div className={styles.farm} ref={(el) => (imgRef.current[0] = el)}>
         <div className={styles.farm_img}>
           <img src={smtImg} />
