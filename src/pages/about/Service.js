@@ -82,6 +82,10 @@ function Service(props) {
         <div>
           <p>이런 고객님들께 </p>
           <p>아이팜의 솔루션을 추천드립니다.</p>
+          <div className={styles.people_title}>
+            <p>즐거운 농업,</p>
+            <p>아이팜과 함께해요.</p>
+          </div>
         </div>
         <div className={styles.people}>
           <div>
@@ -107,14 +111,6 @@ function Service(props) {
         {systems.map((item) => (
           <SystemItem items={item} key={item.id} />
         ))}
-        {/* <div>
-          <img src={on} />
-        </div>
-        <div>
-          <h3>온습도</h3>
-          <p>ㄴㄴㅇㄹㅇㄴㅇㄹㄴㅇㄹ</p>
-        </div> */}
-        {/* </div> */}
       </div>
     </div>
   );
