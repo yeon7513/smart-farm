@@ -48,7 +48,7 @@ export async function getDatas(collectionName) {
   try {
     const collect = collection(db, collectionName);
     const snapshot = await getDocs(collect);
-    return snapshot.docs.map(doc => ({id: doc.id, ...doc.data() }));
+    return snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
   } catch (error) {
     console.error("Error getting documents: ", error);
     throw error;
