@@ -1,39 +1,37 @@
-import { Container } from "@mui/material";
-import styles from "./Home.module.scss";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/all";
-import React, { useEffect } from "react";
-import { RiScrollToBottomLine } from "react-icons/ri";
-import threeImg from "../../assets/main/content0.png";
-import mapImg from "../../assets/main/map.png";
-import styles from "./Home.module.scss";
-import MainSlide from "./slide/MainSlide";
-import phoneImg from "../../assets/main/phone.png";
-import mapImg from "../../assets/main/map2.jpg";
+// import { Container } from "@mui/material";
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/all';
+import React, { useEffect } from 'react';
+import { RiScrollToBottomLine } from 'react-icons/ri';
+import styles from './Home.module.scss';
+// import threeImg from "../../assets/main/content0.png";
+import mapImg from '../../assets/main/map2.jpg';
+import phoneImg from '../../assets/main/phone.png';
+import MainSlide from './slide/MainSlide';
 // import caseImg from "../../assets/main/strawberry.jpg";
-import chartImg from "../../assets/main/chart.png";
+import chartImg from '../../assets/main/chart.png';
 
 gsap.registerPlugin(ScrollTrigger);
 function Home() {
   useEffect(() => {
-    gsap.to(".mainText", {
+    gsap.to('.mainText', {
       opacity: 0,
       duration: 0.5,
       scrollTrigger: {
-        trigger: ".mainText",
-        start: "top 100px",
-        end: "top 100%",
+        trigger: '.mainText',
+        start: 'top 100px',
+        end: 'top 100%',
         scrub: 1,
         // markers: true,
       },
     });
-    gsap.to(".scroll", {
+    gsap.to('.scroll', {
       opacity: 0,
       duration: 1,
       scrollTrigger: {
-        trigger: ".scroll",
-        start: "top 90%",
-        end: "top 100%",
+        trigger: '.scroll',
+        start: 'top 90%',
+        end: 'top 100%',
         scrub: 1,
       },
     });
