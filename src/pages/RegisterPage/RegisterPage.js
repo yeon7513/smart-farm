@@ -8,10 +8,11 @@ import { getUserAuth, joinUser } from "../../api/firebase";
 import { useDispatch } from "react-redux";
 import { setUser } from "../../store/user/UserSlice";
 import SignUp from "./sign-up/SignUp";
+import { Container } from "@mui/material";
 
 function RegisterPage(props) {
   return (
-    <div>
+    <Container>
       <div>
         <h1>회원가입</h1>
         <SignUp />
@@ -19,7 +20,7 @@ function RegisterPage(props) {
           이미 계정이 있습니까? &nbsp; <Link to={"/login"}>로그인</Link>
         </p>
       </div>
-    </div>
+    </Container>
   );
 }
 

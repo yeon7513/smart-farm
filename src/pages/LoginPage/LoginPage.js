@@ -10,6 +10,7 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { useDispatch } from "react-redux";
 import { setUser } from "../../store/user/UserSlice";
 import styles from "./LoginPage.module.scss";
+import { Container } from "@mui/material";
 
 function LoginPage(props) {
   const auth = getUserAuth();
@@ -38,17 +39,17 @@ function LoginPage(props) {
   }
 
   return (
-    <div className={styles.container}>
-      <div className={styles.nav}>
-        <h1 className={styles.h1}>로그인</h1>
+    <Container className={styles.container}>
+      <div className={styles.form}>
+        <h1>로그인</h1>
         <SignIn />
         <button
           type="submit"
           sx={{ bgcolor: "secondary.main" }}
           onClick={SignInWithGoogle}
         >
-          <FcIcons.FcGoogle />
           <span>
+            <FcIcons.FcGoogle />
             <b>Google</b>
           </span>
         </button>
@@ -60,7 +61,7 @@ function LoginPage(props) {
           아직 회원이 아니신가요? <Link to={"/register"}>회원가입</Link>
         </p>
       </div>
-    </div>
+    </Container>
   );
 }
 
