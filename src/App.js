@@ -23,13 +23,6 @@ import UsageStatus from "./pages/info/usage-status/UsageStatus";
 import "./scss/global.scss";
 
 function App() {
-  const url =
-    "/api/Agree_WS/webservices/ProvideRestService/getIdentityDataList/cbd181f0a2594233a01eed9b0b86a392";
-  fetch(url)
-    .then((response) => response.json())
-    .then((result) => {
-      console.log(result.slice(0, 10));
-    });
   return (
     <BrowserRouter>
       <Routes>

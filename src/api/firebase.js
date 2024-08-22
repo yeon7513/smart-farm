@@ -54,3 +54,36 @@ export async function getDatas(collectionName) {
     throw error;
   }
 }
+
+// let userId;
+
+// async function fetchData() {
+//   const url =
+//     "/api/Agree_WS/webservices/ProvideRestService/getIdentityDataList/cbd181f0a2594233a01eed9b0b86a392";
+//   const response = await fetch(url);
+//   const result = await response.json();
+//   result.forEach((item) => {
+//     userId = item.userId;
+//   });
+//   console.log(userId);
+// }
+// fetchData();
+
+let userId = [];
+
+const url =
+  "/api/Agree_WS/webservices/ProvideRestService/getIdentityDataList/cbd181f0a2594233a01eed9b0b86a392";
+fetch(url)
+  .then((response) => response.json())
+  .then((result) => {
+    result.forEach((result) => {
+      userId.push(result.userId);
+    });
+  });
+
+// const url2 = `/api/http://www.smartfarmkorea.net/Agree_WS/webservices/ProvideRestService/getCroppingSeasonDataList/cbd181f0a2594233a01eed9b0b86a392/${userId}`;
+// fetch(url2)
+//   .then((response) => response.json())
+//   .then((result) => {
+//     console.log(result);
+//   });
