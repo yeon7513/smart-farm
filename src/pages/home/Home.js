@@ -1,7 +1,7 @@
 // import { Container } from "@mui/material";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/all";
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import { RiScrollToBottomLine } from "react-icons/ri";
 import styles from "./Home.module.scss";
 import MainSlide from "./slide/MainSlide";
@@ -11,7 +11,11 @@ import mapImg from "../../assets/main/map2.jpg";
 import chartImg from "../../assets/main/chart.png";
 
 gsap.registerPlugin(ScrollTrigger);
+
 function Home() {
+  const twoText = useRef();
+  const imgRef = useRef([]);
+
   useEffect(() => {
     gsap.to(".mainText", {
       opacity: 0,
@@ -33,6 +37,50 @@ function Home() {
         end: "top 100%",
         scrub: 1,
       },
+    });
+    gsap.fromTo(
+      twoText.current,
+      { opacity: 0, x: -50 },
+      {
+        opacity: 1,
+        x: 0,
+        duration: 2,
+        scrollTrigger: {
+          trigger: twoText.current,
+          start: "top 60%",
+          end: "top 50%",
+          toggleActions: "play none none none",
+          scrub: 2,
+          once: true,
+        },
+      }
+    );
+    imgRef.current.forEach((img, index) => {
+      gsap.fromTo(
+        img,
+        { opacity: 0, y: 100 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 1,
+          scrollTrigger: {
+            trigger: img,
+            start: "top 100%",
+            end: "top 90%",
+            // toggleActions: "play none none reverse",
+            // markers: false,
+            // scrub: 1,
+            once: true,
+          },
+        }
+      );
+      img.addEventListener("mouseenter", () => {
+        gsap.to(img, { scale: 1.04, duration: 0.3 });
+      });
+
+      img.addEventListener("mouseleave", () => {
+        gsap.to(img, { scale: 1, duration: 0.3 });
+      });
     });
   }, []);
 
@@ -63,7 +111,7 @@ function Home() {
 
       <div className={styles.content_two}>
         <MainSlide />
-        <h1>
+        <h1 ref={twoText}>
           여러분의 농장에 <span>융통성</span>을 선물합니다 .
         </h1>
       </div>
@@ -71,9 +119,13 @@ function Home() {
       <div className={styles.content_three}>
         <h1>아이팜만의 차별화된 시스템을 만나보세요.</h1>
         <div>
-          <img src={phoneImg} />
-          <img className={styles.big} src={phoneImg} />
-          <img src={phoneImg} />
+          <img src={phoneImg} ref={(el) => (imgRef.current[0] = el)} />
+          <img
+            className={styles.big}
+            src={phoneImg}
+            ref={(el) => (imgRef.current[1] = el)}
+          />
+          <img src={phoneImg} ref={(el) => (imgRef.current[2] = el)} />
           {/* 휴대폰 화면 안에 주요 서비스? 등을 넣어서 나타나게.. 하면.. */}
         </div>
       </div>
