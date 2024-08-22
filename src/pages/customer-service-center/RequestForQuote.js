@@ -22,11 +22,11 @@ function RequestForQuote() {
       // JSON 문자열을 객체로 변환
       try {
         const parsedUser = JSON.parse(userStr);
-        if (parsedUser.uid) {
+        if (parsedUser.email) {
           setUser(parsedUser);
 
           // uid가 있으면 infoExtraction 호출
-          infoExtraction(parsedUser.uid);
+          await infoExtraction(parsedUser.email);
           // farmAddressExtraction(parsedUser);
         } else {
           console.error("Email not found in user object");
@@ -36,21 +36,29 @@ function RequestForQuote() {
       }
     };
 
-    const infoExtraction = async () => {
-      // Firebase database에 있는 사용자의 아이디, 농장 주소를 추출합니다.
-      const userStr = await getDatas("users");
-
-      // Firebase에 등록되어 있지 않은 경우
-      if (!userStr) {
-        console.error("No user information found in Firebase database.");
-      }
-
+    const infoExtraction = async (email) => {
       try {
-        const farmAddress = userStr;
-        setFarmAddress(userStr.farmAddress);
-        console.log(farmAddress);
+        // Firebase database에서 문서 목록을 가져옵니다.
+        const snapshots = await getDatas("users");
+        // console.log("Fetched documents:", snapshots);
+
+        // email과 일치하는 문서 객체 찾기
+        const matchingDoc = snapshots.find((doc) => doc.email === email);
+
+        if (matchingDoc) {
+          // 일치하는 문서를 상태에 설정하고 콘솔에 출력
+          setUserEmail(matchingDoc.email);
+          setFarmAddress(matchingDoc.farmAddress);
+          // console.log(
+          //   "Matching Document:",
+          //   matchingDoc.email,
+          //   matchingDoc.farmAddress
+          // );
+        } else {
+          console.error("No document found with email:", email);
+        }
       } catch (error) {
-        console.error("Firebase database error");
+        console.error("Firebase database error:", error);
       }
     };
 
@@ -68,34 +76,34 @@ function RequestForQuote() {
       사용자가 회원가입 시 사용한 내용을 출력해 다시 입력하지 않습니다. &nbsp;
       5. 비회원은 견적요청 아이디만 알려주고 마이페이지에서 조회할 때 사용(요청
       아이디를 꼭 알고 있어야 됨) */}
-      {/* <form> */}
-      <div className={styles.id}>
-        {/* 회원의 경우 input창은 disabled 처리가 되어있음. */}
-        <h3>견적 의뢰 아이디</h3>
-        {user && user.isAuthenticated ? (
-          <input type="text" value={user.email} readOnly />
-        ) : (
-          <input type="text" placeholder="이메일을 입력해주세요." />
-        )}
-      </div>
-      <div className={styles.paymentDate}>
-        <h3>결제 날짜</h3>
-        <input type="date" />
-      </div>
-      <div className={styles.requestDate}>
-        <h3>요청 날짜</h3>
-        <input type="date" />
-      </div>
-      <div className={styles.farmAddress}>
-        <h3>농장 주소</h3>
-        {user && user.isAuthenticated ? (
-          <input type="text" value={farmAddress} />
-        ) : (
-          <input type="text" placeholder="농장 주소를 입력해주세요." />
-        )}
-      </div>
-      <button className={styles.submit}>결제하기</button>
-      {/* </form> */}
+      <form>
+        <div className={styles.id}>
+          {/* 회원의 경우 아이디(이메일)와 농장 주소는 readOnly 처리 되어있음. */}
+          <h3>견적 의뢰 아이디</h3>
+          {user && user.isAuthenticated ? (
+            <input type="text" value={userEmail} readOnly />
+          ) : (
+            <input type="text" placeholder="이메일을 입력해주세요." />
+          )}
+        </div>
+        <div className={styles.paymentDate}>
+          <h3>결제 날짜</h3>
+          <input type="date" />
+        </div>
+        <div className={styles.requestDate}>
+          <h3>요청 날짜</h3>
+          <input type="date" />
+        </div>
+        <div className={styles.farmAddress}>
+          <h3>농장 주소</h3>
+          {user && user.isAuthenticated ? (
+            <input type="text" value={farmAddress} readOnly />
+          ) : (
+            <input type="text" placeholder="농장 주소를 입력해주세요." />
+          )}
+        </div>
+        <button className={styles.submit}>결제하기</button>
+      </form>
     </div>
   );
 }
