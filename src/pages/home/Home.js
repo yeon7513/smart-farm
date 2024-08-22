@@ -7,7 +7,7 @@ import styles from "./Home.module.scss";
 import MainSlide from "./slide/MainSlide";
 import phoneImg from "../../assets/main/phone.png";
 import mapImg from "../../assets/main/map2.jpg";
-// import caseImg from "../../assets/main/strawberry.jpg";
+import caseImg from "../../assets/main/strawberry.jpg";
 import chartImg from "../../assets/main/chart.png";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -40,18 +40,18 @@ function Home() {
     });
     gsap.fromTo(
       twoText.current,
-      { opacity: 0, x: -50 },
+      { opacity: 0, x: -100 },
       {
         opacity: 1,
         x: 0,
-        duration: 2,
+        duration: 4,
         scrollTrigger: {
           trigger: twoText.current,
-          start: "top 60%",
-          end: "top 50%",
-          toggleActions: "play none none none",
+          start: "top 100%",
+          end: "top 100%",
+          toggleActions: "play none none reverse",
           scrub: 2,
-          once: true,
+          // once: true,
         },
       }
     );
@@ -67,10 +67,9 @@ function Home() {
             trigger: img,
             start: "top 100%",
             end: "top 90%",
-            // toggleActions: "play none none reverse",
-            // markers: false,
+            toggleActions: "play none none reverse",
             // scrub: 1,
-            once: true,
+            // once: true,
           },
         }
       );
@@ -119,13 +118,14 @@ function Home() {
       <div className={styles.content_three}>
         <h1>아이팜만의 차별화된 시스템을 만나보세요.</h1>
         <div>
-          <img src={phoneImg} ref={(el) => (imgRef.current[0] = el)} />
+          <img src={phoneImg} ref={(el) => (imgRef.current[0] = el)} alt="" />
           <img
             className={styles.big}
             src={phoneImg}
             ref={(el) => (imgRef.current[1] = el)}
+            alt=""
           />
-          <img src={phoneImg} ref={(el) => (imgRef.current[2] = el)} />
+          <img src={phoneImg} ref={(el) => (imgRef.current[2] = el)} alt="" />
           {/* 휴대폰 화면 안에 주요 서비스? 등을 넣어서 나타나게.. 하면.. */}
         </div>
       </div>
@@ -133,19 +133,20 @@ function Home() {
       <div className={styles.state}>
         <section>
           <h3>스마트팜 이용현황</h3>
-          <img src={mapImg} />
+          <img src={mapImg} alt="" />
         </section>
         <section>
-          <img src={chartImg} />
+          <img src={chartImg} alt="" />
           {/* 사용자의 현재 위치에 맞는 지역의 정보가 나타나게 .. */}
         </section>
       </div>
 
-      {/* <div className={styles.case_community}>
+      <div className={styles.case_community}>
         <section>
-          <h3>우수 사례</h3>
+          <h3>우수 사례 🏆</h3>
           <div className={styles.case}>
-            <img src={caseImg} />
+            <p>👑</p>
+            <img src={caseImg} alt="" />
             <h3>충남 공주 / 딸기</h3>
             <h4>박정훈님</h4>
             <p>
@@ -165,7 +166,7 @@ function Home() {
             </ul>
           </div>
         </section>
-      </div> */}
+      </div>
 
       <div className={styles.service}>
         <button>스마트팜 체험해보기</button>

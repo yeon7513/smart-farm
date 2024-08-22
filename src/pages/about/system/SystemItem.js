@@ -17,7 +17,7 @@ function SystemItem({ items }) {
           trigger: system,
           start: "top 100%", // 스크롤 위치 설정
           end: "top 100%",
-          markers: true,
+          // markers: true, // 스크롤 위치 화면에서 확인 가능. 사용 후 꼭 주석처리 해주세요.
           toggleActions: "restart none none none",
         },
       });
