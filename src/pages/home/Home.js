@@ -1,9 +1,12 @@
 import { Container } from "@mui/material";
-import React, { useEffect } from "react";
 import styles from "./Home.module.scss";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/all";
+import React, { useEffect } from "react";
 import { RiScrollToBottomLine } from "react-icons/ri";
+import threeImg from "../../assets/main/content0.png";
+import mapImg from "../../assets/main/map.png";
+import styles from "./Home.module.scss";
 import MainSlide from "./slide/MainSlide";
 import phoneImg from "../../assets/main/phone.png";
 import mapImg from "../../assets/main/map2.jpg";

@@ -30,4 +30,9 @@ header {
   font-family: var(--title-font);
   font-weight: 400;
   font-size: 30px;
+  a {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 }

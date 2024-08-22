@@ -1,28 +1,35 @@
-import React from 'react';
+import React from "react";
 import {
   BrowserRouter,
   Navigate,
   Outlet,
   Route,
   Routes,
-} from 'react-router-dom';
-import Layout from './components/layout/Layout';
-import LoginPage from './pages/LoginPage/LoginPage';
-import SearchEm from './pages/LoginPage/searchEm/SearchEm';
-import SearchPw from './pages/LoginPage/searchPw/SearchPw';
-import MyPage from './pages/MyPage/MyPage';
-import RegisterPage from './pages/RegisterPage/RegisterPage';
-import About from './pages/about/About';
-import Service from './pages/about/Service';
-import Faq from './pages/customer-service-center/Faq';
-import RequestForQuote from './pages/customer-service-center/RequestForQuote';
-import Home from './pages/home/Home';
-import Info from './pages/info/Info';
-import Simulation from './pages/info/simulation/Simulation';
-import UsageStatus from './pages/info/usage-status/UsageStatus';
-import './scss/global.scss';
+} from "react-router-dom";
+import Layout from "./components/layout/Layout";
+import LoginPage from "./pages/LoginPage/LoginPage";
+import SearchEm from "./pages/LoginPage/searchEm/SearchEm";
+import SearchPw from "./pages/LoginPage/searchPw/SearchPw";
+import MyPage from "./pages/MyPage/MyPage";
+import RegisterPage from "./pages/RegisterPage/RegisterPage";
+import About from "./pages/about/About";
+import Service from "./pages/about/Service";
+import Faq from "./pages/customer-service-center/Faq";
+import RequestForQuote from "./pages/customer-service-center/RequestForQuote";
+import Home from "./pages/home/Home";
+import Info from "./pages/info/Info";
+import Simulation from "./pages/info/simulation/Simulation";
+import UsageStatus from "./pages/info/usage-status/UsageStatus";
+import "./scss/global.scss";
 
 function App() {
+  const url =
+    "/api/Agree_WS/webservices/ProvideRestService/getIdentityDataList/cbd181f0a2594233a01eed9b0b86a392";
+  fetch(url)
+    .then((response) => response.json())
+    .then((result) => {
+      console.log(result.slice(0, 10));
+    });
   return (
     <BrowserRouter>
       <Routes>

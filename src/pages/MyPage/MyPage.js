@@ -25,7 +25,6 @@ function MyPage() {
           정보 수정
         </button>
       </form>
-
       <div className={styles.myPageButtons}>
         <button className={styles.manageFarmButton}>농장 관리창</button>
         <button className={styles.deleteAccountButton}>회원탈퇴</button>
