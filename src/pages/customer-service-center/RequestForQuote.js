@@ -9,7 +9,7 @@ function RequestForQuote() {
   const [farmAddress, setFarmAddress] = useState("");
 
   useEffect(() => {
-    const emailExtraction = async () => {
+    const idExtraction = async () => {
       // localStorage에 있는 사용자의 정보를 추출합니다.
       const userStr = localStorage.getItem("user");
 
@@ -22,9 +22,12 @@ function RequestForQuote() {
       // JSON 문자열을 객체로 변환
       try {
         const parsedUser = JSON.parse(userStr);
-        if (parsedUser && parsedUser.isAuthenticated) {
+        if (parsedUser.uid) {
           setUser(parsedUser);
-          farmAddressExtraction(parsedUser);
+
+          // uid가 있으면 infoExtraction 호출
+          infoExtraction(parsedUser.uid);
+          // farmAddressExtraction(parsedUser);
         } else {
           console.error("Email not found in user object");
         }
@@ -32,28 +35,27 @@ function RequestForQuote() {
         console.error("JSON parsing error:", error);
       }
     };
-    emailExtraction();
-  }, []);
 
-  const farmAddressExtraction = async (userUid) => {
-    try {
-      const snapshot = await getDatas("users");
-      const userDoc = snapshot.docs.find((doc) => {
-        const data = doc.data();
-        return data.uid === userUid;
-      });
+    const infoExtraction = async () => {
+      // Firebase database에 있는 사용자의 아이디, 농장 주소를 추출합니다.
+      const userStr = await getDatas("users");
 
-      if (userDoc) {
-        const data = userDoc.data();
-        setUserEmail(data.email || "");
-        setFarmAddress(data.farmAddress || "");
-      } else {
-        console.error("No matching user found in Firestore.");
+      // Firebase에 등록되어 있지 않은 경우
+      if (!userStr) {
+        console.error("No user information found in Firebase database.");
       }
-    } catch (error) {
-      console.error("Error fetching user data from Firestore:", error);
-    }
-  };
+
+      try {
+        const farmAddress = userStr;
+        setFarmAddress(userStr.farmAddress);
+        console.log(farmAddress);
+      } catch (error) {
+        console.error("Firebase database error");
+      }
+    };
+
+    idExtraction();
+  }, []);
 
   return (
     <div>
