@@ -7,6 +7,12 @@ import { ScrollTrigger } from "gsap/all";
 import UpButton from "../../components/up-button/UpButton";
 import { core } from "../../lib/core";
 import Container from "../../components/layout/container/Container";
+import hum1 from "../../assets/abou/사람1.png";
+import hum2 from "../../assets/abou/사람2.png";
+import hum3 from "../../assets/abou/사람3.png";
+import hum4 from "../../assets/abou/사람4.png";
+import { systems } from "./system";
+import SystemItem from "./system/SystemItem";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -71,11 +77,41 @@ function Service(props) {
           </Container>
         </div>
       ))}
-
       <UpButton />
-      {/* <button onClick={scrollTotop} className={styles.btn}>
-        up
-      </button> */}
+      <div className={styles.peoples}>
+        <div>
+          <p>이런 고객님들께 </p>
+          <p>아이팜의 솔루션을 추천드립니다.</p>
+          <div className={styles.people_title}>
+            <p>즐거운 농업,</p>
+            <p>아이팜과 함께해요.</p>
+          </div>
+        </div>
+        <div className={styles.people}>
+          <div>
+            <span>귀농희망자</span>
+            <img src={hum1} />
+          </div>
+          <div>
+            <span>농업종사자</span>
+            <img src={hum2} />
+          </div>
+          <div>
+            <span>정년은퇴자</span>
+            <img src={hum3} />
+          </div>
+          <div>
+            <span>부수입 희망자</span>
+            <img src={hum4} />
+          </div>
+        </div>
+      </div>
+      <div className={styles.system}>
+        {/* <div> */}
+        {systems.map((item) => (
+          <SystemItem items={item} key={item.id} />
+        ))}
+      </div>
     </div>
   );
 }

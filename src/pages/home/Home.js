@@ -1,39 +1,85 @@
 // import { Container } from "@mui/material";
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/all';
-import React, { useEffect } from 'react';
-import { RiScrollToBottomLine } from 'react-icons/ri';
-import styles from './Home.module.scss';
-// import threeImg from "../../assets/main/content0.png";
-import mapImg from '../../assets/main/map2.jpg';
-import phoneImg from '../../assets/main/phone.png';
-import MainSlide from './slide/MainSlide';
-// import caseImg from "../../assets/main/strawberry.jpg";
-import chartImg from '../../assets/main/chart.png';
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/all";
+import React, { useEffect, useRef } from "react";
+import { RiScrollToBottomLine } from "react-icons/ri";
+import styles from "./Home.module.scss";
+import MainSlide from "./slide/MainSlide";
+import phoneImg from "../../assets/main/phone.png";
+import mapImg from "../../assets/main/map2.jpg";
+import caseImg from "../../assets/main/strawberry.jpg";
+import chartImg from "../../assets/main/chart.png";
 
 gsap.registerPlugin(ScrollTrigger);
+
 function Home() {
+  const twoText = useRef();
+  const imgRef = useRef([]);
+
   useEffect(() => {
-    gsap.to('.mainText', {
+    gsap.to(".mainText", {
       opacity: 0,
       duration: 0.5,
       scrollTrigger: {
-        trigger: '.mainText',
-        start: 'top 100px',
-        end: 'top 100%',
+        trigger: ".mainText",
+        start: "top 100px",
+        end: "top 100%",
         scrub: 1,
         // markers: true,
       },
     });
-    gsap.to('.scroll', {
+    gsap.to(".scroll", {
       opacity: 0,
       duration: 1,
       scrollTrigger: {
-        trigger: '.scroll',
-        start: 'top 90%',
-        end: 'top 100%',
+        trigger: ".scroll",
+        start: "top 90%",
+        end: "top 100%",
         scrub: 1,
       },
+    });
+    gsap.fromTo(
+      twoText.current,
+      { opacity: 0, x: -100 },
+      {
+        opacity: 1,
+        x: 0,
+        duration: 4,
+        scrollTrigger: {
+          trigger: twoText.current,
+          start: "top 100%",
+          end: "top 100%",
+          toggleActions: "play none none reverse",
+          scrub: 2,
+          // once: true,
+        },
+      }
+    );
+    imgRef.current.forEach((img, index) => {
+      gsap.fromTo(
+        img,
+        { opacity: 0, y: 100 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 1,
+          scrollTrigger: {
+            trigger: img,
+            start: "top 100%",
+            end: "top 90%",
+            toggleActions: "play none none reverse",
+            // scrub: 1,
+            // once: true,
+          },
+        }
+      );
+      img.addEventListener("mouseenter", () => {
+        gsap.to(img, { scale: 1.04, duration: 0.3 });
+      });
+
+      img.addEventListener("mouseleave", () => {
+        gsap.to(img, { scale: 1, duration: 0.3 });
+      });
     });
   }, []);
 
@@ -64,7 +110,7 @@ function Home() {
 
       <div className={styles.content_two}>
         <MainSlide />
-        <h1>
+        <h1 ref={twoText}>
           여러분의 농장에 <span>융통성</span>을 선물합니다 .
         </h1>
       </div>
@@ -72,9 +118,14 @@ function Home() {
       <div className={styles.content_three}>
         <h1>아이팜만의 차별화된 시스템을 만나보세요.</h1>
         <div>
-          <img src={phoneImg} />
-          <img className={styles.big} src={phoneImg} />
-          <img src={phoneImg} />
+          <img src={phoneImg} ref={(el) => (imgRef.current[0] = el)} alt="" />
+          <img
+            className={styles.big}
+            src={phoneImg}
+            ref={(el) => (imgRef.current[1] = el)}
+            alt=""
+          />
+          <img src={phoneImg} ref={(el) => (imgRef.current[2] = el)} alt="" />
           {/* 휴대폰 화면 안에 주요 서비스? 등을 넣어서 나타나게.. 하면.. */}
         </div>
       </div>
@@ -82,19 +133,20 @@ function Home() {
       <div className={styles.state}>
         <section>
           <h3>스마트팜 이용현황</h3>
-          <img src={mapImg} />
+          <img src={mapImg} alt="" />
         </section>
         <section>
-          <img src={chartImg} />
+          <img src={chartImg} alt="" />
           {/* 사용자의 현재 위치에 맞는 지역의 정보가 나타나게 .. */}
         </section>
       </div>
 
-      {/* <div className={styles.case_community}>
+      <div className={styles.case_community}>
         <section>
-          <h3>우수 사례</h3>
+          <h3>우수 사례 🏆</h3>
           <div className={styles.case}>
-            <img src={caseImg} />
+            <p>👑</p>
+            <img src={caseImg} alt="" />
             <h3>충남 공주 / 딸기</h3>
             <h4>박정훈님</h4>
             <p>
@@ -114,7 +166,7 @@ function Home() {
             </ul>
           </div>
         </section>
-      </div> */}
+      </div>
 
       <div className={styles.service}>
         <button>스마트팜 체험해보기</button>
