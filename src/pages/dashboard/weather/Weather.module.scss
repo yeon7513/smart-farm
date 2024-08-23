@@ -1,0 +1,19 @@
+// 날씨
+.weather {
+  background-color: aquamarine;
+  width: 50%;
+  height: 150px;
+  border-radius: 8px;
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  .weather_menu {
+    display: flex;
+    border-right: 1px solid #fff;
+    flex-direction: column;
+    justify-content: space-around;
+    text-align: center;
+    p {
+      color: skyblue;
+    }
+  }
+}
