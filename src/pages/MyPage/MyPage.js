@@ -1,12 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styles from "./MyPage.module.scss";
-<<<<<<< HEAD
 import { useNavigate } from "react-router-dom";
 import { getDatas } from "../../api/firebase";
-=======
-
-const userInfo = JSON.parse(localStorage.getItem("users"));
->>>>>>> b1e7746f4b3ac53f14f4a4ad33a7f4ba9006ffbe
 
 function MyPage() {
   const [user, setUser] = useState({ isAuthenticated: true });
