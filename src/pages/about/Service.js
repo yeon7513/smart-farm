@@ -40,13 +40,8 @@ function Service(props) {
 
   return (
     <div>
-<<<<<<< Updated upstream
       <Link to="/dashboard">
         <button>대시보드</button>
-=======
-      <Link to="dashboard">
-        <button>{/* <DashBoard /> */}대시보드</button>
->>>>>>> Stashed changes
       </Link>
       <div className={styles.farm} ref={(el) => (imgRef.current[0] = el)}>
         <div className={styles.farm_img}>

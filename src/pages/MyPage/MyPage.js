@@ -1,9 +1,5 @@
 import React from "react";
 import styles from "./MyPage.module.scss";
-<<<<<<< Updated upstream
-=======
-import { Link } from "react-router-dom";
->>>>>>> Stashed changes
 
 const userInfo = JSON.parse(localStorage.getItem("users"));
 
