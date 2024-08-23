@@ -9,6 +9,7 @@ import phoneImg from "../../assets/main/phone.png";
 import mapImg from "../../assets/main/map2.jpg";
 import caseImg from "../../assets/main/strawberry.jpg";
 import chartImg from "../../assets/main/chart.png";
+import Map from "../../components/map/Map";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -130,42 +131,45 @@ function Home() {
         </div>
       </div>
 
-      <div className={styles.state}>
-        <section>
-          <h3>스마트팜 이용현황</h3>
-          <img src={mapImg} alt="" />
-        </section>
-        <section>
-          <img src={chartImg} alt="" />
-          {/* 사용자의 현재 위치에 맞는 지역의 정보가 나타나게 .. */}
-        </section>
-      </div>
-
-      <div className={styles.case_community}>
-        <section>
-          <h3>우수 사례 🏆</h3>
-          <div className={styles.case}>
-            <p>👑</p>
+      <div className={styles.case_state}>
+        <div className={styles.case}>
+          <div>
+            <h1>우수사례</h1>
             <img src={caseImg} alt="" />
-            <h3>충남 공주 / 딸기</h3>
-            <h4>박정훈님</h4>
+            <h3>충남 부여 / 딸기</h3>
+            <h4> 박정훈 님 </h4>
             <p>
-              "아이팜과 함께한 뒤로 삶이 훨씬 더 여유로워졌습니다. 예부터 농사는
-              부지런해야 한다고들 하는데 이제는 집에서도 밖에서도 할 수 있으니
-              얼마나 편해졌는지 모르겠습니다."
+              "아이팜과 함께한 뒤로 삶이 더욱 편해졌습니다. 옛날부터 농사는
+              부지런해야 한다고들 했는데, 이제는 누워서 농사를 할 수 있는
+              세상이라니.. 너무 좋네요"
             </p>
           </div>
-        </section>
-        <section>
-          <p>커뮤니티</p>
-          <div className={styles.community}>
+          <div>
+            <h1>커뮤니티</h1>
             <ul>
-              <li>2박 3일 여행가는데...</li>
-              <li>자기 전엔 다들...</li>
-              <li>오늘 날씨 너무 덥네요</li>
+              <h2>공지사항</h2>
+              <li>2024-08-23 / 신규 업데이트</li>
+              <li>2024-08-20 / 불편사항 신고 ...</li>
+              <li>2024-08-15 / 여름휴가 안내</li>
+            </ul>
+            <ul>
+              <h2>정보 공유 게시판</h2>
+              <li>요즘 날씨 진짜 덥네요</li>
+              <li>회원님들은 어떤 시스템...</li>
+              <li>내일부터 2박3일 여행 가는데...</li>
             </ul>
           </div>
-        </section>
+        </div>
+        <div className={styles.state}>
+          <div>
+            <h1>스마트팜 이용현황</h1>
+            <Map />
+          </div>
+          <div>
+            <h1>그래프</h1>
+            <img src={chartImg} />
+          </div>
+        </div>
       </div>
 
       <div className={styles.service}>
