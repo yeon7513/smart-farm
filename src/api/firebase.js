@@ -6,6 +6,7 @@ import {
   getDocs,
   getFirestore,
   setDoc,
+  updateDoc,
 } from "firebase/firestore";
 
 const firebaseConfig = {
@@ -51,6 +52,17 @@ export async function getDatas(collectionName) {
     return snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
   } catch (error) {
     console.error("Error getting documents: ", error);
+    throw error;
+  }
+}
+
+export async function updateDatas(collectionName, docId, updateObj) {
+  try {
+    const docRef = await doc(db, collectionName, docId);
+    await updateDoc(docRef, updateObj);
+    console.log("Document successfully updated!");
+  } catch (error) {
+    console.error("Error updating document: ", error);
     throw error;
   }
 }
