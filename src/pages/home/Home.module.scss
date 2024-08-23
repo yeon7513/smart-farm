@@ -139,61 +139,90 @@
   }
 }
 
-.state {
-  background-color: #c5dda6;
-  padding: 50px;
-  margin: 20px auto;
+.case_state {
+  width: 100%;
+  height: 70vh;
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: 100px;
-
-  h3 {
-    margin-bottom: 20px;
-    font-weight: 500;
-  }
-
-  img {
-    width: 350px;
-    border-radius: 80px;
-  }
-}
-
-.case_community {
-  margin: 20px auto;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 100px;
+  justify-content: space-around;
+  background-color: var(--common-color);
+  padding-top: 50px;
+  padding-bottom: 20px;
 }
 .case {
-  width: 270px;
-  height: auto;
-  background-color: #bedd94;
-  border-radius: 20px;
-  padding: 25px;
+  width: 50%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 100px;
 
-  img {
-    width: 220px;
-    height: 180px;
-    border-radius: 50%;
+  div {
+    height: 100%;
+  }
+  h1 {
+    margin-bottom: 30px;
+    font-weight: 500;
+    font-size: 24px;
   }
   h3 {
-    margin-top: 15px;
+    margin: 20px auto 15px;
   }
   h4 {
-    margin-top: 10px;
+    margin-bottom: 5px;
   }
   p {
-    margin-top: 15px;
+    width: 250px;
+    padding: 10px;
     letter-spacing: 0.5px;
     line-height: 1.25;
   }
+
+  img {
+    width: 250px;
+    height: 300px;
+    border-radius: 20px;
+  }
+  ul {
+    border-radius: 20px;
+    margin-top: 50px;
+    padding: 15px 40px;
+    text-align: start;
+    background-color: #fff;
+    box-shadow: var(--box-shadow);
+  }
+  li {
+    margin: 15px auto;
+    border-bottom: 2px solid var(--hover-color);
+    padding: 4px;
+    font-size: 14px;
+    list-style: circle;
+  }
+  h2 {
+    font-size: 16px;
+    margin-top: 10px;
+  }
 }
-.community {
-  background-color: var(--main-color);
-  padding: 30px;
-  border-radius: 20px;
+.state {
+  width: 50%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 100px;
+
+  div {
+    height: 100%;
+  }
+  h1 {
+    margin-bottom: 30px;
+    font-weight: 500;
+    font-size: 24px;
+  }
+  img {
+    width: 300px;
+    height: 500px;
+  }
 }
 
 .service {
