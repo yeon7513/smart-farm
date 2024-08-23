@@ -1,6 +1,6 @@
-import React, { useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import React from "react";
 import styles from "./MyPage.module.scss";
+
 import { Link } from "react-router-dom";
 
 const userInfo = JSON.parse(localStorage.getItem("users"));

@@ -21,7 +21,6 @@ import Info from "./pages/info/Info";
 import Simulation from "./pages/info/simulation/Simulation";
 import UsageStatus from "./pages/info/usage-status/UsageStatus";
 import "./scss/global.scss";
-import DashBorard from "./pages/dashboard/DashBoard";
 import DashBoard from "./pages/dashboard/DashBoard";
 
 function App() {
@@ -29,11 +28,11 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Layout />}>
+          <Route path="dashboard" element={<DashBoard />} />
           <Route index element={<Home />} />
           <Route path="about">
             <Route index element={<About />} />
             <Route path="service" element={<Service />} />
-            <Route path="dashboard" element={<DashBoard />} />
           </Route>
           <Route path="info" element={<Info />}>
             <Route index element={<Navigate to="usage-status" />} />
