@@ -39,7 +39,7 @@ function Service(props) {
 
   return (
     <div>
-      <Link to={"dashborard"}>
+      <Link to="/dashboard">
         <button>대시보드</button>
       </Link>
       <div className={styles.farm} ref={(el) => (imgRef.current[0] = el)}>
