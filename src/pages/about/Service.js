@@ -14,6 +14,7 @@ import hum4 from "../../assets/abou/사람4.png";
 import { systems } from "./system";
 import SystemItem from "./system/SystemItem";
 import { Link } from "react-router-dom";
+import DashBoard from "../dashboard/DashBoard";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -39,8 +40,13 @@ function Service(props) {
 
   return (
     <div>
+<<<<<<< Updated upstream
       <Link to="/dashboard">
         <button>대시보드</button>
+=======
+      <Link to="dashboard">
+        <button>{/* <DashBoard /> */}대시보드</button>
+>>>>>>> Stashed changes
       </Link>
       <div className={styles.farm} ref={(el) => (imgRef.current[0] = el)}>
         <div className={styles.farm_img}>
