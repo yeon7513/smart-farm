@@ -1,6 +1,6 @@
 import React from "react";
 import styles from "./MyPage.module.scss";
-
+// import pageContent from "./pageContent.js"
 import { Link } from "react-router-dom";
 
 const userInfo = JSON.parse(localStorage.getItem("users"));

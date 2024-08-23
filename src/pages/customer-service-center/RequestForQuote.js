@@ -5,17 +5,24 @@ import { getDatas } from "../../api/firebase";
 function RequestForQuote() {
   // user 상태를 선언합니다.
   const [user, setUser] = useState(null);
+  const [date, setDate] = useState("");
   const [userEmail, setUserEmail] = useState("");
   const [farmAddress, setFarmAddress] = useState("");
 
   useEffect(() => {
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = String(today.getMonth() + 1).padStart(2, "0"); // 월은 0부터 시작하므로 +1
+    const day = String(today.getDate()).padStart(2, "0");
+    const formattedDate = `${year}-${month}-${day}`;
+    setDate(formattedDate);
     const idExtraction = async () => {
       // localStorage에 있는 사용자의 정보를 추출합니다.
       const userStr = localStorage.getItem("user");
 
       // "user" 키에 데이터가 저장되어 있지 않은 경우
       if (!userStr) {
-        console.error("No user information found in localStoarge.");
+        console.log("로그인이 되어있지 않습니다.");
         return;
       }
 
@@ -25,7 +32,7 @@ function RequestForQuote() {
         if (parsedUser.email) {
           setUser(parsedUser);
 
-          // uid가 있으면 infoExtraction 호출
+          // email이 있으면 infoExtraction 호출
           await infoExtraction(parsedUser.email);
           // farmAddressExtraction(parsedUser);
         } else {
@@ -40,7 +47,6 @@ function RequestForQuote() {
       try {
         // Firebase database에서 문서 목록을 가져옵니다.
         const snapshots = await getDatas("users");
-        // console.log("Fetched documents:", snapshots);
 
         // email과 일치하는 문서 객체 찾기
         const matchingDoc = snapshots.find((doc) => doc.email === email);
@@ -49,11 +55,11 @@ function RequestForQuote() {
           // 일치하는 문서를 상태에 설정하고 콘솔에 출력
           setUserEmail(matchingDoc.email);
           setFarmAddress(matchingDoc.farmAddress);
-          // console.log(
-          //   "Matching Document:",
-          //   matchingDoc.email,
-          //   matchingDoc.farmAddress
-          // );
+          console.log(
+            "Matching Document:",
+            matchingDoc.email,
+            matchingDoc.farmAddress
+          );
         } else {
           console.error("No document found with email:", email);
         }
@@ -88,11 +94,11 @@ function RequestForQuote() {
         </div>
         <div className={styles.paymentDate}>
           <h3>결제 날짜</h3>
-          <input type="date" />
+          <input type="date" value={date} readOnly />
         </div>
         <div className={styles.requestDate}>
           <h3>요청 날짜</h3>
-          <input type="date" />
+          <input type="date" value={date} readOnly />
         </div>
         <div className={styles.farmAddress}>
           <h3>농장 주소</h3>
