@@ -1,10 +1,10 @@
-import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { Link, useNavigate } from 'react-router-dom';
-import { getUserAuth } from '../../../../api/firebase';
-import { paths } from '../../../../lib/menu';
-import { removeUser } from '../../../../store/user/UserSlice';
-import styles from './Nav.module.scss';
+import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
+import { getUserAuth } from "../../../../api/firebase";
+import { paths } from "../../../../lib/menu";
+import { removeUser } from "../../../../store/user/UserSlice";
+import styles from "./Nav.module.scss";
 
 function NavLink({ className, path, depth, children }) {
   return (
@@ -37,7 +37,7 @@ function Nav() {
   const handleLogout = () => {
     auth.signOut();
     dispatch(removeUser());
-    navigate('/', { replace: true });
+    navigate("/", { replace: true });
   };
 
   return (
@@ -50,7 +50,7 @@ function Nav() {
                 <li>
                   <Link onClick={handleLogout}>로그아웃</Link>
                 </li>
-                <NavLink path={'/mypage'}>마이페이지</NavLink>
+                <NavLink path={"/mypage"}>마이페이지</NavLink>
               </>
             ) : (
               paths.spot.map((menu, idx) => (
