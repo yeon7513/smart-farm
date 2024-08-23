@@ -66,3 +66,18 @@ function LoginPage(props) {
 }
 
 export default LoginPage;
+
+// function downloadFile() {
+//   var fileUrl = "https://apihub.kma.go.kr/api/file?authKey=YOUR_AUTH_KEY"; // 다운로드할 파일의 URL 변수
+//   var saveFilePath = "/path/to/save/file"; // 다운로드된 파일을 저장할 경로 변수
+
+//   var link = document.createElement("a"); // <a> 요소를 생성합니다.
+//   link.href = fileUrl; // 다운로드할 파일의 URL을 설정합니다.
+//   link.download = saveFilePath; // 다운로드된 파일의 이름을 설정합니다.
+//   document.body.appendChild(link); // <a> 요소를 문서의 body에 추가합니다.
+//   link.click(); // <a> 요소를 클릭하여 다운로드를 시작합니다.
+//   document.body.removeChild(link); // <a> 요소를 문서의 body에서 제거합니다.
+// }
+
+// // downloadFile 함수 호출
+// downloadFile();
