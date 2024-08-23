@@ -1,9 +1,10 @@
 .entire {
-  margin: 50px;
+  // margin: 50px;
+  padding: 20px;
   display: flex;
   flex-direction: column;
   // gap: 10px;
-  // background-color: red;
+  background-color: #55679c;
 }
 
 // 첫번째 라인
@@ -11,67 +12,69 @@
   margin-top: 20px;
   height: 160px;
   display: flex;
-  .first_one {
-    background-color: palegoldenrod;
-    width: 50%;
-    height: 150px;
-    display: flex;
-    .first_one_title {
-      // 밀양
-      width: 15%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-direction: column;
-      gap: 5px;
-      color: #fff;
-      button {
-        background-color: #fff;
-      }
-    }
-    .one {
-      display: grid;
-      grid-template-columns: repeat(5, 1fr);
-      border: 1px solid black;
-      text-align: center;
+  gap: 10px;
+  // border-radius: 8px;
+  // .first_one {
+  //   background-color: palegoldenrod;
+  //   width: 50%;
+  //   height: 150px;
+  //   display: flex;
+  //   .first_one_title {
+  //     // 밀양
+  //     width: 15%;
+  //     display: flex;
+  //     align-items: center;
+  //     justify-content: center;
+  //     flex-direction: column;
+  //     gap: 5px;
+  //     color: #fff;
+  //     button {
+  //       background-color: #fff;
+  //     }
+  //   }
+  //   .one {
+  //     display: grid;
+  //     grid-template-columns: repeat(5, 1fr);
+  //     border: 1px solid black;
+  //     text-align: center;
 
-      width: 70%;
-      h2 {
-        padding: 15px 0;
-      }
-      p {
-        padding: 10px 0;
-        color: #fff;
-      }
-    }
-  }
-  .first_two {
-    background-color: aquamarine;
-    width: 50%;
-    height: 150px;
-  }
-  .next_title {
-    width: 15%;
-    text-align: center;
-    padding: 20px 0;
-    p {
-      padding: 10px 0;
-      color: #fff;
-    }
-  }
+  //     width: 70%;
+  //     h2 {
+  //       padding: 15px 0;
+  //     }
+  //     p {
+  //       padding: 10px 0;
+  //       color: #fff;
+  //     }
+  //   }
+  // }
+  // .first_two {
+  //   background-color: aquamarine;
+  //   width: 50%;
+  //   height: 150px;
+  // }
+  // .next_title {
+  //   width: 15%;
+  //   text-align: center;
+  //   padding: 20px 0;
+  //   p {
+  //     padding: 10px 0;
+  //     color: #fff;
+  //   }
+  // }
 
   // 날씨
-  .first_two {
-    display: grid;
-    grid-template-columns: repeat(8, 1fr);
-    .first_two_menu {
-      border: 1px solid #fff;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-around;
-      text-align: center;
-    }
-  }
+  // .first_two {
+  //   display: grid;
+  //   grid-template-columns: repeat(8, 1fr);
+  //   .first_two_menu {
+  //     border: 1px solid #fff;
+  //     display: flex;
+  //     flex-direction: column;
+  //     justify-content: space-around;
+  //     text-align: center;
+  //   }
+  // }
 }
 
 //두번째 라인
