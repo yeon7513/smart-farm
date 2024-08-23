@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import React from "react";
 import styles from "./MyPage.module.scss";
 // import pageContent from "./pageContent.js"
 import { Link } from "react-router-dom";
