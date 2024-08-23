@@ -22,6 +22,7 @@ import Simulation from "./pages/info/simulation/Simulation";
 import UsageStatus from "./pages/info/usage-status/UsageStatus";
 import "./scss/global.scss";
 import DashBoard from "./pages/dashboard/DashBoard";
+import Community from "./pages/community/Community";
 
 function App() {
   return (
@@ -51,6 +52,7 @@ function App() {
             <Route path="request" element={<RequestForQuote />} />
             <Route path="faq" element={<Faq />} />
           </Route>
+          <Route path="community" element={<Community />}></Route>
         </Route>
       </Routes>
     </BrowserRouter>

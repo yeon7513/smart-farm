@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styles from "./RequestForQuote.module.scss";
 import { getDatas } from "../../api/firebase";
+import { Container } from "@mui/material";
 
 function RequestForQuote() {
   // user 상태를 선언합니다.
@@ -66,7 +67,7 @@ function RequestForQuote() {
   }, []);
 
   return (
-    <div>
+    <Container>
       {/* 견적을 요청하고 사용자의 정보를 입력하면 결제 페이지로 넘어갑니다. &nbsp;
       실제로 결제를 구현하지 않고 사용자의 결제 정보만 저장합니다. &nbsp; 사용자
       결제 저장할 때 정보 &nbsp; 1. 회원 컬렉션에서 order 컬렉션을 만듭니다.
@@ -104,7 +105,7 @@ function RequestForQuote() {
         </div>
         <button className={styles.submit}>결제하기</button>
       </form>
-    </div>
+    </Container>
   );
 }
 

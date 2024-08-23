@@ -6,10 +6,10 @@ import { RiScrollToBottomLine } from "react-icons/ri";
 import styles from "./Home.module.scss";
 import MainSlide from "./slide/MainSlide";
 import phoneImg from "../../assets/main/phone.png";
-import mapImg from "../../assets/main/map2.jpg";
 import caseImg from "../../assets/main/strawberry.jpg";
 import chartImg from "../../assets/main/chart.png";
 import Map from "../../components/map/Map";
+import { Link } from "react-router-dom";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -141,7 +141,8 @@ function Home() {
             <p>
               "아이팜과 함께한 뒤로 삶이 더욱 편해졌습니다. 옛날부터 농사는
               부지런해야 한다고들 했는데, 이제는 누워서 농사를 할 수 있는
-              세상이라니.. 너무 좋네요"
+              세상이라니.. 모두들 아이팜과 함께 즐거운 농사생활 하시길
+              바랍니다."
             </p>
           </div>
           <div>
@@ -160,22 +161,26 @@ function Home() {
             </ul>
           </div>
         </div>
+
         <div className={styles.state}>
+          <h1>스마트팜 이용현황</h1>
           <div>
-            <h1>스마트팜 이용현황</h1>
             <Map />
-          </div>
-          <div>
-            <h1>그래프</h1>
-            <img src={chartImg} />
+            <img src={chartImg} alt="" />
           </div>
         </div>
       </div>
 
       <div className={styles.service}>
-        <button>스마트팜 체험해보기</button>
-        <button>스마트팜 견적 요청하기</button>
-        <button>자주 묻는 질문</button>
+        <Link>
+          <button>스마트팜 체험해보기</button>
+        </Link>
+        <Link>
+          <button>스마트팜 견적 요청하기</button>
+        </Link>
+        <Link>
+          <button>자주 묻는 질문</button>
+        </Link>
       </div>
     </div>
   );

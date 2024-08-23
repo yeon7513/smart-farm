@@ -1,7 +1,8 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { IoChatbubbles, IoDocumentText, IoSettings } from 'react-icons/io5';
-import { useLocation, useNavigate } from 'react-router-dom';
-import styles from './Contact.module.scss';
+import React, { useEffect, useRef, useState } from "react";
+// import { IoChatbubbles, IoDocumentText, IoSettings } from "react-icons/io5";
+import { IoIosCall, IoIosInformationCircle, IoIosCreate } from "react-icons/io";
+import { useLocation, useNavigate } from "react-router-dom";
+import styles from "./Contact.module.scss";
 
 function Contact() {
   const navigate = useNavigate();
@@ -26,32 +27,32 @@ function Contact() {
 
   useEffect(() => {
     if (isTooltipVisible) {
-      document.addEventListener('click', handleClickOutside);
-      window.addEventListener('scroll', handleScroll);
+      document.addEventListener("click", handleClickOutside);
+      window.addEventListener("scroll", handleScroll);
     } else {
-      document.removeEventListener('click', handleClickOutside);
-      window.removeEventListener('scroll', handleScroll);
+      document.removeEventListener("click", handleClickOutside);
+      window.removeEventListener("scroll", handleScroll);
     }
 
     return () => {
-      document.removeEventListener('click', handleClickOutside);
-      window.removeEventListener('scroll', handleScroll);
+      document.removeEventListener("click", handleClickOutside);
+      window.removeEventListener("scroll", handleScroll);
     };
   }, [isTooltipVisible]);
 
   return (
     <div className={styles.contact}>
       <div className={styles.btns}>
-        {!pathname.includes('info') && (
-          <button onClick={() => navigate('/info/simulation')}>
-            <IoSettings />
+        {!pathname.includes("info") && (
+          <button onClick={() => navigate("/info/simulation")}>
+            <IoIosInformationCircle />
           </button>
         )}
-        <button onClick={() => navigate('/customer-service-center/request')}>
-          <IoDocumentText />
+        <button onClick={() => navigate("/customer-service-center/request")}>
+          <IoIosCreate />
         </button>
         <button className={styles.call} onClick={showCallNumber}>
-          <IoChatbubbles />
+          <IoIosCall />
         </button>
         {isTooltipVisible && (
           <span id="tooltip" className={styles.tooltip} ref={tooltipRef}>

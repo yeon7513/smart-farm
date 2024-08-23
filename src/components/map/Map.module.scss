@@ -1,6 +1,10 @@
 .map {
   width: 400px;
-  path {
-    color: #fff;
+}
+path {
+  fill: #fff;
+
+  &:hover {
+    fill: var(--hover-color);
   }
 }
