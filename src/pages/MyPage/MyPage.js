@@ -40,7 +40,7 @@ function MyPage() {
       const snapshots = await getDatas("users");
 
       // email과 일치하는 문서 객체 찾기
-      const matchingDoc = snapshots.find((doc) => doc.email === e);
+      const matchingDoc = snapshots.find((doc) => doc.id === doc);
       if (matchingDoc) {
         // 일치하는 문서를 상태에 설정하고 콘솔에 출력
         setAddress(matchingDoc.address);

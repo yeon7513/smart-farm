@@ -18,6 +18,7 @@ function LoginPage(props) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const users = auth.currentUser;
+
   const SignInWithGoogle = async () => {
     const provider = new GoogleAuthProvider();
     await signInWithPopup(auth, provider).then((result) => {
@@ -25,13 +26,14 @@ function LoginPage(props) {
     });
     dispatch(setUser({ email: users?.email }));
   };
+
+  useEffect(() => {}, [loading, user, navigate]);
   if (loading) {
     return <div>Loading...</div>;
   }
 
-  if (!user) {
-    navigate("/login");
-    return null;
+  if (user) {
+    navigate("/");
   }
 
   if (error) {
