@@ -5,7 +5,6 @@ function Simulation() {
   return (
     <>
       <div>Simulation</div>
-      <Map />
     </>
   );
 }

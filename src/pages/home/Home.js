@@ -10,6 +10,8 @@ import caseImg from "../../assets/main/strawberry.jpg";
 import chartImg from "../../assets/main/chart.png";
 import Map from "../../components/map/Map";
 import { Link } from "react-router-dom";
+import CaseSlide from "../../components/slide/case/CaseSlide";
+import { cases } from "../../lib/case";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -127,7 +129,6 @@ function Home() {
             alt=""
           />
           <img src={phoneImg} ref={(el) => (imgRef.current[2] = el)} alt="" />
-          {/* 휴대폰 화면 안에 주요 서비스? 등을 넣어서 나타나게.. 하면.. */}
         </div>
       </div>
 
