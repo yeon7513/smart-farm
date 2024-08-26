@@ -1,38 +1,93 @@
+@mixin callTooltip() {
+  &::before {
+    content: '';
+    position: absolute;
+    left: -15px;
+    width: 8px;
+    height: 8px;
+    background-color: var(--main-color);
+    transform: rotate(45deg);
+  }
+
+  &::after {
+    content: '042-123-1234';
+    position: absolute;
+    left: -140px;
+    padding: 8px;
+    width: 230%;
+    border-radius: 8px;
+    background-color: var(--main-color);
+    color: #333;
+  }
+}
+
 .contact {
   position: fixed;
-  left: 5%;
   bottom: 5%;
+  right: 1%;
+  z-index: 10;
 
   .btns {
     display: flex;
     flex-direction: column;
     gap: 16px;
     z-index: 1;
-    opacity: 0.8;
 
     button {
+      position: relative;
       background-color: var(--common-color);
       display: flex;
       justify-content: start;
       align-items: center;
       padding: 10px;
       border-radius: 9999px;
+      color: #fff;
 
       svg {
         font-size: 30px;
       }
 
-      &::before {
-        width: 0;
-        transition: 0.3s width linear;
+      &:hover {
+        background-color: var(--hover-color);
       }
 
-      &:hover::before {
-        content: "";
-        display: block;
-        width: 50px;
-        font-size: 16px;
+      &.gotoSimul:hover::before,
+      &.gotoRequest:hover::before {
+        content: '';
+        position: absolute;
+        left: -15px;
+        width: 8px;
+        height: 8px;
+        background-color: var(--main-color);
+        transform: rotate(45deg);
+      }
+
+      &.gotoSimul:hover::after {
+        content: '시뮬레이션';
+        color: #333;
+      }
+      &.gotoRequest:hover::after {
+        content: '견적의뢰';
+        color: #333;
+      }
+
+      &.gotoSimul:hover::after,
+      &.gotoRequest:hover::after {
+        position: absolute;
+        left: -100px;
+        padding: 8px;
+        width: 150%;
+        border-radius: 8px;
+        background-color: var(--main-color);
+      }
+
+      &.call:hover {
+        @include callTooltip();
       }
     }
   }
+}
+
+.showTooltip {
+  @include callTooltip();
 }

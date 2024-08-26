@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styles from "./MyPage.module.scss";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { getDatas } from "../../api/firebase";
 
 function MyPage() {
@@ -127,9 +127,7 @@ function MyPage() {
       )}
       <div className={styles.myPageButtons}>
         <button className={styles.manageFarmButton}>내 농장 관리</button>
-        <button className={styles.deleteAccountButton} onClick={infoExtraction}>
-          회원탈퇴
-        </button>
+        <button className={styles.deleteAccountButton}>회원탈퇴</button>
       </div>
     </div>
   );
