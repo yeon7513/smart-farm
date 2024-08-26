@@ -23,6 +23,7 @@ import UsageStatus from "./pages/info/usage-status/UsageStatus";
 import "./scss/global.scss";
 import DashBoard from "./pages/dashboard/DashBoard";
 import Community from "./pages/community/Community";
+import Counsel from "./pages/customer-service-center/counsel/Counsel";
 
 function App() {
   return (
@@ -30,6 +31,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route path="dashboard" element={<DashBoard />} />
+          <Route path="counsel" element={<Counsel />} />
           <Route index element={<Home />} />
           <Route path="about">
             <Route index element={<About />} />

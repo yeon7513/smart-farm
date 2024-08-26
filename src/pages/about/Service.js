@@ -43,6 +43,9 @@ function Service(props) {
       <Link to="/dashboard">
         <button>대시보드</button>
       </Link>
+      <Link to="/counsel">
+        <button>상담</button>
+      </Link>
       <div className={styles.farm} ref={(el) => (imgRef.current[0] = el)}>
         <div className={styles.farm_img}>
           <img src={smtImg} />
