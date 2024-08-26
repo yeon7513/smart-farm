@@ -1,20 +1,20 @@
-import React, { useEffect, useRef, useState } from "react";
-import styles from "./Service.module.scss";
-import smtImg from "../../assets/abou/스마트팜.png";
-import technology from "../../assets/abou/식4.jpg";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/all";
-import UpButton from "../../components/up-button/UpButton";
-import { core } from "../../lib/core";
-import Container from "../../components/layout/container/Container";
-import hum1 from "../../assets/abou/사람1.png";
-import hum2 from "../../assets/abou/사람2.png";
-import hum3 from "../../assets/abou/사람3.png";
-import hum4 from "../../assets/abou/사람4.png";
-import { systems } from "./system";
-import SystemItem from "./system/SystemItem";
-import { Link } from "react-router-dom";
-import DashBoard from "../dashboard/DashBoard";
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/all';
+import React, { useEffect, useRef } from 'react';
+import { Link } from 'react-router-dom';
+import hum1 from '../../assets/abou/사람1.png';
+import hum2 from '../../assets/abou/사람2.png';
+import hum3 from '../../assets/abou/사람3.png';
+import hum4 from '../../assets/abou/사람4.png';
+import smtImg from '../../assets/abou/스마트팜.png';
+import technology from '../../assets/abou/식4.jpg';
+import Container from '../../components/layout/container/Container';
+import UpButton from '../../components/up-button/UpButton';
+import { core } from '../../lib/core';
+import styles from './Service.module.scss';
+import { systems } from './system';
+import SystemItem from './system/SystemItem';
+// import DashBoard from "../dashboard/DashBoard";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -29,10 +29,10 @@ function Service(props) {
         duration: 1,
         scrollTrigger: {
           trigger: technology_img,
-          start: "top 100%", // 스크롤 위치 설정
-          end: "top 100%",
+          start: 'top 100%', // 스크롤 위치 설정
+          end: 'top 100%',
           markers: true,
-          toggleActions: "restart none none none",
+          toggleActions: 'restart none none none',
         },
       });
     });

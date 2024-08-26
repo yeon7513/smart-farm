@@ -1,10 +1,11 @@
-import React from "react";
+import React from 'react';
 import {
   BrowserRouter,
   Navigate,
   Outlet,
   Route,
   Routes,
+<<<<<<< HEAD
 } from "react-router-dom";
 import Layout from "./components/layout/Layout";
 import LoginPage from "./pages/LoginPage/LoginPage";
@@ -24,13 +25,36 @@ import "./scss/global.scss";
 import DashBoard from "./pages/dashboard/DashBoard";
 import Community from "./pages/community/Community";
 import MyPayment from "./pages/MyPayment/MyPayment";
+=======
+} from 'react-router-dom';
+import Layout from './components/layout/Layout';
+import LoginPage from './pages/LoginPage/LoginPage';
+import SearchEm from './pages/LoginPage/searchEm/SearchEm';
+import SearchPw from './pages/LoginPage/searchPw/SearchPw';
+import MyPage from './pages/MyPage/MyPage';
+import RegisterPage from './pages/RegisterPage/RegisterPage';
+import About from './pages/about/About';
+import Service from './pages/about/Service';
+import Community from './pages/community/Community';
+import Faq from './pages/customer-service-center/Faq';
+import RequestForQuote from './pages/customer-service-center/RequestForQuote';
+import Home from './pages/home/Home';
+import Info from './pages/info/Info';
+import Simulation from './pages/info/simulation/Simulation';
+import UsageStatus from './pages/info/usage-status/UsageStatus';
+import MyFarm from './pages/my-farm/MyFarm';
+import FarmList from './pages/my-farm/my-farm-list/FarmList';
+import DashBoard from './pages/my-farm/my-farm-list/dashboard/DashBoard';
+import Disaster from './pages/search/disaster/Disaster';
+import Diseases from './pages/search/diseases/Diseases';
+import './scss/global.scss';
+>>>>>>> aa498514b99aba9078742c536f131d2de39683b2
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Layout />}>
-          <Route path="dashboard" element={<DashBoard />} />
           <Route index element={<Home />} />
           <Route path="about">
             <Route index element={<About />} />
@@ -55,6 +79,15 @@ function App() {
             <Route path="MyPayment" element={<MyPayment />} />
           </Route>
           <Route path="community" element={<Community />}></Route>
+          <Route path="search">
+            <Route index element={<Navigate to="diseases" replace />} />
+            <Route path="diseases" element={<Diseases />} />
+            <Route path="disaster" element={<Disaster />} />
+          </Route>
+          <Route path="my-farm" element={<MyFarm />}>
+            <Route index element={<FarmList />} />
+            <Route path=":id" element={<DashBoard />} />
+          </Route>
         </Route>
       </Routes>
     </BrowserRouter>
