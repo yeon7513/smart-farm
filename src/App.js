@@ -52,7 +52,6 @@ function App() {
           <Route path="MyPage" element={<MyPage />} />
           <Route path="SearchEm" element={<SearchEm />} />
           <Route path="SearchPw" element={<SearchPw />} />
-          <Route path="MyPage" element={<MyPage />} />
           {/* <Route path="Basic" element={<MyPage />} /> */}
           <Route path="customer-service-center" element={<Outlet />}>
             <Route index element={<Navigate to="faq" replace />} />
