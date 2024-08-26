@@ -29,8 +29,8 @@ function LoginPage(props) {
     return <div>Loading...</div>;
   }
 
-  if (user) {
-    navigate("/");
+  if (!user) {
+    navigate("/login");
     return null;
   }
 
