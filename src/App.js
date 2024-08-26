@@ -28,7 +28,7 @@ import Disaster from "./pages/search/disaster/Disaster";
 import Diseases from "./pages/search/diseases/Diseases";
 import "./scss/global.scss";
 
-import Counsel from "./pages/customer-service-center/counsel/Counsel";
+// import Counsel from "./pages/customer-service-center/counsel/Counsel";
 
 import MyPayment from "./pages/MyPayment/MyPayment";
 
@@ -41,6 +41,7 @@ function App() {
           <Route path="about">
             <Route index element={<About />} />
             <Route path="service" element={<Service />} />
+            {/* <Route path="counsel" element={<Counsel />} /> */}
           </Route>
           <Route path="info" element={<Info />}>
             <Route index element={<Navigate to="usage-status" />} />
