@@ -89,11 +89,12 @@ function RequestForQuote() {
         </div>
         <div className={styles.farmAddress}>
           <h3>농장 주소</h3>
-          {user && user.isAuthenticated ? (
-            <input type="text" value={farmAddress} readOnly />
-          ) : (
-            <input type="text" placeholder="농장 주소를 입력해주세요." />
-          )}
+          <input
+            type="text"
+            value={user ? farmAddress : ""}
+            placeholder={user ? "" : "농장 주소를 입력해주세요."}
+            readOnly={!!user}
+          />
         </div>
         <button className={styles.submit}>결제하기</button>
       </form>
