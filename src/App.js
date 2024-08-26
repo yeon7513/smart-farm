@@ -26,7 +26,9 @@ import FarmList from "./pages/my-farm/my-farm-list/FarmList";
 import DashBoard from "./pages/my-farm/my-farm-list/dashboard/DashBoard";
 import Disaster from "./pages/search/disaster/Disaster";
 import Diseases from "./pages/search/diseases/Diseases";
-import Counsel from "./pages/customer-service-center/counsel/Counsel";
+
+import "./scss/global.scss";
+
 import MyPayment from "./pages/MyPayment/MyPayment";
 import "./scss/global.scss";
 
@@ -39,6 +41,7 @@ function App() {
           <Route path="about">
             <Route index element={<About />} />
             <Route path="service" element={<Service />} />
+            {/* <Route path="counsel" element={<Counsel />} /> */}
           </Route>
           <Route path="info" element={<Info />}>
             <Route index element={<Navigate to="usage-status" />} />
