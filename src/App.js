@@ -36,7 +36,7 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Layout />}>
+        < path="/" element={<Layout />}>
           <Route index element={<Home />} />
           <Route path="about">
             <Route index element={<About />} />
@@ -59,7 +59,7 @@ function App() {
             <Route path="faq" element={<Faq />} />
             <Route path="MyPayment" element={<MyPayment />} />
           </Route>
-          <Route path="community" element={<Community />}></Route>
+          <Route path="community" element={<Community />} />
           <Route path="search">
             <Route index element={<Navigate to="diseases" replace />} />
             <Route path="diseases" element={<Diseases />} />
