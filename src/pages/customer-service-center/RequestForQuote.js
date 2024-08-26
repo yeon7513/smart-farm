@@ -20,18 +20,16 @@ function RequestForQuote() {
 
     //   // localStorage에 있는 사용자의 정보를 추출합니다.
     const idExtraction = async () => {
-      const userStr = JSON.parse(localStorage.getItem("user"));
-
-      if (userStr) {
-        setUser(userStr);
-
-        try {
+      try {
+        const userStr = JSON.parse(localStorage.getItem("user"));
+        if (userStr) {
+          setUser(userStr);
           await infoExtraction(userStr.uid);
-        } catch (error) {
-          console.error(error);
+        } else {
+          console.log("로그인이 되어있지 않습니다.");
         }
-      } else {
-        console.log("로그인이 되어있지 않습니다.");
+      } catch (error) {
+        console.error(error);
       }
     };
 
@@ -76,16 +74,16 @@ function RequestForQuote() {
             type="text"
             value={user ? userEmail : ""}
             placeholder={user ? "" : "이메일을 입력해주세요."}
-            readOnly={!!user}
+            readOnly={!user}
           />
         </div>
         <div className={styles.paymentDate}>
           <h3>결제 날짜</h3>
-          <input type="date" value={date} readOnly />
+          <input type="date" value={date || ""} readOnly />
         </div>
         <div className={styles.requestDate}>
           <h3>요청 날짜</h3>
-          <input type="date" value={date} readOnly />
+          <input type="date" value={date || ""} readOnly />
         </div>
         <div className={styles.farmAddress}>
           <h3>농장 주소</h3>
@@ -93,10 +91,12 @@ function RequestForQuote() {
             type="text"
             value={user ? farmAddress : ""}
             placeholder={user ? "" : "농장 주소를 입력해주세요."}
-            readOnly={!!user}
+            readOnly={!user}
           />
         </div>
-        <button className={styles.submit}>결제하기</button>
+        <button className={styles.submit} type="button">
+          결제하기
+        </button>
       </form>
     </Container>
   );
