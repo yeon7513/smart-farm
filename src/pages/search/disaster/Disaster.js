@@ -20,6 +20,7 @@ function Disaster(props) {
   }, []);
   return (
     <div className={styles.main}>
+      자연재해 리스트
       <div className={styles.search}>
         <input type="text" />
         <button>
