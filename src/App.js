@@ -1,33 +1,33 @@
-import React from "react";
+import React from 'react';
 import {
   BrowserRouter,
   Navigate,
   Outlet,
   Route,
   Routes,
-} from "react-router-dom";
-import Layout from "./components/layout/Layout";
-import LoginPage from "./pages/LoginPage/LoginPage";
-import SearchEm from "./pages/LoginPage/searchEm/SearchEm";
-import SearchPw from "./pages/LoginPage/searchPw/SearchPw";
-import MyPage from "./pages/MyPage/MyPage";
-import RegisterPage from "./pages/RegisterPage/RegisterPage";
-import About from "./pages/about/About";
-import Service from "./pages/about/Service";
-import Community from "./pages/community/Community";
-import Faq from "./pages/customer-service-center/Faq";
-import RequestForQuote from "./pages/customer-service-center/RequestForQuote";
-import Home from "./pages/home/Home";
-import Info from "./pages/info/Info";
-import Simulation from "./pages/info/simulation/Simulation";
-import UsageStatus from "./pages/info/usage-status/UsageStatus";
-import MyFarm from "./pages/my-farm/MyFarm";
-import FarmList from "./pages/my-farm/my-farm-list/FarmList";
-import DashBoard from "./pages/my-farm/my-farm-list/dashboard/DashBoard";
-import Disaster from "./pages/search/disaster/Disaster";
-import Diseases from "./pages/search/diseases/Diseases";
-import "./scss/global.scss";
-import MyPayment from "./pages/MyPayment/MyPayment";
+} from 'react-router-dom';
+import Layout from './components/layout/Layout';
+import LoginPage from './pages/LoginPage/LoginPage';
+import SearchEm from './pages/LoginPage/searchEm/SearchEm';
+import SearchPw from './pages/LoginPage/searchPw/SearchPw';
+import MyPage from './pages/MyPage/MyPage';
+import MyPayment from './pages/MyPayment/MyPayment';
+import RegisterPage from './pages/RegisterPage/RegisterPage';
+import About from './pages/about/About';
+import Service from './pages/about/Service';
+import Community from './pages/community/Community';
+import Faq from './pages/customer-service-center/Faq';
+import RequestForQuote from './pages/customer-service-center/RequestForQuote';
+import Home from './pages/home/Home';
+import Info from './pages/info/Info';
+import Simulation from './pages/info/simulation/Simulation';
+import UsageStatus from './pages/info/usage-status/UsageStatus';
+import MyFarm from './pages/my-farm/MyFarm';
+import FarmList from './pages/my-farm/my-farm-list/FarmList';
+import DashBoard from './pages/my-farm/my-farm-list/dashboard/DashBoard';
+import Disaster from './pages/search/disaster/Disaster';
+import Diseases from './pages/search/diseases/Diseases';
+import './scss/global.scss';
 
 function App() {
   return (
@@ -65,9 +65,10 @@ function App() {
           </Route>
           <Route path="my-farm" element={<MyFarm />}>
             <Route index element={<FarmList />} />
-            <Route path=":id" element={<DashBoard />} />
+            {/* <Route path=":id" element={<DashBoard />} /> */}
           </Route>
         </Route>
+        <Route path="/my-farm/:id" element={<DashBoard />} />
       </Routes>
     </BrowserRouter>
   );
