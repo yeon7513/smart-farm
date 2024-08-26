@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styles from "./MyPage.module.scss";
-import { Link, useNavigate } from "react-router-dom";
-import { getDatas } from "../../api/firebase";
+import { useNavigate } from "react-router-dom";
+import { deleteDatas, getDatas } from "../../api/firebase";
 
 function MyPage() {
   const [user, setUser] = useState({ isAuthenticated: true });
@@ -77,6 +77,41 @@ function MyPage() {
     setPassword(e.target.password);
   };
 
+  const handleDelete = async () => {
+    const userStr = localStorage.getItem("user");
+
+    // 사용자 데이터가 없거나 잘못된 형식이면
+    if (!userStr) {
+      alert("사용자 정보가 없습니다.");
+      return;
+    }
+
+    // JSON 파싱 시 예외의 경우
+    let user;
+    try {
+      user = JSON.parse(userStr);
+    } catch (error) {
+      alert("사용자 정보가 잘못되었습니다.");
+      return;
+    }
+
+    // 탈퇴 확인
+    if (window.confirm("정말 회원 탈퇴 하시겠습니까?")) {
+      try {
+        // 함수가 성공적으로 작동하는 경우 Firebase database에서 사용자 제거
+        await deleteDatas("users", user.docId);
+
+        // 로컬 스토리지에서 사용자 제거
+        localStorage.removeItem("user");
+
+        alert("회원 탈퇴가 성공적으로 완료되었습니다.");
+      } catch (error) {
+        console.error("회원 탈퇴 중 오류가 발생했습니다.", error);
+        alert("회원 탈퇴 중 오류가 발생했습니다. 다시 시도해주세요.");
+      }
+    }
+  };
+
   useEffect(() => {
     idExtraction();
   }, []);
@@ -127,7 +162,9 @@ function MyPage() {
       )}
       <div className={styles.myPageButtons}>
         <button className={styles.manageFarmButton}>내 농장 관리</button>
-        <button className={styles.deleteAccountButton}>회원탈퇴</button>
+        <button className={styles.deleteAccountButton} onClick={handleDelete}>
+          회원탈퇴
+        </button>
       </div>
     </div>
   );

@@ -2,6 +2,7 @@ import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 import {
   collection,
+  deleteDoc,
   doc,
   getDocs,
   getFirestore,
@@ -49,7 +50,7 @@ export async function getDatas(collectionName) {
   try {
     const collect = collection(db, collectionName);
     const snapshot = await getDocs(collect);
-    return snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+    return snapshot.docs.map((doc) => ({ docId: doc.id, ...doc.data() }));
   } catch (error) {
     console.error("Error getting documents: ", error);
     throw error;
@@ -99,3 +100,14 @@ fetch(url)
 //   .then((result) => {
 //     console.log(result);
 //   });
+
+export async function deleteDatas(collectionName, docId) {
+  try {
+    const docRef = await doc(db, collectionName, docId);
+    await deleteDoc(docRef);
+    return true;
+  } catch (error) {
+    console.error("Error deleting document: ", error);
+    return false;
+  }
+}
