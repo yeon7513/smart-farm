@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import styles from "./RequestForQuote.module.scss";
 import { getDatas } from "../../api/firebase";
 import { Container } from "@mui/material";
-import { Link } from "react-router-dom";
 
 function RequestForQuote() {
   // user 상태를 선언합니다.
@@ -18,65 +17,44 @@ function RequestForQuote() {
     const day = String(today.getDate()).padStart(2, "0");
     const formattedDate = `${year}-${month}-${day}`;
     setDate(formattedDate);
+
+    //   // localStorage에 있는 사용자의 정보를 추출합니다.
     const idExtraction = async () => {
-      // localStorage에 있는 사용자의 정보를 추출합니다.
-      const userStr = localStorage.getItem("user");
-
-      // "user" 키에 데이터가 저장되어 있지 않은 경우
-      if (!userStr) {
-        console.log("로그인이 되어있지 않습니다.");
-        return;
-      }
-
-      // JSON 문자열을 객체로 변환
       try {
-        const parsedUser = JSON.parse(userStr);
-        if (parsedUser.email) {
-          setUser(parsedUser);
-
-          // email이 있으면 infoExtraction 호출
-          await infoExtraction(parsedUser.email);
-          // farmAddressExtraction(parsedUser);
+        const userStr = JSON.parse(localStorage.getItem("user"));
+        if (userStr) {
+          setUser(userStr);
+          await infoExtraction(userStr.uid);
         } else {
-          console.error("Email not found in user object");
+          console.log("로그인이 되어있지 않습니다.");
         }
       } catch (error) {
-        console.error("JSON parsing error:", error);
+        console.error(error);
       }
     };
 
-    const infoExtraction = async (email) => {
+    // Firebase에서 uid와 일치하는 문서 객체 찾기
+    const infoExtraction = async (uid) => {
       try {
-        // Firebase database에서 문서 목록을 가져옵니다.
+        // Firebase에서 사용자 데이터를 가져옵니다.
         const snapshots = await getDatas("users");
 
-        // email과 일치하는 문서 객체 찾기
-        const matchingDoc = snapshots.find((doc) => doc.email === email);
+        // uid와 일치하는 문서 객체를 찾습니다.
+        const matchingDoc = snapshots.find((doc) => doc.docId === uid);
 
         if (matchingDoc) {
-          // 일치하는 문서를 상태에 설정하고 콘솔에 출력
-          setUserEmail(matchingDoc.email);
-          setFarmAddress(matchingDoc.farmAddress);
-          console.log(
-            "Matching Document:",
-            matchingDoc.email,
-            matchingDoc.farmAddress
-          );
+          setUserEmail(matchingDoc.email || "");
+          setFarmAddress(matchingDoc.farmAddress || "");
         } else {
-          console.error("No document found with email:", email);
+          console.error("No document found with UID:", uid);
         }
       } catch (error) {
-        console.error("Firebase database error:", error);
+        console.error("Error extracting information:", error);
       }
     };
 
     idExtraction();
   }, []);
-
-  const handlePayment = () => {
-    console.log("결제정보가 데이터베이스에 저장되었습니다.");
-  };
-
   return (
     <Container>
       {/* 견적을 요청하고 사용자의 정보를 입력하면 결제 페이지로 넘어갑니다. &nbsp;
@@ -92,33 +70,33 @@ function RequestForQuote() {
         <div className={styles.id}>
           {/* 회원의 경우 아이디(이메일)와 농장 주소는 readOnly 처리 되어있음. */}
           <h3>견적 의뢰 아이디</h3>
-          {user && user.isAuthenticated ? (
-            <input type="text" value={userEmail} readOnly />
-          ) : (
-            <input type="text" placeholder="이메일을 입력해주세요." />
-          )}
+          <input
+            type="text"
+            value={user ? userEmail : ""}
+            placeholder={user ? "" : "이메일을 입력해주세요."}
+            readOnly={!user}
+          />
         </div>
         <div className={styles.paymentDate}>
           <h3>결제 날짜</h3>
-          <input type="date" value={date} readOnly />
+          <input type="date" value={date || ""} readOnly />
         </div>
         <div className={styles.requestDate}>
           <h3>요청 날짜</h3>
-          <input type="date" value={date} readOnly />
+          <input type="date" value={date || ""} readOnly />
         </div>
         <div className={styles.farmAddress}>
           <h3>농장 주소</h3>
-          {user && user.isAuthenticated ? (
-            <input type="text" value={farmAddress} readOnly />
-          ) : (
-            <input type="text" placeholder="농장 주소를 입력해주세요." />
-          )}
+          <input
+            type="text"
+            value={user ? farmAddress : ""}
+            placeholder={user ? "" : "농장 주소를 입력해주세요."}
+            readOnly={!user}
+          />
         </div>
-        <Link to="../myPayment">
-          <button className={styles.submit} onClick={handlePayment}>
-            결제하기
-          </button>
-        </Link>
+        <button className={styles.submit} type="button">
+          결제하기
+        </button>
       </form>
     </Container>
   );
