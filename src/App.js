@@ -16,17 +16,20 @@ import RegisterPage from './pages/RegisterPage/RegisterPage';
 import About from './pages/about/About';
 import Service from './pages/about/Service';
 import Community from './pages/community/Community';
-import Faq from './pages/customer-service-center/Faq';
+import AfterService from './pages/community/after-service/AfterService';
+import Faq from './pages/community/faq/Faq';
+import Notice from './pages/community/notice/Notice';
+import SharingInformation from './pages/community/sharing-information/SharingInformation';
 import RequestForQuote from './pages/customer-service-center/RequestForQuote';
 import Home from './pages/home/Home';
 import Info from './pages/info/Info';
+import Disaster from './pages/info/disaster/Disaster';
+import Diseases from './pages/info/diseases/Diseases';
 import Simulation from './pages/info/simulation/Simulation';
 import UsageStatus from './pages/info/usage-status/UsageStatus';
 import MyFarm from './pages/my-farm/MyFarm';
 import FarmList from './pages/my-farm/my-farm-list/FarmList';
 import DashBoard from './pages/my-farm/my-farm-list/dashboard/DashBoard';
-import Disaster from './pages/search/disaster/Disaster';
-import Diseases from './pages/search/diseases/Diseases';
 import './scss/global.scss';
 
 function App() {
@@ -44,6 +47,8 @@ function App() {
             <Route index element={<Navigate to="usage-status" />} />
             <Route path="usage-status" element={<UsageStatus />} />
             <Route path="simulation" element={<Simulation />} />
+            <Route path="diseases" element={<Diseases />} />
+            <Route path="disaster" element={<Disaster />} />
           </Route>
           <Route path="login" element={<LoginPage />} />
           <Route path="register" element={<RegisterPage />} />
@@ -52,20 +57,23 @@ function App() {
           <Route path="SearchPw" element={<SearchPw />} />
           {/* <Route path="Basic" element={<MyPage />} /> */}
           <Route path="customer-service-center" element={<Outlet />}>
-            <Route index element={<Navigate to="faq" replace />} />
-            <Route path="request" element={<RequestForQuote />} />
-            <Route path="faq" element={<Faq />} />
+            <Route index element={<Navigate to="request" replace />} />
             <Route path="MyPayment" element={<MyPayment />} />
+            <Route path="request" element={<RequestForQuote />} />
           </Route>
-          <Route path="community" element={<Community />} />
-          <Route path="search">
-            <Route index element={<Navigate to="diseases" replace />} />
-            <Route path="diseases" element={<Diseases />} />
-            <Route path="disaster" element={<Disaster />} />
+          <Route path="community" element={<Community />}>
+            <Route index element={<Navigate to="notice" />} />
+            <Route path="notice" element={<Notice />} />
+            <Route path="faq" element={<Faq />} />
+            <Route
+              path="sharing-information"
+              element={<SharingInformation />}
+            />
+            <Route path="after-service" element={<AfterService />} />
           </Route>
+          <Route path="request" element={<RequestForQuote />} />
           <Route path="my-farm" element={<MyFarm />}>
             <Route index element={<FarmList />} />
-            {/* <Route path=":id" element={<DashBoard />} /> */}
           </Route>
         </Route>
         <Route path="/my-farm/:id" element={<DashBoard />} />

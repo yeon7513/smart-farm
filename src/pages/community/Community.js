@@ -1,19 +1,14 @@
-import React from "react";
-import Title from "../../components/layout/title/Title";
-import { community } from "../../lib/intro";
-import Notice from "./notice/Notice";
-import Information from "./information/Information";
-import Report from "./report/Report";
+import React from 'react';
+import { useLocation } from 'react-router-dom';
+import PageTemplate from '../../components/layout/page-template/PageTemplate';
+import { getPageLinks, getTitleProps } from '../../utils/pageSetting';
 
 function Community() {
-  return (
-    <div>
-      <Title {...community} />
-      <Notice />
-      <Information />
-      <Report />
-    </div>
-  );
+  const { pathname } = useLocation();
+  const titleProps = getTitleProps(pathname);
+  const links = getPageLinks('community');
+
+  return <PageTemplate titleProps={titleProps} links={links} />;
 }
 
 export default Community;

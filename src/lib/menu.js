@@ -21,15 +21,9 @@ export const paths = {
           path: '/info/simulation',
           name: '시뮬레이션',
         },
-      ],
-    },
-    {
-      path: 'search',
-      name: '검색',
-      depth: [
-        { path: '/search/diseases', name: '병해충' },
+        { path: '/info/diseases', name: '병해충' },
         {
-          path: '/search/disaster',
+          path: '/info/disaster',
           name: '자연재해',
         },
       ],
@@ -50,9 +44,14 @@ export const paths = {
       name: '커뮤니티',
       depth: [
         { path: '/community/notice', name: '공지사항' },
-        { path: '/community/Information', name: '정보 게시판' },
-        { path: '/community/report', name: '신고 게시판' },
+        { path: '/community/faq', name: 'FAQ' },
+        { path: '/community/sharing-information', name: '정보 공유' },
+        { path: '/community/after-service', name: 'A/S 문의' },
       ],
+    },
+    {
+      path: 'request',
+      name: '견적의뢰',
     },
     {
       path: 'my-farm',
