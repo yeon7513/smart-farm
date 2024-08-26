@@ -1,0 +1,28 @@
+<response>
+  <header>
+    <resultCode>00</resultCode>
+    <resultMsg>OK</resultMsg>
+  </header>
+  <body>
+    <pageNo>1</pageNo>
+    <totalCount>1</totalCount>
+    <items>
+      <item>
+        <inTp>24.5</inTp>
+        <inHd>78.9</inHd>
+        <measDtStr>20190101000000</measDtStr>
+        <otmsuplyqy>12.01</otmsuplyqy>
+        <acSlrdQy>1340.0</acSlrdQy>
+        <frmhsId>TestFarm01</frmhsId>
+        <cunt>4.0</cunt>
+        <ph>5.8</ph>
+        <outTp>10.5</outTp>
+        <outWs>1.2</outWs>
+        <daysuplyqy>48.07</daysuplyqy>
+        <inCo2>434.0</inCo2>
+        <ec>1.4</ec>
+      </item>
+    </items>
+    <numOfRows>10</numOfRows>
+  </body>
+</response>;
