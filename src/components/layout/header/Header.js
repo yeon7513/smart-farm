@@ -1,14 +1,14 @@
-import React from 'react';
-import { Link, useLocation } from 'react-router-dom';
-import Container from '../container/Container';
-import styles from './Header.module.scss';
-import Nav from './nav/Nav';
+import React from "react";
+import { Link, useLocation } from "react-router-dom";
+import Container from "../container/Container";
+import styles from "./Header.module.scss";
+import Nav from "./nav/Nav";
 
 function Header() {
   const { pathname } = useLocation();
 
   return (
-    <header className={pathname === '/' ? styles.home : ''}>
+    <header className={pathname === "/" ? styles.home : ""}>
       <Container className={styles.container}>
         <h1 className={styles.logo}>
           <Link to="/" state="home">
