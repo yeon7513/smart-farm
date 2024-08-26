@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
-import styles from "./UpButton.module.scss";
-import { FaAngleUp } from "react-icons/fa";
+import React, { useEffect, useState } from 'react';
+import { FaAngleUp } from 'react-icons/fa';
+import styles from './UpButton.module.scss';
 
 function UpButton(props) {
   const [up, setUp] = useState(false);
@@ -13,19 +13,17 @@ function UpButton(props) {
     }
   };
   const scrollTotop = () => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   useEffect(() => {
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener('scroll', handleScroll);
   }, []);
 
   return (
-    <div className={styles.main}>
-      <button className={styles.btn} onClick={scrollTotop}>
-        <FaAngleUp />
-      </button>
-    </div>
+    <button className={styles.btn} onClick={scrollTotop}>
+      <FaAngleUp />
+    </button>
   );
 }
 

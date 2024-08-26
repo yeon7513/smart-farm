@@ -12,7 +12,7 @@ function Footer() {
           <Link to="/">
             <img
               className="logo-icon"
-              src={require('../../../assets/main/logo.png')}
+              // src={require('../../../assets/main/logo.png')}
               alt=""
             />
             아이팜
