@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import styles from "./RequestForQuote.module.scss";
 import { getDatas } from "../../api/firebase";
 import { Container } from "@mui/material";
+import { Link } from "react-router-dom";
 
 function RequestForQuote() {
   // user 상태를 선언합니다.
@@ -72,6 +73,10 @@ function RequestForQuote() {
     idExtraction();
   }, []);
 
+  const handlePayment = () => {
+    console.log("결제정보가 데이터베이스에 저장되었습니다.");
+  };
+
   return (
     <Container>
       {/* 견적을 요청하고 사용자의 정보를 입력하면 결제 페이지로 넘어갑니다. &nbsp;
@@ -109,7 +114,11 @@ function RequestForQuote() {
             <input type="text" placeholder="농장 주소를 입력해주세요." />
           )}
         </div>
-        <button className={styles.submit}>결제하기</button>
+        <Link to="../myPayment">
+          <button className={styles.submit} onClick={handlePayment}>
+            결제하기
+          </button>
+        </Link>
       </form>
     </Container>
   );
