@@ -26,11 +26,11 @@ import FarmList from "./pages/my-farm/my-farm-list/FarmList";
 import DashBoard from "./pages/my-farm/my-farm-list/dashboard/DashBoard";
 import Disaster from "./pages/search/disaster/Disaster";
 import Diseases from "./pages/search/diseases/Diseases";
+
 import "./scss/global.scss";
 
-// import Counsel from "./pages/customer-service-center/counsel/Counsel";
-
 import MyPayment from "./pages/MyPayment/MyPayment";
+import "./scss/global.scss";
 
 function App() {
   return (
@@ -53,7 +53,6 @@ function App() {
           <Route path="MyPage" element={<MyPage />} />
           <Route path="SearchEm" element={<SearchEm />} />
           <Route path="SearchPw" element={<SearchPw />} />
-          <Route path="MyPage" element={<MyPage />} />
           {/* <Route path="Basic" element={<MyPage />} /> */}
           <Route path="customer-service-center" element={<Outlet />}>
             <Route index element={<Navigate to="faq" replace />} />
@@ -61,7 +60,7 @@ function App() {
             <Route path="faq" element={<Faq />} />
             <Route path="MyPayment" element={<MyPayment />} />
           </Route>
-          <Route path="community" element={<Community />}></Route>
+          <Route path="community" element={<Community />} />
           <Route path="search">
             <Route index element={<Navigate to="diseases" replace />} />
             <Route path="diseases" element={<Diseases />} />
