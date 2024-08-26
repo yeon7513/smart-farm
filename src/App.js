@@ -26,17 +26,15 @@ import FarmList from "./pages/my-farm/my-farm-list/FarmList";
 import DashBoard from "./pages/my-farm/my-farm-list/dashboard/DashBoard";
 import Disaster from "./pages/search/disaster/Disaster";
 import Diseases from "./pages/search/diseases/Diseases";
-import "./scss/global.scss";
-
 import Counsel from "./pages/customer-service-center/counsel/Counsel";
-
 import MyPayment from "./pages/MyPayment/MyPayment";
+import "./scss/global.scss";
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
-        < path="/" element={<Layout />}>
+        <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
           <Route path="about">
             <Route index element={<About />} />
