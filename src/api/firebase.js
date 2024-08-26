@@ -84,15 +84,33 @@ export async function updateDatas(collectionName, docId, updateObj) {
 
 let userId = [];
 
-const url =
-  "/api/Agree_WS/webservices/ProvideRestService/getIdentityDataList/cbd181f0a2594233a01eed9b0b86a392";
-fetch(url)
-  .then((response) => response.json())
-  .then((result) => {
-    result.forEach((result) => {
-      userId.push(result.userId);
+// const url =
+//   "https://apis.data.go.kr/1390000/SmartFarmdata/grwdatarqst?serviceKey=iv2U4%2BpsJ7CRlDQ2ukixg4slrgEMjbIL%2FB%2B9pefVtqqEHGHhSRX7tNubbe2Y%2FGpjV59et7GLPJwxAdVe7iXycA%3D%3D&searchFrmhsCode=81&returnType=json";
+// fetch(url)
+//   .then((response) => response.json())
+//   .then((result) => {
+//     console.log(result);
+//   });
+// const url =
+//   "https://api.openweathermap.org/data/2.5/weather?q=Seoul&appid=3bd960b544d8e85c3f24e4e2d139794c";
+// fetch(url)
+//   .then((response) => response.json())
+//   .then((result) => {
+//     console.log(result);
+//   });
+
+const apiKey = "2024fae68820b6a8f539fd5def6a6dfd02c1";
+
+const url = `/api/?apiKey=${apiKey}&serviceCode=SVC01&serviceType=AA001&dtlSrchFlag=kncr1`;
+try {
+  fetch(url)
+    .then((response) => response.json())
+    .then((result) => {
+      console.log(result);
     });
-  });
+} catch (error) {
+  console.log(error);
+}
 
 // const url2 = `/api/http://www.smartfarmkorea.net/Agree_WS/webservices/ProvideRestService/getCroppingSeasonDataList/cbd181f0a2594233a01eed9b0b86a392/${userId}`;
 // fetch(url2)
