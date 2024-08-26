@@ -1,13 +1,22 @@
 import React from 'react';
-import { Link, useParams } from 'react-router-dom';
+import FarmListItem from './my-farm-list-item/FarmListItem';
+
+const testFarmList = [
+  { farmId: 1, name: '농장1' },
+  { farmId: 2, name: '농장2' },
+  { farmId: 3, name: '농장3' },
+  { farmId: 4, name: '농장4' },
+  { farmId: 5, name: '농장5' },
+];
 
 function FarmList() {
-  const { id } = useParams();
   return (
-    <div>
-      FarmList
-      <Link to={`/my-farm/${id}`}>DashBoard 이동</Link>
-    </div>
+    <>
+      <div>내 농장 리스트</div>
+      {testFarmList.map((item) => (
+        <FarmListItem key={item.farmId} {...item} />
+      ))}
+    </>
   );
 }
 
