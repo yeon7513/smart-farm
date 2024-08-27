@@ -2,6 +2,7 @@ import React from "react";
 import Board from "../../../components/board/Board";
 import { as } from "../../../lib/post";
 import PostView from "../../../components/board/post-view/PostView";
+import Post from "../../../components/board/post/Post";
 
 function AfterService(props) {
   return (
@@ -11,6 +12,7 @@ function AfterService(props) {
       <div>
         <Board items={as} />
         <PostView />
+        <Post />
       </div>
     </div>
   );
