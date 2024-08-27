@@ -10,8 +10,9 @@ import "./CaseSlide.scss";
 
 // import required modules
 import { Pagination } from "swiper/modules";
+import CaseItem from "../../../pages/home/slide/CaseItem";
 
-export default function App() {
+export default function App({ items }) {
   return (
     <>
       <Swiper
@@ -23,15 +24,16 @@ export default function App() {
         modules={[Pagination]}
         className="mySwiper"
       >
-        <SwiperSlide>Slide 1</SwiperSlide>
-        <SwiperSlide>Slide 2</SwiperSlide>
-        <SwiperSlide>Slide 3</SwiperSlide>
-        <SwiperSlide>Slide 4</SwiperSlide>
-        <SwiperSlide>Slide 5</SwiperSlide>
-        <SwiperSlide>Slide 6</SwiperSlide>
-        <SwiperSlide>Slide 7</SwiperSlide>
-        <SwiperSlide>Slide 8</SwiperSlide>
-        <SwiperSlide>Slide 9</SwiperSlide>
+        {items.map((item) => (
+          <SwiperSlide key={item.id}>
+            <CaseItem
+              img={item.img}
+              why={item.why}
+              name={item.name}
+              content={item.content}
+            />
+          </SwiperSlide>
+        ))}
       </Swiper>
     </>
   );

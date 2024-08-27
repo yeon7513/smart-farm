@@ -132,7 +132,7 @@ function Home() {
         </div>
       </div>
 
-      <div className={styles.case_state}>
+      {/* <div className={styles.case_state}>
         <div className={styles.case}>
           <div>
             <h1>우수사례</h1>
@@ -169,6 +169,12 @@ function Home() {
             <Map />
             <img src={chartImg} alt="" />
           </div>
+        </div>
+      </div> */}
+
+      <div>
+        <div>
+          <CaseSlide items={cases} />
         </div>
       </div>
 
