@@ -7,10 +7,10 @@ function Sidebar(props) {
       <ul className={styles.items}>
         내 정보
         <li className={styles.item}>
-          <Link to="Myinfo">수정</Link>
+          <Link to="Myinfo">내 정보 수정</Link>
         </li>
-        <li className={styles.item}>
-          <Link to="Myfarminfo">내 농장 관리</Link>
+        <li className={styles.itemmove}>
+          <Link to="/my-farm">내 농장 관리</Link>
         </li>
       </ul>
       <ul className={styles.items}>
