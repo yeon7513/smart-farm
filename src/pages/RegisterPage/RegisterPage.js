@@ -6,7 +6,7 @@ import { createUserWithEmailAndPassword } from "firebase/auth";
 import { useForm } from "react-hook-form";
 import { getUserAuth, joinUser } from "../../api/firebase";
 import { useDispatch } from "react-redux";
-import { setUser } from "../../store/user/UserSlice";
+import { setUser } from "../../store/user/userSlice";
 import SignUp from "./sign-up/SignUp";
 import { Container } from "@mui/material";
 

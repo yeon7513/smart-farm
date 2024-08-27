@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import styles from "./RequestForQuote.module.scss";
 import { getDatas } from "../../api/firebase";
 import { Container } from "@mui/material";
+import FacilitiesHorticulture from "./FacilitiesHorticulture";
+import OpenGround from "./OpenGround";
 
 function RequestForQuote() {
   // user 상태를 선언합니다.
@@ -60,6 +62,7 @@ function RequestForQuote() {
 
   const handleFacilityTypeChange = (e) => {
     setFacilityType(e.target.value);
+    setAdditionalOptions([]);
     console.log(e.target.value);
   };
 
@@ -140,122 +143,17 @@ function RequestForQuote() {
           </select>
         </div>
         <div>
+          <h3>부가 옵션 선택 (옵션 옆에 비용을 표기해야하나 고민 중..)</h3>
           {facilityType === "시설원예" ? (
-            <>
-              <h3>부가 옵션 선택</h3>
-              <h4>시설원예의 유형</h4>
-              <h4>환경 제어</h4>
-              <input
-                type="checkbox"
-                id="thermostat"
-                value="온도 조절기"
-                checked={additionalOptions.includes("온도 조절기")}
-                onChange={handleAdditionalOptionsChange}
-              />
-              <label htmlFor="thermostat">온도 조절기</label>
-              <input
-                type="checkbox"
-                id="ventilationSystem"
-                value="환기 장치"
-                checked={additionalOptions.includes("환기 장치")}
-                onChange={handleAdditionalOptionsChange}
-              />
-              <label htmlFor="ventilationSystem">환기 장치</label>
-              <input
-                type="checkbox"
-                id="shadingFilm"
-                value="차광막"
-                checked={additionalOptions.includes("차광막")}
-                onChange={handleAdditionalOptionsChange}
-              />
-              <label htmlFor="shadingFilm">차광막</label>
-
-              <h4>조명 시스템</h4>
-              <input
-                type="checkbox"
-                id="LEDGrowLights"
-                value="인공 조명"
-                checked={additionalOptions.includes("인공 조명")}
-                onChange={handleAdditionalOptionsChange}
-              />
-              <label htmlFor="LEDGrowLights">인공 조명</label>
-              <input
-                type="checkbox"
-                id="automaticLightingRegulator"
-                value="자동 조명 조절기"
-                checked={additionalOptions.includes("자동 조명 조절기")}
-                onChange={handleAdditionalOptionsChange}
-              />
-              <label htmlFor="automaticLightingRegulator">
-                자동 조명 조절기
-              </label>
-              <h4>관수 시스템</h4>
-              <input
-                type="checkbox"
-                id="automaticIrrigationSystem"
-                value="자동 관수 시스템"
-                checked={additionalOptions.includes("자동 관수 시스템")}
-                onChange={handleAdditionalOptionsChange}
-              />
-              <label htmlFor="automaticIrrigationSystem">
-                자동 관수 시스템
-              </label>
-              <input
-                type="checkbox"
-                id="positiveLiquidMachine"
-                value="양액기"
-                checked={additionalOptions.includes("양액기")}
-                onChange={handleAdditionalOptionsChange}
-              />
-              <label htmlFor="positiveLiquidMachine">양액기</label>
-              <h4>센서 및 모니터링</h4>
-              <input
-                type="checkbox"
-                id="temperatureHumiditySensor"
-                value="온도, 습도 센서"
-                checked={additionalOptions.includes("온도, 습도 센서")}
-                onChange={handleAdditionalOptionsChange}
-              />
-              <label htmlFor="temperatureHumiditySensor">
-                온도 및 습도 센서
-              </label>
-              <input
-                type="checkbox"
-                id="CO2Sensor"
-                value="CO2 센서"
-                checked={additionalOptions.includes("CO2 센서")}
-                onChange={handleAdditionalOptionsChange}
-              />
-              <label htmlFor="CO2Sensor">CO2 센서</label>
-              <h4>기타 장비</h4>
-              <input
-                type="checkbox"
-                id="positiveSolutionMeasurementSensor"
-                value="양액측정센서"
-                checked={additionalOptions.includes("양액측정센서")}
-                onChange={handleAdditionalOptionsChange}
-              />
-              <label htmlFor="positiveSolutionMeasurementSensor">
-                양액측정센서
-              </label>
-              <input
-                type="checkbox"
-                id="CCTV"
-                value="CCTV"
-                checked={additionalOptions.includes("CCTV")}
-                onChange={handleAdditionalOptionsChange}
-              />
-              <label htmlFor="CCTV">CCTV</label>
-            </>
+            <FacilitiesHorticulture
+              additionalOptions={additionalOptions}
+              handleAdditionalOptionsChange={handleAdditionalOptionsChange}
+            />
           ) : (
-            <>
-              <h3>부가 옵션 선택</h3>
-              <h4>관수 시스템</h4>
-              <h4>토양 관리</h4>
-              <h4>비료 및 농약 관리</h4>
-              <h4>기상 모니터링</h4>
-              <h4>기타 장비</h4>
-            </>
+            <OpenGround
+              additionalOptions={additionalOptions}
+              handleAdditionalOptionsChange={handleAdditionalOptionsChange}
+            />
           )}
         </div>
         <button className={styles.submit} type="submit">

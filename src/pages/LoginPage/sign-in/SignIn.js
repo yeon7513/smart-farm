@@ -2,7 +2,7 @@ import { signInWithEmailAndPassword } from "firebase/auth";
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { setUser } from "../../../store/user/UserSlice";
+import { setUser } from "../../../store/user/userSlice";
 import { getUserAuth } from "../../../api/firebase";
 import Form from "../../../components/form/Form";
 
