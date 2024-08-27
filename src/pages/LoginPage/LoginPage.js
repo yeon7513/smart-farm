@@ -8,7 +8,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { getUserAuth, joinUser } from "../../api/firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useDispatch } from "react-redux";
-import { setUser } from "../../store/user/userSlice";
+import { setUser } from "../../store/user/UserSlice";
 import styles from "./LoginPage.module.scss";
 import { Container } from "@mui/material";
 
