@@ -55,6 +55,7 @@ function RequestForQuote() {
 
     idExtraction();
   }, []);
+
   return (
     <Container>
       {/* 견적을 요청하고 사용자의 정보를 입력하면 결제 페이지로 넘어갑니다. &nbsp;
@@ -67,15 +68,18 @@ function RequestForQuote() {
       5. 비회원은 견적요청 아이디만 알려주고 마이페이지에서 조회할 때 사용(요청
       아이디를 꼭 알고 있어야 됨) */}
       <form>
+        <div>
+          <h3>견적 정보</h3>
+        </div>
         <div className={styles.id}>
-          {/* 회원의 경우 아이디(이메일)와 농장 주소는 readOnly 처리 되어있음. */}
+          {/* 회원의 경우 아이디(이메일)와 농장 주소는 readOnly 처리 되어있음.
+          비회원의 경우 아이디(이메일)와 농장 주소를 입력 가능함. */}
           <h3>견적 의뢰 아이디</h3>
-          <input
-            type="text"
-            value={user ? userEmail : ""}
-            placeholder={user ? "" : "이메일을 입력해주세요."}
-            readOnly={!user}
-          />
+          {user ? (
+            <input type="text" value={userEmail} readOnly />
+          ) : (
+            <input type="text" placeholder={"이메일을 입력해주세요."} />
+          )}
         </div>
         <div className={styles.paymentDate}>
           <h3>결제 날짜</h3>
@@ -87,12 +91,11 @@ function RequestForQuote() {
         </div>
         <div className={styles.farmAddress}>
           <h3>농장 주소</h3>
-          <input
-            type="text"
-            value={user ? farmAddress : ""}
-            placeholder={user ? "" : "농장 주소를 입력해주세요."}
-            readOnly={!user}
-          />
+          {user ? (
+            <input type="text" value={farmAddress} readOnly />
+          ) : (
+            <input type="text" placeholder={"농장 주소를 입력해주세요."} />
+          )}
         </div>
         <button className={styles.submit} type="button">
           결제하기
