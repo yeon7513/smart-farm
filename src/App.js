@@ -77,14 +77,7 @@ function App() {
               <Route index element={<FarmList />} />
             </Route>
             <Route path="manager" element={<Manager />} />
-            <Route path="MyPage" element={<MyPage />}>
-              <Route path="Myinfo" element={<Myinfo />} />
-              <Route path="Myfarminfo" element={<Myfarm />} />
-              <Route path="Chatbotinfo" element={<Chatbot />} />
-              <Route path="Paymentinfo" element={<Payment />} />
-              <Route path="Asinfo" element={<Asinfo />} />
-              <Route path="Myletter" element={<Myletter />} />
-            </Route>
+            {/* 관리자 */}
           </Route>
           <Route path="/my-farm/:id" element={<DashBoard />}>
             <Route index element={<RenderingMenu />} />
