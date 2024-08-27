@@ -47,6 +47,7 @@ function Mymain(props) {
           </Typography>
           <Typography>Phone: +82 10-8***-4***</Typography>
           <Typography>Mail: wj******@h*******.com </Typography>
+          <Typography>address: 대전광역시 xxx xxxx </Typography>
           <Box component="form" sx={{ mt: 3 }}>
             <Button
               type="submit"
