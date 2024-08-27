@@ -35,6 +35,7 @@ import RenderingMenu from "./pages/my-farm/my-farm-list/dashboard/RenderingMenu"
 import RequestForQuote from "./pages/request/RequestForQuote";
 import "./scss/global.scss";
 import Myinfo from "./components/Mypage/myinfo/Myinfo";
+import Mymain from "./components/Mypage/mymain/Mymain";
 
 function App() {
   return (
@@ -77,19 +78,20 @@ function App() {
               <Route index element={<FarmList />} />
             </Route>
             <Route path="manager" element={<Manager />} />
+            <Route path="login" element={<LoginPage />} />
+            <Route path="register" element={<RegisterPage />} />
+            <Route path="MyPage" element={<MyPage />}>
+              <Route index element={<Mymain />} />
+              <Route path="Myinfo" element={<Myinfo />} />
+              <Route path="Myfarminfo" element={<Myfarm />} />
+              <Route path="Chatbotinfo" element={<Chatbot />} />
+              <Route path="Paymentinfo" element={<Payment />} />
+              <Route path="Asinfo" element={<Asinfo />} />
+              <Route path="Myletter" element={<Myletter />} />
+            </Route>
           </Route>
           <Route path="/my-farm/:id" element={<DashBoard />}>
             <Route index element={<RenderingMenu />} />
-          </Route>
-          <Route path="login" element={<LoginPage />} />
-          <Route path="register" element={<RegisterPage />} />
-          <Route path="MyPage" element={<MyPage />}>
-            <Route path="Myinfo" element={<Myinfo />} />
-            <Route path="Myfarminfo" element={<Myfarm />} />
-            <Route path="Chatbotinfo" element={<Chatbot />} />
-            <Route path="Paymentinfo" element={<Payment />} />
-            <Route path="Asinfo" element={<Asinfo />} />
-            <Route path="Myletter" element={<Myletter />} />
           </Route>
         </Routes>
       </ComponentProvider>
