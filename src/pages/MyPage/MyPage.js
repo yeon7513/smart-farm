@@ -1,14 +1,15 @@
 import React from "react";
-import Sidebar from "../../components/Mypage/Sidebar";
+import Sidebar from "../../components/Mypage/sidebar/Sidebar";
 import { Outlet } from "react-router-dom";
-import Myinfo from "../../components/Mypage/Myinfo";
+import Myinfo from "../../components/Mypage/myinfo/Myinfo";
+import Container from "../../components/layout/container/Container";
 
 function MyPage(props) {
   return (
-    <div>
+    <Container>
       <Sidebar />
       <Outlet />
-    </div>
+    </Container>
   );
 }
 
