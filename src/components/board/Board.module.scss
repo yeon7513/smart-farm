@@ -1,9 +1,5 @@
 .container {
   margin: 40px 30px;
-
-  h4 {
-    padding: 10px;
-  }
 }
 
 .col {
@@ -45,20 +41,19 @@
 .pagination {
   display: flex;
   justify-content: center;
+  align-items: center;
   margin: 20px 0;
+  font-size: 14px;
 
   button {
-    margin: 0 5px;
+    margin: 0 10px;
     padding: 5px 10px;
-    background-color: #fff;
-    border: 1px solid #ddd;
+    border: 1px solid #e2e2e2;
     border-radius: 5px;
-    cursor: pointer;
 
-    &.activePage {
-      background-color: var(--back-color);
-      color: white;
-      border-color: var(--back-color);
+    &:disabled {
+      cursor: not-allowed;
+      opacity: 0.5;
     }
   }
 }
@@ -73,5 +68,9 @@
     padding: 10px;
     border-radius: 8px;
     font-size: 14px;
+
+    &:hover {
+      background-color: var(--back-color);
+    }
   }
 }

@@ -1,0 +1,25 @@
+.headers {
+  width: 100%;
+  margin: 0 auto;
+  row-gap: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  height: 100%;
+
+  input {
+    border: 1px solid black;
+    font-size: 24px;
+    outline: none;
+    width: 20%;
+    padding: 5px;
+  }
+  .name {
+    display: flex;
+    gap: 10px;
+  }
+  button {
+    border: 1px solid black;
+    width: 10%;
+  }
+}

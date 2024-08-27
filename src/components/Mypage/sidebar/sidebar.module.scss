@@ -8,7 +8,6 @@
   display: flex;
   flex-direction: column;
   gap: 50px;
-  z-index: -1;
 }
 .items {
   display: flex;
@@ -18,4 +17,11 @@
 }
 .item {
   font-size: 14px;
+}
+.itemmove {
+  font-size: 16px;
+
+  &:hover {
+    color: var(--back-color);
+  }
 }

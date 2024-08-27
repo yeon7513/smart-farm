@@ -1,0 +1,22 @@
+.container {
+  margin-left: 240px;
+}
+.headers {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+}
+.paylists {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+.paylist {
+  border: 1px solid black;
+  padding: 5px;
+  width: 50%;
+}
+.payment {
+  justify-self: end;
+}
