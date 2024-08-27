@@ -4,11 +4,13 @@ import styles from "./Diseases.module.scss";
 
 function Diseases(props) {
   const [pests, setPests] = useState(null);
+
   // useEffect(() => {
-  //   const apiKey = "2024570e96d7a69a9e49dfeb7fdc9739177c";
+  //   const apiKey = "2024fae68820b6a8f539fd5def6a6dfd02c1";
   //   const fetchData = async () => {
-  //     fetch()`http://ncpms.rda.go.kr/npmsAPI/service?apiKey=${apiKey}&serviceCode=SVC01&serviceType=AA001&dtlSrchFlag=kncr1`
-  //       // `http://ncpms.rda.go.kr/npmsAPI/service?apiKey=${apiKey}&serviceCode=SVC16&serviceType=AA003`
+  //     fetch(
+  //       `http://api.rda.go.kr/npmsAPI/service$apiKey=${apiKey}&serviceCode=SVC01&serviceType=AA003&cropName=논벼&sKncrCode1=FC&sKncrCode2=FC01`
+  //     )
   //       .then((response) => response.json())
   //       .then((result) => {
   //         console.log(result);
