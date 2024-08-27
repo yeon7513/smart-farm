@@ -72,7 +72,7 @@ import { Link, Outlet } from "react-router-dom";
 // ];
 
 function Diseases(props) {
-  const [pests, setPests] = useState(null);
+  // const [pests, setPests] = useState(null);
 
   // useEffect(() => {
   //   const apiKey = "2024fae68820b6a8f539fd5def6a6dfd02c1";
