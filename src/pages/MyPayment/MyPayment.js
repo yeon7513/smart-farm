@@ -18,28 +18,10 @@ function MyPayment() {
     });
   }, []);
 
-  if (payment.length == 0) {
-    return <PaymentEmpty title="주문 내역" />;
-  }
-
   return (
-    <div className={styles.myPayments}>
-      나의 결제내역
-      {payment.map((payment, idx) => {
-        <div key={idx}>
-          <div className={styles.myPayment}>
-            <h3>결제 번호_{payment.createdAt}</h3>
-            <h3>
-              결제 날짜_{getISODate(payment.createdAt).yyyyMMdd}{" "}
-              {getISODate(payment.createdAt).hhmmss}
-            </h3>
-            <p>합계: {payment.totalPrice.toFixed(0)}</p>
-            <PaymentsList />
-          </div>
-          ;
-        </div>;
-      })}
-    </div>
+    <>
+      <PaymentsList />;
+    </>
   );
 }
 
