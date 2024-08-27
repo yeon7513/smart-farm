@@ -7,9 +7,8 @@ function Diseases(props) {
   // useEffect(() => {
   //   const apiKey = "2024570e96d7a69a9e49dfeb7fdc9739177c";
   //   const fetchData = async () => {
-  //     fetch()
-  // `http://ncpms.rda.go.kr/npmsAPI/service?apiKey=${apiKey}&serviceCode=SVC01&serviceType=AA001&dtlSrchFlag=kncr1`
-  // `http://ncpms.rda.go.kr/npmsAPI/service?apiKey=${apiKey}&serviceCode=SVC16&serviceType=AA003`
+  //     fetch()`http://ncpms.rda.go.kr/npmsAPI/service?apiKey=${apiKey}&serviceCode=SVC01&serviceType=AA001&dtlSrchFlag=kncr1`
+  //       // `http://ncpms.rda.go.kr/npmsAPI/service?apiKey=${apiKey}&serviceCode=SVC16&serviceType=AA003`
   //       .then((response) => response.json())
   //       .then((result) => {
   //         console.log(result);

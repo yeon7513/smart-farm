@@ -1,6 +1,7 @@
 const { createProxyMiddleware } = require("http-proxy-middleware");
 
 module.exports = function (app) {
+  // 날씨api
   app.use(
     "/api", // 기존 host 대신 사용할 경로
     createProxyMiddleware({
@@ -13,6 +14,7 @@ module.exports = function (app) {
   );
 };
 module.exports = function (app) {
+  // 병해충api
   app.use(
     "/api1", // 기존 host 대신 사용할 경로
     createProxyMiddleware({
