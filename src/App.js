@@ -1,10 +1,10 @@
 import React from "react";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
-import Asinfo from "./components/Mypage/asinfo/Asinfo";
-import Chatbot from "./components/Mypage/chatbot/Chatbot";
-import Myfarm from "./components/Mypage/myfarm/Myfarm";
-import Myletter from "./components/Mypage/myletter/Myletter";
-import Payment from "./components/Mypage/payment/Payment";
+// import Asinfo from "./components/Mypage/asinfo/Asinfo";
+// import Chatbot from "./components/Mypage/chatbot/Chatbot";
+// import Myfarm from "./components/Mypage/myfarm/Myfarm";
+// import Myletter from "./components/Mypage/myletter/Myletter";
+// import Payment from "./components/Mypage/payment/Payment";
 import Layout from "./components/layout/Layout";
 import { ComponentProvider } from "./context/ComponentContext";
 import LoginPage from "./pages/LoginPage/LoginPage";
@@ -34,7 +34,7 @@ import DashBoard from "./pages/my-farm/my-farm-list/dashboard/DashBoard";
 import RenderingMenu from "./pages/my-farm/my-farm-list/dashboard/RenderingMenu";
 import RequestForQuote from "./pages/request/RequestForQuote";
 import "./scss/global.scss";
-import Myinfo from "./components/Mypage/myinfo/Myinfo";
+// import Myinfo from "./components/Mypage/myinfo/Myinfo";
 
 function App() {
   return (
