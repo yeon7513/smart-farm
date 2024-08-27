@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { Link, useNavigate } from 'react-router-dom';
-import { getUserAuth } from '../../../../api/firebase';
-import { paths } from '../../../../lib/menu';
-import { removeUser } from '../../../../store/user/UserSlice';
-import styles from './Nav.module.scss';
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
+import { getUserAuth } from "../../../../api/firebase";
+import { paths } from "../../../../lib/menu";
+import { removeUser } from "../../../../store/user/UserSlice";
+import styles from "./Nav.module.scss";
 
 function NavLink({ className, path, depth, children }) {
   return (
@@ -32,14 +32,14 @@ function Nav() {
   const [position, setPosition] = useState({ lat: null, lon: null });
   const [error, setError] = useState(null);
   const auth = getUserAuth();
-  const { isAuthenticated } = useSelector((state) => state.UserSlice);
+  const { isAuthenticated } = useSelector((state) => state.userSlice);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const handleLogout = () => {
     auth.signOut();
     dispatch(removeUser());
-    navigate('/', { replace: true });
+    navigate("/", { replace: true });
   };
 
   useEffect(() => {
@@ -56,19 +56,19 @@ function Nav() {
           (error) => {
             switch (error.code) {
               case error.PERMISSION_DENIED:
-                setError('사용자가 위치 권한을 거부했습니다.');
+                setError("사용자가 위치 권한을 거부했습니다.");
                 break;
               case error.POSITION_UNAVAILABLE:
-                setError('위치 정보를 사용할 수 없습니다.');
+                setError("위치 정보를 사용할 수 없습니다.");
                 break;
               case error.TIMEOUT:
-                setError('위치 정보 요청 시간이 초과되었습니다.');
+                setError("위치 정보 요청 시간이 초과되었습니다.");
                 break;
               case error.UNKNOWN_ERROR:
-                setError('알 수 없는 오류가 발생했습니다.');
+                setError("알 수 없는 오류가 발생했습니다.");
                 break;
               default:
-                setError('알 수 없는 오류가 발생했습니다.');
+                setError("알 수 없는 오류가 발생했습니다.");
                 break;
             }
           }
@@ -78,14 +78,14 @@ function Nav() {
           navigator.geolocation.clearWatch(watchId);
         };
       } else {
-        setError('Geolocation API를 지원하지 않는 브라우저입니다.');
+        setError("Geolocation API를 지원하지 않는 브라우저입니다.");
       }
     };
 
     fetchLocation();
   }, []);
 
-  const admin = JSON.parse(localStorage.getItem('user'));
+  const admin = JSON.parse(localStorage.getItem("user"));
 
   return (
     <>
@@ -101,14 +101,8 @@ function Nav() {
                   {position.lon.toFixed(0)}
                 </li>
                 {error && <p style={{ color: "red" }}>{error}</p>} */}
-                {admin.email.includes('admin') ? (
-                  <NavLink path={'/manager'}>관리자</NavLink>
-                ) : (
-                  <>
-                    <NavLink path={'/my-farm'}>내 농장</NavLink>
-                    <NavLink path={'/mypage'}>마이페이지</NavLink>
-                  </>
-                )}
+                <NavLink path={"/my-farm"}>내 농장</NavLink>
+                <NavLink path={"/mypage"}>마이페이지</NavLink>
                 <li>
                   <Link onClick={handleLogout}>로그아웃</Link>
                 </li>

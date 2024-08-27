@@ -77,6 +77,7 @@ function App() {
               <Route index element={<FarmList />} />
             </Route>
             <Route path="manager" element={<Manager />} />
+            {/* 관리자 */}
             <Route path="MyPage" element={<MyPage />}>
               <Route path="Myinfo" element={<Myinfo />} />
               <Route path="Myfarminfo" element={<Myfarm />} />
