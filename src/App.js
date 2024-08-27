@@ -25,6 +25,8 @@ import MyFarm from "./pages/my-farm/MyFarm";
 import FarmList from "./pages/my-farm/my-farm-list/FarmList";
 import DashBoard from "./pages/my-farm/my-farm-list/dashboard/DashBoard";
 import "./scss/global.scss";
+import Myinfo from "./components/Mypage/Myinfo";
+import Sidebar from "./components/Mypage/Sidebar";
 
 function App() {
   return (
@@ -46,7 +48,10 @@ function App() {
           </Route>
           <Route path="login" element={<LoginPage />} />
           <Route path="register" element={<RegisterPage />} />
-          <Route path="MyPage" element={<MyPage />} />
+          <Route path="MyPage" element={<MyPage />}>
+            <Route index element={<Myinfo />} />
+            {/* <Route path="register" element={<RegisterPage />} /> */}
+          </Route>
           <Route path="SearchEm" element={<SearchEm />} />
           <Route path="SearchPw" element={<SearchPw />} />
           <Route path="MyPayment" element={<MyPayment />} />

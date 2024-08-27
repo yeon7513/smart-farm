@@ -13,7 +13,9 @@ function Disaster(props) {
       )
         .then((response) => response.json())
         .then((result) => {
+          // setData(result);
           console.log(result);
+          console.log(result.base);
         });
     };
     fetchData();
@@ -22,18 +24,26 @@ function Disaster(props) {
     <div className={styles.main}>
       자연재해 리스트
       <div className={styles.search}>
-        <input type="text" />
+        <input type="text" placeholder="검색어를 입력해주세요" />
         <button>
           <CiSearch /> 조회
         </button>
       </div>
       <div className={styles.list}>
-        {/* {data ? <pre>{JSON.stringify(data, null, 2)}</pre> : <p>로딩 중...</p>} */}
         <ul>
+          <li>list</li>
           <li>리스트</li>
+          <li>리스트</li>
+          <li>list</li>
+          <li>리스트</li>
+          <li>리스트</li>
+          <li>list</li>
           <li>리스트</li>
           <li>리스트</li>
         </ul>
+      </div>
+      <div className={styles.more}>
+        <button>더보기</button>
       </div>
     </div>
   );
