@@ -6,15 +6,18 @@ function Sidebar(props) {
   <div className="sideBarContainer">
   <div className="inWrap">
     <h2>마이페이지</h2>
-  </div>
+<ul>
+<li>내 정보</li>
   <div className="privacyWrap">
-    <ul>내 정보</ul>
+    <ul>
     <li>포르필 사진</li>
     <li>닉네임</li>
     <li>비밀번호 </li>
     <li>집 주소</li>
+    </ul>
   </div>
-
+  </ul>
+  </div>
   </div>
   
   );
