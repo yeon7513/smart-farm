@@ -1,6 +1,7 @@
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 import {
+  addDoc,
   collection,
   deleteDoc,
   doc,
@@ -8,7 +9,9 @@ import {
   getFirestore,
   setDoc,
   updateDoc,
+  writeBatch,
 } from "firebase/firestore";
+import { batch } from "react-redux";
 
 const firebaseConfig = {
   apiKey: "AIzaSyBz9TEYoPHVv_Lz28BzcTa1DrLMI7wnBWc",
@@ -44,6 +47,29 @@ export async function joinUser(uid, email, password, userInfo) {
     ...(name !== undefined && { name: name }),
   };
   await setDoc(doc(db, "users", uid), userData);
+}
+
+export async function createPayment(uid, paymentObj) {
+  try {
+    const paymentsRef = collection("users", uid, "payments");
+    const createObj = {
+      createdAt: new Date().getTime,
+      updatedAt: new Date().getTime,
+      ...paymentObj,
+    };
+    const batch = writeBatch(db);
+    const docRef = await addDoc(paymentsRef, createObj);
+    batch.delete(paymentsRef);
+    const paymentRef = getCollection("users", uid, "payment");
+    paymentObj.products.forEach((product) => {
+      const itemRef = doc(paymentRef, product.id.toString());
+      batch.delete(itemRef);
+    });
+    await batch.commit();
+    return docRef.id;
+  } catch (error) {
+    console.error(error);
+  }
 }
 
 export async function getDatas(collectionName) {
