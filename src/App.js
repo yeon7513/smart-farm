@@ -12,7 +12,6 @@ import LoginPage from './pages/LoginPage/LoginPage';
 import SearchEm from './pages/LoginPage/searchEm/SearchEm';
 import SearchPw from './pages/LoginPage/searchPw/SearchPw';
 import MyPage from './pages/MyPage/MyPage';
-import MyPayment from './pages/MyPayment/MyPayment';
 import RegisterPage from './pages/RegisterPage/RegisterPage';
 import About from './pages/about/About';
 import Service from './pages/about/Service';
@@ -62,12 +61,15 @@ function App() {
             <Route path="login" element={<LoginPage />} />
             <Route path="register" element={<RegisterPage />} />
             <Route path="MyPage" element={<MyPage />}>
-              <Route index element={<Myinfo />} />
-              {/* <Route path="register" element={<RegisterPage />} /> */}
+              <Route path="Myinfo" element={<Myinfo />} />
+              <Route path="Myfarminfo" element={<Myfarm />} />
+              <Route path="Chatbotinfo" element={<Chatbot />} />
+              <Route path="Paymentinfo" element={<Payment />} />
+              <Route path="Asinfo" element={<Asinfo />} />
+              <Route path="Myletter" element={<Myletter />} />
             </Route>
             <Route path="SearchEm" element={<SearchEm />} />
             <Route path="SearchPw" element={<SearchPw />} />
-            <Route path="MyPayment" element={<MyPayment />} />
             <Route path="request" element={<RequestForQuote />} />
             <Route path="community" element={<Community />}>
               <Route index element={<Navigate to="notice" />} />
