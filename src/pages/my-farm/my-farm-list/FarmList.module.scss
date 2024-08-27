@@ -1,3 +1,9 @@
 .title {
+  padding-bottom: 8px;
   font-size: 20px;
+  border-bottom: 3px solid var(--accent-color);
+}
+
+.list {
+  margin-top: 16px;
 }

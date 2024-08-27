@@ -1,8 +1,9 @@
-.main {
-  // position: fixed;
-  // bottom: 20px;
-  // right: 50px;
-  .btn {
+.up {
+  position: fixed;
+  bottom: 5%;
+  right: 1%;
+  z-index: 10;
+  .upBtn {
     display: flex;
     align-items: center;
     padding: 5px;

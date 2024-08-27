@@ -125,25 +125,18 @@ let userId = [];
 //     console.log(result);
 //   });
 
-const apiKey = "2024fae68820b6a8f539fd5def6a6dfd02c1";
+// const apiKey = "2024fae68820b6a8f539fd5def6a6dfd02c1";
 
-const url = `/api1?apiKey=${apiKey}&serviceCode=SVC01&serviceType=AA003&cropName=논벼&sKncrCode1=FC&sKncrCode2=FC01&sickNameEng=brown`;
-try {
-  fetch(url)
-    .then((response) => response.json())
-    .then((result) => {
-      console.log(result);
-    });
-} catch (error) {
-  console.log(error);
-}
-
-// const url2 = `/api/http://www.smartfarmkorea.net/Agree_WS/webservices/ProvideRestService/getCroppingSeasonDataList/cbd181f0a2594233a01eed9b0b86a392/${userId}`;
-// fetch(url2)
-//   .then((response) => response.json())
-//   .then((result) => {
-//     console.log(result);
-//   });
+// const url = `/api1?apiKey=${apiKey}&serviceCode=SVC01&serviceType=AA003&dtlSrchFlag=kncr2`;
+// try {
+//   fetch(url)
+//     .then((response) => response.json())
+//     .then((result) => {
+//       console.log(result);
+//     });
+// } catch (error) {
+//   console.log(error);
+// }
 
 export async function deleteDatas(collectionName, docId) {
   try {

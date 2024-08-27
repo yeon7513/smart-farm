@@ -1,5 +1,5 @@
-@import url("https://webfontworld.github.io/TheJamsil/TheJamsil.css");
-@import url("https://webfontworld.github.io/kohi/KOHIBaeum.css");
+@import url('https://webfontworld.github.io/TheJamsil/TheJamsil.css');
+@import url('https://webfontworld.github.io/kohi/KOHIBaeum.css');
 
 :root {
   --main-color: #fcf8f3;
@@ -7,11 +7,15 @@
   --common-color: #a2ca71;
   --accent-color: #387f39;
   --hover-color: #669900;
+  --notice-color: #ff9100;
+  --notice-hover-color: #d87200;
+  --danger-color: #ee4e4e;
+  --danger-hover-color: #ca2b34;
   --box-shadow: 3px 3px 5px 0 rgba(0, 0, 0, 0.15);
   --up-shadow: 0px -3px 5px 0 rgba(0, 0, 0, 0.15);
   --down-shadow: 0px 3px 5px 0 rgba(0, 0, 0, 0.15);
-  --main-font: "TheJamsil", sans-serif;
-  --title-font: "KOHIBaeum", sans-serif;
+  --main-font: 'TheJamsil', sans-serif;
+  --title-font: 'KOHIBaeum', sans-serif;
 }
 
 * {

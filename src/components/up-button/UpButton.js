@@ -21,9 +21,11 @@ function UpButton(props) {
   }, []);
 
   return (
-    <button className={styles.btn} onClick={scrollTotop}>
-      <FaAngleUp />
-    </button>
+    <div className={styles.up}>
+      <button className={styles.upBtn} onClick={scrollTotop}>
+        <FaAngleUp />
+      </button>
+    </div>
   );
 }
 

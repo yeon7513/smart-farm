@@ -1,19 +1,53 @@
 // 날씨
 .weather {
-  background-color: aquamarine;
-  width: 50%;
-  height: 150px;
-  border-radius: 8px;
-  display: grid;
-  grid-template-columns: repeat(8, 1fr);
-  .weather_menu {
+  .content {
     display: flex;
-    border-right: 1px solid #fff;
-    flex-direction: column;
-    justify-content: space-around;
+    gap: 20px;
+  }
+  .region {
+    padding: 20px;
+    outline: 1px dotted red;
+  }
+
+  .info {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+  }
+}
+
+.weatherByDay {
+  display: flex;
+  border-radius: 16px;
+  border: 2px solid var(--common-color);
+
+  .days {
+    padding: 20px;
+    border-right: 2px dashed var(--common-color);
     text-align: center;
+
+    &:last-child {
+      border-right: 0;
+    }
+
+    h3 {
+      margin-bottom: 8px;
+      font-family: var(--title-font);
+      font-size: 18px;
+    }
+
     p {
-      color: skyblue;
+      margin-bottom: 4px;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+
+      .low {
+        color: skyblue;
+      }
+      .high {
+        color: red;
+      }
     }
   }
 }
