@@ -10,7 +10,7 @@ import "./CaseSlide.scss";
 
 // import required modules
 import { Pagination } from "swiper/modules";
-import CaseItem from "../../../pages/home/slide/CaseItem";
+import CaseItem from "./caseItem/CaseItem";
 
 export default function App({ items }) {
   return (

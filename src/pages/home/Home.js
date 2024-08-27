@@ -4,7 +4,7 @@ import { ScrollTrigger } from "gsap/all";
 import React, { useEffect, useRef } from "react";
 import { RiScrollToBottomLine } from "react-icons/ri";
 import styles from "./Home.module.scss";
-import MainSlide from "./slide/MainSlide";
+import MainSlide from "../../components/slide/main/MainSlide";
 import phoneImg from "../../assets/main/phone.png";
 import caseImg from "../../assets/main/strawberry.jpg";
 import chartImg from "../../assets/main/chart.png";
@@ -132,48 +132,34 @@ function Home() {
         </div>
       </div>
 
-      {/* <div className={styles.case_state}>
-        <div className={styles.case}>
-          <div>
-            <h1>우수사례</h1>
-            <img src={caseImg} alt="" />
-            <h3>충남 부여 / 딸기</h3>
-            <h4> 박정훈 님 </h4>
-            <p>
-              "아이팜과 함께한 뒤로 삶이 더욱 편해졌습니다. 옛날부터 농사는
-              부지런해야 한다고들 했는데, 이제는 누워서 농사를 할 수 있는
-              세상이라니.. 모두들 아이팜과 함께 즐거운 농사생활 하시길
-              바랍니다."
-            </p>
-          </div>
-          <div>
-            <h1>커뮤니티</h1>
-            <ul>
-              <h2>공지사항</h2>
-              <li>2024-08-23 / 신규 업데이트</li>
-              <li>2024-08-20 / 불편사항 신고 ...</li>
-              <li>2024-08-15 / 여름휴가 안내</li>
-            </ul>
-            <ul>
-              <h2>정보 공유 게시판</h2>
-              <li>요즘 날씨 진짜 덥네요</li>
-              <li>회원님들은 어떤 시스템...</li>
-              <li>내일부터 2박3일 여행 가는데...</li>
-            </ul>
-          </div>
-        </div>
-
+      <div className={styles.state_commu}>
         <div className={styles.state}>
           <h1>스마트팜 이용현황</h1>
           <div>
             <Map />
-            <img src={chartImg} alt="" />
+            {/* <img src={chartImg} alt="" /> */}
           </div>
         </div>
-      </div> */}
+        <div className={styles.community}>
+          <h1>커뮤니티</h1>
+          <ul>
+            <h2>공지사항</h2>
+            <li>2024-08-23 / 신규 업데이트</li>
+            <li>2024-08-20 / 불편사항 신고 ...</li>
+            <li>2024-08-15 / 여름휴가 안내</li>
+          </ul>
+          <ul>
+            <h2>정보 공유 게시판</h2>
+            <li>요즘 날씨 진짜 덥네요</li>
+            <li>회원님들은 어떤 시스템...</li>
+            <li>내일부터 2박3일 여행 가는데...</li>
+          </ul>
+        </div>
+      </div>
 
-      <div>
+      <div className={styles.case}>
         <div>
+          <h1>우수사례</h1>
           <CaseSlide items={cases} />
         </div>
       </div>
