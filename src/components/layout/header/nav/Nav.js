@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { getUserAuth } from "../../../../api/firebase";
 import { paths } from "../../../../lib/menu";
-import { removeUser } from "../../../../store/user/userSlice";
+import { removeUser } from "../../../../store/user/UserSlice";
 import styles from "./Nav.module.scss";
 
 function NavLink({ className, path, depth, children }) {
