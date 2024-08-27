@@ -91,7 +91,6 @@ function App() {
             {/* 관리자 */}
             <Route path="MyPage" element={<MyPage />}>
               <Route path="Myinfo" element={<Myinfo />} />
-              <Route path="Myfarminfo" element={<Myfarm />} />
               <Route path="Chatbotinfo" element={<Chatbot />} />
               <Route path="Paymentinfo" element={<Payment />} />
               <Route path="Asinfo" element={<Asinfo />} />
