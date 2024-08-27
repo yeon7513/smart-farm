@@ -25,6 +25,8 @@ import MyFarm from "./pages/my-farm/MyFarm";
 import FarmList from "./pages/my-farm/my-farm-list/FarmList";
 import DashBoard from "./pages/my-farm/my-farm-list/dashboard/DashBoard";
 import "./scss/global.scss";
+import DiseasesItem from "./pages/info/diseases/diseases-item/DiseasesItem";
+import DiseasesList from "./pages/info/diseases/diseases-list/DiseasesList";
 
 function App() {
   return (
@@ -41,7 +43,10 @@ function App() {
             <Route index element={<Navigate to="usage-status" />} />
             <Route path="usage-status" element={<UsageStatus />} />
             <Route path="simulation" element={<Simulation />} />
-            <Route path="diseases" element={<Diseases />} />
+            <Route path="diseases" element={<Diseases />}>
+              <Route index element={<DiseasesList />} />
+              <Route path=":path" element={<DiseasesItem />} />
+            </Route>
             <Route path="disaster" element={<Disaster />} />
           </Route>
           <Route path="login" element={<LoginPage />} />
