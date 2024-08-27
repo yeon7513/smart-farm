@@ -101,7 +101,7 @@ let userId = [];
 
 const apiKey = "2024fae68820b6a8f539fd5def6a6dfd02c1";
 
-const url = `/api?apiKey=${apiKey}&serviceCode=SVC01&serviceType=AA003&cropName=논벼&sKncrCode1=FC&sKncrCode2=FC01&sickNameEng=brown`;
+const url = `/api1?apiKey=${apiKey}&serviceCode=SVC01&serviceType=AA003&cropName=논벼&sKncrCode1=FC&sKncrCode2=FC01&sickNameEng=brown`;
 try {
   fetch(url)
     .then((response) => response.json())
