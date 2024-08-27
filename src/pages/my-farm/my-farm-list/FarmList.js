@@ -1,4 +1,5 @@
 import React from 'react';
+import styles from './FarmList.module.scss';
 import FarmListItem from './my-farm-list-item/FarmListItem';
 
 const testFarmList = [
@@ -12,7 +13,7 @@ const testFarmList = [
 function FarmList() {
   return (
     <>
-      <div>내 농장 리스트</div>
+      <h2 className={styles.title}>내 농장 리스트</h2>
       {testFarmList.map((item) => (
         <FarmListItem key={item.farmId} {...item} />
       ))}
