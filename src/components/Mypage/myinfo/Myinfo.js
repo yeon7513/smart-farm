@@ -5,7 +5,7 @@ import Container from "../../layout/container/Container";
 
 function Myinfo(props) {
   return (
-    <Container className={styles.container}>
+    <div className={styles.container}>
       <div className={style.headers}>
         <div>프로필 사진</div>
         <input className={style.header} type="text" />
@@ -18,9 +18,9 @@ function Myinfo(props) {
         <input className={style.header} type="text" />
         <div>집 주소</div>
         <input className={style.header} type="text" />
-        <button className={style.header}>프로필 변경 완료 버튼</button>
+        <button className={style.header}>프로필 변경</button>
       </div>
-    </Container>
+    </div>
   );
 }
 
