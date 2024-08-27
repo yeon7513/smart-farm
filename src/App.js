@@ -60,14 +60,6 @@ function App() {
             </Route>
             <Route path="login" element={<LoginPage />} />
             <Route path="register" element={<RegisterPage />} />
-            <Route path="MyPage" element={<MyPage />}>
-              <Route path="Myinfo" element={<Myinfo />} />
-              <Route path="Myfarminfo" element={<Myfarm />} />
-              <Route path="Chatbotinfo" element={<Chatbot />} />
-              <Route path="Paymentinfo" element={<Payment />} />
-              <Route path="Asinfo" element={<Asinfo />} />
-              <Route path="Myletter" element={<Myletter />} />
-            </Route>
             <Route path="SearchEm" element={<SearchEm />} />
             <Route path="SearchPw" element={<SearchPw />} />
             <Route path="request" element={<RequestForQuote />} />
