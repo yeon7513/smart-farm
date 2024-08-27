@@ -8,11 +8,11 @@ function FarmListItem({ farmId, name }) {
   return (
     <ul className={styles.items}>
       <li>
-        <div>{name}</div>
-        <div>
+        <div className={styles.name}>{name}</div>
+        <div className={styles.btns}>
           <button onClick={() => navigate(`/my-farm/${farmId}`)}>관리</button>
           <button>수정</button>
-          <button>삭제</button>
+          <button className={styles.deleteBtn}>삭제</button>
         </div>
       </li>
     </ul>
