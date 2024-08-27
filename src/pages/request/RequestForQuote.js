@@ -9,6 +9,8 @@ function RequestForQuote() {
   const [date, setDate] = useState("");
   const [userEmail, setUserEmail] = useState("");
   const [farmAddress, setFarmAddress] = useState("");
+  const [facilityType, setFacilityType] = useState("시설원예");
+  const [additionalOptions, setAdditionalOptions] = useState([]);
 
   useEffect(() => {
     const today = new Date();
@@ -55,6 +57,32 @@ function RequestForQuote() {
 
     idExtraction();
   }, []);
+
+  const handleFacilityTypeChange = (e) => {
+    setFacilityType(e.target.value);
+    console.log(e.target.value);
+  };
+
+  const handleAdditionalOptionsChange = (e) => {
+    const value = e.target.value;
+    setAdditionalOptions((prevOptions) =>
+      prevOptions.includes(value)
+        ? prevOptions.filter((option) => option !== value)
+        : [...prevOptions, value]
+    );
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log({
+      userEmail,
+      date,
+      farmAddress,
+      facilityType,
+      additionalOptions,
+    });
+  };
+
   return (
     <Container>
       {/* 견적을 요청하고 사용자의 정보를 입력하면 결제 페이지로 넘어갑니다. &nbsp;
@@ -66,16 +94,23 @@ function RequestForQuote() {
       사용자가 회원가입 시 사용한 내용을 출력해 다시 입력하지 않습니다. &nbsp;
       5. 비회원은 견적요청 아이디만 알려주고 마이페이지에서 조회할 때 사용(요청
       아이디를 꼭 알고 있어야 됨) */}
-      <form>
+      <form onSubmit={handleSubmit}>
+        <div>
+          <h3>견적 정보</h3>
+        </div>
         <div className={styles.id}>
-          {/* 회원의 경우 아이디(이메일)와 농장 주소는 readOnly 처리 되어있음. */}
+          {/* 회원의 경우 아이디(이메일)와 농장 주소는 readOnly 처리 되어있음.
+          비회원의 경우 아이디(이메일)와 농장 주소를 입력 가능함. */}
           <h3>견적 의뢰 아이디</h3>
-          <input
-            type="text"
-            value={user ? userEmail : ""}
-            placeholder={user ? "" : "이메일을 입력해주세요."}
-            readOnly={!user}
-          />
+          {user ? (
+            <input type="text" value={userEmail} readOnly />
+          ) : (
+            <input
+              type="text"
+              placeholder={"이메일을 입력해주세요."}
+              onChange={(e) => setUserEmail(e.target.value)}
+            />
+          )}
         </div>
         <div className={styles.paymentDate}>
           <h3>결제 날짜</h3>
@@ -87,14 +122,55 @@ function RequestForQuote() {
         </div>
         <div className={styles.farmAddress}>
           <h3>농장 주소</h3>
-          <input
-            type="text"
-            value={user ? farmAddress : ""}
-            placeholder={user ? "" : "농장 주소를 입력해주세요."}
-            readOnly={!user}
-          />
+          {user ? (
+            <input type="text" value={farmAddress} readOnly />
+          ) : (
+            <input
+              type="text"
+              placeholder={"농장 주소를 입력해주세요."}
+              onChange={(e) => setFarmAddress(e.target.value)}
+            />
+          )}
         </div>
-        <button className={styles.submit} type="button">
+        <div>
+          <h3>시설원예 혹은 노지 선택</h3>
+          <select value={facilityType} onChange={handleFacilityTypeChange}>
+            <option>시설원예</option>
+            <option>노지</option>
+          </select>
+        </div>
+        <div>
+          <h3>부가 옵션 선택</h3>
+          {facilityType === "시설원예" ? (
+            <>
+              <h3>환경센서</h3>
+              <label>
+                <input
+                  type="checkbox"
+                  value="양액측정센서"
+                  checked={additionalOptions.includes("양액측정센서")}
+                  onChange={handleAdditionalOptionsChange}
+                />
+                양액측정센서
+              </label>
+              <label>
+                <input
+                  type="checkbox"
+                  value="수분센서"
+                  checked={additionalOptions.includes("수분센서")}
+                  onChange={handleAdditionalOptionsChange}
+                />
+                수분센서
+              </label>
+              {/* 환경센서: 양액측정센서, 수분센서(배지) 등\n영상장비: CCTV,
+              웹카메라, DVR\n 시설제어 및 통합제어장비: 차광커튼, 유동팬,
+              관수조절기, 모터제어, 양액기 제어 등 */}
+            </>
+          ) : (
+            <>그럼 노지에는 뭐가 필요함?</>
+          )}
+        </div>
+        <button className={styles.submit} type="submit">
           결제하기
         </button>
       </form>

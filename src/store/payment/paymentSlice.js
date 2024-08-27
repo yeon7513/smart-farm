@@ -4,6 +4,7 @@ import { getDatas } from "../../api/firebase";
 const initialState = {
   payment: [],
   isLoading: false,
+  totalPrice: 0,
   error: "",
 };
 
@@ -29,7 +30,7 @@ const paymentSlice = createSlice({
 
 export const fetchPayment = createAsyncThunk(
   "payment/fetchPayment",
-  async ({ collectionName, queryOptions }, thunkAPI) => {
+  async ({ collectionName }, thunkAPI) => {
     try {
       const resultData = await getDatas(collectionName);
       return resultData;

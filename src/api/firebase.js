@@ -1,6 +1,7 @@
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 import {
+  addDoc,
   collection,
   deleteDoc,
   doc,
@@ -8,7 +9,9 @@ import {
   getFirestore,
   setDoc,
   updateDoc,
+  writeBatch,
 } from "firebase/firestore";
+import { batch } from "react-redux";
 
 const firebaseConfig = {
   apiKey: "AIzaSyBz9TEYoPHVv_Lz28BzcTa1DrLMI7wnBWc",
@@ -44,6 +47,29 @@ export async function joinUser(uid, email, password, userInfo) {
     ...(name !== undefined && { name: name }),
   };
   await setDoc(doc(db, "users", uid), userData);
+}
+
+export async function createPayment(uid, paymentObj) {
+  try {
+    const paymentsRef = collection("users", uid, "payments");
+    const createObj = {
+      createdAt: new Date().getTime,
+      updatedAt: new Date().getTime,
+      ...paymentObj,
+    };
+    const batch = writeBatch(db);
+    const docRef = await addDoc(paymentsRef, createObj);
+    batch.delete(paymentsRef);
+    const paymentRef = getCollection("users", uid, "payment");
+    paymentObj.products.forEach((product) => {
+      const itemRef = doc(paymentRef, product.id.toString());
+      batch.delete(itemRef);
+    });
+    await batch.commit();
+    return docRef.id;
+  } catch (error) {
+    console.error(error);
+  }
 }
 
 export async function getDatas(collectionName) {
@@ -99,25 +125,18 @@ let userId = [];
 //     console.log(result);
 //   });
 
-const apiKey = "2024fae68820b6a8f539fd5def6a6dfd02c1";
+// const apiKey = "2024fae68820b6a8f539fd5def6a6dfd02c1";
 
-const url = `/api1?apiKey=${apiKey}&serviceCode=SVC01&serviceType=AA003&cropName=논벼&sKncrCode1=FC&sKncrCode2=FC01&sickNameEng=brown`;
-try {
-  fetch(url)
-    .then((response) => response.json())
-    .then((result) => {
-      console.log(result);
-    });
-} catch (error) {
-  console.log(error);
-}
-
-// const url2 = `/api/http://www.smartfarmkorea.net/Agree_WS/webservices/ProvideRestService/getCroppingSeasonDataList/cbd181f0a2594233a01eed9b0b86a392/${userId}`;
-// fetch(url2)
-//   .then((response) => response.json())
-//   .then((result) => {
-//     console.log(result);
-//   });
+// const url = `/api1?apiKey=${apiKey}&serviceCode=SVC01&serviceType=AA003&dtlSrchFlag=kncr2`;
+// try {
+//   fetch(url)
+//     .then((response) => response.json())
+//     .then((result) => {
+//       console.log(result);
+//     });
+// } catch (error) {
+//   console.log(error);
+// }
 
 export async function deleteDatas(collectionName, docId) {
   try {

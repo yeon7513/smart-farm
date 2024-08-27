@@ -1,6 +1,33 @@
-.items {
-  li {
+.item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 8px;
+  border-bottom: 1px solid #eee;
+
+  .btns {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
+
+    > button {
+      padding: 8px 16px;
+      border-radius: 4px;
+      background-color: var(--common-color);
+      color: var(--main-color);
+
+      &:hover {
+        background-color: var(--hover-color);
+      }
+
+      &.deleteBtn {
+        background-color: var(--danger-color);
+
+        &:hover {
+          background-color: var(--danger-hover-color);
+        }
+      }
+    }
   }
 }

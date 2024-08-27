@@ -2,7 +2,7 @@
   &::before {
     content: '';
     position: absolute;
-    left: -15px;
+    right: -15px;
     width: 8px;
     height: 8px;
     background-color: var(--main-color);
@@ -12,7 +12,7 @@
   &::after {
     content: '042-123-1234';
     position: absolute;
-    left: -140px;
+    right: -140px;
     padding: 8px;
     width: 230%;
     border-radius: 8px;
@@ -24,7 +24,7 @@
 .contact {
   position: fixed;
   bottom: 5%;
-  right: 1%;
+  left: 1%;
   z-index: 10;
 
   .btns {
@@ -51,17 +51,20 @@
         background-color: var(--hover-color);
       }
 
-      &.gotoSimul:hover::before,
-      &.gotoRequest:hover::before {
+      &[class*='goto']:hover::before {
         content: '';
         position: absolute;
-        left: -15px;
+        right: -15px;
         width: 8px;
         height: 8px;
         background-color: var(--main-color);
         transform: rotate(45deg);
       }
 
+      &.gotoMyFarm:hover::after {
+        content: '내 농장 관리';
+        color: #333;
+      }
       &.gotoSimul:hover::after {
         content: '시뮬레이션';
         color: #333;
@@ -71,10 +74,9 @@
         color: #333;
       }
 
-      &.gotoSimul:hover::after,
-      &.gotoRequest:hover::after {
+      &[class*='goto']:hover::after {
         position: absolute;
-        left: -100px;
+        right: -100px;
         padding: 8px;
         width: 150%;
         border-radius: 8px;

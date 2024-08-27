@@ -14,9 +14,11 @@ function FarmList() {
   return (
     <>
       <h2 className={styles.title}>내 농장 리스트</h2>
-      {testFarmList.map((item) => (
-        <FarmListItem key={item.farmId} {...item} />
-      ))}
+      <ul className={styles.list}>
+        {testFarmList.map((item) => (
+          <FarmListItem key={item.farmId} {...item} />
+        ))}
+      </ul>
     </>
   );
 }

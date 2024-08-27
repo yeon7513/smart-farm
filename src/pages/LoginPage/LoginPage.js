@@ -39,6 +39,9 @@ function LoginPage(props) {
   if (error) {
     return <div>Error: {error.message}</div>;
   }
+  navigator.geolocation.getCurrentPosition((position) => {
+    console.log(position);
+  });
 
   return (
     <Container className={styles.container}>
