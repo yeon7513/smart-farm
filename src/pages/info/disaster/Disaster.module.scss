@@ -7,13 +7,19 @@
     margin: 30px 0;
     gap: 10px;
     input {
-      border: 1px solid black;
+      text-align: start;
+      border: 1px solid #ececec;
       font-size: 25px;
-      padding: 20px 40px;
+      padding: 10px 50px;
       border-radius: 6px;
+      &::placeholder {
+        font-size: 20px;
+        color: #686d76;
+      }
     }
     button {
-      border: 1px solid black;
+      border: 1px solid #ececec;
+      color: #333;
       display: flex;
       font-size: 25px;
       align-items: center;
@@ -22,6 +28,7 @@
     }
   }
   .list {
+    margin: 40px;
     display: flex;
     justify-content: center;
     ul {
@@ -31,9 +38,21 @@
     }
     li {
       box-shadow: var(--box-shadow);
-      width: 500px;
+      width: 600px;
       text-align: center;
       padding: 20px;
+    }
+  }
+  .more {
+    margin-top: 30px;
+    display: flex;
+    justify-content: center;
+    button {
+      color: #686d76;
+      box-shadow: var(--down-shadow);
+      font-size: 25px;
+      padding: 10px 40px;
+      width: 100%;
     }
   }
 }

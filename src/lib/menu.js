@@ -42,10 +42,6 @@ export const paths = {
       path: 'request',
       name: '견적의뢰',
     },
-    {
-      path: 'my-farm',
-      name: '내 농장',
-    },
   ],
   spot: [
     { path: '/login', name: '로그인' },

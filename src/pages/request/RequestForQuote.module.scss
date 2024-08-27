@@ -11,6 +11,10 @@
   }
 }
 
+input {
+  width: 200px;
+}
+
 .id,
 .paymentDate,
 .requestDate,
@@ -28,4 +32,14 @@
       border: 1px solid #000;
     }
   }
+}
+button {
+  width: 100%;
+  padding: 8px;
+}
+
+select {
+  height: 24px;
+  margin-top: 4px;
+  padding: 4px;
 }
