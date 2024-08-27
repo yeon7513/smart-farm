@@ -89,12 +89,7 @@ function Diseases(props) {
   // }, []);
   return (
     <div className={styles.main}>
-      <div className={styles.search}>
-        <input type="text" placeholder="검색어를 입력해주세요" />
-        <button>
-          <CiSearch /> 조회
-        </button>
-      </div>
+      병
       <div className={styles.list}>
         {/* {diseasesList.map((item) => (
           <>
@@ -113,9 +108,6 @@ function Diseases(props) {
           <li>리스트</li>
           <li>리스트</li> */}
         </ul>
-      </div>
-      <div className={styles.more}>
-        <button>더보기</button>
       </div>
     </div>
   );

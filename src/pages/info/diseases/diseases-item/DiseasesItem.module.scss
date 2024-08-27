@@ -1,0 +1,42 @@
+.main {
+  border: 1px solid #333;
+  display: flex;
+  margin: 20px 30px;
+  gap: 30px;
+
+  img {
+    margin: 20px;
+    width: 400px;
+    height: 250px;
+  }
+  .title {
+    font-size: 20px;
+    display: flex;
+    justify-content: center;
+
+    flex-direction: column;
+    gap: 18px;
+    span {
+      padding: 0 20px;
+      color: var(--common-color);
+      font-size: 23px;
+    }
+    p {
+      display: inline-block;
+    }
+  }
+}
+.title_item {
+  display: flex;
+  flex-direction: column;
+  margin: 40px 20px;
+  gap: 20px;
+  h4 {
+    color: var(--accent-color);
+    font-size: 25px;
+    margin-bottom: 10px;
+  }
+  p {
+    font-size: 20px;
+  }
+}
