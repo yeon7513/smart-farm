@@ -31,6 +31,8 @@ import Chatbot from "./components/Mypage/chatbot/Chatbot";
 import Asinfo from "./components/Mypage/asinfo/Asinfo";
 import Payment from "./components/Mypage/payment/Payment";
 import Myletter from "./components/Mypage/myletter/Myletter";
+import DiseasesList from "./pages/info/diseases/diseases-list/DiseasesList";
+import DiseasesItem from "./pages/info/diseases/diseases-item/DiseasesItem";
 
 function App() {
   return (
@@ -47,7 +49,10 @@ function App() {
             <Route index element={<Navigate to="usage-status" />} />
             <Route path="usage-status" element={<UsageStatus />} />
             <Route path="simulation" element={<Simulation />} />
-            <Route path="diseases" element={<Diseases />} />
+            <Route path="diseases" element={<Diseases />}>
+              <Route index element={<DiseasesList />} />
+              <Route path=":path" element={<DiseasesItem />} />
+            </Route>
             <Route path="disaster" element={<Disaster />} />
           </Route>
           <Route path="login" element={<LoginPage />} />

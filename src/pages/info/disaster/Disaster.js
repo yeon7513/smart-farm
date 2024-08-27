@@ -31,7 +31,7 @@ function Disaster(props) {
       </div>
       <div className={styles.list}>
         <ul>
-          <li>list</li>
+          <li></li>
           <li>리스트</li>
           <li>리스트</li>
           <li>list</li>

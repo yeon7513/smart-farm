@@ -5,6 +5,7 @@
   padding: 4px;
   border-radius: 4px;
   margin-left: 175px;
+  width: 100%;
 
   &:hover {
     background-color: #e0e0e0;
@@ -12,7 +13,7 @@
 }
 
 input {
-  width: 200px;
+  width: auto;
 }
 
 .id,
@@ -33,13 +34,15 @@ input {
     }
   }
 }
-button {
-  width: 100%;
-  padding: 8px;
-}
 
 select {
   height: 24px;
   margin-top: 4px;
   padding: 4px;
+}
+
+input[type="checkbox"] {
+  margin: 0px;
+  appearance: checkbox;
+  margin-right: 4px;
 }

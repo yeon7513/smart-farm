@@ -1,11 +1,12 @@
 import React from "react";
+import styles from "./CaseItem.module.scss";
 
 function CaseItem({ img, why, name, content }) {
   return (
-    <div className="case-item">
+    <div className={styles.caseItem}>
       <img src={img} alt={name} />
-      <h3>{why}</h3>
-      <p>{name}</p>
+      <h2>{why}</h2>
+      <h3>{name}</h3>
       <p>{content}</p>
     </div>
   );

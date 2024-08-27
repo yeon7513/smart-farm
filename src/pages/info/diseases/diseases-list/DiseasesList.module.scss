@@ -1,0 +1,66 @@
+.diseases_list {
+  div {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+  }
+}
+.search {
+  display: flex;
+  // justify-content: center;
+  // align-items: center;
+  width: 80%;
+  margin: 30px 0;
+  gap: 10px;
+  input {
+    text-align: start;
+    border: 1px solid #ececec;
+    font-size: 25px;
+    padding: 10px 20px;
+    width: 80%;
+    border-radius: 6px;
+    &::placeholder {
+      font-size: 20px;
+      color: #686d76;
+    }
+  }
+  button {
+    // flex: none;
+    border: 1px solid #ececec;
+    color: #333;
+    display: flex;
+    font-size: 25px;
+    width: 15%;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 0;
+    border-radius: 6px;
+  }
+}
+.item {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+
+  p {
+    font-size: 20px;
+    &:hover {
+      color: var(--accent-color);
+      border-bottom: 1px solid var(--accent-color);
+    }
+  }
+}
+.more {
+  margin-top: 30px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  button {
+    color: #686d76;
+    box-shadow: var(--down-shadow);
+    font-size: 25px;
+    padding: 10px 40px;
+    width: 100%;
+  }
+}

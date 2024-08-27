@@ -51,13 +51,13 @@ function MainSlide() {
         className="mySwiper"
       >
         <SwiperSlide>
-          <img src="/img/smartfarm2.jpg" alt="" />
+          <img src="/img/mainslide1.jpg" alt="" />
         </SwiperSlide>
         <SwiperSlide>
-          <img src="/img/content4.jpg" alt="" />
+          <img src="/img/mainslide2.jpg" alt="" />
         </SwiperSlide>
         <SwiperSlide>
-          <img src="/img/smartfarm4.jpg" alt="" />
+          <img src="/img/mainslide3.jpg" alt="" />
         </SwiperSlide>
       </Swiper>
     </>
