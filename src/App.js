@@ -25,10 +25,10 @@ import MyFarm from "./pages/my-farm/MyFarm";
 import FarmList from "./pages/my-farm/my-farm-list/FarmList";
 import DashBoard from "./pages/my-farm/my-farm-list/dashboard/DashBoard";
 import "./scss/global.scss";
-import DiseasesItem from "./pages/info/diseases/diseases-item/DiseasesItem";
-import DiseasesList from "./pages/info/diseases/diseases-list/DiseasesList";
 import Myinfo from "./components/Mypage/Myinfo";
 import Sidebar from "./components/Mypage/Sidebar";
+import DiseasesList from "./pages/info/diseases/diseases-list/DiseasesList";
+import DiseasesItem from "./pages/info/diseases/diseases-item/DiseasesItem";
 
 function App() {
   return (
