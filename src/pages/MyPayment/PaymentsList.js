@@ -16,7 +16,7 @@ function PaymentsList() {
         collectionName: ["users", uid, "payments"],
       })
     );
-  });
+  }, []);
 
   if (payment.length === 0) {
     return <PaymentEmpty title="주문 내역" />;
