@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styles from "./Board.module.scss";
 import { Link } from "react-router-dom";
-import SharingItem from "./sharing/BoardItem";
+import SharingItem from "./boardItem/BoardItem";
 
 const PAGE_SIZE = 10;
 
@@ -9,34 +9,38 @@ function Board({ items }) {
   const [currentPage, setCurrentPage] = useState(1);
 
   const totalPages = Math.ceil(items.length / PAGE_SIZE);
-
-  const currentPosts = items.slice(
+  const reversedItem = [...items].reverse();
+  const currentItem = reversedItem.slice(
     (currentPage - 1) * PAGE_SIZE,
     currentPage * PAGE_SIZE
   );
 
-  const goToPage = (pageNumber) => {
-    setCurrentPage(pageNumber);
+  const PreviousPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage((prevPage) => prevPage - 1);
+    }
+  };
+  const NextPage = () => {
+    if (currentPage < totalPages) {
+      setCurrentPage((prevPage) => prevPage + 1);
+    }
   };
 
   return (
     <div className={styles.container}>
-      <div>
-        <h4>아이팜 회원님들의 정보 공유 게시판입니다.</h4>
-      </div>
       <div className={styles.col}>
         <div>NO.</div>
         <div>제목</div>
         <div>작성자</div>
         <div>작성일</div>
-        <div>댓글</div>
+        <div>조회수</div>
       </div>
       <div className={styles.board}>
         <ul>
-          {items.map((item, idx) => (
+          {currentItem.map((item, idx) => (
             <SharingItem
               key={idx}
-              id={item.id}
+              id={items.length - ((currentPage - 1) * PAGE_SIZE + idx)}
               title={item.title}
               user={item.user}
               date={item.date}
@@ -47,17 +51,22 @@ function Board({ items }) {
       </div>
 
       <div className={styles.pagination}>
-        {Array.from({ length: totalPages }, (_, i) => (
-          <button
-            key={i + 1}
-            onClick={() => goToPage(i + 1)}
-            className={currentPage === i + 1 ? styles.activePage : ""}
-          >
-            {i + 1}
-          </button>
-        ))}
+        <button
+          onClick={PreviousPage}
+          disabled={currentPage === 1} // 첫 페이지에서는 비활성화
+        >
+          &lt; 이전
+        </button>
+        <span>
+          {currentPage} / {totalPages}
+        </span>
+        <button
+          onClick={NextPage}
+          disabled={currentPage === totalPages} // 마지막 페이지에서는 비활성화
+        >
+          다음 &gt;
+        </button>
       </div>
-
       <div className={styles.upload}>
         <button>글쓰기</button>
       </div>
