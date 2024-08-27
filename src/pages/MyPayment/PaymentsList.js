@@ -35,6 +35,7 @@ function PaymentsList() {
             </h3>
             <p>합계: {payment.totalPrice.toFixed(0)} 원</p>
           </div>
+          <ul>{/* 내용 추가할 것 <PaymentsItem /> */}</ul>
         </div>
       ))}
     </div>
