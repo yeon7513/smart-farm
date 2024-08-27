@@ -1,9 +1,8 @@
 .first_one {
-  background-color: palegoldenrod;
-  width: 50%;
   height: 150px;
   display: flex;
   border-radius: 6px;
+  outline: 1px dotted blue;
   .first_one_title {
     // 밀양
     width: 15%;
@@ -12,10 +11,6 @@
     justify-content: center;
     flex-direction: column;
     gap: 5px;
-    color: #fff;
-    button {
-      background-color: #fff;
-    }
   }
   .one {
     display: grid;
@@ -29,7 +24,6 @@
     }
     p {
       padding: 10px 0;
-      color: #fff;
     }
   }
   .next_title {
@@ -38,7 +32,6 @@
     padding: 20px 0;
     p {
       padding: 10px 0;
-      color: #fff;
     }
   }
 }
