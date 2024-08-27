@@ -1,9 +1,10 @@
-import React, { useEffect, useRef, useState } from 'react';
-// import { IoChatbubbles, IoDocumentText, IoSettings } from "react-icons/io5";
 import cn from 'classnames';
-import { IoIosCall, IoIosCreate, IoIosInformationCircle } from 'react-icons/io';
+import React, { useEffect, useRef, useState } from 'react';
+import { IoIosCreate, IoIosInformationCircle } from 'react-icons/io';
+import { IoChatbubbles } from 'react-icons/io5';
+import { PiFarmFill } from 'react-icons/pi';
 import { useLocation, useNavigate } from 'react-router-dom';
-import UpButton from '../up-button/UpButton';
+import { getUserAuth } from '../../api/firebase';
 import styles from './Contact.module.scss';
 
 function Contact() {
@@ -11,6 +12,7 @@ function Contact() {
   const { pathname } = useLocation();
   const [isTooltipVisible, setIsTooltipVisible] = useState(false);
   const tooltipRef = useRef(null);
+  const auth = getUserAuth();
 
   // 툴팁보이기
   const showCallNumber = (e) => {
@@ -48,6 +50,16 @@ function Contact() {
   return (
     <div className={styles.contact}>
       <div className={styles.btns}>
+        {!pathname.includes('my-farm') && auth ? (
+          <button
+            className={styles.gotoMyFarm}
+            onClick={() => navigate('/my-farm')}
+          >
+            <PiFarmFill />
+          </button>
+        ) : (
+          ''
+        )}
         {!pathname.includes('info') && (
           <button
             className={styles.gotoSimul}
@@ -58,19 +70,18 @@ function Contact() {
         )}
         <button
           className={styles.gotoRequest}
-          onClick={() => navigate('/customer-service-center/request')}
+          onClick={() => navigate('/request')}
         >
           <IoIosCreate />
         </button>
-        {/* 이 버튼에는 전화걸기 이벤트리스너 등록하기!! */}
+        {/* 1:1 문의 챗봇 버튼 */}
         <button
           className={cn(styles.call, isTooltipVisible && styles.showTooltip)}
           ref={tooltipRef}
           onClick={showCallNumber}
         >
-          <IoIosCall />
+          <IoChatbubbles />
         </button>
-        <UpButton />
       </div>
     </div>
   );
