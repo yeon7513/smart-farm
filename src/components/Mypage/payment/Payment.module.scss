@@ -1,6 +1,8 @@
 .container {
-  margin-left: 240px;
+  margin: 0 50%;
+  transform: translateX(-25%);
 }
+
 .headers {
   display: flex;
   flex-direction: column;
