@@ -33,7 +33,7 @@ function PaymentsList() {
               결제 날짜_{getISODate(payment.createdAt).yyyyMMdd}{" "}
               {getISODate(payment.createdAt).hhmmss}
             </h3>
-            <p>합계: {payment.totalPrice.toFixed(0)}</p>
+            <p>합계: {payment.totalPrice.toFixed(0)} 원</p>
           </div>
         </div>
       ))}
