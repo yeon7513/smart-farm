@@ -29,17 +29,6 @@ export const paths = {
       ],
     },
     {
-      path: 'customer-service-center',
-      name: '고객센터',
-      depth: [
-        { path: '/customer-service-center/faq', name: 'FAQ' },
-        {
-          path: '/customer-service-center/request',
-          name: '견적 의뢰',
-        },
-      ],
-    },
-    {
       path: 'community',
       name: '커뮤니티',
       depth: [

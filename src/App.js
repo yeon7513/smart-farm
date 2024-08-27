@@ -1,11 +1,5 @@
 import React from 'react';
-import {
-  BrowserRouter,
-  Navigate,
-  Outlet,
-  Route,
-  Routes,
-} from 'react-router-dom';
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import Layout from './components/layout/Layout';
 import LoginPage from './pages/LoginPage/LoginPage';
 import SearchEm from './pages/LoginPage/searchEm/SearchEm';
@@ -55,12 +49,8 @@ function App() {
           <Route path="MyPage" element={<MyPage />} />
           <Route path="SearchEm" element={<SearchEm />} />
           <Route path="SearchPw" element={<SearchPw />} />
-          {/* <Route path="Basic" element={<MyPage />} /> */}
-          <Route path="customer-service-center" element={<Outlet />}>
-            <Route index element={<Navigate to="request" replace />} />
-            <Route path="MyPayment" element={<MyPayment />} />
-            <Route path="request" element={<RequestForQuote />} />
-          </Route>
+          <Route path="MyPayment" element={<MyPayment />} />
+          <Route path="request" element={<RequestForQuote />} />
           <Route path="community" element={<Community />}>
             <Route index element={<Navigate to="notice" />} />
             <Route path="notice" element={<Notice />} />
