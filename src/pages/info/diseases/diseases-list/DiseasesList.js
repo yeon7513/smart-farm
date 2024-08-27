@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link, Outlet } from "react-router-dom";
 import styles from "./DiseasesList.module.scss";
 import DiseasesItem from "../diseases-item/DiseasesItem";
+import { CiSearch } from "react-icons/ci";
 
 const diseasesList = [
   {
@@ -70,19 +71,32 @@ const diseasesList = [
 ];
 
 function DiseasesList() {
+  // const [more,setMore]=useState(5);
+  // const handleLoadMore=()=>{
+  //   setMore
+  // }
   return (
     <>
+      <div className={styles.search}>
+        <input type="text" placeholder="검색어를 입력해주세요" />
+        <button>
+          <CiSearch /> 조회
+        </button>
+      </div>
       {diseasesList.map((item) => (
-        <li>
+        <li key={item.id} className={styles.item}>
           <div>
-            <Link to={`/info/diseases/${item.path}`}>
-              <span>작물명-</span>
-              <span>해충</span>
-              <p>{item.name}</p>
-            </Link>
+            <span>작물명-</span>
+            <span>해충</span>
           </div>
+          <Link to={`/info/diseases/${item.path}`}>
+            <p>{item.name}</p>
+          </Link>
         </li>
       ))}
+      <div className={styles.more}>
+        <button>더보기</button>
+      </div>
     </>
   );
 }

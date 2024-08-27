@@ -34,6 +34,10 @@ input {
     }
   }
 }
+// button {
+//   width: 100%;
+//   padding: 8px;
+// }
 
 select {
   height: 24px;
@@ -41,7 +45,7 @@ select {
   padding: 4px;
 }
 
-input[type="checkbox"] {
+input[type='checkbox'] {
   margin: 0px;
   appearance: checkbox;
   margin-right: 4px;

@@ -36,8 +36,7 @@ function Weather() {
         <ul className={styles.info}>
           <li>
             <h3>온도</h3>
-            <p>22.0&#8451;</p>
-            <span>17&#8451;/22&#8451;</span>
+            <p>22&#8451;</p>
           </li>
           <li>
             <h3>습도</h3>
@@ -54,7 +53,7 @@ function Weather() {
           <li>
             <h3>바람</h3>
             <p>1.4</p>
-            <span>북서풍</span>
+            <p>북서풍</p>
           </li>
         </ul>
         <div className={styles.weatherByDay}>
@@ -64,7 +63,8 @@ function Weather() {
               <p>{weather.weather}</p>
               <p>{weather.precipitationProbability}</p>
               <p>
-                <span className={styles.low}>{weather.LowestTemperature}</span>/
+                <span className={styles.low}>{weather.LowestTemperature}</span>
+                &nbsp;/&nbsp;
                 <span className={styles.high}>
                   {weather.HighestTemperature}
                 </span>
