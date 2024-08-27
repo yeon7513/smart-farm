@@ -2,8 +2,6 @@ import React from "react";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import Asinfo from "./components/Mypage/asinfo/Asinfo";
 import Chatbot from "./components/Mypage/chatbot/Chatbot";
-import Myfarm from "./components/Mypage/myfarm/Myfarm";
-import Myinfo from "./components/Mypage/myinfo/Myinfo";
 import Myletter from "./components/Mypage/myletter/Myletter";
 import Payment from "./components/Mypage/payment/Payment";
 import Layout from "./components/layout/Layout";
@@ -29,12 +27,13 @@ import DiseasesList from "./pages/info/diseases/diseases-list/DiseasesList";
 import Simulation from "./pages/info/simulation/Simulation";
 import UsageStatus from "./pages/info/usage-status/UsageStatus";
 import Manager from "./pages/manager/Manager";
-import MyFarm from "./pages/my-farm/MyFarm";
 import FarmList from "./pages/my-farm/my-farm-list/FarmList";
 import DashBoard from "./pages/my-farm/my-farm-list/dashboard/DashBoard";
 import RenderingMenu from "./pages/my-farm/my-farm-list/dashboard/RenderingMenu";
 import RequestForQuote from "./pages/request/RequestForQuote";
 import "./scss/global.scss";
+import MyFarm from "./pages/my-farm/MyFarm";
+import Myinfo from "./components/Mypage/myinfo/Myinfo";
 
 function App() {
   return (
@@ -77,19 +76,18 @@ function App() {
               <Route index element={<FarmList />} />
             </Route>
             <Route path="manager" element={<Manager />} />
+
+            {/* 관리자 */}
+            <Route path="MyPage" element={<MyPage />}>
+              <Route path="Myinfo" element={<Myinfo />} />
+              <Route path="Chatbotinfo" element={<Chatbot />} />
+              <Route path="Paymentinfo" element={<Payment />} />
+              <Route path="Asinfo" element={<Asinfo />} />
+              <Route path="Myletter" element={<Myletter />} />
+            </Route>
           </Route>
           <Route path="/my-farm/:id" element={<DashBoard />}>
             <Route index element={<RenderingMenu />} />
-          </Route>
-          <Route path="login" element={<LoginPage />} />
-          <Route path="register" element={<RegisterPage />} />
-          <Route path="MyPage" element={<MyPage />}>
-            <Route path="Myinfo" element={<Myinfo />} />
-            <Route path="Myfarminfo" element={<Myfarm />} />
-            <Route path="Chatbotinfo" element={<Chatbot />} />
-            <Route path="Paymentinfo" element={<Payment />} />
-            <Route path="Asinfo" element={<Asinfo />} />
-            <Route path="Myletter" element={<Myletter />} />
           </Route>
         </Routes>
       </ComponentProvider>

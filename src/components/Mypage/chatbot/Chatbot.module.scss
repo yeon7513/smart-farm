@@ -1,5 +1,33 @@
+.chatbot {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
 .container {
   display: flex;
   justify-content: center;
   align-items: center;
+  width: 100%;
+}
+.chattingBox {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  flex-wrap: nowrap;
+  overflow: auto;
+  align-items: center;
+  gap: 20px;
+  border: 1px solid black;
+  width: 600px;
+  height: 500px;
+  padding: 10px;
+}
+.chatting {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid black;
+  gap: 10px;
+  padding: 10px;
+  width: 500px;
+  height: 200px;
 }
