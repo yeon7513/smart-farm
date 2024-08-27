@@ -32,7 +32,7 @@ function Nav() {
   const [position, setPosition] = useState({ lat: null, lon: null });
   const [error, setError] = useState(null);
   const auth = getUserAuth();
-  const { isAuthenticated } = useSelector((state) => state.UserSlice);
+  const { isAuthenticated } = useSelector((state) => state.userSlice);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
