@@ -1,6 +1,4 @@
 import React from "react";
-import Board from "../Board";
-import { sharing } from "../../../lib/post";
 import { Link } from "react-router-dom";
 
 function BoardItem({ id, title, user, date, comment }) {
