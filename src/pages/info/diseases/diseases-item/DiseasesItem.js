@@ -1,10 +1,14 @@
 import React from "react";
 import pest from "../../../../assets/abou/식2.png";
 import styles from "./DiseasesItem.module.scss";
-
+import { RiArrowGoBackLine } from "react-icons/ri";
+import { useNavigate } from "react-router-dom";
+import BackButton from "../../../../components/back-button/BackButton";
 function DiseasesItem() {
   return (
     <div>
+      <BackButton />
+
       <div className={styles.main}>
         {/* <div> */}
         <img src={pest} />

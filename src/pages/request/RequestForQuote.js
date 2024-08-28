@@ -63,7 +63,7 @@ function RequestForQuote() {
   const handleFacilityTypeChange = (e) => {
     setFacilityType(e.target.value);
     setAdditionalOptions([]);
-    console.log(e.target.value);
+    // console.log(e.target.value);
   };
 
   const handleAdditionalOptionsChange = (e) => {

@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import styles from "./Manager_Sidebar.module.scss";
-import down from "../../../assets/arrow/down.png";
-import up from "../../../assets/arrow/up.png";
+import { IoIosArrowUp } from "react-icons/io";
+import { IoIosArrowDown } from "react-icons/io";
 
 function Manager_Sidebar(props) {
   const [openIds, setOpenIds] = useState([]);
@@ -18,16 +18,17 @@ function Manager_Sidebar(props) {
 
   return (
     <div className={styles.sidebar}>
-      <div className={styles.faq}>
+      <div className={styles.side_item}>
         <div className={styles.title}>
           <h3>회원관리</h3>
           {openIds.includes(1) ? (
             <button onClick={() => toggleVisibility(1)}>
-              <img src={up} alt="자세히 보기" />
+              {/* <img src={up} alt="자세히 보기" /> */}
+              <IoIosArrowUp />
             </button>
           ) : (
             <button onClick={() => toggleVisibility(1)}>
-              <img src={down} alt="간략히 보기" />
+              <IoIosArrowDown />
             </button>
           )}
         </div>
@@ -37,21 +38,33 @@ function Manager_Sidebar(props) {
               <li>
                 <Link>회원 목록 조회</Link>
               </li>
+              <li>
+                <Link>회원이 신청한 견적 조회</Link>
+              </li>
+              <li>
+                <Link>회원 정보 수정</Link>
+              </li>
+              <li>
+                <Link>회원 정지 및 정지 해제</Link>
+              </li>
+              <li>
+                <Link>스마트팜 관리</Link>
+              </li>
             </ul>
           </div>
         )}
       </div>
 
-      <div className={styles.faq}>
+      <div className={styles.side_item}>
         <div className={styles.title}>
           <h3>공지사항 관리</h3>
           {openIds.includes(2) ? (
             <button onClick={() => toggleVisibility(2)}>
-              <img src={up} alt="자세히 보기" />
+              <IoIosArrowUp />
             </button>
           ) : (
             <button onClick={() => toggleVisibility(2)}>
-              <img src={down} alt="간략히 보기" />
+              <IoIosArrowDown />
             </button>
           )}
         </div>
@@ -72,18 +85,18 @@ function Manager_Sidebar(props) {
         )}
       </div>
 
-      {/* 나머지 FAQ들도 동일한 방식으로 수정 */}
-      {/* FAQ 관리 */}
-      <div className={styles.faq}>
+      {/* 나머지 side_item들도 동일한 방식으로 수정 */}
+      {/* side_item 관리 */}
+      <div className={styles.side_item}>
         <div className={styles.title}>
           <h3>FAQ 관리</h3>
           {openIds.includes(3) ? (
             <button onClick={() => toggleVisibility(3)}>
-              <img src={up} alt="자세히 보기" />
+              <IoIosArrowUp />
             </button>
           ) : (
             <button onClick={() => toggleVisibility(3)}>
-              <img src={down} alt="간략히 보기" />
+              <IoIosArrowDown />
             </button>
           )}
         </div>
@@ -105,16 +118,16 @@ function Manager_Sidebar(props) {
       </div>
 
       {/* 정보 공유 게시판 관리 */}
-      <div className={styles.faq}>
+      <div className={styles.side_item}>
         <div className={styles.title}>
           <h3>정보 공유 게시판 관리</h3>
           {openIds.includes(4) ? (
             <button onClick={() => toggleVisibility(4)}>
-              <img src={up} alt="자세히 보기" />
+              <IoIosArrowUp />
             </button>
           ) : (
             <button onClick={() => toggleVisibility(4)}>
-              <img src={down} alt="간략히 보기" />
+              <IoIosArrowDown />
             </button>
           )}
         </div>
@@ -131,16 +144,16 @@ function Manager_Sidebar(props) {
           </div>
         )}
       </div>
-      <div className={styles.faq}>
+      <div className={styles.side_item}>
         <div className={styles.title}>
           <h3>A/S 문의 게시판 관리</h3>
           {openIds.includes(5) ? (
             <button onClick={() => toggleVisibility(5)}>
-              <img src={up} alt="자세히 보기" />
+              <IoIosArrowUp />
             </button>
           ) : (
             <button onClick={() => toggleVisibility(5)}>
-              <img src={down} alt="간략히 보기" />
+              <IoIosArrowDown />
             </button>
           )}
         </div>
@@ -160,16 +173,16 @@ function Manager_Sidebar(props) {
           </div>
         )}
       </div>
-      <div className={styles.faq}>
+      <div className={styles.side_item}>
         <div className={styles.title}>
           <h3> 챗봇 상담</h3>
           {openIds.includes(6) ? (
             <button onClick={() => toggleVisibility(6)}>
-              <img src={up} alt="자세히 보기" />
+              <IoIosArrowUp />
             </button>
           ) : (
             <button onClick={() => toggleVisibility(6)}>
-              <img src={down} alt="간략히 보기" />
+              <IoIosArrowDown />
             </button>
           )}
         </div>
