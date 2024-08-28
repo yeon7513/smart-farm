@@ -244,14 +244,14 @@ async function fetchAllData() {
 }
 
 // // 데이터를 가져오고 콘솔에 출력
-fetchAllData().then((data) => {
-  data.forEach((item, index) => {
-    console.log(
-      `Data for ${searchFrmhsCodes[index]}:`,
-      item.response.body.items.item
-    );
-  });
-});
+// fetchAllData().then((data) => {
+//   data.forEach((item, index) => {
+//     console.log(
+//       `Data for ${searchFrmhsCodes[index]}:`,
+//       item.response.body.items.item
+//     );
+//   });
+// });
 
 export async function deleteDatas(collectionName, docId) {
   try {
