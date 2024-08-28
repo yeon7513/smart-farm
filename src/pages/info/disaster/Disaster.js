@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from "react";
 import styles from "./Disaster.module.scss";
 import { CiSearch } from "react-icons/ci";
+import SearchBox from "../../../components/search_box/SearchBox";
+import { Link } from "react-router-dom";
+import DisasterList from "./disaster-list/DisasterList";
 
 function Disaster(props) {
   const [data, setData] = useState(null);
@@ -22,16 +25,17 @@ function Disaster(props) {
   }, []);
   return (
     <div className={styles.main}>
-      자연재해 리스트
-      <div className={styles.search}>
+      {/* 자연재해 리스트 */}
+      {/* <div className={styles.search}>
         <input type="text" placeholder="검색어를 입력해주세요" />
         <button>
           <CiSearch /> 조회
         </button>
-      </div>
+      </div> */}
       <div className={styles.list}>
         <ul>
-          <li></li>
+          <DisasterList />
+          {/* <li>자연재해?</li>
           <li>리스트</li>
           <li>리스트</li>
           <li>list</li>
@@ -39,7 +43,7 @@ function Disaster(props) {
           <li>리스트</li>
           <li>list</li>
           <li>리스트</li>
-          <li>리스트</li>
+          <li>리스트</li> */}
         </ul>
       </div>
       <div className={styles.more}>

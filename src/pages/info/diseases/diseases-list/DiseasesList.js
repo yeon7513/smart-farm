@@ -3,6 +3,8 @@ import { Link, Outlet } from "react-router-dom";
 import styles from "./DiseasesList.module.scss";
 import DiseasesItem from "../diseases-item/DiseasesItem";
 import { CiSearch } from "react-icons/ci";
+import SearchBox from "../../../../components/search_box/SearchBox";
+import image from "../../../../assets/abou/식2.png";
 
 const diseasesList = [
   {
@@ -11,6 +13,7 @@ const diseasesList = [
     name: "감자수염진딧물",
     a: "증상",
     b: "대처법 또는 방제법",
+    image: image,
   },
   {
     id: 2,
@@ -18,6 +21,7 @@ const diseasesList = [
     name: "병해충이름2",
     a: "증상",
     b: "대처법 또는 방제법",
+    image: image,
   },
   {
     id: 3,
@@ -25,6 +29,7 @@ const diseasesList = [
     name: "병해충이름3",
     a: "증상",
     b: "대처법 또는 방제법",
+    image: image,
   },
   {
     id: 4,
@@ -32,6 +37,7 @@ const diseasesList = [
     name: "병해충이름4",
     a: "증상",
     b: "대처법 또는 방제법",
+    image: image,
   },
   {
     id: 5,
@@ -39,6 +45,8 @@ const diseasesList = [
     name: "병해충이름5",
     a: "증상",
     b: "대처법 또는 방제법",
+
+    image: image,
   },
   {
     id: 6,
@@ -46,28 +54,33 @@ const diseasesList = [
     name: "병해충이름6",
     a: "증상",
     b: "대처법 또는 방제법",
+
+    image: image,
   },
-  {
-    id: 7,
-    path: "dddd7",
-    name: "병해충이름7",
-    a: "증상",
-    b: "대처법 또는 방제법",
-  },
-  {
-    id: 8,
-    path: "dddd8",
-    name: "병해충이름8",
-    a: "증상",
-    b: "대처법 또는 방제법",
-  },
-  {
-    id: 9,
-    path: "dddd9",
-    name: "병해충이름9",
-    a: "증상",
-    b: "대처법 또는 방제법",
-  },
+  // {
+  //   id: 7,
+  //   path: "dddd7",
+  //   name: "병해충이름7",
+  //   a: "증상",
+  //   b: "대처법 또는 방제법",
+  //   image: image,
+  // },
+  // {
+  //   id: 8,
+  //   path: "dddd8",
+  //   name: "병해충이름8",
+  //   a: "증상",
+  //   b: "대처법 또는 방제법",
+  //   image: image,
+  // },
+  // {
+  //   id: 9,
+  //   path: "dddd9",
+  //   name: "병해충이름9",
+  //   a: "증상",
+  //   b: "대처법 또는 방제법",
+  //   image: image,
+  // },
 ];
 
 function DiseasesList() {
@@ -113,23 +126,36 @@ function DiseasesList() {
 
   return (
     <>
-      <div className={styles.search}>
-        <input type="text" placeholder="검색어를 입력해주세요" />
-        <button>
-          <CiSearch /> 조회
-        </button>
-      </div>
-      {diseasesList.map((item) => (
-        <li key={item.id} className={styles.item}>
-          <div>
-            <span>작물명-</span>
-            <span>해충</span>
+      <SearchBox />
+      <div className={styles.items}>
+        {diseasesList.map((item) => (
+          <div key={item.id} className={styles.item}>
+            <div className={styles.title}>
+              <div className={styles.item_img}>
+                <img src={item.image} />
+              </div>
+
+              <div className={styles.item_name}>
+                <div className={styles.item_list}>
+                  <p>작물:</p>
+                  <p>가지</p>
+                </div>
+
+                {/* <div className={styles.item_list}> */}
+                <p>해충</p>
+                {/* <p>해충</p> */}
+                {/* </div> */}
+                <div className={styles.item_list}>
+                  <p> 이름 : </p>
+                  <Link to={`/info/diseases/${item.path}`}>
+                    <p className={styles.name}>{item.name}</p>
+                  </Link>
+                </div>
+              </div>
+            </div>
           </div>
-          <Link to={`/info/diseases/${item.path}`}>
-            <p>{item.name}</p>
-          </Link>
-        </li>
-      ))}
+        ))}
+      </div>
       <div className={styles.more}>
         <button>더보기</button>
       </div>

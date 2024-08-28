@@ -1,55 +1,43 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { getDatas } from "../../api/firebase";
 
 const initialState = {
-  payments: JSON.parse(localStorage.getItem("user")),
   order: [],
-  totalPrice: 0,
+  isLoading: false,
+  error: "",
 };
 
 const orderSlice = createSlice({
   name: "order",
   initialState,
-  reducers: {
-    addToOrder: (state, action) => {
-      state.payments.push({
-        ...action.payload,
-        total: action.payload.price,
+  reducers: {},
+  extraReducers: (builder) => {
+    builder
+      .addCase(fetchOrder.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(fetchOrder.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.order = action.payload;
+      })
+      .addCase(fetchOrder.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload;
       });
-      localStorage.setItem("user", JSON.stringify(state.payments));
-    },
-    deleteFromOrder: (state, action) => {
-      state.payments = state.payments.filter(
-        (payment) => payment.id !== action.payload
-      );
-      localStorage.setItem("user", JSON.stringify(state.payments));
-    },
-    syncOrderAndSlice: (state, action) => {
-      state.payments = action.payload;
-      localStorage.setItem("user", JSON.stringify(state.payments));
-    },
-    getTotalPrice: (state) => {
-      state.totallPrice = state.payments.reduce(
-        (acc, payment) => (acc += payment.total),
-        0
-      );
-    },
-    sendOrder: (state) => {
-      state.payments = [];
-      localStorage.setItem("user", JSON.stringify(state.payments));
-    },
   },
 });
 
-export const syncOrderAndStorage = createAsyncThunk(
-  "order/asyncOrderItem",
-  async ({ uid }, thunkAPI) => {
+export const fetchOrder = createAsyncThunk(
+  "order/fetchOrder",
+  async ({ collectionName }, thunkAPI) => {
     try {
-      const orderObj = {
-        createdAt: new Date().getTime(),
-        updatedAt: new Date().getTime(),
-      };
+      const resultData = await getDatas(collectionName);
+      return resultData;
     } catch (error) {
       console.error(error);
+      return thunkAPI.rejectWithValue("Error fetch Order");
     }
   }
 );
+
+export default orderSlice.reducer;

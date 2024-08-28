@@ -91,9 +91,6 @@ function Nav() {
     <>
       <nav className={styles.nav}>
         <div className={styles.spot}>
-          {/* <ul>
-            <li><Link onClick={handleLogout}>로그아웃</Link></li>
-          </ul> */}
           <ul>
             {isAuthenticated ? (
               <>
