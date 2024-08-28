@@ -34,6 +34,7 @@ import RequestForQuote from "./pages/request/RequestForQuote";
 import "./scss/global.scss";
 import MyFarm from "./pages/my-farm/MyFarm";
 import Myinfo from "./components/Mypage/myinfo/Myinfo";
+import Mymain from "./components/Mypage/mymain/Mymain";
 
 function App() {
   return (
@@ -79,6 +80,7 @@ function App() {
 
             {/* 관리자 */}
             <Route path="MyPage" element={<MyPage />}>
+              <Route index element={<Mymain />} />
               <Route path="Myinfo" element={<Myinfo />} />
               <Route path="Chatbotinfo" element={<Chatbot />} />
               <Route path="Paymentinfo" element={<Payment />} />
