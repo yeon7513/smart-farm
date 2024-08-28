@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Board from "../../../components/board/Board";
 import { notice } from "../../../lib/post";
 import PostView from "../../../components/board/post-view/PostView";
@@ -6,8 +6,15 @@ import styles from "../community.module.scss";
 import { useComponentContext } from "../../../context/ComponentContext";
 
 function Notice() {
-  const { currComp } = useComponentContext();
   const [state, setState] = useState(false);
+  const { currComp, setCurrComp } = useComponentContext(); // setCurrComp 함수를 가져옵니다.
+
+  // currComp 상태 초기화
+  useEffect(() => {
+    return () => {
+      setCurrComp(null);
+    };
+  }, [setCurrComp]);
 
   return (
     <div>

@@ -36,6 +36,8 @@ import DashBoard from "./pages/my-farm/my-farm-list/dashboard/DashBoard";
 import RenderingMenu from "./pages/my-farm/my-farm-list/dashboard/RenderingMenu";
 import RequestForQuote from "./pages/request/RequestForQuote";
 import "./scss/global.scss";
+import CommunityMenu from "./context/CommunityMenu";
+import PostView from "./components/board/post-view/PostView";
 import InfoMenu from "./context/InfoMenu";
 
 function App() {
@@ -67,15 +69,8 @@ function App() {
             <Route path="SearchPw" element={<SearchPw />} />
             <Route path="request" element={<RequestForQuote />} />
             <Route path="community" element={<Community />}>
-              <Route index element={<Navigate to="notice" />} />
-              <Route path="notice" element={<Notice />} />
-              <Route path="faq" element={<Faq />} />
-              <Route
-                path="sharing-information"
-                element={<SharingInformation />}
-              />
-              <Route path="after-service" element={<AfterService />} />
-              {/* <Route path="after-service:id" element={<PostView />} /> */}
+              <Route index element={<CommunityMenu />} />
+              <Route path="community:id" element={<PostView />} />
             </Route>
             <Route path="my-farm" element={<MyFarm />}>
               <Route index element={<FarmList />} />

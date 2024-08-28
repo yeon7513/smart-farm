@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Board from "../../../components/board/Board";
 import { as } from "../../../lib/post";
 import PostView from "../../../components/board/post-view/PostView";
@@ -7,7 +7,14 @@ import styles from "../community.module.scss";
 import { useComponentContext } from "../../../context/ComponentContext";
 
 function AfterService(props) {
-  const { currComp } = useComponentContext();
+  const { currComp, setCurrComp } = useComponentContext();
+
+  // currComp 상태 초기화
+  useEffect(() => {
+    return () => {
+      setCurrComp(null);
+    };
+  }, []);
 
   return (
     <div>

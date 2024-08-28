@@ -7,20 +7,12 @@ function Post({ onSubmit }) {
   const [content, setContent] = useState("");
   const date = new Date().toISOString();
 
-  const postSubmit = (e) => {
-    e.preventDefault();
-    onSubmit({ title, user, date, content });
-    setTitle("");
-    setUser("");
-    setContent("");
-  };
-
   return (
     <div className={styles.container}>
       <div>
         <h3>게시글 작성하기</h3>
       </div>
-      <form onSubmit={postSubmit}>
+      <form>
         <div className={styles.title}>
           <p>제목:</p>
           <input

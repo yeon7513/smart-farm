@@ -20,7 +20,7 @@ function Sidebar(props) {
       <ul className={styles.items}>
         내 정보
         <li className={styles.item}>
-          <Link to="Myinfo">내 정보 수정</Link>
+          {/* <button onClick={() => setCurrComp("Myinfo")}>내 정보 수정</button> */}
         </li>
         <li className={styles.itemmove}>
           <Link to="/my-farm">내 농장 관리</Link>
@@ -52,3 +52,24 @@ function Sidebar(props) {
 }
 
 export default Sidebar;
+{
+  /* <div className={styles.nav}>
+  <ul>
+    <li className={currComp === "Monitoring" ? styles.active : ""}>
+      <button onClick={() => setCurrComp("Monitoring")}>모니터링</button>
+    </li>
+    <li className={currComp === "ControlBox" ? styles.active : ""}>
+      <button onClick={() => setCurrComp("ControlBox")}>컨트롤</button>
+    </li>
+    <li className={currComp === "Sensor" ? styles.active : ""}>
+      <button onClick={() => setCurrComp("Sensor")}>센서</button>
+    </li>
+    <li className={currComp === "Alert" ? styles.active : ""}>
+      <button onClick={() => setCurrComp("Alert")}>알림 내역</button>
+    </li>
+    <li className={currComp === "Report" ? styles.active : ""}>
+      <button onClick={() => setCurrComp("Report")}>보고서</button>
+    </li>
+  </ul>
+</div>; */
+}
