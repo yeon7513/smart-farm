@@ -74,6 +74,7 @@ function App() {
                 element={<SharingInformation />}
               />
               <Route path="after-service" element={<AfterService />} />
+              {/* <Route path="after-service:id" element={<PostView />} /> */}
             </Route>
             <Route path="my-farm" element={<MyFarm />}>
               <Route index element={<FarmList />} />

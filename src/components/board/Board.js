@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 import styles from "./Board.module.scss";
-import { Link } from "react-router-dom";
-import SharingItem from "./boardItem/BoardItem";
+import BoardItem from "./boardItem/BoardItem";
+import { useComponentContext } from "../../context/ComponentContext";
 
 const PAGE_SIZE = 10;
 
 function Board({ items, mypage }) {
   const [currentPage, setCurrentPage] = useState(1);
+  const { currComp, setCurrComp } = useComponentContext();
 
   const totalPages = Math.ceil(items.length / PAGE_SIZE);
   const reversedItem = [...items].reverse();
@@ -26,6 +27,10 @@ function Board({ items, mypage }) {
     }
   };
 
+  const openPost = (item) => {
+    setCurrComp(item);
+  };
+
   return (
     <div className={styles.container}>
       <div className={styles.col}>
@@ -38,14 +43,15 @@ function Board({ items, mypage }) {
       <div className={styles.board}>
         <ul>
           {currentItem.map((item, idx) => (
-            <SharingItem
-              key={idx}
-              id={items.length - ((currentPage - 1) * PAGE_SIZE + idx)}
-              title={item.title}
-              user={item.user}
-              date={item.date}
-              comment={item.comment}
-            />
+            <li key={idx} onClick={() => openPost(item)}>
+              <BoardItem
+                id={items.length - ((currentPage - 1) * PAGE_SIZE + idx)}
+                title={item.title}
+                user={item.user}
+                date={item.date}
+                comment={item.comment}
+              />
+            </li>
           ))}
         </ul>
       </div>

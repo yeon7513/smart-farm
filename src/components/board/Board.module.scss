@@ -22,6 +22,7 @@
     font-weight: 300;
   }
   ul {
+    cursor: pointer;
     li {
       display: grid;
       grid-template-columns: 0.5fr 3fr 1fr 1fr 0.5fr;
