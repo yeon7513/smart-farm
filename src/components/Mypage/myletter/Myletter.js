@@ -12,7 +12,7 @@ function Myletter(props) {
     <Container className={style.container}>
       <div className={style.main}>
         <div>AS 문의 내역</div>
-        <Board items={Mypost} mypage={state} />
+        <Board items={Mypost} nopost={state} />
       </div>
     </Container>
   );

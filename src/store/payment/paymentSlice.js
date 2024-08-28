@@ -1,20 +1,22 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { getDataRest } from "../../api/api";
+import { collection, getDocs } from "firebase/firestore";
+import { db } from "../../api/firebase";
 
 const fetchPayment = createAsyncThunk(
   "payment/fetchPayment",
   async ({ collectionName }) => {
     try {
-      const resultData = await getDataRest(collectionName);
-      return resultData;
+      const snapshot = await getDocs(collection(db, ...collectionName));
+      return snapshot.docs.map((doc) => doc.data());
     } catch (error) {
-      return null;
+      console.error("Error fetching payments: ", error);
+      throw error;
     }
   }
 );
 
 const initialState = {
-  payment: {},
+  payment: [],
   isLoading: false,
   error: "",
 };
