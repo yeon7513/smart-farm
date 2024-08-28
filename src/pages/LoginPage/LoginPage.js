@@ -22,9 +22,9 @@ function LoginPage(props) {
   const SignInWithGoogle = async () => {
     const provider = new GoogleAuthProvider();
     await signInWithPopup(auth, provider).then((result) => {
+      dispatch(setUser({ email: result.user.email }));
       navigate("/");
     });
-    dispatch(setUser({ email: users?.email }));
   };
 
   useEffect(() => {}, [loading, user, navigate]);
@@ -32,7 +32,7 @@ function LoginPage(props) {
     return <div>Loading...</div>;
   }
 
-  if (user) {
+  if (!user) {
     navigate("/");
   }
 

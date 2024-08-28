@@ -1,7 +1,20 @@
 import React from "react";
 import styles from "./sidebar.module.scss";
 import { Link } from "react-router-dom";
+import { deleteDatas } from "../../../api/firebase";
 function Sidebar(props) {
+  const handleDelete = async (docId) => {
+    alert("정말 회원 탈퇴 하시겠습니까?");
+    // localStorage에 저장되어 있는 회원 정보를 삭제합니다.
+    localStorage.removeItem("user");
+    // Firebase에 "users" 컬렉션에 저장되어 있는 회원 정보를 삭제합니다.
+    const result = await deleteDatas("users", docId);
+
+    if (!result) {
+      alert("회원 정보가 없습니다. \n 관리자에게 문의하세요.");
+      return false;
+    }
+  };
   return (
     <div className={styles.container}>
       <ul className={styles.items}>
