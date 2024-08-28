@@ -89,7 +89,6 @@ function Diseases(props) {
   // }, []);
   return (
     <div className={styles.main}>
-      병
       <div className={styles.list}>
         {/* {diseasesList.map((item) => (
           <>
