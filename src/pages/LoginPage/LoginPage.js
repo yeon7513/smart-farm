@@ -22,9 +22,9 @@ function LoginPage(props) {
   const SignInWithGoogle = async () => {
     const provider = new GoogleAuthProvider();
     await signInWithPopup(auth, provider).then((result) => {
+      dispatch(setUser({ email: result.user.email }));
       navigate("/");
     });
-    dispatch(setUser({ email: users?.email }));
   };
 
   useEffect(() => {}, [loading, user, navigate]);
