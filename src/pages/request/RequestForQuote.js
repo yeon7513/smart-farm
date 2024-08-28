@@ -4,8 +4,7 @@ import { getDatas } from "../../api/firebase";
 import { Container } from "@mui/material";
 import FacilitiesHorticulture from "./FacilitiesHorticulture";
 import OpenGround from "./OpenGround";
-import Checkout from "./Checkout";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 
 function RequestForQuote() {
   // user 상태를 선언합니다.
@@ -15,16 +14,16 @@ function RequestForQuote() {
   const [farmAddress, setFarmAddress] = useState("");
   const [facilityType, setFacilityType] = useState("시설원예");
   const [additionalOptions, setAdditionalOptions] = useState([]);
-  const { totalPrice } = useSelector((state) => state.orderSlice);
-  const { payments } = useSelector((state) => state.paymentsSlice);
+  // const { totalPrice } = useSelector((state) => state.orderSlice);
+  // const { payments } = useSelector((state) => state.paymentsSlice);
   const dispatch = useDispatch();
 
-  const sendPayment = () => {
-    const paymentObj = {
-      totalPrice,
-      payments,
-    };
-  };
+  // const sendPayment = () => {
+  //   const paymentObj = {
+  //     totalPrice,
+  //     payments,
+  //   };
+  // };
 
   useEffect(() => {
     const today = new Date();
@@ -155,7 +154,7 @@ function RequestForQuote() {
           </select>
         </div>
         <div>
-          <h3>부가 옵션 선택 (옵션 옆에 비용을 표기해야하나 고민 중..)</h3>
+          <h3>부가 옵션 선택</h3>
           {facilityType === "시설원예" ? (
             <FacilitiesHorticulture
               additionalOptions={additionalOptions}
@@ -168,10 +167,7 @@ function RequestForQuote() {
             />
           )}
         </div>
-        <Checkout />
-        <button className={styles.submit} onClick={sendPayment}>
-          결제하기
-        </button>
+        <button className={styles.submit}>결제하기</button>
       </form>
     </Container>
   );
