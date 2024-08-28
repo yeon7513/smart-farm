@@ -6,8 +6,12 @@ function PaymentsItem({ id }) {
     <li>
       <Link to={`/payment/${id}`}>테스트</Link>
       <div>
-        <h4>카테고리</h4>
-        <h3>제목</h3>
+        <h3>농사 종류</h3>
+        <h4>부가 옵션</h4>
+      </div>
+      <div>
+        <h4>비용: </h4>
+        <span> 원 </span>
       </div>
     </li>
   );
