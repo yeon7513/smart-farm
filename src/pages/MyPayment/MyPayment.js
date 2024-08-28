@@ -1,21 +1,22 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styles from "./MyPayment.module.scss";
 import PaymentsList from "./PaymentsList";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Checkout from "../request/Checkout";
-import PaymentEmpty from "./PaymentEmpty";
+import PaymentEmpty from "../../components/payment-empty/PaymentEmpty";
+import { fetchPayment } from "../../store/payment/paymentSlice";
 
 function MyPayment() {
-  const { payments } = useSelector((state) => state.paymentSlice);
-  // const { uid } = useSelector((state) => state.userSlice);
-  // const dispatch = useDispatch();
+  const { payments } = useSelector((state) => state.paymentsSlice);
+  const { uid } = useSelector((state) => state.userSlice);
+  const dispatch = useDispatch();
 
-  // useEffect(() => {
-  //   dispatch();
-  //   fetchPayment({
-  //     collectionName: ["users", uid, "payments"],
-  //   });
-  // }, []);
+  useEffect(() => {
+    dispatch();
+    fetchPayment({
+      collectionName: ["users", uid, "payments"],
+    });
+  }, []);
 
   return (
     <div className={styles.myPayments}>
