@@ -8,7 +8,6 @@ function Info() {
   const titleProps = getTitleProps(pathname);
   const links = getPageLinks("info");
 
-  // <Outlet />;
   return <PageTemplate titleProps={titleProps} links={links} />;
 }
 

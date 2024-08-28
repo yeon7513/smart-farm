@@ -6,6 +6,7 @@ import Diseases from "../pages/info/diseases/Diseases";
 import Disaster from "../pages/info/disaster/Disaster";
 
 function InfoMenu(props) {
+  // 정보 메뉴
   const { currComp } = useComponentContext();
 
   switch (currComp) {
