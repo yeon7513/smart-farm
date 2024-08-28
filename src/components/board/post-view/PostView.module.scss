@@ -1,12 +1,15 @@
 .container {
-  padding: 50px;
+  margin: 30px;
+  padding: 20px;
 }
 
 .title {
   border-bottom: 1px solid #ddd;
-  padding-bottom: 10px;
+  padding-bottom: 6px;
+  margin: 10px;
+
   h2 {
-    margin-bottom: 20px;
+    margin-bottom: 30px;
   }
   div {
     display: flex;
@@ -21,7 +24,8 @@
 }
 
 .content {
-  padding: 50px;
+  min-height: 300px;
+  padding: 30px 50px;
   border-bottom: 1px solid #ddd;
 }
 
