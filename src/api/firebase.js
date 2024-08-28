@@ -245,14 +245,23 @@ async function fetchAllData() {
 }
 
 // 데이터를 가져오고 콘솔에 출력
-fetchAllData().then((data) => {
-  data.forEach((item, index) => {
-    console.log(
-      `Data for ${searchFrmhsCodes[index]}:`,
-      item.response.body.items.item
-    );
-  });
-});
+// fetchAllData().then((data) => {
+//   data.forEach((item, index) => {
+//     console.log(
+//       `Data for ${searchFrmhsCodes[index]}:`,
+//       item.response.body.items.item
+//     );
+//   });
+// });
+
+// const api = "cbd181f0a2594233a01eed9b0b86a392"; // 여기에 실제 API 키를 넣으세요
+
+// const apiurl = `/api3/Agree_WS/webservices/ProvideRestService/getIdentityDataList/${api}`;
+// fetch(apiurl)
+//   .then((response) => response.json())
+//   .then((result) => {
+//     console.log(result);
+//   });
 
 export async function deleteDatas(collectionName, docId) {
   try {
