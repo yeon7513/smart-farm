@@ -38,6 +38,7 @@
   .name {
     &:hover {
       color: var(--hover-color);
+      border-bottom: 1px solid var(--hover-color);
     }
   }
 }

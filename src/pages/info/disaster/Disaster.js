@@ -4,6 +4,8 @@ import { CiSearch } from "react-icons/ci";
 import SearchBox from "../../../components/search_box/SearchBox";
 import { Link } from "react-router-dom";
 import DisasterList from "./disaster-list/DisasterList";
+import { GrFormPrevious } from "react-icons/gr";
+import { MdOutlineNavigateNext } from "react-icons/md";
 
 function Disaster(props) {
   const [data, setData] = useState(null);
@@ -46,8 +48,21 @@ function Disaster(props) {
           <li>리스트</li> */}
         </ul>
       </div>
-      <div className={styles.more}>
+      {/* <div className={styles.more}>
         <button>더보기</button>
+      </div> */}
+      <div className={styles.more}>
+        <button>FIRST</button>
+        <button>
+          <GrFormPrevious />
+        </button>
+        <button>1</button>
+        <button>2</button>
+        <button>
+          {" "}
+          <MdOutlineNavigateNext />
+        </button>
+        <button>END</button>
       </div>
     </div>
   );
