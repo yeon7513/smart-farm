@@ -37,10 +37,9 @@ function PaymentsList() {
             <p>합계: {payment.totalPrice} 원</p>
           </div>
           <ul>
-            {/* 내용 추가할 것 <PaymentsItem /> */}
-            {/* {payment.payments.map((product) => (
-                // <PaymentsItem key={} />
-            ))} */}
+            {payment.payments.map((payment) => (
+              <PaymentsItem key={payment.id} {...payment} />
+            ))}
           </ul>
         </div>
       ))}
