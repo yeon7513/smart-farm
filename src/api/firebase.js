@@ -12,7 +12,6 @@ import {
   updateDoc,
   writeBatch,
 } from "firebase/firestore";
-import { createProxyMiddleware } from "http-proxy-middleware";
 import { batch } from "react-redux";
 
 const firebaseConfig = {
@@ -28,18 +27,6 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 export const db = getFirestore(app);
-
-// 병해충api
-app.use(
-  "/api1", // 기존 host 대신 사용할 경로
-  createProxyMiddleware({
-    target: "https://ncpms.rda.go.kr/npmsAPI/service", // 기존 host
-    changeOrigin: true,
-    pathRewrite: {
-      "^/api": "",
-    },
-  })
-);
 
 export function getCollection(collectionName) {
   return collection(db, collectionName);
@@ -138,7 +125,7 @@ export async function updateDatas(collectionName, docId, updateObj) {
 
 // let userId;
 
-// async function fetchData() {
+// export async function fetchData() {
 //   const url =
 //     "/api/Agree_WS/webservices/ProvideRestService/getIdentityDataList/cbd181f0a2594233a01eed9b0b86a392";
 //   const response = await fetch(url);
