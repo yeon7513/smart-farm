@@ -4,6 +4,7 @@ import { getISODate } from "../../utils/getFormattedDate";
 import { useDispatch, useSelector } from "react-redux";
 import PaymentEmpty from "./PaymentEmpty";
 import { fetchPayment } from "../../store/payment/paymentSlice";
+import PaymentsItem from "./PaymentsItem";
 
 function PaymentsList() {
   const { payment } = useSelector((state) => state.paymentSlice);
@@ -33,8 +34,13 @@ function PaymentsList() {
               결제 날짜_{getISODate(payment.createdAt).yyyyMMdd}{" "}
               {getISODate(payment.createdAt).hhmmss}
             </h3>
-            <p>합계: {payment.totalPrice.toFixed(0)}</p>
+            <p>합계: {payment.totalPrice} 원</p>
           </div>
+          <ul>
+            {payment.payments.map((payment) => (
+              <PaymentsItem key={payment.id} {...payment} />
+            ))}
+          </ul>
         </div>
       ))}
     </div>

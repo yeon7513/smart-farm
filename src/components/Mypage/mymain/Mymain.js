@@ -12,8 +12,13 @@ import {
 import React from "react";
 import Container from "../../layout/container/Container";
 import { teal } from "@mui/material/colors";
+import { Navigate, useNavigate } from "react-router-dom";
 
 function Mymain(props) {
+  const Navigate = useNavigate();
+  const ButtonClick = () => {
+    Navigate("/mypage/Myinfo");
+  };
   const theme = createTheme({
     palette: {
       primary: {
@@ -41,7 +46,14 @@ function Mymain(props) {
             alignItems: "center",
           }}
         >
-          <Avatar sx={{ m: 1, backgroundColor: "secondary.main" }} />
+          <Avatar
+            sx={{
+              m: 3,
+              backgroundColor: "secondary.main",
+              width: "70px",
+              height: "70px",
+            }}
+          />
           <Typography component="h1" variant="h5">
             회원이름
           </Typography>
@@ -55,6 +67,7 @@ function Mymain(props) {
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
               size="large"
+              onClick={ButtonClick}
             >
               내 정보 수정하기
             </Button>
