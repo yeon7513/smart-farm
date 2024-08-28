@@ -13,6 +13,18 @@ import styles from "./LoginPage.module.scss";
 import { Container } from "@mui/material";
 
 function LoginPage(props) {
+  const api = "cbd181f0a2594233a01eed9b0b86a392"; // 여기에 실제 API 키를 넣으세요
+  const userIdArr = [];
+  const apiurl = `/api3/Agree_WS/webservices/ProvideRestService/getIdentityDataList/${api}`;
+  fetch(apiurl)
+    .then((response) => response.json())
+    .then((result) => {
+      result.forEach((item) => {
+        userIdArr.push(item.userId);
+      });
+      console.log(userIdArr.slice(0, 100));
+    });
+
   const auth = getUserAuth();
   const [user, loading, error] = useAuthState(auth);
   const navigate = useNavigate();
