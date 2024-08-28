@@ -88,27 +88,13 @@ function Diseases(props) {
   //   fetchData();
   // }, []);
   return (
-    <div className={styles.main}>
-      <div className={styles.list}>
-        {/* {diseasesList.map((item) => (
-          <>
-            <DiseasesList key={item.id} {...item} />
-          </>
-        ))} */}
-        <Outlet />
-        <ul>
-          {/* <li>작물-병 이름</li>
-          <li>리스트</li>
-          <li>리스트</li>
-          <li>list</li>
-          <li>리스트</li>
-          <li>리스트</li>
-          <li>list</li>
-          <li>리스트</li>
-          <li>리스트</li> */}
-        </ul>
+    <>
+      <div className={styles.main}>
+        <div className={styles.list}>
+          <Outlet />
+        </div>
       </div>
-    </div>
+    </>
   );
 }
 
