@@ -1,26 +1,33 @@
-import React, { useEffect } from "react";
+import React from "react";
 import styles from "./MyPayment.module.scss";
 import PaymentsList from "./PaymentsList";
-import { useDispatch, useSelector } from "react-redux";
-import { fetchPayment } from "../../store/payment/paymentSlice";
+import { useSelector } from "react-redux";
+import Checkout from "../request/Checkout";
+import PaymentEmpty from "./PaymentEmpty";
 
 function MyPayment() {
-  const { uid } = useSelector((state) => state.userSlice);
-  const dispatch = useDispatch();
+  const { payments } = useSelector((state) => state.paymentSlice);
+  // const { uid } = useSelector((state) => state.userSlice);
+  // const dispatch = useDispatch();
 
-  useEffect(() => {
-    dispatch();
-    fetchPayment({
-      collectionName: ["users", uid, "payments"],
-    });
-  }, []);
+  // useEffect(() => {
+  //   dispatch();
+  //   fetchPayment({
+  //     collectionName: ["users", uid, "payments"],
+  //   });
+  // }, []);
 
   return (
     <div className={styles.myPayments}>
-      <div className={styles.myPayment}>
-        <h1>결제 내역</h1>
-        <PaymentsList />;
-      </div>
+      {payments.length === 0 ? (
+        <PaymentEmpty title={"결제내역"} />
+      ) : (
+        <div className={styles.myPayment}>
+          <h1>결제 내역</h1>
+          <PaymentsList />
+          <Checkout />
+        </div>
+      )}
     </div>
   );
 }
