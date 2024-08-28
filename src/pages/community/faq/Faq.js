@@ -12,9 +12,10 @@ function Faq() {
   };
   return (
     <div className={styles.page}>
-      <Container>
-        <h1>FAQ</h1>
-        <p>- 자주 묻는 질문을 확인해보세요 !</p>
+      <h1>FAQ</h1>
+      <p>- 자주 묻는 질문을 확인해보세요 !</p>
+
+      <Container className={styles.container}>
         <div className={styles.faq}>
           <div className={styles.title}>
             <h3> Q. 스마트팜이 뭔가요?</h3>
@@ -40,6 +41,7 @@ function Faq() {
             </div>
           )}
         </div>
+
         <div className={styles.faq}>
           <div className={styles.title}>
             <h3>Q. 스마트농업은 왜 필요한가요?</h3>
@@ -66,6 +68,7 @@ function Faq() {
             </div>
           )}
         </div>
+
         <div className={styles.faq}>
           <div className={styles.title}>
             <h3>Q. 대표적인 우리나라 스마트농업 기술을 소개해주세요.</h3>
@@ -93,7 +96,6 @@ function Faq() {
                 <br />
                 이와 함께 작업자가 직접 기계를 다루지 않아도 지형 환경을 인식해
                 스스로 주행하며 농작업이 가능한 자율주행 트랙터를 비롯해
-                <br />
                 자율주행 벼 이앙기, 로봇 착유기 국산화 등 스마트농업 기술이
                 개발되었습니다.
                 <br />
@@ -103,6 +105,7 @@ function Faq() {
             </div>
           )}
         </div>
+
         <div className={styles.faq}>
           <div className={styles.title}>
             <h3>Q. 스마트농업 기술을 도입했을 시 어떤 효과가 있었나요?</h3>
