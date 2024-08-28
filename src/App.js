@@ -1,41 +1,42 @@
-import React from 'react';
-import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
-import Asinfo from './components/Mypage/asinfo/Asinfo';
-import Chatbot from './components/Mypage/chatbot/Chatbot';
-import Myinfo from './components/Mypage/myinfo/Myinfo';
-import Myletter from './components/Mypage/myletter/Myletter';
-import Mymain from './components/Mypage/mymain/Mymain';
-import Payment from './components/Mypage/payment/Payment';
-import Userout from './components/Mypage/userout/Userout';
-import Layout from './components/layout/Layout';
-import { ComponentProvider } from './context/ComponentContext';
-import LoginPage from './pages/LoginPage/LoginPage';
-import SearchEm from './pages/LoginPage/searchEm/SearchEm';
-import SearchPw from './pages/LoginPage/searchPw/SearchPw';
-import MyPage from './pages/MyPage/MyPage';
-import RegisterPage from './pages/RegisterPage/RegisterPage';
-import About from './pages/about/About';
-import Service from './pages/about/Service';
-import Community from './pages/community/Community';
-import AfterService from './pages/community/after-service/AfterService';
-import Faq from './pages/community/faq/Faq';
-import Notice from './pages/community/notice/Notice';
-import SharingInformation from './pages/community/sharing-information/SharingInformation';
-import Home from './pages/home/Home';
-import Info from './pages/info/Info';
-import Disaster from './pages/info/disaster/Disaster';
-import Diseases from './pages/info/diseases/Diseases';
-import DiseasesItem from './pages/info/diseases/diseases-item/DiseasesItem';
-import DiseasesList from './pages/info/diseases/diseases-list/DiseasesList';
-import Simulation from './pages/info/simulation/Simulation';
-import UsageStatus from './pages/info/usage-status/UsageStatus';
-import Manager from './pages/manager/Manager';
-import MyFarm from './pages/my-farm/MyFarm';
-import FarmList from './pages/my-farm/my-farm-list/FarmList';
-import DashBoard from './pages/my-farm/my-farm-list/dashboard/DashBoard';
-import RenderingMenu from './pages/my-farm/my-farm-list/dashboard/RenderingMenu';
-import RequestForQuote from './pages/request/RequestForQuote';
-import './scss/global.scss';
+import React from "react";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+import Asinfo from "./components/Mypage/asinfo/Asinfo";
+import Chatbot from "./components/Mypage/chatbot/Chatbot";
+import Myinfo from "./components/Mypage/myinfo/Myinfo";
+import Myletter from "./components/Mypage/myletter/Myletter";
+import Mymain from "./components/Mypage/mymain/Mymain";
+import Payment from "./components/Mypage/payment/Payment";
+import Userout from "./components/Mypage/userout/Userout";
+import Layout from "./components/layout/Layout";
+import { ComponentProvider } from "./context/ComponentContext";
+import LoginPage from "./pages/LoginPage/LoginPage";
+import SearchEm from "./pages/LoginPage/searchEm/SearchEm";
+import SearchPw from "./pages/LoginPage/searchPw/SearchPw";
+import MyPage from "./pages/MyPage/MyPage";
+import RegisterPage from "./pages/RegisterPage/RegisterPage";
+import About from "./pages/about/About";
+import Service from "./pages/about/Service";
+import Community from "./pages/community/Community";
+import AfterService from "./pages/community/after-service/AfterService";
+import Faq from "./pages/community/faq/Faq";
+import Notice from "./pages/community/notice/Notice";
+import SharingInformation from "./pages/community/sharing-information/SharingInformation";
+import Home from "./pages/home/Home";
+import Info from "./pages/info/Info";
+import Disaster from "./pages/info/disaster/Disaster";
+import Diseases from "./pages/info/diseases/Diseases";
+import DiseasesItem from "./pages/info/diseases/diseases-item/DiseasesItem";
+import DiseasesList from "./pages/info/diseases/diseases-list/DiseasesList";
+import Simulation from "./pages/info/simulation/Simulation";
+import UsageStatus from "./pages/info/usage-status/UsageStatus";
+import Manager from "./pages/manager/Manager";
+import MyFarm from "./pages/my-farm/MyFarm";
+import FarmList from "./pages/my-farm/my-farm-list/FarmList";
+import DashBoard from "./pages/my-farm/my-farm-list/dashboard/DashBoard";
+import RenderingMenu from "./pages/my-farm/my-farm-list/dashboard/RenderingMenu";
+import RequestForQuote from "./pages/request/RequestForQuote";
+import "./scss/global.scss";
+import InfoMenu from "./context/InfoMenu";
 
 function App() {
   return (
@@ -49,6 +50,7 @@ function App() {
               <Route path="service" element={<Service />} />
               {/* <Route path="counsel" element={<Counsel />} /> */}
             </Route>
+            {/* <Route index element={<InfoMenu />} /> */}
             <Route path="info" element={<Info />}>
               <Route index element={<Navigate to="usage-status" />} />
               <Route path="usage-status" element={<UsageStatus />} />
