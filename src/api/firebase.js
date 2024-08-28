@@ -5,6 +5,7 @@ import {
   collection,
   deleteDoc,
   doc,
+  getDoc,
   getDocs,
   getFirestore,
   setDoc,
@@ -47,6 +48,33 @@ export async function joinUser(uid, email, password, userInfo) {
     ...(name !== undefined && { name: name }),
   };
   await setDoc(doc(db, "users", uid), userData);
+}
+
+export async function syncOrder(uid, orderArr) {
+  const orderRef = getCollection("user", uid, "order");
+  const batch = writeBatch(db);
+  for (const item of orderArr) {
+    const result = await updateOrder(uid, item);
+    if (!result) {
+      const itemRef = doc(orderRef, item.id.toString());
+      batch.set(itemRef, item);
+    }
+  }
+  await batch.commit();
+  const resultData = await getDatas(["user", uid, "order"], {});
+  return resultData;
+}
+
+export async function updateOrder(uid, orderItem) {
+  const orderRef = getCollection("user", uid, "order");
+  const itemRef = doc(orderRef, orderItem.id.toString());
+
+  const itemDoc = await getDoc(itemRef);
+  if (itemDoc.exists()) {
+    return true;
+  } else {
+    return false;
+  }
 }
 
 export async function createPayment(uid, paymentObj) {
