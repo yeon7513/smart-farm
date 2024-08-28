@@ -1,6 +1,9 @@
 import React from "react";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
-
+import Asinfo from "./components/Mypage/asinfo/Asinfo";
+import Chatbot from "./components/Mypage/chatbot/Chatbot";
+import Myletter from "./components/Mypage/myletter/Myletter";
+import Payment from "./components/Mypage/payment/Payment";
 import Layout from "./components/layout/Layout";
 import { ComponentProvider } from "./context/ComponentContext";
 import LoginPage from "./pages/LoginPage/LoginPage";
@@ -29,13 +32,8 @@ import DashBoard from "./pages/my-farm/my-farm-list/dashboard/DashBoard";
 import RenderingMenu from "./pages/my-farm/my-farm-list/dashboard/RenderingMenu";
 import RequestForQuote from "./pages/request/RequestForQuote";
 import "./scss/global.scss";
-import Myinfo from "./components/Mypage/myinfo/Myinfo";
-import Mymain from "./components/Mypage/mymain/Mymain";
 import MyFarm from "./pages/my-farm/MyFarm";
-import Asinfo from "./components/Mypage/asinfo/Asinfo";
-import Chatbot from "./components/Mypage/chatbot/Chatbot";
-import Payment from "./components/Mypage/payment/Payment";
-import Myletter from "./components/Mypage/myletter/Myletter";
+import Myinfo from "./components/Mypage/myinfo/Myinfo";
 
 function App() {
   return (
@@ -78,16 +76,7 @@ function App() {
               <Route index element={<FarmList />} />
             </Route>
             <Route path="manager" element={<Manager />} />
-            <Route path="login" element={<LoginPage />} />
-            <Route path="register" element={<RegisterPage />} />
-            <Route path="MyPage" element={<MyPage />}>
-              <Route index element={<Mymain />} />
-              <Route path="Myinfo" element={<Myinfo />} />
-              <Route path="Chatbotinfo" element={<Chatbot />} />
-              <Route path="Paymentinfo" element={<Payment />} />
-              <Route path="Asinfo" element={<Asinfo />} />
-              <Route path="Myletter" element={<Myletter />} />
-            </Route>
+
             {/* 관리자 */}
             <Route path="MyPage" element={<MyPage />}>
               <Route path="Myinfo" element={<Myinfo />} />

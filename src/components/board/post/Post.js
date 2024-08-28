@@ -1,15 +1,34 @@
 import React from "react";
+import styles from "./Post.module.scss";
 
 function Post() {
   return (
-    <div>
+    <div className={styles.container}>
+      <div>
+        <h3>게시글 작성하기</h3>
+      </div>
       <form>
-        <div>제목</div>
-        <div>내용</div>
-        <div>파일첨부</div>
+        <div className={styles.title}>
+          <p>제목:</p>
+          <input type="text" placeholder="제목을 입력해주세요." />
+        </div>
+        <div className={styles.content}>
+          <p>내용:</p>{" "}
+          <textarea type="text" placeholder="내용을 입력해주세요." />
+        </div>
+        <b>
+          ※ 부적절한 콘텐츠가 포함될 경우 관리자에 의해 게시글이 삭제될 수
+          있으며, 해당 아이디가 정지 처리될 수 있습니다.
+        </b>
+        <div className={styles.file}>
+          <p>첨부:</p> <input type="file" />
+        </div>
 
-        <div>
-          <div>올리기, 취소</div>
+        <div className={styles.btn}>
+          <div>
+            <button className={styles.sub}>작성완료</button>
+            <button className={styles.delete}>취소하기</button>
+          </div>
         </div>
       </form>
     </div>
