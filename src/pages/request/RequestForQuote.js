@@ -4,6 +4,8 @@ import { getDatas } from "../../api/firebase";
 import { Container } from "@mui/material";
 import FacilitiesHorticulture from "./FacilitiesHorticulture";
 import OpenGround from "./OpenGround";
+import Checkout from "./Checkout";
+import { useDispatch, useSelector } from "react-redux";
 
 function RequestForQuote() {
   // user 상태를 선언합니다.
@@ -13,6 +15,16 @@ function RequestForQuote() {
   const [farmAddress, setFarmAddress] = useState("");
   const [facilityType, setFacilityType] = useState("시설원예");
   const [additionalOptions, setAdditionalOptions] = useState([]);
+  const { totalPrice } = useSelector((state) => state.orderSlice);
+  const { payments } = useSelector((state) => state.paymentsSlice);
+  const dispatch = useDispatch();
+
+  const sendPayment = () => {
+    const paymentObj = {
+      totalPrice,
+      payments,
+    };
+  };
 
   useEffect(() => {
     const today = new Date();
@@ -156,7 +168,8 @@ function RequestForQuote() {
             />
           )}
         </div>
-        <button className={styles.submit} type="submit">
+        <Checkout />
+        <button className={styles.submit} onClick={sendPayment}>
           결제하기
         </button>
       </form>

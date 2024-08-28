@@ -41,7 +41,7 @@ const orderSlice = createSlice({
 });
 
 export const syncOrderAndStorage = createAsyncThunk(
-  "ordder/asyncOrderItem",
+  "order/asyncOrderItem",
   async ({ uid }, thunkAPI) => {
     try {
     } catch (error) {
