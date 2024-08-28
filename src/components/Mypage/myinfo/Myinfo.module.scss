@@ -1,15 +1,19 @@
 .container {
-  margin: 0 50%;
-  width: 100%;
-  transform: translateX(-25%);
+  display: flex;
+  justify-content: center;
 }
-
 .headers {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  border: 1px solid rgb(192, 192, 192);
+  padding: 30px;
   input {
     border: 1px solid black;
     font-size: 16px;
     outline: none;
     padding: 5px;
+    width: 31.8%;
   }
   .name {
     display: flex;
@@ -17,5 +21,47 @@
   button {
     border: 1px solid black;
     padding: 5px;
+    width: 80px;
+  }
+  .file {
+    border: none;
+  }
+  .title {
+    width: 300px;
+  }
+  .double {
+    display: flex;
+    gap: 10px;
+  }
+  .Change {
+    &:hover {
+      background-color: var(--back-color);
+    }
+  }
+
+  .password {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+  .title {
+    display: flex;
+    flex-direction: column;
+  }
+  .complete {
+    margin-left: 300px;
+  }
+  .profile {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  .photo {
+    align-self: flex-end;
+    &::-webkit-file-upload-button {
+      border: none;
+      background-color: transparent;
+    }
   }
 }

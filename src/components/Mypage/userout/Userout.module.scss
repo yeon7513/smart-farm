@@ -1,21 +1,17 @@
 .container {
   display: flex;
   justify-content: center;
+  align-items: center;
   width: 100%;
+  margin-top: 200px;
+
   .main {
     display: flex;
     justify-content: center;
-    width: 100%;
+    align-items: center;
+    width: 70%;
   }
-
-  .paylist {
+  input {
     border: 1px solid black;
-    width: 500px;
-    padding: 10px;
-  }
-  .mainBox {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
   }
 }

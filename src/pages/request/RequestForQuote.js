@@ -4,6 +4,9 @@ import { getDatas } from "../../api/firebase";
 import { Container } from "@mui/material";
 import FacilitiesHorticulture from "./FacilitiesHorticulture";
 import OpenGround from "./OpenGround";
+import { useDispatch } from "react-redux";
+import { Link } from "react-router-dom";
+import Checkout from "./Checkout";
 
 function RequestForQuote() {
   // user 상태를 선언합니다.
@@ -13,6 +16,7 @@ function RequestForQuote() {
   const [farmAddress, setFarmAddress] = useState("");
   const [facilityType, setFacilityType] = useState("시설원예");
   const [additionalOptions, setAdditionalOptions] = useState([]);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const today = new Date();
@@ -56,7 +60,6 @@ function RequestForQuote() {
         console.error("Error extracting information:", error);
       }
     };
-
     idExtraction();
   }, []);
 
@@ -74,18 +77,6 @@ function RequestForQuote() {
         : [...prevOptions, value]
     );
   };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log({
-      userEmail,
-      date,
-      farmAddress,
-      facilityType,
-      additionalOptions,
-    });
-  };
-
   return (
     <Container>
       {/* 견적을 요청하고 사용자의 정보를 입력하면 결제 페이지로 넘어갑니다. &nbsp;
@@ -97,7 +88,7 @@ function RequestForQuote() {
       사용자가 회원가입 시 사용한 내용을 출력해 다시 입력하지 않습니다. &nbsp;
       5. 비회원은 견적요청 아이디만 알려주고 마이페이지에서 조회할 때 사용(요청
       아이디를 꼭 알고 있어야 됨) */}
-      <form onSubmit={handleSubmit}>
+      <form>
         <div>
           <h3>견적 정보</h3>
         </div>
@@ -143,7 +134,7 @@ function RequestForQuote() {
           </select>
         </div>
         <div>
-          <h3>부가 옵션 선택 (옵션 옆에 비용을 표기해야하나 고민 중..)</h3>
+          <h3>부가 옵션 선택</h3>
           {facilityType === "시설원예" ? (
             <FacilitiesHorticulture
               additionalOptions={additionalOptions}
@@ -156,9 +147,9 @@ function RequestForQuote() {
             />
           )}
         </div>
-        <button className={styles.submit} type="submit">
-          결제하기
-        </button>
+        <Link to="../mypage/Paymentinfo">
+          <Checkout description={"결제하기"} />
+        </Link>
       </form>
     </Container>
   );

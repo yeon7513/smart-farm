@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import styles from "./PaymentsList.module.scss";
 import { getISODate } from "../../utils/getFormattedDate";
 import { useDispatch, useSelector } from "react-redux";
-import PaymentEmpty from "./PaymentEmpty";
+import PaymentEmpty from "../../components/payment-empty/PaymentEmpty";
 import { fetchPayment } from "../../store/payment/paymentSlice";
 import PaymentsItem from "./PaymentsItem";
 
@@ -20,7 +20,7 @@ function PaymentsList() {
   }, []);
 
   if (payment.length === 0) {
-    return <PaymentEmpty title="주문 내역" />;
+    return <PaymentEmpty title="결제내역" />;
   }
 
   return (
@@ -34,7 +34,6 @@ function PaymentsList() {
               결제 날짜_{getISODate(payment.createdAt).yyyyMMdd}{" "}
               {getISODate(payment.createdAt).hhmmss}
             </h3>
-            <p>합계: {payment.totalPrice} 원</p>
           </div>
           <ul>
             {payment.payments.map((payment) => (
