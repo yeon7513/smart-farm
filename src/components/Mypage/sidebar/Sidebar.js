@@ -45,7 +45,7 @@ function Sidebar(props) {
         </li>
       </ul>
       <ul className={styles.items}>
-        <button onClick={handleDelete}>회원 탈퇴</button>
+        <Link to="Userout">회원 탈퇴</Link>
       </ul>
     </div>
   );
