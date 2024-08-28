@@ -1,20 +1,43 @@
-import React from "react";
+import React, { useState } from "react";
 import styles from "./Post.module.scss";
 
-function Post() {
+function Post({ onSubmit }) {
+  const [title, setTitle] = useState("");
+  const [user, setUser] = useState("");
+  const [content, setContent] = useState("");
+  const date = new Date().toISOString();
+
+  const postSubmit = (e) => {
+    e.preventDefault();
+    onSubmit({ title, user, date, content });
+    setTitle("");
+    setUser("");
+    setContent("");
+  };
+
   return (
     <div className={styles.container}>
       <div>
         <h3>게시글 작성하기</h3>
       </div>
-      <form>
+      <form onSubmit={postSubmit}>
         <div className={styles.title}>
           <p>제목:</p>
-          <input type="text" placeholder="제목을 입력해주세요." />
+          <input
+            type="text"
+            placeholder="제목을 입력해주세요."
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+          />
         </div>
         <div className={styles.content}>
           <p>내용:</p>{" "}
-          <textarea type="text" placeholder="내용을 입력해주세요." />
+          <textarea
+            type="text"
+            placeholder="내용을 입력해주세요."
+            value={content}
+            onChange={(e) => setContent(e.target.value)}
+          />
         </div>
         <b>
           ※ 부적절한 콘텐츠가 포함될 경우 관리자에 의해 게시글이 삭제될 수
@@ -26,7 +49,9 @@ function Post() {
 
         <div className={styles.btn}>
           <div>
-            <button className={styles.sub}>작성완료</button>
+            <button type="submit" className={styles.sub}>
+              작성완료
+            </button>
             <button className={styles.delete}>취소하기</button>
           </div>
         </div>
