@@ -1,10 +1,21 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { getDatas } from "../../api/firebase";
+import { getDataRest } from "../../api/api";
+
+const fetchPayment = createAsyncThunk(
+  "payment/fetchPayment",
+  async ({ collectionName }) => {
+    try {
+      const resultData = await getDataRest(collectionName);
+      return resultData;
+    } catch (error) {
+      return null;
+    }
+  }
+);
 
 const initialState = {
-  payment: [],
+  payment: {},
   isLoading: false,
-  totalPrice: 0,
   error: "",
 };
 
@@ -14,7 +25,7 @@ const paymentSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(fetchPayment.pending, (state, action) => {
+      .addCase(fetchPayment.pending, (state) => {
         state.isLoading = true;
       })
       .addCase(fetchPayment.fulfilled, (state, action) => {
@@ -28,17 +39,5 @@ const paymentSlice = createSlice({
   },
 });
 
-export const fetchPayment = createAsyncThunk(
-  "payment/fetchPayment",
-  async ({ collectionName }, thunkAPI) => {
-    try {
-      const resultData = await getDatas(collectionName);
-      return resultData;
-    } catch (error) {
-      console.error(error);
-      return thunkAPI.rejectWithValue("Error fetch Payment");
-    }
-  }
-);
-
 export default paymentSlice.reducer;
+export { fetchPayment };

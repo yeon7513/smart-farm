@@ -26,3 +26,16 @@ module.exports = function (app) {
     })
   );
 };
+module.exports = function (app) {
+  // 우수농가api
+  app.use(
+    "/api2", // 기존 host 대신 사용할 경로
+    createProxyMiddleware({
+      target: "https://apis.data.go.kr/1390000/SmartFarmdata", // 기존 host
+      changeOrigin: true,
+      pathRewrite: {
+        "^/api": "",
+      },
+    })
+  );
+};

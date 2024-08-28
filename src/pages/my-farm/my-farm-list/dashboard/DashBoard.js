@@ -68,9 +68,7 @@ function DashBoard() {
             <li className={currComp === 'Sensor' ? styles.active : ''}>
               <button onClick={() => setCurrComp('Sensor')}>센서</button>
             </li>
-            <li className={currComp === 'Alert' ? styles.active : ''}>
-              <button onClick={() => setCurrComp('Alert')}>알림 내역</button>
-            </li>
+
             <li className={currComp === 'Report' ? styles.active : ''}>
               <button onClick={() => setCurrComp('Report')}>보고서</button>
             </li>

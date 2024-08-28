@@ -1,12 +1,20 @@
 import React from "react";
 import styles from "./PostView.module.scss";
+// import { useNavigate } from "react-router-dom";
+import { useComponentContext } from "../../../context/ComponentContext";
 
 function PostView() {
+  // const navigate = useNavigate();s
+  const { currComp, setCurrComp } = useComponentContext();
+  const BackToBoard = () => setCurrComp(null);
+
+  if (!currComp) return null;
+
   return (
     <div className={styles.container}>
       <div className={styles.title}>
         <div>
-          <h2>cctv 끊김 현상</h2>
+          <h2>{currComp.title}</h2>
         </div>
         <div>
           <div>
@@ -44,7 +52,7 @@ function PostView() {
       </div>
 
       <div className={styles.back}>
-        <button>목록으로</button>
+        <button onClick={BackToBoard}>목록으로</button>
       </div>
     </div>
   );

@@ -1,0 +1,36 @@
+.menu {
+  .menu_bar {
+    display: flex;
+    border: 1px solid #ececec;
+    border-radius: 6px;
+    margin: 6px 0;
+
+    width: 700px;
+    justify-content: space-between;
+    padding: 20px;
+  }
+  .menu_number {
+    width: 50px;
+  }
+  .title {
+    width: 70%;
+    text-align: center;
+  }
+  .date {
+    width: 150px;
+    text-align: center;
+  }
+  .check {
+    width: 15%;
+    text-align: center;
+  }
+  .menu_list {
+    display: flex;
+    justify-content: space-between;
+
+    //   div {
+    //     height: 100%;
+    //     // border-right: 1px solid black;
+    //   }
+  }
+}

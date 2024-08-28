@@ -3,12 +3,14 @@ import style from "./Myinfo.module.scss";
 import styles from "../MypageGrobal.module.scss";
 import Container from "../../layout/container/Container";
 import { Avatar } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 function Myinfo(props) {
   const [NicknameState, SetnicknameState] = useState(false);
   const [nameState, SetnameState] = useState(false);
   const [PasswordState, SetPasswordnameState] = useState(false);
   const [addressState, SetaddressState] = useState(false);
+  const navigate = useNavigate();
 
   const nickClick = () => {
     if (NicknameState == true) {
@@ -39,18 +41,27 @@ function Myinfo(props) {
       SetaddressState(true);
     }
   };
+  const CompleteButton = () => {
+    navigate("/mypage");
+  };
   return (
     <Container className={style.container}>
       <div className={style.headers}>
-        <div>프로필 사진 변경</div>
-        <Avatar
-          sx={{
-            m: 3,
-            backgroundColor: "secondary.main",
-            width: "70px",
-            height: "70px",
-          }}
-        />
+        <div className={style.profile}>
+          <div>프로필 사진</div>
+          <Avatar
+            sx={{
+              m: 3,
+              backgroundColor: "secondary.main",
+              width: "70px",
+              height: "70px",
+              type: "file",
+            }}
+          />
+          <button type="file" className={style.photo}>
+            사진 변경
+          </button>
+        </div>
         <div className={style.name}>
           <div className={style.title}>서석민</div>
           {nameState == true ? (
@@ -127,7 +138,9 @@ function Myinfo(props) {
         ) : (
           ""
         )}
-        <button className={style.complete}>변경 완료</button>
+        <button className={style.complete} onClick={CompleteButton}>
+          변경 완료
+        </button>
       </div>
     </Container>
   );

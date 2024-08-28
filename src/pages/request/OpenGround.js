@@ -14,7 +14,11 @@ const options = {
     },
   ],
   "토양 관리": [
-    { id: "soilPhMeter", value: "토양 ph 측정기", label: "토양 ph 측정기" },
+    {
+      id: "soilPhMeter",
+      value: "토양 ph 측정기",
+      label: "토양 ph 측정기",
+    },
     {
       id: "soilHumiditySensor",
       value: "토양 습도 센서",
@@ -27,14 +31,30 @@ const options = {
       value: "비료 살포기",
       label: "비료 살포기",
     },
-    { id: "pesticideSprayer", value: "농약 살포기", label: "농약 살포기" },
+    {
+      id: "pesticideSprayer",
+      value: "농약 살포기",
+      label: "농약 살포기",
+    },
   ],
   "기상 모니터링": [
-    { id: "weatherStation", value: "기상 스테이션", label: "기상 스테이션" },
+    {
+      id: "weatherStation",
+      value: "기상 스테이션",
+      label: "기상 스테이션",
+    },
   ],
   "기타 장비": [
-    { id: "groundBasedDrone", value: "지상용 드론", label: "지상용 드론" },
-    { id: "tractor", value: "트랙터", label: "트랙터" },
+    {
+      id: "groundBasedDrone",
+      value: "지상용 드론",
+      label: "지상용 드론",
+    },
+    {
+      id: "tractor",
+      value: "트랙터",
+      label: "트랙터",
+    },
   ],
 };
 
