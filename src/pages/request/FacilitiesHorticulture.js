@@ -5,58 +5,58 @@ const options = {
     {
       id: "thermostat",
       value: "온도 조절기",
-      label: "온도 조절기: 35,000원",
+      label: "온도 조절기",
     },
     {
       id: "ventilationSystem",
       value: "환기 장치",
-      label: "환기 장치: 201,500원",
+      label: "환기 장치",
     },
-    { id: "shadingFilm", value: "차광막", label: "차광막: 78,200원" },
+    { id: "shadingFilm", value: "차광막", label: "차광막" },
   ],
   "조명 시스템": [
     {
       id: "LEDGrowLights",
       value: "인공 조명",
-      label: "인공 조명: 186,670원",
+      label: "인공 조명",
     },
     {
       id: "automaticLightingRegulator",
       value: "자동 조명 조절기",
-      label: "자동 조명 조절기: 32,400원",
+      label: "자동 조명 조절기",
     },
   ],
   "관수 시스템": [
     {
       id: "automaticIrrigationSystem",
       value: "자동 관수 시스템",
-      label: "자동 관수 시스템: 56,800원",
+      label: "자동 관수 시스템",
     },
     {
       id: "positiveLiquidMachine",
       value: "양액기",
-      label: "양액기: 328,500원",
+      label: "양액기",
     },
   ],
   "센서 및 모니터링": [
     {
       id: "temperatureHumiditySensor",
       value: "온도 및 습도 센서",
-      label: "온도 및 습도 센서: 90,090원",
+      label: "온도 및 습도 센서",
     },
     {
       id: "CO2Sensor",
       value: "CO2 센서",
-      label: "CO2 센서: 66,000원",
+      label: "CO2 센서",
     },
   ],
   "기타 장비": [
     {
       id: "positiveSolutionMeasurementSensor",
       value: "양액측정센서",
-      label: "양액측정센서: 569,720원",
+      label: "양액측정센서",
     },
-    { id: "CCTV", value: "CCTV", label: "CCTV: 39,800원" },
+    { id: "CCTV", value: "CCTV", label: "CCTV" },
   ],
 };
 

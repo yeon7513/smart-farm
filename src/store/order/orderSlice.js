@@ -44,6 +44,10 @@ export const syncOrderAndStorage = createAsyncThunk(
   "order/asyncOrderItem",
   async ({ uid }, thunkAPI) => {
     try {
+      const orderObj = {
+        createdAt: new Date().getTime(),
+        updatedAt: new Date().getTime(),
+      };
     } catch (error) {
       console.error(error);
     }
