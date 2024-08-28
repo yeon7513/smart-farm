@@ -138,7 +138,7 @@ export async function updateDatas(collectionName, docId, updateObj) {
 
 // let userId;
 
-// async function fetchData() {
+// export async function fetchData() {
 //   const url =
 //     "/api/Agree_WS/webservices/ProvideRestService/getIdentityDataList/cbd181f0a2594233a01eed9b0b86a392";
 //   const response = await fetch(url);
