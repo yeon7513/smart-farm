@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useEffect } from "react";
 import style from "./Payment.module.scss";
 import Container from "../../layout/container/Container";
 import styles from "../MypageGrobal.module.scss";
 
 function Payment(props) {
+  useEffect(() => {}, []);
   return (
     <Container className={style.container}>
       <div className={style.main}>
