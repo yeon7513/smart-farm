@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { Link, Outlet } from "react-router-dom";
 import styles from "./DiseasesList.module.scss";
-import DiseasesItem from "../diseases-item/DiseasesItem";
-import { CiSearch } from "react-icons/ci";
 import SearchBox from "../../../../components/search_box/SearchBox";
 import image from "../../../../assets/abou/식2.png";
-
+import { MdOutlineNavigateNext } from "react-icons/md";
+import { GrFormPrevious } from "react-icons/gr";
 const diseasesList = [
   {
     id: 1,
@@ -157,7 +156,17 @@ function DiseasesList() {
         ))}
       </div>
       <div className={styles.more}>
-        <button>더보기</button>
+        <button>FIRST</button>
+        <button>
+          <GrFormPrevious />
+        </button>
+        <button>1</button>
+        <button>2</button>
+        <button>
+          {" "}
+          <MdOutlineNavigateNext />
+        </button>
+        <button>END</button>
       </div>
     </>
   );

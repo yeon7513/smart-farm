@@ -77,6 +77,16 @@ function RequestForQuote() {
         : [...prevOptions, value]
     );
   };
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log({
+      userEmail,
+      date,
+      farmAddress,
+      facilityType,
+      additionalOptions,
+    });
+  };
   return (
     <Container>
       {/* 견적을 요청하고 사용자의 정보를 입력하면 결제 페이지로 넘어갑니다. &nbsp;
@@ -147,9 +157,7 @@ function RequestForQuote() {
             />
           )}
         </div>
-        <Link to="../mypage/Paymentinfo">
-          <Checkout description={"결제하기"} />
-        </Link>
+        <Checkout description={"결제하기"} onClick={handleSubmit} />
       </form>
     </Container>
   );

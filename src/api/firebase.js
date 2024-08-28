@@ -26,7 +26,7 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
-const db = getFirestore(app);
+export const db = getFirestore(app);
 
 export function getCollection(collectionName) {
   return collection(db, collectionName);
@@ -125,7 +125,7 @@ export async function updateDatas(collectionName, docId, updateObj) {
 
 // let userId;
 
-// async function fetchData() {
+// export async function fetchData() {
 //   const url =
 //     "/api/Agree_WS/webservices/ProvideRestService/getIdentityDataList/cbd181f0a2594233a01eed9b0b86a392";
 //   const response = await fetch(url);
@@ -164,57 +164,59 @@ let userId = [];
 //     console.log(result);
 //   });
 
-// 25
-// 27
-// 28
-// 29
-// 31
-// 32
-// 39
-// 42
-// 44
-// 45
-// 48
-// 50
-// 51
-// 53
-// 54
-// 56
-// 57
-// 59
-// 201
-// 202
-// 204
-// 205
-// 206
-// 207
-// 209
-// 210
-// 315
-// 316
-// 318
-// 319
-// 320
-// 324
-// 325
-// 326
-// 327
-// 332
-// 339
-// 344
-// 345
-// 349
-// 315
-// 33
-// 35
-// 37
-// 41
-// 43
-// 203
-
 const apiKey =
   "iv2U4%2BpsJ7CRlDQ2ukixg4slrgEMjbIL%2FB%2B9pefVtqqEHGHhSRX7tNubbe2Y%2FGpjV59et7GLPJwxAdVe7iXycA%3D%3D"; // 여기에 실제 API 키를 넣으세요
-const searchFrmhsCodes = ["81", "9", "21"]; // 배열에 여러 코드를 넣으세요
+const searchFrmhsCodes = [
+  "81",
+  "9",
+  "21",
+  "25",
+  "27",
+  "28",
+  "29",
+  "31",
+  "32",
+  "39",
+  "42",
+  "44",
+  "45",
+  "48",
+  "50",
+  "51",
+  "53",
+  "54",
+  "56",
+  "57",
+  " 59",
+  "201",
+  "202",
+  "204",
+  "205",
+  "206",
+  "207",
+  "209",
+  "210",
+  "315",
+  "316",
+  "318",
+  "319",
+  "320",
+  "324",
+  "325",
+  "326",
+  "327",
+  "339",
+  "344",
+  "345",
+  "349",
+  "315",
+  "33",
+  "35",
+  "37",
+  "41",
+  "43",
+  "203",
+]; // 배열에 여러 코드를 넣으세요
 
 // 모든 URL을 생성하여 저장
 const urls = searchFrmhsCodes.map(
@@ -243,11 +245,23 @@ async function fetchAllData() {
 }
 
 // 데이터를 가져오고 콘솔에 출력
-fetchAllData().then((data) => {
-  data.forEach((item, index) => {
-    console.log(`Data for ${searchFrmhsCodes[index]}:`, item);
-  });
-});
+// fetchAllData().then((data) => {
+//   data.forEach((item, index) => {
+//     console.log(
+//       `Data for ${searchFrmhsCodes[index]}:`,
+//       item.response.body.items.item
+//     );
+//   });
+// });
+
+// const api = "cbd181f0a2594233a01eed9b0b86a392"; // 여기에 실제 API 키를 넣으세요
+
+// const apiurl = `/api3/Agree_WS/webservices/ProvideRestService/getIdentityDataList/${api}`;
+// fetch(apiurl)
+//   .then((response) => response.json())
+//   .then((result) => {
+//     console.log(result);
+//   });
 
 export async function deleteDatas(collectionName, docId) {
   try {

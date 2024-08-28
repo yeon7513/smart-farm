@@ -38,6 +38,7 @@ import RequestForQuote from "./pages/request/RequestForQuote";
 import "./scss/global.scss";
 import CommunityMenu from "./context/CommunityMenu";
 import PostView from "./components/board/post-view/PostView";
+import InfoMenu from "./context/InfoMenu";
 
 function App() {
   return (
@@ -51,6 +52,7 @@ function App() {
               <Route path="service" element={<Service />} />
               {/* <Route path="counsel" element={<Counsel />} /> */}
             </Route>
+            {/* <Route index element={<InfoMenu />} /> */}
             <Route path="info" element={<Info />}>
               <Route index element={<Navigate to="usage-status" />} />
               <Route path="usage-status" element={<UsageStatus />} />
