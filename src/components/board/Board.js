@@ -86,7 +86,7 @@ function Board({ items, nopost }) {
               다음 &gt;
             </button>
           </div>
-          {nopost == false ? (
+          {nopost === false ? (
             ""
           ) : (
             <div className={styles.upload}>
