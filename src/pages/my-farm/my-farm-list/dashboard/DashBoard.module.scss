@@ -16,6 +16,60 @@
   }
 }
 
+.alert {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  background-color: var(--notice-color);
+  border-bottom: 5px solid var(--accent-color);
+  > div {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #fff;
+    font-size: 30px;
+    > span {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: var(--danger-color);
+      font-size: 40px;
+      > svg {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+    }
+  }
+}
+
+.harvest {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  background-color: var(--common-color);
+  border-bottom: 5px solid var(--accent-color);
+  > div {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #fff;
+    font-size: 30px;
+    > span {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: var(--accent-color);
+      font-size: 40px;
+      > svg {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+    }
+  }
+}
+
 .header {
   @include flexCenter();
   gap: 8px;

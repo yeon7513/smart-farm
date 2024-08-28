@@ -1,6 +1,6 @@
 import React from 'react';
 import { Outlet } from 'react-router-dom';
-import Contact from '../contact/Contact';
+import Contact from './../contact/Contact';
 import UpButton from './../up-button/UpButton';
 import Footer from './footer/Footer';
 import Header from './header/Header';
