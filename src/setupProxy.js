@@ -12,17 +12,6 @@ module.exports = function (app) {
       },
     })
   );
-  // 병해충api
-  app.use(
-    "/api1", // 기존 host 대신 사용할 경로
-    createProxyMiddleware({
-      target: "https://ncpms.rda.go.kr/npmsAPI/service", // 기존 host
-      changeOrigin: true,
-      pathRewrite: {
-        "^/api": "",
-      },
-    })
-  );
   // 우수농가api
   app.use(
     "/api2", // 기존 host 대신 사용할 경로
