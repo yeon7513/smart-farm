@@ -35,6 +35,8 @@ import "./scss/global.scss";
 import MyFarm from "./pages/my-farm/MyFarm";
 import Myinfo from "./components/Mypage/myinfo/Myinfo";
 import Mymain from "./components/Mypage/mymain/Mymain";
+import Userout from "./components/Mypage/userout/Userout";
+import Alert from "./components/Mypage/userout/Alert";
 
 function App() {
   return (
@@ -86,8 +88,10 @@ function App() {
               <Route path="Paymentinfo" element={<Payment />} />
               <Route path="Asinfo" element={<Asinfo />} />
               <Route path="Myletter" element={<Myletter />} />
+              <Route path="Userout" element={<Userout />} />
             </Route>
           </Route>
+          <Route path="Alert" element={<Alert />} />
           <Route path="/my-farm/:id" element={<DashBoard />}>
             <Route index element={<RenderingMenu />} />
           </Route>

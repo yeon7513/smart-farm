@@ -32,7 +32,7 @@ function Sidebar(props) {
         </li>
       </ul>
       <ul className={styles.items}>
-        <Link>회원 탈퇴</Link>
+        <Link to="Userout">회원 탈퇴</Link>
       </ul>
     </div>
   );

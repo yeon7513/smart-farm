@@ -51,4 +51,17 @@
   .complete {
     margin-left: 300px;
   }
+  .profile {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  .photo {
+    align-self: flex-end;
+    &::-webkit-file-upload-button {
+      border: none;
+      background-color: transparent;
+    }
+  }
 }

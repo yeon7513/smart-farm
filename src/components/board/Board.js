@@ -5,7 +5,7 @@ import SharingItem from "./boardItem/BoardItem";
 
 const PAGE_SIZE = 10;
 
-function Board({ items }) {
+function Board({ items, mypage }) {
   const [currentPage, setCurrentPage] = useState(1);
 
   const totalPages = Math.ceil(items.length / PAGE_SIZE);
@@ -67,9 +67,13 @@ function Board({ items }) {
           다음 &gt;
         </button>
       </div>
-      <div className={styles.upload}>
-        <button>글쓰기</button>
-      </div>
+      {mypage == false ? (
+        ""
+      ) : (
+        <div className={styles.upload}>
+          <button>글쓰기</button>
+        </div>
+      )}
     </div>
   );
 }
