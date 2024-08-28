@@ -1,28 +1,10 @@
 import React from "react";
 import styles from "./Checkout.module.scss";
 
-function Checkout({
-  description,
-  userEmail,
-  date,
-  farmAddress,
-  facilityType,
-  additionalOptions,
-}) {
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log({
-      userEmail,
-      date,
-      farmAddress,
-      facilityType,
-      additionalOptions,
-    });
-  };
-
+function Checkout({ description, onClick }) {
   return (
     <div>
-      <button className={styles.submit} onSubmit={handleSubmit}>
+      <button className={styles.submit} onClick={onClick}>
         {description}
       </button>
     </div>
