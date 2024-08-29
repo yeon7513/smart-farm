@@ -22,6 +22,7 @@ import Service from './pages/about/Service';
 import Community from './pages/community/Community';
 import Home from './pages/home/Home';
 import Info from './pages/info/Info';
+import DiseasesItem from './pages/info/diseases/diseases-item/DiseasesItem';
 import Manager from './pages/manager/Manager';
 import MyFarm from './pages/my-farm/MyFarm';
 import FarmList from './pages/my-farm/my-farm-list/FarmList';
@@ -45,6 +46,7 @@ function App() {
             {/* <Route index element={<InfoMenu />} /> */}
             <Route path="info" element={<Info />}>
               <Route index element={<InfoMenu />} />
+              <Route path=":path" element={<DiseasesItem />} />
               {/* <Route path="usage-status" element={<UsageStatus />} />
               <Route path="simulation" element={<Simulation />} />
               <Route path="diseases" element={<Diseases />}>

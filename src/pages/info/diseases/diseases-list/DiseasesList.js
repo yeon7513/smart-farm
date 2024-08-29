@@ -1,58 +1,59 @@
-import React, { useEffect, useState } from "react";
-import { Link, Outlet } from "react-router-dom";
-import styles from "./DiseasesList.module.scss";
-import SearchBox from "../../../../components/search_box/SearchBox";
-import image from "../../../../assets/abou/식2.png";
-import { MdOutlineNavigateNext } from "react-icons/md";
-import { GrFormPrevious } from "react-icons/gr";
+import React, { useState } from 'react';
+import { GrFormPrevious } from 'react-icons/gr';
+import { MdOutlineNavigateNext } from 'react-icons/md';
+import { Link } from 'react-router-dom';
+import image from '../../../../assets/abou/식2.png';
+import SearchBox from '../../../../components/search_box/SearchBox';
+import styles from './DiseasesList.module.scss';
+
 const diseasesList = [
   {
     id: 1,
-    path: "dddd1",
-    name: "감자수염진딧물",
-    a: "증상",
-    b: "대처법 또는 방제법",
+    path: 'dddd1',
+    name: '감자수염진딧물',
+    a: '증상',
+    b: '대처법 또는 방제법',
     image: image,
   },
   {
     id: 2,
-    path: "dddd2",
-    name: "병해충이름2",
-    a: "증상",
-    b: "대처법 또는 방제법",
+    path: 'dddd2',
+    name: '병해충이름2',
+    a: '증상',
+    b: '대처법 또는 방제법',
     image: image,
   },
   {
     id: 3,
-    path: "dddd3",
-    name: "병해충이름3",
-    a: "증상",
-    b: "대처법 또는 방제법",
+    path: 'dddd3',
+    name: '병해충이름3',
+    a: '증상',
+    b: '대처법 또는 방제법',
     image: image,
   },
   {
     id: 4,
-    path: "dddd4",
-    name: "병해충이름4",
-    a: "증상",
-    b: "대처법 또는 방제법",
+    path: 'dddd4',
+    name: '병해충이름4',
+    a: '증상',
+    b: '대처법 또는 방제법',
     image: image,
   },
   {
     id: 5,
-    path: "dddd5",
-    name: "병해충이름5",
-    a: "증상",
-    b: "대처법 또는 방제법",
+    path: 'dddd5',
+    name: '병해충이름5',
+    a: '증상',
+    b: '대처법 또는 방제법',
 
     image: image,
   },
   {
     id: 6,
-    path: "dddd6",
-    name: "병해충이름6",
-    a: "증상",
-    b: "대처법 또는 방제법",
+    path: 'dddd6',
+    name: '병해충이름6',
+    a: '증상',
+    b: '대처법 또는 방제법',
 
     image: image,
   },
@@ -131,7 +132,7 @@ function DiseasesList() {
           <div key={item.id} className={styles.item}>
             <div className={styles.title}>
               <div className={styles.item_img}>
-                <img src={item.image} />
+                <img src={item.image} alt="" />
               </div>
 
               <div className={styles.item_name}>
@@ -149,7 +150,7 @@ function DiseasesList() {
                 {/* </div> */}
                 <div className={styles.item_list}>
                   {/* <p> 이름 : </p> */}
-                  <Link to={`/info/diseases/${item.path}`}>
+                  <Link to={`/info/${item.path}`}>
                     <p className={styles.name}>{item.name}</p>
                   </Link>
                 </div>
@@ -166,7 +167,7 @@ function DiseasesList() {
         <button>1</button>
         <button>2</button>
         <button>
-          {" "}
+          {' '}
           <MdOutlineNavigateNext />
         </button>
         <button>END</button>
