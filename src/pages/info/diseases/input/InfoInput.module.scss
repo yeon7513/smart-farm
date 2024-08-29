@@ -1,0 +1,64 @@
+.main {
+  position: relative;
+  border: 2px solid #ececec;
+  padding: 10px;
+  width: 50%;
+  margin: 20px 0 50px 0;
+
+  .menu {
+    display: flex;
+    flex-direction: column;
+  }
+  .input {
+    margin: 10px;
+    display: flex;
+    align-items: center;
+    .input_item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      input {
+        border: 1px solid black;
+        width: 320px;
+        font-size: 20px;
+        padding: 10px;
+      }
+    }
+  }
+  .select_box {
+    margin: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .select_box_item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+
+      span {
+        margin: 0 10px;
+      }
+      select {
+        width: 100px;
+        height: 40px;
+        padding: 0;
+      }
+    }
+  }
+}
+.btn {
+  display: inline-block;
+  position: absolute;
+  right: 0;
+  top: 30px;
+  margin-right: 6px;
+  button {
+    display: flex;
+    align-items: center;
+    border: 1px solid black;
+    padding: 30px 10px;
+    font-size: 20px;
+    border-radius: 8px;
+  }
+}
