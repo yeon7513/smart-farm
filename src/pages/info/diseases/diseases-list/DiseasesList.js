@@ -4,6 +4,8 @@ import { MdOutlineNavigateNext } from "react-icons/md";
 import { Link } from "react-router-dom";
 import image from "../../../../assets/abou/식2.png";
 import styles from "./DiseasesList.module.scss";
+import { service } from "../../../../lib/intro";
+import { Input } from "@mui/material";
 import InfoInput from "../input/InfoInput";
 
 const diseasesList = [

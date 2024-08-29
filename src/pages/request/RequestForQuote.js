@@ -69,7 +69,7 @@ function RequestForQuote() {
   const handleFacilityTypeChange = (e) => {
     setFacilityType(e.target.value);
     setAdditionalOptions([]);
-    console.log(e.target.value);
+    // console.log(e.target.value);
   };
 
   const handleAdditionalOptionsChange = (e) => {
@@ -79,8 +79,10 @@ function RequestForQuote() {
         ? prevOptions.filter((option) => option !== value)
         : [...prevOptions, value]
     );
-    console.log(e.target.value);
+    // console.log(e.target.value);
   };
+
+  // // 견적 의뢰 내용을 Firebase에 저장하는 함수입니다.
   // const handleSubmit = async (e) => {
   //   e.preventDefault();
   //   // console.log({
@@ -134,7 +136,7 @@ function RequestForQuote() {
   const handleExcelDownload = (e) => {
     e.preventDefault();
     // console.log("Additional Options: ", additionalOptions);
-    const fileName = "test";
+    const fileName = `${userEmail}님의 견적`;
     const data = [
       {
         아이디: userEmail,
