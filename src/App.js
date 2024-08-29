@@ -52,7 +52,7 @@ function App() {
             <Route path="request" element={<RequestForQuote />} />
             <Route path="community" element={<Community />}>
               <Route index element={<CommunityMenu />} />
-              <Route path=":id" element={<PostView />} />
+              {/* <Route path=":id" element={<PostView />} /> */}
             </Route>
             <Route path="my-farm" element={<MyFarm />}>
               <Route index element={<FarmList />} />
