@@ -39,6 +39,7 @@ import "./scss/global.scss";
 import CommunityMenu from "./context/CommunityMenu";
 import PostView from "./components/board/post-view/PostView";
 import InfoMenu from "./context/InfoMenu";
+import MyPageMenu from "./context/MyPageMenu";
 
 function App() {
   return (
@@ -78,14 +79,8 @@ function App() {
             <Route path="manager" element={<Manager />} />
 
             {/* 관리자 */}
-            <Route path="MyPage" element={<MyPage />}>
-              <Route index element={<Mymain />} />
-              <Route path="Myinfo" element={<Myinfo />} />
-              <Route path="Chatbotinfo" element={<Chatbot />} />
-              <Route path="Paymentinfo" element={<Payment />} />
-              <Route path="Asinfo" element={<Asinfo />} />
-              <Route path="Myletter" element={<Myletter />} />
-              <Route path="Userout" element={<Userout />} />
+            <Route path="/Mypage" element={<MyPage />}>
+              <Route index element={<MyPageMenu />} />
             </Route>
           </Route>
           <Route path="/my-farm/:id" element={<DashBoard />}>
