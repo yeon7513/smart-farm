@@ -1,18 +1,48 @@
 import React from 'react';
 import { Outlet } from 'react-router-dom';
+import Title from '../../components/layout/title/Title';
+import { useComponentContext } from '../../context/ComponentContext';
+import { infoTitle } from '../../lib/intro';
 
 function Info() {
-  // const componentName = Object.keys(infoTitle);
-  // const titleProps = getTitleProps(infoTitle, componentName);
+  const { currComp, setCurrComp } = useComponentContext();
 
-  // console.log('infoTitle', infoTitle);
+  const titleProps = infoTitle[currComp] || infoTitle.UsageStatus;
 
-  // console.log(titleProps);
+  const handleChangeTitles = (compName) => {
+    setCurrComp(compName);
+  };
 
-  // return <PageTemplate titleProps={titleProps} components={componentName} />;
   return (
     <>
-      <Outlet />
+      <Title {...titleProps} />
+      <div>
+        <ul>
+          <li>
+            <button onClick={() => handleChangeTitles('UsageStatus')}>
+              이용현황
+            </button>
+          </li>
+          <li>
+            <button onClick={() => handleChangeTitles('Simulation')}>
+              시뮬레이션
+            </button>
+          </li>
+          <li>
+            <button onClick={() => handleChangeTitles('Diseases')}>
+              병해충 상담
+            </button>
+          </li>
+          <li>
+            <button onClick={() => handleChangeTitles('Disaster')}>
+              자연재해 상담
+            </button>
+          </li>
+        </ul>
+      </div>
+      <div>
+        <Outlet />
+      </div>
     </>
   );
 }

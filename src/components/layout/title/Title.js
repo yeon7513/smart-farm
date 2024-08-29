@@ -7,9 +7,6 @@ function Title({ title, desc, imgUrl }) {
   const titleRef = useRef(null);
   const descRef = useRef(null);
 
-  console.log(title);
-  console.log(desc);
-
   useEffect(() => {
     gsap.fromTo(
       titleRef.current,
