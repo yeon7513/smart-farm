@@ -5,7 +5,7 @@ import Simulation from '../pages/info/simulation/Simulation';
 import UsageStatus from '../pages/info/usage-status/UsageStatus';
 import { useComponentContext } from './ComponentContext';
 
-function InfoMenu(props) {
+function InfoMenu() {
   // 정보 메뉴
   const { currComp } = useComponentContext();
 
