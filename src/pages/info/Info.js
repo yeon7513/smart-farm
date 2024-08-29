@@ -1,14 +1,52 @@
-import React from "react";
-import { Outlet, useLocation } from "react-router-dom";
-import PageTemplate from "../../components/layout/page-template/PageTemplate";
-import { getPageLinks, getTitleProps } from "../../utils/pageSetting";
+import React from 'react';
+import { Outlet } from 'react-router-dom';
+import Container from '../../components/layout/container/Container';
+import Title from '../../components/layout/title/Title';
+import { useComponentContext } from '../../context/ComponentContext';
+import { infoTitle } from '../../lib/intro';
+import styles from './Info.module.scss';
 
 function Info() {
-  const { pathname } = useLocation();
-  const titleProps = getTitleProps(pathname);
-  const links = getPageLinks("info");
+  const { currComp, setCurrComp } = useComponentContext();
 
-  return <PageTemplate titleProps={titleProps} links={links} />;
+  const titleProps = infoTitle[currComp] || infoTitle.UsageStatus;
+
+  const handleChangeTitles = (compName) => {
+    setCurrComp(compName);
+  };
+
+  return (
+    <>
+      <Title {...titleProps} />
+      <Container className={styles.container}>
+        <ul className={styles.links}>
+          <li>
+            <button onClick={() => handleChangeTitles('UsageStatus')}>
+              이용현황
+            </button>
+          </li>
+          <li>
+            <button onClick={() => handleChangeTitles('Simulation')}>
+              시뮬레이션
+            </button>
+          </li>
+          <li>
+            <button onClick={() => handleChangeTitles('Diseases')}>
+              병해충 상담
+            </button>
+          </li>
+          <li>
+            <button onClick={() => handleChangeTitles('Disaster')}>
+              자연재해 상담
+            </button>
+          </li>
+        </ul>
+        <div className={styles.content}>
+          <Outlet />
+        </div>
+      </Container>
+    </>
+  );
 }
 
 export default Info;
