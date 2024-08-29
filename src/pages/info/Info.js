@@ -1,8 +1,10 @@
 import React from 'react';
 import { Outlet } from 'react-router-dom';
+import Container from '../../components/layout/container/Container';
 import Title from '../../components/layout/title/Title';
 import { useComponentContext } from '../../context/ComponentContext';
 import { infoTitle } from '../../lib/intro';
+import styles from './Info.module.scss';
 
 function Info() {
   const { currComp, setCurrComp } = useComponentContext();
@@ -16,8 +18,8 @@ function Info() {
   return (
     <>
       <Title {...titleProps} />
-      <div>
-        <ul>
+      <Container className={styles.container}>
+        <ul className={styles.links}>
           <li>
             <button onClick={() => handleChangeTitles('UsageStatus')}>
               이용현황
@@ -39,10 +41,10 @@ function Info() {
             </button>
           </li>
         </ul>
-      </div>
-      <div>
-        <Outlet />
-      </div>
+        <div className={styles.content}>
+          <Outlet />
+        </div>
+      </Container>
     </>
   );
 }

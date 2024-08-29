@@ -1,8 +1,10 @@
 import React from "react";
+import { Outlet } from "react-router-dom";
+import Container from "../../components/layout/container/Container";
+import Title from "../../components/layout/title/Title";
 import { useComponentContext } from "../../context/ComponentContext";
 import { communityTitle } from "../../lib/intro";
-import Title from "../../components/layout/title/Title";
-import { Outlet } from "react-router-dom";
+import styles from "./community.module.scss";
 
 function Community() {
   const { currComp, setCurrComp } = useComponentContext();
@@ -16,8 +18,8 @@ function Community() {
   return (
     <>
       <Title {...titleProps} />
-      <div>
-        <ul>
+      <Container className={styles.container}>
+        <ul className={styles.links}>
           <li>
             <button onClick={() => handleChangeTitles("Notice")}>
               공지사항
@@ -37,10 +39,10 @@ function Community() {
             </button>
           </li>
         </ul>
-      </div>
-      <div>
-        <Outlet />
-      </div>
+        <div className={styles.content}>
+          <Outlet />
+        </div>
+      </Container>
     </>
   );
 }
