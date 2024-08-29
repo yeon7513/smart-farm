@@ -1,17 +1,8 @@
 import React from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import Asinfo from './components/Mypage/asinfo/Asinfo';
-import Chatbot from './components/Mypage/chatbot/Chatbot';
-import Myinfo from './components/Mypage/myinfo/Myinfo';
-import Myletter from './components/Mypage/myletter/Myletter';
-import Mymain from './components/Mypage/mymain/Mymain';
-import Payment from './components/Mypage/payment/Payment';
-import Userout from './components/Mypage/userout/Userout';
-import PostView from './components/board/post-view/PostView';
+
 import Layout from './components/layout/Layout';
-import CommunityMenu from './context/CommunityMenu';
 import { ComponentProvider } from './context/ComponentContext';
-import InfoMenu from './context/InfoMenu';
 import LoginPage from './pages/LoginPage/LoginPage';
 import SearchEm from './pages/LoginPage/searchEm/SearchEm';
 import SearchPw from './pages/LoginPage/searchPw/SearchPw';
@@ -20,9 +11,16 @@ import RegisterPage from './pages/RegisterPage/RegisterPage';
 import About from './pages/about/About';
 import Service from './pages/about/Service';
 import Community from './pages/community/Community';
+
 import Home from './pages/home/Home';
 import Info from './pages/info/Info';
+
 import DiseasesItem from './pages/info/diseases/diseases-item/DiseasesItem';
+
+import PostView from './components/board/post-view/PostView';
+import CommunityMenu from './context/CommunityMenu';
+import InfoMenu from './context/InfoMenu';
+import MyPageMenu from './context/MyPageMenu';
 import Manager from './pages/manager/Manager';
 import MyFarm from './pages/my-farm/MyFarm';
 import FarmList from './pages/my-farm/my-farm-list/FarmList';
@@ -70,14 +68,8 @@ function App() {
             <Route path="manager" element={<Manager />} />
 
             {/* 관리자 */}
-            <Route path="MyPage" element={<MyPage />}>
-              <Route index element={<Mymain />} />
-              <Route path="Myinfo" element={<Myinfo />} />
-              <Route path="Chatbotinfo" element={<Chatbot />} />
-              <Route path="Paymentinfo" element={<Payment />} />
-              <Route path="Asinfo" element={<Asinfo />} />
-              <Route path="Myletter" element={<Myletter />} />
-              <Route path="Userout" element={<Userout />} />
+            <Route path="/Mypage" element={<MyPage />}>
+              <Route index element={<MyPageMenu />} />
             </Route>
           </Route>
           <Route path="/my-farm/:id" element={<DashBoard />}>
