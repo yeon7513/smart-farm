@@ -41,17 +41,9 @@ function App() {
               <Route path="service" element={<Service />} />
               {/* <Route path="counsel" element={<Counsel />} /> */}
             </Route>
-            {/* <Route index element={<InfoMenu />} /> */}
             <Route path="info" element={<Info />}>
               <Route index element={<InfoMenu />} />
               <Route path=":path" element={<DiseasesItem />} />
-              {/* <Route path="usage-status" element={<UsageStatus />} />
-              <Route path="simulation" element={<Simulation />} />
-              <Route path="diseases" element={<Diseases />}>
-                <Route index element={<DiseasesList />} />
-                <Route path=":path" element={<DiseasesItem />} />
-              </Route>
-              <Route path="disaster" element={<Disaster />} /> */}
             </Route>
             <Route path="login" element={<LoginPage />} />
             <Route path="register" element={<RegisterPage />} />
@@ -60,7 +52,7 @@ function App() {
             <Route path="request" element={<RequestForQuote />} />
             <Route path="community" element={<Community />}>
               <Route index element={<CommunityMenu />} />
-              <Route path="community:id" element={<PostView />} />
+              <Route path=":id" element={<PostView />} />
             </Route>
             <Route path="my-farm" element={<MyFarm />}>
               <Route index element={<FarmList />} />

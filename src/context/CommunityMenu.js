@@ -1,21 +1,21 @@
-import React from "react";
-import { useComponentContext } from "./ComponentContext";
-import Notice from "../pages/community/notice/Notice";
-import AfterService from "../pages/community/after-service/AfterService";
-import SharingInformation from "../pages/community/sharing-information/SharingInformation";
-import Faq from "./../pages/community/faq/Faq";
+import React from 'react';
+import AfterService from '../pages/community/after-service/AfterService';
+import Notice from '../pages/community/notice/Notice';
+import SharingInformation from '../pages/community/sharing-information/SharingInformation';
+import Faq from './../pages/community/faq/Faq';
+import { useComponentContext } from './ComponentContext';
 
 function CommunityMenu() {
   const { currComp } = useComponentContext();
 
   switch (currComp) {
-    case "Notice":
+    case 'Notice':
       return <Notice />;
-    case "FAQ":
+    case 'Faq':
       return <Faq />;
-    case "SharingInformation":
+    case 'SharingInformation':
       return <SharingInformation />;
-    case "As":
+    case 'AfterService':
       return <AfterService />;
 
     default:

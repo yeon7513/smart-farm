@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styles from './Diseases.module.scss';
 import DiseasesList from './diseases-list/DiseasesList';
 // import DiseasesList from "./diseases-list/DiseasesList";
