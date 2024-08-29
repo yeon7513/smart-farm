@@ -136,8 +136,11 @@ function DiseasesList() {
 
               <div className={styles.item_name}>
                 <div className={styles.item_list}>
-                  <p>작물:</p>
-                  <p>가지</p>
+                  {/* <p>작물:</p> */}
+                  <p>
+                    <span>(병&해충)</span>
+                    가지
+                  </p>
                 </div>
 
                 {/* <div className={styles.item_list}> */}
@@ -145,7 +148,7 @@ function DiseasesList() {
                 {/* <p>해충</p> */}
                 {/* </div> */}
                 <div className={styles.item_list}>
-                  <p> 이름 : </p>
+                  {/* <p> 이름 : </p> */}
                   <Link to={`/info/diseases/${item.path}`}>
                     <p className={styles.name}>{item.name}</p>
                   </Link>

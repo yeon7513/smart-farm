@@ -8,7 +8,12 @@ function Community() {
   const titleProps = getTitleProps(pathname);
   const links = getPageLinks("community");
 
-  return <PageTemplate titleProps={titleProps} links={links} />;
+  // return <PageTemplate titleProps={titleProps} components={componentName} />;
+  return (
+    <>
+      <Outlet />
+    </>
+  );
 }
 
 export default Community;

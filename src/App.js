@@ -55,14 +55,14 @@ function App() {
             </Route>
             {/* <Route index element={<InfoMenu />} /> */}
             <Route path="info" element={<Info />}>
-              <Route index element={<Navigate to="usage-status" />} />
-              <Route path="usage-status" element={<UsageStatus />} />
+              <Route index element={<InfoMenu />} />
+              {/* <Route path="usage-status" element={<UsageStatus />} />
               <Route path="simulation" element={<Simulation />} />
               <Route path="diseases" element={<Diseases />}>
                 <Route index element={<DiseasesList />} />
                 <Route path=":path" element={<DiseasesItem />} />
               </Route>
-              <Route path="disaster" element={<Disaster />} />
+              <Route path="disaster" element={<Disaster />} /> */}
             </Route>
             <Route path="login" element={<LoginPage />} />
             <Route path="register" element={<RegisterPage />} />
