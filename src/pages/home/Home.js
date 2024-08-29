@@ -6,12 +6,11 @@ import { RiScrollToBottomLine } from "react-icons/ri";
 import styles from "./Home.module.scss";
 import MainSlide from "../../components/slide/main/MainSlide";
 import phoneImg from "../../assets/main/phone.png";
-import caseImg from "../../assets/main/strawberry.jpg";
-import chartImg from "../../assets/main/chart.png";
 import Map from "../../components/map/Map";
 import { Link } from "react-router-dom";
 import CaseSlide from "../../components/slide/case/CaseSlide";
 import { cases } from "../../lib/case";
+import Charts from "../../components/chart/Charts";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -137,7 +136,9 @@ function Home() {
           <h1>스마트팜 이용현황</h1>
           <div>
             <Map />
-            {/* <img src={chartImg} alt="" /> */}
+            <div className={styles.chart}>
+              <Charts />
+            </div>
           </div>
         </div>
         <div className={styles.community}>
@@ -159,7 +160,8 @@ function Home() {
 
       <div className={styles.case}>
         <div>
-          <h1>우수사례</h1>
+          <h1>I Farm X People </h1>
+          <h4>- 아이팜의 우수한 사례들을 확인해보세요.</h4>
           <CaseSlide items={cases} />
         </div>
       </div>

@@ -9,21 +9,12 @@ import "swiper/css/scrollbar";
 import "./CaseSlide.scss";
 
 // import required modules
-import { Scrollbar } from "swiper/modules";
 import CaseItem from "./caseItem/CaseItem";
 
 export default function App({ items }) {
   return (
     <>
-      <Swiper
-        slidesPerView={3}
-        spaceBetween={30}
-        scrollbar={{
-          hide: true,
-        }}
-        modules={[Scrollbar]}
-        className="mySwiper"
-      >
+      <Swiper slidesPerView={3} spaceBetween={30}>
         {items.map((item) => (
           <SwiperSlide key={item.id}>
             <CaseItem
