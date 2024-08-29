@@ -1,20 +1,10 @@
-<<<<<<< Updated upstream
-import React, { useState } from "react";
-=======
 import React, { useEffect, useState } from "react";
->>>>>>> Stashed changes
 import { GrFormPrevious } from "react-icons/gr";
 import { MdOutlineNavigateNext } from "react-icons/md";
 import { Link } from "react-router-dom";
 import image from "../../../../assets/abou/식2.png";
-import SearchBox from "../../../../components/search_box/SearchBox";
 import styles from "./DiseasesList.module.scss";
-<<<<<<< Updated upstream
-=======
-import { service } from "../../../../lib/intro";
-import { Input } from "@mui/material";
 import InfoInput from "../input/InfoInput";
->>>>>>> Stashed changes
 
 const diseasesList = [
   {
@@ -176,7 +166,7 @@ function DiseasesList() {
                 <div className={styles.item_list}>
                   <p>
                     이름
-                    <span> {service.oprName}</span>
+                    {/* <span> {service.oprName}</span> */}
                     <span>(병&해충)</span>
                   </p>
                 </div>

@@ -11,11 +11,6 @@ function InfoInput(props) {
             <input type="text" />
           </div>
         </div>
-        {/* <div className={styles.btn}>
-        <button>
-          <CiSearch /> 조회
-        </button>
-      </div> */}
 
         <div className={styles.select_box}>
           <div className={styles.select_box_item}>
@@ -43,13 +38,13 @@ function InfoInput(props) {
               {/* 블루베리-과수,소과류 */}
             </select>
           </div>
-
-          <div className={styles.btn}>
-            <button>
-              <CiSearch /> 조회
-            </button>
-          </div>
         </div>
+      </div>
+      <div className={styles.btn}>
+        <button>
+          <CiSearch />
+          <span>조회</span>
+        </button>
       </div>
     </div>
   );
