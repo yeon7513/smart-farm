@@ -13,7 +13,6 @@ import {
   writeBatch,
 } from "firebase/firestore";
 import { batch } from "react-redux";
-
 const firebaseConfig = {
   apiKey: "AIzaSyBz9TEYoPHVv_Lz28BzcTa1DrLMI7wnBWc",
   authDomain: "ifarm-dd7b6.firebaseapp.com",
@@ -187,7 +186,7 @@ const searchFrmhsCodes = [
   "54",
   "56",
   "57",
-  " 59",
+  "59",
   "201",
   "202",
   "204",
@@ -218,13 +217,13 @@ const searchFrmhsCodes = [
   "203",
 ]; // 배열에 여러 코드를 넣으세요
 
-// 모든 URL을 생성하여 저장
+// // 모든 URL을 생성하여 저장
 const urls = searchFrmhsCodes.map(
   (code) =>
     `/api2/grwdatarqst?serviceKey=${apiKey}&searchFrmhsCode=${code}&returnType=json`
 );
 
-// API 호출을 비동기적으로 처리
+// // API 호출을 비동기적으로 처리
 async function fetchData(url) {
   try {
     const response = await fetch(url);
@@ -237,14 +236,14 @@ async function fetchData(url) {
   }
 }
 
-// 모든 데이터를 가져오고 처리하기
+// // 모든 데이터를 가져오고 처리하기
 async function fetchAllData() {
   const dataPromises = urls.map((url) => fetchData(url));
   const allData = await Promise.all(dataPromises);
   return allData;
 }
 
-// 데이터를 가져오고 콘솔에 출력
+// // 데이터를 가져오고 콘솔에 출력
 // fetchAllData().then((data) => {
 //   data.forEach((item, index) => {
 //     console.log(
@@ -253,15 +252,6 @@ async function fetchAllData() {
 //     );
 //   });
 // });
-
-// const api = "cbd181f0a2594233a01eed9b0b86a392"; // 여기에 실제 API 키를 넣으세요
-
-// const apiurl = `/api3/Agree_WS/webservices/ProvideRestService/getIdentityDataList/${api}`;
-// fetch(apiurl)
-//   .then((response) => response.json())
-//   .then((result) => {
-//     console.log(result);
-//   });
 
 export async function deleteDatas(collectionName, docId) {
   try {

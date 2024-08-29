@@ -28,7 +28,7 @@ module.exports = function (app) {
   app.use(
     '/api2', // 기존 host 대신 사용할 경로
     createProxyMiddleware({
-      target: 'https://www.smartfarmkorea.net', // 기존 host
+      target: 'https://apis.data.go.kr/1390000/SmartFarmdata', // 기존 host
       changeOrigin: true,
       pathRewrite: {
         '^/api2': '',
@@ -37,14 +37,14 @@ module.exports = function (app) {
   );
 
   // 스마트팜 빅데이터api
-  // app.use(
-  //   "/api3", // 기존 host 대신 사용할 경로
-  //   createProxyMiddleware({
-  //     target: "https://www.smartfarmkorea.net", // 기존 host
-  //     changeOrigin: true,
-  //     pathRewrite: {
-  //       "^/api3": "",
-  //     },
-  //   })
-  // );
+  app.use(
+    '/api3', // 기존 host 대신 사용할 경로
+    createProxyMiddleware({
+      target: 'https://www.smartfarmkorea.net', // 기존 host
+      changeOrigin: true,
+      pathRewrite: {
+        '^/api3': '',
+      },
+    })
+  );
 };

@@ -1,12 +1,11 @@
 import React from "react";
 import styles from "./PostView.module.scss";
-// import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useComponentContext } from "../../../context/ComponentContext";
 
 function PostView() {
-  // const navigate = useNavigate();s
+  const navigate = useNavigate();
   const { currComp, setCurrComp } = useComponentContext();
-  const BackToBoard = () => setCurrComp(null);
 
   if (!currComp) return null;
 
@@ -52,7 +51,7 @@ function PostView() {
       </div>
 
       <div className={styles.back}>
-        <button onClick={BackToBoard}>목록으로</button>
+        <button onClick={() => navigate(-1)}>목록으로</button>
       </div>
     </div>
   );
