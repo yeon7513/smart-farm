@@ -97,7 +97,6 @@ function Disaster(props) {
         <button>1</button>
         <button>2</button>
         <button>
-          {" "}
           <MdOutlineNavigateNext />
         </button>
         <button>END</button>

@@ -57,40 +57,34 @@ const diseasesList = [
 
     image: image,
   },
-  // {
-  //   id: 7,
-  //   path: "dddd7",
-  //   name: "병해충이름7",
-  //   a: "증상",
-  //   b: "대처법 또는 방제법",
-  //   image: image,
-  // },
-  // {
-  //   id: 8,
-  //   path: "dddd8",
-  //   name: "병해충이름8",
-  //   a: "증상",
-  //   b: "대처법 또는 방제법",
-  //   image: image,
-  // },
-  // {
-  //   id: 9,
-  //   path: "dddd9",
-  //   name: "병해충이름9",
-  //   a: "증상",
-  //   b: "대처법 또는 방제법",
-  //   image: image,
-  // },
+  {
+    id: 7,
+    path: "dddd7",
+    name: "병해충이름7",
+    a: "증상",
+    b: "대처법 또는 방제법",
+    image: image,
+  },
+  {
+    id: 8,
+    path: "dddd8",
+    name: "병해충이름8",
+    a: "증상",
+    b: "대처법 또는 방제법",
+    image: image,
+  },
+  {
+    id: 9,
+    path: "dddd9",
+    name: "병해충이름9",
+    a: "증상",
+    b: "대처법 또는 방제법",
+    image: image,
+  },
 ];
 
 function DiseasesList() {
   const [data, setData] = useState(null); // API 데이터를 저장할 상태
-  const [error, setError] = useState(null); // 에러 메시지를 저장할 상태
-  const [loading, setLoading] = useState(true);
-  // // const [more,setMore]=useState(5);
-  // // const handleLoadMore=()=>{
-  // //   setMore
-  // // }
 
   // useEffect(() => {
   //   const apiKey = "2024570e96d7a69a9e49dfeb7fdc9739177c";

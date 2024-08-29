@@ -1,7 +1,17 @@
-import React from "react";
+import React, { useState } from "react";
 import styles from "./InfoInput.module.scss";
 import { CiSearch } from "react-icons/ci";
 function InfoInput(props) {
+  const big = [
+    "과수",
+    "사료녹비작물",
+    "수목",
+    "식량작물",
+    "채소",
+    "특용작물",
+    "화훼",
+  ];
+
   return (
     <div className={styles.main}>
       <div className={styles.menu}>
@@ -19,7 +29,11 @@ function InfoInput(props) {
               <option value="" title="대분류">
                 ::전체::
               </option>
-              <option value="">채소</option>
+              {big.map((item, idx) => (
+                <option value={item} key={idx}>
+                  {item}
+                </option>
+              ))}
               <option value="">과수</option>
             </select>
             <select className={styles.middle}>
