@@ -1,19 +1,18 @@
-import React from "react";
-import styles from "./PostView.module.scss";
-import { useNavigate } from "react-router-dom";
-import { useComponentContext } from "../../../context/ComponentContext";
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
+import styles from './PostView.module.scss';
 
 function PostView() {
   const navigate = useNavigate();
-  const { currComp, setCurrComp } = useComponentContext();
+  // const { currComp, setCurrComp } = useComponentContext();
 
-  if (!currComp) return null;
+  // if (!currComp) return null;
 
   return (
     <div className={styles.container}>
       <div className={styles.title}>
         <div>
-          <h2>{currComp.title}</h2>
+          <h2>title</h2>
         </div>
         <div>
           <div>

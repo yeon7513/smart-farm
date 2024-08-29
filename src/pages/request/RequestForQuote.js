@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
 import styles from "./RequestForQuote.module.scss";
-import { getDatas } from "../../api/firebase";
+import { addDatas, db, getDatas } from "../../api/firebase";
 import { Container } from "@mui/material";
 import FacilitiesHorticulture from "./FacilitiesHorticulture";
 import OpenGround from "./OpenGround";
 import { useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
 import Checkout from "./Checkout";
+import { addDoc, collection, doc, serverTimestamp } from "firebase/firestore";
+import * as XLSX from "xlsx/xlsx.mjs";
 
 function RequestForQuote() {
   // user 상태를 선언합니다.
@@ -16,6 +17,7 @@ function RequestForQuote() {
   const [farmAddress, setFarmAddress] = useState("");
   const [facilityType, setFacilityType] = useState("시설원예");
   const [additionalOptions, setAdditionalOptions] = useState([]);
+  const [uid, setUid] = useState("");
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -32,6 +34,7 @@ function RequestForQuote() {
         const userStr = JSON.parse(localStorage.getItem("user"));
         if (userStr) {
           setUser(userStr);
+          setUid(userStr.uid);
           await infoExtraction(userStr.uid);
         } else {
           console.log("로그인이 되어있지 않습니다.");
@@ -76,37 +79,89 @@ function RequestForQuote() {
         ? prevOptions.filter((option) => option !== value)
         : [...prevOptions, value]
     );
+    // console.log(e.target.value);
   };
-  const handleSubmit = (e) => {
+
+  // // 견적 의뢰 내용을 Firebase에 저장하는 함수입니다.
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+  //   // console.log({
+  //   //   userEmail,
+  //   //   date,
+  //   //   farmAddress,
+  //   //   facilityType,
+  //   //   additionalOptions,
+  //   // });
+  //   console.log(
+  //     `견적 의뢰 아이디: `,
+  //     userEmail,
+  //     `결제 날짜: `,
+  //     date,
+  //     `농장 주소: `,
+  //     farmAddress,
+  //     `농장 종류: `,
+  //     facilityType,
+  //     `부가 옵션: `,
+  //     additionalOptions
+  //   );
+  //   const dataObj = {
+  //     userEmail,
+  //     date,
+  //     farmAddress,
+  //     facilityType,
+  //     additionalOptions,
+  //     // createdAt는 1724893344632 같은 number 형식이라서 주문번호로 쓸 예정
+  //     createdAt: new Date().getTime(),
+  //   };
+  //   try {
+  //     if (uid) {
+  //       const userDocRef = doc(db, "users", uid);
+  //       const paymentCollectionRef = collection(userDocRef, "payments");
+
+  //       await addDoc(paymentCollectionRef, dataObj);
+  //       console.log("데이터가 성공적으로 추가되었습니다.");
+  //     } else {
+  //       console.error("사용자 ID가 설정되지 않았습니다.");
+  //     }
+  //   } catch (error) {
+  //     console.error("에러가 발생하였습니다: ", error);
+  //   }
+  // };
+
+  // const ExcelDownload = (e) => {
+
+  // }
+
+  // 주문 내역에 따라 Excel 파일을 다운로드 하는 함수입니다.
+  const handleExcelDownload = (e) => {
     e.preventDefault();
-    // console.log({
-    //   userEmail,
-    //   date,
-    //   farmAddress,
-    //   facilityType,
-    //   additionalOptions,
-    // });
-    console.log(
-      `견적 의뢰 아이디: `,
-      userEmail,
-      `결제 날짜: `,
-      date,
-      `농장 주소: `,
-      farmAddress,
-      `농장 종류: `,
-      facilityType,
-      `부가 옵션: `,
-      additionalOptions
-    );
+    // console.log("Additional Options: ", additionalOptions);
+    const fileName = `${userEmail}님의 견적`;
+    const data = [
+      {
+        아이디: userEmail,
+        날짜: date,
+        "농장 주소": farmAddress,
+        "농장 종류": facilityType,
+        "부가 옵션": additionalOptions.join(", "),
+        "주문 번호": new Date().getTime(),
+      },
+    ];
+    const datas = data?.length ? data : [];
+    const worksheet = XLSX.utils.json_to_sheet(datas);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
+    XLSX.writeFile(workbook, fileName ? `${fileName}.xlsx` : "data.xlsx");
   };
+
   return (
     <Container>
       {/* 견적을 요청하고 사용자의 정보를 입력하면 결제 페이지로 넘어갑니다. &nbsp;
       실제로 결제를 구현하지 않고 사용자의 결제 정보만 저장합니다. &nbsp; 사용자
-      결제 저장할 때 정보 &nbsp; 1. 회원 컬렉션에서 order 컬렉션을 만듭니다.
-      &nbsp; 2. order에는 견적 요청에서 입력한 값들을 필드로 만들어 저장합니다.
+      결제 저장할 때 정보 &nbsp; 1. 회원 컬렉션에서 payments 컬렉션을 만듭니다.
+      &nbsp; 2. payments에는 견적 요청에서 입력한 값들을 필드로 만들어 저장합니다.
       &nbsp; (견적요청아이디, 결제날짜, 요청날짜, 농장주소 등) &nbsp; 3.
-      마이페이지에는 order의 정보가 출력됩니다. &nbsp; 4. 로그인된 사용자는
+      마이페이지에는 payments의 정보가 출력됩니다. &nbsp; 4. 로그인된 사용자는
       사용자가 회원가입 시 사용한 내용을 출력해 다시 입력하지 않습니다. &nbsp;
       5. 비회원은 견적요청 아이디만 알려주고 마이페이지에서 조회할 때 사용(요청
       아이디를 꼭 알고 있어야 됨) */}
@@ -169,7 +224,12 @@ function RequestForQuote() {
             />
           )}
         </div>
-        <Checkout description={"결제하기"} onClick={handleSubmit} />
+        <Checkout
+          type="submit"
+          description={"결제하기"}
+          // onClick={handleSubmit}
+          onClick={handleExcelDownload}
+        />
       </form>
     </Container>
   );

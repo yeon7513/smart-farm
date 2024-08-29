@@ -29,6 +29,18 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 export const db = getFirestore(app);
 
+export async function addDatas(uid, dataObj) {
+  try {
+    const userDocRef = doc(db, "users", uid);
+    const paymentsCollectionRef = collection(userDocRef, "payments");
+    await addDoc(paymentsCollectionRef, dataObj);
+    return true;
+  } catch (error) {
+    console.error("Error adding document: ", error);
+    return false;
+  }
+}
+
 export function getCollection(collectionName) {
   return collection(db, collectionName);
 }
