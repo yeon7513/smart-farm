@@ -79,13 +79,25 @@ function RequestForQuote() {
   };
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log({
+    // console.log({
+    //   userEmail,
+    //   date,
+    //   farmAddress,
+    //   facilityType,
+    //   additionalOptions,
+    // });
+    console.log(
+      `견적 의뢰 아이디: `,
       userEmail,
+      `결제 날짜: `,
       date,
+      `농장 주소: `,
       farmAddress,
+      `농장 종류: `,
       facilityType,
-      additionalOptions,
-    });
+      `부가 옵션: `,
+      additionalOptions
+    );
   };
   return (
     <Container>
