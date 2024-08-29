@@ -3,14 +3,16 @@ import styles from "./Board.module.scss";
 import BoardItem from "./boardItem/BoardItem";
 import { useComponentContext } from "../../context/ComponentContext";
 import Post from "./post/Post";
+import { Link } from "react-router-dom";
 
 const PAGE_SIZE = 10;
 
 function Board({ items, nopost }) {
   const [currentPage, setCurrentPage] = useState(1);
-  const { currComp, setCurrComp } = useComponentContext();
   const [post, setPost] = useState(items); // 게시글 상태
   const [isWriting, setIsWriting] = useState(false); // 글쓰기 모드 상태
+  const id = crypto.randomUUID().split("-", 1);
+  const { currComp, setCurrComp } = useComponentContext();
 
   const totalPages = Math.ceil(items.length / PAGE_SIZE);
   const reversedItem = [...items].reverse();
@@ -30,20 +32,26 @@ function Board({ items, nopost }) {
     }
   };
 
-  const openPost = (item) => {
-    setCurrComp(item);
+  const addPost = (newPost) => {
+    setPost([...post, newPost]); // 새로운 게시글 추가
+    setIsWriting(false); // 글쓰기 모드 종료
   };
 
-  const addPost = (newPost) => {
-    setPost([...post, newPost]); // 새로운 게시글을 추가
-    setIsWriting(false); // 글쓰기 모드 종료
+  // 글쓰기 취소
+  const notPosting = () => {
+    setIsWriting(false);
+  };
+
+  // 게시글 열기
+  const openPost = (item) => {
+    setCurrComp(item);
   };
 
   return (
     <div className={styles.container}>
       {/* 글쓰기 모드 */}
       {isWriting ? (
-        <Post onSubmit={addPost} />
+        <Post onSubmit={addPost} onClick={notPosting} />
       ) : (
         <>
           <div className={styles.col}>
@@ -57,15 +65,22 @@ function Board({ items, nopost }) {
           <div className={styles.board}>
             <ul>
               {currentItem.map((item, idx) => (
-                <li key={idx} onClick={() => openPost(item)}>
-                  <BoardItem
-                    id={items.length - ((currentPage - 1) * PAGE_SIZE + idx)}
-                    title={item.title}
-                    user={item.user}
-                    date={item.date}
-                    comment={item.comment}
-                  />
-                </li>
+                <Link to={`/community/${id}`}>
+                  <li
+                    key={idx}
+                    onClick={() => {
+                      openPost(item);
+                    }}
+                  >
+                    <BoardItem
+                      id={items.length - ((currentPage - 1) * PAGE_SIZE + idx)}
+                      title={item.title}
+                      user={item.user}
+                      date={item.date}
+                      comment={item.comment}
+                    />
+                  </li>
+                </Link>
               ))}
             </ul>
           </div>
