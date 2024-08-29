@@ -1,9 +1,12 @@
-import { pageTitle } from '../lib/intro';
-import { paths } from '../lib/menu';
+export function getTitleProps(title, componentName) {
+  const pageTitle = componentName.map((name) => {
+    return title[name];
+  });
 
-export function getTitleProps(pathname) {
+  console.log(pageTitle);
+
   return (
-    pageTitle[pathname] || {
+    [...pageTitle] || {
       title: '아이팜',
       description: '아이팜 페이지 입니다.',
       imgUrl: '',
@@ -11,6 +14,6 @@ export function getTitleProps(pathname) {
   );
 }
 
-export function getPageLinks(path) {
-  return paths.gnb.find((link) => link.path === path)?.depth || [];
-}
+// export function getPageLinks(path) {
+//   return paths.gnb.find((link) => link.path === path)?.depth || [];
+// }

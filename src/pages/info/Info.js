@@ -1,14 +1,20 @@
 import React from 'react';
-import { useLocation } from 'react-router-dom';
-import PageTemplate from '../../components/layout/page-template/PageTemplate';
-import { getPageLinks, getTitleProps } from '../../utils/pageSetting';
+import { Outlet } from 'react-router-dom';
 
 function Info() {
-  const { pathname } = useLocation();
-  const titleProps = getTitleProps(pathname);
-  const links = getPageLinks('info');
+  // const componentName = Object.keys(infoTitle);
+  // const titleProps = getTitleProps(infoTitle, componentName);
 
-  return <PageTemplate titleProps={titleProps} links={links} />;
+  // console.log('infoTitle', infoTitle);
+
+  // console.log(titleProps);
+
+  // return <PageTemplate titleProps={titleProps} components={componentName} />;
+  return (
+    <>
+      <Outlet />
+    </>
+  );
 }
 
 export default Info;
