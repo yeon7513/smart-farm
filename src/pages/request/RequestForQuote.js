@@ -130,8 +130,10 @@ function RequestForQuote() {
 
   // }
 
+  // 주문 내역에 따라 Excel 파일을 다운로드 하는 함수입니다.
   const handleExcelDownload = (e) => {
     e.preventDefault();
+    // console.log("Additional Options: ", additionalOptions);
     const fileName = "test";
     const data = [
       {
@@ -139,7 +141,7 @@ function RequestForQuote() {
         날짜: date,
         "농장 주소": farmAddress,
         "농장 종류": facilityType,
-        "부가 옵션": additionalOptions,
+        "부가 옵션": additionalOptions.join(", "),
         "주문 번호": new Date().getTime(),
       },
     ];
@@ -220,15 +222,12 @@ function RequestForQuote() {
             />
           )}
         </div>
-        {/* <Checkout
+        <Checkout
           type="submit"
           description={"결제하기"}
           // onClick={handleSubmit}
           onClick={handleExcelDownload}
-        /> */}
-        <button type="button" onClick={handleExcelDownload}>
-          결제하기
-        </button>
+        />
       </form>
     </Container>
   );
