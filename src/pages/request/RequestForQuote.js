@@ -69,7 +69,7 @@ function RequestForQuote() {
   const handleFacilityTypeChange = (e) => {
     setFacilityType(e.target.value);
     setAdditionalOptions([]);
-    // console.log(e.target.value);
+    console.log(e.target.value);
   };
 
   const handleAdditionalOptionsChange = (e) => {
@@ -79,6 +79,7 @@ function RequestForQuote() {
         ? prevOptions.filter((option) => option !== value)
         : [...prevOptions, value]
     );
+    console.log(e.target.value);
   };
   // const handleSubmit = async (e) => {
   //   e.preventDefault();
@@ -129,7 +130,10 @@ function RequestForQuote() {
 
   // }
 
-  const handleExcelDownload = () => {
+  // 주문 내역에 따라 Excel 파일을 다운로드 하는 함수입니다.
+  const handleExcelDownload = (e) => {
+    e.preventDefault();
+    // console.log("Additional Options: ", additionalOptions);
     const fileName = "test";
     const data = [
       {
@@ -137,7 +141,8 @@ function RequestForQuote() {
         날짜: date,
         "농장 주소": farmAddress,
         "농장 종류": facilityType,
-        "부가 옵션": additionalOptions,
+        "부가 옵션": additionalOptions.join(", "),
+        "주문 번호": new Date().getTime(),
       },
     ];
     const datas = data?.length ? data : [];
