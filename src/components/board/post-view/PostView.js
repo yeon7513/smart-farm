@@ -1,6 +1,6 @@
 import React from "react";
 import styles from "./PostView.module.scss";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useComponentContext } from "../../../context/ComponentContext";
 
 function PostView() {
@@ -17,9 +17,9 @@ function PostView() {
         </div>
         <div>
           <div>
-            <p>작성자</p>
-            <p>작성일</p>
-            <p>조회수</p>
+            <p>작성자: {currComp.user}</p>
+            <p>작성일: {currComp.date}</p>
+            <p>조회수: {currComp.comment}</p>
           </div>
           <div>
             <button>🚨 신고하기</button>
@@ -27,11 +27,11 @@ function PostView() {
         </div>
       </div>
       <div className={styles.content}>
-        <div>내용</div>
-        <div>사진</div>
+        <div>{currComp.content}</div>
+        <div>{currComp.imgUrl}</div>
       </div>
       <div className={styles.comment}>
-        <h2>댓글(0개)</h2>
+        <h2>댓글(2개)</h2>
         <div>
           <h4>해결 도와드리겠습니다.</h4>
           <p>
