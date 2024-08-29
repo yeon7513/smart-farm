@@ -1,3 +1,4 @@
+import axios from "axios";
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 import {
@@ -12,6 +13,7 @@ import {
   updateDoc,
   writeBatch,
 } from "firebase/firestore";
+import { useEffect } from "react";
 import { batch } from "react-redux";
 const firebaseConfig = {
   apiKey: "AIzaSyBz9TEYoPHVv_Lz28BzcTa1DrLMI7wnBWc",
@@ -26,6 +28,18 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 export const db = getFirestore(app);
+
+export async function addDatas(uid, dataObj) {
+  try {
+    const userDocRef = doc(db, "users", uid);
+    const paymentsCollectionRef = collection(userDocRef, "payments");
+    await addDoc(paymentsCollectionRef, dataObj);
+    return true;
+  } catch (error) {
+    console.error("Error adding document: ", error);
+    return false;
+  }
+}
 
 export function getCollection(collectionName) {
   return collection(db, collectionName);
@@ -122,136 +136,73 @@ export async function updateDatas(collectionName, docId, updateObj) {
   }
 }
 
-// let userId;
-
-// export async function fetchData() {
-//   const url =
-//     "/api/Agree_WS/webservices/ProvideRestService/getIdentityDataList/cbd181f0a2594233a01eed9b0b86a392";
-//   const response = await fetch(url);
-//   const result = await response.json();
-//   result.forEach((item) => {
-//     userId = item.userId;
-//   });
-//   console.log(userId);
-// }
-// fetchData();
-
-let userId = [];
-
-// const url =
-//   "https://apis.data.go.kr/1390000/SmartFarmdata/grwdatarqst?serviceKey=iv2U4%2BpsJ7CRlDQ2ukixg4slrgEMjbIL%2FB%2B9pefVtqqEHGHhSRX7tNubbe2Y%2FGpjV59et7GLPJwxAdVe7iXycA%3D%3D&searchFrmhsCode=81&returnType=json";
-// fetch(url)
-//   .then((response) => response.json())
-//   .then((result) => {
-//     console.log(result);
-//   });
-// const url =
-//   "https://api.openweathermap.org/data/2.5/weather?q=Seoul&appid=3bd960b544d8e85c3f24e4e2d139794c";
-// fetch(url)
-//   .then((response) => response.json())
-//   .then((result) => {
-//     console.log(result);
-//   });
-
+// 토마토
 // const apiKey =
-//   "iv2U4%2BpsJ7CRlDQ2ukixg4slrgEMjbIL%2FB%2B9pefVtqqEHGHhSRX7tNubbe2Y%2FGpjV59et7GLPJwxAdVe7iXycA%3D%3D";
-
-// const url = `/api2/grwdatarqst?serviceKey=${apiKey}&searchFrmhsCode=TestFarm01&returnType=json`;
-// fetch(url)
-//   .then((response) => response.json())
-//   .then((result) => {
-//     console.log(result);
-//   });
-
-const apiKey =
-  "iv2U4%2BpsJ7CRlDQ2ukixg4slrgEMjbIL%2FB%2B9pefVtqqEHGHhSRX7tNubbe2Y%2FGpjV59et7GLPJwxAdVe7iXycA%3D%3D"; // 여기에 실제 API 키를 넣으세요
-const searchFrmhsCodes = [
-  "81",
-  "9",
-  "21",
-  "25",
-  "27",
-  "28",
-  "29",
-  "31",
-  "32",
-  "39",
-  "42",
-  "44",
-  "45",
-  "48",
-  "50",
-  "51",
-  "53",
-  "54",
-  "56",
-  "57",
-  "59",
-  "201",
-  "202",
-  "204",
-  "205",
-  "206",
-  "207",
-  "209",
-  "210",
-  "315",
-  "316",
-  "318",
-  "319",
-  "320",
-  "324",
-  "325",
-  "326",
-  "327",
-  "339",
-  "344",
-  "345",
-  "349",
-  "315",
-  "33",
-  "35",
-  "37",
-  "41",
-  "43",
-  "203",
-]; // 배열에 여러 코드를 넣으세요
+//   "iv2U4%2BpsJ7CRlDQ2ukixg4slrgEMjbIL%2FB%2B9pefVtqqEHGHhSRX7tNubbe2Y%2FGpjV59et7GLPJwxAdVe7iXycA%3D%3D"; // 여기에 실제 API 키를 넣으세요
+// const searchFrmhsCodes = [
+//   "81",
+//   "9",
+//   "21",
+//   "25",
+//   "27",
+//   "28",
+//   "29",
+//   "31",
+//   "32",
+//   "39",
+//   "42",
+//   "44",
+//   "45",
+//   "48",
+//   "50",
+//   "51",
+//   "53",
+//   "54",
+//   "56",
+//   "57",
+//   "59",
+//   "201",
+//   "202",
+//   "204",
+//   "205",
+//   "206",
+//   "207",
+//   "209",
+//   "210",
+//   "315",
+//   "316",
+//   "318",
+//   "319",
+//   "320",
+//   "324",
+//   "325",
+//   "326",
+//   "327",
+//   "339",
+//   "344",
+//   "345",
+//   "349",
+//   "315",
+//   "33",
+//   "35",
+//   "37",
+//   "41",
+//   "43",
+//   "203",
+// ]; // 배열에 여러 코드를 넣으세요
 
 // // 모든 URL을 생성하여 저장
-const urls = searchFrmhsCodes.map(
-  (code) =>
-    `/api2/grwdatarqst?serviceKey=${apiKey}&searchFrmhsCode=${code}&returnType=json`
-);
-
-// // API 호출을 비동기적으로 처리
-async function fetchData(url) {
-  try {
-    const response = await fetch(url);
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-    return await response.json();
-  } catch (error) {
-    console.error("Error fetching data:", error);
-  }
-}
-
-// // 모든 데이터를 가져오고 처리하기
-async function fetchAllData() {
-  const dataPromises = urls.map((url) => fetchData(url));
-  const allData = await Promise.all(dataPromises);
-  return allData;
-}
-
-// // 데이터를 가져오고 콘솔에 출력
-// fetchAllData().then((data) => {
-//   data.forEach((item, index) => {
-//     console.log(
-//       `Data for ${searchFrmhsCodes[index]}:`,
-//       item.response.body.items.item
-//     );
-//   });
-// });
+// const urls = searchFrmhsCodes.map(
+//   (code) =>
+//     `/api2/http://apis.data.go.kr/1390000/SmartFarmdata/grwdatarqst?serviceKey=${apiKey}&searchFrmhsCode=${code}&returnType=json`
+// );
+const urls =
+  "/bestfarm/grwdatarqst?serviceKey=iv2U4%2BpsJ7CRlDQ2ukixg4slrgEMjbIL%2FB%2B9pefVtqqEHGHhSRX7tNubbe2Y%2FGpjV59et7GLPJwxAdVe7iXycA%3D%3D&searchFrmhsCode=81&returnType=json";
+fetch(urls)
+  .then((response) => response.json())
+  .then((result) => {
+    console.log(result);
+  });
 
 export async function deleteDatas(collectionName, docId) {
   try {

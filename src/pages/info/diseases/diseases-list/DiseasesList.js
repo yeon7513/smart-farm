@@ -1,59 +1,61 @@
-import React, { useState } from 'react';
-import { GrFormPrevious } from 'react-icons/gr';
-import { MdOutlineNavigateNext } from 'react-icons/md';
-import { Link } from 'react-router-dom';
-import image from '../../../../assets/abou/식2.png';
-import SearchBox from '../../../../components/search_box/SearchBox';
-import styles from './DiseasesList.module.scss';
+import React, { useEffect, useState } from "react";
+import { GrFormPrevious } from "react-icons/gr";
+import { MdOutlineNavigateNext } from "react-icons/md";
+import { Link } from "react-router-dom";
+import image from "../../../../assets/abou/식2.png";
+import styles from "./DiseasesList.module.scss";
+import { service } from "../../../../lib/intro";
+import { Input } from "@mui/material";
+import InfoInput from "../input/InfoInput";
 
 const diseasesList = [
   {
     id: 1,
-    path: 'dddd1',
-    name: '감자수염진딧물',
-    a: '증상',
-    b: '대처법 또는 방제법',
+    path: "dddd1",
+    name: "감자수염진딧물",
+    a: "증상",
+    b: "대처법 또는 방제법",
     image: image,
   },
   {
     id: 2,
-    path: 'dddd2',
-    name: '병해충이름2',
-    a: '증상',
-    b: '대처법 또는 방제법',
+    path: "dddd2",
+    name: "병해충이름2",
+    a: "증상",
+    b: "대처법 또는 방제법",
     image: image,
   },
   {
     id: 3,
-    path: 'dddd3',
-    name: '병해충이름3',
-    a: '증상',
-    b: '대처법 또는 방제법',
+    path: "dddd3",
+    name: "병해충이름3",
+    a: "증상",
+    b: "대처법 또는 방제법",
     image: image,
   },
   {
     id: 4,
-    path: 'dddd4',
-    name: '병해충이름4',
-    a: '증상',
-    b: '대처법 또는 방제법',
+    path: "dddd4",
+    name: "병해충이름4",
+    a: "증상",
+    b: "대처법 또는 방제법",
     image: image,
   },
   {
     id: 5,
-    path: 'dddd5',
-    name: '병해충이름5',
-    a: '증상',
-    b: '대처법 또는 방제법',
+    path: "dddd5",
+    name: "병해충이름5",
+    a: "증상",
+    b: "대처법 또는 방제법",
 
     image: image,
   },
   {
     id: 6,
-    path: 'dddd6',
-    name: '병해충이름6',
-    a: '증상',
-    b: '대처법 또는 방제법',
+    path: "dddd6",
+    name: "병해충이름6",
+    a: "증상",
+    b: "대처법 또는 방제법",
 
     image: image,
   },
@@ -97,37 +99,64 @@ function DiseasesList() {
   //   const apiUrl = `/api1?apiKey=${apiKey}&serviceCode=SVC01&serviceType=AA003&dtlSrchFlag=kncr1`;
   //   // console.log(apiUrl);
   //   const fetchData = async () => {
-  // try {
-  //   const response = await fetch(apiUrl);
-  //   if (!response.ok) {
-  //     throw new Error("데이터 불러오기 실패");
-  //   }
-  //   const result = await response.json(); // JSON 데이터를 파싱
-  //   setData(result);
-  //   console.log(result); // 데이터를 상태에 저장
-  // } catch (error) {
-  //   setError(error.message); // 에러 메시지를 상태에 저장
-  // } finally {
-  //   setLoading(false); // 로딩 상태를 false로 설정
-  // }
-  // 석민님코드
   //     try {
-  //       fetch(apiUrl)
-  //         .then((response) => response.json())
-  //         .then((result) => {
-  //           console.log(result);
-  //         });
+  //       const response = await fetch(apiUrl);
+  //       if (!response.ok) {
+  //         throw new Error("데이터 불러오기 실패");
+  //       }
+  //       const result = await response.json(); // JSON 데이터를 파싱
+  //       setData(result);
+  //       console.log(result); // 데이터를 상태에 저장
   //     } catch (error) {
-  //       console.log(error);
+  //       setError(error.message); // 에러 메시지를 상태에 저장
+  //     } finally {
+  //       setLoading(false); // 로딩 상태를 false로 설정
   //     }
+  // 석민님코드
+  // try {
+  //   fetch(apiUrl)
+  //     .then((response) => response.json())
+  //     .then((result) => {
+  //       console.log(result);
+  //     });
+  // } catch (error) {
+  //   console.log(error);
+  // }
   //   };
   //   fetchData();
   // }, []);
+  useEffect(() => {
+    const apiKey = "2024570e96d7a69a9e49dfeb7fdc9739177c";
+    const fetchData = async () => {
+      try {
+        const response = await fetch(
+          `/api1?apiKey=2024570e96d7a69a9e49dfeb7fdc9739177c&serviceCode=SVC16&serviceType=AA003&cropName=토마토`
+          // `/api1?apiKey=${apiKey}&serviceCode=SVC01&serviceType=AA003&dtlSrchFlag=kncr1`
+        );
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const result = await response.json();
+        setData(result);
+        console.log(result);
+        console.log(result.cropName);
+      } catch (error) {
+        console.error("There was a problem with the fetch operation:", error);
+      }
+    };
+    fetchData();
+  }, []);
 
   return (
     <>
-      <SearchBox />
+      {/* <Input /> */}
+      <InfoInput />
+      {/* <SearchBox /> */}
       <div className={styles.items}>
+        {/*  */}
+
         {diseasesList.map((item) => (
           <div key={item.id} className={styles.item}>
             <div className={styles.title}>
@@ -137,19 +166,15 @@ function DiseasesList() {
 
               <div className={styles.item_name}>
                 <div className={styles.item_list}>
-                  {/* <p>작물:</p> */}
                   <p>
+                    이름
+                    {/* <span> {service.oprName}</span> */}
                     <span>(병&해충)</span>
-                    가지
                   </p>
                 </div>
 
-                {/* <div className={styles.item_list}> */}
                 <p>해충</p>
-                {/* <p>해충</p> */}
-                {/* </div> */}
                 <div className={styles.item_list}>
-                  {/* <p> 이름 : </p> */}
                   <Link to={`/info/${item.path}`}>
                     <p className={styles.name}>{item.name}</p>
                   </Link>
@@ -158,6 +183,7 @@ function DiseasesList() {
             </div>
           </div>
         ))}
+        {/*  */}
       </div>
       <div className={styles.more}>
         <button>FIRST</button>
@@ -167,7 +193,7 @@ function DiseasesList() {
         <button>1</button>
         <button>2</button>
         <button>
-          {' '}
+          {" "}
           <MdOutlineNavigateNext />
         </button>
         <button>END</button>

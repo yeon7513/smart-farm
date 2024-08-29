@@ -29,7 +29,7 @@ function MyPayment() {
   return (
     <div className={styles.myPayments}>
       {payment.length === 0 ? (
-        <PaymentEmpty title={"결제내역"} />
+        <PaymentEmpty title="결제내역" />
       ) : (
         <div className={styles.myPayment}>
           <h1>결제 내역</h1>
