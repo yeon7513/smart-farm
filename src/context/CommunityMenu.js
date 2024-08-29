@@ -11,11 +11,11 @@ function CommunityMenu() {
   switch (currComp) {
     case "Notice":
       return <Notice />;
-    case "FAQ":
+    case "Faq":
       return <Faq />;
     case "SharingInformation":
       return <SharingInformation />;
-    case "As":
+    case "AfterService":
       return <AfterService />;
 
     default:
