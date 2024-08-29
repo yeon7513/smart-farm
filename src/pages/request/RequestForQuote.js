@@ -69,7 +69,7 @@ function RequestForQuote() {
   const handleFacilityTypeChange = (e) => {
     setFacilityType(e.target.value);
     setAdditionalOptions([]);
-    // console.log(e.target.value);
+    console.log(e.target.value);
   };
 
   const handleAdditionalOptionsChange = (e) => {
@@ -79,6 +79,7 @@ function RequestForQuote() {
         ? prevOptions.filter((option) => option !== value)
         : [...prevOptions, value]
     );
+    console.log(e.target.value);
   };
   // const handleSubmit = async (e) => {
   //   e.preventDefault();
@@ -129,7 +130,8 @@ function RequestForQuote() {
 
   // }
 
-  const handleExcelDownload = () => {
+  const handleExcelDownload = (e) => {
+    e.preventDefault();
     const fileName = "test";
     const data = [
       {
@@ -138,6 +140,7 @@ function RequestForQuote() {
         "농장 주소": farmAddress,
         "농장 종류": facilityType,
         "부가 옵션": additionalOptions,
+        "주문 번호": new Date().getTime(),
       },
     ];
     const datas = data?.length ? data : [];
@@ -217,12 +220,15 @@ function RequestForQuote() {
             />
           )}
         </div>
-        <Checkout
+        {/* <Checkout
           type="submit"
           description={"결제하기"}
           // onClick={handleSubmit}
           onClick={handleExcelDownload}
-        />
+        /> */}
+        <button type="button" onClick={handleExcelDownload}>
+          결제하기
+        </button>
       </form>
     </Container>
   );
