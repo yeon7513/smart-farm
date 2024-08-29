@@ -5,6 +5,7 @@
   "dependencies": {
     "@emotion/react": "^11.13.0",
     "@emotion/styled": "^11.13.0",
+    "@grapecity/spread-sheets": "^17.1.4",
     "@mui/material": "^5.16.7",
     "@reduxjs/toolkit": "^1.9.7",
     "@svg-maps/south-korea": "^1.0.1",
