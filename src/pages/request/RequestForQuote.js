@@ -7,6 +7,7 @@ import OpenGround from "./OpenGround";
 import { useDispatch } from "react-redux";
 import Checkout from "./Checkout";
 import { addDoc, collection, doc, serverTimestamp } from "firebase/firestore";
+import * as XLSX from "xlsx/xlsx.mjs";
 
 function RequestForQuote() {
   // user 상태를 선언합니다.
@@ -68,7 +69,7 @@ function RequestForQuote() {
   const handleFacilityTypeChange = (e) => {
     setFacilityType(e.target.value);
     setAdditionalOptions([]);
-    // console.log(e.target.value);
+    console.log(e.target.value);
   };
 
   const handleAdditionalOptionsChange = (e) => {
@@ -78,51 +79,79 @@ function RequestForQuote() {
         ? prevOptions.filter((option) => option !== value)
         : [...prevOptions, value]
     );
+    console.log(e.target.value);
   };
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    // console.log({
-    //   userEmail,
-    //   date,
-    //   farmAddress,
-    //   facilityType,
-    //   additionalOptions,
-    // });
-    console.log(
-      `견적 의뢰 아이디: `,
-      userEmail,
-      `결제 날짜: `,
-      date,
-      `농장 주소: `,
-      farmAddress,
-      `농장 종류: `,
-      facilityType,
-      `부가 옵션: `,
-      additionalOptions
-    );
-    const dataObj = {
-      userEmail,
-      date,
-      farmAddress,
-      facilityType,
-      additionalOptions,
-      // createdAt는 1724893344632 같은 number 형식이라서 주문번호로 쓸 예정
-      createdAt: new Date().getTime(),
-    };
-    try {
-      if (uid) {
-        const userDocRef = doc(db, "users", uid);
-        const paymentCollectionRef = collection(userDocRef, "payments");
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+  //   // console.log({
+  //   //   userEmail,
+  //   //   date,
+  //   //   farmAddress,
+  //   //   facilityType,
+  //   //   additionalOptions,
+  //   // });
+  //   console.log(
+  //     `견적 의뢰 아이디: `,
+  //     userEmail,
+  //     `결제 날짜: `,
+  //     date,
+  //     `농장 주소: `,
+  //     farmAddress,
+  //     `농장 종류: `,
+  //     facilityType,
+  //     `부가 옵션: `,
+  //     additionalOptions
+  //   );
+  //   const dataObj = {
+  //     userEmail,
+  //     date,
+  //     farmAddress,
+  //     facilityType,
+  //     additionalOptions,
+  //     // createdAt는 1724893344632 같은 number 형식이라서 주문번호로 쓸 예정
+  //     createdAt: new Date().getTime(),
+  //   };
+  //   try {
+  //     if (uid) {
+  //       const userDocRef = doc(db, "users", uid);
+  //       const paymentCollectionRef = collection(userDocRef, "payments");
 
-        await addDoc(paymentCollectionRef, dataObj);
-        console.log("데이터가 성공적으로 추가되었습니다.");
-      } else {
-        console.error("사용자 ID가 설정되지 않았습니다.");
-      }
-    } catch (error) {
-      console.error("에러가 발생하였습니다: ", error);
-    }
+  //       await addDoc(paymentCollectionRef, dataObj);
+  //       console.log("데이터가 성공적으로 추가되었습니다.");
+  //     } else {
+  //       console.error("사용자 ID가 설정되지 않았습니다.");
+  //     }
+  //   } catch (error) {
+  //     console.error("에러가 발생하였습니다: ", error);
+  //   }
+  // };
+
+  // const ExcelDownload = (e) => {
+
+  // }
+
+  // 주문 내역에 따라 Excel 파일을 다운로드 하는 함수입니다.
+  const handleExcelDownload = (e) => {
+    e.preventDefault();
+    // console.log("Additional Options: ", additionalOptions);
+    const fileName = "test";
+    const data = [
+      {
+        아이디: userEmail,
+        날짜: date,
+        "농장 주소": farmAddress,
+        "농장 종류": facilityType,
+        "부가 옵션": additionalOptions.join(", "),
+        "주문 번호": new Date().getTime(),
+      },
+    ];
+    const datas = data?.length ? data : [];
+    const worksheet = XLSX.utils.json_to_sheet(datas);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
+    XLSX.writeFile(workbook, fileName ? `${fileName}.xlsx` : "data.xlsx");
   };
+
   return (
     <Container>
       {/* 견적을 요청하고 사용자의 정보를 입력하면 결제 페이지로 넘어갑니다. &nbsp;
@@ -196,7 +225,8 @@ function RequestForQuote() {
         <Checkout
           type="submit"
           description={"결제하기"}
-          onClick={handleSubmit}
+          // onClick={handleSubmit}
+          onClick={handleExcelDownload}
         />
       </form>
     </Container>
