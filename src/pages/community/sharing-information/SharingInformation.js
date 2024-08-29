@@ -6,20 +6,13 @@ import { useComponentContext } from "../../../context/ComponentContext";
 import styles from "../community.module.scss";
 
 function SharingInformation(props) {
-  const { currComp, setCurrComp } = useComponentContext();
-
-  // currComp 상태 초기화
-  useEffect(() => {
-    return () => {
-      setCurrComp(null);
-    };
-  }, []);
-
   return (
     <div>
       <h2 className={styles.community}>정보 공유 게시판</h2>
       <p> - 아이팜 회원님들의 정보 공유 게시판입니다.</p>
-      <div>{currComp ? <PostView /> : <Board items={sharing} />}</div>
+      <div>
+        <Board items={sharing} />
+      </div>
     </div>
   );
 }

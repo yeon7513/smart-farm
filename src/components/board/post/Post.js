@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import styles from "./Post.module.scss";
+import { useNavigate } from "react-router-dom";
+import { useComponentContext } from "../../../context/ComponentContext";
 
-function Post({ onSubmit }) {
+function Post({ onSubmit, onClick }) {
   const [title, setTitle] = useState("");
   const [user, setUser] = useState("");
   const [content, setContent] = useState("");
@@ -44,7 +46,9 @@ function Post({ onSubmit }) {
             <button type="submit" className={styles.sub}>
               작성완료
             </button>
-            <button className={styles.delete}>취소하기</button>
+            <button className={styles.delete} onClick={onClick}>
+              취소하기
+            </button>
           </div>
         </div>
       </form>
