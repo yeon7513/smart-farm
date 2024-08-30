@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./InfoInput.module.scss";
 import { CiSearch } from "react-icons/ci";
 function InfoInput(props) {
@@ -21,7 +21,7 @@ function InfoInput(props) {
     수목나무: ["참나무", "단풍나무"],
   };
 
-  const [selectedBig, setSelectedBig] = useState(""); // 첫 번째 셀렉트 선택 값
+  const [selectedBig, setSelectedBig] = useState([]); // 첫 번째 셀렉트 선택 값
   const [middleOptions, setMiddleOptions] = useState([]); // 두 번째 셀렉트 박스 옵션
   const [selectedMiddle, setSelectedMiddle] = useState(""); // 두 번째 셀렉트 선택 값
   const [smallOptions, setSmallOptions] = useState([]); // 세 번째 셀렉트 박스 옵션
@@ -29,8 +29,9 @@ function InfoInput(props) {
   // 첫 번쨰 셀렉트 박스 변경 핸들러
   const handleBigChang = (e) => {
     const value = e.target.value;
+    console.log(value);
     setSelectedBig(value);
-    setMiddleOptions(middle[value] || []);
+    setMiddleOptions(selectedMiddle[value] || []);
     setSelectedMiddle("");
     setSmallOptions([]);
   };
@@ -41,6 +42,53 @@ function InfoInput(props) {
     setSelectedMiddle(value);
     setSmallOptions(small[value] || []);
   };
+  // 대분류
+  useEffect(() => {
+    const apiKey = "2024570e96d7a69a9e49dfeb7fdc9739177c";
+    const fetchData = async () => {
+      try {
+        const response = await fetch(
+          `/desease/?apiKey=${apiKey}&serviceCode=SVC11&serviceType=AA003`
+        );
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        // console.log(response);
+        const result = await response.json();
+        console.log(result.service.list);
+        console.log(result.service.list.cropSectionName);
+        setSelectedBig(result.service.list);
+      } catch (error) {
+        console.error("There was a problem with the fetch operation:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
+  // 중분류
+  // useEffect(() => {
+  //   const apiKey = "2024570e96d7a69a9e49dfeb7fdc9739177c";
+  //   const fetchData = async () => {
+  //     try {
+  //       const response = await fetch(
+  //         `/desease/?apiKey=${apiKey}&serviceCode=SVC12&serviceType=AA003&cropSectionCode=1`
+  //       );
+
+  //       if (!response.ok) {
+  //         throw new Error(`HTTP error! status: ${response.status}`);
+  //       }
+  //       // console.log(response);
+  //       const result = await response.json();
+  //       console.log(result);
+  //       setSelectedBig(result.service.list);
+  //     } catch (error) {
+  //       console.error("There was a problem with the fetch operation:", error);
+  //     }
+  //   };
+
+  //   fetchData();
+  // }, []);
 
   return (
     <div className={styles.main}>
@@ -61,9 +109,9 @@ function InfoInput(props) {
               <option value="" title="대분류">
                 ::전체::
               </option>
-              {big.map((item, idx) => (
-                <option key={idx} value={item}>
-                  {item}
+              {selectedBig.map((item, idx) => (
+                <option key={idx} value={item.cropSectionName}>
+                  {item.cropSectionName}
                 </option>
               ))}
             </select>
