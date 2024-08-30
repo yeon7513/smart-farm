@@ -6,11 +6,12 @@ import { RiScrollToBottomLine } from "react-icons/ri";
 import styles from "./Home.module.scss";
 import MainSlide from "../../components/slide/main/MainSlide";
 import phoneImg from "../../assets/main/phone.png";
-import Map from "../../components/map/Map";
+// import Map from "../../components/map/Map";
 import { Link } from "react-router-dom";
 import CaseSlide from "../../components/slide/case/CaseSlide";
 import { cases } from "../../lib/case";
-import Charts from "../../components/chart/Charts";
+// import Charts from "../../components/chart/Charts";
+import Maps from "./../../components/map/Maps";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -132,29 +133,35 @@ function Home() {
       </div>
 
       <div className={styles.state_commu}>
-        <div className={styles.state}>
-          <h1>스마트팜 이용현황</h1>
-          <div>
-            <Map />
-            <div className={styles.chart}>
-              <Charts />
+        <div className={styles.community}>
+          <h1>커뮤니티</h1>
+          <div className={styles.commu}>
+            <div>
+              <ul>
+                <h2>공지사항</h2>
+                <li>2024-08-23 / 신규 업데이트</li>
+                <li>2024-08-20 / 불편사항 신고 ...</li>
+                <li>2024-08-15 / 여름휴가 안내</li>
+              </ul>
+            </div>
+            <div>
+              <ul>
+                <h2>정보 공유 게시판</h2>
+                <li>요즘 날씨 진짜 덥네요</li>
+                <li>회원님들은 어떤 시스템...</li>
+                <li>내일부터 2박3일 여행 가는데...</li>
+              </ul>
             </div>
           </div>
         </div>
-        <div className={styles.community}>
-          <h1>커뮤니티</h1>
-          <ul>
-            <h2>공지사항</h2>
-            <li>2024-08-23 / 신규 업데이트</li>
-            <li>2024-08-20 / 불편사항 신고 ...</li>
-            <li>2024-08-15 / 여름휴가 안내</li>
-          </ul>
-          <ul>
-            <h2>정보 공유 게시판</h2>
-            <li>요즘 날씨 진짜 덥네요</li>
-            <li>회원님들은 어떤 시스템...</li>
-            <li>내일부터 2박3일 여행 가는데...</li>
-          </ul>
+        <div className={styles.state}>
+          <h1>스마트팜 이용현황</h1>
+          <div className={styles.map_chart}>
+            <div className={styles.map}>
+              <Maps />
+            </div>
+            <div>{/* <Charts /> */}</div>
+          </div>
         </div>
       </div>
 

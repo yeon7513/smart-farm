@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from "react";
 import styles from "./RequestForQuote.module.scss";
-import { addDatas, db, getDatas } from "../../api/firebase";
+import { getDatas } from "../../api/firebase";
 import { Container } from "@mui/material";
 import FacilitiesHorticulture from "./FacilitiesHorticulture";
 import OpenGround from "./OpenGround";
 import { useDispatch } from "react-redux";
 import Checkout from "./Checkout";
-import { addDoc, collection, doc, serverTimestamp } from "firebase/firestore";
 import * as XLSX from "xlsx/xlsx.mjs";
 
 function RequestForQuote() {
@@ -18,7 +17,6 @@ function RequestForQuote() {
   const [facilityType, setFacilityType] = useState("시설원예");
   const [additionalOptions, setAdditionalOptions] = useState([]);
   const [uid, setUid] = useState("");
-  const dispatch = useDispatch();
 
   useEffect(() => {
     const today = new Date();
@@ -136,7 +134,7 @@ function RequestForQuote() {
   const handleExcelDownload = (e) => {
     e.preventDefault();
     // console.log("Additional Options: ", additionalOptions);
-    const fileName = `${userEmail}님의 견적`;
+    const fileName = `${userEmail}님의 견적 주문번호_${new Date().getTime()}`;
     const data = [
       {
         아이디: userEmail,

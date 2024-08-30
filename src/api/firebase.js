@@ -27,26 +27,21 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
+
 export const db = getFirestore(app);
-
-export async function addDatas(uid, dataObj) {
-  try {
-    const userDocRef = doc(db, "users", uid);
-    const paymentsCollectionRef = collection(userDocRef, "payments");
-    await addDoc(paymentsCollectionRef, dataObj);
-    return true;
-  } catch (error) {
-    console.error("Error adding document: ", error);
-    return false;
-  }
-}
-
 export function getCollection(collectionName) {
   return collection(db, collectionName);
 }
-
 export function getUserAuth() {
   return auth;
+}
+
+// 컬렉션에 저장
+export async function addDatas(collectionName, addObj) {
+  const result = await addDoc(getCollection(collectionName), addObj);
+  const docSnap = await getDoc(result);
+  const resultData = { ...docSnap.data(), docId: docSnap.id };
+  return resultData;
 }
 
 export async function joinUser(uid, email, password, userInfo) {
@@ -129,7 +124,7 @@ export async function updateDatas(collectionName, docId, updateObj) {
   try {
     const docRef = await doc(db, collectionName, docId);
     await updateDoc(docRef, updateObj);
-    console.log("Document successfully updated!");
+    // console.log("Document successfully updated!");
   } catch (error) {
     console.error("Error updating document: ", error);
     throw error;

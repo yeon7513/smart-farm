@@ -140,44 +140,55 @@
 }
 
 .state_commu {
+  height: 80vh;
   display: flex;
   align-items: center;
-  justify-content: space-evenly;
-}
+  justify-content: space-around;
+  padding: 80px 50px;
+  position: relative;
 
-.state {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-
-  div {
-    height: 100%;
-    display: flex;
-    align-items: center;
-    gap: 50px;
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: url("../../assets/main/back7.png") no-repeat;
+    background-size: cover;
+    opacity: 0.8;
+    z-index: -1;
   }
+
   h1 {
     margin-bottom: 30px;
     font-weight: 500;
-    font-size: 24px;
+    font-size: 28px;
+    color: var(--accent-color);
+    // color: #fff;
+    font-family: var(--title-font);
   }
-  img {
-    margin-top: 100px;
-    width: 300px;
-    height: 300px;
-  }
+}
+.state {
+  height: 100%;
+}
+.map_chart {
+  display: flex;
+  align-items: center;
+  gap: 100px;
+}
+.map {
+  overflow: hidden;
 }
 
 .community {
+  height: 100%;
   width: 400px;
-  margin-right: 70px;
-  h1 {
-    margin-bottom: 30px;
-    font-weight: 500;
-    font-size: 24px;
-  }
+  margin-top: 20px;
 
+  // margin-right: 70px;
+}
+.commu {
   ul {
     border-radius: 4px;
     margin-top: 50px;
@@ -194,7 +205,7 @@
     list-style-type: disc;
   }
   h2 {
-    font-size: 16px;
+    font-size: 18px;
     margin-top: 10px;
   }
 }
