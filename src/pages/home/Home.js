@@ -10,7 +10,7 @@ import phoneImg from "../../assets/main/phone.png";
 import { Link } from "react-router-dom";
 import CaseSlide from "../../components/slide/case/CaseSlide";
 import { cases } from "../../lib/case";
-import Charts from "../../components/chart/Charts";
+// import Charts from "../../components/chart/Charts";
 import Maps from "./../../components/map/Maps";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -160,9 +160,7 @@ function Home() {
             <div className={styles.map}>
               <Maps />
             </div>
-            <div>
-              <Charts />
-            </div>
+            <div>{/* <Charts /> */}</div>
           </div>
         </div>
       </div>
