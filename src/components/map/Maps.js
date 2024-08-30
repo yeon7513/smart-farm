@@ -1,6 +1,5 @@
 import * as d3 from "d3";
 import React, { useEffect, useRef } from "react";
-// import koreaGeoJson from '../../lib/SIDO_MAP_2022.json';
 import koreaGeoJson from "../../lib/TL_SCCO_CTPRVN.json";
 import styles from "./Maps.module.scss";
 
@@ -37,7 +36,7 @@ function Maps({ onRegionClick = () => {} }) {
         onRegionClick(d.properties);
       })
       .on("mouseover", function () {
-        d3.select(this).attr("fill", "orange");
+        d3.select(this).attr("fill", "#669900");
       })
       .on("mouseout", function () {
         d3.select(this).attr("fill", "#ccc");

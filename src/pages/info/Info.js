@@ -1,18 +1,20 @@
-import React from "react";
-import { Outlet } from "react-router-dom";
-import Container from "../../components/layout/container/Container";
-import Title from "../../components/layout/title/Title";
-import { useComponentContext } from "../../context/ComponentContext";
-import { infoTitle } from "../../lib/intro";
-import styles from "./Info.module.scss";
+import React from 'react';
+import { Outlet, useNavigate } from 'react-router-dom';
+import Container from '../../components/layout/container/Container';
+import Title from '../../components/layout/title/Title';
+import { useComponentContext } from '../../context/ComponentContext';
+import { infoTitle } from '../../lib/intro';
+import styles from './Info.module.scss';
 
 function Info() {
   const { currComp, setCurrComp } = useComponentContext();
+  const navigate = useNavigate();
 
   const titleProps = infoTitle[currComp] || infoTitle.UsageStatus;
 
   const handleChangeTitles = (compName) => {
     setCurrComp(compName);
+    navigate('/info');
   };
 
   return (
@@ -21,22 +23,22 @@ function Info() {
       <Container className={styles.container}>
         <ul className={styles.links}>
           <li>
-            <button onClick={() => handleChangeTitles("UsageStatus")}>
+            <button onClick={() => handleChangeTitles('UsageStatus')}>
               이용현황
             </button>
           </li>
           <li>
-            <button onClick={() => handleChangeTitles("Simulation")}>
+            <button onClick={() => handleChangeTitles('Simulation')}>
               시뮬레이션
             </button>
           </li>
           <li>
-            <button onClick={() => handleChangeTitles("Diseases")}>
+            <button onClick={() => handleChangeTitles('Diseases')}>
               병해충 상담
             </button>
           </li>
           <li>
-            <button onClick={() => handleChangeTitles("Disaster")}>
+            <button onClick={() => handleChangeTitles('Disaster')}>
               자연재해 상담
             </button>
           </li>

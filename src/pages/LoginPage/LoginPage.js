@@ -70,6 +70,11 @@ function LoginPage(props) {
             <b>Google</b>
           </span>
         </button>
+        <span>
+          <button>
+            <img src="/img/kakao_login_medium_narrow.png" />
+          </button>
+        </span>
         <p>
           <Link to="/searchEm">Email 찾기</Link>
           <Link to="/searchPw">비밀번호 찾기</Link>

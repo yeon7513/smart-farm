@@ -27,26 +27,25 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
-export const db = getFirestore(app);
 
-export async function addDatas(uid, dataObj) {
+export const db = getFirestore(app);
+export function getCollection(collectionName) {
+  return collection(db, collectionName);
+}
+export function getUserAuth() {
+  return auth;
+}
+
+export async function addDatas(uid, dataObj, collectionName) {
   try {
-    const userDocRef = doc(db, "users", uid);
-    const paymentsCollectionRef = collection(userDocRef, "payments");
+    const userDocRef = doc(db, collectionName, uid);
+    const paymentsCollectionRef = collection(userDocRef, collectionName);
     await addDoc(paymentsCollectionRef, dataObj);
     return true;
   } catch (error) {
     console.error("Error adding document: ", error);
     return false;
   }
-}
-
-export function getCollection(collectionName) {
-  return collection(db, collectionName);
-}
-
-export function getUserAuth() {
-  return auth;
 }
 
 export async function joinUser(uid, email, password, userInfo) {
