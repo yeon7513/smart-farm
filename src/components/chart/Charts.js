@@ -1,5 +1,5 @@
 import React from "react";
-import ReactApexChart from "react-apexcharts";
+import { ReactApexChart } from "react-apexcharts";
 
 function Charts() {
   const series = [
@@ -39,6 +39,7 @@ function Charts() {
     },
   };
 
-  return <ReactApexChart options={options} series={series} height={500} />;
+  return;
+  //  <ReactApexChart options={options} series={series} height={500} />;
 }
 export default Charts;
