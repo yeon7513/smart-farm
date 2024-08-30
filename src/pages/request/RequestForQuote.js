@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from "react";
 import styles from "./RequestForQuote.module.scss";
-import { addDatas, db, getDatas } from "../../api/firebase";
+import { getDatas } from "../../api/firebase";
 import { Container } from "@mui/material";
 import FacilitiesHorticulture from "./FacilitiesHorticulture";
 import OpenGround from "./OpenGround";
 import { useDispatch } from "react-redux";
 import Checkout from "./Checkout";
-import { addDoc, collection, doc, serverTimestamp } from "firebase/firestore";
 import * as XLSX from "xlsx/xlsx.mjs";
 
 function RequestForQuote() {
@@ -18,7 +17,6 @@ function RequestForQuote() {
   const [facilityType, setFacilityType] = useState("시설원예");
   const [additionalOptions, setAdditionalOptions] = useState([]);
   const [uid, setUid] = useState("");
-  const dispatch = useDispatch();
 
   useEffect(() => {
     const today = new Date();

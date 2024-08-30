@@ -3,10 +3,8 @@ import React, { useEffect, useState } from "react";
 import down from "../../../../src/assets/arrow/down.png";
 import up from "../../../../src/assets/arrow/up.png";
 import styles from "./Faq.module.scss";
-import { FcLike } from "react-icons/fc";
-import { FaBeer } from "react-icons/fa";
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 
 const FAQData = [
   {
@@ -71,6 +69,7 @@ function Faq() {
         item.id === id ? { ...item, views: item.views + 1 } : item
       )
     );
+    // firebase에 저장된 조회수를 반영할 것
   };
 
   const toggleLike = (id) => {
@@ -85,6 +84,12 @@ function Faq() {
           : item
       )
     );
+    // firebase에 저장된 좋아요수를 반영할 것(liked는 아님)
+  };
+
+  const youHaveToSignIn = () => {
+    alert("로그인이 필요한 서비스입니다.");
+    console.log("로그인이 필요한 서비스입니다.");
   };
 
   return (
@@ -100,8 +105,8 @@ function Faq() {
               {openId === id ? (
                 <button
                   onClick={() => {
-                    toggleVisibility(id);
                     incrementViews(id);
+                    toggleVisibility(id);
                   }}
                 >
                   <img src={up} alt="자세히 보기" />
@@ -129,7 +134,10 @@ function Faq() {
                     </button>
                   ) : (
                     <button>
-                      <AiOutlineHeart style={{ fontSize: "30px" }} />
+                      <AiOutlineHeart
+                        style={{ fontSize: "30px" }}
+                        onClick={youHaveToSignIn}
+                      />
                       좋아요: {likes}
                     </button>
                   )}
