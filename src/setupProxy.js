@@ -47,4 +47,15 @@ module.exports = function (app) {
       },
     })
   );
+  // 자연재해 상담
+  // app.use(
+  //   "/smart", // 기존 host 대신 사용할 경로
+  //   createProxyMiddleware({
+  //     target: "https://www.smartfarmkorea.net", // 기존 host
+  //     changeOrigin: true,
+  //     pathRewrite: {
+  //       "^/smart": "",
+  //     },
+  //   })
+  // );
 };
