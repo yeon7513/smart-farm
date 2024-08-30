@@ -12,8 +12,8 @@ function SharingInformation(props) {
       <h2 className={styles.community}>정보 공유 게시판</h2>
       <p> - 아이팜 회원님들의 정보 공유 게시판입니다.</p>
       <div>
-        <Board items={sharing} />
         <Outlet />
+        <Board items={sharing} />
       </div>
     </div>
   );
