@@ -1,9 +1,8 @@
 import * as d3 from 'd3';
 import React, { useEffect, useRef } from 'react';
 import koreaGeoJson from '../../lib/TL_SCCO_CTPRVN.json';
-import styles from './Maps.module.scss';
 
-function Maps({ onRegionClick = () => {} }) {
+function Maps({ onRegionClick = () => {}, className }) {
   const svgRef = useRef();
 
   useEffect(() => {
@@ -44,7 +43,7 @@ function Maps({ onRegionClick = () => {} }) {
   }, [onRegionClick]);
 
   return (
-    <div className={styles.maps}>
+    <div className={className}>
       <svg ref={svgRef}></svg>
     </div>
   );

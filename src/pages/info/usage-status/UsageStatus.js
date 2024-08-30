@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { usageStatusData } from '../../../api/usageStatusData';
+import RenderingChart from '../../../components/chart/RenderingChart';
 import Maps from '../../../components/map/Maps';
-import UsageStatusChart from './Chart/UsageStatusChart';
 import styles from './UsageStatus.module.scss';
 
 function UsageStatus() {
@@ -10,28 +11,27 @@ function UsageStatus() {
     setSelectedChartType(e.target.value);
   };
 
-  // 차트 데이터
-  const data = [44, 55, 13, 43, 22];
-  // 차트 레벨
-  const labels = ['a', 'b', 'c', 'd', 'e'];
+  useEffect(() => {
+    usageStatusData();
+  }, []);
 
   return (
     <div className={styles.usageStatus}>
-      <Maps onRegionClick={() => {}} />
+      <Maps className={styles.map} onRegionClick={() => {}} />
       <div className={styles.chartWrapper}>
         <div className={styles.all}>
           <h2>전체 이용 현황</h2>
-          <UsageStatusChart data={data} chartType="donut" labels={labels} />
+          <RenderingChart chartType={'donut'} />
         </div>
         <div className={styles.detail}>
           <h2>상세 이용 현황</h2>
           <div className={styles.selectWrap} onChange={handleChangeChartType}>
+            <input type="radio" name="chartType" value="bar" defaultChecked />
             <label htmlFor="bar">
-              <input type="radio" name="chartType" value="bar" defaultChecked />
               <span>막대 그래프</span>
             </label>
+            <input type="radio" name="chartType" value="pie" />
             <label htmlFor="pie">
-              <input type="radio" name="chartType" value="pie" />
               <span>파이 그래프</span>
             </label>
             <label htmlFor="line">
@@ -39,7 +39,9 @@ function UsageStatus() {
               <span>라인 그래프</span>
             </label>
           </div>
-          <UsageStatusChart data={data} chartType={'bar'} labels={labels} />
+          <div className={styles.chart}>
+            <RenderingChart chartType={selectedChartType} />
+          </div>
         </div>
       </div>
     </div>
