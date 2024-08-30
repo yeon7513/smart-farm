@@ -122,7 +122,7 @@ function DiseasesList() {
   //   const fetchData = async () => {
   //     try {
   //       const response = await fetch(
-  //         `/api1?apiKey=2024570e96d7a69a9e49dfeb7fdc9739177c&serviceCode=SVC16&serviceType=AA003&cropName=토마토`
+  //         `/api1?apiKey=${apiKey}&serviceCode=SVC16&serviceType=AA003`
   //         // `/api1?apiKey=${apiKey}&serviceCode=SVC01&serviceType=AA003&dtlSrchFlag=kncr1`
   //       );
 
@@ -133,7 +133,7 @@ function DiseasesList() {
   //       const result = await response.json();
   //       setData(result);
   //       console.log(result);
-  //       console.log(result.cropName);
+  //       // console.log(result.cropName);
   //     } catch (error) {
   //       console.error("There was a problem with the fetch operation:", error);
   //     }
