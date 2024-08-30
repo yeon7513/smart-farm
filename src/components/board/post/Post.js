@@ -9,6 +9,13 @@ function Post({ onSubmit, onClick }) {
   const [content, setContent] = useState("");
   const date = new Date().toISOString();
 
+  const postDate = {
+    title,
+    user,
+    content,
+    date,
+  };
+
   return (
     <div className={styles.container}>
       <div>

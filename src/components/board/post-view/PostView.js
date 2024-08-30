@@ -13,7 +13,7 @@ function PostView() {
     <div className={styles.container}>
       <div className={styles.title}>
         <div>
-          <h2>title</h2>
+          <h2>{currComp.title}</h2>
         </div>
         <div>
           <div>

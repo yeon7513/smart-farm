@@ -5,6 +5,7 @@ import PostView from "../../../components/board/post-view/PostView";
 import Post from "../../../components/board/post/Post";
 import styles from "../community.module.scss";
 import { useComponentContext } from "../../../context/ComponentContext";
+import { Outlet } from "react-router-dom";
 
 function AfterService(props) {
   return (
@@ -16,6 +17,7 @@ function AfterService(props) {
       </p>
       <div>
         <Board items={as} />
+        <Outlet />
       </div>
     </div>
   );

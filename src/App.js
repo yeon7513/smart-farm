@@ -28,6 +28,7 @@ import DashBoard from "./pages/my-farm/my-farm-list/dashboard/DashBoard";
 import RenderingMenu from "./pages/my-farm/my-farm-list/dashboard/RenderingMenu";
 import RequestForQuote from "./pages/request/RequestForQuote";
 import "./scss/global.scss";
+import PostView from "./components/board/post-view/PostView";
 
 function App() {
   return (
@@ -52,7 +53,7 @@ function App() {
             <Route path="request" element={<RequestForQuote />} />
             <Route path="community" element={<Community />}>
               <Route index element={<CommunityMenu />} />
-              {/* <Route path=":id" element={<PostView />} /> */}
+              <Route path=":id" element={<PostView />} />
             </Route>
             <Route path="my-farm" element={<MyFarm />}>
               <Route index element={<FarmList />} />
