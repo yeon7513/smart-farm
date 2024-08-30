@@ -6,7 +6,7 @@ import { useComponentContext } from "../../../context/ComponentContext";
 function Sidebar(props) {
   const { currComp, setCurrComp } = useComponentContext();
   const handleDelete = async (docId) => {
-    alert("정말 회원 탈퇴 하시겠습니까?");
+    // alert("정말 회원 탈퇴 하시겠습니까?");
     // localStorage에 저장되어 있는 회원 정보를 삭제합니다.
     localStorage.removeItem("user");
     // Firebase에 "users" 컬렉션에 저장되어 있는 회원 정보를 삭제합니다.

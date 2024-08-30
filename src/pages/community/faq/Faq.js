@@ -5,6 +5,7 @@ import up from "../../../../src/assets/arrow/up.png";
 import styles from "./Faq.module.scss";
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const FAQData = [
   {
@@ -46,6 +47,7 @@ const FAQData = [
 ];
 
 function Faq() {
+  const navigate = useNavigate();
   const [openId, setOpenId] = useState(null);
   const [faqData, setFaqData] = useState(() => {
     const storedData = localStorage.getItem("faqData");
@@ -88,7 +90,7 @@ function Faq() {
   };
 
   const youHaveToSignIn = () => {
-    alert("로그인이 필요한 서비스입니다.");
+    navigate("/login");
     console.log("로그인이 필요한 서비스입니다.");
   };
 
