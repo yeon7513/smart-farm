@@ -7,6 +7,7 @@ import { useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { getUserAuth } from '../../api/firebase';
 import { setUser } from '../../store/user/UserSlice';
+import Kakaoback from './Kakaoback';
 import styles from './LoginPage.module.scss';
 import SignIn from './sign-in/SignIn';
 
@@ -68,6 +69,7 @@ function LoginPage(props) {
             <b>Google</b>
           </span>
         </button>
+        <Kakaoback />
         <p>
           <Link to="/searchEm">Email 찾기</Link>
           <Link to="/searchPw">비밀번호 찾기</Link>
