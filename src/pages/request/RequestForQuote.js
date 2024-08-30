@@ -136,7 +136,7 @@ function RequestForQuote() {
   const handleExcelDownload = (e) => {
     e.preventDefault();
     // console.log("Additional Options: ", additionalOptions);
-    const fileName = `${userEmail}님의 견적`;
+    const fileName = `${userEmail}님의 견적 주문번호_${new Date().getTime()}`;
     const data = [
       {
         아이디: userEmail,

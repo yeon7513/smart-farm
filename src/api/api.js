@@ -50,7 +50,7 @@ export async function getDataRest(url) {
   return getResultData(response);
 }
 
-export async function addDatasRest(url, addObj) {
+export async function Rest(url, addObj) {
   try {
     await api.patch(url, { fields: toFirestoreFields(addObj) });
     return true;
