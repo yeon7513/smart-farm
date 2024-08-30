@@ -47,4 +47,14 @@ module.exports = function (app) {
       },
     })
   );
+  // app.use(
+  //   "/kakao", // 기존 host 대신 사용할 경로
+  //   createProxyMiddleware({
+  //     target: "https://kauth.kakao.com/oauth/authorize", // 기존 host
+  //     changeOrigin: true,
+  //     pathRewrite: {
+  //       "^/kakao": "",
+  //     },
+  //   })
+  // );
 };

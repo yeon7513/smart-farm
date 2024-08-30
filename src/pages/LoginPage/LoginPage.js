@@ -11,19 +11,21 @@ import { useDispatch } from "react-redux";
 import { setUser } from "../../store/user/UserSlice";
 import styles from "./LoginPage.module.scss";
 import { Container } from "@mui/material";
+import KaKaoLogin from "./KaKaoLogin";
+import Kakaoback from "./Kakaoback";
 
 function LoginPage(props) {
-  const api = "cbd181f0a2594233a01eed9b0b86a392"; // 여기에 실제 API 키를 넣으세요
-  const userIdArr = [];
-  const apiurl = `/api3/Agree_WS/webservices/ProvideRestService/getIdentityDataList/${api}`;
-  fetch(apiurl)
-    .then((response) => response.json())
-    .then((result) => {
-      result.forEach((item) => {
-        userIdArr.push(item.userId);
-      });
-      console.log(userIdArr.slice(0, 100));
-    });
+  // const api = "cbd181f0a2594233a01eed9b0b86a392"; // 여기에 실제 API 키를 넣으세요
+  // const userIdArr = [];
+  // const apiurl = `/api3/Agree_WS/webservices/ProvideRestService/getIdentityDataList/${api}`;
+  // fetch(apiurl)
+  //   .then((response) => response.json())
+  //   .then((result) => {
+  //     result.forEach((item) => {
+  //       userIdArr.push(item.userId);
+  //     });
+  //     console.log(userIdArr.slice(0, 100));
+  //   });
 
   const auth = getUserAuth();
   const [user, loading, error] = useAuthState(auth);
@@ -70,11 +72,7 @@ function LoginPage(props) {
             <b>Google</b>
           </span>
         </button>
-        <span>
-          <button>
-            <img src="/img/kakao_login_medium_narrow.png" />
-          </button>
-        </span>
+        <Kakaoback />
         <p>
           <Link to="/searchEm">Email 찾기</Link>
           <Link to="/searchPw">비밀번호 찾기</Link>
