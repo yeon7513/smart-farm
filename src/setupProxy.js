@@ -47,14 +47,12 @@ module.exports = function (app) {
       },
     })
   );
+  // 자연재해 상담
   // app.use(
-  //   "/kakao", // 기존 host 대신 사용할 경로
+  //   "/smart", // 기존 host 대신 사용할 경로
   //   createProxyMiddleware({
-  //     target: "https://kauth.kakao.com/oauth/authorize", // 기존 host
+  //     target: "https://www.smartfarmkorea.net", // 기존 host
   //     changeOrigin: true,
   //     pathRewrite: {
-  //       "^/kakao": "",
-  //     },
-  //   })
-  // );
+  //       "^/smart": "",
 };
