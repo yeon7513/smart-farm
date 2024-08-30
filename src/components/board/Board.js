@@ -1,9 +1,9 @@
-import React, { useState } from "react";
-import styles from "./Board.module.scss";
-import BoardItem from "./boardItem/BoardItem";
-import { useComponentContext } from "../../context/ComponentContext";
-import Post from "./post/Post";
-import { Link, Outlet } from "react-router-dom";
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { useComponentContext } from '../../context/ComponentContext';
+import styles from './Board.module.scss';
+import BoardItem from './boardItem/BoardItem';
+import Post from './post/Post';
 
 const PAGE_SIZE = 10;
 
@@ -65,14 +65,13 @@ function Board({ items, nopost }) {
           <div className={styles.board}>
             <ul>
               {currentItem.map((item, idx) => (
-                <Link to={`/community/${item.id}`}>
+                <Link key={idx} to={`/community/${item.id}`}>
                   <li
                     onClick={() => {
                       openPost(item);
                     }}
                   >
                     <BoardItem
-                      key={idx}
                       id={items.length - ((currentPage - 1) * PAGE_SIZE + idx)}
                       title={item.title}
                       user={item.user}
@@ -102,7 +101,7 @@ function Board({ items, nopost }) {
             </button>
           </div>
           {nopost === false ? (
-            ""
+            ''
           ) : (
             <div className={styles.upload}>
               {<button onClick={() => setIsWriting(true)}>글쓰기</button>}
