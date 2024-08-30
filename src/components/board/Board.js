@@ -3,7 +3,7 @@ import styles from "./Board.module.scss";
 import BoardItem from "./boardItem/BoardItem";
 import { useComponentContext } from "../../context/ComponentContext";
 import Post from "./post/Post";
-import { Link, Outlet } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const PAGE_SIZE = 10;
 
@@ -11,7 +11,7 @@ function Board({ items, nopost }) {
   const [currentPage, setCurrentPage] = useState(1);
   const [post, setPost] = useState(items); // 게시글 상태
   const [isWriting, setIsWriting] = useState(false); // 글쓰기 모드 상태
-  // const id = crypto.randomUUID().split("-", 1);
+  const id = crypto.randomUUID().split("-", 1);
   const { currComp, setCurrComp } = useComponentContext();
 
   const totalPages = Math.ceil(items.length / PAGE_SIZE);
@@ -65,14 +65,14 @@ function Board({ items, nopost }) {
           <div className={styles.board}>
             <ul>
               {currentItem.map((item, idx) => (
-                <Link to={`/community/${item.id}`}>
+                <Link to={`/community/${id}`}>
                   <li
+                    key={idx}
                     onClick={() => {
                       openPost(item);
                     }}
                   >
                     <BoardItem
-                      key={idx}
                       id={items.length - ((currentPage - 1) * PAGE_SIZE + idx)}
                       title={item.title}
                       user={item.user}

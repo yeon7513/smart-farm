@@ -7,11 +7,13 @@ function PostView() {
   const navigate = useNavigate();
   const { currComp, setCurrComp } = useComponentContext();
 
+  // if (!currComp) return null;
+
   return (
     <div className={styles.container}>
       <div className={styles.title}>
         <div>
-          <h2>{currComp.title}</h2>
+          <h2>title</h2>
         </div>
         <div>
           <div>
