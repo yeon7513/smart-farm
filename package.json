@@ -33,6 +33,7 @@
     "react-router-dom": "^6.26.1",
     "react-scripts": "5.0.1",
     "react-spinners": "^0.14.1",
+    "recharts": "^2.12.7",
     "redux": "^4.2.1",
     "sass": "^1.77.8",
     "smart-farm": "file:",
