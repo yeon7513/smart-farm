@@ -1,13 +1,13 @@
 import React from "react";
 import styles from "./PostView.module.scss";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useComponentContext } from "../../../context/ComponentContext";
 
 function PostView() {
   const navigate = useNavigate();
-  // const { currComp, setCurrComp } = useComponentContext();
+  const { currComp, setCurrComp } = useComponentContext();
 
-  // if (!currComp) return null;
+  if (!currComp) return null;
 
   return (
     <div className={styles.container}>
@@ -17,9 +17,9 @@ function PostView() {
         </div>
         <div>
           <div>
-            {/* <p>작성자: {currComp.user}</p>
+            <p>작성자: {currComp.user}</p>
             <p>작성일: {currComp.date}</p>
-            <p>조회수: {currComp.comment}</p> */}
+            <p>조회수: {currComp.comment}</p>
           </div>
           <div>
             <button>🚨 신고하기</button>
@@ -27,8 +27,8 @@ function PostView() {
         </div>
       </div>
       <div className={styles.content}>
-        {/* <div>{currComp.content}</div>
-        <div>{currComp.imgUrl}</div> */}
+        <div>{currComp.content}</div>
+        <div>{currComp.imgUrl}</div>
       </div>
       <div className={styles.comment}>
         <h2>댓글(2개)</h2>
