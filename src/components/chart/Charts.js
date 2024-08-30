@@ -39,6 +39,13 @@ function Charts() {
     },
   };
 
-  return <ReactApexChart options={options} series={series} height={500} />;
+  return (
+    <ReactApexChart
+      options={options}
+      series={series}
+      height={200}
+      width={300}
+    />
+  );
 }
 export default Charts;

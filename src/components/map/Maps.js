@@ -37,7 +37,7 @@ function Maps({ onRegionClick = () => {} }) {
         onRegionClick(d.properties);
       })
       .on("mouseover", function () {
-        d3.select(this).attr("fill", "orange");
+        d3.select(this).attr("fill", "#669900");
       })
       .on("mouseout", function () {
         d3.select(this).attr("fill", "#ccc");
