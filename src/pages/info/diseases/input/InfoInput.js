@@ -88,7 +88,7 @@ function InfoInput(props) {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          `/desease/?apiKey=${apiKey}&serviceCode=SVC01&serviceType=AA003&dtlSrchFlag=kncr1`
+          `/desease/?apiKey=${apiKey}&serviceCode=SVC01&serviceType=AA003&dtlSrchFlag=kncr1&displayCount=9`
         );
 
         if (!response.ok) {
