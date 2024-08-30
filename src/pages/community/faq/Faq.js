@@ -3,13 +3,20 @@ import React, { useState } from "react";
 import down from "../../../../src/assets/arrow/down.png";
 import up from "../../../../src/assets/arrow/up.png";
 import styles from "./Faq.module.scss";
+import { FcLike } from "react-icons/fc";
 
 function Faq() {
   const [openId, setOpenId] = useState(null);
+  const [like, setLike] = useState(false);
 
   const toggleVisibility = (id) => {
     setOpenId((prevId) => (prevId === id ? null : id));
   };
+
+  const toggleLike = (id) => {
+    setLike((prevLike) => (prevLike === id ? true : false));
+  };
+
   return (
     <div className={styles.page}>
       <h1>FAQ</h1>
@@ -38,10 +45,21 @@ function Faq() {
                 즉, 스마트 농업이 농업 전체를 의미한다면 스마트팜은
                 시설농업기술을 뜻합니다.
               </h4>
-              {/* 좋아요 수를 누적하는 기능을 추가합니다. */}
-              <div>
-                <button>좋아요(이미지)</button>
-                <p>하트(이모티콘): 829</p>
+              {/* 좋아요 수를 누적하는 기능을 추가합니다.
+                  이 때, uid가 없는 비로그인 회원은 좋아요를 누를 수 없음. 
+                  좋아요는 uid당 한 번만 누를 수 있음.
+                  누른 좋아요는 언제든 취소할 수 있고, 다시 누를 수 있음.
+                  조회수는 uid 유무에 상관없이 클릭할 때마다 1씩 올라갑니다. */}
+              <div className={styles.likes}>
+                <button onClick={() => toggleLike()}>
+                  {like === true ? (
+                    <FcLike color={"purple"} size={"24px"} />
+                  ) : (
+                    <FcLike color={"white"} size={"24px"} />
+                  )}
+                  좋아요: 0
+                </button>
+                <h5>조회수: 0</h5>
               </div>
             </div>
           )}
