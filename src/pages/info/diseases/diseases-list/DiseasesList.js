@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { GrFormPrevious } from 'react-icons/gr';
 import { MdOutlineNavigateNext } from 'react-icons/md';
 import { Link } from 'react-router-dom';
@@ -117,29 +117,29 @@ function DiseasesList() {
   //   };
   //   fetchData();
   // }, []);
-  useEffect(() => {
-    const apiKey = '2024570e96d7a69a9e49dfeb7fdc9739177c';
-    const fetchData = async () => {
-      try {
-        const response = await fetch(
-          `/api1?apiKey=2024570e96d7a69a9e49dfeb7fdc9739177c&serviceCode=SVC16&serviceType=AA003&cropName=토마토`
-          // `/api1?apiKey=${apiKey}&serviceCode=SVC01&serviceType=AA003&dtlSrchFlag=kncr1`
-        );
+  // useEffect(() => {
+  //   const apiKey = "2024570e96d7a69a9e49dfeb7fdc9739177c";
+  //   const fetchData = async () => {
+  //     try {
+  //       const response = await fetch(
+  //         `/api1?apiKey=2024570e96d7a69a9e49dfeb7fdc9739177c&serviceCode=SVC16&serviceType=AA003&cropName=토마토`
+  //         // `/api1?apiKey=${apiKey}&serviceCode=SVC01&serviceType=AA003&dtlSrchFlag=kncr1`
+  //       );
 
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
+  //       if (!response.ok) {
+  //         throw new Error(`HTTP error! status: ${response.status}`);
+  //       }
 
-        const result = await response.json();
-        setData(result);
-        console.log(result);
-        console.log(result.cropName);
-      } catch (error) {
-        console.error('There was a problem with the fetch operation:', error);
-      }
-    };
-    fetchData();
-  }, []);
+  //       const result = await response.json();
+  //       setData(result);
+  //       console.log(result);
+  //       console.log(result.cropName);
+  //     } catch (error) {
+  //       console.error("There was a problem with the fetch operation:", error);
+  //     }
+  //   };
+  //   fetchData();
+  // }, []);
 
   return (
     <>
