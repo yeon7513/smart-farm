@@ -30,6 +30,7 @@ import RequestForQuote from "./pages/request/RequestForQuote";
 import "./scss/global.scss";
 import PostView from "./components/board/post-view/PostView";
 import KaKaoLogin from "./pages/LoginPage/KaKaoLogin";
+import Userout from "./components/Mypage/userout/Userout";
 
 function App() {
   return (
@@ -37,6 +38,7 @@ function App() {
       <ComponentProvider>
         <Routes>
           <Route path="/" element={<Layout />}>
+          <Route path='test'element={<Userout />} />
             <Route index element={<Home />} />
             <Route path="about">
               <Route index element={<About />} />

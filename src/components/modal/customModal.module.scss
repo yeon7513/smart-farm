@@ -1,0 +1,33 @@
+@import '/src/scss/mixins.scss';
+
+.Modal {
+    @include flexCenter();
+}
+
+.customModal {
+
+background-color: white;
+width: 600px;
+height: 800px;
+}
+
+.outExplain {
+    width: 600px;
+    height: 800px;
+    background-color: #fcf9f3;
+    justify-content: center;
+    text-align: center;
+
+    h2 {
+        font-size: 20px;  
+        }
+
+        button {
+            display: flex;
+            justify-content: right;
+            width: 20px;
+            height: 30px;
+        }
+    }
+
+
