@@ -1,18 +1,24 @@
 .container {
   display: flex;
   justify-content: space-between;
-  gap: 60px;
+  gap: 40px;
 
   .links {
+    flex: none;
+
     li {
       font-size: 20px;
       text-align: center;
-      border-bottom: 1px solid #000;
+      border-bottom: 1px solid #eee;
+      &:last-child {
+        border-bottom: 0;
+      }
       button {
         display: inline-block;
-        padding: 16px 24px;
+        padding: 24px;
         width: 100%;
         height: 100%;
+        font-size: 20px;
       }
     }
   }

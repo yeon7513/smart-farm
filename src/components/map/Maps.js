@@ -1,9 +1,8 @@
-import * as d3 from "d3";
-import React, { useEffect, useRef } from "react";
-import koreaGeoJson from "../../lib/TL_SCCO_CTPRVN.json";
-import styles from "./Maps.module.scss";
+import * as d3 from 'd3';
+import React, { useEffect, useRef } from 'react';
+import koreaGeoJson from '../../lib/TL_SCCO_CTPRVN.json';
 
-function Maps({ onRegionClick = () => {} }) {
+function Maps({ onRegionClick = () => {}, className }) {
   const svgRef = useRef();
 
   useEffect(() => {
@@ -18,33 +17,33 @@ function Maps({ onRegionClick = () => {} }) {
     // svg 생성하는데 svgRef.current 가 왜 필요한지?
     const svg = d3
       .select(svgRef.current)
-      .attr("width", width)
-      .attr("height", height);
+      .attr('width', width)
+      .attr('height', height);
 
     // GeoJSON 데이터로 지도 그리기?? 어떻게 그려지는게 되는건지?
     // koreaGeoJson의 역할이 무엇인지?
     // features와 type의 하는 역할?
     svg
-      .selectAll("path")
+      .selectAll('path')
       .data(koreaGeoJson.features)
       .enter()
-      .append("path")
-      .attr("d", path)
-      .attr("fill", "#ccc")
-      .attr("stroke", "#fff")
-      .on("click", (e, d) => {
+      .append('path')
+      .attr('d', path)
+      .attr('fill', '#ccc')
+      .attr('stroke', '#fff')
+      .on('click', (e, d) => {
         onRegionClick(d.properties);
       })
-      .on("mouseover", function () {
-        d3.select(this).attr("fill", "#669900");
+      .on('mouseover', function () {
+        d3.select(this).attr('fill', '#669900');
       })
-      .on("mouseout", function () {
-        d3.select(this).attr("fill", "#ccc");
+      .on('mouseout', function () {
+        d3.select(this).attr('fill', '#ccc');
       });
   }, [onRegionClick]);
 
   return (
-    <div className={styles.maps}>
+    <div className={className}>
       <svg ref={svgRef}></svg>
     </div>
   );

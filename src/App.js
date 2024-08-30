@@ -29,6 +29,7 @@ import RenderingMenu from "./pages/my-farm/my-farm-list/dashboard/RenderingMenu"
 import RequestForQuote from "./pages/request/RequestForQuote";
 import "./scss/global.scss";
 import PostView from "./components/board/post-view/PostView";
+import KaKaoLogin from "./pages/LoginPage/KaKaoLogin";
 
 function App() {
   return (
@@ -51,6 +52,7 @@ function App() {
             <Route path="SearchEm" element={<SearchEm />} />
             <Route path="SearchPw" element={<SearchPw />} />
             <Route path="request" element={<RequestForQuote />} />
+            <Route path="oauth/kakao" element={<KaKaoLogin />} />
             <Route path="community" element={<Community />}>
               <Route index element={<CommunityMenu />} />
               <Route path=":id" element={<PostView />} />
