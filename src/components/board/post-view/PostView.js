@@ -7,8 +7,6 @@ function PostView() {
   const navigate = useNavigate();
   const { currComp, setCurrComp } = useComponentContext();
 
-  if (!currComp) return null;
-
   return (
     <div className={styles.container}>
       <div className={styles.title}>

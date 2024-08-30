@@ -1,86 +1,84 @@
-import React, { useEffect, useState } from "react";
-import { GrFormPrevious } from "react-icons/gr";
-import { MdOutlineNavigateNext } from "react-icons/md";
-import { Link } from "react-router-dom";
-import image from "../../../../assets/abou/식2.png";
-import styles from "./DiseasesList.module.scss";
-import { service } from "../../../../lib/intro";
-import { Input } from "@mui/material";
-import InfoInput from "../input/InfoInput";
+import React, { useState } from 'react';
+import { GrFormPrevious } from 'react-icons/gr';
+import { MdOutlineNavigateNext } from 'react-icons/md';
+import { Link } from 'react-router-dom';
+import image from '../../../../assets/abou/식2.png';
+import InfoInput from '../input/InfoInput';
+import styles from './DiseasesList.module.scss';
 
 const diseasesList = [
   {
     id: 1,
-    path: "dddd1",
-    name: "감자수염진딧물",
-    a: "증상",
-    b: "대처법 또는 방제법",
+    path: 'dddd1',
+    name: '감자수염진딧물',
+    a: '증상',
+    b: '대처법 또는 방제법',
     image: image,
   },
   {
     id: 2,
-    path: "dddd2",
-    name: "병해충이름2",
-    a: "증상",
-    b: "대처법 또는 방제법",
+    path: 'dddd2',
+    name: '병해충이름2',
+    a: '증상',
+    b: '대처법 또는 방제법',
     image: image,
   },
   {
     id: 3,
-    path: "dddd3",
-    name: "병해충이름3",
-    a: "증상",
-    b: "대처법 또는 방제법",
+    path: 'dddd3',
+    name: '병해충이름3',
+    a: '증상',
+    b: '대처법 또는 방제법',
     image: image,
   },
   {
     id: 4,
-    path: "dddd4",
-    name: "병해충이름4",
-    a: "증상",
-    b: "대처법 또는 방제법",
+    path: 'dddd4',
+    name: '병해충이름4',
+    a: '증상',
+    b: '대처법 또는 방제법',
     image: image,
   },
   {
     id: 5,
-    path: "dddd5",
-    name: "병해충이름5",
-    a: "증상",
-    b: "대처법 또는 방제법",
+    path: 'dddd5',
+    name: '병해충이름5',
+    a: '증상',
+    b: '대처법 또는 방제법',
 
     image: image,
   },
   {
     id: 6,
-    path: "dddd6",
-    name: "병해충이름6",
-    a: "증상",
-    b: "대처법 또는 방제법",
+    path: 'dddd6',
+    name: '병해충이름6',
+    a: '증상',
+    b: '대처법 또는 방제법',
 
     image: image,
   },
   {
     id: 7,
-    path: "dddd7",
-    name: "병해충이름7",
-    a: "증상",
-    b: "대처법 또는 방제법",
+    path: 'dddd7',
+    name: '병해충이름7',
+    a: '증상',
+    b: '대처법 또는 방제법',
     image: image,
   },
   {
     id: 8,
-    path: "dddd8",
-    name: "병해충이름8",
-    a: "증상",
-    b: "대처법 또는 방제법",
+    path: 'dddd8',
+    name: '병해충이름8',
+    a: '증상',
+    b: '대처법 또는 방제법',
     image: image,
   },
   {
     id: 9,
-    path: "dddd9",
-    name: "병해충이름9",
-    a: "증상",
-    b: "대처법 또는 방제법",
+    path: 'dddd9',
+    name: '병해충이름9',
+    a: '증상',
+    b: '대처법 또는 방제법',
     image: image,
   },
 ];
@@ -187,7 +185,7 @@ function DiseasesList() {
         <button>1</button>
         <button>2</button>
         <button>
-          {" "}
+          {' '}
           <MdOutlineNavigateNext />
         </button>
         <button>END</button>
