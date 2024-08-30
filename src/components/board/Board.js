@@ -65,7 +65,7 @@ function Board({ items, nopost }) {
           <div className={styles.board}>
             <ul>
               {currentItem.map((item, idx) => (
-                <Link to={`/community/${id}`}>
+                <Link key={idx} to={`/community/${item.id}`}>
                   <li
                     key={idx}
                     onClick={() => {

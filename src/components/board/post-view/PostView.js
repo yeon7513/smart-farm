@@ -1,11 +1,15 @@
-import React from "react";
-import styles from "./PostView.module.scss";
-import { useNavigate } from "react-router-dom";
-import { useComponentContext } from "../../../context/ComponentContext";
+import React from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { useComponentContext } from '../../../context/ComponentContext';
+import styles from './PostView.module.scss';
 
 function PostView() {
   const navigate = useNavigate();
+
   const { currComp, setCurrComp } = useComponentContext();
+  const location = useLocation();
+  console.log(location);
+  console.log('currComp: ', currComp);
 
   // if (!currComp) return null;
 
