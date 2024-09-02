@@ -52,7 +52,8 @@ function DiseasesItem() {
         <div className={styles.title}>
           <div>
             <span>해충명</span>
-            <p>감자수염진딧물</p>
+            {/* <p>감자수염진딧물</p> */}
+            <p>{korName}</p>
           </div>
           <div>
             <span>목/과명</span>
