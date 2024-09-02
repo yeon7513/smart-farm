@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
 import styles from "./RequestForQuote.module.scss";
-import { getDatas } from "../../api/firebase";
+import { db, getDatas } from "../../api/firebase";
 import { Container } from "@mui/material";
 import FacilitiesHorticulture from "./FacilitiesHorticulture";
 import OpenGround from "./OpenGround";
 import { useDispatch } from "react-redux";
 import Checkout from "./Checkout";
 import * as XLSX from "xlsx/xlsx.mjs";
+import { addDoc, collection, doc } from "firebase/firestore";
 
 function RequestForQuote() {
   // user 상태를 선언합니다.
@@ -72,76 +73,87 @@ function RequestForQuote() {
 
   const handleAdditionalOptionsChange = (e) => {
     const value = e.target.value;
-    setAdditionalOptions((prevOptions) =>
-      prevOptions.includes(value)
-        ? prevOptions.filter((option) => option !== value)
-        : [...prevOptions, value]
-    );
+    setAdditionalOptions((prevOptions) => {
+      const newOptions = { ...prevOptions };
+      if (newOptions[value]) {
+        delete newOptions[value];
+      } else {
+        newOptions[value] = true;
+      }
+      return newOptions;
+    });
     // console.log(e.target.value);
   };
 
-  // // 견적 의뢰 내용을 Firebase에 저장하는 함수입니다.
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
-  //   // console.log({
-  //   //   userEmail,
-  //   //   date,
-  //   //   farmAddress,
-  //   //   facilityType,
-  //   //   additionalOptions,
-  //   // });
-  //   console.log(
-  //     `견적 의뢰 아이디: `,
-  //     userEmail,
-  //     `결제 날짜: `,
-  //     date,
-  //     `농장 주소: `,
-  //     farmAddress,
-  //     `농장 종류: `,
-  //     facilityType,
-  //     `부가 옵션: `,
-  //     additionalOptions
-  //   );
-  //   const dataObj = {
-  //     userEmail,
-  //     date,
-  //     farmAddress,
-  //     facilityType,
-  //     additionalOptions,
-  //     // createdAt는 1724893344632 같은 number 형식이라서 주문번호로 쓸 예정
-  //     createdAt: new Date().getTime(),
-  //   };
-  //   try {
-  //     if (uid) {
-  //       const userDocRef = doc(db, "users", uid);
-  //       const paymentCollectionRef = collection(userDocRef, "payments");
+  // 견적 의뢰 내용을 Firebase에 저장하는 함수입니다.
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    console.log({
+      userEmail,
+      date,
+      farmAddress,
+      facilityType,
+      ...additionalOptions,
+    });
+    console.log(
+      `견적 의뢰 아이디:`,
+      userEmail,
+      `결제 날짜:`,
+      date,
+      `농장 주소:`,
+      farmAddress,
+      `농장 종류:`,
+      facilityType,
+      `부가 옵션:`,
+      additionalOptions
+    );
+    const dataObj = {
+      userEmail,
+      date,
+      farmAddress,
+      facilityType,
+      additionalOptions,
+      // createdAt는 1724893344632 같은 number 형식이라서 주문번호로 쓸 예정
+      createdAt: new Date().getTime(),
+    };
+    try {
+      if (uid) {
+        const userDocRef = doc(db, "users", uid);
+        const paymentCollectionRef = collection(userDocRef, "payments");
 
-  //       await addDoc(paymentCollectionRef, dataObj);
-  //       console.log("데이터가 성공적으로 추가되었습니다.");
-  //     } else {
-  //       console.error("사용자 ID가 설정되지 않았습니다.");
-  //     }
-  //   } catch (error) {
-  //     console.error("에러가 발생하였습니다: ", error);
-  //   }
-  // };
-
-  // const ExcelDownload = (e) => {
-
-  // }
+        await addDoc(paymentCollectionRef, dataObj);
+        console.log("데이터가 성공적으로 추가되었습니다.");
+      } else {
+        console.error("사용자 ID가 설정되지 않았습니다.");
+      }
+    } catch (error) {
+      console.error("에러가 발생하였습니다: ", error);
+    }
+  };
 
   // 주문 내역에 따라 Excel 파일을 다운로드 하는 함수입니다.
   const handleExcelDownload = (e) => {
     e.preventDefault();
     // console.log("Additional Options: ", additionalOptions);
     const fileName = `${userEmail}님의 견적 주문번호_${new Date().getTime()}`;
+
+    // 배열로 되어있는 부가 옵션을 객체로 변환
+    const additionalOptionsObject = additionalOptions.reduce(
+      (obj, option, index) => {
+        obj[`Option ${index + 1}`] = option;
+        return obj;
+      },
+      {}
+    );
+
+    // 객체 생성
     const data = [
       {
         아이디: userEmail,
         날짜: date,
         "농장 주소": farmAddress,
         "농장 종류": facilityType,
-        "부가 옵션": additionalOptions.join(", "),
+        ...additionalOptionsObject,
         "주문 번호": new Date().getTime(),
       },
     ];
@@ -226,7 +238,7 @@ function RequestForQuote() {
           type="submit"
           description={"결제하기"}
           // onClick={handleSubmit}
-          onClick={handleExcelDownload}
+          onClick={(handleExcelDownload, handleSubmit)}
         />
       </form>
     </Container>
