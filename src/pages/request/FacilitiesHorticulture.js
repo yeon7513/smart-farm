@@ -61,11 +61,10 @@ const options = {
 };
 
 function FacilitiesHorticulture({
-  additionalOptions = [],
+  additionalOptions = {},
   handleAdditionalOptionsChange,
-  // options,
 }) {
-  const checkedOptions = additionalOptions || [];
+  const checkedOptions = additionalOptions || {};
   return (
     <>
       {Object.keys(options).map((category) => (
@@ -77,7 +76,7 @@ function FacilitiesHorticulture({
                 type="checkbox"
                 id={option.id}
                 value={option.value}
-                checked={checkedOptions.includes(option.value) || false}
+                checked={checkedOptions[option.value] || false}
                 onChange={handleAdditionalOptionsChange}
               />
               <label htmlFor={option.id}>{option.label}</label>

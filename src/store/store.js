@@ -1,8 +1,9 @@
-import { configureStore } from "@reduxjs/toolkit";
-import userSlice from "./user/UserSlice";
-import paymentSlice from "./payment/paymentSlice";
-import paymentsSlice from "./payment/paymentsSlice";
-import orderSlice from "./order/orderSlice";
+import { configureStore } from '@reduxjs/toolkit';
+import orderSlice from './order/orderSlice';
+import paymentSlice from './payment/paymentSlice';
+import paymentsSlice from './payment/paymentsSlice';
+import usageStatusSlice from './usage-status/usageStatusSlice';
+import userSlice from './user/UserSlice';
 
 export const store = configureStore({
   reducer: {
@@ -10,5 +11,6 @@ export const store = configureStore({
     paymentSlice,
     paymentsSlice,
     orderSlice,
+    usageStatusSlice,
   },
 });
