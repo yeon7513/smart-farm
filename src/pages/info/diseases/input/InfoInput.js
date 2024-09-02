@@ -2,30 +2,32 @@ import React, { useEffect, useState } from "react";
 import styles from "./InfoInput.module.scss";
 import { CiSearch } from "react-icons/ci";
 function InfoInput(props) {
-  const [selectedBig, setSelectedBig] = useState([]); // 첫 번째 셀렉트 선택 값
-  const [middleOptions, setMiddleOptions] = useState([]); // 두 번째 셀렉트 박스 옵션
-  const [selectedMiddle, setSelectedMiddle] = useState([]); // 두 번째 셀렉트 선택 값
-  const [cropCode, setCropCode] = useState(""); // 두 번째 셀렉트 선택 값
-  const [items, setItems] = useState([]); // 두 번째 셀렉트 선택 값
+  const [selectedBig, setSelectedBig] = useState([]); // 첫 번째 셀렉트 박스의 옵션을 저장
+  const [middleOptions, setMiddleOptions] = useState([]); // 두 번째 셀렉트 박스 옵션저장
+  const [selectedMiddle, setSelectedMiddle] = useState([]); // 세 번째 셀렉트 박스 옵션저장.
+  const [cropCode, setCropCode] = useState(""); // 최종적으로 선택된 작물 코드 저장
+  const [items, setItems] = useState([]); // 조회된 결과 항목들을 저장.
 
   // 첫 번쨰 셀렉트 박스 변경 핸들러
   const handleBigChang = async (e) => {
-    const value = e.target.value;
-    // setSelectedMiddle([]);
-    // setCropCode('');
-
+    const value = e.target.value; //사용자가 선택한 대분류값
     console.log(value); // 선택된 대분류 값을 콘솔에 출력
     const apiKey = "2024570e96d7a69a9e49dfeb7fdc9739177c";
+
     try {
+      // 선택된 대분류 값을 기반으로 중분류 데이터를 가져오는 api호출
       const response = await fetch(
         `/desease/?apiKey=${apiKey}&serviceCode=SVC01&serviceType=AA003&dtlSrchFlag=kncr2&sKncrCode1=${value}`
       );
-
+      // API 호출에 문제가 있을 경우 오류를 발생시킴
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
       // console.log(response);
+
+      // API로부터 받은 데이터를 JSON으로 변환
       const result = await response.json();
+      // 중분류 셀렉트 박스의 옵션을 저장
       setMiddleOptions(result.service.srchKncrList2);
       // onFilterChange({ selectedBig: value, selectedMiddle: "", cropCode: "" });
     } catch (error) {
@@ -33,11 +35,10 @@ function InfoInput(props) {
     }
   };
 
-  //  두번째 셀렉트 박스 핸들러
+  //  두번째 셀렉트 박스 병경 핸들러
 
   const handleMiddleChang = async (e) => {
-    const value = e.target.value;
-
+    const value = e.target.value; //사용자가 선택한 중분류 값
     console.log(value); // 선택된 대분류 값을 콘솔에 출력
     const apiKey = "2024570e96d7a69a9e49dfeb7fdc9739177c";
     try {
@@ -50,17 +51,18 @@ function InfoInput(props) {
       }
       // console.log(response);
       const result = await response.json();
-
+      // 소분류 셀렉트 박스의 옵션을 설정
       setSelectedMiddle(result.service.srchKncrList3);
     } catch (error) {
       console.error("There was a problem with the fetch operation:", error);
     }
   };
 
+  // 세번째 셀렉트 박스 변경 핸들러(소분류)
   const handleSmallChange = (e) => {
-    const value = e.target.value;
+    const value = e.target.value; //사용자가 선택한 소분류 값
     console.log(value);
-    setCropCode(value);
+    setCropCode(value); //선택된 소분류 값으로 작물 코드 설정
   };
 
   const handleFullClick = async (e) => {
@@ -69,6 +71,7 @@ function InfoInput(props) {
     const apiKey = "2024570e96d7a69a9e49dfeb7fdc9739177c";
 
     try {
+      // 선택된 작물 코드를 기반으로 작물 정보를 가져오는 API 호출
       const response = await fetch(
         `/desease/?apiKey=${apiKey}&serviceCode=SVC16&serviceType=AA003&cropCode=${cropCode}`
       );
@@ -76,8 +79,9 @@ function InfoInput(props) {
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
-      console.log(response);
+      console.log(response); // 응답 객체를 콘솔에 출력
       const result = await response.json();
+      // 조회된 결과를 상태로 저장
       setItems(result.service.list);
     } catch (error) {
       console.error("There was a problem with the fetch operation:", error);
@@ -86,10 +90,13 @@ function InfoInput(props) {
   };
 
   // 셀렉트 박스
+  // 컴포넌트가 처음 렌더링될 때 실행되는 useEffect
   useEffect(() => {
     const apiKey = "2024570e96d7a69a9e49dfeb7fdc9739177c";
+
     const fetchData = async () => {
       try {
+        // 대분류(첫 번째 셀렉트 박스)의 데이터를 가져오는 API 호출
         const response = await fetch(
           `/desease/?apiKey=${apiKey}&serviceCode=SVC01&serviceType=AA003&dtlSrchFlag=kncr1&displayCount=9`
         );
@@ -99,6 +106,7 @@ function InfoInput(props) {
         }
         const result = await response.json();
         console.log(result);
+        // 대분류 셀렉트 박스의 옵션을 설정
         setSelectedBig(result.service.srchKncrList1);
         console.log(result.service.srchKncrList1);
       } catch (error) {

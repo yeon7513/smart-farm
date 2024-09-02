@@ -4,127 +4,30 @@ import InfoInput from "../input/InfoInput";
 import styles from "./DiseasesList.module.scss";
 import Pagination from "./pagination/Pagination";
 
-// const diseasesList = [
-//   {
-//     id: 1,
-//     path: "dddd1",
-//     name: "감자수염진딧물",
-//     a: "증상",
-//     b: "대처법 또는 방제법",
-//     image: image,
-//   },
-//   {
-//     id: 2,
-//     path: "dddd2",
-//     name: "병해충이름2",
-//     a: "증상",
-//     b: "대처법 또는 방제법",
-//     image: image,
-//   },
-//   {
-//     id: 3,
-//     path: "dddd3",
-//     name: "병해충이름3",
-//     a: "증상",
-//     b: "대처법 또는 방제법",
-//     image: image,
-//   },
-//   {
-//     id: 4,
-//     path: "dddd4",
-//     name: "병해충이름4",
-//     a: "증상",
-//     b: "대처법 또는 방제법",
-//     image: image,
-//   },
-//   {
-//     id: 5,
-//     path: "dddd5",
-//     name: "병해충이름5",
-//     a: "증상",
-//     b: "대처법 또는 방제법",
-
-//     image: image,
-//   },
-//   {
-//     id: 6,
-//     path: "dddd6",
-//     name: "병해충이름6",
-//     a: "증상",
-//     b: "대처법 또는 방제법",
-
-//     image: image,
-//   },
-//   {
-//     id: 7,
-//     path: "dddd7",
-//     name: "병해충이름7",
-//     a: "증상",
-//     b: "대처법 또는 방제법",
-//     image: image,
-//   },
-//   {
-//     id: 8,
-//     path: "dddd8",
-//     name: "병해충이름8",
-//     a: "증상",
-//     b: "대처법 또는 방제법",
-//     image: image,
-//   },
-//   {
-//     id: 9,
-//     path: "dddd9",
-//     name: "병해충이름9",
-//     a: "증상",
-//     b: "대처법 또는 방제법",
-//     image: image,
-//   },
-//   {
-//     id: 10,
-//     path: "dddd9",
-//     name: "병해충이름9",
-//     a: "증상",
-//     b: "대처법 또는 방제법",
-//     image: image,
-//   },
-//   {
-//     id: 11,
-//     path: "dddd9",
-//     name: "병해충이름9",
-//     a: "증상",
-//     b: "대처법 또는 방제법",
-//     image: image,
-//   },
-//   {
-//     id: 12,
-//     path: "dddd9",
-//     name: "병해충이름9",
-//     a: "증상",
-//     b: "대처법 또는 방제법",
-//     image: image,
-//   },
-// ];
-const DISPLAY_COUNT = 12;
+const DISPLAY_COUNT = 12; //한 페이지에 표시할 데이터의 개수를 정의.
 const apiKey = "2024570e96d7a69a9e49dfeb7fdc9739177c";
 
 function DiseasesList() {
   const [data, setData] = useState({ list: [], totalCount: 0 }); // API 데이터를 저장할 상태
-  const [totalPages, setTotalPages] = useState(1);
-  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1); //전체 페이지 수를 저장할 상태.
+  const [currentPage, setCurrentPage] = useState(1); //현재 페이지 번호를 저장할 상태.
   const [selectedType, setSelectedType] = useState("NP01"); // 현재 선택된 유형 ("병해" 또는 "해충")
-  // const totalPages = data.totalCount / 12;
 
+  // 페이지 번호가 변경되었을 때 호출되는 함수
   const handlePageChange = (pageNumber) => {
-    setCurrentPage(pageNumber);
+    setCurrentPage(pageNumber); // 페이지 번호를 업데이트합니다
   };
 
+  // 병해 또는 해충 유형이 변경되었을 때 호출되는 함수
   const handleTypeChange = (type) => {
-    setSelectedType(type);
+    setSelectedType(type); //선택된 유형 업데이트
     setCurrentPage(1); // 페이지를 1로 초기화
   };
+  // 컴포넌트가 마운트되거나 selectedType 또는 currentPage가 변경될 때마다 데이터를 가져오는 effect이다.
   useEffect(() => {
     const fetchData = async () => {
       try {
+        //  API 호출을 통해 데이터를 가져온다.  URL에 필요한 파라미터를 포함.
         const response = await fetch(
           `desease/?apiKey=${apiKey}&serviceCode=SVC16&serviceType=AA003&displayCount=12&startPoint=${
             (currentPage - 1) * DISPLAY_COUNT
@@ -135,6 +38,7 @@ function DiseasesList() {
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
+        // 응답을 JSON으로 파싱한다.
         const result = await response.json();
 
         // console.log(result);
@@ -148,8 +52,8 @@ function DiseasesList() {
       }
     };
 
-    fetchData();
-  }, [selectedType, currentPage]);
+    fetchData(); //데이터를 가져오는 함수 호출
+  }, [selectedType, currentPage]); // selectedType이나 currentPage가 변경될 때마다 이 effect가 재실행됩니다.
 
   return (
     <>
@@ -158,8 +62,8 @@ function DiseasesList() {
       <div className={styles.pest_search}>
         <div className={styles.party}>
           <button
-            onClick={() => handleTypeChange("NP01")}
-            className={selectedType === "NP01" ? styles.active : ""}
+            onClick={() => handleTypeChange("NP01")} // 해충 유형을 선택했을 때 호출됩니다.
+            className={selectedType === "NP01" ? styles.active : ""} // 현재 선택된 유형에 따라 버튼 스타일을 변경합니다.
           >
             병해
           </button>
@@ -193,8 +97,8 @@ function DiseasesList() {
                 {/* <p>해충</p> */}
                 <div className={styles.item_list}>
                   <Link
-                    to={`/info/${item.cropCode}`}
-                    state={{ korName: item.korName, selectedType }}
+                    to={`/info/${item.cropCode}`} //클릭 시 해당 작물의 상세 정보 페이지로 이동한다.
+                    state={{ korName: item.korName, selectedType }} // 상태로 korName과 selectedType을 전달합니다.
                   >
                     <p className={styles.name}>{item.korName}</p>
                   </Link>
@@ -207,9 +111,9 @@ function DiseasesList() {
       </div>
       <div className={styles.more}>
         <Pagination
-          currentPage={currentPage}
-          totalPages={totalPages}
-          onPageChange={handlePageChange}
+          currentPage={currentPage} //현재 페이지 번호를 전달
+          totalPages={totalPages} //전체 페이지 수를 전달.
+          onPageChange={handlePageChange} //페이지가 변경될 때 마다 호출할 함수 전달.
         />
       </div>
     </>

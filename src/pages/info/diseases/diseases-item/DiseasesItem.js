@@ -9,6 +9,7 @@ const apiKey = "2024570e96d7a69a9e49dfeb7fdc9739177c";
 function DiseasesItem() {
   const { korName, selectedType } = useLocation().state;
   const [data, setData] = useState(null);
+
   useEffect(() => {
     console.log("selected type:", selectedType);
     console.log("korName:", korName);
@@ -16,27 +17,54 @@ function DiseasesItem() {
     const fetchData = async () => {
       try {
         // let serviceType = "AA003";
-        let serviceCode = "SVC01";
-        let sickKey = korName;
+        let serviceCode = "";
+        let detailKeyName = "";
+        let detailKey = "";
+        // 첫 번째 api호출-기본정보조회
         if (selectedType === "NP01") {
-          serviceCode = "SVC05";
-          sickKey = korName;
+          serviceCode = "SVC01";
+          detailKeyName = "sickKey";
         } else if (selectedType === "NP03") {
-          serviceCode = "SVC07";
-          sickKey = "insectKey";
+          serviceCode = "SVC06";
+          detailKeyName = "virusKey";
         }
         const response = await fetch(
           `desease/?apiKey=${apiKey}&serviceCode=${serviceCode}&serviceType=AA003&sickNameKor=${korName}`
         );
+
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
         const result = await response.json();
         console.log(response);
-        setData(result.service);
 
-        // console.log(result.service.virusImgList.imageTitle);
-      } catch (error) {}
+        // 병/해충에 따라 키 값을 다르게 가져오기
+        if (selectedType === "NP01") {
+          detailKey = result.serviceCode[detailKeyName]; // 병해의 상세 키 추출
+        } else if (selectedType === "NP03") {
+          detailKey = result.serviceCode[detailKeyName]; // 해충의 상세 키 추출
+        }
+
+        // 두번째 api 호출-상세정보조회
+        if (selectedType === "NP01") {
+          serviceCode = "SVC05";
+        } else if (selectedType === "NP03") {
+          serviceCode = "SVC07";
+        }
+
+        const detailResponse = await fetch(
+          `desease/?apiKey=${apiKey}&serviceCode=${serviceCode}&${detailKeyName}=${detailKey}`
+        );
+        if (!detailResponse.ok) {
+          throw new Error(`HTTP error! status: ${detailResponse.status}`);
+        }
+        const detailResult = await detailResponse.json();
+        console.log("api", detailResult);
+
+        setData(detailResult.service);
+      } catch (error) {
+        // console.error("Error fetching data:", error);
+      }
     };
     fetchData();
   }, [korName, selectedType]);
@@ -61,7 +89,7 @@ function DiseasesItem() {
           </div>
           <div>
             <span>작물명</span>
-            <p>가지</p>
+            {/* <p>{data?.cropName}</p> */}
           </div>
         </div>
       </div>
