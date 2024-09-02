@@ -89,28 +89,6 @@ function Diseases(props) {
   //   fetchData();
   // }, []);
 
-  // useEffect(() => {
-  //   const apiKey = "2024fae68820b6a8f539fd5def6a6dfd02c1";
-  //   const fetchData = async () => {
-  //     try {
-  //       const response = await fetch(
-  //         `/api1/apiKey=${apiKey}&serviceCode=SVC01&serviceType=AA003&cropName=논벼&sKncrCode1=FC&sKncrCode2=FC01`
-  //       );
-
-  //       if (!response.ok) {
-  //         throw new Error(`HTTP error! status: ${response.status}`);
-  //       }
-  //       // console.log(response);
-  //       const result = await response.json();
-  //       console.log(result);
-  //       setPests(result);
-  //     } catch (error) {
-  //       console.error("There was a problem with the fetch operation:", error);
-  //     }
-  //   };
-
-  //   fetchData();
-  // }, []);
   return (
     <>
       {/* <Input /> */}
