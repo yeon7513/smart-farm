@@ -38,7 +38,7 @@ function App() {
       <ComponentProvider>
         <Routes>
           <Route path="/" element={<Layout />}>
-          <Route path='test'element={<Userout />} />
+            {/* <Route path="test" element={<Userout />} /> */}
             <Route index element={<Home />} />
             <Route path="about">
               <Route index element={<About />} />
@@ -57,7 +57,7 @@ function App() {
             <Route path="oauth/kakao" element={<KaKaoLogin />} />
             <Route path="community" element={<Community />}>
               <Route index element={<CommunityMenu />} />
-              <Route path=":id" element={<PostView />} />
+              <Route path=":collection/:id" element={<PostView />} />
             </Route>
             <Route path="my-farm" element={<MyFarm />}>
               <Route index element={<FarmList />} />

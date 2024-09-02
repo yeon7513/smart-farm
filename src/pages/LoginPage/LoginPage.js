@@ -1,11 +1,13 @@
 import { Container } from '@mui/material';
 import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
+import { useForm } from 'react-hook-form';
 import * as FcIcons from 'react-icons/fc';
 import { useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
-import { getUserAuth } from '../../api/firebase';
+import { getDatas, getUserAuth } from '../../api/firebase';
+import CustomModal from '../../components/modal/CustomModal';
 import { setUser } from '../../store/user/UserSlice';
 import Kakaoback from './Kakaoback';
 import styles from './LoginPage.module.scss';
@@ -23,19 +25,43 @@ function LoginPage(props) {
   //     });
   //     console.log(userIdArr.slice(0, 100));
   //   });
+  const {
+    register,
+    handleSubmit,
+    // formState: { errors },
+    // reset,
+  } = useForm({
+    mode: 'onChange',
+  });
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const openModal = () => setIsModalOpen(true);
+  const closeModal = () => setIsModalOpen(false);
 
   const auth = getUserAuth();
   const [user, loading, error] = useAuthState(auth);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const users = auth.currentUser;
-
   const SignInWithGoogle = async () => {
     const provider = new GoogleAuthProvider();
+    const userInfo = await getDatas('users');
     await signInWithPopup(auth, provider).then((result) => {
-      console.log(result);
-      dispatch(setUser({ email: result.user.email }));
-      // navigate('/');
+      console.log(result.user.displayName);
+      // const userInfoConfirm = userInfo.filter(
+      //   (item) => item.email == result.user.email
+      // );
+      // userInfoConfirm.forEach((item) => {
+      dispatch(
+        setUser({
+          email: result.user.email,
+          token: result.user.refreshToken,
+          uid: result.user.uid,
+          nick: result.user.displayName,
+          // name: item.name,
+        })
+      );
+      // });
+      // navigate("/Mypage");
+      openModal();
     });
   };
 
@@ -43,10 +69,9 @@ function LoginPage(props) {
   if (loading) {
     return <div>Loading...</div>;
   }
-
-  if (user) {
-    navigate('/');
-  }
+  // if (user) {
+  //   navigate("/");
+  // }
 
   if (error) {
     return <div>Error: {error.message}</div>;
@@ -54,7 +79,17 @@ function LoginPage(props) {
   navigator.geolocation.getCurrentPosition((position) => {
     console.log(position);
   });
+  const getDataForm = async (userInfo) => {
+    // await joinUser(u);
+  };
 
+  const onSubmit = ({ name, number, address }) => {
+    getDataForm({
+      name: name,
+      number: number,
+      address: address,
+    });
+  };
   return (
     <Container className={styles.container}>
       <div className={styles.form}>
@@ -79,6 +114,32 @@ function LoginPage(props) {
           아직 회원이 아니신가요? <Link to={'/register'}>회원가입</Link>
         </p>
       </div>
+      <CustomModal
+        title={'소셜 로그인 추가입력'}
+        btnName={'확인하기'}
+        isOpen={isModalOpen}
+        handleClose={closeModal}
+      >
+        <div>
+          <p>
+            소셜 로그인시 추가적인 필수 입력 사항을 입력해주셔야 정상 이용
+            가능합니다.
+          </p>
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <div className={styles.inputs}>
+              <input type="text" placeholder="이름" {...register('name')} />
+              <input
+                type="text"
+                placeholder="전화번호"
+                {...register('number')}
+              />
+              <input type="text" placeholder="주소" {...register('address')} />
+            </div>
+          </form>
+          <input type="checkbox" />
+          <span>주의사항을 확인했습니다.</span>
+        </div>
+      </CustomModal>
     </Container>
   );
 }

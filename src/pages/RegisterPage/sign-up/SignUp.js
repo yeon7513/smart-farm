@@ -22,8 +22,15 @@ function SingUp(props) {
       );
       const { user } = userCredential;
       await joinUser(user.uid, user.email, password, userInfo);
+      console.log(userInfo);
       dispatch(
-        setUser({ email: user.email, token: user.refreshToken, uid: user.uid })
+        setUser({
+          email: user.email,
+          token: user.refreshToken,
+          uid: user.uid,
+          name: userInfo.name,
+          nick: userInfo.nickname,
+        })
       );
       navigate("/");
     } catch (error) {
