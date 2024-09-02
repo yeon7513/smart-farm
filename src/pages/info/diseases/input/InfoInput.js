@@ -11,6 +11,8 @@ function InfoInput(props) {
   // 첫 번쨰 셀렉트 박스 변경 핸들러
   const handleBigChang = async (e) => {
     const value = e.target.value;
+    // setSelectedMiddle([]);
+    // setCropCode('');
 
     console.log(value); // 선택된 대분류 값을 콘솔에 출력
     const apiKey = "2024570e96d7a69a9e49dfeb7fdc9739177c";
@@ -25,6 +27,7 @@ function InfoInput(props) {
       // console.log(response);
       const result = await response.json();
       setMiddleOptions(result.service.srchKncrList2);
+      // onFilterChange({ selectedBig: value, selectedMiddle: "", cropCode: "" });
     } catch (error) {
       console.error("There was a problem with the fetch operation:", error);
     }
@@ -106,6 +109,7 @@ function InfoInput(props) {
     fetchData();
   }, []);
 
+  //
   return (
     <div className={styles.main}>
       <div className={styles.menu}>
