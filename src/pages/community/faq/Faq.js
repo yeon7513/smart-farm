@@ -7,7 +7,14 @@ import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { db } from "../../../api/firebase";
-import { doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
+import {
+  collection,
+  doc,
+  getDoc,
+  getDocs,
+  setDoc,
+  updateDoc,
+} from "firebase/firestore";
 
 const FAQData = [
   {
@@ -51,24 +58,27 @@ const FAQData = [
 function Faq() {
   const navigate = useNavigate();
   const [openId, setOpenId] = useState(null);
-  const [faqData, setFaqData] = useState(() => {
-    const storedData = localStorage.getItem("faqData");
-    return storedData
-      ? JSON.parse(storedData)
-      : FAQData.map((item) => ({ ...item, likes: 0, views: 0, liked: false }));
-  });
+  const [faqData, setFaqData] = useState([]);
   const { isAuthenticated } = useSelector((state) => state.userSlice);
 
   useEffect(() => {
-    localStorage.setItem("faqData", JSON.stringify(faqData));
-  }, [faqData]);
-
-  useEffect(() => {
-    const updateviews = async () => {
-      // 생각해보니 uid가 아니라 views였는데 firebase faq에 아직 없어서 나중에 바꿈
-
-      updateviews();
+    const fetchFaqData = async () => {
+      try {
+        const faqCollectionRef = collection(db, "faq");
+        const faqSnapshot = await getDocs(faqCollectionRef);
+        const faqList = faqSnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        setFaqData(faqList);
+        console.log("FAQ 데이터가 Firestore에서 성공적으로 로드되었습니다.");
+        console.log("FAQ 데이터: ", faqList); // 데이터 확인용
+      } catch (error) {
+        console.error("FAQ 데이터 로드 중 오류 발생: ", error);
+      }
     };
+
+    fetchFaqData();
   }, []);
 
   const toggleVisibility = (id) => {
@@ -97,7 +107,7 @@ function Faq() {
       );
 
       // Firestore에 좋아요 수를 업데이트합니다.
-      const docRef = doc(db, "faqData", id.toString());
+      const docRef = doc(db, "faq", id.toString());
       updateDoc(docRef, {
         likes: updatedData.find((item) => item.id === id).likes,
       })
