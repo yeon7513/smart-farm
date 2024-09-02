@@ -87,11 +87,30 @@ function Faq() {
 
   // 조회수를 증가시키는 함수
   const incrementViews = (id) => {
-    setFaqData((prevData) =>
-      prevData.map((item) =>
-        item.id === id ? { ...item, views: item.views + 1 } : item
-      )
-    );
+    setFaqData((prevData) => {
+      const updatedData = prevData.map((item) =>
+        item.id === id
+          ? {
+              ...item,
+              views: item.views + 1,
+            }
+          : item
+      );
+
+      // Firestore에 조회수를 업데이트합니다.
+      const docRef = doc(db, "faq", id.toString());
+      updateDoc(docRef, {
+        views: updatedData.find((item) => item.id === id).views,
+      })
+        .then(() => {
+          console.log("값이 성공적으로 반영되었습니다.");
+        })
+        .catch((error) => {
+          console.error("문서 업데이트에 실패했습니다.: ", error);
+        });
+
+      return updatedData;
+    });
   };
 
   const toggleLike = async (id) => {
