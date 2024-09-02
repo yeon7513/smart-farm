@@ -1,10 +1,43 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import pest from "../../../../assets/abou/식2.png";
 import styles from "./DiseasesItem.module.scss";
-import { RiArrowGoBackLine } from "react-icons/ri";
-import { useNavigate } from "react-router-dom";
 import BackButton from "../../../../components/back-button/BackButton";
+import { useLocation } from "react-router-dom";
+
+const apiKey = "2024570e96d7a69a9e49dfeb7fdc9739177c";
+
 function DiseasesItem() {
+  const { korName, selectedType } = useLocation().state;
+  const [data, setData] = useState(null);
+  useEffect(() => {
+    console.log("selected type:", selectedType);
+    const fetchData = async () => {
+      try {
+        // let serviceType = "AA003";
+        let serviceCode = "SVC01";
+        let sickKey = korName;
+        if (selectedType === "NP01") {
+          serviceCode = "SVC05";
+          sickKey = korName;
+        } else if (selectedType === "NP03") {
+          serviceCode = "SVC07";
+          sickKey = "insectKey";
+        }
+        const response = await fetch(
+          `desease/?apiKey=${apiKey}&serviceCode=${serviceCode}&serviceType=AA003&sickNameKor=${korName}`
+        );
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const result = await response.json();
+        console.log(response);
+        setData(result.service);
+        // console.log(result.service.virusImgList.imageTitle);
+      } catch (error) {}
+    };
+    fetchData();
+  }, [korName, selectedType]);
+
   return (
     <div>
       <BackButton />
