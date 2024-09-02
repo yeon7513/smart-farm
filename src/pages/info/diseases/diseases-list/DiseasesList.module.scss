@@ -1,18 +1,38 @@
 .more {
-  // margin-top: 30px;
-  // width: 100%;
+  margin-top: 30px;
+}
+.pest_search {
   display: flex;
-  // justify-content: center;
+  gap: 30px;
+  margin-bottom: 10px;
+}
+.party,
+.pest {
   button {
-    // color: #686d76;
-    // box-shadow: var(--down-shadow);
-    // font-size: 25px;
-    padding: 10px;
-    width: 100%;
+    padding: 10px 120px;
+    border: 1px solid #ccc;
+    background-color: #f9f9f9;
+    font-size: 20px;
+    color: #333;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s, color 0.3s;
+
+    &.active {
+      background-color: var(--hover-color);
+      color: white;
+      border-color: var(--hover-color);
+    }
+
+    &:hover {
+      background-color: var(--hover-color);
+      color: #fff;
+    }
   }
 }
+
 .item {
-  border: 1px solid pink;
+  border: 2px solid var(--hover-color);
   border-radius: 8px;
 
   padding: 10px;

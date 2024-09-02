@@ -1,0 +1,44 @@
+.pagination {
+  display: flex;
+  list-style: none;
+  padding: 0;
+
+  li {
+    margin: 0 5px;
+
+    &.disabled {
+      button {
+        cursor: not-allowed;
+        opacity: 0.5;
+      }
+    }
+
+    &.active {
+      button {
+        background-color: var(--hover-color);
+        color: #fff;
+        cursor: default;
+      }
+    }
+  }
+
+  .pageButton {
+    background: none;
+    border: 1px solid #ececec;
+    color: #333;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 3px;
+    transition: background-color 0.3s, color 0.3s;
+
+    &:hover {
+      background-color: var(--hover-color);
+      //   color: white;
+    }
+
+    &:disabled {
+      cursor: not-allowed;
+      opacity: 0.5;
+    }
+  }
+}

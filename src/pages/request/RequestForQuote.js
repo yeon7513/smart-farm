@@ -174,10 +174,18 @@ function RequestForQuote() {
     }
   };
 
+  function formatDateToYYYYMMDD(date) {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0"); // 월은 0부터 시작하므로 +1
+    const day = String(date.getDate()).padStart(2, "0");
+    return `${year}-${month}-${day}`;
+  }
+
   // 주문 내역에 따라 Excel 파일을 다운로드 하는 함수입니다.
   const handleExcelDownload = (e) => {
     e.preventDefault();
     const today = new Date();
+    const formattedDate = formatDateToYYYYMMDD(today);
     const year = today.getFullYear();
     const month = String(today.getMonth() + 1).padStart(2, "0"); // 월은 0부터 시작하므로 +1
     const day = String(today.getDate()).padStart(2, "0");
@@ -187,7 +195,7 @@ function RequestForQuote() {
 
     // 배열로 되어있는 부가 옵션을 객체로 변환
     const additionalOptionsObject = Object.keys(additionalOptions).map(
-      (key) => ({
+      ([key]) => ({
         [key]: additionalOptions[key],
       })
     );
@@ -196,12 +204,12 @@ function RequestForQuote() {
     const data = [
       {
         아이디: userEmail,
-        날짜: date,
+        날짜: formattedDate,
         "농장 주소": farmAddress,
         "농장 종류": facilityType,
-        ...additionalOptionsObject,
+        "부가 옵션": { ...additionalOptionsObject },
         "농장 이름": farmName,
-        "농장 면적": Number(farmArea) + `㎡`,
+        "농장 면적": `${Number(farmArea)}㎡`,
         "농장 동 수": Number(farmEquivalent),
         "주문 번호": createdAt,
       },
