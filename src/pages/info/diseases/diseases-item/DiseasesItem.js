@@ -11,6 +11,8 @@ function DiseasesItem() {
   const [data, setData] = useState(null);
   useEffect(() => {
     console.log("selected type:", selectedType);
+    console.log("korName:", korName);
+    console.log("selectedType:", selectedType);
     const fetchData = async () => {
       try {
         // let serviceType = "AA003";
@@ -32,6 +34,7 @@ function DiseasesItem() {
         const result = await response.json();
         console.log(response);
         setData(result.service);
+
         // console.log(result.service.virusImgList.imageTitle);
       } catch (error) {}
     };
