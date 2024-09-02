@@ -195,8 +195,8 @@ function RequestForQuote() {
 
     // 배열로 되어있는 부가 옵션을 객체로 변환
     const additionalOptionsObject = Object.keys(additionalOptions).map(
-      ([key, value]) => ({
-        [key]: value,
+      ([key]) => ({
+        [key]: additionalOptions[key],
       })
     );
 
