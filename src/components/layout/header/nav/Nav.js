@@ -85,7 +85,7 @@ function Nav() {
     fetchLocation();
   }, []);
 
-  const admin = JSON.parse(localStorage.getItem("user"));
+  const loginUser = JSON.parse(localStorage.getItem("user"));
 
   return (
     <>
@@ -101,10 +101,11 @@ function Nav() {
                   {position.lon.toFixed(0)}
                 </li>
                 {error && <p style={{ color: "red" }}>{error}</p>} */}
-                {admin.email.includes("admin") ? (
+                {loginUser.email.includes("admin") ? (
                   <NavLink path={"/manager"}>관리자</NavLink>
                 ) : (
                   <>
+                    <p>{loginUser.nick}님, 환영합니다.</p>
                     <NavLink path={"/my-farm"}>내 농장</NavLink>
                     <NavLink path={"/mypage"}>마이페이지</NavLink>
                   </>

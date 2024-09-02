@@ -28,25 +28,19 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 export const db = getFirestore(app);
-
-export async function addDatas(uid, dataObj) {
-  try {
-    const userDocRef = doc(db, "users", uid);
-    const paymentsCollectionRef = collection(userDocRef, "payments");
-    await addDoc(paymentsCollectionRef, dataObj);
-    return true;
-  } catch (error) {
-    console.error("Error adding document: ", error);
-    return false;
-  }
-}
-
 export function getCollection(collectionName) {
   return collection(db, collectionName);
 }
-
 export function getUserAuth() {
   return auth;
+}
+
+// 컬렉션에 저장
+export async function addDatas(collectionName, addObj) {
+  const result = await addDoc(getCollection(collectionName), addObj);
+  const docSnap = await getDoc(result);
+  const resultData = { ...docSnap.data(), docId: docSnap.id };
+  return resultData;
 }
 
 export async function joinUser(uid, email, password, userInfo) {
@@ -129,80 +123,12 @@ export async function updateDatas(collectionName, docId, updateObj) {
   try {
     const docRef = await doc(db, collectionName, docId);
     await updateDoc(docRef, updateObj);
-    console.log("Document successfully updated!");
+    // console.log("Document successfully updated!");
   } catch (error) {
     console.error("Error updating document: ", error);
     throw error;
   }
 }
-
-// 토마토
-// const apiKey =
-//   "iv2U4%2BpsJ7CRlDQ2ukixg4slrgEMjbIL%2FB%2B9pefVtqqEHGHhSRX7tNubbe2Y%2FGpjV59et7GLPJwxAdVe7iXycA%3D%3D"; // 여기에 실제 API 키를 넣으세요
-// const searchFrmhsCodes = [
-//   "81",
-//   "9",
-//   "21",
-//   "25",
-//   "27",
-//   "28",
-//   "29",
-//   "31",
-//   "32",
-//   "39",
-//   "42",
-//   "44",
-//   "45",
-//   "48",
-//   "50",
-//   "51",
-//   "53",
-//   "54",
-//   "56",
-//   "57",
-//   "59",
-//   "201",
-//   "202",
-//   "204",
-//   "205",
-//   "206",
-//   "207",
-//   "209",
-//   "210",
-//   "315",
-//   "316",
-//   "318",
-//   "319",
-//   "320",
-//   "324",
-//   "325",
-//   "326",
-//   "327",
-//   "339",
-//   "344",
-//   "345",
-//   "349",
-//   "315",
-//   "33",
-//   "35",
-//   "37",
-//   "41",
-//   "43",
-//   "203",
-// ]; // 배열에 여러 코드를 넣으세요
-
-// // 모든 URL을 생성하여 저장
-// const urls = searchFrmhsCodes.map(
-//   (code) =>
-//     `/api2/http://apis.data.go.kr/1390000/SmartFarmdata/grwdatarqst?serviceKey=${apiKey}&searchFrmhsCode=${code}&returnType=json`
-// );
-const urls =
-  "/bestfarm/grwdatarqst?serviceKey=iv2U4%2BpsJ7CRlDQ2ukixg4slrgEMjbIL%2FB%2B9pefVtqqEHGHhSRX7tNubbe2Y%2FGpjV59et7GLPJwxAdVe7iXycA%3D%3D&searchFrmhsCode=81&returnType=json";
-fetch(urls)
-  .then((response) => response.json())
-  .then((result) => {
-    console.log(result);
-  });
 
 export async function deleteDatas(collectionName, docId) {
   try {

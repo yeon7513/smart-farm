@@ -28,6 +28,9 @@ import DashBoard from "./pages/my-farm/my-farm-list/dashboard/DashBoard";
 import RenderingMenu from "./pages/my-farm/my-farm-list/dashboard/RenderingMenu";
 import RequestForQuote from "./pages/request/RequestForQuote";
 import "./scss/global.scss";
+import PostView from "./components/board/post-view/PostView";
+import KaKaoLogin from "./pages/LoginPage/KaKaoLogin";
+import Userout from "./components/Mypage/userout/Userout";
 
 function App() {
   return (
@@ -35,6 +38,7 @@ function App() {
       <ComponentProvider>
         <Routes>
           <Route path="/" element={<Layout />}>
+            {/* <Route path="test" element={<Userout />} /> */}
             <Route index element={<Home />} />
             <Route path="about">
               <Route index element={<About />} />
@@ -50,9 +54,10 @@ function App() {
             <Route path="SearchEm" element={<SearchEm />} />
             <Route path="SearchPw" element={<SearchPw />} />
             <Route path="request" element={<RequestForQuote />} />
+            <Route path="oauth/kakao" element={<KaKaoLogin />} />
             <Route path="community" element={<Community />}>
               <Route index element={<CommunityMenu />} />
-              {/* <Route path=":id" element={<PostView />} /> */}
+              <Route path=":collection/:id" element={<PostView />} />
             </Route>
             <Route path="my-farm" element={<MyFarm />}>
               <Route index element={<FarmList />} />
