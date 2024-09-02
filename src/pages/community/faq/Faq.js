@@ -6,6 +6,8 @@ import styles from "./Faq.module.scss";
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { db } from "../../../api/firebase";
+import { doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
 
 const FAQData = [
   {
@@ -61,22 +63,30 @@ function Faq() {
     localStorage.setItem("faqData", JSON.stringify(faqData));
   }, [faqData]);
 
+  useEffect(() => {
+    const updateviews = async () => {
+      // 생각해보니 uid가 아니라 views였는데 firebase faq에 아직 없어서 나중에 바꿈
+
+      updateviews();
+    };
+  }, []);
+
   const toggleVisibility = (id) => {
     setOpenId((prevId) => (prevId === id ? null : id));
   };
 
+  // 조회수를 증가시키는 함수
   const incrementViews = (id) => {
     setFaqData((prevData) =>
       prevData.map((item) =>
         item.id === id ? { ...item, views: item.views + 1 } : item
       )
     );
-    // firebase에 저장된 조회수를 반영할 것
   };
 
-  const toggleLike = (id) => {
-    setFaqData((prevData) =>
-      prevData.map((item) =>
+  const toggleLike = async (id) => {
+    setFaqData((prevData) => {
+      const updatedData = prevData.map((item) =>
         item.id === id
           ? {
               ...item,
@@ -84,9 +94,22 @@ function Faq() {
               likes: item.liked ? item.likes - 1 : item.likes + 1,
             }
           : item
-      )
-    );
-    // firebase에 저장된 좋아요수를 반영할 것(liked는 아님)
+      );
+
+      // Firestore에 좋아요 수를 업데이트합니다.
+      const docRef = doc(db, "faqData", id.toString());
+      updateDoc(docRef, {
+        likes: updatedData.find((item) => item.id === id).likes,
+      })
+        .then(() => {
+          console.log("값이 성공적으로 반영되었습니다.");
+        })
+        .catch((error) => {
+          console.error("문서 업데이트에 실패했습니다.: ", error);
+        });
+
+      return updatedData;
+    });
   };
 
   const youHaveToSignIn = () => {
