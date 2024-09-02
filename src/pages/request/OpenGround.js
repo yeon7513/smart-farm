@@ -58,8 +58,10 @@ const options = {
   ],
 };
 
-function OpenGround({ additionalOptions = [], handleAdditionalOptionsChange }) {
-  const checkedOptions = additionalOptions || [];
+function OpenGround({ additionalOptions = {}, handleAdditionalOptionsChange }) {
+  const checkedOptions = Array.isArray(additionalOptions)
+    ? additionalOptions
+    : [];
   return (
     <>
       {Object.keys(options).map((category) => (
