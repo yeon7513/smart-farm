@@ -30,6 +30,7 @@ import RequestForQuote from "./pages/request/RequestForQuote";
 import "./scss/global.scss";
 import PostView from "./components/board/post-view/PostView";
 import KaKaoLogin from "./pages/LoginPage/KaKaoLogin";
+import BoardPage from "./components/board/boardPage/boardPage";
 
 function App() {
   return (
@@ -55,7 +56,7 @@ function App() {
             <Route path="oauth/kakao" element={<KaKaoLogin />} />
             <Route path="community" element={<Community />}>
               <Route index element={<CommunityMenu />} />
-              <Route path=":id" element={<PostView />} />
+              <Route path=":collection/:id" element={<PostView />} />
             </Route>
             <Route path="my-farm" element={<MyFarm />}>
               <Route index element={<FarmList />} />

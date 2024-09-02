@@ -1,29 +1,23 @@
-import React from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { useComponentContext } from '../../../context/ComponentContext';
-import styles from './PostView.module.scss';
+import React, { useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import styles from "./PostView.module.scss";
+import { getBoardDatas } from "../../../api/firebase/board";
 
 function PostView() {
   const navigate = useNavigate();
-
-  const { currComp, setCurrComp } = useComponentContext();
-  const location = useLocation();
-  console.log(location);
-  console.log('currComp: ', currComp);
-
-  // if (!currComp) return null;
+  const [post, setPost] = useState(null);
 
   return (
     <div className={styles.container}>
       <div className={styles.title}>
         <div>
-          <h2>title</h2>
+          <h2>{post.title}</h2>
         </div>
         <div>
           <div>
-            <p>작성자: {currComp.user}</p>
-            <p>작성일: {currComp.date}</p>
-            <p>조회수: {currComp.comment}</p>
+            <p>작성자: {post.userId}</p>
+            <p>작성일: {post.createAt}</p>
+            <p>조회수: {post.count}</p>
           </div>
           <div>
             <button>🚨 신고하기</button>
@@ -31,13 +25,13 @@ function PostView() {
         </div>
       </div>
       <div className={styles.content}>
-        <div>{currComp.content}</div>
-        <div>{currComp.imgUrl}</div>
+        <div>{post.summary}</div>
+        {/* <div>{currComp.imgUrl}</div> */}
       </div>
       <div className={styles.comment}>
         <h2>댓글(2개)</h2>
         <div>
-          <h4>해결 도와드리겠습니다.</h4>
+          <h4>{post.comment}</h4>
           <p>
             관리자 <span>2024-08-26</span>
           </p>

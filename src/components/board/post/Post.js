@@ -1,21 +1,7 @@
 import React, { useState } from "react";
 import styles from "./Post.module.scss";
-import { useNavigate } from "react-router-dom";
-import { useComponentContext } from "../../../context/ComponentContext";
 
-function Post({ onSubmit, onClick }) {
-  const [title, setTitle] = useState("");
-  const [user, setUser] = useState("");
-  const [content, setContent] = useState("");
-  const date = new Date().toISOString();
-
-  const postDate = {
-    title,
-    user,
-    content,
-    date,
-  };
-
+function Post({ onClick }) {
   return (
     <div className={styles.container}>
       <div>
@@ -24,21 +10,11 @@ function Post({ onSubmit, onClick }) {
       <form>
         <div className={styles.title}>
           <p>제목:</p>
-          <input
-            type="text"
-            placeholder="제목을 입력해주세요."
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-          />
+          <input type="text" placeholder="제목을 입력해주세요." />
         </div>
         <div className={styles.content}>
           <p>내용:</p>{" "}
-          <textarea
-            type="text"
-            placeholder="내용을 입력해주세요."
-            value={content}
-            onChange={(e) => setContent(e.target.value)}
-          />
+          <textarea type="text" placeholder="내용을 입력해주세요." />
         </div>
         <b>
           ※ 부적절한 콘텐츠가 포함될 경우 관리자에 의해 게시글이 삭제될 수

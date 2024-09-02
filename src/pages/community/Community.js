@@ -17,8 +17,6 @@ function Community() {
     navigate("/community");
   };
 
-  console.log(currComp);
-
   return (
     <>
       <Title {...titleProps} />

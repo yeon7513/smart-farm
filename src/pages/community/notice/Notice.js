@@ -1,20 +1,29 @@
 import React, { useEffect, useState } from "react";
 import Board from "../../../components/board/Board";
-import { notice } from "../../../lib/post";
-import PostView from "../../../components/board/post-view/PostView";
 import styles from "../community.module.scss";
-import { useComponentContext } from "../../../context/ComponentContext";
-import { Outlet, useNavigate } from "react-router-dom";
+import { Outlet } from "react-router-dom";
+import { notice } from "../../../lib/post";
+import { getBoardDatas } from "../../../api/firebase/board";
 
 function Notice() {
   const [state, setState] = useState(false);
+  const [noticePost, setNoticePost] = useState([]);
+
+  const handleLoad = async () => {
+    const data = await getBoardDatas("notice");
+    setNoticePost(data);
+  };
+
+  useEffect(() => {
+    handleLoad();
+  }, []);
 
   return (
     <div>
       <h2 className={styles.community}>공지사항</h2>
       <p>- 게시판 규칙, 업데이트 소식 등을 안내해드립니다.</p>
       <div>
-        <Board items={notice} nopost={state} />
+        <Board items={noticePost} nopost={state} />
         <Outlet />
       </div>
     </div>
