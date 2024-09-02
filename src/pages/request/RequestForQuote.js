@@ -16,7 +16,10 @@ function RequestForQuote() {
   const [userEmail, setUserEmail] = useState("");
   const [farmAddress, setFarmAddress] = useState("");
   const [facilityType, setFacilityType] = useState("시설원예");
-  const [additionalOptions, setAdditionalOptions] = useState([]);
+  const [farmName, setFarmName] = useState("");
+  const [farmArea, setFarmArea] = useState(0);
+  const [farmEquivalent, setFarmEquivalent] = useState(0);
+  const [additionalOptions, setAdditionalOptions] = useState({});
   const [uid, setUid] = useState("");
 
   useEffect(() => {
@@ -67,7 +70,7 @@ function RequestForQuote() {
 
   const handleFacilityTypeChange = (e) => {
     setFacilityType(e.target.value);
-    setAdditionalOptions([]);
+    setAdditionalOptions({});
     // console.log(e.target.value);
   };
 
@@ -85,27 +88,47 @@ function RequestForQuote() {
     // console.log(e.target.value);
   };
 
+  const handleFarmNameChange = (e) => {
+    setFarmName(e.target.value);
+  };
+
+  const handleFarmAreaChange = (e) => {
+    setFarmArea(Number(e.target.value));
+  };
+
+  const handleFarmEquivalentChange = (e) => {
+    setFarmEquivalent(Number(e.target.value));
+  };
+
   // 견적 의뢰 내용을 Firebase에 저장하는 함수입니다.
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log({
-      userEmail,
-      date,
-      farmAddress,
-      facilityType,
-      ...additionalOptions,
-    });
+    // console.log({
+    //   userEmail,
+    //   date,
+    //   farmAddress,
+    //   facilityType,
+    //   ...additionalOptions,
+    //   farmName,
+    // });
     console.log(
       `견적 의뢰 아이디:`,
       userEmail,
-      `결제 날짜:`,
+      `, 결제 날짜:`,
       date,
-      `농장 주소:`,
+      `, 농장 주소:`,
       farmAddress,
-      `농장 종류:`,
+      `, 농장 종류:`,
       facilityType,
-      `부가 옵션:`,
-      additionalOptions
+      `, 농장 이름:`,
+      farmName,
+      `, 부가 옵션:`,
+      additionalOptions,
+      `, 농장 면적:`,
+      farmArea,
+      `㎡`,
+      `, 농장 동 수:`,
+      farmEquivalent
     );
     const dataObj = {
       userEmail,
@@ -113,6 +136,9 @@ function RequestForQuote() {
       farmAddress,
       facilityType,
       additionalOptions,
+      farmName,
+      farmArea,
+      farmEquivalent,
       // createdAt는 1724893344632 같은 number 형식이라서 주문번호로 쓸 예정
       createdAt: new Date().getTime(),
     };
@@ -138,12 +164,10 @@ function RequestForQuote() {
     const fileName = `${userEmail}님의 견적 주문번호_${new Date().getTime()}`;
 
     // 배열로 되어있는 부가 옵션을 객체로 변환
-    const additionalOptionsObject = additionalOptions.reduce(
-      (obj, option, index) => {
-        obj[`Option ${index + 1}`] = option;
-        return obj;
-      },
-      {}
+    const additionalOptionsObject = Object.keys(additionalOptions).map(
+      (key) => ({
+        [key]: additionalOptions[key],
+      })
     );
 
     // 객체 생성
@@ -154,6 +178,9 @@ function RequestForQuote() {
         "농장 주소": farmAddress,
         "농장 종류": facilityType,
         ...additionalOptionsObject,
+        "농장 이름": farmName,
+        "농장 면적": Number(farmArea),
+        "농장 동 수": Number(farmEquivalent),
         "주문 번호": new Date().getTime(),
       },
     ];
@@ -213,12 +240,48 @@ function RequestForQuote() {
             />
           )}
         </div>
+        <div className={styles.farmName}>
+          <h3>농장 이름</h3>
+          <input
+            type="text"
+            placeholder={"농장 이름을 입력해주세요."}
+            onChange={handleFarmNameChange}
+          />
+        </div>
         <div>
           <h3>시설원예 혹은 노지 선택</h3>
           <select value={facilityType} onChange={handleFacilityTypeChange}>
             <option value="시설원예">시설원예</option>
             <option value="노지">노지</option>
           </select>
+        </div>
+        <div className={styles.farmArea}>
+          <h3>농장 면적</h3>
+          <input
+            type="number"
+            value={farmArea}
+            onChange={handleFarmAreaChange}
+            min="1"
+          />{" "}
+          ㎡
+        </div>
+        <div className={styles.farmEquivalent}>
+          <h3>농장 동 수</h3>
+          <select
+            type="number"
+            value={farmEquivalent}
+            onChange={handleFarmEquivalentChange}
+          >
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+            <option value="8">8</option>
+          </select>
+          동
         </div>
         <div>
           <h3>부가 옵션 선택</h3>
@@ -237,8 +300,10 @@ function RequestForQuote() {
         <Checkout
           type="submit"
           description={"결제하기"}
-          // onClick={handleSubmit}
-          onClick={(handleExcelDownload, handleSubmit)}
+          onClick={(e) => {
+            handleExcelDownload(e);
+            handleSubmit(e);
+          }}
         />
       </form>
     </Container>

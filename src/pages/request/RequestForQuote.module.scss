@@ -5,7 +5,10 @@ input {
 .id,
 .paymentDate,
 .requestDate,
-.farmAddress {
+.farmAddress,
+.farmName,
+.farmArea,
+.farmEquivalent {
   padding: 8px 0;
 
   input {
