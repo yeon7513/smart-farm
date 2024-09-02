@@ -11,24 +11,21 @@ function Maps({ onRegionClick = () => {}, className }) {
 
     const projection = d3.geoMercator().fitSize([width, height], koreaGeoJson);
 
-    // projection()이 하는 일이 뭔지?
     const path = d3.geoPath().projection(projection);
 
-    // svg 생성하는데 svgRef.current 가 왜 필요한지?
     const svg = d3
       .select(svgRef.current)
       .attr('width', width)
       .attr('height', height);
 
-    // GeoJSON 데이터로 지도 그리기?? 어떻게 그려지는게 되는건지?
-    // koreaGeoJson의 역할이 무엇인지?
-    // features와 type의 하는 역할?
     svg
       .selectAll('path')
       .data(koreaGeoJson.features)
       .enter()
       .append('path')
       .attr('d', path)
+      .attr('id', (d) => d.properties.CTP_ENG_NM)
+      .attr('data-local', (d) => d.properties.CTP_KOR_NM)
       .attr('fill', '#ccc')
       .attr('stroke', '#fff')
       .on('click', (e, d) => {
