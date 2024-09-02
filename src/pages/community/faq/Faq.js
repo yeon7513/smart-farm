@@ -17,6 +17,23 @@ function Faq() {
 
   useEffect(() => {
     const fetchFaqData = async () => {
+      const cachedData = localStorage.getItem("faqData");
+      if (cachedData) {
+        setFaqData(JSON.parse(cachedData));
+        console.log("캐시된 FAQ 데이터가 로드되었습니다.");
+      } else {
+        try {
+          const faqCollectionRef = collection(db, "faq");
+          const faqSnapshot = await getDocs(faqCollectionRef);
+          const faqList = faqSnapshot.docs.map((doc) => ({
+            id: doc.id,
+            ...doc.data(),
+          }));
+          setFaqData(faqList);
+        } catch (error) {
+          console.error("FAQ 데이터 로드 중 오류 발생:", error);
+        }
+      }
       try {
         const faqCollectionRef = collection(db, "faq");
         const faqSnapshot = await getDocs(faqCollectionRef);
