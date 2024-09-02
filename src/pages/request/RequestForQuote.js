@@ -4,11 +4,9 @@ import { db, getDatas } from "../../api/firebase";
 import { Container } from "@mui/material";
 import FacilitiesHorticulture from "./FacilitiesHorticulture";
 import OpenGround from "./OpenGround";
-import { useDispatch } from "react-redux";
 import Checkout from "./Checkout";
 import * as XLSX from "xlsx/xlsx.mjs";
 import { addDoc, collection, doc } from "firebase/firestore";
-import { getISODate } from "../../utils/getFormattedDate";
 
 function RequestForQuote() {
   // user 상태를 선언합니다.
@@ -98,7 +96,6 @@ function RequestForQuote() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const today = new Date();
-    const { yyyyMMdd } = getISODate(today);
     const year = today.getFullYear();
     const month = String(today.getMonth() + 1).padStart(2, "0"); // 월은 0부터 시작하므로 +1
     const day = String(today.getDate()).padStart(2, "0");
@@ -123,7 +120,7 @@ function RequestForQuote() {
       `, 농장 동 수:`,
       farmEquivalent
     );
-    const createdAt = `${yyyyMMdd}_${new Date().getTime()}`;
+    const createdAt = `${year}${month}${day}${new Date().getTime()}`;
     const dataObj = {
       userEmail,
       date,
@@ -181,8 +178,10 @@ function RequestForQuote() {
   const handleExcelDownload = (e) => {
     e.preventDefault();
     const today = new Date();
-    const { yyyyMMdd } = getISODate(today);
-    const createdAt = `${yyyyMMdd}_${new Date().getTime()}`;
+    const year = today.getFullYear();
+    const month = String(today.getMonth() + 1).padStart(2, "0"); // 월은 0부터 시작하므로 +1
+    const day = String(today.getDate()).padStart(2, "0");
+    const createdAt = `${year}${month}${day}${new Date().getTime()}`;
     // console.log("Additional Options: ", additionalOptions);
     const fileName = `${userEmail}님의 견적 주문번호_${createdAt}`;
 
