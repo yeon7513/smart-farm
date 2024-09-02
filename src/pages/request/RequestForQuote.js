@@ -22,6 +22,12 @@ function RequestForQuote() {
   const [uid, setUid] = useState("");
 
   useEffect(() => {
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = String(today.getMonth() + 1).padStart(2, "0");
+    const day = String(today.getDate()).padStart(2, "0");
+    const formattedDate = `${year}-${month}-${day}`;
+    setDate(formattedDate);
     //   // localStorage에 있는 사용자의 정보를 추출합니다.
     const idExtraction = async () => {
       try {
@@ -63,21 +69,20 @@ function RequestForQuote() {
   const handleFacilityTypeChange = (e) => {
     setFacilityType(e.target.value);
     setAdditionalOptions({});
-    // console.log(e.target.value);
   };
 
   const handleAdditionalOptionsChange = (e) => {
+    const value = e.target.value;
     setAdditionalOptions((prevOptions) => {
-      const value = e.target.value;
-      const newOptions = { ...prevOptions };
-      if (newOptions[value]) {
-        delete newOptions[value];
+      // 옵션이 이미 존재하는 경우 제거하고, 그렇지 않으면 추가합니다.
+      const updatedOptions = { ...prevOptions };
+      if (updatedOptions[value]) {
+        delete updatedOptions[value];
       } else {
-        newOptions[value] = true;
+        updatedOptions[value] = true; // 값을 true로 설정하거나 필요한 값을 설정합니다.
       }
-      return newOptions;
+      return updatedOptions;
     });
-    // console.log(e.target.value);
   };
 
   const handleFarmNameChange = (e) => {
@@ -99,8 +104,6 @@ function RequestForQuote() {
     const year = today.getFullYear();
     const month = String(today.getMonth() + 1).padStart(2, "0"); // 월은 0부터 시작하므로 +1
     const day = String(today.getDate()).padStart(2, "0");
-    const formattedDate = `${year}-${month}-${day}`;
-    setDate(formattedDate);
     console.log(
       `견적 의뢰 아이디:`,
       userEmail,
@@ -163,9 +166,9 @@ function RequestForQuote() {
       if (uid) {
         const userDocRef = doc(db, "users", uid);
         const paymentCollectionRef = collection(userDocRef, "payments");
-
         await addDoc(paymentCollectionRef, dataObj);
         console.log("데이터가 성공적으로 추가되었습니다.");
+        // handleExcelDownload(e);
       } else {
         console.error("사용자 ID가 설정되지 않았습니다.");
       }
@@ -194,11 +197,13 @@ function RequestForQuote() {
     const fileName = `${userEmail}님의 견적 주문번호_${createdAt}`;
 
     // 배열로 되어있는 부가 옵션을 객체로 변환
-    const additionalOptionsObject = Object.keys(additionalOptions).map(
-      ([key]) => ({
-        [key]: additionalOptions[key],
+    const additionalOptionsEntries = Object.entries(additionalOptions).map(
+      ([key, value], index) => ({
+        [`Option ${index + 1}`]: value,
+        key,
       })
     );
+    console.log(additionalOptionsEntries);
 
     // 객체 생성
     const data = [
@@ -207,7 +212,10 @@ function RequestForQuote() {
         날짜: formattedDate,
         "농장 주소": farmAddress,
         "농장 종류": facilityType,
-        "부가 옵션": { ...additionalOptionsObject },
+        "부가 옵션": additionalOptionsEntries.reduce(
+          (acc, obj) => ({ ...acc, ...obj }),
+          {}
+        ),
         "농장 이름": farmName,
         "농장 면적": `${Number(farmArea)}㎡`,
         "농장 동 수": Number(farmEquivalent),
@@ -332,6 +340,7 @@ function RequestForQuote() {
           type="submit"
           description={"결제하기"}
           onClick={(e) => {
+            e.preventDefault();
             handleExcelDownload(e);
             handleSubmit(e);
           }}

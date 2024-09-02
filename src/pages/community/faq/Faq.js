@@ -50,7 +50,7 @@ function Faq() {
     };
 
     fetchFaqData();
-  }, [isAuthenticated]);
+  }, []);
 
   const toggleVisibility = (id) => {
     setOpenId((prevId) => (prevId === id ? null : id));
