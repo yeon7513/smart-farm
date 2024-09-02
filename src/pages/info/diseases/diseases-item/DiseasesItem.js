@@ -13,8 +13,18 @@ function DiseasesItem() {
     console.log("selected type:", selectedType);
     const fetchData = async () => {
       try {
+        // let serviceType = "AA003";
+        let serviceCode = "SVC01";
+        let sickKey = korName;
+        if (selectedType === "NP01") {
+          serviceCode = "SVC05";
+          sickKey = korName;
+        } else if (selectedType === "NP03") {
+          serviceCode = "SVC07";
+          sickKey = "insectKey";
+        }
         const response = await fetch(
-          `desease/?apiKey=${apiKey}&serviceCode=SVC01&serviceType=AA003&sickNameKor=${korName}`
+          `desease/?apiKey=${apiKey}&serviceCode=${serviceCode}&serviceType=AA003&sickNameKor=${korName}`
         );
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
@@ -22,6 +32,7 @@ function DiseasesItem() {
         const result = await response.json();
         console.log(response);
         setData(result.service);
+        // console.log(result.service.virusImgList.imageTitle);
       } catch (error) {}
     };
     fetchData();
