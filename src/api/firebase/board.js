@@ -37,6 +37,7 @@ export async function getBoardDatas(collectionName) {
   const resultData = snapshot.docs.map((doc) => ({
     docId: doc.id,
     ...doc.data(),
+    collection: collectionName,
   }));
 
   return resultData;
@@ -69,7 +70,7 @@ async function uploadImage(path, imgFile) {
   const storage = getStorage();
   // 저장할 이미지 객체 생성
   const imageRef = ref(storage, path);
-  debugger;
+  // debugger;
   // File 객체를 스토리지에 저장
   await uploadBytes(imageRef, imgFile);
   // 저장한 File의 url 가져오기

@@ -1,19 +1,20 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./Board.module.scss";
 import Post from "./post/Post";
 import { Link } from "react-router-dom";
 import { collection } from "firebase/firestore";
+import { getBoardDatas } from "../../api/firebase/board";
 
 const PAGE_SIZE = 10;
 
-function Board({ items, nopost }) {
+function Board({ nopost, category }) {
   const [currentPage, setCurrentPage] = useState(1);
-  const [post, setPost] = useState(items); // 게시글 상태
+  const [post, setPost] = useState(); // 게시글 상태
   const [isWriting, setIsWriting] = useState(false); // 글쓰기 모드 상태
-  const [view, setView] = useState(null);
+  const [view, setView] = useState([]);
 
-  const totalPages = Math.ceil(items.length / PAGE_SIZE);
-  const reversedItem = [...items].reverse();
+  const totalPages = Math.ceil(view.length / PAGE_SIZE);
+  const reversedItem = [...view].reverse();
   const currentItem = reversedItem.slice(
     (currentPage - 1) * PAGE_SIZE,
     currentPage * PAGE_SIZE
@@ -31,7 +32,8 @@ function Board({ items, nopost }) {
   };
 
   const addPost = (newPost) => {
-    setPost([...post, newPost]); // 새로운 게시글 추가
+    setPost([...post, newPost]); // Add new post
+    setView([...view, newPost]); // Also add to view
     setIsWriting(false); // 글쓰기 모드 종료
   };
 
@@ -39,6 +41,15 @@ function Board({ items, nopost }) {
   const notPosting = () => {
     setIsWriting(false);
   };
+
+  const handleLoad = async () => {
+    const data = await getBoardDatas(category);
+    setView(data);
+  };
+
+  useEffect(() => {
+    handleLoad();
+  }, []);
 
   return (
     <div className={styles.container}>
@@ -58,8 +69,12 @@ function Board({ items, nopost }) {
           <div className={styles.board}>
             <ul>
               {currentItem.map((item, idx) => (
-                <Link key={idx} to={`/community/${item.id}`}>
-                  <li id={items.length - ((currentPage - 1) * PAGE_SIZE + idx)}>
+                <Link
+                  key={idx}
+                  to={`/community/${item.collection}/${item.id}`}
+                  state={{ ...item }}
+                >
+                  <li id={view.length - ((currentPage - 1) * PAGE_SIZE + idx)}>
                     <div>{item.id}</div>
                     <div>{item.title}</div>
                     <div>{item.userId}</div>

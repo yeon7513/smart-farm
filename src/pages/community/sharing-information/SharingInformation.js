@@ -8,14 +8,14 @@ import { getBoardDatas } from "../../../api/firebase/board";
 function SharingInformation(props) {
   const [sharingPost, setSharingPost] = useState([]);
 
-  const handleLoad = async () => {
-    const data = await getBoardDatas("sharing");
-    setSharingPost(data);
-  };
+  // const handleLoad = async () => {
+  //   const data = await getBoardDatas();
+  //   setSharingPost(data);
+  // };
 
-  useEffect(() => {
-    handleLoad();
-  }, []);
+  // useEffect(() => {
+  //   handleLoad();
+  // }, []);
 
   return (
     <div>
@@ -23,7 +23,7 @@ function SharingInformation(props) {
       <p> - 아이팜 회원님들의 정보 공유 게시판입니다.</p>
       <div>
         <Outlet />
-        <Board items={sharingPost} />
+        <Board category={"sharing"} />
       </div>
     </div>
   );

@@ -1,13 +1,45 @@
 import React, { useState } from "react";
 import styles from "./Post.module.scss";
+import { addBoardDatas } from "../../../api/firebase/board";
 
-function Post({ onClick }) {
+function Post({ onClick, category, onSubmit }) {
+  const [title, setTitle] = useState("");
+  const [content, setContent] = useState("");
+  const [file, setFile] = useState(null);
+
+  // const handleSubmit = async () => {
+  //   const submit = await addBoardDatas(category);
+  //   setPosting(submit)
+  // }
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    // Construct data object
+    const dataObj = {
+      title,
+      content,
+      imgUrl: file ? file.name : null, // Assign a unique path for the image
+      userId: "currentUser", // Replace with actual user ID
+      count: 0,
+    };
+
+    // Call Firebase function to add data
+    const result = await addBoardDatas(category, dataObj);
+
+    if (result) {
+      onSubmit(result); // Update parent component with new post
+    } else {
+      alert("글 작성 중 오류가 발생했습니다.");
+    }
+  };
+
   return (
     <div className={styles.container}>
       <div>
         <h3>게시글 작성하기</h3>
       </div>
-      <form>
+      <form onSubmit={handleSubmit}>
         <div className={styles.title}>
           <p>제목:</p>
           <input type="text" placeholder="제목을 입력해주세요." />
