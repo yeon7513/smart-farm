@@ -6,6 +6,8 @@ const initialState = localStorage.getItem("user")
       email: "",
       token: "",
       uid: "",
+      nick: "",
+      name: "",
       isAuthenticated: false,
     };
 const userSlice = createSlice({
@@ -16,6 +18,8 @@ const userSlice = createSlice({
       state.email = action.payload.email;
       state.token = action.payload.token;
       state.uid = action.payload.uid;
+      state.name = action.payload.name;
+      state.nick = action.payload.nick;
       state.isAuthenticated = true;
 
       localStorage.setItem("user", JSON.stringify(state));
@@ -24,6 +28,8 @@ const userSlice = createSlice({
       state.email = "";
       state.token = "";
       state.uid = "";
+      state.name = "";
+      state.nick = "";
       state.isAuthenticated = false;
 
       localStorage.removeItem("user");

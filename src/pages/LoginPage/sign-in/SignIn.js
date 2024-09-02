@@ -2,9 +2,9 @@ import { signInWithEmailAndPassword } from "firebase/auth";
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { setUser } from "../../../store/user/UserSlice";
-import { getUserAuth } from "../../../api/firebase";
+import { getDatas, getUserAuth } from "../../../api/firebase";
 import Form from "../../../components/form/Form";
+import { setUser } from "../../../store/user/UserSlice";
 
 function SignIn(props) {
   const [firebaseError, setFirebaseError] = useState("");
@@ -20,10 +20,21 @@ function SignIn(props) {
         password
       );
       const { user } = userCredential;
-
-      dispatch(
-        setUser({ email: user.email, token: user.refreshToken, uid: user.uid })
+      const userInfo = await getDatas("users");
+      const userInfoConfirm = userInfo.filter(
+        (item) => item.email == user.email
       );
+      userInfoConfirm.forEach((item) => {
+        dispatch(
+          setUser({
+            email: user.email,
+            token: user.refreshToken,
+            uid: user.uid,
+            name: item.name,
+            nick: item.nickname,
+          })
+        );
+      });
       navigate("/");
     } catch (error) {
       console.log(error);

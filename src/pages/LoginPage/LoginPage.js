@@ -38,15 +38,10 @@ function LoginPage(props) {
     });
   };
 
-  useEffect(() => {}, [loading, user, navigate]);
+  useEffect(() => {}, [loading, navigate]);
   if (loading) {
     return <div>Loading...</div>;
   }
-
-  if (user) {
-    navigate("/");
-  }
-
   if (error) {
     return <div>Error: {error.message}</div>;
   }
