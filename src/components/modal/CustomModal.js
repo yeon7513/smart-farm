@@ -1,9 +1,11 @@
 
-import { Modal } from '@mui/material';
+import { Modal, StyledEngineProvider } from '@mui/material';
 import React, { useState } from 'react'
 import styles from './customModal.module.scss';
+import cn from 'classnames';
+import Footer from './../layout/footer/Footer';
  
-function CustomModal({title, btnName, children, isOpen, handleClose}) {
+function CustomModal({title, btnName, children, isOpen, handleClose, className}) {
 
     return (
     <div>
@@ -11,18 +13,18 @@ function CustomModal({title, btnName, children, isOpen, handleClose}) {
         open={isOpen}
         onClose={handleClose}
         >    
-        <div className={styles.customModal}>
-           <div className='outExplain'>
-<h2>{title}</h2>
-<button onClick={handleClose}>닫기</button>
+        <div className={cn(styles.customModal, className)}>
+           <div className={styles.header}>
+<h2 className={styles.customTitle}>{title}</h2>
+<button className={styles.closeBtn} onClick={handleClose}>닫기</button>
            </div>
-           <div className='conten'>
+           <div className={styles.content}>
            {children}
 
            </div>
-           <div>
-            <button>{btnName}</button>
-            <button onClick={handleClose}>취소</button>
+           <div className={styles.footer}>
+            <button className={styles.outBtn}>{btnName}</button>
+            <button className={styles.cancelBtn} onClick={handleClose}>취소</button>
            </div>
             
             </div>   
