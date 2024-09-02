@@ -4,7 +4,7 @@ import SimpleDonutChart from './SimpleDonutChart';
 import SimpleLineChart from './SimpleLineChart';
 import SimplePieChart from './SimplePieChart';
 
-function RenderingChart({ chartType }) {
+function RenderingChart({ chartType, data }) {
   switch (chartType) {
     case 'line':
       return <SimpleLineChart />;
@@ -13,7 +13,7 @@ function RenderingChart({ chartType }) {
     case 'pie':
       return <SimplePieChart />;
     case 'donut':
-      return <SimpleDonutChart />;
+      return <SimpleDonutChart data={data} />;
 
     default:
       return <SimpleLineChart />;
