@@ -1,13 +1,17 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import Manager_Sidebar from "./manager-sidebar/Manager_Sidebar";
+import React from 'react';
+import { Outlet } from 'react-router-dom';
+import Container from '../../components/layout/container/Container';
+import ManagerSidebar from './manager-sidebar/ManagerSidebar';
+import styles from './Manager.module.scss';
 
 function Manager(props) {
   return (
-    <div>
-      관리자 페이지
-      <Manager_Sidebar />
-    </div>
+    <Container className={styles.container}>
+      <ManagerSidebar />
+      <div className={styles.content}>
+        <Outlet />
+      </div>
+    </Container>
   );
 }
 

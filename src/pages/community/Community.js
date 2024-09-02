@@ -1,10 +1,10 @@
-import React from "react";
-import { Outlet, useNavigate } from "react-router-dom";
-import Container from "../../components/layout/container/Container";
-import Title from "../../components/layout/title/Title";
-import { useComponentContext } from "../../context/ComponentContext";
-import { communityTitle } from "../../lib/intro";
-import styles from "./community.module.scss";
+import React from 'react';
+import { Outlet, useNavigate } from 'react-router-dom';
+import Container from '../../components/layout/container/Container';
+import Title from '../../components/layout/title/Title';
+import { useComponentContext } from '../../context/ComponentContext';
+import { communityTitle } from '../../lib/intro';
+import styles from './community.module.scss';
 
 function Community() {
   const { currComp, setCurrComp } = useComponentContext();
@@ -14,7 +14,7 @@ function Community() {
 
   const handleChangeTitles = (compName) => {
     setCurrComp(compName);
-    navigate("/community");
+    navigate('/community');
   };
 
   console.log(currComp);
@@ -25,20 +25,20 @@ function Community() {
       <Container className={styles.container}>
         <ul className={styles.links}>
           <li>
-            <button onClick={() => handleChangeTitles("Notice")}>
+            <button onClick={() => handleChangeTitles('Notice')}>
               공지사항
             </button>
           </li>
           <li>
-            <button onClick={() => handleChangeTitles("Faq")}>FAQ</button>
+            <button onClick={() => handleChangeTitles('Faq')}>FAQ</button>
           </li>
           <li>
-            <button onClick={() => handleChangeTitles("SharingInformation")}>
+            <button onClick={() => handleChangeTitles('SharingInformation')}>
               정보 공유
             </button>
           </li>
           <li>
-            <button onClick={() => handleChangeTitles("AfterService")}>
+            <button onClick={() => handleChangeTitles('AfterService')}>
               A/S 문의
             </button>
           </li>

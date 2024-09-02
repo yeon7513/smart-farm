@@ -1,9 +1,9 @@
-import React, { useState } from "react";
-import styles from "./Board.module.scss";
-import BoardItem from "./boardItem/BoardItem";
-import { useComponentContext } from "../../context/ComponentContext";
-import Post from "./post/Post";
-import { Link } from "react-router-dom";
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { useComponentContext } from '../../context/ComponentContext';
+import styles from './Board.module.scss';
+import BoardItem from './boardItem/BoardItem';
+import Post from './post/Post';
 
 const PAGE_SIZE = 10;
 
@@ -11,7 +11,7 @@ function Board({ items, nopost }) {
   const [currentPage, setCurrentPage] = useState(1);
   const [post, setPost] = useState(items); // 게시글 상태
   const [isWriting, setIsWriting] = useState(false); // 글쓰기 모드 상태
-  const id = crypto.randomUUID().split("-", 1);
+  const id = crypto.randomUUID().split('-', 1);
   const { currComp, setCurrComp } = useComponentContext();
 
   const totalPages = Math.ceil(items.length / PAGE_SIZE);
@@ -102,7 +102,7 @@ function Board({ items, nopost }) {
             </button>
           </div>
           {nopost === false ? (
-            ""
+            ''
           ) : (
             <div className={styles.upload}>
               {<button onClick={() => setIsWriting(true)}>글쓰기</button>}
