@@ -244,11 +244,11 @@ function RequestForQuote() {
         </div>
         <div className={styles.paymentDate}>
           <h3>결제 날짜</h3>
-          <input type="date" value={date || ""} readOnly />
+          <input type="date" value={date} readOnly />
         </div>
         <div className={styles.requestDate}>
           <h3>요청 날짜</h3>
-          <input type="date" value={date || ""} readOnly />
+          <input type="date" value={date} readOnly />
         </div>
         <div className={styles.farmAddress}>
           <h3>농장 주소</h3>
