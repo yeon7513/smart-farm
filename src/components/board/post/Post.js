@@ -1,40 +1,39 @@
 import React, { useState } from "react";
 import styles from "./Post.module.scss";
 import { addBoardDatas } from "../../../api/firebase/board";
-import { getAuth } from "firebase/auth";
 import { getUserAuth } from "../../../api/firebase";
 
 const loginUser = JSON.parse(localStorage.getItem("user"));
 
 const INITIAL_VALUE = {
   title: "",
-  userId: loginUser.nick,
+  userId: loginUser.nickName,
   count: 0,
   summary: "",
   imgUrl: null,
   createAt: new Date().toISOString(),
+  id: "",
 };
 
-function Post({ onClick, category, onSubmit, initialValue = INITIAL_VALUE }) {
+function Post({ onClick, category, initialValue = INITIAL_VALUE }) {
   const [values, setValues] = useState(initialValue);
   const [file, setFile] = useState(null);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setValues({ ...values, [name]: value });
+    setValues((prevValues) => ({ ...prevValues, [name]: value }));
   };
 
   const handleFileChange = (e) => {
     setFile(e.target.files[0]);
   };
 
-  // 폼 제출 처리
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const addObj = { ...values, imgUrl: file };
+    const result = await addBoardDatas(category, addObj);
 
-    const result = await addBoardDatas(category, values);
-    onSubmit(result);
-    setValues(INITIAL_VALUE);
+    setValues(result);
   };
 
   return (

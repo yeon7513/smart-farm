@@ -10,7 +10,6 @@ const PAGE_SIZE = 10;
 function Board({ nopost, category }) {
   const navigate = useNavigate();
   const [currentPage, setCurrentPage] = useState(1);
-  const [post, setPost] = useState([]); // 게시글 상태
   const [isWriting, setIsWriting] = useState(false); // 글쓰기 모드 상태
   const [view, setView] = useState([]);
   const auth = getUserAuth();
@@ -35,7 +34,6 @@ function Board({ nopost, category }) {
   };
 
   const addPost = (newPost) => {
-    setPost([...post, newPost]); // Add new post
     setView([...view, newPost]); // Also add to view
     setIsWriting(false); // 글쓰기 모드 종료
   };
@@ -67,7 +65,7 @@ function Board({ nopost, category }) {
     <div className={styles.container}>
       {/* 글쓰기 모드 */}
       {isWriting ? (
-        <Post onSubmit={addPost} onClick={notPosting} />
+        <Post onClick={notPosting} />
       ) : (
         <>
           <div className={styles.col}>
