@@ -1,16 +1,19 @@
-import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
-import { getBoardDatas } from '../../api/firebase/board';
-import styles from './Board.module.scss';
-import Post from './post/Post';
+import React, { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { getBoardDatas } from "../../api/firebase/board";
+import styles from "./Board.module.scss";
+import Post from "./post/Post";
+import { getUserAuth } from "../../api/firebase";
 
 const PAGE_SIZE = 10;
 
 function Board({ nopost, category }) {
+  const navigate = useNavigate();
   const [currentPage, setCurrentPage] = useState(1);
-  const [post, setPost] = useState(); // 게시글 상태
   const [isWriting, setIsWriting] = useState(false); // 글쓰기 모드 상태
   const [view, setView] = useState([]);
+  const auth = getUserAuth();
+  const user = auth.currentUser; // 현재 로그인된 사용자 정보 가져오기
 
   const totalPages = Math.ceil(view.length / PAGE_SIZE);
   const reversedItem = [...view].reverse();
@@ -31,7 +34,6 @@ function Board({ nopost, category }) {
   };
 
   const addPost = (newPost) => {
-    setPost([...post, newPost]); // Add new post
     setView([...view, newPost]); // Also add to view
     setIsWriting(false); // 글쓰기 모드 종료
   };
@@ -50,11 +52,20 @@ function Board({ nopost, category }) {
     handleLoad();
   }, []);
 
+  const handleWriteClick = () => {
+    if (!user) {
+      alert("회원 전용입니다. 로그인을 해주세요.");
+      return setIsWriting(false);
+    } else {
+      setIsWriting(true); // 로그인된 경우에만 글쓰기 모드로 전환
+    }
+  };
+
   return (
     <div className={styles.container}>
       {/* 글쓰기 모드 */}
       {isWriting ? (
-        <Post onSubmit={addPost} onClick={notPosting} />
+        <Post onClick={notPosting} />
       ) : (
         <>
           <div className={styles.col}>
@@ -102,10 +113,10 @@ function Board({ nopost, category }) {
             </button>
           </div>
           {nopost === false ? (
-            ''
+            ""
           ) : (
             <div className={styles.upload}>
-              {<button onClick={() => setIsWriting(true)}>글쓰기</button>}
+              {<button onClick={handleWriteClick}>글쓰기</button>}
             </div>
           )}
         </>
