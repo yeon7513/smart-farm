@@ -247,7 +247,6 @@ function RequestForQuoteForm({ addEstimate, user }) {
       <div className={styles.farmEquivalent}>
         <h3>농장 동 수</h3>
         <select
-          type="number"
           value={farmEquivalent}
           onChange={(e) => setFarmEquivalent(Number(e.target.value) || "")}
         >
