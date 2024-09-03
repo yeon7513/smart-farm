@@ -297,6 +297,7 @@ function RequestForQuote() {
           <h3>농장 면적</h3>
           <input
             type="number"
+            placeholder="농장 면적은 최소 1㎡ 이상."
             value={farmArea}
             onChange={handleFarmAreaChange}
             min="1"
