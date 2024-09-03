@@ -1,15 +1,17 @@
-import axios from "axios";
 import { initializeApp } from "firebase/app";
-import { getAuth } from "firebase/auth";
 import {
   addDoc,
   collection,
-  doc,
   getDoc,
   getDocs,
   getFirestore,
+  limit,
+  orderBy,
+  query,
+  runTransaction,
 } from "firebase/firestore";
 import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
+import { getCollection } from "../firebase";
 
 const firebaseConfig = {
   apiKey: "AIzaSyBz9TEYoPHVv_Lz28BzcTa1DrLMI7wnBWc",
@@ -22,14 +24,7 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-export const db = getFirestore(app);
-export function getCollection(collectionName) {
-  return collection(db, collectionName);
-}
-export function getUserAuth() {
-  return auth;
-}
+const db = getFirestore(app);
 
 export async function getBoardDatas(collectionName) {
   const collect = await getCollection(collectionName);
@@ -43,37 +38,78 @@ export async function getBoardDatas(collectionName) {
   return resultData;
 }
 
-export async function addBoardDatas(collectionName, dataObj) {
-  try {
-    const url = await uploadImage(dataObj.imgUrl);
-    dataObj.imgUrl = url;
-
-    const time = new Date().getTime();
-    dataObj.createdAt = time;
-    dataObj.updatedAt = time;
-
-    // 문서 id 자동
-    const collect = await collection(db, collectionName);
-    const result = await addDoc(collect, dataObj);
-    const docSnap = await getDoc(result); // result ==> documentReference
-
-    const resultData = { ...docSnap.data(), docId: docSnap.id };
-
-    return resultData;
-  } catch (error) {
-    return false;
-  }
-}
-
 async function uploadImage(path, imgFile) {
-  // 스토리지 객체 가져오기
   const storage = getStorage();
-  // 저장할 이미지 객체 생성
   const imageRef = ref(storage, path);
-  // debugger;
-  // File 객체를 스토리지에 저장
   await uploadBytes(imageRef, imgFile);
   // 저장한 File의 url 가져오기
   const url = await getDownloadURL(imageRef);
   return url;
+}
+
+// export async function addBoardDatas(collectionName, dataObj) {
+//   try {
+//     if (dataObj.imgUrl) {
+//       const url = await uploadImage(dataObj.imgUrl);
+//       dataObj.imgUrl = url;
+//     }
+
+//     const time = new Date().getTime();
+//     dataObj.createdAt = time;
+//     dataObj.updatedAt = time;
+
+//     // 문서 id 자동
+//     const collect = await collection(db, collectionName);
+//     const result = await addDoc(collect, dataObj);
+//     const docSnap = await getDoc(result); // result ==> documentReference
+
+//     const resultData = {
+//       ...docSnap.data(),
+//       docId: docSnap.id,
+//       collection: collectionName,
+//     };
+//     return resultData;
+//   } catch (error) {
+//     return false;
+//   }
+// }
+async function getLastNum(collectionName, field) {
+  const q = query(
+    collection(db, collectionName),
+    orderBy(field, "desc"),
+    limit(1)
+  );
+  const lastDoc = await getDocs(q);
+  if (lastDoc.docs.length === 0) {
+    return 0;
+  }
+  const lastNum = lastDoc.docs[0].data()[field];
+  return lastNum;
+}
+
+export async function addBoardDatas(collectionName, dataObj) {
+  try {
+    if (dataObj.imgUrl) {
+      const url = await uploadImage(dataObj.imgUrl);
+      dataObj.imgUrl = url;
+    }
+
+    const resultData = await runTransaction(db, async (tr) => {
+      // No 필드를 최신 값에서 1 증가시키기
+      const lastId = (await getLastNum(collectionName, "id")) + 1;
+      dataObj.id = lastId;
+
+      // 데이터베이스에 새 문서 추가
+      const docRef = await addDoc(collection(db, collectionName), dataObj);
+      const snapshot = await getDoc(docRef);
+      return snapshot.exists()
+        ? { ...snapshot.data(), docId: snapshot.id, collection: collectionName }
+        : null;
+    });
+
+    return resultData;
+  } catch (error) {
+    console.error("Error in addBoardDatas: ", error);
+    return false;
+  }
 }
