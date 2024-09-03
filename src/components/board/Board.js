@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
-import { getBoardDatas } from '../../api/firebase/board';
-import styles from './Board.module.scss';
-import Post from './post/Post';
+import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { getBoardDatas } from "../../api/firebase/board";
+import styles from "./Board.module.scss";
+import Post from "./post/Post";
 
 const PAGE_SIZE = 10;
 
@@ -102,7 +102,7 @@ function Board({ nopost, category }) {
             </button>
           </div>
           {nopost === false ? (
-            ''
+            ""
           ) : (
             <div className={styles.upload}>
               {<button onClick={() => setIsWriting(true)}>글쓰기</button>}

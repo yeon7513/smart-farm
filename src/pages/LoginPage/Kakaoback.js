@@ -1,14 +1,18 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import KakaoLogin from "react-kakao-login";
-import KaKaoLogout from "./KaKaoLogout";
+import { useNavigate } from "react-router-dom";
 
 const Kakaoback = () => {
+  const KakaoKey = localStorage.getItem(
+    "kakao_5ae84fc20432f560ee6fc559f3353ede"
+  );
+  console.log(KakaoKey);
   const [state, setState] = useState();
   const kakaoClientId = "ab4d55383cde6894b80a6f361124e20b";
 
   const kakaoOnSuccess = async (data) => {
     console.log("카카오 로그인 성공:", data);
-    setState(data.profile.id);
+
     const idToken = data.response.access_token;
     console.log("엑세스 토큰:", idToken);
   };
@@ -16,6 +20,29 @@ const Kakaoback = () => {
   const kakaoOnFailure = (error) => {
     console.error("카카오 로그인 실패:", error);
   };
+
+  function KaKaoLogout(props) {
+    const navigate = useNavigate();
+    const KaKaoLogout = () => {
+      if (window.Kakao.Auth.getAccessToken()) {
+        console.log("로그아웃 중입니다.");
+        window.Kakao.Auth.logout(function () {
+          setState(KakaoKey);
+          console.log("로그아웃 성공");
+          navigate("/login");
+          // 로그아웃 후 추가로 처리할 작업이 있다면 여기에 작성합니다.
+        });
+      } else {
+        console.log("로그인 상태가 아닙니다.");
+      }
+    };
+
+    return (
+      <div>
+        <button onClick={KaKaoLogout}>로그아웃</button>
+      </div>
+    );
+  }
 
   return (
     <>
