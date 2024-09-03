@@ -1,37 +1,40 @@
 import React, { useState } from "react";
 import styles from "./Post.module.scss";
 import { addBoardDatas } from "../../../api/firebase/board";
+import { getAuth } from "firebase/auth";
+import { getUserAuth } from "../../../api/firebase";
 
-function Post({ onClick, category, onSubmit }) {
-  const [title, setTitle] = useState("");
-  const [content, setContent] = useState("");
+const loginUser = JSON.parse(localStorage.getItem("user"));
+
+const INITIAL_VALUE = {
+  title: "",
+  userId: loginUser.nick,
+  count: 0,
+  summary: "",
+  imgUrl: null,
+  createAt: new Date().toISOString(),
+};
+
+function Post({ onClick, category, onSubmit, initialValue = INITIAL_VALUE }) {
+  const [values, setValues] = useState(initialValue);
   const [file, setFile] = useState(null);
 
-  // const handleSubmit = async () => {
-  //   const submit = await addBoardDatas(category);
-  //   setPosting(submit)
-  // }
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setValues({ ...values, [name]: value });
+  };
 
+  const handleFileChange = (e) => {
+    setFile(e.target.files[0]);
+  };
+
+  // 폼 제출 처리
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Construct data object
-    const dataObj = {
-      title,
-      content,
-      imgUrl: file ? file.name : null, // Assign a unique path for the image
-      userId: "currentUser", // Replace with actual user ID
-      count: 0,
-    };
-
-    // Call Firebase function to add data
-    const result = await addBoardDatas(category, dataObj);
-
-    if (result) {
-      onSubmit(result); // Update parent component with new post
-    } else {
-      alert("글 작성 중 오류가 발생했습니다.");
-    }
+    const result = await addBoardDatas(category, values);
+    onSubmit(result);
+    setValues(INITIAL_VALUE);
   };
 
   return (
@@ -42,18 +45,29 @@ function Post({ onClick, category, onSubmit }) {
       <form onSubmit={handleSubmit}>
         <div className={styles.title}>
           <p>제목:</p>
-          <input type="text" placeholder="제목을 입력해주세요." />
+          <input
+            type="text"
+            name="title"
+            placeholder="제목을 입력해주세요."
+            value={values.title}
+            onChange={handleChange}
+          />
         </div>
         <div className={styles.content}>
-          <p>내용:</p>{" "}
-          <textarea type="text" placeholder="내용을 입력해주세요." />
+          <p>내용:</p>
+          <textarea
+            name="summary"
+            placeholder="내용을 입력해주세요."
+            value={values.summary}
+            onChange={handleChange}
+          />
         </div>
         <b>
           ※ 부적절한 콘텐츠가 포함될 경우 관리자에 의해 게시글이 삭제될 수
           있으며, 해당 아이디가 정지 처리될 수 있습니다.
         </b>
         <div className={styles.file}>
-          <p>첨부:</p> <input type="file" />
+          <p>첨부:</p> <input type="file" onChange={handleFileChange} />
         </div>
 
         <div className={styles.btn}>

@@ -6,7 +6,7 @@ import styles from "../community.module.scss";
 import { getBoardDatas } from "../../../api/firebase/board";
 
 function SharingInformation(props) {
-  const [sharingPost, setSharingPost] = useState([]);
+  // const [sharingPost, setSharingPost] = useState([]);
 
   // const handleLoad = async () => {
   //   const data = await getBoardDatas();
