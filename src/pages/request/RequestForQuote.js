@@ -13,6 +13,7 @@ function RequestForQuote() {
   const [user, setUser] = useState(null);
   const [date, setDate] = useState("");
   const [userEmail, setUserEmail] = useState("");
+  const [cropType, setCropType] = useState("딸기");
   const [farmAddress, setFarmAddress] = useState("");
   const [facilityType, setFacilityType] = useState("시설원예");
   const [farmName, setFarmName] = useState("");
@@ -85,6 +86,10 @@ function RequestForQuote() {
     });
   };
 
+  const handleCropTypeChange = (e) => {
+    setCropType(e.target.value);
+  };
+
   const handleFarmNameChange = (e) => {
     setFarmName(e.target.value || "");
   };
@@ -111,6 +116,8 @@ function RequestForQuote() {
       date,
       `, 농장 주소:`,
       farmAddress,
+      `, 작물 종류:`,
+      cropType,
       `, 농장 종류:`,
       facilityType,
       `, 농장 이름:`,
@@ -119,14 +126,16 @@ function RequestForQuote() {
       additionalOptions,
       `, 농장 면적:`,
       farmArea,
-      `㎡`,
+      `평`,
       `, 농장 동 수:`,
-      farmEquivalent
+      farmEquivalent,
+      `동`
     );
     const createdAt = `${year}${month}${day}${new Date().getTime()}`;
     const dataObj = {
       userEmail,
       date,
+      cropType,
       farmAddress,
       facilityType,
       additionalOptions,
@@ -184,6 +193,14 @@ function RequestForQuote() {
     return `${year}-${month}-${day}`;
   }
 
+  // 견적서.xlsx로 주문 내역들을 모읍니다.
+  const exportToExcel = () => {
+    const ws = XLSX.utils.json_to_sheet();
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws);
+    XLSX.writeFile(wb, "견적서.xlsx");
+  };
+
   // 주문 내역에 따라 Excel 파일을 다운로드 하는 함수입니다.
   const handleExcelDownload = (e) => {
     e.preventDefault();
@@ -210,6 +227,7 @@ function RequestForQuote() {
       {
         아이디: userEmail,
         날짜: formattedDate,
+        "작물 종류": cropType,
         "농장 주소": farmAddress,
         "농장 종류": facilityType,
         "부가 옵션": additionalOptionsEntries.reduce(
@@ -266,6 +284,16 @@ function RequestForQuote() {
           <h3>요청 날짜</h3>
           <input type="date" value={date} readOnly />
         </div>
+        <div className={styles.cropType}>
+          <h3>작물 종류</h3>
+          <select value={cropType} onChange={handleCropTypeChange}>
+            <option value="딸기">딸기</option>
+            <option value="블루베리">블루베리</option>
+            <option value="파프리카">파프리카</option>
+            <option value="토마토">토마토</option>
+            <option value="참외">참외</option>
+          </select>
+        </div>
         <div className={styles.farmAddress}>
           <h3>농장 주소</h3>
           {user ? (
@@ -297,12 +325,12 @@ function RequestForQuote() {
           <h3>농장 면적</h3>
           <input
             type="number"
-            placeholder="농장 면적은 최소 1㎡ 이상."
+            placeholder="농장 면적은 최소 1평 이상."
             value={farmArea}
             onChange={handleFarmAreaChange}
             min="1"
           />{" "}
-          ㎡
+          평
         </div>
         <div className={styles.farmEquivalent}>
           <h3>농장 동 수</h3>
@@ -342,7 +370,8 @@ function RequestForQuote() {
           description={"결제하기"}
           onClick={(e) => {
             e.preventDefault();
-            handleExcelDownload(e);
+            // handleExcelDownload(e);
+            exportToExcel();
             handleSubmit(e);
           }}
         />
