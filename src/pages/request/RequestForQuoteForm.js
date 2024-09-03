@@ -61,14 +61,17 @@ function RequestForQuoteForm({ addEstimate, user }) {
     const month = String(today.getMonth() + 1).padStart(2, "0");
     const day = String(today.getDate()).padStart(2, "0");
     const createdAt = `${year}${month}${day}${new Date().getTime()}`;
-    const fileName = `${userEmail}님의 견적 주문번호_${createdAt}.xlsx`;
+    // const fileName = `${userEmail}님의 견적 주문번호_${createdAt}.xlsx`;
 
-    const additionalOptionsEntries = Object.entries(additionalOptions).map(
-      ([key, value], index) => ({
-        [`Option ${index + 1}`]: value,
-        key,
-      })
-    );
+    // const additionalOptionsEntries = Object.entries(additionalOptions).map(
+    //   ([key, value], index) => ({
+    //     [`Option ${index + 1}`]: value,
+    //     key,
+    //   })
+    // );
+
+    const formattedAdditionalOptions =
+      Object.keys(additionalOptions).join(", ");
 
     const data = [
       {
@@ -77,10 +80,7 @@ function RequestForQuoteForm({ addEstimate, user }) {
         "작물 종류": cropType,
         "농장 주소": farmAddress,
         "농장 종류": facilityType,
-        "부가 옵션": additionalOptionsEntries.reduce(
-          (acc, obj) => ({ ...acc, ...obj }),
-          {}
-        ),
+        "부가 옵션": formattedAdditionalOptions,
         "농장 이름": farmName,
         "농장 면적": `${Number(farmArea)}평`,
         "농장 동 수": Number(farmEquivalent),
@@ -102,6 +102,8 @@ function RequestForQuoteForm({ addEstimate, user }) {
     const month = String(today.getMonth() + 1).padStart(2, "0"); // 월은 0부터 시작하므로 +1
     const day = String(today.getDate()).padStart(2, "0");
     const createdAt = `${year}${month}${day}${new Date().getTime()}`;
+    const formattedAdditionalOptions =
+      Object.keys(additionalOptions).join(", ");
     console.log(
       `견적 의뢰 아이디:`,
       userEmail,
@@ -116,7 +118,7 @@ function RequestForQuoteForm({ addEstimate, user }) {
       `, 농장 이름:`,
       farmName,
       `, 부가 옵션:`,
-      additionalOptions,
+      formattedAdditionalOptions,
       `, 농장 면적:`,
       farmArea,
       `평`,
@@ -130,7 +132,7 @@ function RequestForQuoteForm({ addEstimate, user }) {
       cropType,
       farmAddress,
       facilityType,
-      additionalOptions,
+      additionalOptions: formattedAdditionalOptions,
       farmName,
       farmArea,
       farmEquivalent,
@@ -276,15 +278,7 @@ function RequestForQuoteForm({ addEstimate, user }) {
           />
         )}
       </div>
-      <Checkout
-        type="submit"
-        description={"결제하기"}
-        onClick={
-          // handleExcelDownload(e);
-          //   exportToExcel();
-          handleSubmit
-        }
-      />
+      <Checkout type="submit" description={"결제하기"} onClick={handleSubmit} />
     </form>
   );
 }
