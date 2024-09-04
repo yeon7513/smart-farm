@@ -1,37 +1,39 @@
-import { Modal, StyledEngineProvider } from "@mui/material";
-import React, { useState } from "react";
-import styles from "./customModal.module.scss";
-import cn from "classnames";
-import Footer from "./../layout/footer/Footer";
+import { Modal } from '@mui/material';
+import cn from 'classnames';
+import React from 'react';
+import styles from './customModal.module.scss';
 
 function CustomModal({
   title,
   btnName,
+  btnHandler,
   children,
   isOpen,
   handleClose,
   className,
 }) {
   return (
-    <div>
-      <Modal className={styles.Modal} open={isOpen} onClose={handleClose}>
-        <div className={cn(styles.customModal, className)}>
-          <div className={styles.header}>
-            <h2 className={styles.customTitle}>{title}</h2>
-            <button className={styles.closeBtn} onClick={handleClose}>
-              닫기
-            </button>
-          </div>
-          <div className={styles.content}>{children}</div>
+    <Modal className={styles.Modal} open={isOpen} onClose={handleClose}>
+      <div className={cn(styles.customModal, className)}>
+        <div className={styles.header}>
+          <h2 className={styles.customTitle}>{title}</h2>
+          <button className={styles.closeBtn} onClick={handleClose}>
+            닫기
+          </button>
+        </div>
+        <div className={styles.content}>{children}</div>
+        {btnHandler && (
           <div className={styles.footer}>
-            <button className={styles.outBtn}>{btnName}</button>
+            <button className={styles.outBtn} onClick={btnHandler}>
+              {btnName}
+            </button>
             <button className={styles.cancelBtn} onClick={handleClose}>
               취소
             </button>
           </div>
-        </div>
-      </Modal>
-    </div>
+        )}
+      </div>
+    </Modal>
   );
 }
 

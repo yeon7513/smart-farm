@@ -18,7 +18,9 @@ function DashBoard() {
           <button onClick={() => navigate(-1)}>
             <IoArrowBackCircle />
           </button>
-          <h1>{state}</h1>
+          <h1>
+            {state.name} / {state.crop}
+          </h1>
         </div>
         {/* <div className={styles.alert}>
           <div>

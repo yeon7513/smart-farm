@@ -3,11 +3,11 @@ import styles from './FarmList.module.scss';
 import FarmListItem from './my-farm-list-item/FarmListItem';
 
 const testFarmList = [
-  { farmId: crypto.randomUUID().slice(0, 10), name: '농장1' },
-  { farmId: crypto.randomUUID().slice(0, 10), name: '농장2' },
-  { farmId: crypto.randomUUID().slice(0, 10), name: '농장3' },
-  { farmId: crypto.randomUUID().slice(0, 10), name: '농장4' },
-  { farmId: crypto.randomUUID().slice(0, 10), name: '농장5' },
+  { farmId: crypto.randomUUID().slice(0, 10), name: '농장1', crop: '딸기' },
+  { farmId: crypto.randomUUID().slice(0, 10), name: '농장2', crop: '블루베리' },
+  { farmId: crypto.randomUUID().slice(0, 10), name: '농장3', crop: '토마토' },
+  { farmId: crypto.randomUUID().slice(0, 10), name: '농장4', crop: '딸기' },
+  { farmId: crypto.randomUUID().slice(0, 10), name: '농장5', crop: '딸기' },
 ];
 
 function FarmList() {

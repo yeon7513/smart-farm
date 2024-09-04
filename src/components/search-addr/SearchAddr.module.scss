@@ -1,0 +1,59 @@
+.container {
+  padding: 20px;
+  width: 340px;
+
+  input {
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #eee;
+
+    &::placeholder {
+      color: #ccc;
+      transition: 0.3s;
+    }
+
+    &:focus {
+      border: 1px solid var(--hover-color);
+
+      &::placeholder {
+        color: #ededed;
+      }
+    }
+
+    &.firstAddr {
+      flex: 1;
+    }
+
+    &.secondAddr {
+      margin-top: 8px;
+      width: 100%;
+    }
+  }
+
+  button {
+    padding: 8px 16px;
+    font-size: 14px;
+    border-radius: 8px;
+    background-color: var(--common-color);
+
+    &:hover {
+      background-color: var(--hover-color);
+      color: #fff;
+    }
+  }
+
+  .search {
+    display: flex;
+    gap: 8px;
+  }
+}
+
+.modal {
+  width: 400px;
+
+  .searchAddr {
+    > div {
+      min-height: 480px;
+    }
+  }
+}
