@@ -89,31 +89,40 @@ function Faq() {
       youHaveToSignIn();
       return;
     }
-    setFaqData((prevData) => {
-      const updatedData = prevData.map((item) =>
-        item.id === id
-          ? {
-              ...item,
-              liked: !item.liked,
-              likes: item.liked ? item.likes - 1 : item.likes + 1,
-            }
-          : item
-      );
 
-      // Firestore에 좋아요 수를 업데이트합니다.
-      const docRef = doc(db, "faq", id.toString());
-      updateDoc(docRef, {
+    const updatedData = faqData.map((item) =>
+      item.id === id
+        ? {
+            ...item,
+            liked: !item.liked,
+            likes: item.liked ? item.likes - 1 : item.likes + 1,
+          }
+        : item
+    );
+
+    // Firestore에 좋아요 수를 업데이트합니다.
+    const docRef = doc(db, "faq", "id");
+    try {
+      await updateDoc(docRef, {
         likes: updatedData.find((item) => item.id === id).likes,
-      })
-        .then(() => {
-          console.log("값이 성공적으로 반영되었습니다.");
-        })
-        .catch((error) => {
-          console.error("문서 업데이트에 실패했습니다.: ", error);
-        });
+      });
+      console.log("좋아요 수가 성공적으로 업데이트되었습니다.");
+    } catch (error) {
+      console.error("좋아요 수 업데이트에 실패했습니다: ", error);
+    }
 
-      return updatedData;
-    });
+    // Firestor의 "users" 컬렉션에 좋아요 한 게시글을 업데이트합니다.
+    const userId = doc.id;
+    const userRef = doc(db, "users", userId);
+    try {
+      await updateDoc(userRef, {
+        [`liked.${id}`]: updatedData.find((item) => item.id === id).liked,
+      });
+      console.log("좋아요가 반영되었습니다.");
+    } catch (error) {
+      console.error("좋아요가 반영되지 않았습니다.", error);
+    }
+    return updatedData;
   };
 
   const youHaveToSignIn = () => {

@@ -1,43 +1,49 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { getDatas } from "../../api/firebase";
+import { createSlice } from "@reduxjs/toolkit";
 
-const initialState = {
-  faqData: [],
-  isLoading: false,
-  error: "",
-};
+const initialState = localStorage.getItem("faqData")
+  ? JSON.parse(localStorage.getItem("faqData"))
+  : [];
 
 const faqDataSlice = createSlice({
   name: "faqData",
   initialState,
-  reducers: {},
-  extraReducers: (builder) => {
-    builder
-      .addCase(fetchfaqData.pending, (state) => {
-        state.isLoading = true;
-      })
-      .addCase(fetchfaqData.fulfilled, (state, action) => {
-        state.faqData = action.payload;
-        state.isLoading = false;
-      })
-      .addCase(fetchfaqData.rejected, (state, action) => {
-        state.isLoading = false;
-        state.error = action.payload;
-      });
+  reducers: {
+    setLike: (state, action) => {
+      // action.payload는 객체여야 한다고 가정합니다.
+      const { id, question, answer, likes, views } = action.payload;
+      state.id = id;
+      state.question = question;
+      state.answer = answer;
+      state.likes = likes;
+      state.views = views;
+
+      localStorage.setItem("faqData", JSON.stringify(state));
+    },
+    removeLike: (state, action) => {
+      // action.payload는 객체여야 한다고 가정합니다.
+      const { id, question, answer, likes, views } = action.payload;
+      state.id = id;
+      state.question = question;
+      state.answer = answer;
+      state.likes = likes;
+      state.views = views;
+
+      localStorage.setItem("faqData", JSON.stringify(state));
+    },
   },
 });
 
-export const fetchfaqData = createAsyncThunk(
-  "faqData/fetchfaqData",
-  async ({ collectionName }, thunkAPI) => {
-    try {
-      const resultData = await getDatas(collectionName);
-      return resultData;
-    } catch (error) {
-      console.error(error);
-      return thunkAPI.rejectWithValue("Error fetch Order");
-    }
-  }
-);
+// export const fetchfaqData = createAsyncThunk(
+//   "faqData/fetchfaqData",
+//   async ({ collectionName }, thunkAPI) => {
+//     try {
+//       const resultData = await getDatas(collectionName);
+//       return resultData;
+//     } catch (error) {
+//       console.error(error);
+//       return thunkAPI.rejectWithValue("Error fetch Order");
+//     }
+//   }
+// );
 
 export default faqDataSlice.reducer;
