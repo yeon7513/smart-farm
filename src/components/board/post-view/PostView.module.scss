@@ -27,6 +27,13 @@
   min-height: 300px;
   padding: 30px 50px;
   border-bottom: 1px solid #ddd;
+
+  div {
+    img {
+      max-width: 100%; /* 이미지가 컨테이너를 넘지 않도록 함 */
+      height: auto; /* 비율을 유지하면서 높이 조정 */
+    }
+  }
 }
 
 .comment {

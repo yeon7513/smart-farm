@@ -13,7 +13,7 @@ function AfterService(props) {
         등을 이용해보세요.
       </p>
       <div>
-        <Board category={"as"} />
+        <Board category={"as"} complain={true} />
         <Outlet />
       </div>
     </div>
