@@ -1,25 +1,29 @@
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
-import { getUserAuth } from "../../../../api/firebase";
-import { paths } from "../../../../lib/menu";
-import { removeUser } from "../../../../store/user/UserSlice";
-import styles from "./Nav.module.scss";
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link, useNavigate } from 'react-router-dom';
+import { getUserAuth } from '../../../../api/firebase';
+import { useComponentContext } from '../../../../context/ComponentContext';
+import { paths } from '../../../../lib/menu';
+import { removeUser } from '../../../../store/user/UserSlice';
+import styles from './Nav.module.scss';
 
 function NavLink({ className, path, depth, children }) {
+  const { setCurrComp } = useComponentContext();
+
   return (
     <li className={className}>
       {depth ? (
         <>
           <Link to={path}>{children}</Link>
-
-          <ul className={styles.depth}>
-            {depth.map((menu, idx) => (
-              <li key={idx}>
-                <Link to={menu.path}>{menu.name}</Link>
-              </li>
-            ))}
-          </ul>
+          <div className={styles.depthWrapper}>
+            <ul className={styles.depth}>
+              {depth.map((menu, idx) => (
+                <li key={idx}>
+                  <Link to={menu.path}>{menu.name}</Link>
+                </li>
+              ))}
+            </ul>
+          </div>
         </>
       ) : (
         <Link to={path}>{children}</Link>
@@ -39,7 +43,7 @@ function Nav() {
   const handleLogout = () => {
     auth.signOut();
     dispatch(removeUser());
-    navigate("/", { replace: true });
+    navigate('/', { replace: true });
   };
 
   useEffect(() => {
@@ -56,19 +60,19 @@ function Nav() {
           (error) => {
             switch (error.code) {
               case error.PERMISSION_DENIED:
-                setError("사용자가 위치 권한을 거부했습니다.");
+                setError('사용자가 위치 권한을 거부했습니다.');
                 break;
               case error.POSITION_UNAVAILABLE:
-                setError("위치 정보를 사용할 수 없습니다.");
+                setError('위치 정보를 사용할 수 없습니다.');
                 break;
               case error.TIMEOUT:
-                setError("위치 정보 요청 시간이 초과되었습니다.");
+                setError('위치 정보 요청 시간이 초과되었습니다.');
                 break;
               case error.UNKNOWN_ERROR:
-                setError("알 수 없는 오류가 발생했습니다.");
+                setError('알 수 없는 오류가 발생했습니다.');
                 break;
               default:
-                setError("알 수 없는 오류가 발생했습니다.");
+                setError('알 수 없는 오류가 발생했습니다.');
                 break;
             }
           }
@@ -78,14 +82,14 @@ function Nav() {
           navigator.geolocation.clearWatch(watchId);
         };
       } else {
-        setError("Geolocation API를 지원하지 않는 브라우저입니다.");
+        setError('Geolocation API를 지원하지 않는 브라우저입니다.');
       }
     };
 
     fetchLocation();
   }, []);
 
-  const loginUser = JSON.parse(localStorage.getItem("user"));
+  const loginUser = JSON.parse(localStorage.getItem('user'));
 
   return (
     <>
@@ -101,13 +105,13 @@ function Nav() {
                   {position.lon.toFixed(0)}
                 </li>
                 {error && <p style={{ color: "red" }}>{error}</p>} */}
-                {loginUser.email.includes("admin") ? (
-                  <NavLink path={"/manager"}>관리자</NavLink>
+                {loginUser.email.includes('admin') ? (
+                  <NavLink path={'/manager'}>관리자</NavLink>
                 ) : (
                   <>
-                    <p>{loginUser.nick}님, 환영합니다.</p>
-                    <NavLink path={"/my-farm"}>내 농장</NavLink>
-                    <NavLink path={"/mypage"}>마이페이지</NavLink>
+                    <p>{loginUser.name}님, 환영합니다.</p>
+                    <NavLink path={'/my-farm'}>내 농장</NavLink>
+                    <NavLink path={'/mypage'}>마이페이지</NavLink>
                   </>
                 )}
                 <li>

@@ -1,4 +1,5 @@
 header {
+  position: relative;
   box-shadow: var(--down-shadow);
   background-color: var(--main-color);
 
@@ -12,6 +13,11 @@ header {
     transition: 0.3s linear;
     background-color: transparent;
 
+    &.scrolled {
+      background-color: var(--main-color);
+      color: #333;
+    }
+
     &:hover {
       background-color: var(--main-color);
       color: #333;
@@ -23,10 +29,11 @@ header {
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
-  padding: 24px 0;
+  padding: 0;
 }
 
 .logo {
+  margin-bottom: 24px;
   font-family: var(--title-font);
   font-weight: 400;
   font-size: 30px;

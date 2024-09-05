@@ -1,0 +1,150 @@
+/* src/App.css */
+/* body {
+  font-family: Arial, sans-serif;
+  background-color: #f0f0f0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+} */
+
+.wrapper {
+    background-color: var(--main-color);
+    padding: 50px;
+    border-radius: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    width: 280px;
+    height: 500px;
+    max-width: 60%;
+    max-height: 50%;
+    text-align: left;
+    margin-top: 16%;
+    margin-left: 10%;
+  position: fixed;
+  left: 10%;
+  top: 10%;
+
+  header, footer {
+    font-size: 16px;
+  background-color: var(--common-color);
+  position: fixed;
+  left: 0;
+  /* color:#fcf8f3; */
+  }
+  
+  header {
+    top: 0;
+    left: 0;
+    right: 0;
+    padding: 0;
+    border-radius: 20px 20px  0 0;
+
+    button {
+      margin: 10px 0 0 12px;
+      position: absolute;
+      top: 0;
+      right: 10px;
+      border-radius: 10px;
+      padding: 14px;
+      background-color: var(--common-color);
+  
+      &:hover {
+          background-color: var(--hover-color);
+        }
+
+        footer {
+          font-weight: bold;
+          bottom: 0;
+          left: 0;
+          padding: 10px 0;
+          border-radius: 0 0 16px 16px;
+        }
+    }
+  
+
+    h2 {
+        margin: 10px 0 0 12px;
+      }
+
+      p {
+        margin: 10px 15px;
+      }
+
+      .closeBtn {
+        width: 16px;
+        height: 16px;
+      }
+      
+  }
+
+
+  }
+  
+  /* .chattingRoom {
+    background-color: pink;
+    border-radius: 10px;
+    position: absolute;
+    
+  } */
+
+  .questionButtons {
+    position: absolute;
+    top: 15%;
+    left: 0;
+
+      
+ button {
+    margin: 10px;
+    padding: 10px 15px;
+    border: none;
+    background-color: var(--common-color);
+    color: var(--main-color);
+    border-radius: 5px;
+    cursor: pointer;
+
+    &:hover {
+        background-color: var(--hover-color);
+      }
+  }
+
+  }
+  .answerArea {
+    margin-top: 80px;
+    padding: 10px;
+    border-top: 1px solid var(--main-color);
+    min-height: 50px;
+    background-color: var(--common-color);
+  }
+  /* src/App.css */
+  /* body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+  } */
+  /* .chattingRoom {
+    background-color: pink;
+    border-radius: 10px;
+    position: absolute;
+    
+  } */
+  
+
+
+  .answerArea {
+    margin: 20px 15px 0;
+    padding: 10px;
+    border-top: 1px solid #ddd;
+    min-height: 50px;
+    background-color: var(--hover-color);
+    color: var(--main-color);
+    border-radius: 12px;
+  }
+  
+  
