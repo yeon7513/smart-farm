@@ -15,13 +15,14 @@ import {
   updateDoc,
 } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
+import { setFaqData } from "../../../store/faq-data/faqDataSlice";
 
 function Faq() {
   const auth = getAuth();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [openId, setOpenId] = useState(null);
-  const [faqData, setFaqData] = useState([]);
+  const faqData = useSelector((state) => state.faqData || []);
   const { isAuthenticated } = useSelector((state) => state.userSlice);
 
   useEffect(() => {
@@ -84,7 +85,7 @@ function Faq() {
       item.id === id
         ? {
             ...item,
-            views: item.views + 1,
+            views: (item.views || 0) + 1,
           }
         : item
     );
@@ -112,7 +113,7 @@ function Faq() {
         ? {
             ...item,
             liked: !item.liked,
-            likes: item.liked ? item.likes - 1 : item.likes + 1,
+            likes: (item.likes || 0) + (item.liked ? -1 : 1),
           }
         : item
     );
