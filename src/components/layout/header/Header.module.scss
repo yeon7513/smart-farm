@@ -12,6 +12,11 @@ header {
     transition: 0.3s linear;
     background-color: transparent;
 
+    &.scrolled {
+      background-color: var(--main-color);
+      color: #333;
+    }
+
     &:hover {
       background-color: var(--main-color);
       color: #333;
