@@ -22,7 +22,7 @@ function SignIn(props) {
       const { user } = userCredential;
       const userInfo = await getDatas("users");
       const userInfoConfirm = userInfo.filter(
-        (item) => item.email == user.email
+        (item) => item.email === user.email
       );
       userInfoConfirm.forEach((item) => {
         dispatch(
@@ -32,6 +32,7 @@ function SignIn(props) {
             uid: user.uid,
             name: item.name,
             nick: item.nickname,
+            number: item.number,
           })
         );
       });

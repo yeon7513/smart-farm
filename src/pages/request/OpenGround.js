@@ -44,24 +44,34 @@ const options = {
       label: "기상 스테이션",
     },
   ],
-  "기타 장비": [
+  "지상용 드론": [
     {
-      id: "groundBasedDrone",
-      value: "지상용 드론",
-      label: "지상용 드론",
+      id: "quadcopter",
+      value: "쿼드콥터",
+      label: "쿼드콥터",
     },
     {
-      id: "tractor",
-      value: "트랙터",
-      label: "트랙터",
+      id: "hexacopter",
+      value: "헥사콥터",
+      label: "헥사콥터",
+    },
+  ],
+  트랙터: [
+    {
+      id: "xmforxj1",
+      value: "트랙터1",
+      label: "트랙터1",
+    },
+    {
+      id: "txmforxj2",
+      value: "트랙터2",
+      label: "트랙터2",
     },
   ],
 };
 
 function OpenGround({ additionalOptions = {}, handleAdditionalOptionsChange }) {
-  const checkedOptions = Array.isArray(additionalOptions)
-    ? additionalOptions
-    : [];
+  const checkedOptions = additionalOptions || [];
   return (
     <>
       {Object.keys(options).map((category) => (
@@ -73,7 +83,7 @@ function OpenGround({ additionalOptions = {}, handleAdditionalOptionsChange }) {
                 type="checkbox"
                 id={option.id}
                 value={option.value}
-                checked={checkedOptions.includes(option.value)}
+                checked={checkedOptions[option.value] || false}
                 onChange={handleAdditionalOptionsChange}
               />
               <label htmlFor={option.id}>{option.label}</label>

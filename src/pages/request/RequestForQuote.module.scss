@@ -1,42 +1,77 @@
-input {
-  width: auto;
-}
+.container {
+  h2 {
+    text-align: center;
+  }
 
-.id,
-.paymentDate,
-.requestDate,
-.farmAddress,
-.farmName,
-.farmArea,
-.farmEquivalent,
-.cropType {
-  padding: 8px 0;
+  .btns {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
 
-  input {
-    border: 1px solid #d9d9d9;
-    margin-top: 4px;
-    padding: 4px;
-    border-radius: 2px;
-    box-shadow: 0 2px 4px rgba(0 0 0 / 20%);
+    > button {
+      padding: 16px 48px;
+      font-size: 20px;
+      border-radius: 10px;
 
-    &:focus {
-      border: 1px solid #000;
+      &.submit {
+        background-color: var(--common-color);
+
+        &:hover {
+          background-color: var(--hover-color);
+          color: var(--main-color);
+        }
+      }
+
+      &.cancel {
+        background-color: #eee;
+
+        &:hover {
+          background-color: #ddd;
+        }
+      }
     }
   }
 }
-// button {
-//   width: 100%;
-//   padding: 8px;
+
+// input {
+//   width: auto;
 // }
 
-select {
-  height: 24px;
-  margin-top: 4px;
-  padding: 4px;
-}
+// .id,
+// .paymentDate,
+// .requestDate,
+// .farmAddress,
+// .farmName,
+// .farmArea,
+// .farmEquivalent,
+// .cropType {
+//   padding: 8px 0;
 
-input[type="checkbox"] {
-  margin: 0px;
-  appearance: checkbox;
-  margin-right: 4px;
-}
+//   input {
+//     border: 1px solid #d9d9d9;
+//     margin-top: 4px;
+//     padding: 4px;
+//     border-radius: 2px;
+//     box-shadow: 0 2px 4px rgba(0 0 0 / 20%);
+
+//     &:focus {
+//       border: 1px solid #000;
+//     }
+//   }
+// }
+// // button {
+// //   width: 100%;
+// //   padding: 8px;
+// // }
+
+// select {
+//   height: 24px;
+//   margin-top: 4px;
+//   padding: 4px;
+// }
+
+// input[type="checkbox"] {
+//   margin: 0px;
+//   appearance: checkbox;
+//   margin-right: 4px;
+// }

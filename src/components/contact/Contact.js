@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { IoIosCreate, IoIosInformationCircle } from 'react-icons/io';
 import { IoChatbubbles } from 'react-icons/io5';
 import { PiFarmFill } from 'react-icons/pi';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { getUserAuth } from '../../api/firebase';
 import styles from './Contact.module.scss';
 
@@ -80,7 +80,9 @@ function Contact() {
           ref={tooltipRef}
           onClick={showCallNumber}
         >
+          <Link to ="/ChatRoom">
           <IoChatbubbles />
+          </Link>
         </button>
       </div>
     </div>
