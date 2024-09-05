@@ -15,7 +15,6 @@ import {
   updateDoc,
 } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
-import { setLike, updateFaq } from "../../../store/faq-data/faqDataSlice";
 
 function Faq() {
   const dispatch = useDispatch();

@@ -14,46 +14,28 @@ const faqDataSlice = createSlice({
   name: "faqData",
   initialState,
   reducers: {
-    setFaqData: (state, action) => {
-      state.id = action.payload;
-      state.question = action.payload;
-      state.answer = action.payload;
-      state.likes = action.payload;
-      state.views = action.payload;
-
-      localStorage.setItem("faqData", JSON.stringify(state));
+    setFaqData: (action) => {
+      return action.payload;
     },
     updateFaq: (state, action) => {
-      state.id = action.payload;
-      state.question = action.payload;
-      state.answer = action.payload;
-      state.likes = action.payload;
-      state.views = action.payload;
-
-      localStorage.setItem("faqData", JSON.stringify(state));
+      return state.map((faq) =>
+        faq.id === action.payload.id ? action.payload : faq
+      );
     },
-    // setLike: (state, action) => {
-    //   // action.payload는 객체여야 한다고 가정합니다.
-    //   const { id, question, answer, likes, views } = action.payload;
-    //   state.id = id;
-    //   state.question = question;
-    //   state.answer = answer;
-    //   state.likes = likes;
-    //   state.views = views;
-
-    //   localStorage.setItem("faqData", JSON.stringify(state));
-    // },
-    // removeLike: (state, action) => {
-    //   // action.payload는 객체여야 한다고 가정합니다.
-    //   const { id, question, answer, likes, views } = action.payload;
-    //   state.id = id;
-    //   state.question = question;
-    //   state.answer = answer;
-    //   state.likes = likes;
-    //   state.views = views;
-
-    //   localStorage.setItem("faqData", JSON.stringify(state));
-    // },
+    setLike: (state, action) => {
+      return state.map((faq) =>
+        faq.id === action.payload.id
+          ? { ...faq, liked: action.payload.liked, likes: action.payload.likes }
+          : faq
+      );
+    },
+    removeLike: (state, action) => {
+      return state.map((faq) =>
+        faq.id === action.payload.id
+          ? { ...faq, liked: action.payload.liked, likes: action.payload.likes }
+          : faq
+      );
+    },
   },
 });
 
