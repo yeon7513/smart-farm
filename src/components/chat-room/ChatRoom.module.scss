@@ -10,7 +10,7 @@
 } */
 
 .wrapper {
-    background-color: #fcf8f3;
+    background-color: var(--main-color);
     padding: 50px;
     border-radius: 20px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -27,7 +27,7 @@
 
   header, footer {
     font-size: 16px;
-  background-color: #a2ca71;
+  background-color: var(--common-color);
   position: absolute;
   left: 0;
   /* color:#fcf8f3; */
@@ -47,10 +47,10 @@
       right: 10px;
       border-radius: 10px;
       padding: 14px;
-      background-color: #a2ca71;
+      background-color: var(--common-color);
   
       &:hover {
-          background-color: #669900;
+          background-color: var(--hover-color);
         }
 
         footer {
@@ -98,13 +98,13 @@
     margin: 10px;
     padding: 10px 15px;
     border: none;
-    background-color: #a2ca71;
-    color: #fcf8f3;
+    background-color: var(--common-color);
+    color: var(--main-color);
     border-radius: 5px;
     cursor: pointer;
 
     &:hover {
-        background-color: #669900;
+        background-color: var(--hover-color);
       }
   }
 
@@ -112,9 +112,9 @@
   .answerArea {
     margin-top: 80px;
     padding: 10px;
-    border-top: 1px solid #ddd;
+    border-top: 1px solid var(--main-color);
     min-height: 50px;
-    background-color: #a2ca71;
+    background-color: var(--common-color);
   }
   /* src/App.css */
   /* body {
@@ -140,8 +140,8 @@
     padding: 10px;
     border-top: 1px solid #ddd;
     min-height: 50px;
-    background-color: #669900;
-    color: #fcf8f3;
+    background-color: var(--hover-color);
+    color: var(--main-color);
     border-radius: 12px;
   }
   
