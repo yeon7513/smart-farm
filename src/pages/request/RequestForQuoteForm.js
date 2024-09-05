@@ -46,7 +46,7 @@ function RequestForQuoteForm({ addEstimate, user }) {
         delete updatedOptions[value];
       } else {
         // updatedOptions[value] = true; // 값을 true로 설정하거나 필요한 값을 설정합니다.
-        updatedOptions[value] = value; // 값을 true로 설정하거나 필요한 값을 설정합니다.
+        updatedOptions[value] = value;
       }
       //   console.log(Object.keys(updatedOptions));
       console.log(updatedOptions);
