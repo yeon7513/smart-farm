@@ -4,7 +4,7 @@ import down from "../../../../src/assets/arrow/down.png";
 import up from "../../../../src/assets/arrow/up.png";
 import styles from "./Faq.module.scss";
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { db } from "../../../api/firebase";
 import {
@@ -15,9 +15,10 @@ import {
   updateDoc,
 } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
-import { dispatch } from "d3";
+import { setLike, updateFaq } from "../../../store/faq-data/faqDataSlice";
 
 function Faq() {
+  const dispatch = useDispatch();
   const auth = getAuth();
   const navigate = useNavigate();
   const [openId, setOpenId] = useState(null);
@@ -97,6 +98,7 @@ function Faq() {
     });
 
     dispatch(setFaqData(updatedData));
+    localStorage.setItem("faqData", JSON.stringify(updatedData));
   };
 
   const toggleLike = async (id) => {
