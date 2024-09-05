@@ -65,7 +65,7 @@ function Board({ nopost, category }) {
     <div className={styles.container}>
       {/* 글쓰기 모드 */}
       {isWriting ? (
-        <Post onClick={notPosting} />
+        <Post onClick={notPosting} onSubmit={addPost} category={category} />
       ) : (
         <>
           <div className={styles.col}>

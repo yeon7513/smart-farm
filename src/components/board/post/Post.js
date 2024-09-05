@@ -1,23 +1,23 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import styles from "./Post.module.scss";
-import { addBoardDatas } from "../../../api/firebase/board";
+import { addBoardDatas, uploadImage } from "../../../api/firebase/board";
 import { getUserAuth } from "../../../api/firebase";
+import { ref } from "firebase/storage";
 
 const loginUser = JSON.parse(localStorage.getItem("user"));
 
 const INITIAL_VALUE = {
   title: "",
-  userId: loginUser.nickName,
+  // userId: loginUser.nick,
   count: 0,
   summary: "",
-  imgUrl: null,
-  createAt: new Date().toISOString(),
-  id: "",
+  createAt: new Date().toISOString().split("T")[0],
 };
 
-function Post({ onClick, category, initialValue = INITIAL_VALUE }) {
+function Post({ onClick, onSubmit, category, initialValue = INITIAL_VALUE }) {
   const [values, setValues] = useState(initialValue);
   const [file, setFile] = useState(null);
+  const fileInputRef = useRef(null);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -25,15 +25,37 @@ function Post({ onClick, category, initialValue = INITIAL_VALUE }) {
   };
 
   const handleFileChange = (e) => {
-    setFile(e.target.files[0]);
+    const imgFile = e.target.files[0];
+    setFile(imgFile);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const addObj = { ...values, imgUrl: file };
-    const result = await addBoardDatas(category, addObj);
+    let imgUrl = "";
 
-    setValues(result);
+    if (file) {
+      const fileName = `${new Date().getTime()}_${file.name}`;
+      imgUrl = await uploadImage(`board/${fileName}`, file);
+    }
+
+    const addObj = { ...values, imgUrl };
+
+    try {
+      // 게시글 데이터베이스에 추가
+      const result = await addBoardDatas(category, addObj);
+      if (result) {
+        onSubmit(result); // Board 컴포넌트로 새로운 게시글 전달
+        setValues(INITIAL_VALUE); // 폼 리셋
+        setFile(null); // 파일 상태 리셋
+        if (fileInputRef.current) {
+          fileInputRef.current.value = "";
+        }
+      } else {
+        alert("게시글 등록에 실패했습니다.");
+      }
+    } catch (error) {
+      console.error("전송 에러", error);
+    }
   };
 
   return (
@@ -66,7 +88,8 @@ function Post({ onClick, category, initialValue = INITIAL_VALUE }) {
           있으며, 해당 아이디가 정지 처리될 수 있습니다.
         </b>
         <div className={styles.file}>
-          <p>첨부:</p> <input type="file" onChange={handleFileChange} />
+          <p>첨부:</p>{" "}
+          <input type="file" onChange={handleFileChange} ref={fileInputRef} />
         </div>
 
         <div className={styles.btn}>

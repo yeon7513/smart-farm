@@ -10,8 +10,9 @@ import {
   query,
   runTransaction,
 } from "firebase/firestore";
-import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
 import { getCollection } from "../firebase";
+import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
+import { createPath } from "react-router-dom";
 
 const firebaseConfig = {
   apiKey: "AIzaSyBz9TEYoPHVv_Lz28BzcTa1DrLMI7wnBWc",
@@ -36,15 +37,6 @@ export async function getBoardDatas(collectionName) {
   }));
 
   return resultData;
-}
-
-async function uploadImage(path, imgFile) {
-  const storage = getStorage();
-  const imageRef = ref(storage, path);
-  await uploadBytes(imageRef, imgFile);
-  // 저장한 File의 url 가져오기
-  const url = await getDownloadURL(imageRef);
-  return url;
 }
 
 // export async function addBoardDatas(collectionName, dataObj) {
@@ -73,6 +65,16 @@ async function uploadImage(path, imgFile) {
 //     return false;
 //   }
 // }
+
+export async function uploadImage(path, imgFile) {
+  const storage = getStorage();
+  const imageRef = ref(storage, path);
+  await uploadBytes(imageRef, imgFile);
+  const url = await getDownloadURL(imageRef);
+  console.log("업로드된 이미지 URL: ", url);
+  return url;
+}
+
 async function getLastNum(collectionName, field) {
   const q = query(
     collection(db, collectionName),
@@ -87,29 +89,29 @@ async function getLastNum(collectionName, field) {
   return lastNum;
 }
 
-export async function addBoardDatas(collectionName, dataObj) {
+export async function addBoardDatas(collectionName, addObj) {
   try {
-    if (dataObj.imgUrl) {
-      const url = await uploadImage(dataObj.imgUrl);
-      dataObj.imgUrl = url;
-    }
+    const path = `board/${addObj.imgUrl.name}`; // Adjusted path
+    const url = await uploadImage(path, addObj.imgUrl);
+    addObj.imgUrl = url;
 
+    // No 필드를 최신 값에서 1 증가시키기
     const resultData = await runTransaction(db, async (tr) => {
-      // No 필드를 최신 값에서 1 증가시키기
       const lastId = (await getLastNum(collectionName, "id")) + 1;
-      dataObj.id = lastId;
+      addObj.id = lastId;
 
       // 데이터베이스에 새 문서 추가
-      const docRef = await addDoc(collection(db, collectionName), dataObj);
+      const docRef = await addDoc(collection(db, collectionName), addObj);
       const snapshot = await getDoc(docRef);
-      return snapshot.exists()
+      const docData = snapshot.exists()
         ? { ...snapshot.data(), docId: snapshot.id, collection: collectionName }
         : null;
+      return docData;
     });
 
     return resultData;
   } catch (error) {
-    console.error("Error in addBoardDatas: ", error);
+    console.error("addBoardDatas 에러: ", error);
     return false;
   }
 }

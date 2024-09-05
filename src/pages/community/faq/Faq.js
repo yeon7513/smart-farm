@@ -7,57 +7,77 @@ import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { db } from "../../../api/firebase";
-import { collection, doc, getDocs, updateDoc } from "firebase/firestore";
+import {
+  collection,
+  doc,
+  getDoc,
+  getDocs,
+  updateDoc,
+} from "firebase/firestore";
+import { getAuth } from "firebase/auth";
 
 function Faq() {
+  const auth = getAuth();
   const navigate = useNavigate();
   const [openId, setOpenId] = useState(null);
   const [faqData, setFaqData] = useState([]);
   const { isAuthenticated } = useSelector((state) => state.userSlice);
 
   useEffect(() => {
-    const fetchFaqData = async () => {
+    fetchFaqData();
+  }, [isAuthenticated]);
+
+  const fetchFaqData = async () => {
+    try {
       const cachedData = localStorage.getItem("faqData");
       if (cachedData) {
         setFaqData(JSON.parse(cachedData));
         console.log("캐시된 FAQ 데이터가 로드되었습니다.");
       } else {
-        try {
-          const faqCollectionRef = collection(db, "faq");
-          const faqSnapshot = await getDocs(faqCollectionRef);
-          const faqList = faqSnapshot.docs.map((doc) => ({
-            id: doc.id,
-            ...doc.data(),
-          }));
-          setFaqData(faqList);
-        } catch (error) {
-          console.error("FAQ 데이터 로드 중 오류 발생:", error);
-        }
-      }
-      try {
         const faqCollectionRef = collection(db, "faq");
         const faqSnapshot = await getDocs(faqCollectionRef);
         const faqList = faqSnapshot.docs.map((doc) => ({
           id: doc.id,
           ...doc.data(),
         }));
-        setFaqData(faqList);
-        console.log("FAQ 데이터가 Firestore에서 성공적으로 로드되었습니다.");
-        console.log("FAQ 데이터: ", faqList); // 데이터 확인용
-      } catch (error) {
-        console.error("FAQ 데이터 로드 중 오류 발생: ", error);
-      }
-    };
 
-    fetchFaqData();
-  }, []);
+        // Firestore에서 사용자의 좋아요 상태를 가져와서 데이터에 추가합니다.
+        if (isAuthenticated) {
+          const userId = auth.currentUser?.uid;
+          if (userId) {
+            const userRef = doc(db, "users", userId);
+            const userDoc = await getDoc(userRef);
+            const userLikes = userDoc.data()?.liked || {};
+
+            const updatedFaqList = faqList.map((faq) => ({
+              ...faq,
+              liked: !!userLikes[faq.id],
+            }));
+
+            setFaqData(updatedFaqList);
+            localStorage.setItem("faqData", JSON.stringify(updatedFaqList));
+          } else {
+            setFaqData(faqList);
+            localStorage.setItem("faqData", JSON.stringify(faqList));
+          }
+        } else {
+          setFaqData(faqList);
+          localStorage.setItem("faqData", JSON.stringify(faqList));
+        }
+
+        console.log("FAQ 데이터가 Firestore에서 성공적으로 로드되었습니다.");
+      }
+    } catch (error) {
+      console.error("FAQ 데이터 로드 중 오류 발생:", error);
+    }
+  };
 
   const toggleVisibility = (id) => {
     setOpenId((prevId) => (prevId === id ? null : id));
   };
 
   // 조회수를 증가시키는 함수
-  const incrementViews = (id) => {
+  const incrementViews = async (id) => {
     setFaqData((prevData) => {
       const updatedData = prevData.map((item) =>
         item.id === id
@@ -101,28 +121,26 @@ function Faq() {
     );
 
     // Firestore에 좋아요 수를 업데이트합니다.
-    const docRef = doc(db, "faq", "id");
+    const docRef = doc(db, "faq", id.toString());
+    const userId = auth.currentUser?.uid;
+
+    if (!userId) return;
+
     try {
       await updateDoc(docRef, {
         likes: updatedData.find((item) => item.id === id).likes,
       });
-      console.log("좋아요 수가 성공적으로 업데이트되었습니다.");
-    } catch (error) {
-      console.error("좋아요 수 업데이트에 실패했습니다: ", error);
-    }
 
-    // Firestor의 "users" 컬렉션에 좋아요 한 게시글을 업데이트합니다.
-    const userId = doc.id;
-    const userRef = doc(db, "users", userId);
-    try {
+      const userRef = doc(db, "users", userId);
       await updateDoc(userRef, {
-        [`liked.${id}`]: updatedData.find((item) => item.id === id).liked,
+        [`liked.${id}`]: !faqData.find((item) => item.id === id).liked,
       });
+
       console.log("좋아요가 반영되었습니다.");
+      setFaqData(updatedData);
     } catch (error) {
-      console.error("좋아요가 반영되지 않았습니다.", error);
+      console.error("좋아요 반영 실패:", error);
     }
-    return updatedData;
   };
 
   const youHaveToSignIn = () => {

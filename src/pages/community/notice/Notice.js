@@ -6,14 +6,12 @@ import { notice } from "../../../lib/post";
 import { getBoardDatas } from "../../../api/firebase/board";
 
 function Notice() {
-  const [state, setState] = useState(false);
-
   return (
     <div>
       <h2 className={styles.community}>공지사항</h2>
       <p>- 게시판 규칙, 업데이트 소식 등을 안내해드립니다.</p>
       <div>
-        <Board category={"notice"} nopost={state} />
+        <Board category={"notice"} nopost={false} complain={false} />
         <Outlet />
       </div>
     </div>
