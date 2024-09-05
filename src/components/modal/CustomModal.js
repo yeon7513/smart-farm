@@ -17,9 +17,11 @@ function CustomModal({
       <div className={cn(styles.customModal, className)}>
         <div className={styles.header}>
           <h2 className={styles.customTitle}>{title}</h2>
-          <button className={styles.closeBtn} onClick={handleClose}>
-            닫기
-          </button>
+          {!btnHandler && (
+            <button className={styles.closeBtn} onClick={handleClose}>
+              닫기
+            </button>
+          )}
         </div>
         <div className={styles.content}>{children}</div>
         {btnHandler && (

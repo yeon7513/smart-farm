@@ -4,7 +4,7 @@ import down from "../../../../src/assets/arrow/down.png";
 import up from "../../../../src/assets/arrow/up.png";
 import styles from "./Faq.module.scss";
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { db } from "../../../api/firebase";
 import {
@@ -15,10 +15,10 @@ import {
   updateDoc,
 } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
-import { dispatch } from "d3";
 
 function Faq() {
   const auth = getAuth();
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const [openId, setOpenId] = useState(null);
   const [faqData, setFaqData] = useState([]);
@@ -32,8 +32,9 @@ function Faq() {
     try {
       const cachedData = localStorage.getItem("faqData");
       if (cachedData) {
-        dispatch(setFaqData(JSON.parse(cachedData)));
-        console.log("캐시된 FAQ 데이터가 로드되었습니다.");
+        const parsedData = JSON.parse(cachedData);
+        console.log("Parsed Cached Data:", parsedData); // 캐시된 데이터를 확인합니다.
+        dispatch(setFaqData(parsedData));
       } else {
         const faqCollectionRef = collection(db, "faq");
         const faqSnapshot = await getDocs(faqCollectionRef);
@@ -97,6 +98,7 @@ function Faq() {
     });
 
     dispatch(setFaqData(updatedData));
+    localStorage.setItem("faqData", JSON.stringify(updatedData));
   };
 
   const toggleLike = async (id) => {
@@ -133,6 +135,7 @@ function Faq() {
 
       console.log("좋아요가 반영되었습니다.");
       dispatch(setFaqData(updatedData));
+      localStorage.setItem("faqData", JSON.stringify(updatedData));
     } catch (error) {
       console.error("좋아요 반영 실패:", error);
     }

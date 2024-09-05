@@ -7,7 +7,7 @@ import { getUserAuth } from "../../api/firebase";
 
 const PAGE_SIZE = 10;
 
-function Board({ nopost, category }) {
+function Board({ nopost, category, complain }) {
   const navigate = useNavigate();
   const [currentPage, setCurrentPage] = useState(1);
   const [isWriting, setIsWriting] = useState(false); // 글쓰기 모드 상태
@@ -16,8 +16,7 @@ function Board({ nopost, category }) {
   const user = auth.currentUser; // 현재 로그인된 사용자 정보 가져오기
 
   const totalPages = Math.ceil(view.length / PAGE_SIZE);
-  const reversedItem = [...view].reverse();
-  const currentItem = reversedItem.slice(
+  const currentItem = view.slice(
     (currentPage - 1) * PAGE_SIZE,
     currentPage * PAGE_SIZE
   );
@@ -82,7 +81,7 @@ function Board({ nopost, category }) {
                 <Link
                   key={idx}
                   to={`/community/${item.collection}/${item.id}`}
-                  state={{ ...item }}
+                  state={{ ...item, complain }}
                 >
                   <li id={view.length - ((currentPage - 1) * PAGE_SIZE + idx)}>
                     <div>{item.id}</div>
