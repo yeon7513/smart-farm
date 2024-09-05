@@ -1,6 +1,7 @@
 import React from "react";
 import styles from "./Form.module.scss";
 import { useForm } from "react-hook-form";
+import { Box, Button, FormControl, TextField } from "@mui/material";
 
 function Form({
   title,
@@ -36,33 +37,31 @@ function Form({
 
   return (
     <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
-      <div>
-        <input
-          type="email"
-          placeholder={placeholder1}
-          autoComplete="off"
-          {...register("email", userEmail)}
-        />
-        {errors?.email && (
-          <div>
-            <span className={styles.form_error}>{errors.email.message}</span>
-          </div>
-        )}
-      </div>
-      <div>
-        <input
-          type="password"
-          placeholder={placeholder2}
-          autoComplete="off"
-          {...register("password", userPassword)}
-        />
-        {errors?.password && (
-          <div>
-            <span className={styles.form_error}>{errors.password.message}</span>
-          </div>
-        )}
-      </div>
-      <button>{title}</button>
+      <TextField
+        type="email"
+        label={"이메일 주소"}
+        autoComplete="off"
+        {...register("email", userEmail)}
+      />
+      {errors?.email && (
+        <div>
+          <span className={styles.form_error}>{errors.email.message}</span>
+        </div>
+      )}
+
+      <TextField
+        type="password"
+        label={"비밀번호 (숫자+영문자+특수문자 8자리 이상)"}
+        autoComplete="off"
+        {...register("password", userPassword)}
+      />
+      {errors?.password && (
+        <div>
+          <span className={styles.form_error}>{errors.password.message}</span>
+        </div>
+      )}
+
+      <Button>{title}</Button>
       {firebaseError && <span className={styles.form_error}>에러메세지</span>}
     </form>
   );
