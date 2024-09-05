@@ -46,14 +46,14 @@ const options = {
   ],
   "지상용 드론": [
     {
-      id: "emfhs1",
-      value: "지상용 드론1",
-      label: "지상용 드론1",
+      id: "controlDrone",
+      value: "방제용 드론",
+      label: "방제용 드론",
     },
     {
-      id: "emfhs2",
-      value: "지상용 드론2",
-      label: "지상용 드론2",
+      id: "pharmaceuticalDrone",
+      value: "약제용 드론",
+      label: "약제용 드론",
     },
   ],
   트랙터: [
