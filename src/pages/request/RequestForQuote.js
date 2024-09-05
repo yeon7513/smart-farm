@@ -1,8 +1,8 @@
-import React from 'react';
-// import { useNavigate } from 'react-router-dom';
-import Container from '../../components/layout/container/Container';
-// import RequestForm from './request-form/RequestForm';
-import styles from './RequestForQuote.module.scss';
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import Container from "../../components/layout/container/Container";
+import RequestForm from "./request-form/RequestForm";
+import styles from "./RequestForQuote.module.scss";
 
 function RequestForQuote() {
   // user 상태를 선언합니다.
@@ -10,13 +10,13 @@ function RequestForQuote() {
   // const [date, setDate] = useState('');
 
   // 결제정보 저장 state
-  // const [requestData, setRequestData] = useState();
+  const [requestData, setRequestData] = useState();
 
   // 취소용
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
 
   // 유저 정보 불러오기
-  // const user = JSON.parse(localStorage.getItem('user'));
+  const user = JSON.parse(localStorage.getItem("user"));
 
   // useEffect(() => {
   //   const today = new Date();
@@ -67,9 +67,9 @@ function RequestForQuote() {
   // };
 
   // 결제 버튼 (임시로 콘솔에 결제정보가 나오는지 해놨어요.)
-  // const handleSubmitRequest = () => {
-  //   console.log(requestData);
-  // };
+  const handleSubmitRequest = () => {
+    console.log(requestData);
+  };
 
   return (
     <Container className={styles.container}>
@@ -83,15 +83,16 @@ function RequestForQuote() {
       사용자가 회원가입 시 사용한 내용을 출력해 다시 입력하지 않습니다. &nbsp;
       5. 비회원은 견적요청 아이디만 알려주고 마이페이지에서 조회할 때 사용(요청
       아이디를 꼭 알고 있어야 됨) */}
-      {/* <RequestForm user={user} onSubmit={setRequestData} />
+      <RequestForm user={user} onSubmit={setRequestData} />
+      {/* Form을 추가할 수 있음 (Redux로 관리하기??) */}
       <div className={styles.btns}>
         <button className={styles.submit} onClick={handleSubmitRequest}>
           결제
         </button>
-        <button className={styles.cancel} onClick={() => navigate('-1')}>
+        <button className={styles.cancel} onClick={() => navigate("-1")}>
           취소
         </button>
-      </div> */}
+      </div>
       {/* <RequestForQuoteForm addEstimate={addEstimate} user={user} /> */}
     </Container>
   );

@@ -105,7 +105,7 @@ function Nav() {
                   <NavLink path={"/manager"}>관리자</NavLink>
                 ) : (
                   <>
-                    <p>{loginUser.nick}님, 환영합니다.</p>
+                    <p>{loginUser.name}님, 환영합니다.</p>
                     <NavLink path={"/my-farm"}>내 농장</NavLink>
                     <NavLink path={"/mypage"}>마이페이지</NavLink>
                   </>
