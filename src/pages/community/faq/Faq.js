@@ -32,8 +32,9 @@ function Faq() {
     try {
       const cachedData = localStorage.getItem("faqData");
       if (cachedData) {
-        dispatch(setFaqData(JSON.parse(cachedData)));
-        console.log("캐시된 FAQ 데이터가 로드되었습니다.");
+        const parsedData = JSON.parse(cachedData);
+        console.log("Parsed Cached Data:", parsedData); // 캐시된 데이터를 확인합니다.
+        dispatch(setFaqData(parsedData));
       } else {
         const faqCollectionRef = collection(db, "faq");
         const faqSnapshot = await getDocs(faqCollectionRef);
