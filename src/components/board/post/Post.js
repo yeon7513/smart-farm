@@ -3,12 +3,12 @@ import styles from "./Post.module.scss";
 import { addBoardDatas, uploadImage } from "../../../api/firebase/board";
 import { getUserAuth } from "../../../api/firebase";
 import { ref } from "firebase/storage";
+import { useNavigate } from "react-router-dom";
 
 const loginUser = JSON.parse(localStorage.getItem("user"));
 
 const INITIAL_VALUE = {
   title: "",
-  userId: loginUser.nick,
   count: 0,
   summary: "",
   createAt: new Date().toISOString().split("T")[0],
@@ -18,6 +18,8 @@ function Post({ onClick, onSubmit, category, initialValue = INITIAL_VALUE }) {
   const [values, setValues] = useState(initialValue);
   const [file, setFile] = useState(null);
   const fileInputRef = useRef(null);
+  const navigate = useNavigate();
+  const [isSubmitting, setIsSubmitting] = useState(false); // 로딩 상태
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -31,25 +33,24 @@ function Post({ onClick, onSubmit, category, initialValue = INITIAL_VALUE }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    let imgUrl = "";
 
-    if (file) {
-      const fileName = `${new Date().getTime()}_${file.name}`;
-      imgUrl = await uploadImage(`board/${fileName}`, file);
-    }
-
-    const addObj = { ...values, imgUrl };
+    const addObj = {
+      ...values,
+      imgUrl: file,
+      userId: loginUser.nick,
+    };
 
     try {
       // 게시글 데이터베이스에 추가
       const result = await addBoardDatas(category, addObj);
       if (result) {
-        onSubmit(result); // Board 컴포넌트로 새로운 게시글 전달
-        setValues(INITIAL_VALUE); // 폼 리셋
-        setFile(null); // 파일 상태 리셋
+        onSubmit(result);
+        setValues(INITIAL_VALUE);
+        setFile(null);
         if (fileInputRef.current) {
           fileInputRef.current.value = "";
         }
+        navigate(`/community/${category}/${result.id}`, { state: result });
       } else {
         alert("게시글 등록에 실패했습니다.");
       }
@@ -94,7 +95,11 @@ function Post({ onClick, onSubmit, category, initialValue = INITIAL_VALUE }) {
 
         <div className={styles.btn}>
           <div>
-            <button type="submit" className={styles.sub}>
+            <button
+              type="submit"
+              className={styles.sub}
+              disabled={isSubmitting}
+            >
               작성완료
             </button>
             <button className={styles.delete} onClick={onClick}>
