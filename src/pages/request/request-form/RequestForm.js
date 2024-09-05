@@ -1,12 +1,12 @@
-import React, { useState } from 'react';
-import SearchAddr from '../../../components/search-addr/SearchAddr';
-import { installation } from '../../../lib/requestOption';
-import styles from './RequestForm.module.scss';
-import RequestOptions from './request-options/RequestOptions';
+import React, { useState } from "react";
+import SearchAddr from "../../../components/search-addr/SearchAddr";
+import { installation } from "../../../lib/requestOption";
+import styles from "./RequestForm.module.scss";
+import RequestOptions from "./request-options/RequestOptions";
 
 function RequestForm({ user, onSubmit }) {
-  const [farmAddr, setFarmAddr] = useState('');
-  const [option, setOption] = useState('facility');
+  const [farmAddr, setFarmAddr] = useState("");
+  const [option, setOption] = useState("facility");
 
   const handleGetAddr = (addr) => {
     setFarmAddr(addr);
@@ -42,18 +42,13 @@ function RequestForm({ user, onSubmit }) {
       </div>
       <div className={styles.farmName}>
         <h3>농장 이름</h3>
-        <input type="text" placeholder={'농장 이름을 입력해주세요.'} />
+        <input type="text" placeholder={"농장 이름을 입력해주세요."} />
       </div>
       <div>
         <h3>시설원예 혹은 노지 선택</h3>
         <select onChange={handleOptionChange}>
           <option value="facility">시설원예</option>
           <option value="openGround">노지</option>
-        </select>
-
-        <select>
-          <option value="시설원예">시설원예</option>
-          <option value="노지">노지</option>
         </select>
       </div>
       <div className={styles.farmArea}>
@@ -82,6 +77,7 @@ function RequestForm({ user, onSubmit }) {
         <RequestOptions option={installation[option]} />
       </div>
       <button>결제</button>
+      <button>추가 의뢰</button>
     </form>
   );
 }
