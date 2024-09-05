@@ -22,13 +22,13 @@ function Faq() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [openId, setOpenId] = useState(null);
-  const faqData = useSelector((state) => state.faqData || []);
+  const faqData = useSelector((state) => state.faqDataSlice || {});
   const { isAuthenticated } = useSelector((state) => state.userSlice);
 
   useEffect(() => {
     const fetchFaqData = async () => {
       try {
-        const cachedData = localStorage.getItem("faqData");
+        const cachedData = localStorage.getItem("faq");
         if (cachedData) {
           const parsedData = JSON.parse(cachedData);
           console.log("Parsed Cached Data:", parsedData); // 캐시된 데이터를 확인합니다.
@@ -72,7 +72,7 @@ function Faq() {
       }
     };
     fetchFaqData();
-  }, [isAuthenticated]);
+  }, [isAuthenticated, dispatch]);
 
   const toggleVisibility = (id) => {
     setOpenId((prevId) => (prevId === id ? null : id));
