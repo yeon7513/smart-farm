@@ -7,7 +7,13 @@ import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { db } from "../../../api/firebase";
-import { collection, doc, getDoc, getDocs, updateDoc } from "firebase/firestore";
+import {
+  collection,
+  doc,
+  getDoc,
+  getDocs,
+  updateDoc,
+} from "firebase/firestore";
 import { getAuth } from "firebase/auth";
 
 function Faq() {
@@ -18,9 +24,8 @@ function Faq() {
   const { isAuthenticated } = useSelector((state) => state.userSlice);
 
   useEffect(() => {
-      fetchFaqData();
+    fetchFaqData();
   }, [isAuthenticated]);
-    
 
   const fetchFaqData = async () => {
     try {
@@ -31,11 +36,10 @@ function Faq() {
       } else {
         const faqCollectionRef = collection(db, "faq");
         const faqSnapshot = await getDocs(faqCollectionRef);
-        const faqList = faqSnapshot.docs.map(doc => ({
+        const faqList = faqSnapshot.docs.map((doc) => ({
           id: doc.id,
           ...doc.data(),
         }));
-
 
         // Firestore에서 사용자의 좋아요 상태를 가져와서 데이터에 추가합니다.
         if (isAuthenticated) {
@@ -44,12 +48,12 @@ function Faq() {
             const userRef = doc(db, "users", userId);
             const userDoc = await getDoc(userRef);
             const userLikes = userDoc.data()?.liked || {};
-  
-            const updatedFaqList = faqList.map(faq => ({
+
+            const updatedFaqList = faqList.map((faq) => ({
               ...faq,
               liked: !!userLikes[faq.id],
             }));
-  
+
             setFaqData(updatedFaqList);
             localStorage.setItem("faqData", JSON.stringify(updatedFaqList));
           } else {
@@ -60,7 +64,7 @@ function Faq() {
           setFaqData(faqList);
           localStorage.setItem("faqData", JSON.stringify(faqList));
         }
-        
+
         console.log("FAQ 데이터가 Firestore에서 성공적으로 로드되었습니다.");
       }
     } catch (error) {
@@ -120,20 +124,24 @@ function Faq() {
     const docRef = doc(db, "faq", id.toString());
     const userId = auth.currentUser?.uid;
 
-if(!userId) return;
+    if (!userId) return;
 
-try {
-  await updateDoc(docRef, { likes: updatedData.find(item => item.id === id).likes });
+    try {
+      await updateDoc(docRef, {
+        likes: updatedData.find((item) => item.id === id).likes,
+      });
 
-  const userRef = doc(db, "users", userId);
-  await updateDoc(userRef, { [`liked.${id}`]: !faqData.find(item => item.id === id).liked });
+      const userRef = doc(db, "users", userId);
+      await updateDoc(userRef, {
+        [`liked.${id}`]: !faqData.find((item) => item.id === id).liked,
+      });
 
-  console.log("좋아요가 반영되었습니다.");
-  setFaqData(updatedData);
-} catch (error) {
-  console.error("좋아요 반영 실패:", error);
-}
-};
+      console.log("좋아요가 반영되었습니다.");
+      setFaqData(updatedData);
+    } catch (error) {
+      console.error("좋아요 반영 실패:", error);
+    }
+  };
 
   const youHaveToSignIn = () => {
     navigate("/login");
