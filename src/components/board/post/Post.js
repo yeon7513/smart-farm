@@ -8,7 +8,7 @@ const loginUser = JSON.parse(localStorage.getItem("user"));
 
 const INITIAL_VALUE = {
   title: "",
-  userId: loginUser.nick,
+  // userId: loginUser.nick,
   count: 0,
   summary: "",
   createAt: new Date().toISOString().split("T")[0],
