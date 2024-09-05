@@ -17,6 +17,8 @@ function PostView() {
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
 
+  const goComplain = () => setIsModalOpen(false);
+
   const updatePostCount = async () => {
     if (state?.collection && state?.docId) {
       try {
@@ -57,6 +59,8 @@ function PostView() {
                   btnName={"접수"}
                   handleClose={closeModal}
                   isOpen={isModalOpen}
+                  btnHandler={goComplain}
+                  className={styles.modal}
                 >
                   <Radio />
                 </CustomModal>

@@ -1,13 +1,36 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styles from "./InfoInput.module.scss";
 import { CiSearch } from "react-icons/ci";
-function InfoInput(props) {
+function InfoInput({ onSearch }) {
   const [selectedBig, setSelectedBig] = useState([]); // 첫 번째 셀렉트 박스의 옵션을 저장
   const [middleOptions, setMiddleOptions] = useState([]); // 두 번째 셀렉트 박스 옵션저장
   const [selectedMiddle, setSelectedMiddle] = useState([]); // 세 번째 셀렉트 박스 옵션저장.
   const [cropCode, setCropCode] = useState(""); // 최종적으로 선택된 작물 코드 저장
   const [items, setItems] = useState([]); // 조회된 결과 항목들을 저장.
+  const [inputValue, setInputValue] = useState("");
+  const lastSelectRef = useRef();
+  // const [isSearching, setIsSearching] = useState(false); // 검색 중 여부 저장
 
+  const handleInputChange = (e) => {
+    const value = e.target.value;
+    setInputValue(value);
+    // setIsSearching(value.length > 0);
+  };
+  // 입력창에서 Enter 키를 눌렀을 때 검색 실행
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") {
+      handleSearch();
+    }
+  };
+  const handleSearch = () => {
+    if (inputValue.length > 0) {
+      onSearch(inputValue); // 검색어를 부모 컴포넌트로 전달
+    } else {
+      onSearch(lastSelectRef.current.selectedOptions[0].text);
+    }
+
+    // setIsSearching(true);
+  };
   // 첫 번쨰 셀렉트 박스 변경 핸들러
   const handleBigChang = async (e) => {
     const value = e.target.value; //사용자가 선택한 대분류값
@@ -53,6 +76,7 @@ function InfoInput(props) {
       const result = await response.json();
       // 소분류 셀렉트 박스의 옵션을 설정
       setSelectedMiddle(result.service.srchKncrList3);
+      console.log(result.service.srchKncrList3);
     } catch (error) {
       console.error("There was a problem with the fetch operation:", error);
     }
@@ -63,12 +87,20 @@ function InfoInput(props) {
     const value = e.target.value; //사용자가 선택한 소분류 값
     console.log(value);
     setCropCode(value); //선택된 소분류 값으로 작물 코드 설정
+    // onSearch(e.target.selectedOptions[0].text);
   };
 
   const handleFullClick = async (e) => {
     const value = e.target.value;
     console.log(value); // 선택된 대분류 값을 콘솔에 출력
     const apiKey = "2024570e96d7a69a9e49dfeb7fdc9739177c";
+
+    // const handleInputChange = (e) => {
+    //   setInputValue(e.target.value);
+    // };
+    // const handleSearch = () => {
+    //   onSearch(inputValue); // Pass the search term back to the parent (DiseasesList)
+    // };
 
     try {
       // 선택된 작물 코드를 기반으로 작물 정보를 가져오는 API 호출
@@ -108,7 +140,7 @@ function InfoInput(props) {
         console.log(result);
         // 대분류 셀렉트 박스의 옵션을 설정
         setSelectedBig(result.service.srchKncrList1);
-        console.log(result.service.srchKncrList1);
+        // console.log(result.service.srchKncrList1);
       } catch (error) {
         console.error("There was a problem with the fetch operation:", error);
       }
@@ -123,8 +155,13 @@ function InfoInput(props) {
       <div className={styles.menu}>
         <div className={styles.input}>
           <div className={styles.input_item}>
-            <span>병/작물</span>
-            <input type="text" />
+            <span>작물명</span>
+            <input
+              type="text"
+              value={inputValue}
+              onChange={handleInputChange}
+              onKeyDown={handleKeyDown}
+            />
           </div>
         </div>
 
@@ -150,7 +187,7 @@ function InfoInput(props) {
               ))}
             </select>
             {/* 세번째 셀렉트박스 */}
-            <select onChange={handleSmallChange}>
+            <select onChange={handleSmallChange} ref={lastSelectRef}>
               {selectedMiddle.map((item, idx) => (
                 <option key={idx} value={item.sKncrCode3}>
                   {item.sKncrNm3}
@@ -161,7 +198,7 @@ function InfoInput(props) {
         </div>
       </div>
       <div className={styles.btn}>
-        <button onClick={handleFullClick}>
+        <button onClick={handleSearch}>
           <CiSearch />
           <span>조회</span>
         </button>

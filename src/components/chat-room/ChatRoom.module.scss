@@ -24,11 +24,13 @@
     margin-top: 16%;
     margin-left: 10%;
   position: fixed;
+  left: 10%;
+  top: 10%;
 
   header, footer {
     font-size: 16px;
   background-color: var(--common-color);
-  position: absolute;
+  position: fixed;
   left: 0;
   /* color:#fcf8f3; */
   }

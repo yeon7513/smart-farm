@@ -1,4 +1,4 @@
-import { Container } from "@mui/material";
+import { Avatar, Container, styled } from "@mui/material";
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import React, { useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
@@ -91,10 +91,15 @@ function LoginPage(props) {
       address: address,
     });
   };
+
   return (
     <Container className={styles.container}>
       <div className={styles.form}>
         <h1>로그인</h1>
+        <Avatar
+          sx={{ mb: 4, background: "secondary.main" }}
+          style={{ width: 80, height: 80 }}
+        />
         <SignIn />
         <button
           type="submit"
