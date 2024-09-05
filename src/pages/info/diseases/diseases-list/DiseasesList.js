@@ -98,7 +98,12 @@ function DiseasesList() {
                 <div className={styles.item_list}>
                   <Link
                     to={`/info/${item.cropCode}`} //클릭 시 해당 작물의 상세 정보 페이지로 이동한다.
-                    state={{ korName: item.korName, selectedType }} // 상태로 korName과 selectedType을 전달합니다.
+                    state={{
+                      korName: item.korName,
+                      cropName: item.cropName,
+                      selectedType,
+                      thumbImg: item.thumbImg,
+                    }} // 상태로 korName과 selectedType을 전달합니다.
                   >
                     <p className={styles.name}>{item.korName}</p>
                   </Link>
