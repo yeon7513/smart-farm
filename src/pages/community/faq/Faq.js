@@ -134,6 +134,7 @@ function Faq() {
 
       console.log("좋아요가 반영되었습니다.");
       dispatch(setFaqData(updatedData));
+      localStorage.setItem("faqData", JSON.stringify(updatedData));
     } catch (error) {
       console.error("좋아요 반영 실패:", error);
     }

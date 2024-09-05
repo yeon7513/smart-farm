@@ -1,14 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const initialState = localStorage.getItem("faqData")
-  ? JSON.parse(localStorage.getItem("faqData"))
-  : {
-      id: "",
-      question: "",
-      answer: "",
-      likes: 0,
-      views: 0,
-    };
+const initialState = [];
 
 const faqDataSlice = createSlice({
   name: "faqData",
