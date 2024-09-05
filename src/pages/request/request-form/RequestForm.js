@@ -32,7 +32,7 @@ function RequestForm({ user, onSubmit }) {
         <h3>신청인</h3>
         <div>
           <p>{user.name}</p>
-          <p>010-0000-0000</p>
+          <p>{user.number}</p>
         </div>
       </div>
 
