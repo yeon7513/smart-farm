@@ -26,54 +26,53 @@ function Faq() {
   const { isAuthenticated } = useSelector((state) => state.userSlice);
 
   useEffect(() => {
-    fetchFaqData();
-  }, [isAuthenticated]);
+    const fetchFaqData = async () => {
+      try {
+        const cachedData = localStorage.getItem("faqData");
+        if (cachedData) {
+          const parsedData = JSON.parse(cachedData);
+          console.log("Parsed Cached Data:", parsedData); // 캐시된 데이터를 확인합니다.
+          dispatch(setFaqData(parsedData));
+        } else {
+          const faqCollectionRef = collection(db, "faq");
+          const faqSnapshot = await getDocs(faqCollectionRef);
+          const faqList = faqSnapshot.docs.map((doc) => ({
+            id: doc.id,
+            ...doc.data(),
+          }));
 
-  const fetchFaqData = async () => {
-    try {
-      const cachedData = localStorage.getItem("faqData");
-      if (cachedData) {
-        const parsedData = JSON.parse(cachedData);
-        console.log("Parsed Cached Data:", parsedData); // 캐시된 데이터를 확인합니다.
-        dispatch(setFaqData(parsedData));
-      } else {
-        const faqCollectionRef = collection(db, "faq");
-        const faqSnapshot = await getDocs(faqCollectionRef);
-        const faqList = faqSnapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
+          // Firestore에서 사용자의 좋아요 상태를 가져와서 데이터에 추가합니다.
+          if (isAuthenticated) {
+            const userId = auth.currentUser?.uid;
+            if (userId) {
+              const userRef = doc(db, "users", userId);
+              const userDoc = await getDoc(userRef);
+              const userLikes = userDoc.data()?.liked || {};
 
-        // Firestore에서 사용자의 좋아요 상태를 가져와서 데이터에 추가합니다.
-        if (isAuthenticated) {
-          const userId = auth.currentUser?.uid;
-          if (userId) {
-            const userRef = doc(db, "users", userId);
-            const userDoc = await getDoc(userRef);
-            const userLikes = userDoc.data()?.liked || {};
+              const updatedFaqList = faqList.map((faq) => ({
+                ...faq,
+                liked: !!userLikes[faq.id],
+              }));
 
-            const updatedFaqList = faqList.map((faq) => ({
-              ...faq,
-              liked: !!userLikes[faq.id],
-            }));
-
-            dispatch(setFaqData(updatedFaqList));
-            localStorage.setItem("faqData", JSON.stringify(updatedFaqList));
+              dispatch(setFaqData(updatedFaqList));
+              localStorage.setItem("faqData", JSON.stringify(updatedFaqList));
+            } else {
+              dispatch(setFaqData(faqList));
+              localStorage.setItem("faqData", JSON.stringify(faqList));
+            }
           } else {
             dispatch(setFaqData(faqList));
             localStorage.setItem("faqData", JSON.stringify(faqList));
           }
-        } else {
-          dispatch(setFaqData(faqList));
-          localStorage.setItem("faqData", JSON.stringify(faqList));
-        }
 
-        console.log("FAQ 데이터가 Firestore에서 성공적으로 로드되었습니다.");
+          console.log("FAQ 데이터가 Firestore에서 성공적으로 로드되었습니다.");
+        }
+      } catch (error) {
+        console.error("FAQ 데이터 로드 중 오류 발생:", error);
       }
-    } catch (error) {
-      console.error("FAQ 데이터 로드 중 오류 발생:", error);
-    }
-  };
+    };
+    fetchFaqData();
+  }, [isAuthenticated]);
 
   const toggleVisibility = (id) => {
     setOpenId((prevId) => (prevId === id ? null : id));

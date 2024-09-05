@@ -1,12 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const initialState = {
-  faqData: [],
-};
-
 const faqDataSlice = createSlice({
   name: "faqData",
-  initialState,
+  initialState: [],
   reducers: {
     setFaqData: (action) => {
       return action.payload;
