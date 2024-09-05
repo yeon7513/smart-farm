@@ -47,3 +47,4 @@ const faqDataSlice = createSlice({
 // );
 
 export default faqDataSlice.reducer;
+export const { setLike, removeLike } = faqDataSlice.actions;

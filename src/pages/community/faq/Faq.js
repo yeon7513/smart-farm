@@ -15,6 +15,7 @@ import {
   updateDoc,
 } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
+import { dispatch } from "d3";
 
 function Faq() {
   const auth = getAuth();
@@ -31,7 +32,7 @@ function Faq() {
     try {
       const cachedData = localStorage.getItem("faqData");
       if (cachedData) {
-        setFaqData(JSON.parse(cachedData));
+        dispatch(setFaqData(JSON.parse(cachedData)));
         console.log("캐시된 FAQ 데이터가 로드되었습니다.");
       } else {
         const faqCollectionRef = collection(db, "faq");
@@ -54,14 +55,14 @@ function Faq() {
               liked: !!userLikes[faq.id],
             }));
 
-            setFaqData(updatedFaqList);
+            dispatch(setFaqData(updatedFaqList));
             localStorage.setItem("faqData", JSON.stringify(updatedFaqList));
           } else {
-            setFaqData(faqList);
+            dispatch(setFaqData(faqList));
             localStorage.setItem("faqData", JSON.stringify(faqList));
           }
         } else {
-          setFaqData(faqList);
+          dispatch(setFaqData(faqList));
           localStorage.setItem("faqData", JSON.stringify(faqList));
         }
 
@@ -78,30 +79,24 @@ function Faq() {
 
   // 조회수를 증가시키는 함수
   const incrementViews = async (id) => {
-    setFaqData((prevData) => {
-      const updatedData = prevData.map((item) =>
-        item.id === id
-          ? {
-              ...item,
-              views: item.views + 1,
-            }
-          : item
-      );
+    const updatedData = faqData.map((item) =>
+      item.id === id
+        ? {
+            ...item,
+            views: item.views + 1,
+          }
+        : item
+    );
 
-      // Firestore에 조회수를 업데이트합니다.
-      const docRef = doc(db, "faq", id.toString());
-      updateDoc(docRef, {
-        views: updatedData.find((item) => item.id === id).views,
-      })
-        .then(() => {
-          console.log("값이 성공적으로 반영되었습니다.");
-        })
-        .catch((error) => {
-          console.error("문서 업데이트에 실패했습니다.: ", error);
-        });
-
-      return updatedData;
+    // Firestore에 조회수를 업데이트합니다.
+    const docRef = doc(db, "faq", id.toString());
+    await updateDoc(docRef, {
+      views: updatedData.find((item) => item.id === id).views,
+    }).catch((error) => {
+      console.error("문서 업데이트에 실패했습니다.: ", error);
     });
+
+    dispatch(setFaqData(updatedData));
   };
 
   const toggleLike = async (id) => {
@@ -137,7 +132,7 @@ function Faq() {
       });
 
       console.log("좋아요가 반영되었습니다.");
-      setFaqData(updatedData);
+      dispatch(setFaqData(updatedData));
     } catch (error) {
       console.error("좋아요 반영 실패:", error);
     }
@@ -189,11 +184,8 @@ function Faq() {
                       좋아요: {likes}
                     </button>
                   ) : (
-                    <button>
-                      <AiOutlineHeart
-                        style={{ fontSize: "30px" }}
-                        onClick={youHaveToSignIn}
-                      />
+                    <button onClick={youHaveToSignIn}>
+                      <AiOutlineHeart style={{ fontSize: "30px" }} />
                       좋아요: {likes}
                     </button>
                   )}
