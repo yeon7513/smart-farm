@@ -2,13 +2,16 @@ import { initializeApp } from "firebase/app";
 import {
   addDoc,
   collection,
+  doc,
   getDoc,
   getDocs,
   getFirestore,
+  increment,
   limit,
   orderBy,
   query,
   runTransaction,
+  updateDoc,
 } from "firebase/firestore";
 import { getCollection } from "../firebase";
 import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
@@ -29,7 +32,11 @@ const db = getFirestore(app);
 
 export async function getBoardDatas(collectionName) {
   const collect = await getCollection(collectionName);
-  const snapshot = await getDocs(collect);
+  const q = query(
+    collect,
+    orderBy("id", "desc") // Adjust field name based on your schema
+  );
+  const snapshot = await getDocs(q);
   const resultData = snapshot.docs.map((doc) => ({
     docId: doc.id,
     ...doc.data(),
@@ -39,40 +46,18 @@ export async function getBoardDatas(collectionName) {
   return resultData;
 }
 
-// export async function addBoardDatas(collectionName, dataObj) {
-//   try {
-//     if (dataObj.imgUrl) {
-//       const url = await uploadImage(dataObj.imgUrl);
-//       dataObj.imgUrl = url;
-//     }
-
-//     const time = new Date().getTime();
-//     dataObj.createdAt = time;
-//     dataObj.updatedAt = time;
-
-//     // 문서 id 자동
-//     const collect = await collection(db, collectionName);
-//     const result = await addDoc(collect, dataObj);
-//     const docSnap = await getDoc(result); // result ==> documentReference
-
-//     const resultData = {
-//       ...docSnap.data(),
-//       docId: docSnap.id,
-//       collection: collectionName,
-//     };
-//     return resultData;
-//   } catch (error) {
-//     return false;
-//   }
-// }
-
 export async function uploadImage(path, imgFile) {
-  const storage = getStorage();
-  const imageRef = ref(storage, path);
-  await uploadBytes(imageRef, imgFile);
-  const url = await getDownloadURL(imageRef);
-  console.log("업로드된 이미지 URL: ", url);
-  return url;
+  try {
+    const storage = getStorage();
+    const imageRef = ref(storage, path);
+    await uploadBytes(imageRef, imgFile);
+    const url = await getDownloadURL(imageRef);
+    console.log("업로드된 이미지 URL: ", url);
+    return url;
+  } catch (error) {
+    console.error("이미지 업로드 실패: ", error);
+    return "";
+  }
 }
 
 async function getLastNum(collectionName, field) {
@@ -91,9 +76,10 @@ async function getLastNum(collectionName, field) {
 
 export async function addBoardDatas(collectionName, addObj) {
   try {
-    const path = `board/${addObj.imgUrl.name}`; // Adjusted path
-    const url = await uploadImage(path, addObj.imgUrl);
-    addObj.imgUrl = url;
+    if (addObj.imgUrl) {
+      const path = `/board/${Date.now()}_${addObj.imgUrl.name}`;
+      addObj.imgUrl = await uploadImage(path, addObj.imgUrl);
+    }
 
     // No 필드를 최신 값에서 1 증가시키기
     const resultData = await runTransaction(db, async (tr) => {
@@ -115,3 +101,15 @@ export async function addBoardDatas(collectionName, addObj) {
     return false;
   }
 }
+
+// 조회수 증가 함수
+export const incrementPostCount = async (category, docId) => {
+  try {
+    const postRef = doc(db, category, docId); // category는 컬렉션 이름, postId는 문서 ID
+    await updateDoc(postRef, {
+      count: increment(1), // count 필드 값에 +1 증가
+    });
+  } catch (error) {
+    console.error("조회수 증가 중 오류 발생:", error); // 오류 로그
+  }
+};
