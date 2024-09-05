@@ -2,27 +2,52 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import RenderingChart from '../../../components/chart/RenderingChart';
 import Maps from '../../../components/map/Maps';
-import { fetchEntireRegionFarm } from '../../../store/usage-status/usageStatusSlice';
+import {
+  fetchEntireRegionFarm,
+  fetchLocalRegionFarm,
+} from '../../../store/usage-status/usageStatusSlice';
 import styles from './UsageStatus.module.scss';
 
 function UsageStatus() {
   const [selectedChartType, setSelectedChartType] = useState('bar');
-  const { entireRegionFarm, isLoading, error } = useSelector(
-    (state) => state.usageStatusSlice
-  );
+  const {
+    entireRegionFarm,
+    localRegionFarm,
+    entireRegionCrop,
+    localRegionCrop,
+    isLoading,
+    error,
+  } = useSelector((state) => state.usageStatusSlice);
+
   const dispatch = useDispatch();
 
   const handleChangeChartType = (e) => {
     setSelectedChartType(e.target.value);
   };
 
+  const handleLocalClick = (name) => {
+    console.log(name);
+    console.log(localRegionFarm[name]);
+    console.log(localRegionFarm['전라남도']);
+  };
+
+  console.log(localRegionFarm['전라남도']);
+
   useEffect(() => {
     dispatch(fetchEntireRegionFarm());
   }, [dispatch]);
 
+  useEffect(() => {
+    dispatch(fetchLocalRegionFarm());
+  }, [dispatch]);
+
+  useEffect(() => {
+    console.log(localRegionFarm);
+  }, [localRegionFarm]);
+
   return (
     <div className={styles.usageStatus}>
-      <Maps className={styles.map} onRegionClick={() => {}} />
+      <Maps className={styles.map} onRegionClick={handleLocalClick} />
       <div className={styles.chartWrapper}>
         <div className={styles.all}>
           <h2>전체 이용 현황</h2>

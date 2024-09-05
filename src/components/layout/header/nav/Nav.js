@@ -19,7 +19,9 @@ function NavLink({ className, path, depth, children }) {
             <ul className={styles.depth}>
               {depth.map((menu, idx) => (
                 <li key={idx}>
-                  <Link to={menu.path}>{menu.name}</Link>
+                  <Link to={menu.path} onClick={() => setCurrComp(menu.comp)}>
+                    {menu.name}
+                  </Link>
                 </li>
               ))}
             </ul>

@@ -25,11 +25,11 @@ function Maps({ onRegionClick = () => {}, className }) {
       .append('path')
       .attr('d', path)
       .attr('id', (d) => d.properties.CTP_ENG_NM)
-      .attr('data-local', (d) => d.properties.CTP_KOR_NM)
       .attr('fill', '#ccc')
       .attr('stroke', '#fff')
       .on('click', (e, d) => {
-        onRegionClick(d.properties);
+        const regionName = d.properties.CTP_KOR_NM;
+        onRegionClick(regionName);
       })
       .on('mouseover', function () {
         d3.select(this).attr('fill', '#669900');
