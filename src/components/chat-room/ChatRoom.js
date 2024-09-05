@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import styles from './ChatRoom.module.scss'
-import closeBtn from "./closeIcon.svg"
+
 
 
 function ChatRoom({handleClose}) {
@@ -24,7 +24,7 @@ function ChatRoom({handleClose}) {
             <div className={styles.container}>
                 <div className={styles.header}>
                 <h2>아이팜 채팅상담</h2>
-      <button onClick={handleClose}><img src={closeBtn} alt="닫기" style={{width:'16px', height:'16px'}} /></button>
+      <button onClick={handleClose}><img src='./img/closeIcon.svg' alt="닫기" style={{width:'16px', height:'16px'}} /></button>
       <p>무엇을 도와드릴까요?</p>
                 </div>
                 <div className={styles.questionButtons}>
@@ -37,7 +37,7 @@ function ChatRoom({handleClose}) {
   {selectedAnswer}
   </div> 
    </div>
-   <{styles.footer}> 채팅 상담원 연결 시간은 오전 9시부터 오후 6시까지 운영되오니 많은 참고 부탁드립니다.😊 </footer>
+   <div className={styles.footer}> 채팅 상담원 연결 시간은 오전 9시부터 오후 6시까지 운영되오니 많은 참고 부탁드립니다.😊 </div>
             </div>
         </div>
     );
