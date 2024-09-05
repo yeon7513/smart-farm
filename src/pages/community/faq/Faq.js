@@ -17,8 +17,8 @@ import {
 import { getAuth } from "firebase/auth";
 
 function Faq() {
-  const dispatch = useDispatch();
   const auth = getAuth();
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const [openId, setOpenId] = useState(null);
   const [faqData, setFaqData] = useState([]);
