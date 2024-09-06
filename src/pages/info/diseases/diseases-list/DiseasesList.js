@@ -95,48 +95,55 @@ function DiseasesList() {
       </div>
       {/* <SearchBox /> */}
       <div className={styles.items}>
-        {/*  */}
-
-        {data.list?.map((item, idx) => (
-          <div key={idx} className={styles.item}>
-            <div className={styles.title}>
-              <div className={styles.item_img}>
-                <img src={item.thumbImg} alt={item.korName} />
-              </div>
-
-              <div className={styles.item_name}>
-                <div className={styles.item_list}>
-                  <p>{item.cropName}</p>
+        {data.list.length === 0 ? (
+          <div className={styles.no_results}>
+            <p>조회된 결과가 없습니다.</p>
+          </div>
+        ) : (
+          data.list?.map((item, idx) => (
+            <div key={idx} className={styles.item}>
+              <div className={styles.title}>
+                <div className={styles.item_img}>
+                  <img src={item.thumbImg} alt={item.korName} />
                 </div>
-                <span>({item.divName})</span>
 
-                {/* <p>해충</p> */}
-                <div className={styles.item_list}>
-                  <Link
-                    to={`/info/${item.cropCode}`} //클릭 시 해당 작물의 상세 정보 페이지로 이동한다.
-                    state={{
-                      korName: item.korName,
-                      cropName: item.cropName,
-                      selectedType,
-                      thumbImg: item.thumbImg,
-                    }} // 상태로 korName과 selectedType을 전달합니다.
-                  >
-                    <p className={styles.name}>{item.korName}</p>
-                  </Link>
+                <div className={styles.item_name}>
+                  <div className={styles.item_list}>
+                    <p>{item.cropName}</p>
+                  </div>
+                  <span>({item.divName})</span>
+
+                  {/* <p>해충</p> */}
+                  <div className={styles.item_list}>
+                    <Link
+                      to={`/info/${item.cropCode}`} //클릭 시 해당 작물의 상세 정보 페이지로 이동한다.
+                      state={{
+                        korName: item.korName,
+                        cropName: item.cropName,
+                        selectedType,
+                        thumbImg: item.thumbImg,
+                      }} // 상태로 korName과 selectedType을 전달합니다.
+                    >
+                      <p className={styles.name}>{item.korName}</p>
+                    </Link>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        ))}
+          ))
+        )}
         {/*  */}
       </div>
-      <div className={styles.more}>
-        <Pagination
-          currentPage={currentPage} //현재 페이지 번호를 전달
-          totalPages={totalPages} //전체 페이지 수를 전달.
-          onPageChange={handlePageChange} //페이지가 변경될 때 마다 호출할 함수 전달.
-        />
-      </div>
+      {data.list.length > 0 && (
+        <div className={styles.more}>
+          <Pagination
+            currentPage={currentPage} //현재 페이지 번호를 전달
+            totalPages={totalPages} //전체 페이지 수를 전달.
+            onPageChange={handlePageChange} //페이지가 변경될 때 마다 호출할 함수 전달.
+          />
+        </div>
+      )}
+      {/*  */}
     </>
   );
 }
