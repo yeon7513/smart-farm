@@ -2,6 +2,7 @@ import { initializeApp } from "firebase/app";
 import {
   addDoc,
   collection,
+  deleteDoc,
   doc,
   getDoc,
   getDocs,
@@ -142,6 +143,17 @@ export async function addComment(collectionName, docId, commentObj) {
     return true;
   } catch (error) {
     console.log("댓글 추가 중 오류: ", error);
+    return false;
+  }
+}
+
+export async function deleteComment(collectionName, docId, commentId) {
+  try {
+    const commentRef = doc(db, collectionName, docId, "comment", commentId);
+    await deleteDoc(commentRef);
+    return true;
+  } catch (error) {
+    console.error("댓글 삭제 중 오류 발생: ", error);
     return false;
   }
 }

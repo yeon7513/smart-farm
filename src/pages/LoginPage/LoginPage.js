@@ -1,4 +1,4 @@
-import { Avatar, Container, styled } from "@mui/material";
+import { Avatar, Container } from "@mui/material";
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import React, { useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
