@@ -60,7 +60,7 @@ function Mymain(props) {
           </Typography>
           <Typography>Phone: {user.number}</Typography>
           <Typography>Mail: {user.email} </Typography>
-          <Typography>address: 대전광역시 xxx xxxx </Typography>
+          <Typography>address: {user.address} </Typography>
           <Box component="form" sx={{ mt: 3 }}>
             <Button
               type="submit"
