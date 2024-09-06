@@ -15,6 +15,7 @@ import { teal } from "@mui/material/colors";
 import { Navigate, useNavigate } from "react-router-dom";
 
 function Mymain(props) {
+  const user = JSON.parse(localStorage.getItem("user")) || "";
   const Navigate = useNavigate();
   const ButtonClick = () => {
     Navigate("/mypage/Myinfo");
@@ -57,9 +58,9 @@ function Mymain(props) {
           <Typography component="h1" variant="h5">
             회원이름
           </Typography>
-          <Typography>Phone: +82 10-8***-4***</Typography>
-          <Typography>Mail: wj******@h*******.com </Typography>
-          <Typography>address: 대전광역시 xxx xxxx </Typography>
+          <Typography>Phone: {user.number}</Typography>
+          <Typography>Mail: {user.email} </Typography>
+          <Typography>address: {user.address} </Typography>
           <Box component="form" sx={{ mt: 3 }}>
             <Button
               type="submit"

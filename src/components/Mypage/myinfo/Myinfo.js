@@ -13,7 +13,7 @@ function Myinfo(props) {
   const navigate = useNavigate();
 
   const nickClick = () => {
-    if (NicknameState == true) {
+    if (NicknameState === true) {
       SetnicknameState(false);
     } else {
       SetnicknameState(true);
@@ -21,21 +21,21 @@ function Myinfo(props) {
   };
 
   const nickClick1 = () => {
-    if (nameState == true) {
+    if (nameState === true) {
       SetnameState(false);
     } else {
       SetnameState(true);
     }
   };
   const nickClick2 = () => {
-    if (PasswordState == true) {
+    if (PasswordState === true) {
       SetPasswordnameState(false);
     } else {
       SetPasswordnameState(true);
     }
   };
   const nickClick3 = () => {
-    if (addressState == true) {
+    if (addressState === true) {
       SetaddressState(false);
     } else {
       SetaddressState(true);
@@ -44,6 +44,10 @@ function Myinfo(props) {
   const CompleteButton = () => {
     navigate("/mypage");
   };
+
+  // 유저 정보 불러오기
+  const user = JSON.parse(localStorage.getItem("user")) || "";
+
   return (
     <Container className={style.container}>
       <div className={style.headers}>
@@ -63,8 +67,8 @@ function Myinfo(props) {
           </button>
         </div>
         <div className={style.name}>
-          <div className={style.title}>서석민</div>
-          {nameState == true ? (
+          <div className={style.title}>{user.name}</div>
+          {nameState === true ? (
             <button className={style.Change} onClick={nickClick1}>
               변경 완료
             </button>
@@ -72,7 +76,7 @@ function Myinfo(props) {
             <button onClick={nickClick1}>이름 변경</button>
           )}
         </div>
-        {nameState == true ? (
+        {nameState === true ? (
           <div className={style.double}>
             <input type="text" />
             <button>중복 확인</button>
@@ -81,8 +85,8 @@ function Myinfo(props) {
           ""
         )}
         <div className={style.name}>
-          <div className={style.title}>맹꽁이</div>
-          {NicknameState == true ? (
+          <div className={style.title}>{user.nick}</div>
+          {NicknameState === true ? (
             <button className={style.Change} onClick={nickClick}>
               변경 완료
             </button>
@@ -90,7 +94,7 @@ function Myinfo(props) {
             <button onClick={nickClick}>닉네임 변경</button>
           )}
         </div>
-        {NicknameState == true ? (
+        {NicknameState === true ? (
           <div className={style.double}>
             <input type="text" />
             <button>중복 확인</button>
@@ -102,13 +106,13 @@ function Myinfo(props) {
         <div>
           <div className={style.name}>
             <div className={style.title}>비밀번호</div>
-            {PasswordState == true ? (
+            {PasswordState === true ? (
               <button onClick={nickClick2}>수정 완료</button>
             ) : (
               <button onClick={nickClick2}>수정</button>
             )}
           </div>
-          {PasswordState == true ? (
+          {PasswordState === true ? (
             <div className={style.password}>
               <div>기존 비밀번호</div>
               <input type="text" />
@@ -122,7 +126,7 @@ function Myinfo(props) {
         <div className={style.title}>집 주소</div>
         <div className={style.name}>
           <div className={style.title}>대전광역시 중구 선화동 123-123</div>
-          {addressState == true ? (
+          {addressState === true ? (
             <button className={style.Change} onClick={nickClick3}>
               변경 완료
             </button>
@@ -130,7 +134,7 @@ function Myinfo(props) {
             <button onClick={nickClick3}>주소 변경</button>
           )}
         </div>
-        {addressState == true ? (
+        {addressState === true ? (
           <div>
             <div>주소 API</div>
             <input className={style.header} type="text" />
