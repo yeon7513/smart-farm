@@ -30,7 +30,6 @@ function SearchAddr({ getAddr, className }) {
   // 주소 검색 후 실행되는 함수
   const handleComplete = (data) => {
     setFirstAddr(data.address);
-    console.log(firstAddr, secondAddr);
     handleClose();
   };
 

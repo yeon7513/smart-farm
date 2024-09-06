@@ -44,6 +44,10 @@ function Myinfo(props) {
   const CompleteButton = () => {
     navigate("/mypage");
   };
+
+  // 유저 정보 불러오기
+  const user = JSON.parse(localStorage.getItem("user")) || {};
+
   return (
     <Container className={style.container}>
       <div className={style.headers}>
@@ -63,7 +67,7 @@ function Myinfo(props) {
           </button>
         </div>
         <div className={style.name}>
-          <div className={style.title}>서석민</div>
+          <div className={style.title}>{user.name}</div>
           {nameState == true ? (
             <button className={style.Change} onClick={nickClick1}>
               변경 완료
@@ -81,7 +85,7 @@ function Myinfo(props) {
           ""
         )}
         <div className={style.name}>
-          <div className={style.title}>맹꽁이</div>
+          <div className={style.title}>{user.nick}</div>
           {NicknameState == true ? (
             <button className={style.Change} onClick={nickClick}>
               변경 완료
