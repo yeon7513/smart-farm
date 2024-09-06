@@ -96,21 +96,23 @@ function LoginPage(props) {
       <div className={styles.form}>
         <h1>로그인</h1>
         <Avatar
-          sx={{ mb: 4, background: "secondary.main" }}
+          sx={{ mb: 4, background: "skyblue" }}
           style={{ width: 80, height: 80 }}
         />
         <SignIn />
-        <button
-          type="submit"
-          sx={{ bgcolor: "secondary.main" }}
-          onClick={SignInWithGoogle}
-        >
-          <span>
-            <FcIcons.FcGoogle />
-            <b>Google</b>
-          </span>
-        </button>
-        <Kakaoback />
+        <div>
+          <button
+            type="submit"
+            sx={{ bgcolor: "secondary.main" }}
+            onClick={SignInWithGoogle}
+          >
+            <span>
+              <FcIcons.FcGoogle />
+              <b>Google</b>
+            </span>
+          </button>
+          <Kakaoback />
+        </div>
         <p>
           <Link to="/searchEm">Email 찾기</Link>
           <Link to="/searchPw">비밀번호 찾기</Link>

@@ -38,11 +38,18 @@ function Form({
   return (
     <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
       <TextField
+        InputProps={{
+          sx: {
+            pl: 2,
+            pr: 2,
+          },
+        }}
         type="email"
         label={"이메일 주소"}
         autoComplete="off"
         {...register("email", userEmail)}
       />
+
       {errors?.email && (
         <div>
           <span className={styles.form_error}>{errors.email.message}</span>
@@ -50,6 +57,12 @@ function Form({
       )}
 
       <TextField
+        InputProps={{
+          sx: {
+            pl: 2,
+            pr: 2,
+          },
+        }}
         type="password"
         label={"비밀번호 (숫자+영문자+특수문자 8자리 이상)"}
         autoComplete="off"
