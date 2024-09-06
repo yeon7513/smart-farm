@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import styles from './ChatRoom.module.scss'
-import closeBtn from '../../assets/main/closeImg.svg'
+import closeIcon from '../../assets/main/closeImg.svg'
 
 
 
@@ -23,17 +23,17 @@ function ChatRoom({handleClose}) {
     return (
         <div className={styles.wrapper}>
                 <div className={styles.header}>
-                <h2>아이팜 채팅상담</h2>
-      <button onClick={handleClose}><img src={closeBtn} alt="닫기" style={{width:'16px', height:'16px'}} /></button>
-      <p>무엇을 도와드릴까요?</p>
+                <h2 className={styles.title}>아이팜 채팅상담</h2>
+      <button className={styles.closeBtn} onClick={handleClose}><img src={closeIcon} alt="닫기" style={{width:'16px', height:'16px'}} /></button>
+      <p className={styles.guideText}>무엇을 도와드릴까요?</p>
                 </div>
                 {/* 여기까지 헤더의 영역 */}
-                <div className={styles.questionButtons}>
-    <button onClick={() => showAnswer('answer1')}>스마트팜이 뭔가요?</button>
-    <button onClick={() => showAnswer('answer2')}>견적의뢰요청방법</button>
-    <button onClick={() => showAnswer('answer3')}>A/S 문의하기</button>
-    <button onClick={() => showAnswer('answer4')}>대쉬보드 사용법</button>
-    <button onClick={() => showAnswer('answer5')}>채팅 상담원 연결하기</button>
+                <div className={styles.questionBtns}>
+    <button className={styles.questionBtn} onClick={() => showAnswer('answer1')}>스마트팜이 뭔가요?</button>
+    <button className={styles.questionBtn} onClick={() => showAnswer('answer2')}>견적의뢰요청방법</button>
+    <button className={styles.questionBtn} onClick={() => showAnswer('answer3')}>A/S 문의하기</button>
+    <button className={styles.questionBtn} onClick={() => showAnswer('answer4')}>대쉬보드 사용법</button>
+    <button className={styles.questionBtn} onClick={() => showAnswer('answer5')}>채팅 상담원 연결하기</button>
    </div>
    {/* 질문리스트 */}
    <div className={styles.answerArea}>
