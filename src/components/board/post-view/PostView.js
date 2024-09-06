@@ -5,13 +5,15 @@ import { getBoardDatas, incrementPostCount } from "../../../api/firebase/board";
 import CustomModal from "../../modal/CustomModal";
 import Radio from "../../complain/Radio";
 import Comment from "../../comment/Comment";
+import { useSelector } from "react-redux";
 
 function PostView() {
   const navigate = useNavigate();
   // const [post, setPost] = useState(null);
   const { state } = useLocation();
-  const [count, setCount] = useState(state.count || 0);
+  const [count, setCount] = useState(state.count);
   // console.log(state);
+  const { isAuthenticated } = useSelector((state) => state.userSlice);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const openModal = () => setIsModalOpen(true);
@@ -40,48 +42,52 @@ function PostView() {
 
   return (
     <>
-      <div className={styles.container}>
-        <div className={styles.title}>
-          <div>
-            <h2>{state.title}</h2>
-          </div>
-          <div>
+      {isAuthenticated ? (
+        <div className={styles.container}>
+          <div className={styles.title}>
             <div>
-              <p>작성자: {state.userId}</p>
-              <p>작성일: {state.createdAt}</p>
-              <p>조회수: {count}</p>
+              <h2>{state.title}</h2>
             </div>
-            {state.complain && (
+            <div>
               <div>
-                <button onClick={openModal}>🚨 신고하기</button>
-                <CustomModal
-                  title={"신고하기"}
-                  btnName={"접수"}
-                  handleClose={closeModal}
-                  isOpen={isModalOpen}
-                  btnHandler={goComplain}
-                  className={styles.modal}
-                >
-                  <Radio />
-                </CustomModal>
+                <p>작성자: {state.userId}</p>
+                <p>작성일: {state.createdAt}</p>
+                <p>조회수: {count}</p>
               </div>
-            )}
+              {state.complain && (
+                <div>
+                  <button onClick={openModal}>🚨 신고하기</button>
+                  <CustomModal
+                    title={"신고하기"}
+                    btnName={"접수"}
+                    handleClose={closeModal}
+                    isOpen={isModalOpen}
+                    btnHandler={goComplain}
+                    className={styles.modal}
+                  >
+                    <Radio />
+                  </CustomModal>
+                </div>
+              )}
+            </div>
           </div>
-        </div>
-        <div className={styles.content}>
-          <div>{state.summary}</div>
+          <div className={styles.content}>
+            <div>{state.summary}</div>
+            <div>
+              <img src={state.imgUrl} alt="이미지" />
+            </div>
+          </div>
           <div>
-            <img src={state.imgUrl} alt="이미지" />
+            <Comment item={state} />
+          </div>
+
+          <div className={styles.back}>
+            <button onClick={() => navigate(-1)}>목록으로</button>
           </div>
         </div>
-        <div>
-          <Comment item={state} />
-        </div>
-
-        <div className={styles.back}>
-          <button onClick={() => navigate(-1)}>목록으로</button>
-        </div>
-      </div>
+      ) : (
+        navigate("/login")
+      )}
     </>
   );
 }
