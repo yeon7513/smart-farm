@@ -7,9 +7,8 @@ import {
   XAxis,
   YAxis,
 } from 'recharts';
-import { data } from './data';
 
-function SimpleAreaChart() {
+function SimpleAreaChart({ data }) {
   return (
     <AreaChart
       width={500}
@@ -26,7 +25,7 @@ function SimpleAreaChart() {
       <XAxis dataKey="name" />
       <YAxis />
       <Tooltip />
-      <Area type="monotone" dataKey="uv" stroke="#8884d8" fill="#8884d8" />
+      <Area type="monotone" dataKey="value" stroke="#8884d8" fill="#8884d8" />
     </AreaChart>
   );
 }

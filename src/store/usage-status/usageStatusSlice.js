@@ -3,7 +3,7 @@ import { usageStatusData } from '../../api/usageStatusData';
 
 const initialState = {
   entireRegionFarm: [],
-  localRegionFarm: {},
+  localRegionFarm: [],
   entireRegionCrop: [],
   localRegionCrop: [],
   isLoading: false,
@@ -114,25 +114,35 @@ export const fetchLocalRegionFarm = createAsyncThunk(
         .map((data) => data.addressName)
         .map((addr) => addr.split(' '));
 
-      const result = {};
+      const result = locals.reduce((acc, [province, city]) => {
+        let provinceObj = acc.find((item) => item[province]);
 
-      locals.forEach(([province, city]) => {
-        if (city) {
-          if (!result[province]) {
-            result[province] = {};
-          }
-          if (!result[province][city]) {
-            result[province][city] = { count: 0 };
-          }
-          result[province][city].count += 1;
+        if (!provinceObj) {
+          provinceObj = { [province]: [{ name: city, value: 1 }] };
+          acc.push(provinceObj);
         } else {
-          // city가 없는 경우
-          if (!result[province]) {
-            result[province] = { count: 0 };
+          const cityObj = provinceObj[province].find(
+            (item) => item.name === city
+          );
+
+          if (cityObj) {
+            cityObj.value += 1;
+          } else {
+            provinceObj[province].push({ name: city, value: 1 });
           }
-          result[province].count += 1;
         }
-      });
+        return acc;
+      }, []);
+
+      if (result.length === 1) {
+        const [province, cities] = Object.entries(result[0])[0];
+        result[0] = {
+          [province]: cities.map((city) => ({
+            name: city.name,
+            value: city.value,
+          })),
+        };
+      }
 
       return result;
     } catch (error) {

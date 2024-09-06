@@ -8,9 +8,8 @@ import {
   XAxis,
   YAxis,
 } from 'recharts';
-import { data } from './data';
 
-function SimpleLineChart() {
+function SimpleLineChart({ data }) {
   return (
     <LineChart width={500} height={300} data={data}>
       <CartesianGrid strokeDasharray="3 3" />
@@ -20,7 +19,7 @@ function SimpleLineChart() {
       <Legend />
       <Line
         type="monotone"
-        dataKey="pv"
+        dataKey="value"
         stroke="#8884d8"
         activeDot={{ r: 8 }}
       />

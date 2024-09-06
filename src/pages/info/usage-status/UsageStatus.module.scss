@@ -1,5 +1,22 @@
 .usageStatus {
   display: flex;
-  gap: 24px;
   outline: 1px dotted blue;
+
+  .map {
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 400px;
+    height: 600px;
+    outline: 1px dotted red;
+    > svg {
+      width: 600px;
+      height: 800px;
+      transform: scale(130%);
+    }
+  }
+  .chartWrapper {
+    flex: 1;
+  }
 }

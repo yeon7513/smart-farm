@@ -9,14 +9,16 @@ function Maps({ onRegionClick = () => {}, className }) {
     const width = svgRef.current.clientWidth;
     const height = svgRef.current.clientHeight;
 
+    console.log(width);
+    console.log(svgRef);
+
     const projection = d3.geoMercator().fitSize([width, height], koreaGeoJson);
 
     const path = d3.geoPath().projection(projection);
 
-    const svg = d3
-      .select(svgRef.current)
-      .attr('width', width)
-      .attr('height', height);
+    const svg = d3.select(svgRef.current);
+    // .attr('width', width)
+    // .attr('height', height);
 
     svg
       .selectAll('path')
