@@ -1,5 +1,5 @@
-import { initializeApp } from 'firebase/app';
-import { getAuth } from 'firebase/auth';
+import { initializeApp } from "firebase/app";
+import { getAuth } from "firebase/auth";
 import {
   addDoc,
   collection,
@@ -11,14 +11,14 @@ import {
   setDoc,
   updateDoc,
   writeBatch,
-} from 'firebase/firestore';
+} from "firebase/firestore";
 const firebaseConfig = {
-  apiKey: 'AIzaSyBz9TEYoPHVv_Lz28BzcTa1DrLMI7wnBWc',
-  authDomain: 'ifarm-dd7b6.firebaseapp.com',
-  projectId: 'ifarm-dd7b6',
-  storageBucket: 'ifarm-dd7b6.appspot.com',
-  messagingSenderId: '581435413866',
-  appId: '1:581435413866:web:09a6d8065e5b47863c8113',
+  apiKey: "AIzaSyBz9TEYoPHVv_Lz28BzcTa1DrLMI7wnBWc",
+  authDomain: "ifarm-dd7b6.firebaseapp.com",
+  projectId: "ifarm-dd7b6",
+  storageBucket: "ifarm-dd7b6.appspot.com",
+  messagingSenderId: "581435413866",
+  appId: "1:581435413866:web:09a6d8065e5b47863c8113",
 };
 
 // Initialize Firebase
@@ -53,11 +53,11 @@ export async function joinUser(uid, email, password, userInfo) {
     ...(name !== undefined && { name: name }),
     ...(name !== undefined && { nickname: nickname }),
   };
-  await setDoc(doc(db, 'users', uid), userData);
+  await setDoc(doc(db, "users", uid), userData);
 }
 
 export async function syncOrder(uid, orderArr) {
-  const orderRef = getCollection('user', uid, 'order');
+  const orderRef = getCollection("user", uid, "order");
   const batch = writeBatch(db);
   for (const item of orderArr) {
     const result = await updateOrder(uid, item);
@@ -67,12 +67,12 @@ export async function syncOrder(uid, orderArr) {
     }
   }
   await batch.commit();
-  const resultData = await getDatas(['user', uid, 'order'], {});
+  const resultData = await getDatas(["user", uid, "order"], {});
   return resultData;
 }
 
 export async function updateOrder(uid, orderItem) {
-  const orderRef = getCollection('user', uid, 'order');
+  const orderRef = getCollection("user", uid, "order");
   const itemRef = doc(orderRef, orderItem.id.toString());
 
   const itemDoc = await getDoc(itemRef);
@@ -85,7 +85,7 @@ export async function updateOrder(uid, orderItem) {
 
 export async function createPayment(uid, paymentObj) {
   try {
-    const paymentsRef = collection('users', uid, 'payments');
+    const paymentsRef = collection("users", uid, "payments");
     const createObj = {
       createdAt: new Date().getTime,
       updatedAt: new Date().getTime,
@@ -94,7 +94,7 @@ export async function createPayment(uid, paymentObj) {
     const batch = writeBatch(db);
     const docRef = await addDoc(paymentsRef, createObj);
     batch.delete(paymentsRef);
-    const paymentRef = getCollection('users', uid, 'payment');
+    const paymentRef = getCollection("users", uid, "payment");
     paymentObj.products.forEach((product) => {
       const itemRef = doc(paymentRef, product.id.toString());
       batch.delete(itemRef);
@@ -112,7 +112,7 @@ export async function getDatas(collectionName) {
     const snapshot = await getDocs(collect);
     return snapshot.docs.map((doc) => ({ docId: doc.id, ...doc.data() }));
   } catch (error) {
-    console.error('Error getting documents: ', error);
+    console.error("Error getting documents: ", error);
     throw error;
   }
 }
@@ -123,7 +123,7 @@ export async function updateDatas(collectionName, docId, updateObj) {
     await updateDoc(docRef, updateObj);
     // console.log("Document successfully updated!");
   } catch (error) {
-    console.error('Error updating document: ', error);
+    console.error("Error updating document: ", error);
     throw error;
   }
 }
@@ -134,7 +134,15 @@ export async function deleteDatas(collectionName, docId) {
     await deleteDoc(docRef);
     return true;
   } catch (error) {
-    console.error('Error deleting document: ', error);
+    console.error("Error deleting document: ", error);
     return false;
   }
 }
+
+// const api = "D2KH68BM8I140W4B"; // 여기에 실제 API 키를 넣으세요
+// const apiurl = `/desaster?serviceKey=${api}`;
+// fetch(apiurl)
+//   .then((response) => response.json())
+//   .then((result) => {
+//     console.log(result);
+//   });
