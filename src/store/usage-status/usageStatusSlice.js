@@ -151,6 +151,44 @@ export const fetchLocalRegionFarm = createAsyncThunk(
   }
 );
 
+const changeItemCode = (code) => {
+  switch (code) {
+    case '090300':
+      return '가지';
+    case '26E800':
+      return '국화';
+    case '230000':
+      return '다육이';
+    case '080400':
+      return '딸기';
+    case '080600':
+      return '방울토마토';
+    case '065900':
+      return '블루베리';
+    case '100500':
+      return '상추';
+    case '100800':
+      return '시금치';
+    case '090100':
+      return '오이';
+    case '080200':
+      return '참외';
+    case '080300':
+      return '토마토';
+    case '132600':
+      return '파프리카';
+    case '060300':
+      return '포도';
+    case '120500':
+      return '풋고추';
+    case '090200':
+      return '호박';
+
+    default:
+      return '기타';
+  }
+};
+
 // 작물별 전체 이용 현황
 export const fetchEntireRegionCrop = createAsyncThunk(
   'usageStatus/entireRegionCrop',
