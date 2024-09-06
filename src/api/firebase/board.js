@@ -113,3 +113,35 @@ export const incrementPostCount = async (category, docId) => {
     console.error("조회수 증가 중 오류 발생:", error); // 오류 로그
   }
 };
+
+export async function getComment(collectionName, docId) {
+  try {
+    const commentRef = collection(db, collectionName, docId, "comment");
+    const q = query(commentRef, orderBy("createdAt", "asc"));
+    const snapshot = await getDocs(q);
+
+    const comment = snapshot.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+      collection: collectionName,
+    }));
+    return comment;
+  } catch (error) {
+    console.log("댓글 불러오기 중 오류: ", error);
+    return false;
+  }
+}
+
+export async function addComment(collectionName, docId, commentObj) {
+  try {
+    const commentRef = collection(db, collectionName, docId, "comment");
+    await addDoc(commentRef, {
+      ...commentObj,
+      createdAt: new Date().toISOString().split("T")[0],
+    });
+    return true;
+  } catch (error) {
+    console.log("댓글 추가 중 오류: ", error);
+    return false;
+  }
+}

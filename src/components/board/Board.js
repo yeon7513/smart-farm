@@ -87,7 +87,7 @@ function Board({ nopost, category, complain }) {
                     <div>{item.id}</div>
                     <div>{item.title}</div>
                     <div>{item.userId}</div>
-                    <div>{item.createAt}</div>
+                    <div>{item.createdAt}</div>
                     <div>{item.count}</div>
                   </li>
                 </Link>

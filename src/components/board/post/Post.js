@@ -11,7 +11,7 @@ const INITIAL_VALUE = {
   title: "",
   count: 0,
   summary: "",
-  createAt: new Date().toISOString().split("T")[0],
+  createdAt: new Date().toISOString().split("T")[0],
 };
 
 function Post({ onClick, onSubmit, category, initialValue = INITIAL_VALUE }) {

@@ -11,7 +11,7 @@ function PostView() {
   // const [post, setPost] = useState(null);
   const { state } = useLocation();
   const [count, setCount] = useState(state.count || 0);
-  console.log(state);
+  // console.log(state);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const openModal = () => setIsModalOpen(true);
@@ -48,7 +48,7 @@ function PostView() {
           <div>
             <div>
               <p>작성자: {state.userId}</p>
-              <p>작성일: {state.createAt}</p>
+              <p>작성일: {state.createdAt}</p>
               <p>조회수: {count}</p>
             </div>
             {state.complain && (
@@ -75,12 +75,9 @@ function PostView() {
           </div>
         </div>
         <div>
-          <Comment />
+          <Comment item={state} />
         </div>
-        <div className={styles.input}>
-          <input />
-          <button>댓글달기</button>
-        </div>
+
         <div className={styles.back}>
           <button onClick={() => navigate(-1)}>목록으로</button>
         </div>
