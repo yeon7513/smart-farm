@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import KakaoLogin from "react-kakao-login";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import styled from "styled-components";
+// import styled from "styled-components";
 import { setUser } from "../../store/user/UserSlice";
 
 const Kakaoback = () => {
@@ -52,7 +52,7 @@ const Kakaoback = () => {
         console.log("로그인 상태가 아닙니다.");
       }
     };
-    const Box = styled.button`
+    const Box = `
       color: "#3E0C02";
       border: "none";
       border-radius: "10px";

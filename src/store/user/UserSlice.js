@@ -9,6 +9,7 @@ const initialState = localStorage.getItem("user")
       nick: "",
       name: "",
       number: "",
+      address: "",
       isAuthenticated: false,
     };
 const userSlice = createSlice({
@@ -22,6 +23,7 @@ const userSlice = createSlice({
       state.name = action.payload.name;
       state.nick = action.payload.nick;
       state.number = action.payload.number;
+      state.address = action.payload.address;
       state.isAuthenticated = true;
 
       localStorage.setItem("user", JSON.stringify(state));
@@ -33,6 +35,7 @@ const userSlice = createSlice({
       state.name = "";
       state.nick = "";
       state.number = "";
+      state.address = "";
       state.isAuthenticated = false;
 
       localStorage.removeItem("user");

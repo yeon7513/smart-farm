@@ -30,8 +30,9 @@ function RequestForm({ user, onSubmit }) {
     <form className={styles.requestForm} onSubmit={handleSubmit}>
       <div className={styles.user}>
         <h3>신청인</h3>
+        <p>{user.name}</p>
         <div>
-          <p>{user.name}</p>
+          <h3>연락처</h3>
           <p>{user.number}</p>
         </div>
       </div>

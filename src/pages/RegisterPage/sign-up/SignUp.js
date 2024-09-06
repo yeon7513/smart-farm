@@ -30,6 +30,7 @@ function SingUp(props) {
           uid: user.uid,
           name: userInfo.name,
           nick: userInfo.nickname,
+          address: userInfo.address,
         })
       );
       navigate("/");
