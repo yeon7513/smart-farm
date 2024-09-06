@@ -12,12 +12,17 @@ function DiseasesList() {
   const [totalPages, setTotalPages] = useState(1); //전체 페이지 수를 저장할 상태.
   const [currentPage, setCurrentPage] = useState(1); //현재 페이지 번호를 저장할 상태.
   const [selectedType, setSelectedType] = useState("NP01"); // 현재 선택된 유형 ("병해" 또는 "해충")
-
+  const [searchTerm, setSearchTerm] = useState(""); // 검색어 저장
   // 페이지 번호가 변경되었을 때 호출되는 함수
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber); // 페이지 번호를 업데이트합니다
   };
 
+  const handleSearch = (term) => {
+    console.log("검색어:", term);
+    setSearchTerm(term);
+    setCurrentPage(1);
+  };
   // 병해 또는 해충 유형이 변경되었을 때 호출되는 함수
   const handleTypeChange = (type) => {
     setSelectedType(type); //선택된 유형 업데이트
@@ -27,12 +32,23 @@ function DiseasesList() {
   useEffect(() => {
     const fetchData = async () => {
       try {
+        // const searchQuery=searchTerm?`&searchText=${encodeURIComponent(searchTerm)}:''`
+
         //  API 호출을 통해 데이터를 가져온다.  URL에 필요한 파라미터를 포함.
+        // const response = await fetch(
+        //   `desease/?apiKey=${apiKey}&serviceCode=SVC16&serviceType=AA003&displayCount=12&startPoint=${
+        //     (currentPage - 1) * DISPLAY_COUNT
+        //   }&divCode=${selectedType}`
+        //   // `/desease/?apiKey=${apiKey}&serviceCode=SVC01&serviceType=AA003&dtlSrchFlag=kncr1&displayCount=9`
+        // ); const searchQuery = searchTerm
+        const searchQuery = searchTerm
+          ? `&cropName=${encodeURIComponent(searchTerm)}`
+          : "";
+
         const response = await fetch(
           `desease/?apiKey=${apiKey}&serviceCode=SVC16&serviceType=AA003&displayCount=12&startPoint=${
             (currentPage - 1) * DISPLAY_COUNT
-          }&divCode=${selectedType}`
-          // `/desease/?apiKey=${apiKey}&serviceCode=SVC01&serviceType=AA003&dtlSrchFlag=kncr1&displayCount=9`
+          }&divCode=${selectedType}${searchQuery}`
         );
 
         if (!response.ok) {
@@ -53,12 +69,12 @@ function DiseasesList() {
     };
 
     fetchData(); //데이터를 가져오는 함수 호출
-  }, [selectedType, currentPage]); // selectedType이나 currentPage가 변경될 때마다 이 effect가 재실행됩니다.
+  }, [selectedType, currentPage, searchTerm]); // selectedType이나 currentPage가 변경될 때마다 이 effect가 재실행됩니다.
 
   return (
     <>
       {/* <Input /> */}
-      <InfoInput />
+      <InfoInput onSearch={handleSearch} />
       <div className={styles.pest_search}>
         <div className={styles.party}>
           <button

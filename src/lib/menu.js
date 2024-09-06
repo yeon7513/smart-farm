@@ -16,15 +16,17 @@ export const paths = {
       path: 'info',
       name: '정보',
       depth: [
-        { path: '/info', name: '이용 현황' },
+        { path: '/info', name: '이용 현황', comp: 'UsageStatus' },
         {
           path: '/info',
           name: '시뮬레이션',
+          comp: 'Simulation',
         },
-        { path: '/info', name: '병해충' },
+        { path: '/info', name: '병해충', comp: 'Diseases' },
         {
           path: '/info',
           name: '자연재해',
+          comp: 'Disaster',
         },
       ],
     },
@@ -32,10 +34,10 @@ export const paths = {
       path: 'community',
       name: '커뮤니티',
       depth: [
-        { path: '/community', name: '공지사항' },
-        { path: '/community', name: 'FAQ' },
-        { path: '/community', name: '정보 공유' },
-        { path: '/community', name: 'A/S 문의' },
+        { path: '/community', name: '공지사항', comp: 'Notice' },
+        { path: '/community', name: 'FAQ', comp: 'Faq' },
+        { path: '/community', name: '정보 공유', comp: 'SharingInformation' },
+        { path: '/community', name: 'A/S 문의', comp: 'AfterService' },
       ],
     },
     {
