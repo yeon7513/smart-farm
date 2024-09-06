@@ -75,7 +75,7 @@ function DiseasesItem() {
 
   const formatHtml = (html) => {
     if (!html) return "";
-    return html.replace(/\r\n/gi, " <br />"); // Replace <br/> tags with space
+    return html.replaceAll(" <br />", ""); // Replace <br/> tags with space
   };
   return (
     <div>
@@ -111,40 +111,82 @@ function DiseasesItem() {
         <div>
           <h1>일반정보</h1>
         </div>
-        {data?.developmentCondition || data?.ecologyInfo ? (
-          <div>
-            <h4>{selectedType === "NP01" ? "발생환경" : "생태정보"}</h4>
-            <p
-              dangerouslySetInnerHTML={{
-                __html: formatHtml(
-                  data.developmentCondition || data.ecologyInfo || ""
-                ),
-              }}
-            />
+        {selectedType === "NP01" ? (
+          // 병해의 경우
+          <div className={styles.text_item}>
+            <h4>발생환경</h4>
+            {data?.developmentCondition ? (
+              <p
+                dangerouslySetInnerHTML={{
+                  __html: formatHtml(data.developmentCondition),
+                }}
+              />
+            ) : (
+              <p className={styles.no_explanation}>조사중입니다...</p>
+            )}
           </div>
-        ) : null}
-        {data?.symptoms || data?.damageInfo ? (
-          <div>
-            <h4>{selectedType === "NP01" ? "증상설명" : "피해정보"}</h4>
-            <p
-              dangerouslySetInnerHTML={{
-                __html: formatHtml(data.symptoms || data.damageInfo || ""),
-              }}
-            />
+        ) : (
+          // 해충의 경우
+          <div className={styles.text_item}>
+            <h4>생태정보</h4>
+            {data?.ecologyInfo ? (
+              <p
+                dangerouslySetInnerHTML={{
+                  __html: formatHtml(data.ecologyInfo),
+                }}
+              />
+            ) : (
+              <p className={styles.no_explanation}>조사중입니다...</p>
+            )}
           </div>
-        ) : null}
+        )}
+        {selectedType === "NP01" ? (
+          // 병해의 경우
+          <div className={styles.text_item}>
+            <h4>증상설명</h4>
+            {data?.symptoms ? (
+              <p
+                dangerouslySetInnerHTML={{
+                  __html: formatHtml(data.symptoms),
+                }}
+              />
+            ) : (
+              <p className={styles.no_explanation}>조사중입니다...</p>
+            )}
+          </div>
+        ) : (
+          // 해충의 경우
+          <div className={styles.text_item}>
+            <h4>피해정보</h4>
+            {data?.damageInfo ? (
+              <p
+                dangerouslySetInnerHTML={{
+                  __html: formatHtml(data.damageInfo),
+                }}
+              />
+            ) : (
+              <p className={styles.no_explanation}>조사중입니다...</p>
+            )}
+          </div>
+        )}
+
         {data?.preventionMethod || data?.preventMethod ? (
-          <div>
-            <h4>방재방법</h4>
+          <div className={styles.text_item}>
+            <h4>방재방법</h4> {/* 제목은 항상 "방재방법"으로 고정 */}
             <p
               dangerouslySetInnerHTML={{
                 __html: formatHtml(
-                  data.preventionMethod + data.preventMethod || ""
+                  data.preventionMethod || data.preventMethod || ""
                 ),
               }}
             />
           </div>
-        ) : null}
+        ) : (
+          <div className={styles.text_item}>
+            <h4>방재방법</h4>
+            <p className={styles.no_explanation}>조사중입니다...</p>
+          </div>
+        )}
       </div>
     </div>
   );

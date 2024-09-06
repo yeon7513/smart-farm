@@ -4,6 +4,7 @@ import { getBoardDatas } from "../../api/firebase/board";
 import styles from "./Board.module.scss";
 import Post from "./post/Post";
 import { getUserAuth } from "../../api/firebase";
+import { useSelector } from "react-redux";
 
 const PAGE_SIZE = 10;
 
@@ -12,8 +13,7 @@ function Board({ nopost, category, complain }) {
   const [currentPage, setCurrentPage] = useState(1);
   const [isWriting, setIsWriting] = useState(false); // 글쓰기 모드 상태
   const [view, setView] = useState([]);
-  const auth = getUserAuth();
-  const user = auth.currentUser; // 현재 로그인된 사용자 정보 가져오기
+  const { isAuthenticated } = useSelector((state) => state.userSlice);
 
   const totalPages = Math.ceil(view.length / PAGE_SIZE);
   const currentItem = view.slice(
@@ -52,8 +52,8 @@ function Board({ nopost, category, complain }) {
   }, []);
 
   const handleWriteClick = () => {
-    if (!user) {
-      alert("회원 전용입니다. 로그인을 해주세요.");
+    if (!isAuthenticated) {
+      navigate("/login");
       return setIsWriting(false);
     } else {
       setIsWriting(true); // 로그인된 경우에만 글쓰기 모드로 전환
@@ -87,7 +87,7 @@ function Board({ nopost, category, complain }) {
                     <div>{item.id}</div>
                     <div>{item.title}</div>
                     <div>{item.userId}</div>
-                    <div>{item.createAt}</div>
+                    <div>{item.createdAt}</div>
                     <div>{item.count}</div>
                   </li>
                 </Link>

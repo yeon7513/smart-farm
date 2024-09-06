@@ -1,7 +1,9 @@
 import React, { useEffect, useRef, useState } from "react";
 import styles from "./InfoInput.module.scss";
 import { CiSearch } from "react-icons/ci";
-function InfoInput({ onSearch }) {
+import { GrPowerReset } from "react-icons/gr";
+
+function InfoInput({ onSearch, resetSearch }) {
   const [selectedBig, setSelectedBig] = useState([]); // 첫 번째 셀렉트 박스의 옵션을 저장
   const [middleOptions, setMiddleOptions] = useState([]); // 두 번째 셀렉트 박스 옵션저장
   const [selectedMiddle, setSelectedMiddle] = useState([]); // 세 번째 셀렉트 박스 옵션저장.
@@ -9,11 +11,36 @@ function InfoInput({ onSearch }) {
   const [items, setItems] = useState([]); // 조회된 결과 항목들을 저장.
   const [inputValue, setInputValue] = useState("");
   const lastSelectRef = useRef();
-  // const [isSearching, setIsSearching] = useState(false); // 검색 중 여부 저장
+  const [isInputDisabled, setIsInputDisabled] = useState(false);
+  const [isSelectDisabled, setIsSelectDisabled] = useState(false);
+  const [isSearchDisabled, setIsSearchDisabled] = useState(true);
+
+  // 상태를 초기화하는 리셋핸들러
+  const handleReset = () => {
+    setInputValue("");
+    setSelectedBig([]);
+    setMiddleOptions([]);
+    setSelectedMiddle([]);
+    setCropCode("");
+    setIsInputDisabled(false); // input 비활성화 해제
+    setIsSelectDisabled(false); // 셀렉트박스 비활성화 해제
+    setIsSearchDisabled(true);
+    if (lastSelectRef.current) {
+      lastSelectRef.current.value = "";
+    }
+    onSearch("");
+  };
 
   const handleInputChange = (e) => {
     const value = e.target.value;
     setInputValue(value);
+    setIsSelectDisabled(value.length > 0);
+    checkSearchButtonState(value, lastSelectRef.current?.value);
+    // if (value.length > 0) {
+    //   setIsSelectDisabled(true);
+    // } else {
+    //   setIsSelectDisabled(false);
+    // }
     // setIsSearching(value.length > 0);
   };
   // 입력창에서 Enter 키를 눌렀을 때 검색 실행
@@ -23,13 +50,22 @@ function InfoInput({ onSearch }) {
     }
   };
   const handleSearch = () => {
+    // 입력값이 있는 경우
     if (inputValue.length > 0) {
-      onSearch(inputValue); // 검색어를 부모 컴포넌트로 전달
-    } else {
+      onSearch(inputValue); // 입력값으로 검색 실행
+    }
+    // 입력값이 없고 셀렉트 박스에서 값이 선택되지 않은 경우
+    else if (lastSelectRef.current?.value && cropCode) {
       onSearch(lastSelectRef.current.selectedOptions[0].text);
     }
-
-    // setIsSearching(true);
+    // 첫 번째 셀렉트 박스에서 선택됨, 두 번째 셀렉트 박스에서 선택됨, 마지막 셀렉트 박스에서 선택되지 않은 경우
+    else if (selectedBig.length > 0 && middleOptions.length > 0 && !cropCode) {
+      alert("세 번째 작물까지 선택해주세요.");
+    }
+    // 첫 번째 또는 두 번째 셀렉트 박스에서 선택되지 않은 경우
+    else if (!selectedBig.length || !middleOptions.length) {
+      alert("작물을 선택해 주세요.");
+    }
   };
   // 첫 번쨰 셀렉트 박스 변경 핸들러
   const handleBigChang = async (e) => {
@@ -53,6 +89,8 @@ function InfoInput({ onSearch }) {
       // 중분류 셀렉트 박스의 옵션을 저장
       setMiddleOptions(result.service.srchKncrList2);
       // onFilterChange({ selectedBig: value, selectedMiddle: "", cropCode: "" });
+      setIsInputDisabled(true);
+      checkSearchButtonState(inputValue, lastSelectRef.current?.value);
     } catch (error) {
       console.error("There was a problem with the fetch operation:", error);
     }
@@ -76,6 +114,7 @@ function InfoInput({ onSearch }) {
       const result = await response.json();
       // 소분류 셀렉트 박스의 옵션을 설정
       setSelectedMiddle(result.service.srchKncrList3);
+      checkSearchButtonState(inputValue, lastSelectRef.current?.value);
       console.log(result.service.srchKncrList3);
     } catch (error) {
       console.error("There was a problem with the fetch operation:", error);
@@ -87,6 +126,7 @@ function InfoInput({ onSearch }) {
     const value = e.target.value; //사용자가 선택한 소분류 값
     console.log(value);
     setCropCode(value); //선택된 소분류 값으로 작물 코드 설정
+    checkSearchButtonState(inputValue, value);
     // onSearch(e.target.selectedOptions[0].text);
   };
 
@@ -147,8 +187,21 @@ function InfoInput({ onSearch }) {
     };
 
     fetchData();
-  }, []);
+  }, [selectedBig]);
+  const checkSearchButtonState = (inputValue, cropCode) => {
+    const isBigSelected = selectedBig.length > 0;
+    const isMiddleSelected = middleOptions.length > 0;
+    const isSmallSelected = cropCode.length > 0;
 
+    if (
+      inputValue.length > 0 ||
+      (isBigSelected && isMiddleSelected && isSmallSelected)
+    ) {
+      setIsSearchDisabled(false);
+    } else {
+      setIsSearchDisabled(true);
+    }
+  };
   //
   return (
     <div className={styles.main}>
@@ -161,6 +214,7 @@ function InfoInput({ onSearch }) {
               value={inputValue}
               onChange={handleInputChange}
               onKeyDown={handleKeyDown}
+              disabled={isInputDisabled}
             />
           </div>
         </div>
@@ -170,7 +224,7 @@ function InfoInput({ onSearch }) {
             <span>작물</span>
 
             {/* 첫번째 셀렉트박스 */}
-            <select onChange={handleBigChang}>
+            <select onChange={handleBigChang} disabled={isSelectDisabled}>
               {selectedBig.map((item, idx) => (
                 <option key={idx} value={item.sKncrCode1}>
                   {/* {item.cropSectionName} */}
@@ -179,7 +233,7 @@ function InfoInput({ onSearch }) {
               ))}
             </select>
             {/* 두번째 셀렉트박스 */}
-            <select onChange={handleMiddleChang}>
+            <select onChange={handleMiddleChang} disabled={isSelectDisabled}>
               {middleOptions.map((item, idx) => (
                 <option key={idx} value={item.sKncrCode2}>
                   {item.sKncrNm2}
@@ -187,13 +241,22 @@ function InfoInput({ onSearch }) {
               ))}
             </select>
             {/* 세번째 셀렉트박스 */}
-            <select onChange={handleSmallChange} ref={lastSelectRef}>
+            <select
+              onChange={handleSmallChange}
+              ref={lastSelectRef}
+              disabled={isSelectDisabled}
+            >
               {selectedMiddle.map((item, idx) => (
                 <option key={idx} value={item.sKncrCode3}>
                   {item.sKncrNm3}
                 </option>
               ))}
             </select>
+            <div className={styles.reset}>
+              <button onClick={handleReset}>
+                <GrPowerReset />
+              </button>
+            </div>
           </div>
         </div>
       </div>

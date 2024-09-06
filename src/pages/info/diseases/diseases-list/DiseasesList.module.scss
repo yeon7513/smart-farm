@@ -43,6 +43,7 @@
     img {
       width: 250px;
       height: 200px;
+      border-radius: 8px;
     }
   }
   .item_name {
@@ -63,9 +64,15 @@
   }
 }
 .items {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  // display: grid;
+  // grid-template-columns: repeat(3, 1fr);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
   gap: 16px;
-  // padding: 20px 10px;
-  // margin: 10px 0;
+}
+.no_results {
+  margin-top: 100px;
+  font-size: 25px;
+  color: #6b6868;
 }

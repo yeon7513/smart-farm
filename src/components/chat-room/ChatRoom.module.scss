@@ -11,75 +11,65 @@
 
 .wrapper {
     background-color: var(--main-color);
-    padding: 50px;
+    padding: 0;
     border-radius: 20px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    display: flex;
     flex-direction: column;
     width: 280px;
     height: 500px;
     max-width: 60%;
     max-height: 50%;
-    text-align: left;
     margin-top: 16%;
     margin-left: 10%;
   position: fixed;
   left: 10%;
   top: 10%;
+  text-align: left;
 
-  header, footer {
+  .header, .footer {
     font-size: 16px;
   background-color: var(--common-color);
-  position: fixed;
-  left: 0;
   /* color:#fcf8f3; */
+  display: flex;
+  flex-direction: column;
   }
   
-  header {
-    top: 0;
-    left: 0;
-    right: 0;
-    padding: 0;
+  .header {
     border-radius: 20px 20px  0 0;
-
-    button {
-      margin: 10px 0 0 12px;
-      position: absolute;
-      top: 0;
-      right: 10px;
-      border-radius: 10px;
-      padding: 14px;
-      background-color: var(--common-color);
-  
-      &:hover {
-          background-color: var(--hover-color);
-        }
-
-        footer {
-          font-weight: bold;
-          bottom: 0;
-          left: 0;
-          padding: 10px 0;
-          border-radius: 0 0 16px 16px;
-        }
-    }
-  
-
-    h2 {
-        margin: 10px 0 0 12px;
+    
+    .title { 
+        padding: 10px 0 0 12px;
       }
 
-      p {
+      .guideText {
         margin: 10px 15px;
       }
 
       .closeBtn {
-        width: 16px;
-        height: 16px;
+        margin: 10px 0 0 12px;
+        // top: 0;
+        // right: 0;
+        border-radius: 10px;
+        padding: 14px;
+        background-color: var(--common-color);
+        cursor: pointer;
+        
+    
+        &:hover {
+            background-color: var(--hover-color);
+          }
+  
+  
       }
+    
       
   }
 
+       
+  .footer {
+    font-weight: bold;
+    padding: 10px 0;
+  }
 
   }
   
@@ -90,14 +80,14 @@
     
   } */
 
-  .questionButtons {
-    position: absolute;
-    top: 15%;
-    left: 0;
+  .questionBtns {
+// position: absolute;
+//     top: 100px;
+//     left: 0;
 
       
- button {
-    margin: 10px;
+ .questionBtn {
+    // margin: 10px;
     padding: 10px 15px;
     border: none;
     background-color: var(--common-color);
@@ -136,8 +126,15 @@
   } */
   
 
+  
+  // .closeBtn {
+  //   width: 16px;
+  //   height: 16px;
+  // }
+
 
   .answerArea {
+
     margin: 20px 15px 0;
     padding: 10px;
     border-top: 1px solid #ddd;

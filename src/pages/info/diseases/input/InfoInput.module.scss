@@ -2,7 +2,7 @@
   display: flex;
   border: 2px solid #ececec;
   padding: 10px;
-  width: 60%;
+  width: 65%;
   margin: 20px 0;
   gap: 20px;
   span {
@@ -41,7 +41,7 @@
       gap: 10px;
 
       span {
-        margin: 0 10px;
+        margin: 0 8px 0 0;
       }
       select {
         width: 100px;
@@ -63,5 +63,23 @@
     padding: 20px 40px;
     font-size: 25px;
     border-radius: 8px;
+    &:hover {
+      color: var(--hover-color);
+      border: 1px solid var(--hover-color);
+    }
+  }
+}
+.reset {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  button {
+    font-size: 25px;
+    display: flex;
+    align-items: center;
+
+    &:hover {
+      color: var(--hover-color);
+    }
   }
 }
