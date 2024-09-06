@@ -61,7 +61,7 @@ function Form({
         </div>
       )}
 
-      <Button>{title}</Button>
+      <button>{title}</button>
       {firebaseError && <span className={styles.form_error}>에러메세지</span>}
     </form>
   );

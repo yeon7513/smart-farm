@@ -45,11 +45,11 @@ function LoginPage(props) {
     const provider = new GoogleAuthProvider();
     const userInfo = await getDatas("users");
     await signInWithPopup(auth, provider).then((result) => {
-      console.log(result.user.displayName);
       // const userInfoConfirm = userInfo.filter(
       //   (item) => item.email == result.user.email
       // );
       // userInfoConfirm.forEach((item) => {
+      navigate("/");
       dispatch(
         setUser({
           email: result.user.email,
@@ -61,7 +61,6 @@ function LoginPage(props) {
         })
       );
       // });
-      // navigate("/Mypage");
       openModal();
     });
   };
