@@ -16,7 +16,7 @@ function RequestForQuote() {
   const navigate = useNavigate();
 
   // 유저 정보 불러오기
-  const user = JSON.parse(localStorage.getItem("user"));
+  const user = JSON.parse(localStorage.getItem("user")) || {};
 
   // useEffect(() => {
   //   const today = new Date();
