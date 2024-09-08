@@ -24,9 +24,16 @@
 
 .googlebutton {
   display: flex;
-  justify-content: center;
+  width: 100%;
   align-items: center;
   gap: 3px;
   width: 100%;
+  background-color: var(--main-color);
+  box-shadow: var(--box-shdow-);
+  padding: 8px 31.5px 8px 31.5px;
+  border-radius: 5px;
+  &:hover {
+    opacity: 0.8;
+  }
 }
 // .inputs

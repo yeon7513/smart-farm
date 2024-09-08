@@ -88,6 +88,8 @@ const Kakaoback = () => {
               fontSize: "12px", // 텍스트 크기
               fontWeight: "bold", // 텍스트 두께
               transition: "background-color 0.3s", // 호버 시 색상 변경을 부드럽게
+              width: "100%",
+              height: "100%",
             }}
           >
             <img

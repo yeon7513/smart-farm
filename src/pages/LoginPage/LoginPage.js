@@ -134,8 +134,12 @@ function LoginPage(props) {
               onClick={SignInWithGoogle}
             >
               <div className={styles.googlebutton}>
-                <FcIcons.FcGoogle />
-                <b>Google</b>
+                <div>
+                  <FcIcons.FcGoogle />
+                </div>
+                <div>
+                  <h4>Google</h4>
+                </div>
               </div>
             </button>
           </div>
