@@ -64,7 +64,6 @@ function UsageStatus() {
     } else {
       setLocalFarm(filteredData.data);
     }
-    console.log(filteredData);
   }, [localRegion, localName]);
 
   useEffect(() => {
@@ -102,7 +101,7 @@ function UsageStatus() {
               ) : (
                 <>
                   <h2>
-                    {sort === 'local' ? '지역별' : '작물별'} 전체 이용 현황
+                    {sort === 'local' ? '스마트팜' : '작물별'} 전체 이용 현황
                   </h2>
                   <div className={styles.select}>
                     {chartTypes.map((type, idx) => (
@@ -125,7 +124,7 @@ function UsageStatus() {
               ) : (
                 <>
                   <h2>
-                    {sort === 'local' ? '지역별' : '작물별'} 상세 이용 현황
+                    {sort === 'local' ? '스마트팜' : '작물별'} 상세 이용 현황
                   </h2>
                   <div className={styles.select}>
                     {chartTypes.map((type, idx) => (

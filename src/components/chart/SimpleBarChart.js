@@ -8,9 +8,33 @@ import {
   XAxis,
   YAxis,
 } from 'recharts';
+import { COLORS, transformData } from './Charts';
 
 function SimpleBarChart({ data }) {
-  console.log(data);
+  const hasCrops = data.length > 0 && data[0].crops && data[0].crops.length > 0;
+
+  const renderBars = () => {
+    if (data[0]?.crops) {
+      const transformedData = transformData(data);
+
+      const cropNames = transformedData.reduce((acc, item) => {
+        return [...acc, ...Object.keys(item).filter((key) => key !== 'name')];
+      }, []);
+
+      const uniqueCropNames = [...new Set(cropNames)];
+
+      return uniqueCropNames.map((cropName, idx) => (
+        <Bar
+          key={cropName}
+          dataKey={cropName}
+          stackId="a"
+          fill={COLORS[idx % COLORS.length]}
+        />
+      ));
+    } else {
+      return <Bar dataKey="value" fill="#a2ca71" />;
+    }
+  };
 
   return (
     <ResponsiveContainer
@@ -20,7 +44,7 @@ function SimpleBarChart({ data }) {
       maxHeight={600}
     >
       <BarChart
-        data={data}
+        data={hasCrops ? transformData(data) : data}
         margin={{
           top: 20,
           right: 20,
@@ -32,9 +56,7 @@ function SimpleBarChart({ data }) {
         <XAxis dataKey="name" />
         <YAxis />
         <Tooltip />
-        <Bar dataKey="value" fill="#a2ca71" />
-        <Bar dataKey="pv" stackId="a" fill="#8884d8" />
-        <Bar dataKey="uv" stackId="a" fill="#82ca9d" />
+        {renderBars()}
       </BarChart>
     </ResponsiveContainer>
   );

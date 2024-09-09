@@ -113,27 +113,64 @@ const localDataProcessing = (data, sortation) => {
   const result = {};
 
   data.forEach((item) => {
-    const mainKey = item.addressName.split(' ')[0];
-    const subKey =
-      sortation === 'local'
-        ? item.addressName.split(' ')[1]
-        : changeItemCode(item.itemCode);
+    const local = item.addressName.split(' ')[0];
     const city = item.addressName.split(' ')[1];
+    const cropName = changeItemCode(item.itemCode);
 
-    if (!result[mainKey]) {
-      result[mainKey] = {
-        local: mainKey,
-        data: [{ city: city, name: subKey, value: 1 }],
-      };
-    } else {
-      const dataIdx = result[mainKey].data.findIndex(
-        (data) => data.name === subKey
-      );
-
-      if (dataIdx > -1) {
-        result[mainKey].data[dataIdx].value += 1;
+    if (sortation === 'local') {
+      if (!result[local]) {
+        result[local] = {
+          local: local,
+          data: [{ name: city, value: 1 }],
+        };
       } else {
-        result[mainKey].data.push({ city: city, name: subKey, value: 1 });
+        const dataIdx = result[local].data.findIndex(
+          (data) => data.name === city
+        );
+
+        if (dataIdx > -1) {
+          result[local].data[dataIdx].value += 1;
+        } else {
+          result[local].data.push({ name: city, value: 1 });
+        }
+      }
+    }
+
+    if (sortation === 'crop') {
+      if (!result[local]) {
+        result[local] = {
+          local: local,
+          data: [
+            {
+              name: city,
+              crops: [{ item: cropName, value: 1 }],
+            },
+          ],
+        };
+      } else {
+        const cityIdx = result[local].data.findIndex(
+          (cityData) => cityData.name === city
+        );
+
+        if (cityIdx > -1) {
+          const cropIdx = result[local].data[cityIdx].crops.findIndex(
+            (crop) => crop.item === cropName
+          );
+
+          if (cropIdx > -1) {
+            result[local].data[cityIdx].crops[cropIdx].value += 1;
+          } else {
+            result[local].data[cityIdx].crops.push({
+              item: cropName,
+              value: 1,
+            });
+          }
+        } else {
+          result[local].data.push({
+            name: city,
+            crops: [{ item: cropName, value: 1 }],
+          });
+        }
       }
     }
   });
