@@ -21,17 +21,14 @@ function Forms({ title, getDataForm, firebaseError }) {
     email,
     password,
     number,
-    address,
     farmAddress,
-    required,
     name,
     nickname,
   }) => {
     getDataForm(email, password, {
       number: number,
-      address: address,
+      address: state,
       farmAddress: farmAddress,
-      required: required,
       name: name,
       nickname: nickname,
     });
@@ -173,26 +170,6 @@ function Forms({ title, getDataForm, firebaseError }) {
           </div>
         )}
       </div>
-      {/* <div>
-        <TextField
-          fullWidth
-          InputProps={{
-            sx: {
-              pl: 2,
-              pr: 2,
-            },
-          }}
-          type="text"
-          label={"주소"}
-          autoComplete="off"
-          {...register("address", address)}
-        />
-        {errors?.password && (
-          <div>
-            <span className={styles.form_error}>{errors.password.message}</span>
-          </div>
-        )}
-      </div> */}
       <div>
         <SearchAddr getAddr={setState} />
       </div>
