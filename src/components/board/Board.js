@@ -86,7 +86,7 @@ function Board({ nopost, category, complain }) {
                   <li id={view.length - ((currentPage - 1) * PAGE_SIZE + idx)}>
                     <div>{item.id}</div>
                     <div>{item.title}</div>
-                    <div>{item.userId}</div>
+                    <div>{item.nick}</div>
                     <div>{item.createdAt}</div>
                     <div>{item.count}</div>
                   </li>

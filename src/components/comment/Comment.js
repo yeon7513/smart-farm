@@ -16,7 +16,8 @@ function Comment({ item }) {
   const [newComment, setNewComment] = useState("");
   const docId = item.docId;
   const collectionName = item.collection;
-  const { isAuthenticated } = useSelector((state) => state.userSlice);
+  const { user, isAuthenticated } = useSelector((state) => state.userSlice);
+  // console.log(loginUser);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const openModal = () => setIsModalOpen(true);
@@ -38,7 +39,7 @@ function Comment({ item }) {
     const commentObj = {
       text: newComment,
       nickName: loginUser.nick,
-      userId: loginUser.userId,
+      userId: loginUser.email,
     };
 
     const success = await addComment(collectionName, docId, commentObj);
@@ -58,39 +59,53 @@ function Comment({ item }) {
 
   useEffect(() => {
     getComments();
-  }, [docId]);
+  }, []);
+
+  useEffect(() => {
+    // 로그인 상태가 변경되면 댓글을 다시 로드
+    if (isAuthenticated) {
+      getComments();
+    }
+  }, [isAuthenticated]);
 
   return (
     <div className={styles.container}>
       <h2>댓글({comments.length}개)</h2>
       {comments.map((comment) => (
-        <div className={styles.comment}>
+        <div className={styles.comment} key={comment.id}>
           <h4>{comment.text}</h4>
           <div className={styles.user}>
             <div>
               <p>
                 {comment.nickName} <span>{comment.createdAt}</span>
               </p>
-              {/* {comment.nick === loginUser.nick && (
-                <button onClick={() => handleDeleteComment(comment.id)}>
-                  삭제
-                </button>
-              )} */}
             </div>
             <div>
-              <button className={styles.complain} onClick={openModal}>
-                🚨신고하기
-              </button>
-              <CustomModal
-                title={"신고하기"}
-                btnName={"접수"}
-                handleClose={closeModal}
-                isOpen={isModalOpen}
-                btnHandler={goComplain}
-                className={styles.modal}
-              >
-                <Radio />
-              </CustomModal>
+              {comment.nickName === loginUser?.nick ? (
+                <div>
+                  <button>수정</button>
+                  <p>/</p>
+                  <button onClick={() => handleDeleteComment(comment.id)}>
+                    삭제
+                  </button>
+                </div>
+              ) : (
+                <div>
+                  <button className={styles.complain} onClick={openModal}>
+                    🚨신고하기
+                  </button>
+                  <CustomModal
+                    title={"신고하기"}
+                    btnName={"접수"}
+                    handleClose={closeModal}
+                    isOpen={isModalOpen}
+                    btnHandler={goComplain}
+                    className={styles.modal}
+                  >
+                    <Radio />
+                  </CustomModal>
+                </div>
+              )}
             </div>
           </div>
         </div>
