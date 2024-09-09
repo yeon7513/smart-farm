@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useForm } from "react-hook-form";
 import * as FcIcons from "react-icons/fc";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { getDatas, getUserAuth, joinUser } from "../../api/firebase";
 import CustomModal from "../../components/modal/CustomModal";
@@ -15,6 +15,7 @@ import SignIn from "./sign-in/SignIn";
 import axios from "axios";
 import { name } from "./../../lib/post";
 import SearchAddr from "../../components/search-addr/SearchAddr";
+import userSlice from "./../../store/user/UserSlice";
 
 function LoginPage() {
   // const api = "D2KH68BM8I140W4B";
@@ -61,29 +62,37 @@ function LoginPage() {
   } = useForm({
     mode: "onChange",
   });
-
+  const { isAuthenticated } = useSelector((state) => state.userSlice);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
 
   const auth = getUserAuth();
   const [user, loading, error] = useAuthState(auth);
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const SignInWithGoogle = async () => {
     const provider = new GoogleAuthProvider();
-    const userInfo = await getDatas("users");
-    console.log(userInfo);
-    await signInWithPopup(auth, provider).then((result) => {
-      dispatch(
-        setUser({
-          email: result.user.email,
-          token: result.user.refreshToken,
-          uid: result.user.uid,
-          nick: result.user.displayName,
-          number: result.user.number,
-        })
-      );
+    await signInWithPopup(auth, provider).then(async (result) => {
+      const userInfo = await getDatas("users");
+      const Point = userInfo.filter((item) => item.email == result.user.email);
+      if (Point.length === 0) {
+        openModal();
+      } else {
+        Point.forEach((item) => {
+          dispatch(
+            setUser({
+              email: result.user.email,
+              token: result.user.refreshToken,
+              uid: result.user.uid,
+              nick: result.user.displayName,
+              number: item.number,
+              name: item.name,
+            })
+          );
+        });
+      }
     });
   };
   const Info = auth.currentUser;

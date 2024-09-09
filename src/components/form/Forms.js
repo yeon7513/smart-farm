@@ -7,6 +7,7 @@ import SearchAddr from "../search-addr/SearchAddr";
 
 function Forms({ title, getDataForm, firebaseError }) {
   const [state, setState] = useState();
+  const [farmState, farmSetState] = useState();
   console.log(state);
   const {
     register,
@@ -17,18 +18,11 @@ function Forms({ title, getDataForm, firebaseError }) {
     mode: "onChange",
   });
 
-  const onSubmit = ({
-    email,
-    password,
-    number,
-    farmAddress,
-    name,
-    nickname,
-  }) => {
+  const onSubmit = ({ email, password, number, name, nickname }) => {
     getDataForm(email, password, {
       number: number,
       address: state,
-      farmAddress: farmAddress,
+      farmAddress: farmState,
       name: name,
       nickname: nickname,
     });
@@ -171,22 +165,12 @@ function Forms({ title, getDataForm, firebaseError }) {
         )}
       </div>
       <div>
+        <h3>주소</h3>
         <SearchAddr getAddr={setState} />
       </div>
       <div>
-        <TextField
-          fullWidth
-          InputProps={{
-            sx: {
-              pl: 2,
-              pr: 2,
-            },
-          }}
-          type="text"
-          label={"농장주소"}
-          autoComplete="off"
-          {...register("farmAddress")}
-        />
+        <h3>농장 주소</h3>
+        <SearchAddr getAddr={farmSetState} />
       </div>
       {/* <div>
         <input
