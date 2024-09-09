@@ -109,15 +109,10 @@ export async function createPayment(uid, paymentObj) {
   }
 }
 
-export async function getQuery(collectionName, queryOptions) {
-  const { conditions = [], orderBys = [] } = queryOptions;
-  const collect = collection(db, collectionName);
+export async function getQuery(collectionName, queryOption) {
+  const { conditions = [], orderBys = [] } = queryOption;
+  const collect = getCollection(collectionName);
   let q = query(collect);
-
-  const condition = [
-    { field: "views", operator: "==", value: "views" },
-    { field: "likes", operator: "==", value: "likes" },
-  ];
 
   // where 조건
   conditions.forEach((condition) => {
@@ -126,33 +121,17 @@ export async function getQuery(collectionName, queryOptions) {
 
   // orderBy 조건
   orderBys.forEach((order) => {
-    q = query(q, orderBy(order.field, order.direction || "desc"));
+    q = query(q, orderBy(order.field, order.direction || "asc"));
   });
 
   return q;
 }
 
-export async function getDatas(collectionName, { conditions, orderBys }) {
+export async function getDatas(collectionName, queryOptions) {
   try {
-    let q = query(collection(db, collectionName));
-
-    conditions.forEach((condition) => {
-      q = query(q, where(condition.field, condition.operator, condition.value));
-    });
-
-    orderBys.forEach((condition) => {
-      q = query(
-        q,
-        orderBy(condition.field, condition.operator, condition.value)
-      );
-    });
-
-    const querySnapshot = await getDocs(q);
-    const resultData = querySnapshot.docs.map((doc) => ({
-      id: doc.id,
-      ...doc.data(),
-    }));
-    return resultData;
+    const collect = collection(db, collectionName);
+    const snapshot = await getDocs(collect);
+    return snapshot.docs.map((doc) => ({ docId: doc.id, ...doc.data() }));
   } catch (error) {
     console.error("Error getting documents: ", error);
     throw error;
