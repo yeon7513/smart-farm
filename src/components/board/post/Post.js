@@ -12,6 +12,7 @@ const INITIAL_VALUE = {
   count: 0,
   summary: "",
   createdAt: new Date().toISOString().split("T")[0],
+  imgUrl: null,
 };
 
 function Post({ onClick, onSubmit, category, initialValue = INITIAL_VALUE }) {
@@ -36,8 +37,8 @@ function Post({ onClick, onSubmit, category, initialValue = INITIAL_VALUE }) {
 
     const addObj = {
       ...values,
-      imgUrl: file,
-      userId: loginUser.nick,
+      imgUrl: file || "",
+      nick: loginUser.nick,
     };
 
     try {
@@ -47,9 +48,9 @@ function Post({ onClick, onSubmit, category, initialValue = INITIAL_VALUE }) {
         onSubmit(result);
         setValues(INITIAL_VALUE);
         setFile(null);
-        if (fileInputRef.current) {
-          fileInputRef.current.value = "";
-        }
+        // if (fileInputRef.current) {
+        //   fileInputRef.current.value = "";
+        // }
         navigate(`/community/${category}/${result.id}`, { state: result });
       } else {
         alert("게시글 등록에 실패했습니다.");
@@ -89,8 +90,8 @@ function Post({ onClick, onSubmit, category, initialValue = INITIAL_VALUE }) {
           있으며, 해당 아이디가 정지 처리될 수 있습니다.
         </b>
         <div className={styles.file}>
-          <p>첨부:</p>{" "}
-          <input type="file" onChange={handleFileChange} ref={fileInputRef} />
+          <p>첨부:</p>
+          <input type="file" onChange={handleFileChange} />
         </div>
 
         <div className={styles.btn}>

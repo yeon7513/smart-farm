@@ -1,10 +1,10 @@
-import React from 'react';
-import { IoArrowBackCircle } from 'react-icons/io5';
-import { Outlet, useLocation, useNavigate } from 'react-router-dom';
-import Container from '../../../../components/layout/container/Container';
-import { useComponentContext } from '../../../../context/ComponentContext';
-import styles from './DashBoard.module.scss';
-import Weather from './weather/Weather';
+import React from "react";
+import { IoArrowBackCircle } from "react-icons/io5";
+import { Outlet, useLocation, useNavigate } from "react-router-dom";
+import Container from "../../../../components/layout/container/Container";
+import { useComponentContext } from "../../../../context/ComponentContext";
+import styles from "./DashBoard.module.scss";
+import Weather from "./weather/Weather";
 
 function DashBoard() {
   const navigate = useNavigate();
@@ -56,25 +56,26 @@ function DashBoard() {
             현재 수확이 가능합니다!
           </div>
         </div> */}
+        {/* <WeatherItem /> */}
         <Weather />
         <div className={styles.nav}>
           <ul>
-            <li className={currComp === 'Monitoring' ? styles.active : ''}>
-              <button onClick={() => setCurrComp('Monitoring')}>
+            <li className={currComp === "Monitoring" ? styles.active : ""}>
+              <button onClick={() => setCurrComp("Monitoring")}>
                 모니터링
               </button>
             </li>
-            <li className={currComp === 'ControlBox' ? styles.active : ''}>
-              <button onClick={() => setCurrComp('ControlBox')}>컨트롤</button>
+            <li className={currComp === "ControlBox" ? styles.active : ""}>
+              <button onClick={() => setCurrComp("ControlBox")}>컨트롤</button>
             </li>
-            <li className={currComp === 'Sensor' ? styles.active : ''}>
-              <button onClick={() => setCurrComp('Sensor')}>센서</button>
+            <li className={currComp === "Sensor" ? styles.active : ""}>
+              <button onClick={() => setCurrComp("Sensor")}>센서</button>
             </li>
-            <li className={currComp === 'Alert' ? styles.active : ''}>
-              <button onClick={() => setCurrComp('Alert')}>알림 내역</button>
+            <li className={currComp === "Alert" ? styles.active : ""}>
+              <button onClick={() => setCurrComp("Alert")}>알림 내역</button>
             </li>
-            <li className={currComp === 'Report' ? styles.active : ''}>
-              <button onClick={() => setCurrComp('Report')}>보고서</button>
+            <li className={currComp === "Report" ? styles.active : ""}>
+              <button onClick={() => setCurrComp("Report")}>보고서</button>
             </li>
           </ul>
         </div>
