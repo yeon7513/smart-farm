@@ -1,9 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import styles from "./Forms.module.scss";
 import { TextField } from "@mui/material";
+import Container from "../layout/container/Container";
+import SearchAddr from "../search-addr/SearchAddr";
 
 function Forms({ title, getDataForm, firebaseError }) {
+  const [state, setState] = useState();
+  console.log(state);
   const {
     register,
     handleSubmit,
@@ -17,17 +21,14 @@ function Forms({ title, getDataForm, firebaseError }) {
     email,
     password,
     number,
-    address,
     farmAddress,
-    required,
     name,
     nickname,
   }) => {
     getDataForm(email, password, {
       number: number,
-      address: address,
+      address: state,
       farmAddress: farmAddress,
-      required: required,
       name: name,
       nickname: nickname,
     });
@@ -170,24 +171,7 @@ function Forms({ title, getDataForm, firebaseError }) {
         )}
       </div>
       <div>
-        <TextField
-          fullWidth
-          InputProps={{
-            sx: {
-              pl: 2,
-              pr: 2,
-            },
-          }}
-          type="text"
-          label={"주소"}
-          autoComplete="off"
-          {...register("address", address)}
-        />
-        {errors?.password && (
-          <div>
-            <span className={styles.form_error}>{errors.password.message}</span>
-          </div>
-        )}
+        <SearchAddr getAddr={setState} />
       </div>
       <div>
         <TextField

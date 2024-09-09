@@ -52,16 +52,12 @@ function PostView() {
     }
   };
 
-  const handlePostUpdate = async (updatedData) => {
-    try {
-      await updatePost(post.collection, post.docId, updatedData);
-      // 수정 후 게시글 데이터 다시 가져오기
-      const updatedPost = await getPostById(post.collection, post.docId);
-      setPost(updatedPost); // 수정된 게시글 데이터로 상태 업데이트
-      setIsEditing(false); // 수정 모드 해제
-    } catch (error) {
-      console.error("Error updating post: ", error);
-    }
+  const handlePostUpdate = async () => {
+    // 게시글 데이터를 다시 불러오는 로직 추가
+    const updatedPost = await getBoardDatas(post.collection);
+    const updatedPostData = updatedPost.find((p) => p.docId === post.docId);
+    setPost(updatedPostData);
+    setIsEditing(false); // 수정 모드 종료
   };
 
   useEffect(() => {
@@ -83,8 +79,8 @@ function PostView() {
           {isEditing ? (
             <EditPost
               post={post}
-              onUpdate={handlePostUpdate}
-              onCancel={() => setIsEditing(false)}
+              setIsEditing={setIsEditing}
+              onPostUpdate={handlePostUpdate}
             />
           ) : (
             <>

@@ -1,36 +1,49 @@
 import React from 'react';
-import { Cell, Legend, Pie, PieChart, Tooltip } from 'recharts';
+import {
+  Cell,
+  Legend,
+  Pie,
+  PieChart,
+  ResponsiveContainer,
+  Tooltip,
+} from 'recharts';
 
 const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
 
 function SimpleDonutChart({ data }) {
   return (
-    <PieChart width={500} height={500}>
-      <Legend
-        layout="vertical"
-        align="right"
-        payload={data.map((local, idx) => ({
-          value: local.name,
-          type: 'square',
-          color: COLORS[idx % COLORS.length],
-        }))}
-      />
-      <Pie
-        data={data}
-        cx={130}
-        cy={200}
-        innerRadius={100}
-        outerRadius={200}
-        fill="#8884d8"
-        nameKey="name"
-        dataKey="value"
-      >
-        {data.map((entry, index) => (
-          <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-        ))}
-      </Pie>
-      <Tooltip />
-      {/* <Pie
+    <ResponsiveContainer
+      width="100%"
+      height={450}
+      maxWidth={500}
+      maxHeight={600}
+    >
+      <PieChart>
+        <Legend
+          layout="vertical"
+          align="right"
+          payload={data.map((local, idx) => ({
+            value: local.name,
+            type: 'square',
+            color: COLORS[idx % COLORS.length],
+          }))}
+        />
+        <Pie
+          data={data}
+          cx={230}
+          cy={230}
+          innerRadius={100}
+          outerRadius={200}
+          fill="#8884d8"
+          nameKey="name"
+          dataKey="value"
+        >
+          {data.map((entry, index) => (
+            <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+          ))}
+        </Pie>
+        <Tooltip />
+        {/* <Pie
         data={data}
         cx={420}
         cy={200}
@@ -46,7 +59,8 @@ function SimpleDonutChart({ data }) {
           <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
         ))}
       </Pie> */}
-    </PieChart>
+      </PieChart>
+    </ResponsiveContainer>
   );
 }
 
