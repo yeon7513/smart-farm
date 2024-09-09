@@ -1,24 +1,43 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { getDatas } from "../../api/firebase";
 
+const fetchOrder = createAsyncThunk(
+  "order/fetchOrder",
+  async ({ collectionName, queryOptions }, { rejectWithValue }) => {
+    try {
+      const resultData = await getDatas(collectionName, queryOptions);
+      return resultData;
+    } catch (error) {
+      console.error(error);
+      return rejectWithValue(error.message || "An error occurred");
+    }
+  }
+);
+
 const initialState = {
-  order: [],
+  order: "views",
   isLoading: false,
   error: "",
+  items: [],
 };
 
 const orderSlice = createSlice({
   name: "order",
   initialState,
-  reducers: {},
+  reducers: {
+    setOrder: (state, action) => {
+      state.order = action.payload;
+      state.items = [];
+    },
+  },
   extraReducers: (builder) => {
     builder
-      .addCase(fetchOrder.pending, (state) => {
+      .addCase(fetchOrder.pending, (state, action) => {
         state.isLoading = true;
       })
       .addCase(fetchOrder.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.order = action.payload;
+        state.items = action.payload;
       })
       .addCase(fetchOrder.rejected, (state, action) => {
         state.isLoading = false;
@@ -27,17 +46,6 @@ const orderSlice = createSlice({
   },
 });
 
-export const fetchOrder = createAsyncThunk(
-  "order/fetchOrder",
-  async ({ collectionName }, thunkAPI) => {
-    try {
-      const resultData = await getDatas(collectionName);
-      return resultData;
-    } catch (error) {
-      console.error(error);
-      return thunkAPI.rejectWithValue("Error fetch Order");
-    }
-  }
-);
-
 export default orderSlice.reducer;
+export { fetchOrder };
+export const { setOrder } = orderSlice.actions;

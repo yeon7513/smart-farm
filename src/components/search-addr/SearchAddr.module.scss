@@ -2,7 +2,7 @@
   padding: 20px;
   width: 340px;
 
-  input {
+  > input {
     padding: 10px;
     border-radius: 8px;
     border: 1px solid #eee;
@@ -30,7 +30,7 @@
     }
   }
 
-  button {
+  > button {
     padding: 8px 16px;
     font-size: 14px;
     border-radius: 8px;

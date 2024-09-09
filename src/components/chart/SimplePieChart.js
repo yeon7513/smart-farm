@@ -1,5 +1,12 @@
 import React from 'react';
-import { Cell, Pie, PieChart } from 'recharts';
+import {
+  Cell,
+  Legend,
+  Pie,
+  PieChart,
+  ResponsiveContainer,
+  Tooltip,
+} from 'recharts';
 
 // const data = [
 //   { name: 'Group A', value: 400 },
@@ -39,22 +46,39 @@ const renderCustomizedLabel = ({
 
 function SimplePieChart({ data }) {
   return (
-    <PieChart width={500} height={500}>
-      <Pie
-        data={data}
-        cx={200}
-        cy={200}
-        labelLine={false}
-        label={renderCustomizedLabel}
-        outerRadius={80}
-        fill="#8884d8"
-        dataKey="value"
-      >
-        {data.map((entry, index) => (
-          <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-        ))}
-      </Pie>
-    </PieChart>
+    <ResponsiveContainer
+      width="100%"
+      height={450}
+      maxWidth={500}
+      maxHeight={600}
+    >
+      <PieChart>
+        <Legend
+          layout="vertical"
+          align="right"
+          payload={data.map((local, idx) => ({
+            value: local.name,
+            type: 'square',
+            color: COLORS[idx % COLORS.length],
+          }))}
+        />
+        <Pie
+          data={data}
+          cx={250}
+          cy={230}
+          labelLine={false}
+          label={renderCustomizedLabel}
+          outerRadius={200}
+          fill="#8884d8"
+          dataKey="value"
+        >
+          {data.map((entry, index) => (
+            <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+          ))}
+        </Pie>
+        <Tooltip />
+      </PieChart>
+    </ResponsiveContainer>
   );
 }
 

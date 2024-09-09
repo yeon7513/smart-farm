@@ -1,4 +1,5 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { getDatas } from "../../api/firebase";
 
 const initialState = localStorage.getItem("faqData")
   ? JSON.parse(localStorage.getItem("faqData"))
@@ -39,18 +40,18 @@ const faqDataSlice = createSlice({
   },
 });
 
-// export const fetchfaqData = createAsyncThunk(
-//   "faqData/fetchfaqData",
-//   async ({ collectionName }, thunkAPI) => {
-//     try {
-//       const resultData = await getDatas(collectionName);
-//       return resultData;
-//     } catch (error) {
-//       console.error(error);
-//       return thunkAPI.rejectWithValue("Error fetch Order");
-//     }
-//   }
-// );
+export const fetchfaqData = createAsyncThunk(
+  "faqData/fetchfaqData",
+  async ({ collectionName }, thunkAPI) => {
+    try {
+      const resultData = await getDatas(collectionName);
+      return resultData;
+    } catch (error) {
+      console.error(error);
+      return thunkAPI.rejectWithValue("Error fetch Order");
+    }
+  }
+);
 
 export default faqDataSlice.reducer;
 export const { setLike, removeLike, setFaqData, updateFaq } =

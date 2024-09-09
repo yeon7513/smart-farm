@@ -44,17 +44,17 @@ export async function addDatas(collectionName, addObj) {
   return resultData;
 }
 
-export async function joinUser(uid, email, password, userInfo) {
-  const { address, number, farmAddress, required, name, nickname } = userInfo;
+export async function joinUser(uid, email, userInfo = {}, password = "") {
   const userData = {
     email: email,
     password: password,
-    ...(address !== undefined && { address: address }),
-    ...(number !== undefined && { number: number }),
-    ...(farmAddress !== undefined && { farmAddress: farmAddress }),
-    ...(required !== undefined && { required: required }),
-    ...(name !== undefined && { name: name }),
-    ...(name !== undefined && { nickname: nickname }),
+    createdAt: new Date(),
+    ...(userInfo.address && { address: userInfo.address }),
+    ...(userInfo.number && { number: userInfo.number }),
+    ...(userInfo.farmAddress && { farmAddress: userInfo.farmAddress }),
+    ...(userInfo.required && { required: userInfo.required }),
+    ...(userInfo.name && { name: userInfo.name }),
+    ...(userInfo.nickname && { nickname: userInfo.nickname }),
   };
   await setDoc(doc(db, "users", uid), userData);
 }
@@ -142,7 +142,6 @@ export async function updateDatas(collectionName, docId, updateObj) {
   try {
     const docRef = await doc(db, collectionName, docId);
     await updateDoc(docRef, updateObj);
-    // console.log("Document successfully updated!");
   } catch (error) {
     console.error("Error updating document: ", error);
     throw error;
