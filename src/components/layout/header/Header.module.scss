@@ -1,14 +1,15 @@
-header {
+.header {
   position: relative;
   box-shadow: var(--down-shadow);
   background-color: var(--main-color);
+  z-index: 100;
 
   &.home {
     position: fixed;
     top: 0;
     left: 0;
     right: 0;
-    z-index: 10;
+    z-index: 100;
     color: var(--main-color);
     transition: 0.3s linear;
     background-color: transparent;
@@ -30,6 +31,7 @@ header {
   justify-content: space-between;
   align-items: flex-end;
   padding: 0;
+  // background-color: var(--main-color);
 }
 
 .logo {
