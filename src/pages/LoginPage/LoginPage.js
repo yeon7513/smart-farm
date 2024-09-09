@@ -71,10 +71,6 @@ function LoginPage(props) {
     const provider = new GoogleAuthProvider();
     const userInfo = await getDatas("users");
     await signInWithPopup(auth, provider).then((result) => {
-      // const userInfoConfirm = userInfo.filter(
-      //   (item) => item.email == result.user.email
-      // );
-      // userInfoConfirm.forEach((item) => {
       navigate("/");
       dispatch(
         setUser({
@@ -83,10 +79,9 @@ function LoginPage(props) {
           uid: result.user.uid,
           nick: result.user.displayName,
           number: result.user.number,
-          // name: item.name,
         })
       );
-      // });
+
       openModal();
     });
   };
@@ -95,9 +90,9 @@ function LoginPage(props) {
   if (loading) {
     return <div>Loading...</div>;
   }
-  // if (user) {
-  //   navigate("/");
-  // }
+  if (user) {
+    navigate("/");
+  }
 
   if (error) {
     return <div>Error: {error.message}</div>;
