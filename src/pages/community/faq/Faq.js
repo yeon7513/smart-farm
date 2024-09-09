@@ -148,8 +148,15 @@ function Faq() {
 
   return (
     <div className={styles.page}>
-      <h1>FAQ</h1>
-      <p>- 자주 묻는 질문을 확인해보세요 !</p>
+      <div className={styles.faqIntro}>
+        <div>
+          <h1>FAQ</h1>
+          <p>- 자주 묻는 질문을 확인해보세요 !</p>
+        </div>
+        <div>
+          <button>조회순</button> | <button>좋아요순</button>
+        </div>
+      </div>
 
       <Container className={styles.container}>
         {faqData.map(({ id, question, answer, likes, views, liked }) => (

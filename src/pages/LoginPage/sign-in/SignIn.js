@@ -33,6 +33,7 @@ function SignIn(props) {
             name: item.name,
             nick: item.nickname,
             number: item.number,
+            address: item.address,
           })
         );
       });

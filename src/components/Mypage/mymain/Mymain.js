@@ -65,6 +65,38 @@ function Mymain(props) {
     return `${maskedLocalPart}@${maskedDomainName}.${domainExt}`;
   };
 
+  // 주소 마스킹 처리 함수
+  const maskAddress = (address) => {
+    if (!address) return "";
+
+    // 주소를 공백으로 나눔
+    const parts = address.split(" ");
+
+    if (parts.length < 5) {
+      return "주소 형식이 올바르지 않습니다.";
+    }
+
+    // 도/시/도
+    const maskedProvince = parts[0];
+
+    // 시/군/구
+    const maskedCity = parts[1];
+
+    // 구/군
+    const maskedDistrict = parts[2];
+
+    // 동/읍/면
+    const maskedNeighborhood = parts[3];
+
+    // 건물명
+    const maskedBuilding = parts.slice(4, -1).join(" ");
+
+    // 건물 호수
+    const maskedUnit = parts[parts.length - 1].replace(/\d/g, "*");
+
+    return `${maskedProvince} ${maskedCity} ${maskedDistrict} ${maskedNeighborhood} ${maskedBuilding} ${maskedUnit}`;
+  };
+
   return (
     <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="xs">
@@ -95,7 +127,7 @@ function Mymain(props) {
             Mail: {maskEmail(user.email) || "이메일 정보가 없습니다."}{" "}
           </Typography>
           <Typography>
-            address: {user.address || "주소 정보가 없습니다."}{" "}
+            address: {maskAddress(user.address) || "주소 정보가 없습니다."}{" "}
           </Typography>
           <Box component="form" sx={{ mt: 3 }}>
             <Button
