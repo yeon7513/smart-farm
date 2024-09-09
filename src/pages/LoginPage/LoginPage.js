@@ -72,21 +72,23 @@ function LoginPage() {
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const Info = auth.currentUser;
   const SignInWithGoogle = async () => {
     const provider = new GoogleAuthProvider();
     await signInWithPopup(auth, provider).then(async (result) => {
+      console.log(result);
       const userInfo = await getDatas("users");
-      const Point = userInfo.filter((item) => item.email == result.user.email);
+      const Point = userInfo.filter((item) => item?.email == Info?.email);
       if (Point.length === 0) {
         openModal();
       } else {
         Point.forEach((item) => {
           dispatch(
             setUser({
-              email: result.user.email,
-              token: result.user.refreshToken,
-              uid: result.user.uid,
-              nick: result.user.displayName,
+              email: Info.email,
+              token: Info.refreshToken,
+              uid: Info.uid,
+              nick: Info.displayName,
               number: item.number,
               name: item.name,
             })
@@ -95,7 +97,7 @@ function LoginPage() {
       }
     });
   };
-  const Info = auth.currentUser;
+
   const onSubmit = ({ name, number, address }) => {
     joinUser(Info.uid, Info.email, {
       number: number,
