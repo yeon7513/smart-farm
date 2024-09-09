@@ -200,3 +200,19 @@ export async function deleteComment(collectionName, docId, commentId) {
     return false;
   }
 }
+
+export async function updateComment(
+  category,
+  docId,
+  commentId,
+  updatedComment
+) {
+  try {
+    const commentRef = doc(db, category, docId, "comment", commentId);
+    await updateDoc(commentRef, updatedComment);
+    return true;
+  } catch (error) {
+    console.error("댓글 수정 중 오류 발생: ", error);
+    return false;
+  }
+}

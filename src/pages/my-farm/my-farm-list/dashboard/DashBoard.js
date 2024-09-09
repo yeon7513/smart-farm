@@ -56,7 +56,6 @@ function DashBoard() {
             현재 수확이 가능합니다!
           </div>
         </div> */}
-        {/* <WeatherItem /> */}
         <Weather />
         <div className={styles.nav}>
           <ul>

@@ -78,55 +78,71 @@ function Weather() {
     const longitude = 127.4230707;
     handleWeather(latitude, longitude);
   }, []);
+
+  //   <img
+  //   src={`http://openweathermap.org/img/wn/${weatherData.icon}@2x.png`}
+  // />
   return (
     <div className={styles.weather}>
-      <div className={styles.content}>
-        <div className={styles.region}>
-          <img
-            src={`http://openweathermap.org/img/wn/${weatherData.icon}@2x.png`}
-          />
-          <p>{weatherData.description}</p>
-          <h2>지역</h2>
-          <button>새로고침</button>
+      <div className={styles.today}>
+        <div>
+          요일 <span>시간</span>
         </div>
-        <ul className={styles.info}>
-          <li>
-            <h3>온도</h3>
-            <p>{weatherData.temperature}&#8451;</p>
-          </li>
-          <li>
-            <h3>습도</h3>
-            <p>{weatherData.humidity}%</p>
-          </li>
-          <li>
-            <h3>강수량</h3>
-            <p>{weatherData.precipitation}</p>
-          </li>
-          <li>
-            <h3>일사량</h3>
-            <p>655.0</p>
-          </li>
-          <li>
-            <h3>바람</h3>
-            <p>{weatherData.windSpeed}</p>
-            <p>{weatherData.windDirection}</p>
-          </li>
-        </ul>
-        <div className={styles.weatherByDay}>
-          {weatherByDay.map((weather, idx) => (
-            <div key={idx} className={styles.days}>
-              <h3>{weather.days}</h3>
-              <p>{weather.weather}</p>
-              <p>{weather.precipitationProbability}</p>
-              <p>
-                <span className={styles.low}>{weather.LowestTemperature}</span>
-                &nbsp;/&nbsp;
-                <span className={styles.high}>
-                  {weather.HighestTemperature}
-                </span>
-              </p>
+        <img
+          src={`http://openweathermap.org/img/wn/${weatherData.icon}@2x.png`}
+        />
+      </div>
+      <div className={styles.weather_menu}>
+        <div className={styles.mr_today}>
+          {" "}
+          <div>
+            <div>오후00:00</div>
+            <div>
+              <img
+                src={`http://openweathermap.org/img/wn/${weatherData.icon}@2x.png`}
+              />
             </div>
-          ))}
+            <div>
+              <div>{weatherData.temperature}</div>
+            </div>
+          </div>
+          <div>
+            <div>오후00:00</div>
+            <div>
+              <img
+                src={`http://openweathermap.org/img/wn/${weatherData.icon}@2x.png`}
+              />
+            </div>
+            <div>
+              <div>{weatherData.temperature}</div>
+            </div>
+          </div>
+          <div>
+            <div>오후00:00</div>
+            <div>
+              <img
+                src={`http://openweathermap.org/img/wn/${weatherData.icon}@2x.png`}
+              />
+            </div>
+            <div>
+              <div>{weatherData.temperature}</div>
+            </div>
+          </div>
+          <div>
+            <div>오후00:00</div>
+            <div>
+              <img
+                src={`http://openweathermap.org/img/wn/${weatherData.icon}@2x.png`}
+              />
+            </div>
+            <div>
+              <div>{weatherData.temperature}</div>
+            </div>
+          </div>
+        </div>
+        <div className={styles.next_day}>
+          {" "}
+          <p>sdfs</p>
         </div>
       </div>
     </div>

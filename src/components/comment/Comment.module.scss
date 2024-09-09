@@ -62,6 +62,36 @@
     border-radius: 8px;
     font-size: 16px;
     letter-spacing: 0.75px;
+
+    &:hover {
+      background-color: #eee;
+    }
+  }
+}
+
+.editMode {
+  border-bottom: 1px solid #eee;
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 10px 20px;
+
+  input {
+    width: 730px;
+    border: 1px solid #eee;
+    padding: 20px 10px;
+    margin-right: 8px;
+    border-radius: 8px;
+    font-size: 14px;
+  }
+  button {
+    padding: 20px 15px;
+    border: 1px solid #ddd;
+    margin-left: 3px;
+    border-radius: 8px;
+
+    &:hover {
+      background-color: #eee;
+    }
   }
 }
 
