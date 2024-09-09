@@ -110,10 +110,15 @@ export async function createPayment(uid, paymentObj) {
   }
 }
 
-export async function getQuery(collectionName, queryOption) {
-  const { conditions = [], orderBys = [] } = queryOption;
-  const collect = getCollection(collectionName);
+export async function getQuery(collectionName, queryOptions) {
+  const { conditions = [], orderBys = [] } = queryOptions;
+  const collect = collection(db, collectionName);
   let q = query(collect);
+
+  const condition = [
+    { field: "views", operator: "==", value: "views" },
+    { field: "likes", operator: "==", value: "likes" },
+  ];
 
   // where 조건
   conditions.forEach((condition) => {
@@ -122,17 +127,33 @@ export async function getQuery(collectionName, queryOption) {
 
   // orderBy 조건
   orderBys.forEach((order) => {
-    q = query(q, orderBy(order.field, order.direction || "asc"));
+    q = query(q, orderBy(order.field, order.direction || "desc"));
   });
 
   return q;
 }
 
-export async function getDatas(collectionName, queryOptions) {
+export async function getDatas(collectionName, { conditions, orderBys }) {
   try {
-    const collect = collection(db, collectionName);
-    const snapshot = await getDocs(collect);
-    return snapshot.docs.map((doc) => ({ docId: doc.id, ...doc.data() }));
+    let q = query(collection(db, collectionName));
+
+    conditions.forEach((condition) => {
+      q = query(q, where(condition.field, condition.operator, condition.value));
+    });
+
+    orderBys.forEach((condition) => {
+      q = query(
+        q,
+        orderBy(condition.field, condition.operator, condition.value)
+      );
+    });
+
+    const querySnapshot = await getDocs(q);
+    const resultData = querySnapshot.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    }));
+    return resultData;
   } catch (error) {
     console.error("Error getting documents: ", error);
     throw error;
@@ -143,7 +164,6 @@ export async function updateDatas(collectionName, docId, updateObj) {
   try {
     const docRef = await doc(db, collectionName, docId);
     await updateDoc(docRef, updateObj);
-    // console.log("Document successfully updated!");
   } catch (error) {
     console.error("Error updating document: ", error);
     throw error;

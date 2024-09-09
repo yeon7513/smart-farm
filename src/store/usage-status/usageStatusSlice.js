@@ -2,10 +2,8 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { usageStatusData } from '../../api/usageStatusData';
 
 const initialState = {
-  entireRegionFarm: [],
-  localRegionFarm: [],
-  entireRegionCrop: [],
-  localRegionCrop: [],
+  entireRegion: [],
+  localRegion: [],
   isLoading: false,
   error: null,
 };
@@ -17,140 +15,38 @@ const usageStatusSlice = createSlice({
   extraReducers: (builder) => {
     builder
       // 지역별 전체 이용 현황
-      .addCase(fetchEntireRegionFarm.pending, (state) => {
+      .addCase(fetchEntireRegion.pending, (state) => {
         state.isLoading = true;
         state.error = null;
       })
-      .addCase(fetchEntireRegionFarm.fulfilled, (state, action) => {
+      .addCase(fetchEntireRegion.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.entireRegionFarm = action.payload;
+        state.entireRegion = action.payload;
         state.error = null;
       })
-      .addCase(fetchEntireRegionFarm.rejected, (state, action) => {
+      .addCase(fetchEntireRegion.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload;
       })
 
       // 지역별 상세 이용 현황
-      .addCase(fetchLocalRegionFarm.pending, (state) => {
+      .addCase(fetchLocalRegion.pending, (state) => {
         state.isLoading = true;
         state.error = null;
       })
-      .addCase(fetchLocalRegionFarm.fulfilled, (state, action) => {
+      .addCase(fetchLocalRegion.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.localRegionFarm = action.payload;
+        state.localRegion = action.payload;
         state.error = null;
       })
-      .addCase(fetchLocalRegionFarm.rejected, (state, action) => {
-        state.isLoading = false;
-        state.error = action.payload;
-      })
-
-      // 작물별 전체 이용 현황
-      .addCase(fetchEntireRegionCrop.pending, (state) => {
-        state.isLoading = true;
-        state.error = null;
-      })
-      .addCase(fetchEntireRegionCrop.fulfilled, (state, action) => {
-        state.isLoading = false;
-        state.entireRegionCrop = action.payload;
-        state.error = null;
-      })
-      .addCase(fetchEntireRegionCrop.rejected, (state, action) => {
-        state.isLoading = false;
-        state.error = action.payload;
-      })
-
-      // 작물별 상세 이용 현황
-      .addCase(fetchLocalRegionCrop.pending, (state) => {
-        state.isLoading = true;
-        state.error = null;
-      })
-      .addCase(fetchLocalRegionCrop.fulfilled, (state, action) => {
-        state.isLoading = false;
-        state.localRegionCrop = action.payload;
-        state.error = null;
-      })
-      .addCase(fetchLocalRegionCrop.rejected, (state, action) => {
+      .addCase(fetchLocalRegion.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload;
       });
   },
 });
 
-// 지역별 전체 이용 현황
-export const fetchEntireRegionFarm = createAsyncThunk(
-  'usageStatus/fetchEntireRegionFarm',
-  async () => {
-    try {
-      const data = await usageStatusData();
-      const addr = data.map((data) => data.addressName);
-      const locals = addr
-        .map((addr) => addr.split(' ')[0])
-        .reduce((acc, name) => {
-          acc[name] = (acc[name] || 0) + 1;
-          return acc;
-        }, {});
-
-      const result = Object.entries(locals).map(([name, value]) => ({
-        name,
-        value,
-      }));
-
-      return result;
-    } catch (error) {
-      return error;
-    }
-  }
-);
-
-// 지역별 상세 이용 현황
-export const fetchLocalRegionFarm = createAsyncThunk(
-  'usageStatus/localRegionFarm',
-  async () => {
-    try {
-      const data = await usageStatusData();
-      const locals = data
-        .map((data) => data.addressName)
-        .map((addr) => addr.split(' '));
-
-      const result = locals.reduce((acc, [province, city]) => {
-        let provinceObj = acc.find((item) => item[province]);
-
-        if (!provinceObj) {
-          provinceObj = { [province]: [{ name: city, value: 1 }] };
-          acc.push(provinceObj);
-        } else {
-          const cityObj = provinceObj[province].find(
-            (item) => item.name === city
-          );
-
-          if (cityObj) {
-            cityObj.value += 1;
-          } else {
-            provinceObj[province].push({ name: city, value: 1 });
-          }
-        }
-        return acc;
-      }, []);
-
-      if (result.length === 1) {
-        const [province, cities] = Object.entries(result[0])[0];
-        result[0] = {
-          [province]: cities.map((city) => ({
-            name: city.name,
-            value: city.value,
-          })),
-        };
-      }
-
-      return result;
-    } catch (error) {
-      return error;
-    }
-  }
-);
-
+// 작물 코드
 const changeItemCode = (code) => {
   switch (code) {
     case '090300':
@@ -189,23 +85,92 @@ const changeItemCode = (code) => {
   }
 };
 
-// 작물별 전체 이용 현황
-export const fetchEntireRegionCrop = createAsyncThunk(
-  'usageStatus/entireRegionCrop',
-  async () => {
-    const data = await usageStatusData();
+// ========= 데이터 가공 함수 =========
 
+// 전체 이용 현황 데이터 가공
+const EntireDataProcessing = (data, sortation) => {
+  const processData = data
+    .map((data) =>
+      sortation === 'local'
+        ? data.addressName.split(' ')[0]
+        : changeItemCode(data.itemCode)
+    )
+    .reduce((acc, name) => {
+      acc[name] = (acc[name] || 0) + 1;
+      return acc;
+    }, {});
+
+  const resultData = Object.entries(processData).map(([name, value]) => ({
+    name,
+    value,
+  }));
+
+  return resultData;
+};
+
+// 상세 이용 현황 데이터 가공
+const localDataProcessing = (data, sortation) => {
+  const result = {};
+
+  data.forEach((item) => {
+    const mainKey = item.addressName.split(' ')[0];
+    const subKey =
+      sortation === 'local'
+        ? item.addressName.split(' ')[1]
+        : changeItemCode(item.itemCode);
+
+    if (!result[mainKey]) {
+      result[mainKey] = {
+        local: mainKey,
+        data: [{ name: subKey, value: 1 }],
+      };
+    } else {
+      const dataIdx = result[mainKey].data.findIndex(
+        (data) => data.name === subKey
+      );
+
+      if (dataIdx > -1) {
+        result[mainKey].data[dataIdx].value += 1;
+      } else {
+        result[mainKey].data.push({ name: subKey, value: 1 });
+      }
+    }
+  });
+
+  return Object.values(result);
+};
+
+// ========= fetch 함수 =========
+
+// 전체 이용 현황
+export const fetchEntireRegion = createAsyncThunk(
+  'usageStatus/fetchEntireRegionFarm',
+  async (sortation) => {
     try {
-    } catch (error) {}
+      const data = await usageStatusData();
+
+      const result = EntireDataProcessing(data, sortation);
+
+      return result;
+    } catch (error) {
+      return error;
+    }
   }
 );
 
-// 작물별 상세 이용 현황
-export const fetchLocalRegionCrop = createAsyncThunk(
-  'usageStatus/localRegionCrop',
-  async () => {
+// 상세 이용 현황
+export const fetchLocalRegion = createAsyncThunk(
+  'usageStatus/localRegionFarm',
+  async (sortation) => {
     try {
-    } catch (error) {}
+      const data = await usageStatusData();
+
+      const result = localDataProcessing(data, sortation);
+
+      return result;
+    } catch (error) {
+      return error;
+    }
   }
 );
 

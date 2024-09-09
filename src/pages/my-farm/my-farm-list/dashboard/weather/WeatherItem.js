@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import styles from "./Weather.module.scss";
+import styles from "./WeatherItem.module.scss";
 // import { url } from "inspector";
 
 const weatherByDay = [
@@ -111,8 +111,23 @@ function Weather() {
             <p>{weatherData.windSpeed}</p>
             <p>{weatherData.windDirection}</p>
           </li>
+          <li>
+            <h3>바람</h3>
+            <p>{weatherData.windSpeed}</p>
+            <p>{weatherData.windDirection}</p>
+          </li>
+          <li>
+            <h3>바람</h3>
+            <p>{weatherData.windSpeed}</p>
+            <p>{weatherData.windDirection}</p>
+          </li>
+          <li>
+            <h3>바람</h3>
+            <p>{weatherData.windSpeed}</p>
+            <p>{weatherData.windDirection}</p>
+          </li>
         </ul>
-        <div className={styles.weatherByDay}>
+        {/* <div className={styles.weatherByDay}>
           {weatherByDay.map((weather, idx) => (
             <div key={idx} className={styles.days}>
               <h3>{weather.days}</h3>
@@ -127,7 +142,7 @@ function Weather() {
               </p>
             </div>
           ))}
-        </div>
+        </div> */}
       </div>
     </div>
   );

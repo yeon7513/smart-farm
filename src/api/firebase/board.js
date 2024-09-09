@@ -115,6 +115,49 @@ export const incrementPostCount = async (category, docId) => {
   }
 };
 
+export async function deletePost(category, docId) {
+  try {
+    const commentRef = doc(db, category, docId);
+    await deleteDoc(commentRef);
+    return true;
+  } catch (error) {
+    console.error("게시글 삭제 중 오류 발생: ", error);
+    return false;
+  }
+}
+
+export async function updatePost(category, docId, updatedId) {
+  try {
+    const postRef = doc(db, category, docId);
+    await updateDoc(postRef, updatedId);
+    return true;
+  } catch (error) {
+    console.error("게시글 수정 중 오류 발생: ", error);
+    return false;
+  }
+}
+
+export const getPostById = async (collection, docId) => {
+  try {
+    // Firestore에서 특정 문서 참조를 생성
+    const docRef = doc(db, collection, docId);
+    // 문서 데이터를 가져오기
+    const docSnap = await getDoc(docRef);
+
+    if (docSnap.exists()) {
+      // 문서가 존재하면 데이터를 반환
+      return { id: docSnap.id, ...docSnap.data() };
+    } else {
+      // 문서가 존재하지 않는 경우 처리
+      console.log("No such document!");
+      return null;
+    }
+  } catch (error) {
+    console.error("Error fetching post: ", error);
+    throw error;
+  }
+};
+
 export async function getComment(collectionName, docId) {
   try {
     const commentRef = collection(db, collectionName, docId, "comment");
