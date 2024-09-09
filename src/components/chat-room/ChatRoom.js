@@ -28,6 +28,7 @@ function ChatRoom({handleClose}) {
       <p className={styles.guideText}>무엇을 도와드릴까요?</p>
                 </div>
                 {/* 여기까지 헤더의 영역 */}
+                <div className={styles.content}>
                 <div className={styles.questionBtns}>
     <button className={styles.questionBtn} onClick={() => showAnswer('answer1')}>스마트팜이 뭔가요?</button>
     <button className={styles.questionBtn} onClick={() => showAnswer('answer2')}>견적의뢰요청방법</button>
@@ -40,6 +41,7 @@ function ChatRoom({handleClose}) {
   {selectedAnswer}
   </div> 
   {/* 답변리스트 */}
+                </div>
    <div className={styles.footer}> 
     채팅 상담원 연결 시간은 오전 9시부터 오후 6시까지 운영되오니 
     많은 참고 부탁드립니다.😊 
