@@ -193,6 +193,8 @@ const changeItemCode = (code) => {
 export const fetchEntireRegionCrop = createAsyncThunk(
   'usageStatus/entireRegionCrop',
   async () => {
+    const data = await usageStatusData();
+
     try {
     } catch (error) {}
   }
