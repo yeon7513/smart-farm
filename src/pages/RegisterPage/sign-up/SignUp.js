@@ -6,6 +6,7 @@ import { createUserWithEmailAndPassword } from "firebase/auth";
 import Form from "./../../../components/form/Form";
 import { setUser } from "../../../store/user/UserSlice";
 import Forms from "../../../components/form/Forms";
+import Container from "../../../components/layout/container/Container";
 
 function SingUp(props) {
   const [firebaseError, setFirebaseError] = useState("");
@@ -40,13 +41,13 @@ function SingUp(props) {
     }
   };
   return (
-    <>
+    <Container>
       <Forms
         title={"회원가입"}
         getDataForm={handleSignupAndLogin}
         firebaseError={firebaseError}
       />
-    </>
+    </Container>
   );
 }
 export default SingUp;

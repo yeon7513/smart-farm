@@ -12,13 +12,11 @@ import Container from "./../../components/layout/container/Container";
 function RegisterPage(props) {
   return (
     <Container>
-      <div className={style.container}>
-        <h1>회원가입</h1>
-        <SignUp />
-        <p>
-          이미 계정이 있습니까? &nbsp; <Link to={"/login"}>로그인</Link>
-        </p>
-      </div>
+      <h1>회원가입</h1>
+      <SignUp />
+      <p>
+        이미 계정이 있습니까? &nbsp; <Link to={"/login"}>로그인</Link>
+      </p>
     </Container>
   );
 }
