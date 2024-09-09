@@ -7,15 +7,10 @@ import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { db } from "../../../api/firebase";
-import {
-  collection,
-  doc,
-  getDoc,
-  getDocs,
-  updateDoc,
-} from "firebase/firestore";
+import { doc, updateDoc } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
 import { setFaqData } from "../../../store/faq-data/faqDataSlice";
+import { fetchOrder, setOrder } from "../../../store/order/orderSlice";
 
 function Faq() {
   const auth = getAuth();
@@ -24,55 +19,19 @@ function Faq() {
   const [openId, setOpenId] = useState(null);
   const faqData = useSelector((state) => state.faqDataSlice || {});
   const { isAuthenticated } = useSelector((state) => state.userSlice);
+  const { order } = useSelector((state) => state.orderSlice);
+
+  const handleLoad = async (order) => {
+    const queryOptions = {
+      conditions: [], // 필요한 조건 추가
+      orderBys: [{ field: order, direction: "desc" }],
+    };
+    dispatch(fetchOrder({ collectionName: "faq", queryOptions }));
+  };
 
   useEffect(() => {
-    const fetchFaqData = async () => {
-      try {
-        const cachedData = localStorage.getItem("faq");
-        if (cachedData) {
-          const parsedData = JSON.parse(cachedData);
-          console.log("Parsed Cached Data:", parsedData); // 캐시된 데이터를 확인합니다.
-          dispatch(setFaqData(parsedData));
-        } else {
-          const faqCollectionRef = collection(db, "faq");
-          const faqSnapshot = await getDocs(faqCollectionRef);
-          const faqList = faqSnapshot.docs.map((doc) => ({
-            id: doc.id,
-            ...doc.data(),
-          }));
-
-          // Firestore에서 사용자의 좋아요 상태를 가져와서 데이터에 추가합니다.
-          if (isAuthenticated) {
-            const userId = auth.currentUser?.uid;
-            if (userId) {
-              const userRef = doc(db, "users", userId);
-              const userDoc = await getDoc(userRef);
-              const userLikes = userDoc.data()?.liked || {};
-
-              const updatedFaqList = faqList.map((faq) => ({
-                ...faq,
-                liked: !!userLikes[faq.id],
-              }));
-
-              dispatch(setFaqData(updatedFaqList));
-              localStorage.setItem("faqData", JSON.stringify(updatedFaqList));
-            } else {
-              dispatch(setFaqData(faqList));
-              localStorage.setItem("faqData", JSON.stringify(faqList));
-            }
-          } else {
-            dispatch(setFaqData(faqList));
-            localStorage.setItem("faqData", JSON.stringify(faqList));
-          }
-
-          console.log("FAQ 데이터가 Firestore에서 성공적으로 로드되었습니다.");
-        }
-      } catch (error) {
-        console.error("FAQ 데이터 로드 중 오류 발생:", error);
-      }
-    };
-    fetchFaqData();
-  }, [isAuthenticated, dispatch]);
+    handleLoad(order); // Load data when component mounts or order changes
+  }, [order]);
 
   const toggleVisibility = (id) => {
     setOpenId((prevId) => (prevId === id ? null : id));
@@ -146,6 +105,10 @@ function Faq() {
     console.log("로그인이 필요한 서비스입니다.");
   };
 
+  const handleViewsClick = () => dispatch(setOrder("views"));
+
+  const handleLikesClick = () => dispatch(setOrder("likes"));
+
   return (
     <div className={styles.page}>
       <div className={styles.faqIntro}>
@@ -154,7 +117,13 @@ function Faq() {
           <p>- 자주 묻는 질문을 확인해보세요 !</p>
         </div>
         <div>
-          <button>조회순</button> | <button>좋아요순</button>
+          <button selected={order === "views"} onClick={handleViewsClick}>
+            조회순
+          </button>{" "}
+          |{" "}
+          <button selected={order === "likes"} onClick={handleLikesClick}>
+            좋아요순
+          </button>
         </div>
       </div>
 
