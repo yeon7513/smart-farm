@@ -84,18 +84,6 @@ function LoginPage() {
           number: result.user.number,
         })
       );
-      // if (userInfo.hasOwnProperty("name")) {
-      // } else {
-      //   openModal();
-      // }
-
-      // userInfo.forEach((item) => {
-      //   if (item.email == result.user.email &&) {
-
-      //   } else {
-
-      //   }
-      // });
     });
   };
   const Info = auth.currentUser;
@@ -193,7 +181,7 @@ function LoginPage() {
                 {...register("number")}
               />
             </div>
-            {/* <div>
+            <div>
               <TextField
                 InputProps={{
                   sx: {
@@ -205,8 +193,7 @@ function LoginPage() {
                 label={"주소"}
                 {...register("address")}
               />
-            </div> */}
-            <SearchAddr />
+            </div>
             <div>
               <button>확인</button>
               <button>취소</button>
