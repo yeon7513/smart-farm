@@ -29,7 +29,7 @@ const Kakaoback = () => {
         //     // name: item.name,
       })
     );
-    navigate("/");
+    navigate("/register");
     const idToken = data.response.access_token;
     console.log("엑세스 토큰:", idToken);
   };
@@ -45,7 +45,6 @@ const Kakaoback = () => {
         console.log("로그아웃 중입니다.");
         window.Kakao.Auth.logout(function () {
           console.log("로그아웃 성공");
-          navigate("/login");
           // 로그아웃 후 추가로 처리할 작업이 있다면 여기에 작성합니다.
         });
       } else {

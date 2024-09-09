@@ -1,6 +1,7 @@
 import React from "react";
 import { useForm } from "react-hook-form";
-import styles from "./Form.module.scss";
+import styles from "./Forms.module.scss";
+import { TextField } from "@mui/material";
 
 function Forms({ title, getDataForm, firebaseError }) {
   const {
@@ -61,25 +62,46 @@ function Forms({ title, getDataForm, firebaseError }) {
   return (
     <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
       <div>
-        <input
+        <TextField
+          fullWidth
+          InputProps={{
+            sx: {
+              pl: 2,
+              pr: 2,
+            },
+          }}
           type="text"
-          placeholder="닉네임"
+          label={"닉네임"}
           autoComplete="off"
           {...register("nickname")}
         />
       </div>
       <div>
-        <input
+        <TextField
+          fullWidth
+          InputProps={{
+            sx: {
+              pl: 2,
+              pr: 2,
+            },
+          }}
           type="text"
-          placeholder="이름"
+          label={"이름"}
           autoComplete="off"
           {...register("name")}
         />
       </div>
       <div>
-        <input
+        <TextField
+          fullWidth
+          InputProps={{
+            sx: {
+              pl: 2,
+              pr: 2,
+            },
+          }}
           type="email"
-          placeholder="이메일 입력"
+          label={"이메일 입력"}
           autoComplete="off"
           {...register("email", userEmail)}
         />
@@ -90,9 +112,16 @@ function Forms({ title, getDataForm, firebaseError }) {
         )}
       </div>
       <div>
-        <input
+        <TextField
+          fullWidth
+          InputProps={{
+            sx: {
+              pl: 2,
+              pr: 2,
+            },
+          }}
           type="password"
-          placeholder="비밀번호 입력(문자, 숫자, 특수문자 포함 8~20자)"
+          label={"비밀번호 입력(문자, 숫자, 특수문자 포함 8~20자)"}
           {...register("password", userPassword)}
         />
         {errors?.password && (
@@ -102,9 +131,16 @@ function Forms({ title, getDataForm, firebaseError }) {
         )}
       </div>
       <div>
-        <input
+        <TextField
+          fullWidth
+          InputProps={{
+            sx: {
+              pl: 2,
+              pr: 2,
+            },
+          }}
           type="password"
-          placeholder="비밀번호 재입력"
+          label={"비밀번호 재입력"}
           {...register("password", userPassword)}
         />
         {errors?.password && (
@@ -114,9 +150,16 @@ function Forms({ title, getDataForm, firebaseError }) {
         )}
       </div>
       <div>
-        <input
+        <TextField
+          fullWidth
+          InputProps={{
+            sx: {
+              pl: 2,
+              pr: 2,
+            },
+          }}
           type="text"
-          placeholder="전화번호"
+          label={"전화번호"}
           autoComplete="off"
           {...register("number", number)}
         />
@@ -127,9 +170,16 @@ function Forms({ title, getDataForm, firebaseError }) {
         )}
       </div>
       <div>
-        <input
+        <TextField
+          fullWidth
+          InputProps={{
+            sx: {
+              pl: 2,
+              pr: 2,
+            },
+          }}
           type="text"
-          placeholder="주소"
+          label={"주소"}
           autoComplete="off"
           {...register("address", address)}
         />
@@ -140,9 +190,16 @@ function Forms({ title, getDataForm, firebaseError }) {
         )}
       </div>
       <div>
-        <input
+        <TextField
+          fullWidth
+          InputProps={{
+            sx: {
+              pl: 2,
+              pr: 2,
+            },
+          }}
           type="text"
-          placeholder="농장주소"
+          label={"농장주소"}
           autoComplete="off"
           {...register("farmAddress")}
         />

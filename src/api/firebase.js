@@ -8,8 +8,11 @@ import {
   getDoc,
   getDocs,
   getFirestore,
+  orderBy,
+  query,
   setDoc,
   updateDoc,
+  where,
   writeBatch,
 } from "firebase/firestore";
 const firebaseConfig = {
@@ -106,7 +109,25 @@ export async function createPayment(uid, paymentObj) {
   }
 }
 
-export async function getDatas(collectionName) {
+export async function getQuery(collectionName, queryOption) {
+  const { conditions = [], orderBys = [] } = queryOption;
+  const collect = getCollection(collectionName);
+  let q = query(collect);
+
+  // where 조건
+  conditions.forEach((condition) => {
+    q = query(q, where(condition.field, condition.operator, condition.value));
+  });
+
+  // orderBy 조건
+  orderBys.forEach((order) => {
+    q = query(q, orderBy(order.field, order.direction || "asc"));
+  });
+
+  return q;
+}
+
+export async function getDatas(collectionName, queryOptions) {
   try {
     const collect = collection(db, collectionName);
     const snapshot = await getDocs(collect);

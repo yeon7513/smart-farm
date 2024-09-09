@@ -1,3 +1,4 @@
+import cn from 'classnames';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import React, { useEffect, useRef } from 'react';
@@ -26,7 +27,9 @@ function Header() {
 
   return (
     <header
-      className={pathname === '/' ? styles.home : ''}
+      className={
+        pathname === '/' ? cn(styles.header, styles.home) : styles.header
+      }
       ref={headerScrollRef}
     >
       <Container className={styles.container}>
