@@ -118,11 +118,12 @@ const localDataProcessing = (data, sortation) => {
       sortation === 'local'
         ? item.addressName.split(' ')[1]
         : changeItemCode(item.itemCode);
+    const city = item.addressName.split(' ')[1];
 
     if (!result[mainKey]) {
       result[mainKey] = {
         local: mainKey,
-        data: [{ name: subKey, value: 1 }],
+        data: [{ city: city, name: subKey, value: 1 }],
       };
     } else {
       const dataIdx = result[mainKey].data.findIndex(
@@ -132,7 +133,7 @@ const localDataProcessing = (data, sortation) => {
       if (dataIdx > -1) {
         result[mainKey].data[dataIdx].value += 1;
       } else {
-        result[mainKey].data.push({ name: subKey, value: 1 });
+        result[mainKey].data.push({ city: city, name: subKey, value: 1 });
       }
     }
   });

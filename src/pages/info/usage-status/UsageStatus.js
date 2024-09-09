@@ -1,36 +1,31 @@
 import React, { useEffect, useState } from 'react';
+import { GrPowerReset } from 'react-icons/gr';
 import { useDispatch, useSelector } from 'react-redux';
 import { GridLoader } from 'react-spinners';
+import { chartTypes } from '../../../components/chart/Charts';
 import RenderingChart from '../../../components/chart/RenderingChart';
 import Maps from '../../../components/map/Maps';
 import {
   fetchEntireRegion,
   fetchLocalRegion,
 } from '../../../store/usage-status/usageStatusSlice';
+import SelectChartType from './select-chart-type/SelectChartType';
 import styles from './UsageStatus.module.scss';
-
-const chartTypes = [
-  { value: 'bar', label: '막대 그래프' },
-  { value: 'area', label: '영역 그래프' },
-  { value: 'pie', label: '파이 그래프' },
-  { value: 'line', label: '라인 그래프' },
-];
 
 function UsageStatus() {
   const { entireRegion, localRegion, isLoading } = useSelector(
     (state) => state.usageStatusSlice
   );
+  const dispatch = useDispatch();
 
-  const [chartType, setChartType] = useState('bar');
+  const [chartType, setChartType] = useState('donut');
   const [sort, setSort] = useState('local');
   const [localName, setLocalName] = useState('');
   const [localFarm, setLocalFarm] = useState(null);
 
-  const dispatch = useDispatch();
-
   // 차트 타입 변경
-  const handleChangeChartType = (e) => {
-    setChartType(e.target.value);
+  const handleChangeChartType = (type) => {
+    setChartType(type);
   };
 
   // 지도 클릭 시 해당 지역 이름 저장
@@ -42,13 +37,13 @@ function UsageStatus() {
   const handleResetClick = () => {
     setLocalFarm(null);
     setLocalName('');
+    setChartType('donut');
   };
 
   // 조회별 렌더링
   const handleSortClick = (sort) => {
     setSort(sort);
     setLocalFarm(null);
-    console.log(chartType);
   };
 
   // 데이터 불러오기
@@ -69,67 +64,87 @@ function UsageStatus() {
     } else {
       setLocalFarm(filteredData.data);
     }
+    console.log(filteredData);
   }, [localRegion, localName]);
+
+  useEffect(() => {
+    if (localFarm) {
+      setChartType('bar');
+    }
+  }, [localFarm]);
 
   return (
     <div className={styles.usageStatus}>
       <Maps className={styles.map} onRegionClick={handleLocalClick} />
-      <div className={styles.chartWrapper}>
-        <div>
-          <button onClick={handleResetClick}>새로고침</button>
-          <button onClick={() => handleSortClick('local')}>지역별</button>
-          <button onClick={() => handleSortClick('crop')}>작물별</button>
+      <div className={styles.container}>
+        <div className={styles.sortBtns}>
+          <button onClick={handleResetClick}>
+            <GrPowerReset />
+          </button>
+          <button
+            className={sort === 'local' ? styles.active : ''}
+            onClick={() => handleSortClick('local')}
+          >
+            지역별
+          </button>
+          <button
+            className={sort === 'crop' ? styles.active : ''}
+            onClick={() => handleSortClick('crop')}
+          >
+            작물별
+          </button>
         </div>
-        {!localFarm ? (
-          <div className={styles.all}>
-            {isLoading ? (
-              <GridLoader color="#a2ca71" margin={5} size={20} />
-            ) : (
-              <>
-                <h2>전체 이용 현황</h2>
-                <RenderingChart chartType={'donut'} data={entireRegion} />
-              </>
-            )}
-          </div>
-        ) : (
-          <div className={styles.detail}>
-            {isLoading ? (
-              <GridLoader color="#a2ca71" margin={5} size={20} />
-            ) : (
-              <>
-                <h2>상세 이용 현황</h2>
-                <div className={styles.selectWrap}>
-                  {chartTypes.map((type) => (
-                    <label key={type.value} htmlFor="bar">
-                      <input
-                        type="radio"
-                        name="chartType"
-                        value="bar"
-                        defaultChecked
+        <div className={styles.content}>
+          {!localFarm ? (
+            <div className={styles.entrie}>
+              {isLoading ? (
+                <GridLoader color="#a2ca71" margin={5} size={20} />
+              ) : (
+                <>
+                  <h2>
+                    {sort === 'local' ? '지역별' : '작물별'} 전체 이용 현황
+                  </h2>
+                  <div className={styles.select}>
+                    {chartTypes.map((type, idx) => (
+                      <SelectChartType
+                        key={idx}
+                        {...type}
+                        type={chartType}
+                        handleChange={handleChangeChartType}
                       />
-                      <span>막대 그래프</span>
-                    </label>
-                  ))}
-                  {/* <label htmlFor="area">
-                    <input type="radio" name="chartType" value="area" />
-                    <span>영역 그래프</span>
-                  </label>
-                  <label htmlFor="pie">
-                    <input type="radio" name="chartType" value="pie" />
-                    <span>파이 그래프</span>
-                  </label>
-                  <label htmlFor="line">
-                    <input type="radio" name="chartType" value="line" />
-                    <span>라인 그래프</span>
-                  </label> */}
-                </div>
-                <div className={styles.chart}>
-                  <RenderingChart chartType={chartType} data={localFarm} />
-                </div>
-              </>
-            )}
-          </div>
-        )}
+                    ))}
+                  </div>
+                  <RenderingChart chartType={chartType} data={entireRegion} />
+                </>
+              )}
+            </div>
+          ) : (
+            <div className={styles.local}>
+              {isLoading ? (
+                <GridLoader color="#a2ca71" margin={5} size={20} />
+              ) : (
+                <>
+                  <h2>
+                    {sort === 'local' ? '지역별' : '작물별'} 상세 이용 현황
+                  </h2>
+                  <div className={styles.select}>
+                    {chartTypes.map((type, idx) => (
+                      <SelectChartType
+                        key={idx}
+                        {...type}
+                        type={chartType}
+                        handleChange={handleChangeChartType}
+                      />
+                    ))}
+                  </div>
+                  <div className={styles.chart}>
+                    <RenderingChart chartType={chartType} data={localFarm} />
+                  </div>
+                </>
+              )}
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

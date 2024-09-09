@@ -1,51 +1,15 @@
-// import React from "react";
-// import { ReactApexChart } from "react-apexcharts";
+import { BiSolidBarChartAlt2 } from 'react-icons/bi';
+import { LiaChartLineSolid } from 'react-icons/lia';
+import {
+  TbChartAreaLineFilled,
+  TbChartDonutFilled,
+  TbChartPieFilled,
+} from 'react-icons/tb';
 
-// function Charts() {
-//   const series = [
-//     {
-//       data: [400, 430, 448, 470, 540, 580, 690, 1100, 1200, 1380],
-//     },
-//   ];
-
-//   const options = {
-//     chart: {
-//       type: "bar",
-//       toolbar: { show: false },
-//     },
-//     // plotOptions: {
-//     //   bar: {
-//     //     borderRadius: 4,
-//     //     borderRadiusApplication: "end",
-//     //     horizontal: true,
-//     //   },
-//     // },
-//     // dataLabels: {
-//     //   enabled: false,
-//     // },
-//     xaxis: {
-//       categories: [
-//         "South Korea",
-//         "Canada",
-//         "United Kingdom",
-//         "Netherlands",
-//         "Italy",
-//         "France",
-//         "Japan",
-//         "United States",
-//         "China",
-//         "Germany",
-//       ],
-//     },
-//   };
-
-//   return (
-//     <ReactApexChart
-//       options={options}
-//       series={series}
-//       height={200}
-//       width={300}
-//     />
-//   );
-// }
-// export default Charts;
+export const chartTypes = [
+  { value: 'bar', label: <BiSolidBarChartAlt2 /> },
+  { value: 'donut', label: <TbChartDonutFilled /> },
+  { value: 'area', label: <TbChartAreaLineFilled /> },
+  { value: 'pie', label: <TbChartPieFilled /> },
+  { value: 'line', label: <LiaChartLineSolid /> },
+];

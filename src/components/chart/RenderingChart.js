@@ -23,7 +23,7 @@ function RenderingChart({ chartType, data }) {
       return <SimpleAreaChart data={data} />;
 
     default:
-      return <SimpleLineChart />;
+      return <SimpleBarChart data={data} />;
   }
 }
 
