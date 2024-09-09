@@ -1,9 +1,11 @@
+// components/comment/Comment.js
 import React, { useEffect, useState } from "react";
 import styles from "./Comment.module.scss";
 import {
   addComment,
   deleteComment,
   getComment,
+  updateComment, // 댓글 수정 함수 추가
 } from "../../api/firebase/board";
 import CustomModal from "../modal/CustomModal";
 import Radio from "../complain/Radio";
@@ -14,10 +16,11 @@ const loginUser = JSON.parse(localStorage.getItem("user"));
 function Comment({ item }) {
   const [comments, setComments] = useState([]);
   const [newComment, setNewComment] = useState("");
+  const [editComment, setEditComment] = useState(""); // 수정할 댓글 내용을 위한 상태
+  const [editCommentId, setEditCommentId] = useState(null); // 수정할 댓글 ID를 위한 상태
   const docId = item.docId;
   const collectionName = item.collection;
   const { user, isAuthenticated } = useSelector((state) => state.userSlice);
-  // console.log(loginUser);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const openModal = () => setIsModalOpen(true);
@@ -29,7 +32,6 @@ function Comment({ item }) {
     if (docId) {
       const fetchComment = await getComment(collectionName, docId);
       setComments(fetchComment);
-      // console.log(fetchComment);
     }
   };
 
@@ -49,6 +51,38 @@ function Comment({ item }) {
     }
   };
 
+  // 댓글 수정 모드로 전환하는 함수
+  const handleEditClick = (comment) => {
+    setEditComment(comment.text);
+    setEditCommentId(comment.id);
+  };
+
+  // 댓글 수정 취소
+  const handleCancelEdit = () => {
+    setEditComment("");
+    setEditCommentId(null);
+  };
+
+  // 댓글 업데이트 함수
+  const handleUpdateComment = async () => {
+    if (!editComment.trim()) return;
+
+    const updatedComment = {
+      text: editComment,
+    };
+
+    const success = await updateComment(
+      collectionName,
+      docId,
+      editCommentId,
+      updatedComment
+    );
+    if (success) {
+      handleCancelEdit(); // 수정 모드 해제 및 초기화
+      getComments(); // 업데이트된 댓글 목록 가져오기
+    }
+  };
+
   // 댓글 삭제하는 함수
   const handleDeleteComment = async (commentId) => {
     const success = await deleteComment(collectionName, docId, commentId);
@@ -62,7 +96,6 @@ function Comment({ item }) {
   }, []);
 
   useEffect(() => {
-    // 로그인 상태가 변경되면 댓글을 다시 로드
     if (isAuthenticated) {
       getComments();
     }
@@ -73,41 +106,61 @@ function Comment({ item }) {
       <h2>댓글({comments.length}개)</h2>
       {comments.map((comment) => (
         <div className={styles.comment} key={comment.id}>
-          <h4>{comment.text}</h4>
-          <div className={styles.user}>
-            <div>
-              <p>
-                {comment.nickName} <span>{comment.createdAt}</span>
-              </p>
+          {editCommentId === comment.id ? (
+            // 수정 모드일 때 표시할 폼
+            <div className={styles.editMode}>
+              <input
+                type="text"
+                value={editComment}
+                onChange={(e) => setEditComment(e.target.value)}
+              />
+              <div>
+                <button onClick={handleUpdateComment}>확인</button>
+                <button onClick={handleCancelEdit}>취소</button>
+              </div>
             </div>
+          ) : (
+            // 일반 댓글 보기 모드
             <div>
-              {comment.nickName === loginUser?.nick ? (
+              <h4>{comment.text}</h4>
+              <div className={styles.user}>
                 <div>
-                  <button>수정</button>
-                  <p>/</p>
-                  <button onClick={() => handleDeleteComment(comment.id)}>
-                    삭제
-                  </button>
+                  <p>
+                    {comment.nickName} <span>{comment.createdAt}</span>
+                  </p>
                 </div>
-              ) : (
                 <div>
-                  <button className={styles.complain} onClick={openModal}>
-                    🚨신고하기
-                  </button>
-                  <CustomModal
-                    title={"신고하기"}
-                    btnName={"접수"}
-                    handleClose={closeModal}
-                    isOpen={isModalOpen}
-                    btnHandler={goComplain}
-                    className={styles.modal}
-                  >
-                    <Radio />
-                  </CustomModal>
+                  {comment.nickName === loginUser?.nick ? (
+                    <div>
+                      <button onClick={() => handleEditClick(comment)}>
+                        수정
+                      </button>
+                      <p>/</p>
+                      <button onClick={() => handleDeleteComment(comment.id)}>
+                        삭제
+                      </button>
+                    </div>
+                  ) : (
+                    <div>
+                      <button className={styles.complain} onClick={openModal}>
+                        🚨신고하기
+                      </button>
+                      <CustomModal
+                        title={"신고하기"}
+                        btnName={"접수"}
+                        handleClose={closeModal}
+                        isOpen={isModalOpen}
+                        btnHandler={goComplain}
+                        className={styles.modal}
+                      >
+                        <Radio />
+                      </CustomModal>
+                    </div>
+                  )}
                 </div>
-              )}
+              </div>
             </div>
-          </div>
+          )}
         </div>
       ))}
       <div className={styles.input}>

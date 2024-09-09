@@ -3,7 +3,7 @@ import styles from "./EditPost.module.scss";
 import { useNavigate } from "react-router-dom";
 import { updatePost } from "../../../api/firebase/board";
 
-function EditPost({ post, setIsEditing, onUpdate }) {
+function EditPost({ post, setIsEditing, onPostUpdate }) {
   const navigate = useNavigate();
   const [title, setTitle] = useState(post?.title || "");
   const [summary, setSummary] = useState(post?.summary || "");
@@ -12,7 +12,7 @@ function EditPost({ post, setIsEditing, onUpdate }) {
   const handleUpdatePost = async () => {
     if (!post?.collection || !post?.docId) return;
 
-    const updatedPost = { ...post, title, summary };
+    const updatedPost = { title, summary };
 
     try {
       const success = await updatePost(
@@ -21,7 +21,7 @@ function EditPost({ post, setIsEditing, onUpdate }) {
         updatedPost
       );
       if (success) {
-        onUpdate(updatedPost); // 부모 컴포넌트로 수정된 데이터 전달
+        await onPostUpdate(); // 성공적으로 수정된 후 데이터 갱신 함수 호출
       }
     } catch (error) {
       console.error("Error updating post: ", error);
