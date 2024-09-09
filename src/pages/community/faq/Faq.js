@@ -17,7 +17,7 @@ import {
   updateDoc,
 } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
-import { fetchfaqData, setFaqData } from "../../../store/faq-data/faqDataSlice";
+import { setFaqData } from "../../../store/faq-data/faqDataSlice";
 
 function Faq() {
   const auth = getAuth();
@@ -41,10 +41,8 @@ function Faq() {
   };
 
   useEffect(() => {
-    // dispatch(fetchfaqData({ collectionName: "faq", orderByField: sortOrder }));
     const fetchData = async () => {
       try {
-        // Fetch FAQ data
         const fetchedData = await fetchfaqData({
           collectionName: "faq",
           orderByField: sortOrder,
@@ -55,18 +53,15 @@ function Faq() {
         }
 
         if (isAuthenticated) {
-          // Fetch user likes if authenticated
           const userRef = doc(db, "users", auth.currentUser?.uid);
           const userDoc = await getDoc(userRef);
           const userLikes = userDoc.data()?.liked || {};
 
-          // Update FAQ data with user likes
           const updatedData = fetchedData.map((item) => ({
             ...item,
             liked: userLikes[item.id] || false,
           }));
 
-          // Update store only if data has actually changed
           dispatch(setFaqData(updatedData));
         } else {
           dispatch(setFaqData(fetchedData));
