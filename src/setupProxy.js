@@ -2,10 +2,20 @@ const { createProxyMiddleware } = require("http-proxy-middleware");
 
 module.exports = function (app) {
   // 날씨api
+  // app.use(
+  //   "/weather", // 기존 host 대신 사용할 경로
+  //   createProxyMiddleware({
+  //     target: "https://apis.data.go.kr/1390000/SmartFarmdata", // 기존 host
+  //     changeOrigin: true,
+  //     pathRewrite: {
+  //       "^/disease": "",
+  //     },
+  //   })
+  // );
   app.use(
     "/weather", // 기존 host 대신 사용할 경로
     createProxyMiddleware({
-      target: "https://apis.data.go.kr/1390000/SmartFarmdata", // 기존 host
+      target: "https://api.openweathermap.org", // 기존 host
       changeOrigin: true,
       pathRewrite: {
         "^/weather": "",
