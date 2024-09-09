@@ -125,7 +125,7 @@ function Myinfo(props) {
         </div>
         <div className={style.title}>집 주소</div>
         <div className={style.name}>
-          <div className={style.title}>대전광역시 중구 선화동 123-123</div>
+          <div className={style.title}>{user.address}</div>
           {addressState === true ? (
             <button className={style.Change} onClick={nickClick3}>
               변경 완료
