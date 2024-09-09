@@ -1,0 +1,18 @@
+
+1.wrapper 
+(header-content-footer)
+
+2. header
+(title-closeBtn-guideText)
+
+3. content
+(questionBtns-answerArea)
+
+4.footer 
+
+
+총 4가지(3가지)로 정리함 
+
+
+
+
