@@ -45,7 +45,6 @@ export async function addDatas(collectionName, addObj) {
 }
 
 export async function joinUser(uid, email, userInfo = {}, password = "") {
-  // const { address, number, farmAddress, required, name, nickname } = userInfo;
   const userData = {
     email: email,
     password: password,
