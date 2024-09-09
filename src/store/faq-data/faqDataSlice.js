@@ -1,57 +1,63 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { getDatas } from "../../api/firebase";
+import { db, getOrder } from "../../api/firebase";
+import { collection, getDocs, orderBy, query } from "firebase/firestore";
 
-const initialState = localStorage.getItem("faqData")
-  ? JSON.parse(localStorage.getItem("faqData"))
-  : {
-      id: "",
-      question: "",
-      answer: "",
-      likes: 0,
-      views: 0,
-    };
+export const fetchfaqData = createAsyncThunk(
+  "faqData/fetchfaqData",
+  async ({ collectionName, orderByField }) => {
+    const q = query(
+      collection(db, collectionName),
+      orderBy(orderByField, "desc")
+    );
+    const querySnapshot = await getDocs(q);
+    return querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+  }
+  // async ({ collectionName, orderByField }) => {
+  //   try {
+  //     const resultData = await getOrder(collectionName, orderByField);
+  //     return resultData;
+  //   } catch (error) {
+  //     console.error(error);
+  //     throw error;
+  //   }
+  // }
+);
 
 const faqDataSlice = createSlice({
   name: "faqData",
-  initialState,
+  initialState: [],
   reducers: {
     setFaqData: (state, action) => {
       return action.payload;
     },
-    updateFaq: (state, action) => {
-      return state.map((faq) =>
-        faq.id === action.payload.id ? action.payload : faq
-      );
-    },
-    setLike: (state, action) => {
-      return state.map((faq) =>
-        faq.id === action.payload.id
-          ? { ...faq, liked: action.payload.liked, likes: action.payload.likes }
-          : faq
-      );
-    },
-    removeLike: (state, action) => {
-      return state.map((faq) =>
-        faq.id === action.payload.id
-          ? { ...faq, liked: action.payload.liked, likes: action.payload.likes }
-          : faq
-      );
-    },
+    // updateFaq: (state, action) => {
+    //   return state.map((faq) =>
+    //     faq.id === action.payload.id ? action.payload : faq
+    //   );
+    // },
+    // setLike: (state, action) => {
+    //   return state.map((faq) =>
+    //     faq.id === action.payload.id
+    //       ? { ...faq, liked: action.payload.liked, likes: action.payload.likes }
+    //       : faq
+    //   );
+    // },
+    // removeLike: (state, action) => {
+    //   return state.map((faq) =>
+    //     faq.id === action.payload.id
+    //       ? { ...faq, liked: action.payload.liked, likes: action.payload.likes }
+    //       : faq
+    //   );
+    // },
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(fetchfaqData.fulfilled, (state, action) => action.payload)
+      .addCase(fetchfaqData.rejected, (state, action) => {
+        console.error("FAQ 데이터 로드 오류: ", action.error.message);
+      });
   },
 });
-
-export const fetchfaqData = createAsyncThunk(
-  "faqData/fetchfaqData",
-  async ({ collectionName }, thunkAPI) => {
-    try {
-      const resultData = await getDatas(collectionName);
-      return resultData;
-    } catch (error) {
-      console.error(error);
-      return thunkAPI.rejectWithValue("Error fetch Order");
-    }
-  }
-);
 
 export default faqDataSlice.reducer;
 export const { setLike, removeLike, setFaqData, updateFaq } =

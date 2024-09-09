@@ -138,6 +138,15 @@ export async function getDatas(collectionName, queryOptions) {
   }
 }
 
+export const getOrder = async (collectionName, orderByField) => {
+  const q = query(
+    collection(db, collectionName),
+    orderBy(orderByField, "desc")
+  );
+  const querySnapshot = await getDocs(q);
+  return querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+};
+
 export async function updateDatas(collectionName, docId, updateObj) {
   try {
     const docRef = await doc(db, collectionName, docId);

@@ -7,32 +7,90 @@ import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { db } from "../../../api/firebase";
-import { doc, updateDoc } from "firebase/firestore";
+import {
+  collection,
+  doc,
+  getDoc,
+  getDocs,
+  orderBy,
+  query,
+  updateDoc,
+} from "firebase/firestore";
 import { getAuth } from "firebase/auth";
-import { setFaqData } from "../../../store/faq-data/faqDataSlice";
-import { fetchOrder, setOrder } from "../../../store/order/orderSlice";
+import { fetchfaqData, setFaqData } from "../../../store/faq-data/faqDataSlice";
 
 function Faq() {
   const auth = getAuth();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [openId, setOpenId] = useState(null);
-  const faqData = useSelector((state) => state.faqDataSlice || {});
+  const [sortOrder, setSortOrder] = useState("views");
+  const faqData = useSelector((state) => state.faqDataSlice);
   const { isAuthenticated } = useSelector((state) => state.userSlice);
-  const { order } = useSelector((state) => state.orderSlice);
 
-  const handleLoad = async (order) => {
-    const queryOptions = {
-      conditions: [], // 필요한 조건 추가
-      orderBys: [{ field: order, direction: "desc" }],
-    };
-    dispatch(fetchOrder({ collectionName: "faq", queryOptions }));
+  const fetchfaqData = async ({ collectionName, orderByField }) => {
+    const collectionRef = collection(db, collectionName);
+    const q = query(collectionRef, orderBy(orderByField));
+    const querySnapshot = await getDocs(q);
+
+    const data = querySnapshot.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    }));
+    return data;
   };
 
   useEffect(() => {
-    handleLoad(order); // Load data when component mounts or order changes
-  }, [order]);
+    // dispatch(fetchfaqData({ collectionName: "faq", orderByField: sortOrder }));
+    const fetchData = async () => {
+      try {
+        // Fetch FAQ data
+        const fetchedData = await fetchfaqData({
+          collectionName: "faq",
+          orderByField: sortOrder,
+        });
 
+        if (!Array.isArray(fetchedData)) {
+          throw new Error("Fetched data is not an array");
+        }
+
+        if (isAuthenticated) {
+          // Fetch user likes if authenticated
+          const userRef = doc(db, "users", auth.currentUser?.uid);
+          const userDoc = await getDoc(userRef);
+          const userLikes = userDoc.data()?.liked || {};
+
+          // Update FAQ data with user likes
+          const updatedData = fetchedData.map((item) => ({
+            ...item,
+            liked: userLikes[item.id] || false,
+          }));
+
+          // Update store only if data has actually changed
+          dispatch(setFaqData(updatedData));
+        } else {
+          dispatch(setFaqData(fetchedData));
+        }
+      } catch (error) {
+        console.error("FAQ 데이터 로드 오류:", error);
+      }
+    };
+
+    fetchData();
+  }, [sortOrder, isAuthenticated, dispatch, auth.currentUser?.uid]);
+
+  const sortedFaqData = Array.isArray(faqData)
+    ? [...faqData].sort((a, b) => {
+        if (sortOrder === "views") {
+          return b.views - a.views;
+        } else if (sortOrder === "likes") {
+          return b.likes - a.likes;
+        }
+        return 0;
+      })
+    : [];
+
+  // 화살표를 누르면 게시글이 보이고 다시 화살표를 누르면 게시글이 보이지 않습니다.
   const toggleVisibility = (id) => {
     setOpenId((prevId) => (prevId === id ? null : id));
   };
@@ -57,12 +115,12 @@ function Faq() {
     });
 
     dispatch(setFaqData(updatedData));
-    localStorage.setItem("faqData", JSON.stringify(updatedData));
   };
 
+  // 좋아요 기능을 활성화 및 비활성화 하는 함수입니다.
   const toggleLike = async (id) => {
     if (!isAuthenticated) {
-      youHaveToSignIn();
+      navigate("/login");
       return;
     }
 
@@ -80,34 +138,26 @@ function Faq() {
     const docRef = doc(db, "faq", id.toString());
     const userId = auth.currentUser?.uid;
 
-    if (!userId) return;
+    await updateDoc(docRef, {
+      likes: updatedData.find((item) => item.id === id).likes,
+    });
 
-    try {
-      await updateDoc(docRef, {
-        likes: updatedData.find((item) => item.id === id).likes,
-      });
+    const userRef = doc(db, "users", userId);
+    await updateDoc(userRef, {
+      [`liked.${id}`]: !faqData.find((item) => item.id === id).liked,
+    });
 
-      const userRef = doc(db, "users", userId);
-      await updateDoc(userRef, {
-        [`liked.${id}`]: !faqData.find((item) => item.id === id).liked,
-      });
-
-      console.log("좋아요가 반영되었습니다.");
-      dispatch(setFaqData(updatedData));
-      localStorage.setItem("faqData", JSON.stringify(updatedData));
-    } catch (error) {
-      console.error("좋아요 반영 실패:", error);
-    }
+    console.log("좋아요가 반영되었습니다.");
+    dispatch(setFaqData(updatedData));
   };
 
-  const youHaveToSignIn = () => {
-    navigate("/login");
-    console.log("로그인이 필요한 서비스입니다.");
+  const handleViewsClick = () => {
+    setSortOrder("views");
   };
 
-  const handleViewsClick = () => dispatch(setOrder("views"));
-
-  const handleLikesClick = () => dispatch(setOrder("likes"));
+  const handleLikesClick = () => {
+    setSortOrder("likes");
+  };
 
   return (
     <div className={styles.page}>
@@ -117,18 +167,18 @@ function Faq() {
           <p>- 자주 묻는 질문을 확인해보세요 !</p>
         </div>
         <div>
-          <button selected={order === "views"} onClick={handleViewsClick}>
+          <button selected={sortOrder === "views"} onClick={handleViewsClick}>
             조회순
           </button>{" "}
           |{" "}
-          <button selected={order === "likes"} onClick={handleLikesClick}>
+          <button selected={sortOrder === "likes"} onClick={handleLikesClick}>
             좋아요순
           </button>
         </div>
       </div>
 
       <Container className={styles.container}>
-        {faqData.map(({ id, question, answer, likes, views, liked }) => (
+        {sortedFaqData.map(({ id, question, answer, likes, views, liked }) => (
           <div key={id} className={styles.faq}>
             <div className={styles.title}>
               <h3>{`Q. ${question}`}</h3>
@@ -163,7 +213,7 @@ function Faq() {
                       좋아요: {likes}
                     </button>
                   ) : (
-                    <button onClick={youHaveToSignIn}>
+                    <button onClick={() => toggleLike(id)}>
                       <AiOutlineHeart style={{ fontSize: "30px" }} />
                       좋아요: {likes}
                     </button>
