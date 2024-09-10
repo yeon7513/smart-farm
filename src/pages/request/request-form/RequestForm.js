@@ -34,7 +34,9 @@ function RequestForm({ user, onSubmit }) {
     const dataObj = {
       farmAddress: farmAddr,
       option: option,
-      additionalOptions: Object.keys(additionalOptions),
+      additionalOptions: Object.keys(additionalOptions).filter(
+        (key) => additionalOptions[key]
+      ),
       farmArea: farmArea,
       farmName: farmName,
       farmEquivalent: farmEquivalent,
