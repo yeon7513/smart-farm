@@ -100,15 +100,6 @@
     .next_day {
       background-color: pink;
       flex: 1.5;
-      display: flex;
-      gap: 10px;
-      .forecast_item {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        // padding: 0 12px;
-      }
     }
   }
 }
