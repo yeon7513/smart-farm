@@ -8,6 +8,7 @@ function RequestForm({ user, onSubmit }) {
   const [farmAddr, setFarmAddr] = useState("");
   const [option, setOption] = useState("facility");
   const [farmName, setFarmName] = useState("");
+  const [cropType, setCropType] = useState("딸기");
   const [additionalOptions, setAdditionalOptions] = useState({});
   const [farmArea, setFarmArea] = useState(0);
   const [farmEquivalent, setFarmEquivalent] = useState(0);
@@ -45,6 +46,7 @@ function RequestForm({ user, onSubmit }) {
   useEffect(() => {
     const dataObj = {
       farmAddress: farmAddr,
+      cropType: cropType,
       option: option,
       additionalOptions: Object.keys(additionalOptions).filter(
         (key) => additionalOptions[key]
@@ -57,6 +59,7 @@ function RequestForm({ user, onSubmit }) {
     onSubmit(dataObj);
   }, [
     farmAddr,
+    cropType,
     option,
     additionalOptions,
     farmArea,
@@ -88,6 +91,16 @@ function RequestForm({ user, onSubmit }) {
           placeholder={"농장 이름을 입력해주세요."}
           onChange={(e) => setFarmName(e.target.value)}
         />
+      </div>
+      <div className={styles.cropType}>
+        <h3>작물 종류</h3>
+        <select value={cropType} onChange={(e) => setCropType(e.target.value)}>
+          <option value="딸기">딸기</option>
+          <option value="블루베리">블루베리</option>
+          <option value="파프리카">파프리카</option>
+          <option value="토마토">토마토</option>
+          <option value="참외">참외</option>
+        </select>
       </div>
       <div>
         <h3>시설원예 혹은 노지 선택</h3>
