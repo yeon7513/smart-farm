@@ -31,6 +31,7 @@ function RequestForQuote() {
       연락처: user.number,
       "작물 종류": requestData.cropType,
       "농업 종류": requestData.option,
+      "부가 옵션": requestData.additionalOptions.join(", "),
       "농장 주소": requestData.farmAddress,
       "농장 면적": requestData.farmArea,
       "농장 동 수": requestData.farmEquivalent,
