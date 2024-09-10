@@ -23,12 +23,24 @@ function RequestForm({ user, onSubmit }) {
 
   const handleCheckboxChange = (e) => {
     const { id, checked } = e.target;
-    setAdditionalOptions((prevOptions) =>
-      checked
-        ? { ...prevOptions, [id]: checked }
-        : prevOptions.filter((option) => option !== id)
-    );
+
+    setAdditionalOptions((prevOptions) => {
+      const updatedOptions = { ...prevOptions };
+
+      if (checked) {
+        updatedOptions[id] = true;
+      } else {
+        delete updatedOptions[id];
+      }
+      return updatedOptions;
+    });
   };
+
+  const today = new Date();
+  const year = today.getFullYear();
+  const month = String(today.getMonth() + 1).padStart(2, "0");
+  const day = String(today.getDate()).padStart(2, "0");
+  const createdAt = `${year}${month}${day}${new Date().getTime()}`;
 
   useEffect(() => {
     const dataObj = {
@@ -40,6 +52,7 @@ function RequestForm({ user, onSubmit }) {
       farmArea: farmArea,
       farmName: farmName,
       farmEquivalent: farmEquivalent,
+      createdAt: createdAt,
     };
     onSubmit(dataObj);
   }, [
@@ -49,6 +62,7 @@ function RequestForm({ user, onSubmit }) {
     farmArea,
     farmName,
     farmEquivalent,
+    createdAt,
     onSubmit,
   ]);
 

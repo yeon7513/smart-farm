@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import Container from "../../components/layout/container/Container";
 import RequestForm from "./request-form/RequestForm";
 import styles from "./RequestForQuote.module.scss";
+import * as XLSX from "xlsx/xlsx.mjs";
 
 function RequestForQuote() {
   // 결제정보 저장 state
@@ -16,17 +17,38 @@ function RequestForQuote() {
 
   // 결제 버튼 (임시로 콘솔에 결제정보가 나오는지 해놨어요.)
   const handleSubmitRequest = () => {
-    // 사용자 정보 출력
-    // console.log(user);
-
-    // 농장 정보 출력
-    // console.log(requestData);
-
-    // 유저 정보와 입력된 농장 정보를 하나의 객체로 출력
+    // 유저 정보와 입력된 부가 정보들을 하나의 객체로 출력
     const mergedObj = Object.assign({}, user, requestData);
     console.log(mergedObj);
+  };
 
-    // 사용자의 이름, 전화번호, 주소, 농장주소, 견적들을 저장하는 폼 생성
+  // 사용자의 이름, 전화번호, 주소, 농장주소, 견적들을 저장하는 폼 생성
+  const exportToExcel = () => {
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = String(today.getMonth() + 1).padStart(2, "0");
+    const day = String(today.getDate()).padStart(2, "0");
+    const createdAt = `${year}${month}${day}${new Date().getTime()}`;
+
+    const data = [
+      {
+        아이디: user.email,
+        이름: user.name,
+        주소: user.address,
+        연락처: user.number,
+        "농장 주소": requestData.farmAddress,
+        "농장 면적": requestData.farmArea,
+        "농장 동 수": requestData.farmEquivalent,
+        "주문 번호": createdAt,
+      },
+    ];
+
+    const ws = XLSX.utils.json_to_sheet(data);
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, "견적서");
+
+    // 이 코드는 관리자만 실행시킬 수 있음(관리자만 엑셀 내용을 볼 수 있음)
+    XLSX.writeFile(wb, "견적서.xlsx");
   };
 
   return (
@@ -44,7 +66,7 @@ function RequestForQuote() {
       <RequestForm user={user} onSubmit={setRequestData} />
       {/* Form을 추가할 수 있음 (Redux로 관리하기??) */}
       <div className={styles.btns}>
-        <button className={styles.submit} onClick={handleSubmitRequest}>
+        <button type="submit" className={styles.submit} onClick={exportToExcel}>
           결제
         </button>
         <button className={styles.cancel} onClick={() => navigate(-1)}>
