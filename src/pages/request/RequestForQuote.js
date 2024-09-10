@@ -95,14 +95,14 @@ function RequestForQuote() {
       <RequestForm user={user} onSubmit={setRequestData} />
       {/* Form을 추가할 수 있음 (Redux로 관리하기??) */}
       <div className={styles.btns}>
-        <button type="submit" className={styles.submit} onClick={exportToExcel}>
+        <button className={styles.submit} onClick={handleSubmitRequest}>
           결제
         </button>
         <button className={styles.cancel} onClick={() => navigate(-1)}>
           취소
         </button>
         <button className={styles.cancel} onClick={downloadExcel}>
-          취소
+          다운로드
         </button>
       </div>
       {/* <RequestForQuoteForm addEstimate={addEstimate} user={user} /> */}
