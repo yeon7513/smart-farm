@@ -5,10 +5,6 @@ import RequestForm from "./request-form/RequestForm";
 import styles from "./RequestForQuote.module.scss";
 
 function RequestForQuote() {
-  // user 상태를 선언합니다.
-  // const [user, setUser] = useState(null);
-  // const [date, setDate] = useState('');
-
   // 결제정보 저장 state
   const [requestData, setRequestData] = useState();
 
@@ -18,57 +14,19 @@ function RequestForQuote() {
   // 유저 정보 불러오기
   const user = JSON.parse(localStorage.getItem("user")) || {};
 
-  // useEffect(() => {
-  //   const today = new Date();
-  //   setDate(today.toISOString().split('T')[0]);
-
-  //   // localStorage에 있는 사용자의 정보를 추출합니다.
-  //   const idExtraction = async () => {
-  //     try {
-  //       const userStr = JSON.parse(localStorage.getItem('user'));
-  //       if (userStr) {
-  //         setUser(userStr);
-  //         await infoExtraction(userStr.uid);
-  //       } else {
-  //         console.log('로그인이 되어있지 않습니다.');
-  //       }
-  //     } catch (error) {
-  //       console.error(error);
-  //     }
-  //   };
-
-  // Firebase에서 uid와 일치하는 문서 객체 찾기
-  //   const infoExtraction = async (uid) => {
-  //     try {
-  //       // Firebase에서 사용자 데이터를 가져옵니다.
-  //       const snapshots = await getDatas('users');
-
-  //       // uid와 일치하는 문서 객체를 찾습니다.
-  //       const matchingDoc = snapshots.find((doc) => doc.docId === uid);
-
-  //       if (matchingDoc) {
-  //         setUser((prevUser) => ({
-  //           ...prevUser,
-  //           email: matchingDoc.email || '',
-  //           farmAddress: matchingDoc.farmAddress || '',
-  //         }));
-  //       } else {
-  //         console.error('No document found with UID:', uid);
-  //       }
-  //     } catch (error) {
-  //       console.error('Error extracting information:', error);
-  //     }
-  //   };
-  //   idExtraction();
-  // }, []);
-
-  // const addEstimate = (estimate) => {
-  //   console.log('새 견적이 등록되었습니다', estimate);
-  // };
-
   // 결제 버튼 (임시로 콘솔에 결제정보가 나오는지 해놨어요.)
   const handleSubmitRequest = () => {
-    console.log(requestData);
+    // 사용자 정보 출력
+    // console.log(user);
+
+    // 농장 정보 출력
+    // console.log(requestData);
+
+    // 유저 정보와 입력된 농장 정보를 하나의 객체로 출력
+    const mergedObj = Object.assign({}, user, requestData);
+    console.log(mergedObj);
+
+    // 사용자의 이름, 전화번호, 주소, 농장주소, 견적들을 저장하는 폼 생성
   };
 
   return (
@@ -89,7 +47,7 @@ function RequestForQuote() {
         <button className={styles.submit} onClick={handleSubmitRequest}>
           결제
         </button>
-        <button className={styles.cancel} onClick={() => navigate("-1")}>
+        <button className={styles.cancel} onClick={() => navigate(-1)}>
           취소
         </button>
       </div>
