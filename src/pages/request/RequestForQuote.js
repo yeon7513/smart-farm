@@ -36,8 +36,6 @@ function RequestForQuote() {
     };
 
     setAccumulatedData((prevData) => [...prevData, data]);
-
-    setRequestData({});
   };
 
   const downloadExcel = () => {
