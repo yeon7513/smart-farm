@@ -63,14 +63,19 @@ const options = {
   ],
   트랙터: [
     {
-      id: "xmforxj1",
-      value: "트랙터1",
-      label: "트랙터1",
+      id: "MT7",
+      value: "MT7",
+      label: "MT7",
     },
     {
-      id: "txmforxj2",
-      value: "트랙터2",
-      label: "트랙터2",
+      id: "MT5",
+      value: "MT5",
+      label: "MT5",
+    },
+    {
+      id: "MT4",
+      value: "MT4",
+      label: "MT4",
     },
   ],
   "기타 장비": [
