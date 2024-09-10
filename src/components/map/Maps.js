@@ -22,20 +22,17 @@ const Maps = forwardRef(({ onRegionClick = () => {}, className }, ref) => {
 
     const svg = d3.select(svgRef.current);
 
-    const tooltipStyle = {
-      position: 'absolute',
-      backgroundColor: '#fff',
-      border: '1px solid #ccc',
-      padding: '5px',
-      borderRadius: '4px',
-    };
-
-    const tooltip = d3
-      .select('body')
-      .append('div')
-      .attr('class', 'map-tooltip')
-      .style('opacity', 0)
-      .style(tooltipStyle);
+    // const tooltip = d3
+    //   .select('#root')
+    //   .append('div')
+    //   .attr('class', 'map-tooltip')
+    //   .style('opacity', 0)
+    //   .style('position', 'absolute')
+    //   .style('z-index', 1000)
+    //   .style('background-color', '#fff')
+    //   .style('border', '1px solid #ccc')
+    //   .style('padding', '5px')
+    //   .style('border-radius', '4px');
 
     svg
       .selectAll('path')
@@ -49,24 +46,28 @@ const Maps = forwardRef(({ onRegionClick = () => {}, className }, ref) => {
       .attr('transition', 'fill 0.3s linear')
       .on('click', (e, d) => {
         const regionName = d.properties.CTP_KOR_NM;
-        onRegionClick(regionName);
         setSelectedRegion(regionName);
         svg.selectAll('path').attr('fill', '#E9EFEC');
         d3.select(e.target).attr('fill', '#a2ca71');
+        onRegionClick(regionName);
       })
       .on('mouseover', function (e, d) {
-        tooltip.transition().duration(200).style('opacity', 0.9);
-        tooltip
-          .html(d.properties.CTP_KOR_NM)
-          .style('left', e.pageX + 5 + 'px')
-          .style('top', e.pageY - 28 + 'px');
+        // tooltip.transition().duration(200).style('opacity', 0.9);
+        // tooltip
+        //   .html(d.properties.CTP_KOR_NM)
+        //   .style('left', `${e.pageX + 5}px`)
+        //   .style('top', `${e.pageY - 28}px`);
 
         d3.select(this).transition().duration(300).attr('fill', '#669900');
       })
       .on('mouseout', function () {
-        tooltip.transition().duration(200).style('opacity', 0);
+        // tooltip.transition().duration(200).style('opacity', 0);
         d3.select(this).transition().duration(300).attr('fill', '#E9EFEC');
       });
+
+    return () => {
+      d3.select('body').selectAll('.map-tooltip').remove();
+    };
   }, [onRegionClick, selectedRegion]);
 
   useImperativeHandle(ref, () => ({
