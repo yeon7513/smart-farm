@@ -26,8 +26,10 @@ function RequestForm({ user, onSubmit }) {
 
     const dataObj = {
       farmAddress: farmAddr,
+      option: option,
     };
 
+    console.log(dataObj);
     onSubmit(dataObj);
   };
 
