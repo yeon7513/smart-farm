@@ -1,0 +1,23 @@
+@import '/src/scss/mixins.scss';
+
+.header {
+  gap: 8px;
+  border-bottom: 5px solid var(--accent-color);
+
+  > button {
+    @include flexCenter();
+    font-size: 30px;
+    color: var(--common-color);
+
+    &:hover {
+      transform: rotate(360deg);
+      color: var(--hover-color);
+    }
+  }
+
+  > h1 {
+    font-family: var(--title-font);
+    font-size: 24px;
+    font-weight: 200;
+  }
+}

@@ -20,6 +20,7 @@ import DiseasesItem from './pages/info/diseases/diseases-item/DiseasesItem';
 // import PostView from './components/board/post-view/PostView';
 import PostView from './components/board/post-view/PostView';
 import CommunityMenu from './context/CommunityMenu';
+import DashboardMenu from './context/DashboardMenu';
 import InfoMenu from './context/InfoMenu';
 import MyPageMenu from './context/MyPageMenu';
 import KaKaoLogin from './pages/LoginPage/KaKaoLogin';
@@ -27,7 +28,6 @@ import Manager from './pages/manager/Manager';
 import MyFarm from './pages/my-farm/MyFarm';
 import FarmList from './pages/my-farm/my-farm-list/FarmList';
 import DashBoard from './pages/my-farm/my-farm-list/dashboard/DashBoard';
-import RenderingMenu from './pages/my-farm/my-farm-list/dashboard/RenderingMenu';
 import RequestForQuote from './pages/request/RequestForQuote';
 import RequestForm from './pages/request/request-form/RequestForm';
 import './scss/global.scss';
@@ -71,7 +71,7 @@ function App() {
             </Route>
           </Route>
           <Route path="/my-farm/:id" element={<DashBoard />}>
-            <Route index element={<RenderingMenu />} />
+            <Route index element={<DashboardMenu />} />
           </Route>
         </Routes>
       </ComponentProvider>

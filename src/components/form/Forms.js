@@ -25,8 +25,9 @@ function Forms({ title, getDataForm, firebaseError }) {
       farmAddress: farmState,
       name: name,
       nickname: nickname,
+      deleteYn: "N",
     });
-    reset();
+    // reset();
   };
 
   const userEmail = {

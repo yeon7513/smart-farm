@@ -23,7 +23,6 @@ function SingUp(props) {
       );
       const { user } = userCredential;
       await joinUser(user.uid, user.email, password, userInfo);
-      console.log(userInfo);
       dispatch(
         setUser({
           email: user.email,

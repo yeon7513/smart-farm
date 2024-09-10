@@ -1,6 +1,6 @@
-import React from 'react';
+import React from "react";
 
-function RequestOptions({ option }) {
+function RequestOptions({ option, onCheckboxChange }) {
   return (
     <>
       {Object.keys(option).map((category) => (
@@ -8,7 +8,12 @@ function RequestOptions({ option }) {
           <h4>{category}</h4>
           {option[category].map((option) => (
             <div key={option.id}>
-              <input type="checkbox" id={option.id} value={option.value} />
+              <input
+                type="checkbox"
+                id={option.id}
+                value={option.value}
+                onChange={onCheckboxChange}
+              />
               <label htmlFor={option.id}>{option.label}</label>
             </div>
           ))}
