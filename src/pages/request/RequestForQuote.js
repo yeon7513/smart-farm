@@ -32,29 +32,6 @@ function RequestForQuote() {
     console.log(mergedObj);
   };
 
-  // 사용자의 이름, 전화번호, 주소, 농장주소, 견적들을 저장하는 폼 생성
-  const exportToExcel = () => {
-    const today = new Date();
-    const year = today.getFullYear();
-    const month = String(today.getMonth() + 1).padStart(2, "0");
-    const day = String(today.getDate()).padStart(2, "0");
-    const createdAt = `${year}${month}${day}${new Date().getTime()}`;
-
-    const data = [
-      {
-        아이디: user.email,
-        이름: user.name,
-        주소: user.address,
-        연락처: user.number,
-        "농장 주소": requestData.farmAddress,
-        "농장 면적": requestData.farmArea,
-        "농장 동 수": requestData.farmEquivalent,
-        "주문 번호": createdAt,
-      },
-    ];
-    setForm((prev) => ({ ...prev, data }));
-  };
-
   const downloadExcel = () => {
     const today = new Date();
     const year = today.getFullYear();
