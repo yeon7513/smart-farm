@@ -69,11 +69,11 @@ function RequestForm({ user, onSubmit }) {
     onSubmit,
   ]);
 
-  if (farmArea <= 0)
-    console.log("농장 면적을 유효한 값으로 입력하여 주시기 바랍니다.");
+  // if (farmArea <= 0)
+  //   console.log("농장 면적을 유효한 값으로 입력하여 주시기 바랍니다.");
 
-  if (farmEquivalent <= 0)
-    console.log("농장 동 수를 선택하여 주시기 바랍니다.");
+  // if (farmEquivalent <= 0)
+  //   console.log("농장 동 수를 선택하여 주시기 바랍니다.");
 
   return (
     <form className={styles.requestForm}>
@@ -128,18 +128,15 @@ function RequestForm({ user, onSubmit }) {
       <div className={styles.farmEquivalent}>
         <h3>농장 동 수</h3>
         <select
-          type="number"
+          value={farmEquivalent}
           onChange={(e) => setFarmEquivalent(Number(e.target.value))}
         >
           <option value="0">값을 선택하여 주시기 바랍니다.</option>
-          <option value="1">1</option>
-          <option value="2">2</option>
-          <option value="3">3</option>
-          <option value="4">4</option>
-          <option value="5">5</option>
-          <option value="6">6</option>
-          <option value="7">7</option>
-          <option value="8">8</option>
+          {Array.from({ length: 8 }, (_, i) => i + 1).map((num) => (
+            <option key={num} value={num}>
+              {num}
+            </option>
+          ))}
         </select>
         동
       </div>
