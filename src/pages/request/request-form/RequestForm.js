@@ -69,6 +69,12 @@ function RequestForm({ user, onSubmit }) {
     onSubmit,
   ]);
 
+  if (farmArea <= 0)
+    console.log("농장 면적을 유효한 값으로 입력하여 주시기 바랍니다.");
+
+  if (farmEquivalent <= 0)
+    console.log("농장 동 수를 선택하여 주시기 바랍니다.");
+
   return (
     <form className={styles.requestForm}>
       <div className={styles.user}>
