@@ -7,7 +7,7 @@ import { getOrder } from '../../api/firebase';
 
 function ChatRoom({ handleClose }) {
   const [selectedAnswer, setSelectedAnswer] = useState('');
-  const [isChatOptionsPick, setIsChatOptionsPick] = useState(false);
+  const [isChatOptionsSelected, setisChatOptionsSelected] = useState(false);
   const [sortedFaqData, setSortedFaqData] = useState([]); // 상태로 정렬된 FAQ 데이터를 관리
   // Redux 상태에서 FAQ 데이터 가져오기
  
@@ -40,11 +40,11 @@ useEffect(() => {
   };
 
   const handleChatButtonClick = () => {
-    setIsChatOptionsPick(true); // "채팅 상담원 연결하기" 버튼 클릭 시 선택지 화면으로 전환
+    setisChatOptionsSelected(true); // "채팅 상담원 연결하기" 버튼 클릭 시 선택지 화면으로 전환
   };
 
   const handleBackButtonClick = () => {
-    setIsChatOptionsPick(false); // "뒤로 가기" 버튼 클릭 시 이전 화면으로 전환
+    setisChatOptionsSelected(false); // "뒤로 가기" 버튼 클릭 시 이전 화면으로 전환
   };
 
   const handleFaqClick = (id) => {
@@ -61,8 +61,8 @@ useEffect(() => {
 
   return (
     <div className={styles.wrapper}>
-      <div className={`${styles.header} ${isChatOptionsPick ? styles.headerDetailOption : ''}`}>
-        {isChatOptionsPick ? (
+      <div className={`${styles.header} ${isChatOptionsSelected ? styles.headerDetailOption : ''}`}>
+        {isChatOptionsSelected ? (
           <>
             <button className={styles.backBtn} onClick={handleBackButtonClick}>
               <img src={backIcon} alt='뒤로 가기' style={{ width: '16px', height: '16px' }} />
@@ -86,7 +86,7 @@ useEffect(() => {
       {/* 여기까지 헤더의 영역 */}
 
       <div className={styles.content}>
-        {isChatOptionsPick ? (
+        {isChatOptionsSelected ? (
           <div className={styles.chatOptions}>
             {sortedFaqData.map ((faq) => (
               <button 
@@ -103,16 +103,16 @@ useEffect(() => {
           <>
             <div className={styles.questionBtns}>
               <button className={styles.questionBtn} onClick={() => showAnswer('answer1')}>
-                스마트팜이 뭔가요?
+                회원 정보 관련 문의 
               </button>
               <button className={styles.questionBtn} onClick={() => showAnswer('answer2')}>
                 견적의뢰요청방법
               </button>
               <button className={styles.questionBtn} onClick={() => showAnswer('answer3')}>
-                A/S 문의하기
+                기기 관련 문의 
               </button>
               <button className={styles.questionBtn} onClick={() => showAnswer('answer4')}>
-                대쉬보드 사용법
+                기타 상담 
               </button>
               <button className={styles.questionBtn} onClick={handleChatButtonClick}>
                 채팅 상담원 연결하기
