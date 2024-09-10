@@ -8,6 +8,16 @@ import * as XLSX from "xlsx/xlsx.mjs";
 function RequestForQuote() {
   // 결제정보 저장 state
   const [requestData, setRequestData] = useState({});
+  const [form, setForm] = useState({
+    아이디: "",
+    이름: "",
+    주소: "",
+    연락처: "",
+    "농장 주소": "",
+    "농장 면적": 0,
+    "농장 동 수": 0,
+    "주문 번호": "",
+  });
 
   // 취소용
   const navigate = useNavigate();
@@ -42,13 +52,32 @@ function RequestForQuote() {
         "주문 번호": createdAt,
       },
     ];
+    setForm((prev) => ({ ...prev, data }));
+  };
 
+  const downloadExcel = () => {
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = String(today.getMonth() + 1).padStart(2, "0");
+    const day = String(today.getDate()).padStart(2, "0");
+    const createdAt = `${year}${month}${day}${new Date().getTime()}`;
+
+    const data = [
+      {
+        아이디: user.email,
+        이름: user.name,
+        주소: user.address,
+        연락처: user.number,
+        "농장 주소": requestData.farmAddress,
+        "농장 면적": requestData.farmArea,
+        "농장 동 수": requestData.farmEquivalent,
+        "주문 번호": createdAt,
+      },
+    ];
     const ws = XLSX.utils.json_to_sheet(data);
     const wb = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb, ws, "견적서");
-
-    // 이 코드는 관리자만 실행시킬 수 있음(관리자만 엑셀 내용을 볼 수 있음)
-    XLSX.writeFile(wb, "견적서.xlsx");
+    XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
+    XLSX.writeFile(wb, "data.xlsx");
   };
 
   return (
@@ -70,6 +99,9 @@ function RequestForQuote() {
           결제
         </button>
         <button className={styles.cancel} onClick={() => navigate(-1)}>
+          취소
+        </button>
+        <button className={styles.cancel} onClick={downloadExcel}>
           취소
         </button>
       </div>
