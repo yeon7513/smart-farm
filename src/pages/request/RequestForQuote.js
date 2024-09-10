@@ -8,16 +8,7 @@ import * as XLSX from "xlsx/xlsx.mjs";
 function RequestForQuote() {
   // 결제정보 저장 state
   const [requestData, setRequestData] = useState({});
-  const [form, setForm] = useState({
-    아이디: "",
-    이름: "",
-    주소: "",
-    연락처: "",
-    "농장 주소": "",
-    "농장 면적": 0,
-    "농장 동 수": 0,
-    "주문 번호": "",
-  });
+  const [accumulatedData, setAccumulatedData] = useState([]);
 
   // 취소용
   const navigate = useNavigate();
@@ -27,34 +18,33 @@ function RequestForQuote() {
 
   // 결제 버튼 (임시로 콘솔에 결제정보가 나오는지 해놨어요.)
   const handleSubmitRequest = () => {
-    // 유저 정보와 입력된 부가 정보들을 하나의 객체로 출력
-    const mergedObj = Object.assign({}, user, requestData);
-    console.log(mergedObj);
-  };
-
-  const downloadExcel = () => {
     const today = new Date();
     const year = today.getFullYear();
     const month = String(today.getMonth() + 1).padStart(2, "0");
     const day = String(today.getDate()).padStart(2, "0");
     const createdAt = `${year}${month}${day}${new Date().getTime()}`;
 
-    const data = [
-      {
-        아이디: user.email,
-        이름: user.name,
-        주소: user.address,
-        연락처: user.number,
-        "농장 주소": requestData.farmAddress,
-        "농장 면적": requestData.farmArea,
-        "농장 동 수": requestData.farmEquivalent,
-        "주문 번호": createdAt,
-      },
-    ];
-    const ws = XLSX.utils.json_to_sheet(data);
+    const data = {
+      아이디: user.email,
+      이름: user.name,
+      주소: user.address,
+      연락처: user.number,
+      "농장 주소": requestData.farmAddress,
+      "농장 면적": requestData.farmArea,
+      "농장 동 수": requestData.farmEquivalent,
+      "주문 번호": createdAt,
+    };
+
+    setAccumulatedData((prevData) => [...prevData, data]);
+
+    setRequestData({});
+  };
+
+  const downloadExcel = () => {
+    const ws = XLSX.utils.json_to_sheet(accumulatedData);
     const wb = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
-    XLSX.writeFile(wb, "data.xlsx");
+    XLSX.utils.book_append_sheet(wb, ws, "견적서");
+    XLSX.writeFile(wb, "견적 내역.xlsx");
   };
 
   return (
