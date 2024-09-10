@@ -1,6 +1,5 @@
 .usageStatus {
   display: flex;
-  outline: 1px dotted blue;
 }
 .map {
   overflow: hidden;
@@ -9,7 +8,6 @@
   align-items: center;
   width: 400px;
   height: 600px;
-  outline: 1px dotted red;
   > svg {
     width: 600px;
     height: 800px;

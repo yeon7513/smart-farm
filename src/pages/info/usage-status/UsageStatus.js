@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { GrPowerReset } from 'react-icons/gr';
 import { useDispatch, useSelector } from 'react-redux';
 import { GridLoader } from 'react-spinners';
@@ -22,6 +22,7 @@ function UsageStatus() {
   const [sort, setSort] = useState('local');
   const [localName, setLocalName] = useState('');
   const [localFarm, setLocalFarm] = useState(null);
+  const mapRef = useRef(null);
 
   // 차트 타입 변경
   const handleChangeChartType = (type) => {
@@ -38,6 +39,9 @@ function UsageStatus() {
     setLocalFarm(null);
     setLocalName('');
     setChartType('donut');
+    if (mapRef.current && mapRef.current.resetMap) {
+      mapRef.current.resetMap();
+    }
   };
 
   // 조회별 렌더링
@@ -74,7 +78,11 @@ function UsageStatus() {
 
   return (
     <div className={styles.usageStatus}>
-      <Maps className={styles.map} onRegionClick={handleLocalClick} />
+      <Maps
+        className={styles.map}
+        onRegionClick={handleLocalClick}
+        ref={mapRef}
+      />
       <div className={styles.container}>
         <div className={styles.sortBtns}>
           <button onClick={handleResetClick}>

@@ -3,19 +3,20 @@ import {
   Bar,
   BarChart,
   CartesianGrid,
+  Legend,
   ResponsiveContainer,
   Tooltip,
   XAxis,
   YAxis,
 } from 'recharts';
-import { COLORS, transformData } from './Charts';
+import { COLORS, transformDataForBarGraphs } from './Charts';
 
 function SimpleBarChart({ data }) {
   const hasCrops = data.length > 0 && data[0].crops && data[0].crops.length > 0;
 
   const renderBars = () => {
     if (data[0]?.crops) {
-      const transformedData = transformData(data);
+      const transformedData = transformDataForBarGraphs(data);
 
       const cropNames = transformedData.reduce((acc, item) => {
         return [...acc, ...Object.keys(item).filter((key) => key !== 'name')];
@@ -44,7 +45,7 @@ function SimpleBarChart({ data }) {
       maxHeight={600}
     >
       <BarChart
-        data={hasCrops ? transformData(data) : data}
+        data={hasCrops ? transformDataForBarGraphs(data) : data}
         margin={{
           top: 20,
           right: 20,
@@ -57,6 +58,7 @@ function SimpleBarChart({ data }) {
         <YAxis />
         <Tooltip />
         {renderBars()}
+        {hasCrops && <Legend align="center" />}
       </BarChart>
     </ResponsiveContainer>
   );

@@ -49,6 +49,7 @@ const options = {
       value: "CO2 센서",
       label: "CO2 센서",
     },
+    { id: "CCTV", value: "CCTV", label: "CCTV" },
   ],
   "기타 장비": [
     {
@@ -56,7 +57,17 @@ const options = {
       value: "양액측정센서",
       label: "양액측정센서",
     },
-    { id: "CCTV", value: "CCTV", label: "CCTV" },
+    {
+      id: "insectRepellect",
+      value: "해충 퇴치기",
+      label: "해충 퇴치기",
+    },
+    {
+      id: "pestDigitalTrap",
+      value: "해충 디지털 트랩",
+      label: "해충 디지털 트랩",
+    },
+    { id: "birdRepellent", value: "조류 퇴치기", label: "조류 퇴치기" },
   ],
 };
 

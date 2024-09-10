@@ -1,10 +1,11 @@
-import { configureStore } from "@reduxjs/toolkit";
-import orderSlice from "./order/orderSlice";
-import paymentSlice from "./payment/paymentSlice";
-import paymentsSlice from "./payment/paymentsSlice";
-import usageStatusSlice from "./usage-status/usageStatusSlice";
-import userSlice from "./user/UserSlice";
-import faqDataSlice from "./faq-data/faqDataSlice";
+import { configureStore } from '@reduxjs/toolkit';
+import dashboardSlice from './dashboard/dashboardSlice';
+import faqDataSlice from './faq-data/faqDataSlice';
+import orderSlice from './order/orderSlice';
+import paymentSlice from './payment/paymentSlice';
+import paymentsSlice from './payment/paymentsSlice';
+import usageStatusSlice from './usage-status/usageStatusSlice';
+import userSlice from './user/UserSlice';
 
 export const store = configureStore({
   reducer: {
@@ -14,5 +15,6 @@ export const store = configureStore({
     orderSlice,
     usageStatusSlice,
     faqDataSlice,
+    dashboardSlice,
   },
 });
