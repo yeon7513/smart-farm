@@ -16,8 +16,15 @@ function RequestForQuote() {
 
   // 결제 버튼 (임시로 콘솔에 결제정보가 나오는지 해놨어요.)
   const handleSubmitRequest = () => {
-    console.log(requestData);
-    console.log(user);
+    // 사용자 정보 출력
+    // console.log(user);
+
+    // 농장 정보 출력
+    // console.log(requestData);
+
+    // 유저 정보와 입력된 농장 정보를 하나의 객체로 출력
+    const mergedObj = Object.assign({}, user, requestData);
+    console.log(mergedObj);
   };
 
   return (

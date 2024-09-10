@@ -8,12 +8,17 @@ function RequestForm({ user, onSubmit }) {
   const [farmAddr, setFarmAddr] = useState("");
   const [option, setOption] = useState("facility");
 
+  const handleFarmAddressChange = (e) => {
+    console.log(e.target.value);
+  };
+
   const handleGetAddr = (addr) => {
     setFarmAddr(addr);
   };
 
   const handleOptionChange = (e) => {
     setOption(e.target.value);
+    console.log(e.target.value);
   };
 
   const handleSubmit = (e) => {
@@ -43,7 +48,11 @@ function RequestForm({ user, onSubmit }) {
       </div>
       <div className={styles.farmName}>
         <h3>농장 이름</h3>
-        <input type="text" placeholder={"농장 이름을 입력해주세요."} />
+        <input
+          type="text"
+          placeholder={"농장 이름을 입력해주세요."}
+          onChange={handleFarmAddressChange}
+        />
       </div>
       <div>
         <h3>시설원예 혹은 노지 선택</h3>
