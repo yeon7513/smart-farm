@@ -2,7 +2,7 @@ import React from 'react';
 import { useComponentContext } from '../../../../../context/ComponentContext';
 import styles from './DashboardNav.module.scss';
 
-function DashboardNav(props) {
+function DashboardNav() {
   const { currComp, setCurrComp } = useComponentContext();
 
   return (

@@ -2,19 +2,18 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from './FarmListItem.module.scss';
 
-function FarmListItem({ farmId, name, crop }) {
+function FarmListItem({ farmData }) {
+  const { crop, farmName, docId } = farmData;
   const navigate = useNavigate();
 
   return (
     <li className={styles.item}>
       <div className={styles.name}>
-        {name} / {crop}
+        {farmName} / {crop}
       </div>
       <div className={styles.btns}>
         <button
-          onClick={() =>
-            navigate(`/my-farm/${farmId}`, { state: { name, crop } })
-          }
+          onClick={() => navigate(`/my-farm/${docId}`, { state: farmData })}
         >
           관리
         </button>

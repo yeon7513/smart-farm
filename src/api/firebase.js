@@ -137,9 +137,9 @@ export async function getQuery(collectionName, queryOption) {
   return q;
 }
 
-export async function getDatas(collectionName, queryOptions) {
+export async function getDatas(collectionName) {
   try {
-    const collect = collection(db, collectionName);
+    const collect = getCollection(collectionName);
     const snapshot = await getDocs(collect);
     return snapshot.docs.map((doc) => ({ docId: doc.id, ...doc.data() }));
   } catch (error) {

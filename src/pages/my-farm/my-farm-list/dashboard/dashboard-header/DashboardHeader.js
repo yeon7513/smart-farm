@@ -6,7 +6,7 @@ import styles from './DashboardHeader.module.scss';
 import Weather from './weather/Weather';
 
 function DashboardHeader({ info }) {
-  const { latitude, longitude } = info;
+  const { latitude, longitude, crop, farmName } = info;
 
   const navigate = useNavigate();
   return (
@@ -16,7 +16,7 @@ function DashboardHeader({ info }) {
           <IoArrowBackCircle />
         </button>
         <h1>
-          {info.name} / {info.crop}
+          {farmName} / {crop}
         </h1>
       </div>
       <div className={styles.time}>{new Date().toLocaleDateString()}</div>

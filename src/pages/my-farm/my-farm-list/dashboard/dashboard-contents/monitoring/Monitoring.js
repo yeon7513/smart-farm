@@ -1,7 +1,13 @@
 import React from 'react';
+import { Outlet } from 'react-router-dom';
 
-function Monitoring(props) {
-  return <div>Monitoring</div>;
+function Monitoring() {
+  return (
+    <div>
+      <span>Monitoring</span>
+      <Outlet />
+    </div>
+  );
 }
 
 export default Monitoring;
