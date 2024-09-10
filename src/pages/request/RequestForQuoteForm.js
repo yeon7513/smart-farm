@@ -61,14 +61,6 @@ function RequestForQuoteForm({ addEstimate, user }) {
     const month = String(today.getMonth() + 1).padStart(2, "0");
     const day = String(today.getDate()).padStart(2, "0");
     const createdAt = `${year}${month}${day}${new Date().getTime()}`;
-    // const fileName = `${userEmail}님의 견적 주문번호_${createdAt}.xlsx`;
-
-    // const additionalOptionsEntries = Object.entries(additionalOptions).map(
-    //   ([key, value], index) => ({
-    //     [`Option ${index + 1}`]: value,
-    //     key,
-    //   })
-    // );
 
     const formattedAdditionalOptions =
       Object.keys(additionalOptions).join(", ");
