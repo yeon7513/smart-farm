@@ -100,14 +100,15 @@ function LoginPage() {
       });
     });
   };
-
+  const password = 0;
   const onSubmit = ({ name, number, address }) => {
-    joinUser(Info.uid, Info.email, {
+    joinUser(Info.uid, Info.email, password, {
       number: number,
       address: address,
       farmAddress: "",
       name: name,
       nickname: Info.displayName,
+      deleteYn: "N",
     });
     dispatch(
       setUser({

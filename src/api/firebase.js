@@ -44,11 +44,15 @@ export async function addDatas(collectionName, addObj) {
   return resultData;
 }
 
-export async function joinUser(uid, email, userInfo = {}, password = "") {
+export async function joinUser(uid, email, password = "", userInfo = {}) {
   const userData = {
     email: email,
     password: password,
-    createdAt: new Date(),
+    createdAt: new Date().getTime(),
+    updatedAt: new Date().getTime(),
+    photoUrl: [],
+    liked: "",
+    ...(userInfo.deleteYn && { deleteYn: userInfo.deleteYn }),
     ...(userInfo.address && { address: userInfo.address }),
     ...(userInfo.number && { number: userInfo.number }),
     ...(userInfo.farmAddress && { farmAddress: userInfo.farmAddress }),
