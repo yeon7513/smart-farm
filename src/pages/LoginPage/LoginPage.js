@@ -5,8 +5,13 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { useForm } from "react-hook-form";
 import * as FcIcons from "react-icons/fc";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
-import { getDatas, getUserAuth, joinUser } from "../../api/firebase";
+import { Link, Navigate, useNavigate } from "react-router-dom";
+import {
+  getDatas,
+  getUserAuth,
+  joinUser,
+  LoginGetDatas,
+} from "../../api/firebase";
 import CustomModal from "../../components/modal/CustomModal";
 import { setUser } from "../../store/user/UserSlice";
 import Kakaoback from "./Kakaoback";
@@ -15,6 +20,18 @@ import SignIn from "./sign-in/SignIn";
 import SearchAddr from "../../components/search-addr/SearchAddr";
 
 function LoginPage() {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const localInfoNum = async () => {
+      const localInfo = localStorage.getItem("user");
+      if (localInfo && localInfo.includes("email")) {
+        // if(dashboard)
+        navigate("/");
+      }
+    };
+    localInfoNum();
+  }, [navigate]);
   // const api = "D2KH68BM8I140W4B";
   // const apiurl = `/desaster?serviceKey=${api}/numOfRows=10/pageNo=10`;
 
@@ -27,9 +44,9 @@ function LoginPage() {
   //     console.error("There was an error!", error);
   //   });
 
-  const servicekey = "D2KH68BM8I140W4B";
-  const pageNo = "12";
-  const numOfRows = "30";
+  // const servicekey = "D2KH68BM8I140W4B";
+  // const pageNo = "12";
+  // const numOfRows = "30";
 
   // API 호출을 위한 URL 생성
   // const apiurl = `/desaster/V2/api/DSSP-IF-00247?serviceKey=D2KH68BM8I140W4B&pageNo=${pageNo}&numOfRows=${numOfRows}`;
@@ -51,12 +68,7 @@ function LoginPage() {
   // 재난 유형
   // 산사태,조수,지진,폭염,풍수해,감염병,다중밀집건축물붕괴대형사고,산불,
   // 초미세먼지,해양선박사고
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    reset,
-  } = useForm({
+  const { register, handleSubmit } = useForm({
     mode: "onChange",
   });
   const { isAuthenticated } = useSelector((state) => state.userSlice);
@@ -67,13 +79,13 @@ function LoginPage() {
 
   const auth = getUserAuth();
   const [user, loading, error] = useAuthState(auth);
-  const navigate = useNavigate();
   const dispatch = useDispatch();
   const Info = auth.currentUser;
   const SignInWithGoogle = async () => {
     const provider = new GoogleAuthProvider();
     await signInWithPopup(auth, provider).then(async (result) => {
-      const userInfo = await getDatas("users");
+      const userInfo = await LoginGetDatas("users");
+      console.log(userInfo);
       const Point = userInfo?.filter(
         (item) => item?.email == result.user?.email
       );
@@ -118,16 +130,6 @@ function LoginPage() {
     );
     closeModal();
   };
-
-  // if (loading) {
-  //   return <div>Loading...</div>;
-  // }
-  // if (user) {
-  //   navigate("/");
-  // }
-  // if (error) {
-  //   return <div>Error: {error.message}</div>;
-  // }
 
   // navigator.geolocation.getCurrentPosition((position) => {});
 
