@@ -56,7 +56,7 @@ function DashBoard() {
             현재 수확이 가능합니다!
           </div>
         </div> */}
-        <Weather />
+        <Weather className={styles.Weather} />
         <div className={styles.nav}>
           <ul>
             <li className={currComp === "Monitoring" ? styles.active : ""}>
