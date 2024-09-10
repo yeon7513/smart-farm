@@ -25,6 +25,8 @@ function RequestForQuote() {
     // 유저 정보와 입력된 농장 정보를 하나의 객체로 출력
     const mergedObj = Object.assign({}, user, requestData);
     console.log(mergedObj);
+
+    // 사용자의 이름, 전화번호, 주소, 농장주소, 견적들을 저장하는 폼 생성
   };
 
   return (
@@ -45,7 +47,7 @@ function RequestForQuote() {
         <button className={styles.submit} onClick={handleSubmitRequest}>
           결제
         </button>
-        <button className={styles.cancel} onClick={() => navigate("-1")}>
+        <button className={styles.cancel} onClick={() => navigate(-1)}>
           취소
         </button>
       </div>
