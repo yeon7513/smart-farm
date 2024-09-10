@@ -16,8 +16,8 @@ export const chartTypes = [
 
 export const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
 
-// 작물별 상세 조회용 데이터 변환
-export const transformData = (data) => {
+// [막대그래프]작물별 상세 조회용 데이터 변환
+export const transformDataForBarGraphs = (data) => {
   const transformedData = [];
 
   data.forEach((cityData) => {
@@ -36,3 +36,105 @@ export const transformData = (data) => {
 
   return transformedData;
 };
+
+// [원형그래프] 작물별 상세 조회용 데이터 변환
+export const transformDataForCircularGraphs = (data) => {
+  if (!data || !Array.isArray(data)) return { cropData: [], regionData: [] };
+
+  const regionData = [];
+  const cropData = [];
+
+  data.forEach((region) => {
+    regionData.push({
+      name: region.name,
+      value: region.crops.reduce((sum, crop) => sum + crop.value, 0),
+    });
+
+    region.crops.forEach((crop) => {
+      cropData.push({
+        name: `${region.name}-${crop.item}`,
+        value: crop.value,
+      });
+    });
+  });
+
+  return { regionData, cropData };
+};
+
+// 라벨 변환 (퍼센트)
+const RADIAN = Math.PI / 180;
+export const renderCustomizedLabel = ({
+  cx,
+  cy,
+  midAngle,
+  innerRadius,
+  outerRadius,
+  percent,
+  index,
+}) => {
+  const radius = innerRadius + (outerRadius - innerRadius) * 0.3;
+  const x = cx + radius * Math.cos(-midAngle * RADIAN);
+  const y = cy + radius * Math.sin(-midAngle * RADIAN);
+  const percentage = percent * 100;
+
+  return (
+    <text
+      x={x}
+      y={y}
+      fill="white"
+      textAnchor={x > cx ? 'start' : 'end'}
+      dominantBaseline="central"
+    >
+      {percentage > 5 ? `${percentage.toFixed(1)}%` : null}
+    </text>
+  );
+};
+
+// 라벨 변환 (이름)
+export const renderCustomizedLabelToStr = ({
+  cx,
+  cy,
+  midAngle,
+  innerRadius,
+  outerRadius,
+  name,
+}) => {
+  const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
+  const x = cx + radius * Math.cos(-midAngle * RADIAN);
+  const y = cy + radius * Math.sin(-midAngle * RADIAN);
+
+  return (
+    <text
+      x={x}
+      y={y}
+      fill="white"
+      textAnchor={x > cx ? 'start' : 'end'}
+      dominantBaseline="central"
+    >
+      {name}
+    </text>
+  );
+};
+
+// 툴팁 커스텀
+export const customTooltip =
+  (totalValue) =>
+  ({ active, payload }) => {
+    if (active && payload && payload.length) {
+      const { name, value } = payload[0];
+      const percent = ((value / totalValue) * 100).toFixed(1);
+      return (
+        <div
+          className="custom-tooltip"
+          style={{
+            backgroundColor: 'rgba(255,255,255,0.8)',
+            padding: '10px',
+            border: '1px solid #ccc',
+          }}
+        >
+          <p>{`${name}: ${value} (${percent}%)`}</p>
+        </div>
+      );
+    }
+    return null;
+  };

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Cell,
   Legend,
@@ -7,10 +7,85 @@ import {
   ResponsiveContainer,
   Tooltip,
 } from 'recharts';
+import {
+  customTooltip,
+  renderCustomizedLabel,
+  transformDataForCircularGraphs,
+} from './Charts';
 
 const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
 
 function SimpleDonutChart({ data }) {
+  const [cropData, setCropData] = useState([]);
+  const [regionData, setRegionData] = useState([]);
+
+  const calculateTotalValue = (data) => {
+    return data.reduce((acc, cur) => acc + cur.value, 0);
+  };
+
+  const totalValue = calculateTotalValue(data);
+  const cropTotalValue = calculateTotalValue(cropData);
+
+  const hasCrops = data.length > 0 && data[0].crops && data[0].crops.length > 0;
+
+  useEffect(() => {
+    if (hasCrops) {
+      const { cropData, regionData } = transformDataForCircularGraphs(data);
+      setCropData(cropData);
+      setRegionData(regionData);
+    } else {
+      setCropData([]);
+      setRegionData([]);
+    }
+  }, [hasCrops, data]);
+
+  const renderPies = () => {
+    if (hasCrops) {
+      return (
+        <>
+          <Pie
+            data={regionData}
+            cx={250}
+            cy={230}
+            outerRadius={90}
+            fill="#8884d8"
+            dataKey="value"
+          />
+          <Pie
+            data={cropData}
+            cx={250}
+            cy={230}
+            labelLine={false}
+            label={renderCustomizedLabel}
+            innerRadius={120}
+            outerRadius={200}
+            fill="#8884d8"
+            dataKey="value"
+          />
+          <Tooltip content={customTooltip(cropTotalValue)} />
+        </>
+      );
+    } else {
+      return (
+        <Pie
+          data={data}
+          cx={250}
+          cy={230}
+          labelLine={false}
+          label={renderCustomizedLabel}
+          innerRadius={80}
+          outerRadius={200}
+          fill="#8884d8"
+          dataKey="value"
+        >
+          {data.map((entry, index) => (
+            <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+          ))}
+        </Pie>
+      );
+    }
+  };
+
   return (
     <ResponsiveContainer
       width="100%"
@@ -19,46 +94,9 @@ function SimpleDonutChart({ data }) {
       maxHeight={600}
     >
       <PieChart>
-        <Legend
-          layout="vertical"
-          align="right"
-          payload={data.map((local, idx) => ({
-            value: local.name,
-            type: 'square',
-            color: COLORS[idx % COLORS.length],
-          }))}
-        />
-        <Pie
-          data={data}
-          cx={230}
-          cy={230}
-          innerRadius={100}
-          outerRadius={200}
-          fill="#8884d8"
-          nameKey="name"
-          dataKey="value"
-        >
-          {data.map((entry, index) => (
-            <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-          ))}
-        </Pie>
-        <Tooltip />
-        {/* <Pie
-        data={data}
-        cx={420}
-        cy={200}
-        startAngle={180}
-        endAngle={0}
-        innerRadius={60}
-        outerRadius={80}
-        fill="#8884d8"
-        paddingAngle={5}
-        dataKey="value"
-      >
-        {data.map((entry, index) => (
-          <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-        ))}
-      </Pie> */}
+        {hasCrops ? null : <Legend layout="vertical" align="right" />}
+        {renderPies()}
+        {hasCrops ? null : <Tooltip content={customTooltip(totalValue)} />}
       </PieChart>
     </ResponsiveContainer>
   );
