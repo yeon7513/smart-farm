@@ -12,10 +12,7 @@ import { setUser } from "../../store/user/UserSlice";
 import Kakaoback from "./Kakaoback";
 import styles from "./LoginPage.module.scss";
 import SignIn from "./sign-in/SignIn";
-import axios from "axios";
-import { name } from "./../../lib/post";
 import SearchAddr from "../../components/search-addr/SearchAddr";
-import userSlice from "./../../store/user/UserSlice";
 
 function LoginPage() {
   // const api = "D2KH68BM8I140W4B";
@@ -64,14 +61,12 @@ function LoginPage() {
   });
   const { isAuthenticated } = useSelector((state) => state.userSlice);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [myAddress, SetmyAddress] = useState();
   const openModal = () => setIsModalOpen(true);
-  const closeModal = () => {
-    navigate("/");
-  };
+  const closeModal = () => setIsModalOpen(false);
 
   const auth = getUserAuth();
   const [user, loading, error] = useAuthState(auth);
-
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const Info = auth.currentUser;
@@ -82,7 +77,6 @@ function LoginPage() {
       const Point = userInfo?.filter(
         (item) => item?.email == result.user?.email
       );
-      console.log(Point);
       if (Point.length === 0) {
         openModal();
       }
@@ -100,11 +94,13 @@ function LoginPage() {
       });
     });
   };
-  const password = 0;
-  const onSubmit = ({ name, number, address }) => {
+  //
+
+  const password = "";
+  const onSubmit = ({ name, number }) => {
     joinUser(Info.uid, Info.email, password, {
       number: number,
-      address: address,
+      address: myAddress,
       farmAddress: "",
       name: name,
       nickname: Info.displayName,
@@ -120,66 +116,73 @@ function LoginPage() {
         name: name,
       })
     );
+    closeModal();
   };
 
-  useEffect(() => {}, [loading, user, navigate]);
-  if (loading) {
-    return <div>Loading...</div>;
-  }
+  // if (loading) {
+  //   return <div>Loading...</div>;
+  // }
   // if (user) {
   //   navigate("/");
   // }
+  // if (error) {
+  //   return <div>Error: {error.message}</div>;
+  // }
 
-  if (error) {
-    return <div>Error: {error.message}</div>;
-  }
-  navigator.geolocation.getCurrentPosition((position) => {});
+  // navigator.geolocation.getCurrentPosition((position) => {});
 
   return (
     <Container className={styles.container}>
-      <h1>로그인</h1>
-      <Avatar
-        sx={{ mb: 4, background: "skyblue" }}
-        style={{ width: 80, height: 80 }}
-      />
-      <SignIn />
-      <div className={styles.buttons}>
-        <div className={styles.button}>
-          <button
-            type="submit"
-            sx={{ bgcolor: "secondary.main" }}
-            onClick={SignInWithGoogle}
-          >
-            <div className={styles.googlebutton}>
-              <div>
-                <FcIcons.FcGoogle />
-              </div>
-              <div>
-                <h4>Google</h4>
-              </div>
-            </div>
-          </button>
-        </div>
-        <div className={styles.button}>
-          <Kakaoback />
-        </div>
+      <div>
+        <h1>로그인</h1>
       </div>
-      <p>
-        <Link to="/searchEm">Email 찾기</Link>
-        <Link to="/searchPw">비밀번호 찾기</Link>
-      </p>
-      <p>
-        아직 회원이 아니신가요? <Link to={"/register"}>회원가입</Link>
-      </p>
+      <div>
+        <Avatar
+          sx={{ mb: 4, background: "skyblue" }}
+          style={{ width: 80, height: 80 }}
+        />
+      </div>
+      <div>
+        <SignIn />
+      </div>
+      <div className={styles.buttons}>
+        <button
+          className={styles.googleBt}
+          type="submit"
+          onClick={SignInWithGoogle}
+        >
+          <div>
+            <FcIcons.FcGoogle style={{ width: 40, height: 40 }} />
+          </div>
+          <div>
+            <h2>Google</h2>
+          </div>
+        </button>
+
+        <Kakaoback />
+      </div>
+      <div>
+        <p className={styles.searchText}>
+          <Link to="/searchEm">E-mail 찾기</Link>
+
+          <Link to="/searchPw">비밀번호 찾기</Link>
+        </p>
+      </div>
+      <div>
+        <p>
+          아직 회원이 아니신가요? &nbsp; <Link to={"/register"}>회원가입</Link>
+        </p>
+      </div>
       <CustomModal
         title={"추가 정보"}
-        btnName={"탈퇴하기"}
+        btnName={"확인"}
         isOpen={isModalOpen}
         handleClose={closeModal}
+        btnHandler={handleSubmit(onSubmit)}
       >
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <div>
-            <p>소셜 로그인시 추가 정보가 필요합니다.</p>
+        <form>
+          <div className={styles.modaleContainer}>
+            <h3>소셜 로그인 시에는 추가 정보가 필요합니다.</h3>
             <div>
               <TextField
                 InputProps={{
@@ -207,21 +210,8 @@ function LoginPage() {
               />
             </div>
             <div>
-              <TextField
-                InputProps={{
-                  sx: {
-                    pl: 2,
-                    pr: 2,
-                  },
-                }}
-                type="adress"
-                label={"주소"}
-                {...register("address")}
-              />
-            </div>
-            <div>
-              <button>확인</button>
-              <button>취소</button>
+              <h3 className={styles.h3Text}>주소</h3>
+              <SearchAddr getAddr={SetmyAddress} />
             </div>
           </div>
         </form>
