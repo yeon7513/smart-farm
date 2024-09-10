@@ -65,7 +65,9 @@ function LoginPage() {
   const { isAuthenticated } = useSelector((state) => state.userSlice);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const openModal = () => setIsModalOpen(true);
-  const closeModal = () => setIsModalOpen(false);
+  const closeModal = () => {
+    navigate("/");
+  };
 
   const auth = getUserAuth();
   const [user, loading, error] = useAuthState(auth);
@@ -76,25 +78,26 @@ function LoginPage() {
   const SignInWithGoogle = async () => {
     const provider = new GoogleAuthProvider();
     await signInWithPopup(auth, provider).then(async (result) => {
-      console.log(result);
       const userInfo = await getDatas("users");
-      const Point = userInfo.filter((item) => item?.email == Info?.email);
+      const Point = userInfo?.filter(
+        (item) => item?.email == result.user?.email
+      );
+      console.log(Point);
       if (Point.length === 0) {
         openModal();
-      } else {
-        Point.forEach((item) => {
-          dispatch(
-            setUser({
-              email: Info.email,
-              token: Info.refreshToken,
-              uid: Info.uid,
-              nick: Info.displayName,
-              number: item.number,
-              name: item.name,
-            })
-          );
-        });
       }
+      Point.forEach((item) => {
+        dispatch(
+          setUser({
+            email: result.user.email,
+            token: result.user.refreshToken,
+            uid: result.user.uid,
+            nick: result.user.displayName,
+            number: item.number,
+            name: item.name,
+          })
+        );
+      });
     });
   };
 
@@ -106,6 +109,16 @@ function LoginPage() {
       name: name,
       nickname: Info.displayName,
     });
+    dispatch(
+      setUser({
+        email: Info.email,
+        token: Info.refreshToken,
+        uid: Info.uid,
+        nick: Info.displayName,
+        number: number,
+        name: name,
+      })
+    );
   };
 
   useEffect(() => {}, [loading, user, navigate]);
