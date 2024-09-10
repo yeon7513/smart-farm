@@ -6,7 +6,7 @@ import styles from "./RequestForQuote.module.scss";
 
 function RequestForQuote() {
   // 결제정보 저장 state
-  const [requestData, setRequestData] = useState("");
+  const [requestData, setRequestData] = useState({});
 
   // 취소용
   const navigate = useNavigate();
