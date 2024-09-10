@@ -154,7 +154,7 @@ function LoginPage() {
           <div>
             <FcIcons.FcGoogle style={{ width: 40, height: 40 }} />
           </div>
-          <div>
+          <div className={styles.h2}>
             <h2>Google</h2>
           </div>
         </button>

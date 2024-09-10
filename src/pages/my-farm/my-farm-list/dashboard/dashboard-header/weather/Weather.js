@@ -13,7 +13,7 @@ import { IoMdRainy, IoIosThunderstorm } from "react-icons/io";
 import { WiDayRainMix } from "react-icons/wi";
 import { TbMist } from "react-icons/tb";
 import { PiMoonStarsFill, PiSunDimFill } from "react-icons/pi";
-import { data } from "./../../../../../components/chart/data";
+// import { data } from "./../../../../../components/chart/data";
 function Weather() {
   const [forecastData, setForecastData] = useState([]); //5일치 데이터저장!
   const [weatherData, setWeatherData] = useState({

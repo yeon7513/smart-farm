@@ -1,12 +1,24 @@
 .container {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  margin: 100px auto;
 
+  // div {
+  //   display: flex;
+  //   flex-direction: column;
+  //   justify-content: center;
+  //   align-items: center;
+  //   width: 100%;
+  //   gap: 20px;
+  // }
   h1 {
     font-weight: 500;
     margin-bottom: 50px;
+  }
+  a {
+    &:hover {
+      color: skyblue;
+      text-decoration: underline;
+    }
   }
   span {
     text-align: center;
@@ -16,4 +28,34 @@
   p {
     display: block;
   }
+  .buttons {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+  }
+  .googleBt {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2% 5% 2% 5%;
+    background-color: beige;
+    border-radius: 10px;
+    gap: 10px;
+    box-shadow: var(--box-shadow);
+    &:hover {
+      opacity: 0.6;
+    }
+  }
+  .searchText {
+    display: flex;
+    gap: 20px;
+  }
+}
+.modaleContainer {
+  margin: 100px auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
 }
