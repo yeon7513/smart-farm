@@ -139,7 +139,7 @@ export async function getQuery(collectionName, queryOption) {
 
 export async function getDatas(collectionName, queryOptions) {
   try {
-    const collect = collection(db, collectionName);
+    const collect = getCollection(collectionName);
     const snapshot = await getDocs(collect);
     const returnData = JSON.stringify(
       snapshot.docs.map((doc) => ({ docId: doc.id, ...doc.data() }))
