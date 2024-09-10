@@ -65,45 +65,61 @@ function LoginPage() {
   const { isAuthenticated } = useSelector((state) => state.userSlice);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const openModal = () => setIsModalOpen(true);
-  const closeModal = () => setIsModalOpen(false);
+  const closeModal = () => {
+    navigate("/");
+  };
 
   const auth = getUserAuth();
   const [user, loading, error] = useAuthState(auth);
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const Info = auth.currentUser;
   const SignInWithGoogle = async () => {
     const provider = new GoogleAuthProvider();
     await signInWithPopup(auth, provider).then(async (result) => {
       const userInfo = await getDatas("users");
-      const Point = userInfo.filter((item) => item.email == result.user.email);
+      const Point = userInfo?.filter(
+        (item) => item?.email == result.user?.email
+      );
+      console.log(Point);
       if (Point.length === 0) {
         openModal();
-      } else {
-        Point.forEach((item) => {
-          dispatch(
-            setUser({
-              email: result.user.email,
-              token: result.user.refreshToken,
-              uid: result.user.uid,
-              nick: result.user.displayName,
-              number: item.number,
-              name: item.name,
-            })
-          );
-        });
       }
+      Point.forEach((item) => {
+        dispatch(
+          setUser({
+            email: result.user.email,
+            token: result.user.refreshToken,
+            uid: result.user.uid,
+            nick: result.user.displayName,
+            number: item.number,
+            name: item.name,
+          })
+        );
+      });
     });
   };
-  const Info = auth.currentUser;
+  const password = 0;
   const onSubmit = ({ name, number, address }) => {
-    joinUser(Info.uid, Info.email, {
+    joinUser(Info.uid, Info.email, password, {
       number: number,
       address: address,
       farmAddress: "",
       name: name,
       nickname: Info.displayName,
+      deleteYn: "N",
     });
+    dispatch(
+      setUser({
+        email: Info.email,
+        token: Info.refreshToken,
+        uid: Info.uid,
+        nick: Info.displayName,
+        number: number,
+        name: name,
+      })
+    );
   };
 
   useEffect(() => {}, [loading, user, navigate]);
