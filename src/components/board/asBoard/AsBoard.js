@@ -1,23 +1,28 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { getBoardDatas } from "../../api/firebase/board";
-import styles from "./Board.module.scss";
-import Post from "./post/Post";
-import { getUserAuth } from "../../api/firebase";
+import styles from "./AsBoard.module.scss";
 import { useSelector } from "react-redux";
-import AsPost from "./asBoard/AsPost";
+import { getBoardDatas } from "../../../api/firebase/board";
+import AsPost from "./AsPost";
 
+// const loginUser = JSON.parse(localStorage.getItem("user"));
 const PAGE_SIZE = 10;
-const loginUser = JSON.parse(localStorage.getItem("user"));
 
-function Board({ nopost, category, complain }) {
+function AsBoard({ complain }) {
   const navigate = useNavigate();
   const [currentPage, setCurrentPage] = useState(1);
   const [isWriting, setIsWriting] = useState(false); // 글쓰기 모드 상태
   const [view, setView] = useState([]);
   const { isAuthenticated } = useSelector((state) => state.userSlice);
+  // const isAsBoard = category === "as";
 
-  const isAsBoard = category === "as";
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const openModal = () => setIsModalOpen(true);
+  const closeModal = () => setIsModalOpen(false);
+  const goView = () => setIsModalOpen(false);
+
+  const [selectedPost, setSelectedPost] = useState(null);
+  const [inputPassword, setInputPassword] = useState("");
 
   const totalPages = Math.ceil(view.length / PAGE_SIZE);
   const currentItem = view.slice(
@@ -47,7 +52,7 @@ function Board({ nopost, category, complain }) {
   };
 
   const handleLoad = async () => {
-    const data = await getBoardDatas(category);
+    const data = await getBoardDatas("as");
     setView(data);
   };
 
@@ -68,7 +73,7 @@ function Board({ nopost, category, complain }) {
     <div className={styles.container}>
       {/* 글쓰기 모드 */}
       {isWriting ? (
-        <Post onClick={notPosting} onSubmit={addPost} category={category} />
+        <AsPost onClick={notPosting} onSubmit={addPost} />
       ) : (
         <>
           <div className={styles.col}>
@@ -84,7 +89,7 @@ function Board({ nopost, category, complain }) {
               {currentItem.map((item, idx) => (
                 <Link
                   key={idx}
-                  to={`/community/${item.collection}/${item.id}`}
+                  to={`/community/as/${item.id}`}
                   state={{ ...item, complain }}
                 >
                   <li id={view.length - ((currentPage - 1) * PAGE_SIZE + idx)}>
@@ -115,21 +120,14 @@ function Board({ nopost, category, complain }) {
               다음 &gt;
             </button>
           </div>
-          {nopost === false ? (
-            loginUser?.nick === "관리자" && (
-              <div className={styles.upload}>
-                {<button onClick={handleWriteClick}>글쓰기</button>}
-              </div>
-            )
-          ) : (
-            <div className={styles.upload}>
-              {<button onClick={handleWriteClick}>글쓰기</button>}
-            </div>
-          )}
+
+          <div className={styles.upload}>
+            {<button onClick={handleWriteClick}>글쓰기</button>}
+          </div>
         </>
       )}
     </div>
   );
 }
 
-export default Board;
+export default AsBoard;

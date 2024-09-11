@@ -78,7 +78,9 @@ function RequestForQuote() {
       <RequestForm user={user} onSubmit={(data) => setRequestData(data)} />
       {/* Form을 추가할 수 있음 (Redux로 관리하기??) */}
       <div className={styles.btns}>
-        <button className={styles.submit}>결제</button>
+        <button className={styles.submit}>
+          결제(위에 있는 견적 내용 저장 버튼으로 돼서 이건 굳이 없어도 될 듯요?)
+        </button>
         <button className={styles.cancel} onClick={() => navigate(-1)}>
           취소
         </button>

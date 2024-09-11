@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
-import Board from "../../../components/board/Board";
-import { as } from "../../../lib/post";
 import styles from "../community.module.scss";
 import { Outlet } from "react-router-dom";
+import AsBoard from "../../../components/board/asBoard/AsBoard";
 
 function AfterService(props) {
   return (
@@ -13,7 +12,7 @@ function AfterService(props) {
         등을 이용해보세요.
       </p>
       <div>
-        <Board category={"as"} />
+        <AsBoard />
         <Outlet />
       </div>
     </div>
