@@ -12,6 +12,7 @@ import SearchAddr from "../../components/search-addr/SearchAddr";
 import styles from "./Kakaoback.module.scss";
 
 const Kakaoback = () => {
+  const [inputValue, setInputValue] = useState(true);
   const { isAuthenticated } = useSelector((state) => state.userSlice);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
@@ -19,13 +20,38 @@ const Kakaoback = () => {
   const closeModal = () => setIsModalOpen(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { register, handleSubmit } = useForm({
+  const { register, handleSubmit, watch } = useForm({
     mode: "onChange",
   });
 
   const [state, setState] = useState({});
   const [myAddress, SetmyAddress] = useState();
   const kakaoClientId = "ab4d55383cde6894b80a6f361124e20b";
+
+  const allValues = watch(); // input에 들어가는 내용을 실시간 확인 가능
+  useEffect(() => {
+    if (isModalOpen === true) {
+      if (
+        allValues.name &&
+        allValues.name.length >= 3 &&
+        allValues.email &&
+        allValues.email.length >= 15 &&
+        allValues.number &&
+        allValues.number.length >= 13 &&
+        myAddress &&
+        myAddress.length >= 15
+      ) {
+        setInputValue(false);
+      } else if (allValues.number && allValues.number.length < 13) {
+        setInputValue(true);
+      }
+    }
+  }, [
+    // isModalOpen,
+    inputValue,
+    allValues,
+  ]);
+
   const kakaoOnSuccess = async (data) => {
     console.log("카카오 로그인 성공:", data);
     setState(data);
@@ -139,7 +165,7 @@ const Kakaoback = () => {
         isOpen={isModalOpen}
         handleClose={closeModal}
         btnHandler={handleSubmit(onSubmit)}
-        isDisabled={isAuthenticated}
+        isDisabled={inputValue}
       >
         <form>
           <div className={styles.modaleContainer}>
