@@ -64,6 +64,7 @@ function RequestForm({ user, onSubmit }) {
     });
   };
 
+  // 견적 내용을 저장합니다.
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -89,6 +90,16 @@ function RequestForm({ user, onSubmit }) {
     };
     console.log(dataObj);
     onSubmit(dataObj);
+
+    if (
+      farmArea <= 0 ||
+      farmEquivalent <= 0 ||
+      farmAddress.trim() === "" ||
+      farmName.trim() === ""
+    ) {
+      console.log("유효한 값을 입력하여 주십시오.");
+      return;
+    }
 
     try {
       if (uid) {
@@ -133,7 +144,7 @@ function RequestForm({ user, onSubmit }) {
           <input
             type="text"
             placeholder={"농장 이름을 입력해주세요."}
-            onChange={(e) => setFarmName(e.target.value)}
+            onChange={handleChange}
           />
         </div>
       </div>
@@ -165,6 +176,7 @@ function RequestForm({ user, onSubmit }) {
             <input
               type="number"
               onChange={(e) => setFarmArea(Number(e.target.value))}
+              min="1"
             />
             <button>평</button>
           </div>
