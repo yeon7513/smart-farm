@@ -31,7 +31,10 @@ function DashboardHeader({ info }) {
           {farmName} / {crop} / {typeTranslate(type)}
         </h1>
       </div>
-      <div className={styles.time}>{new Date().toLocaleDateString()}</div>
+      <div className={styles.time}>
+        <span>{new Date().toLocaleDateString()}</span>
+        <span>{new Date().toLocaleDateString()}</span>
+      </div>
       <div className={styles.icons}>
         <button onClick={() => navigate('/')}>
           <TbHomeFilled />
