@@ -2,8 +2,9 @@ import React from "react";
 import styles from "./Form.module.scss";
 import { useForm } from "react-hook-form";
 import { Box, Button, FormControl, TextField } from "@mui/material";
+import CryptoJS from "crypto-js";
 
-function Form({ title, getDataForm, firebaseError, inputName1 }) {
+function Form({ title, getDataForm, firebaseError, inputName1, type2, type }) {
   const {
     register,
     handleSubmit,
@@ -12,11 +13,11 @@ function Form({ title, getDataForm, firebaseError, inputName1 }) {
   } = useForm({
     mode: "onChange",
   });
-  const onSubmit = ({ email, password }) => {
-    getDataForm(email, password);
+  const onSubmit = ({ name, password }) => {
+    const changePassword2 = CryptoJS.SHA256(password).toString();
+    getDataForm(name, changePassword2);
     reset();
   };
-
   const userEmail = {
     required: "필수 필드입니다.",
   };
@@ -38,10 +39,10 @@ function Form({ title, getDataForm, firebaseError, inputName1 }) {
             pr: 2,
           },
         }}
-        type="email"
+        type={type}
         label={inputName1}
         autoComplete="off"
-        {...register("email", userEmail)}
+        {...register("name", userEmail)}
       />
 
       {errors?.email && (
