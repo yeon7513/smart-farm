@@ -50,6 +50,7 @@ function SignIn(props) {
       getDataForm={handleLogin}
       firebaseError={firebaseError}
       inputName1={"이메일 입력"}
+      type={"email"}
     />
   );
 }

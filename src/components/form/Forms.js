@@ -4,6 +4,7 @@ import styles from "./Forms.module.scss";
 import { TextField } from "@mui/material";
 import Container from "../layout/container/Container";
 import SearchAddr from "../search-addr/SearchAddr";
+import CryptoJS from "crypto-js";
 
 function Forms({ title, getDataForm, firebaseError }) {
   const [state, setState] = useState();
