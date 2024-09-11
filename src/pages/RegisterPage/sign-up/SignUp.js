@@ -28,6 +28,7 @@ function SingUp(props) {
           email: user.email,
           token: user.refreshToken,
           uid: user.uid,
+          number: userInfo.number,
           name: userInfo.name,
           nick: userInfo.nickname,
           address: userInfo.address,
