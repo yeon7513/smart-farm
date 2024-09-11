@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { getDatas } from '../../api/firebase';
+import { getDatas, updateDatas } from '../../api/firebase';
 
 const initialState = {
   commonInfo: [],
@@ -41,6 +41,14 @@ const dashboardSlice = createSlice({
       .addCase(fetchSectorInfo.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload;
+      })
+      // 대시보드 이름, 작물 수정
+      .addCase(updateCommonInfo.fulfilled, (state, action) => {
+        state.commonInfo = state.commonInfo.map((info) => {
+          return info.docId === action.payload.docId ? action.payload : info;
+        });
+        state.isLoading = false;
+        state.error = null;
       });
   },
 });
@@ -63,6 +71,18 @@ export const fetchSectorInfo = createAsyncThunk(
     try {
       const data = await getDatas(`dashboard/${docId}/sector`);
       return data;
+    } catch (error) {
+      return error;
+    }
+  }
+);
+
+export const updateCommonInfo = createAsyncThunk(
+  'dashboard/updateCommonInfo',
+  async ({ collectionName, docId, updateObj }) => {
+    try {
+      const result = await updateDatas(collectionName, docId, updateObj);
+      return result;
     } catch (error) {
       return error;
     }

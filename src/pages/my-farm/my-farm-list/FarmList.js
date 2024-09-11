@@ -10,9 +10,9 @@ function FarmList() {
   const dispatch = useDispatch();
 
   const userEmail = JSON.parse(localStorage.getItem('user')).email;
-  const list = commonInfo.filter((list) => list.userId === userEmail);
-
-  console.log(list);
+  const list = userEmail.includes('admin')
+    ? commonInfo
+    : commonInfo.filter((list) => list.userId === userEmail);
 
   useEffect(() => {
     dispatch(fetchCommonInfo('dashboard'));

@@ -1,5 +1,5 @@
-import { initializeApp } from "firebase/app";
-import { getAuth } from "firebase/auth";
+import { initializeApp } from 'firebase/app';
+import { getAuth } from 'firebase/auth';
 import {
   addDoc,
   collection,
@@ -14,14 +14,14 @@ import {
   updateDoc,
   where,
   writeBatch,
-} from "firebase/firestore";
+} from 'firebase/firestore';
 const firebaseConfig = {
-  apiKey: "AIzaSyBz9TEYoPHVv_Lz28BzcTa1DrLMI7wnBWc",
-  authDomain: "ifarm-dd7b6.firebaseapp.com",
-  projectId: "ifarm-dd7b6",
-  storageBucket: "ifarm-dd7b6.appspot.com",
-  messagingSenderId: "581435413866",
-  appId: "1:581435413866:web:09a6d8065e5b47863c8113",
+  apiKey: 'AIzaSyBz9TEYoPHVv_Lz28BzcTa1DrLMI7wnBWc',
+  authDomain: 'ifarm-dd7b6.firebaseapp.com',
+  projectId: 'ifarm-dd7b6',
+  storageBucket: 'ifarm-dd7b6.appspot.com',
+  messagingSenderId: '581435413866',
+  appId: '1:581435413866:web:09a6d8065e5b47863c8113',
 };
 
 // Initialize Firebase
@@ -32,7 +32,7 @@ export const db = getFirestore(app);
 
 export function getCollection(...path) {
   let newPath = path;
-  if (typeof path[0] !== "string") {
+  if (typeof path[0] !== 'string') {
     newPath = path.flat();
   }
   return collection(db, ...newPath);
@@ -50,14 +50,14 @@ export async function addDatas(collectionName, addObj) {
   return resultData;
 }
 
-export async function joinUser(uid, email, password = "", userInfo = {}) {
+export async function joinUser(uid, email, password = '', userInfo = {}) {
   const userData = {
     email: email,
     password: password,
     createdAt: new Date().getTime(),
     updatedAt: new Date().getTime(),
     photoUrl: [],
-    liked: "",
+    liked: '',
     ...(userInfo.deleteYn && { deleteYn: userInfo.deleteYn }),
     ...(userInfo.address && { address: userInfo.address }),
     ...(userInfo.number && { number: userInfo.number }),
@@ -66,11 +66,11 @@ export async function joinUser(uid, email, password = "", userInfo = {}) {
     ...(userInfo.name && { name: userInfo.name }),
     ...(userInfo.nickname && { nickname: userInfo.nickname }),
   };
-  await setDoc(doc(db, "users", uid), userData);
+  await setDoc(doc(db, 'users', uid), userData);
 }
 
 export async function syncOrder(uid, orderArr) {
-  const orderRef = getCollection("user", uid, "order");
+  const orderRef = getCollection('user', uid, 'order');
   const batch = writeBatch(db);
   for (const item of orderArr) {
     const result = await updateOrder(uid, item);
@@ -80,12 +80,12 @@ export async function syncOrder(uid, orderArr) {
     }
   }
   await batch.commit();
-  const resultData = await getDatas(["user", uid, "order"], {});
+  const resultData = await getDatas(['user', uid, 'order'], {});
   return resultData;
 }
 
 export async function updateOrder(uid, orderItem) {
-  const orderRef = getCollection("user", uid, "order");
+  const orderRef = getCollection('user', uid, 'order');
   const itemRef = doc(orderRef, orderItem.id.toString());
 
   const itemDoc = await getDoc(itemRef);
@@ -98,7 +98,7 @@ export async function updateOrder(uid, orderItem) {
 
 export async function createPayment(uid, paymentObj) {
   try {
-    const paymentsRef = collection("users", uid, "payments");
+    const paymentsRef = collection('users', uid, 'payments');
     const createObj = {
       createdAt: new Date().getTime,
       updatedAt: new Date().getTime,
@@ -107,7 +107,7 @@ export async function createPayment(uid, paymentObj) {
     const batch = writeBatch(db);
     const docRef = await addDoc(paymentsRef, createObj);
     batch.delete(paymentsRef);
-    const paymentRef = getCollection("users", uid, "payment");
+    const paymentRef = getCollection('users', uid, 'payment');
     paymentObj.products.forEach((product) => {
       const itemRef = doc(paymentRef, product.id.toString());
       batch.delete(itemRef);
@@ -131,7 +131,7 @@ export async function getQuery(collectionName, queryOption) {
 
   // orderBy 조건
   orderBys.forEach((order) => {
-    q = query(q, orderBy(order.field, order.direction || "asc"));
+    q = query(q, orderBy(order.field, order.direction || 'asc'));
   });
 
   return q;
@@ -141,12 +141,13 @@ export async function getDatas(collectionName) {
   try {
     const collect = getCollection(collectionName);
     const snapshot = await getDocs(collect);
-    const returnData = JSON.stringify(
-      snapshot.docs.map((doc) => ({ docId: doc.id, ...doc.data() }))
-    );
+    const returnData = snapshot.docs.map((doc) => ({
+      docId: doc.id,
+      ...doc.data(),
+    }));
     return returnData;
   } catch (error) {
-    console.error("Error getting documents: ", error);
+    console.error('Error getting documents: ', error);
     throw error;
   }
 }
@@ -164,7 +165,7 @@ export async function LoginGetDatas(collectionName) {
 export const getOrder = async (collectionName, orderByField) => {
   const q = query(
     collection(db, collectionName),
-    orderBy(orderByField, "desc")
+    orderBy(orderByField, 'desc')
   );
   const querySnapshot = await getDocs(q);
   return querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
@@ -174,8 +175,12 @@ export async function updateDatas(collectionName, docId, updateObj) {
   try {
     const docRef = await doc(db, collectionName, docId);
     await updateDoc(docRef, updateObj);
+    const snapshot = await getDoc(docRef);
+    const resultData = { docId: snapshot.id, ...snapshot.data() };
+
+    return resultData;
   } catch (error) {
-    console.error("Error updating document: ", error);
+    console.error('Error updating document: ', error);
     throw error;
   }
 }
@@ -186,7 +191,7 @@ export async function deleteDatas(collectionName, docId) {
     await deleteDoc(docRef);
     return true;
   } catch (error) {
-    console.error("Error deleting document: ", error);
+    console.error('Error deleting document: ', error);
     return false;
   }
 }

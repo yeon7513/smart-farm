@@ -29,7 +29,6 @@ import MyFarm from './pages/my-farm/MyFarm';
 import FarmList from './pages/my-farm/my-farm-list/FarmList';
 import DashBoard from './pages/my-farm/my-farm-list/dashboard/DashBoard';
 import RequestForQuote from './pages/request/RequestForQuote';
-import RequestForm from './pages/request/request-form/RequestForm';
 import './scss/global.scss';
 
 function App() {
@@ -50,7 +49,6 @@ function App() {
               <Route path=":path" element={<DiseasesItem />} />
             </Route>
             <Route path="login" element={<LoginPage />} />
-            <Route path="SearchAddr" element={<RequestForm />} />
             <Route path="register" element={<RegisterPage />} />
             <Route path="SearchEm" element={<SearchEm />} />
             <Route path="SearchPw" element={<SearchPw />} />
