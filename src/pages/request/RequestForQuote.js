@@ -83,7 +83,7 @@ function RequestForQuote() {
           취소
         </button>
         <button className={styles.cancel} onClick={downloadExcel}>
-          다운로드(단, 관리자만 가능)
+          다운로드(관리자 페이지에서만 되는 기능)
         </button>
       </div>
     </Container>
