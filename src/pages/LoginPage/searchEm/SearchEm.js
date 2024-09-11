@@ -10,9 +10,9 @@ function SearchEm(props) {
   const dispatch = useDispatch();
   const { items } = useSelector((state) => state.userSlice);
   useEffect(() => {
-    console.log(items);
     dispatch(fetchItems({ collectionName: "users" }));
   }, []);
+  console.log(items);
   return (
     <Container className={styles.container}>
       <div className={styles.title}>

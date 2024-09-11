@@ -45,19 +45,10 @@ const userSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    builder
-      // .addCase(fetchItems.pending, (state, action) => {
-      //   state.isLoading = "Loadgin";
-      // })
-      // .addCase(fetchItems.rejected, (state, action) => {
-      //   state.isLoading = "false";
-      //   state.loadingError = action.payload;
-      // })
-      .addCase(fetchItems.fulfilled, (state, action) => {
-        state.isLoading = "true";
-        state.items = action.payload;
-        console.log(action.payload);
-      });
+    builder.addCase(fetchItems.fulfilled, (state, action) => {
+      state.isLoading = "true";
+      state.items = action.payload;
+    });
   },
 });
 
