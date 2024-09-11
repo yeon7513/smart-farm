@@ -20,13 +20,13 @@ useEffect(() => {
    try {
       const sortedData = await getOrder('faq', 'likes'); // 'likes' 필드를 기준으로 FAQ 데이터를 가져옴
       console.log("Fetched FAQ Data: ", sortedData); // 가져온 데이터를 콘솔에 출력
-      setSortedFaqData(sortedData); // 정렬된 데이터를 상태에 설정합니다.
+      setSortedFaqData(sortedData); // 정렬된 데이터를 상태에 설정
     } catch (error) {
       console.error('Error fetching sorted FAQs:', error);
     }
   };
-  fetchSortedFaqData(); // 컴포넌트가 마운트될 때 데이터를 가져옵니다.
-}, []); // 의존성 배열을 빈 배열로 설정하여 컴포넌트가 마운트될 때 한 번만 실행되도록 합니다. 
+  fetchSortedFaqData(); // 컴포넌트가 마운트될 때 데이터를 가져옴
+}, []); // 의존성 배열을 빈 배열로 설정하여 컴포넌트가 마운트될 때 한 번만 실행되도록 설정 
 
 
 //  추가할 5번째 질문과 답변
@@ -39,20 +39,22 @@ const extraQuestion = {
 //  chatOptionsData 화면에서 사용할 추가 질문과 답변
 const chatOptionsData = [
   { id: 'option1', question: '회원 정보', answerKey: 'answer1' },
-  { id: 'option2', question: '출장 서비스', answerKey: 'answer2' },
-  { id: 'option3', question: '견적서', answerKey: 'answer3' },
-  { id: 'option4', question: '스마트팜 시스템', answerKey: 'answer4' },
-  { id: 'option5', question: '기타', answerKey: 'answer5' },
+  { id: 'option2', question: '결제', answerKey: 'answer2' },
+  { id: 'option3', question: '출장 서비스', answerKey: 'answer3' },
+  { id: 'option4', question: '견적서', answerKey: 'answer4' },
+  { id: 'option5', question: '스마트팜 시스템', answerKey: 'answer5' },
+  { id: 'option6', question: '기타', answerKey: 'answer6' },
 
 ]
 
 
   const answers = {
-    answer1: '1',
-    answer2: '2',
-    answer3: '3',
-    answer4: '4',
-    answer5: '5',
+    answer1: '회원 정보에 대한 상담원과 연결 중입니다. 잠시만 기다려 주세요...',
+    answer2: '결제에 대한 상담원과 연결 중입니다. 잠시만 기다려 주세요...',
+    answer3: '출장 서비스에 대한 상담원과 연결 중입니다. 잠시만 기다려 주세요..',
+    answer4: '견적서에 대한 상담원과 연결 중입니다. 잠시만 기다려 주세요...',
+    answer5: '스마트팜 시스템에 대한 상담원과 연결 중입니다. 잠시만 기다려 주세요...',
+    answer6: '기타 사항에 대한 상담원과 연결 중입니다. 잠시만 기다려 주세요...',
   };
 
 
