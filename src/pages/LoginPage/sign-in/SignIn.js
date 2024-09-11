@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { getDatas, getUserAuth, LoginGetDatas } from "../../../api/firebase";
 import Form from "../../../components/form/Form";
 import { setUser } from "../../../store/user/UserSlice";
+import { CryptoJS } from "crypto-js";
 
 function SignIn(props) {
   const [firebaseError, setFirebaseError] = useState("");
@@ -21,7 +22,6 @@ function SignIn(props) {
       );
       const { user } = userCredential;
       const userInfo = await LoginGetDatas("users");
-      console.log(userInfo);
       const userInfoConfirm = userInfo.filter(
         (item) => item.email === user.email
       );
@@ -50,6 +50,7 @@ function SignIn(props) {
       getDataForm={handleLogin}
       firebaseError={firebaseError}
       inputName1={"이메일 입력"}
+      type={"email"}
     />
   );
 }
