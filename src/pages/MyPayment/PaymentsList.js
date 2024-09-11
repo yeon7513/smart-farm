@@ -26,28 +26,7 @@ function PaymentsList() {
     return <PaymentEmpty title="결제내역" />;
   }
 
-  return (
-    //   <div className={styles.myPayments}>
-    //     나의 결제내역
-    //     {payment.map((payment, idx) => (
-    //       <div key={idx}>
-    //         <div className={styles.myPayment}>
-    //           <h3>결제 번호_{payment.createdAt}</h3>
-    //           <h3>
-    //             결제 날짜_{getISODate(payment.createdAt).yyyyMMdd}{" "}
-    //             {getISODate(payment.createdAt).hhmmss}
-    //           </h3>
-    //         </div>
-    //         <ul>
-    //           {payment.payments.map((payment) => (
-    //             <PaymentsItem key={payment.id} {...payment} />
-    //           ))}
-    //         </ul>
-    //       </div>
-    //     ))}
-    //   </div>
-    <Payment payment={payment} />
-  );
+  return <Payment payment={payment} />;
 }
 
 export default PaymentsList;

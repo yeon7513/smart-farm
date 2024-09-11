@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Container from "../../components/layout/container/Container";
 import RequestForm from "./request-form/RequestForm";
@@ -6,19 +6,16 @@ import styles from "./RequestForQuote.module.scss";
 import * as XLSX from "xlsx/xlsx.mjs";
 import { addDoc, collection, doc } from "firebase/firestore";
 import { db } from "../../api/firebase";
+import { useSelector } from "react-redux";
 
 function RequestForQuote() {
   // 유저 정보 불러오기
+  const { uid } = useSelector((state) => state.userSlice);
   const user = JSON.parse(localStorage.getItem("user")) || {};
 
   // 결제정보 저장 state
   const [requestData, setRequestData] = useState([]);
   const [accumulatedData, setAccumulatedData] = useState([]);
-  const [uid, setUid] = useState(user?.uid || "");
-
-  useEffect(() => {
-    console.log("Request Data has changed:", requestData);
-  }, [requestData]);
 
   // 취소용
   const navigate = useNavigate();
@@ -26,30 +23,6 @@ function RequestForQuote() {
   // 결제 버튼 (임시로 콘솔에 결제정보가 나오는지 해놨어요.)
   const handleSubmitRequest = async (e) => {
     e.preventDefault();
-
-    const today = new Date();
-    const year = today.getFullYear();
-    const month = String(today.getMonth() + 1).padStart(2, "0");
-    const day = String(today.getDate()).padStart(2, "0");
-    const createdAt = `${year}${month}${day}${new Date().getTime()}`;
-
-    // const data = {
-    //   아이디: user.email,
-    //   이름: user.name,
-    //   주소: user.address,
-    //   연락처: user.number,
-    //   "작물 종류": requestData.cropType,
-    //   "농업 종류": requestData.option,
-    //   "부가 옵션": requestData.additionalOptions
-    //     ? Object.keys(requestData.additionalOptions)
-    //         .filter((key) => requestData.additionalOptions[key])
-    //         .join(", ")
-    //     : "없음",
-    //   "농장 주소": requestData.farmAddress,
-    //   "농장 면적": requestData.farmArea,
-    //   "농장 동 수": requestData.farmEquivalent,
-    //   "주문 번호": createdAt,
-    // };
 
     if (!requestData || Object.keys(requestData).length === 0) {
       console.error("견적 정보가 없습니다.");
