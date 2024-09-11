@@ -1,22 +1,28 @@
-import cn from 'classnames';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useState } from 'react';
 import { IoIosCreate, IoIosInformationCircle } from 'react-icons/io';
 import { IoChatbubbles } from 'react-icons/io5';
 import { PiFarmFill } from 'react-icons/pi';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { getUserAuth } from '../../api/firebase';
-import styles from './Contact.module.scss';
+import { useComponentContext } from '../../context/ComponentContext';
 import ChatRoom from '../chat-room/ChatRoom';
+import styles from './Contact.module.scss';
 
 function Contact() {
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const auth = getUserAuth();
+  const { setCurrComp } = useComponentContext();
   const [isShow, setIsShow] = useState(false);
 
- const handleClickShow = () => {
-  setIsShow(!isShow) 
- }
+  const handleClickShow = () => {
+    setIsShow(!isShow);
+  };
+
+  const gotoSimulation = () => {
+    setCurrComp('Simulation');
+    navigate('/info');
+  };
 
   return (
     <div className={styles.contact}>
@@ -32,10 +38,7 @@ function Contact() {
           ''
         )}
         {!pathname.includes('info') && (
-          <button
-            className={styles.gotoSimul}
-            onClick={() => navigate('/info/simulation')}
-          >
+          <button className={styles.gotoSimul} onClick={gotoSimulation}>
             <IoIosInformationCircle />
           </button>
         )}
@@ -46,13 +49,11 @@ function Contact() {
           <IoIosCreate />
         </button>
         {/* 1:1 문의 챗봇 버튼 */}
-        <button onClick={handleClickShow}
-
-        >
+        <button onClick={handleClickShow}>
           <IoChatbubbles />
         </button>
       </div>
-      {isShow &&<ChatRoom/>}
+      {isShow && <ChatRoom />}
     </div>
   );
 }

@@ -31,3 +31,15 @@
     }
   }
 }
+
+.pop {
+  h2 {
+    .farmName {
+      color: var(--accent-color);
+      font-weight: 500;
+    }
+    .actionDesc {
+      margin-left: 5px;
+    }
+  }
+}
