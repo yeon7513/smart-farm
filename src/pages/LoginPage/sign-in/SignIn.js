@@ -21,6 +21,7 @@ function SignIn(props) {
       );
       const { user } = userCredential;
       const userInfo = await LoginGetDatas("users");
+      console.log(userInfo);
       const userInfoConfirm = userInfo.filter(
         (item) => item.email === user.email
       );

@@ -109,7 +109,7 @@ const Kakaoback = () => {
               fontWeight: "bold", // 텍스트 두께
               padding: "2.5% 4% 2.5% 4%",
               transition: "background-color 0.3s", // 호버 시 색상 변경을 부드럽게
-              boxShadow: "0 0 8px 0 rgba(0, 0, 0, 0.15);",
+              // boxShadow: "0 0 8px 0 rgba(0, 0, 0, 0.15);",
             }}
             onMouseOver={(e) => (e.currentTarget.style.opacity = "0.6")}
             onMouseOut={(e) => (e.currentTarget.style.opacity = "1.0")}
