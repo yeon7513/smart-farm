@@ -4,6 +4,8 @@
   display: flex;
   .today {
     width: 25%;
+    border-right: 3px solid var(--accent-color);
+    border-top: 3px solid var(--accent-color);
     h2 {
       padding: 12px 0px 0px 12px;
       font-weight: 600;
@@ -68,8 +70,10 @@
       justify-content: center;
       align-items: center;
     }
-
-    border-right: 3px solid var(--accent-color);
+  }
+  .precipitation {
+    color: #4f75ff;
+    font-size: 14px;
   }
 
   .weather_menu {
@@ -80,29 +84,43 @@
       flex: 2;
       width: 100%;
       display: flex;
-      border: 1px solid var(--accent-color);
+      border: 3px solid var(--accent-color);
+      border-left: none;
+      border-right: none;
       .forecast_item {
-        padding: 6px 16px;
-        border-right: 3px solid var(--accent-color);
+        border-right: 2px solid var(--accent-color);
+        display: flex;
+        gap: 8px;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        flex: 1;
+        .title {
+          font-size: 18px;
+        }
+        &:last-child {
+          border: none;
+        }
+      }
+    }
+
+    .next_day {
+      flex: 1.5;
+      display: flex;
+      .forecast_item {
+        border-right: 2px solid var(--accent-color);
         display: flex;
         flex-direction: column;
         justify-content: center;
         align-items: center;
         flex: 1;
-      }
-    }
+        &:last-child {
+          border: none;
+        }
 
-    .next_day {
-      background-color: pink;
-      flex: 1.5;
-      display: flex;
-      gap: 10px;
-      .forecast_item {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        // padding: 0 12px;
+        .temp_text {
+          font-size: 16px;
+        }
       }
     }
   }

@@ -17,7 +17,10 @@ const Kakaoback = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const openModal = () => setIsModalOpen(true);
-  const closeModal = () => setIsModalOpen(false);
+  const closeModal = () => {
+    setIsModalOpen(false);
+    window.location.reload();
+  };
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { register, handleSubmit, watch } = useForm({
@@ -35,7 +38,7 @@ const Kakaoback = () => {
         allValues.name &&
         allValues.name.length >= 3 &&
         allValues.email &&
-        allValues.email.length >= 15 &&
+        allValues.email.length >= 12 &&
         allValues.number &&
         allValues.number.length >= 13 &&
         myAddress &&
@@ -46,11 +49,7 @@ const Kakaoback = () => {
         setInputValue(true);
       }
     }
-  }, [
-    // isModalOpen,
-    inputValue,
-    allValues,
-  ]);
+  }, [inputValue, allValues]);
 
   const kakaoOnSuccess = async (data) => {
     console.log("카카오 로그인 성공:", data);
@@ -75,14 +74,12 @@ const Kakaoback = () => {
             name: item.name,
             nick: data.profile.properties.nickname,
             number: item.number,
+            address: item.address,
           })
         );
       });
       navigate("/");
     }
-    // if(dashboard){
-
-    // } else{}
     const idToken = data.response.access_token;
     console.log("엑세스 토큰:", idToken);
   };
@@ -145,17 +142,6 @@ const Kakaoback = () => {
           >
             <RiKakaoTalkFill style={{ width: 40, height: 40 }} />
             카카오 로그인
-            {/* <img
-              src="/img/kakao_login_medium_narrow.png" // 카카오 이미지 URL
-              //   alt="Kakao Logo"
-              style={{
-                width: "100%", // 이미지 크기
-                height: "100%", // 이미지 크기
-                borderRadius: "5px",
-              }}
-              onMouseOver={(e) => (e.currentTarget.style.opacity = "0.7")} // 호버 시 배경색 변경
-              onMouseOut={(e) => (e.currentTarget.style.opacity = "1.0")} // 호버 해제 시 배경색 복원
-            /> */}
           </button>
         )}
       />
@@ -180,6 +166,7 @@ const Kakaoback = () => {
                 }}
                 type="text"
                 label={"이름"}
+                autoComplete="off"
                 {...register("name")}
               />
             </div>
@@ -193,6 +180,7 @@ const Kakaoback = () => {
                 }}
                 type="email"
                 label={"이메일"}
+                autoComplete="off"
                 {...register("email")}
               />
             </div>
@@ -206,6 +194,7 @@ const Kakaoback = () => {
                 }}
                 type="text"
                 label={"전화번호"}
+                autoComplete="off"
                 {...register("number")}
               />
             </div>

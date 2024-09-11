@@ -157,8 +157,12 @@ function Home() {
         <div className={styles.state}>
           <h1>스마트팜 이용현황</h1>
           <div className={styles.map_chart}>
-            <div className={styles.map}>
-              <Maps />
+            <div className={styles.mapContainer}>
+              <Maps
+                className={styles.map}
+                // onRegionClick={handleLocalClick}
+                // ref={mapRef}
+              />
             </div>
             <div>{/* <Charts /> */}</div>
           </div>

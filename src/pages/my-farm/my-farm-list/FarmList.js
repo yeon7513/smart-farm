@@ -11,16 +11,15 @@ function FarmList() {
 
   const userEmail = JSON.parse(localStorage.getItem('user')).email;
 
-  const list = userEmail.includes('admin')
-    ? commonInfo
-    : commonInfo.filter(
-        (list) =>
-          list.userId === userEmail &&
-          list.useYn === 'Y' &&
-          list.deleteYn === 'N'
-      );
-
-  // const list = commonInfo;
+  const list = commonInfo;
+  //  userEmail.includes("admin")
+  //   ? commonInfo
+  //   : commonInfo.filter(
+  //       (list) =>
+  //         list.userId === userEmail &&
+  //         list.useYn === "Y" &&
+  //         list.deleteYn === "N"
+  //     );
 
   useEffect(() => {
     dispatch(fetchCommonInfo('dashboard'));

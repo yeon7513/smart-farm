@@ -21,7 +21,7 @@
   width: 90%; 
   max-width: 350px; 
   height: 80vh; 
-  max-height: 720px; 
+  max-height: 606px; 
   margin-top: 0; 
   margin-left: 0; 
   position: fixed;
@@ -120,6 +120,7 @@ border-radius: 10px;
 
   .content {
     flex: 1 1;
+    overflow-y: auto;
 
     .questionBtns, .chatOptions {
       // position: absolute;

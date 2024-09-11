@@ -41,7 +41,10 @@ function LoginPage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const openModal = () => setIsModalOpen(true);
-  const closeModal = () => setIsModalOpen(false);
+  const closeModal = () => {
+    setIsModalOpen(false);
+    window.location.reload();
+  };
   const [myAddress, SetmyAddress] = useState();
   const auth = getUserAuth();
   const dispatch = useDispatch();
@@ -53,18 +56,16 @@ function LoginPage() {
         allValues.number &&
         allValues.number.length >= 13 &&
         allValues.name &&
-        allValues.name.length >= 3
+        allValues.name.length >= 3 &&
+        myAddress &&
+        myAddress.length >= 15
       ) {
         setInputValue(false);
       } else if (allValues.number && allValues.number.length < 13) {
         setInputValue(true);
       }
     }
-  }, [
-    // isModalOpen,
-    inputValue,
-    allValues,
-  ]);
+  }, [inputValue, allValues]);
 
   const SignInWithGoogle = async () => {
     const provider = new GoogleAuthProvider();
@@ -88,6 +89,7 @@ function LoginPage() {
               nick: result.user.displayName,
               number: item.number,
               name: item.name,
+              address: item.address,
             })
           );
         });
@@ -153,7 +155,6 @@ function LoginPage() {
             <h2>Google</h2>
           </div>
         </button>
-
         <Kakaoback />
       </div>
       <div>
@@ -188,6 +189,7 @@ function LoginPage() {
                 }}
                 type="text"
                 label={"이름"}
+                autoComplete="off"
                 {...register("name")}
               />
             </div>
@@ -201,6 +203,7 @@ function LoginPage() {
                 }}
                 type="text"
                 label={"전화번호(- 포함한 13자리)"}
+                autoComplete="off"
                 {...register("number")}
               />
             </div>
