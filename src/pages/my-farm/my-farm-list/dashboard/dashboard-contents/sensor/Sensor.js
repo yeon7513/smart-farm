@@ -1,6 +1,9 @@
 import React from 'react';
+import { useSectorContext } from '../../../../../../context/SectorContext';
 
-function Sensor(props) {
+function Sensor() {
+  const { sector } = useSectorContext();
+
   return <div>Sensor</div>;
 }
 

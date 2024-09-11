@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { getDatas } from '../../api/firebase';
+import { getDatas, updateDatas } from '../../api/firebase';
 
 const initialState = {
   commonInfo: [],
@@ -14,6 +14,7 @@ const dashboardSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
+      // 대시보드 공통 데이터
       .addCase(fetchCommonInfo.pending, (state) => {
         state.isLoading = true;
         state.error = null;
@@ -26,6 +27,28 @@ const dashboardSlice = createSlice({
       .addCase(fetchCommonInfo.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload;
+      })
+      // 대시보드 섹터 데이터
+      .addCase(fetchSectorInfo.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(fetchSectorInfo.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.sectorInfo = action.payload;
+        state.error = null;
+      })
+      .addCase(fetchSectorInfo.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload;
+      })
+      // 대시보드 이름, 작물 수정
+      .addCase(updateCommonInfo.fulfilled, (state, action) => {
+        state.commonInfo = state.commonInfo.map((info) => {
+          return info.docId === action.payload.docId ? action.payload : info;
+        });
+        state.isLoading = false;
+        state.error = null;
       });
   },
 });
@@ -41,11 +64,28 @@ export const fetchCommonInfo = createAsyncThunk(
     }
   }
 );
+
 export const fetchSectorInfo = createAsyncThunk(
   'dashboard/fetchSectorInfo',
-  async (collectionName) => {
+  async (docId) => {
     try {
-    } catch (error) {}
+      const data = await getDatas(`dashboard/${docId}/sector`);
+      return data;
+    } catch (error) {
+      return error;
+    }
+  }
+);
+
+export const updateCommonInfo = createAsyncThunk(
+  'dashboard/updateCommonInfo',
+  async ({ collectionName, docId, updateObj }) => {
+    try {
+      const result = await updateDatas(collectionName, docId, updateObj);
+      return result;
+    } catch (error) {
+      return error;
+    }
   }
 );
 

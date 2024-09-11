@@ -6,9 +6,21 @@ import styles from './DashboardHeader.module.scss';
 import Weather from './weather/Weather';
 
 function DashboardHeader({ info }) {
-  const { latitude, longitude } = info;
-
+  const { latitude, longitude, crop, farmName, type } = info;
   const navigate = useNavigate();
+
+  const typeTranslate = (type) => {
+    switch (type) {
+      case 'facility':
+        return '시설';
+      case 'openGround':
+        return '노지';
+
+      default:
+        return '기타';
+    }
+  };
+
   return (
     <div className={styles.header}>
       <div className={styles.title}>
@@ -16,18 +28,18 @@ function DashboardHeader({ info }) {
           <IoArrowBackCircle />
         </button>
         <h1>
-          {info.name} / {info.crop}
+          {farmName} / {crop} / {typeTranslate(type)}
         </h1>
       </div>
       <div className={styles.time}>{new Date().toLocaleDateString()}</div>
       <div className={styles.icons}>
-        <button>
+        <button onClick={() => navigate('/')}>
           <TbHomeFilled />
         </button>
-        <button>
+        <button onClick={() => navigate('/')}>
           <TbBellFilled />
         </button>
-        <button>
+        <button onClick={() => navigate('/Mypage')}>
           <TbUserFilled />
         </button>
       </div>
