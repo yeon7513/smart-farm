@@ -1,10 +1,18 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Form from "../../../components/form/Form";
 import Container from "../../../components/layout/container/Container";
 import styles from "./SearchEm.module.scss";
 import { TextField } from "@mui/material";
+import { fetchItems } from "../../../store/user/UserSlice";
+import { useDispatch, useSelector } from "react-redux";
 
 function SearchEm(props) {
+  const dispatch = useDispatch();
+  const { items } = useSelector((state) => state.userSlice);
+  useEffect(() => {
+    console.log(items);
+    dispatch(fetchItems({ collectionName: "users" }));
+  }, []);
   return (
     <Container className={styles.container}>
       <div className={styles.title}>
