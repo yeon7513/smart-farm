@@ -5,6 +5,10 @@
   padding: 10px 8px;
   border-bottom: 1px solid #eee;
 
+  .name {
+    flex: 1;
+  }
+
   .btns {
     display: flex;
     justify-content: center;

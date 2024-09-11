@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef, useState } from 'react';
 import styles from './EditFarm.module.scss';
 
 function EditFarm({
@@ -7,8 +7,21 @@ function EditFarm({
   setEditedFarmName,
   setEditedCrop,
 }) {
+  const [errorMessage, setErrorMessage] = useState('');
+  const inputRef = useRef(null);
+
   const handleChangeFarmName = (e) => {
-    setEditedFarmName(e.target.value);
+    const value = e.target.value;
+
+    const regex = /^[ㄱ-ㅎ가-힣a-zA-Z0-9]{0,8}$/;
+
+    if (regex.test(value)) {
+      setEditedFarmName(value);
+      setErrorMessage('');
+    } else {
+      setErrorMessage('최대 8자리, 특수문자는 사용이 불가능합니다.');
+      inputRef.current.focus();
+    }
   };
   const handleChangeCrop = (e) => {
     setEditedCrop(e.target.value);
@@ -21,9 +34,14 @@ function EditFarm({
         <input
           type="text"
           id="farmName"
+          maxLength={8}
           value={editedFarmName}
           onChange={handleChangeFarmName}
+          placeholder="최대 8자리, 특수문자는 사용이 불가능합니다."
+          ref={inputRef}
+          style={{ outline: errorMessage ? '2px solid #ca2b34' : 'none' }}
         />
+        {errorMessage && <p className={styles.warning}>{errorMessage}</p>}
       </div>
       <div className={styles.editContent}>
         <label htmlFor="crop">작물</label>

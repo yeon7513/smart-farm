@@ -9,18 +9,18 @@ function FarmList() {
 
   const dispatch = useDispatch();
 
-  // const userEmail = JSON.parse(localStorage.getItem('user')).email;
+  const userEmail = JSON.parse(localStorage.getItem('user')).email;
 
-  // const list = userEmail.includes('admin')
-  //   ? commonInfo
-  //   : commonInfo.filter(
-  //       (list) =>
-  //         list.userId === userEmail &&
-  //         list.useYn === 'Y' &&
-  //         list.deleteYn === 'N'
-  //     );
+  const list = userEmail.includes('admin')
+    ? commonInfo
+    : commonInfo.filter(
+        (list) =>
+          list.userId === userEmail &&
+          list.useYn === 'Y' &&
+          list.deleteYn === 'N'
+      );
 
-  const list = commonInfo;
+  // const list = commonInfo;
 
   useEffect(() => {
     dispatch(fetchCommonInfo('dashboard'));

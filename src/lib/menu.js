@@ -48,6 +48,6 @@ export const paths = {
   spot: [
     { path: '/login', name: '로그인' },
     { path: '/register', name: '회원가입' },
-    { path: '/mypage', name: '마이페이지' },
+    // { path: '/mypage', name: '마이페이지' },
   ],
 };

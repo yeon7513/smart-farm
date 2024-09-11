@@ -21,20 +21,28 @@ function FarmListItem({ farmData }) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
+  // 수정 팝업 오픈
   const handleEditOpen = () => {
     setIsOpen(true);
     setModalType('edit');
   };
+
+  // 삭제 팝업 오픈
   const handleDeleteOpen = () => {
     setIsOpen(true);
     setModalType('delete');
   };
+
+  // 팝업 닫기 & state 초기화
   const handleClose = () => {
     setIsOpen(false);
     setModalType(null);
     setIsDelete(false);
+    setEditedFarmName(farmName);
+    setEditedCrop(crop);
   };
 
+  // 수정사항 저장
   const handleSave = () => {
     const updateObj = {
       ...farmData,
@@ -53,6 +61,7 @@ function FarmListItem({ farmData }) {
     setIsOpen(false);
   };
 
+  // 대시보드 삭제 시 비활성화
   const handleDeactivation = (e) => {
     const params = {
       collectionName: 'dashboard',

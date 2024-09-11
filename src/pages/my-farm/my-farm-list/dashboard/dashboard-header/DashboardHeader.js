@@ -35,13 +35,16 @@ function DashboardHeader({ info }) {
         </div>
         <Clock />
         <div className={styles.icons}>
-          <button onClick={() => navigate('/')}>
+          <button className={styles.gotoHome} onClick={() => navigate('/')}>
             <TbHomeFilled />
           </button>
-          <button onClick={() => navigate('/')}>
+          <button className={styles.gotoAlert} onClick={() => navigate('/')}>
             <TbBellFilled />
           </button>
-          <button onClick={() => navigate('/Mypage')}>
+          <button
+            className={styles.gotoMypage}
+            onClick={() => navigate('/Mypage')}
+          >
             <TbUserFilled />
           </button>
         </div>

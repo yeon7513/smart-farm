@@ -1,0 +1,6 @@
+.content {
+  .sectorMenu {
+    display: grid;
+    grid-template-columns: repeat(8, minmax(calc(100% / 8), 1fr));
+  }
+}

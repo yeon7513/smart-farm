@@ -1,41 +1,34 @@
-// .nav {
-//   padding: 0 !important;
-//   border-bottom: 5px solid var(--accent-color);
-//   // outline: 1px dotted orange;
-//   ul {
-//     display: flex;
-//     justify-content: space-evenly;
-//     // outline: 1px dotted purple;
+.nav {
+  width: 16%;
+  outline: 1px dotted orange;
+  li {
+    width: 100%;
+    border-right: 2px solid var(--accent-color);
+    transition: 0.3s;
 
-//     li {
-//       width: 100%;
-//       border-right: 2px solid var(--accent-color);
-//       transition: 0.3s;
+    &:last-child {
+      border-right: 0;
+    }
 
-//       &:last-child {
-//         border-right: 0;
-//       }
+    &:hover {
+      background-color: var(--accent-color);
+      button {
+        color: var(--main-color);
+      }
+    }
 
-//       &:hover {
-//         background-color: var(--accent-color);
-//         button {
-//           color: var(--main-color);
-//         }
-//       }
+    button {
+      display: block;
+      padding: 20px;
+      width: 100%;
+      font-size: 20px;
+    }
+    &.active {
+      background-color: var(--accent-color);
 
-//       button {
-//         display: block;
-//         padding: 20px;
-//         width: 100%;
-//         font-size: 20px;
-//       }
-//       &.active {
-//         background-color: var(--accent-color);
-
-//         button {
-//           color: var(--main-color);
-//         }
-//       }
-//     }
-//   }
-// }
+      button {
+        color: var(--main-color);
+      }
+    }
+  }
+}

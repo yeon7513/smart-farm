@@ -3,16 +3,19 @@
 .header {
   .info {
     display: flex;
+    align-items: center;
+    gap: 20px;
     padding: 20px;
 
     .title {
+      flex: 1;
       display: flex;
       align-items: center;
       gap: 5px;
 
       .back {
         @include flexCenter();
-        font-size: 30px;
+        font-size: 40px;
         color: var(--common-color);
 
         &:hover {
@@ -27,7 +30,40 @@
         font-weight: 200;
       }
     }
+    .icons {
+      display: flex;
+      gap: 8px;
+
+      > button {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 5px;
+        color: var(--common-color);
+        border: 1px solid var(--common-color);
+        border-radius: 50%;
+        font-size: 24px;
+        overflow: hidden;
+
+        > svg {
+          position: relative;
+          top: 0;
+          transition: 0.3s;
+        }
+
+        &:hover {
+          color: var(--main-color);
+          border: 1px solid var(--hover-color);
+          background-color: var(--hover-color);
+          > svg {
+            top: 4px;
+            transform: scale(150%);
+          }
+        }
+      }
+    }
   }
+
   > div {
     outline: 1px dotted red;
   }

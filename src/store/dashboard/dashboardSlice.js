@@ -76,9 +76,9 @@ export const fetchCommonInfo = createAsyncThunk(
 
 export const fetchSectorInfo = createAsyncThunk(
   'dashboard/fetchSectorInfo',
-  async (docId) => {
+  async (collectionName) => {
     try {
-      const data = await getDatas(`dashboard/${docId}/sector`);
+      const data = await getDatas(collectionName);
       return data;
     } catch (error) {
       return error;
