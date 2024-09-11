@@ -38,15 +38,18 @@ function RequestForm({ user, onSubmit }) {
     }
   };
 
+  // 주소를 받아옵니다.
   const handleGetAddr = (addr) => {
     setFarmAddress(addr);
   };
 
+  // 농장 종류를 변경합니다.
   const handleFacilityTypeChange = (e) => {
     setFacilityType(e.target.value);
     setAdditionalOptions({});
   };
 
+  // 부가 옵션을 변경합니다.
   const handleAdditionalOptionsChange = (e) => {
     const value = e.target.value;
     setAdditionalOptions((prevOptions) => {
@@ -57,7 +60,6 @@ function RequestForm({ user, onSubmit }) {
       } else {
         updatedOptions[value] = value;
       }
-      console.log(updatedOptions);
       return updatedOptions;
     });
   };
@@ -69,6 +71,8 @@ function RequestForm({ user, onSubmit }) {
     const year = today.getFullYear();
     const month = String(today.getMonth() + 1).padStart(2, "0");
     const day = String(today.getDate()).padStart(2, "0");
+
+    // 주문번호입니다.
     const createdAt = `${year}${month}${day}${new Date().getTime()}`;
 
     const dataObj = {
@@ -125,7 +129,7 @@ function RequestForm({ user, onSubmit }) {
           <SearchAddr getAddr={handleGetAddr} className={styles.addr} />
         </div>
         <div className={styles.farmName}>
-          <h3>농장 이름: </h3>5
+          <h3>농장 이름: </h3>
           <input
             type="text"
             placeholder={"농장 이름을 입력해주세요."}
