@@ -37,6 +37,7 @@ function LoginPage() {
     mode: "onChange",
   });
   const { isAuthenticated } = useSelector((state) => state.userSlice);
+  console.log(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const openModal = () => setIsModalOpen(true);
@@ -151,6 +152,7 @@ function LoginPage() {
         isOpen={isModalOpen}
         handleClose={closeModal}
         btnHandler={handleSubmit(onSubmit)}
+        isDisabled={!isAuthenticated}
       >
         <form>
           <div className={styles.modaleContainer}>

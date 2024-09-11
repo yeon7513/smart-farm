@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import KakaoLogin from "react-kakao-login";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { RiKakaoTalkFill } from "react-icons/ri";
 import { setUser } from "../../store/user/UserSlice";
@@ -12,6 +12,7 @@ import SearchAddr from "../../components/search-addr/SearchAddr";
 import styles from "./Kakaoback.module.scss";
 
 const Kakaoback = () => {
+  const { isAuthenticated } = useSelector((state) => state.userSlice);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const openModal = () => setIsModalOpen(true);
@@ -138,6 +139,7 @@ const Kakaoback = () => {
         isOpen={isModalOpen}
         handleClose={closeModal}
         btnHandler={handleSubmit(onSubmit)}
+        isDisabled={isAuthenticated}
       >
         <form>
           <div className={styles.modaleContainer}>

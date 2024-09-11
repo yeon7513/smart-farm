@@ -90,10 +90,19 @@ function FarmListItem({ farmData }) {
           handleClose={handleClose}
           btnHandler={modalType === 'delete' ? handleDeactivation : handleSave}
           btnName={modalType === 'delete' ? '삭제' : '수정'}
+          className={styles.pop}
           title={
-            modalType === 'delete'
-              ? `${farmName} 삭제`
-              : `${farmName} 정보 수정`
+            modalType === 'delete' ? (
+              <>
+                <span className={styles.farmName}>[{farmName}]</span>
+                <span className={styles.actionDesc}>삭제</span>
+              </>
+            ) : (
+              <>
+                <span className={styles.farmName}>[{farmName}]</span>
+                <span className={styles.actionDesc}>수정</span>
+              </>
+            )
           }
           isDisabled={modalType === 'delete' ? !isDelete : false}
         >
