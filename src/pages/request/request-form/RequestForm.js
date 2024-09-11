@@ -26,6 +26,18 @@ function RequestForm({ user, onSubmit }) {
     }
   }, [user]);
 
+  const handleChange = (e) => {
+    const value = e.target.value;
+
+    const regex = /^[ㄱ-ㅎ가-힣a-zA-Z0-9]{0,8}$/;
+
+    if (regex.test(value)) {
+      setFarmName(value);
+    } else {
+      return false;
+    }
+  };
+
   const handleGetAddr = (addr) => {
     setFarmAddress(addr);
   };
@@ -115,7 +127,7 @@ function RequestForm({ user, onSubmit }) {
         <input
           type="text"
           placeholder={"농장 이름을 입력해주세요."}
-          onChange={(e) => setFarmName(e.target.value)}
+          onChange={handleChange}
         />
       </div>
       <div className={styles.cropType}>
