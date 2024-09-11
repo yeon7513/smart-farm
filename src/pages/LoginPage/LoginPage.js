@@ -32,51 +32,16 @@ function LoginPage() {
     };
     localInfoNum();
   }, [navigate]);
-  // const api = "D2KH68BM8I140W4B";
-  // const apiurl = `/desaster?serviceKey=${api}/numOfRows=10/pageNo=10`;
 
-  // axios
-  //   .get(apiurl)
-  //   .then((response) => {
-  //     console.log(response.data);
-  //   })
-  //   .catch((error) => {
-  //     console.error("There was an error!", error);
-  //   });
-
-  // const servicekey = "D2KH68BM8I140W4B";
-  // const pageNo = "12";
-  // const numOfRows = "30";
-
-  // API 호출을 위한 URL 생성
-  // const apiurl = `/desaster/V2/api/DSSP-IF-00247?serviceKey=D2KH68BM8I140W4B&pageNo=${pageNo}&numOfRows=${numOfRows}`;
-  // // API 호출
-  // useEffect(() => {
-  //   axios
-  //     .get(apiurl)
-  //     .then((response) => {
-  //       // console.log(response);
-  //       response.data.body.forEach((result) => {
-  //         console.log(result.DST_SE_NM);
-  //       }); // 응답 데이터 출력
-  //     })
-  //     .catch((error) => {
-  //       console.error("There was an error!", error); // 오류 처리
-  //     });
-  // }, []);
-
-  // 재난 유형
-  // 산사태,조수,지진,폭염,풍수해,감염병,다중밀집건축물붕괴대형사고,산불,
-  // 초미세먼지,해양선박사고
   const { register, handleSubmit } = useForm({
     mode: "onChange",
   });
   const { isAuthenticated } = useSelector((state) => state.userSlice);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [myAddress, SetmyAddress] = useState();
   const [modalOpen, setModalOpen] = useState(false);
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
+  const [myAddress, SetmyAddress] = useState();
   const auth = getUserAuth();
   const dispatch = useDispatch();
   const Info = auth.currentUser;
@@ -228,3 +193,40 @@ function LoginPage() {
 }
 
 export default LoginPage;
+
+// const api = "D2KH68BM8I140W4B";
+// const apiurl = `/desaster?serviceKey=${api}/numOfRows=10/pageNo=10`;
+
+// axios
+//   .get(apiurl)
+//   .then((response) => {
+//     console.log(response.data);
+//   })
+//   .catch((error) => {
+//     console.error("There was an error!", error);
+//   });
+
+// const servicekey = "D2KH68BM8I140W4B";
+// const pageNo = "12";
+// const numOfRows = "30";
+
+// API 호출을 위한 URL 생성
+// const apiurl = `/desaster/V2/api/DSSP-IF-00247?serviceKey=D2KH68BM8I140W4B&pageNo=${pageNo}&numOfRows=${numOfRows}`;
+// // API 호출
+// useEffect(() => {
+//   axios
+//     .get(apiurl)
+//     .then((response) => {
+//       // console.log(response);
+//       response.data.body.forEach((result) => {
+//         console.log(result.DST_SE_NM);
+//       }); // 응답 데이터 출력
+//     })
+//     .catch((error) => {
+//       console.error("There was an error!", error); // 오류 처리
+//     });
+// }, []);
+
+// 재난 유형
+// 산사태,조수,지진,폭염,풍수해,감염병,다중밀집건축물붕괴대형사고,산불,
+// 초미세먼지,해양선박사고
