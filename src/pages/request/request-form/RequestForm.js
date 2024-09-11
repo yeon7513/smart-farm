@@ -1,64 +1,98 @@
 import React, { useEffect, useState } from "react";
 import SearchAddr from "../../../components/search-addr/SearchAddr";
-import { installation } from "../../../lib/requestOption";
 import styles from "./RequestForm.module.scss";
-import RequestOptions from "./request-options/RequestOptions";
+import FacilitiesHorticulture from "../FacilitiesHorticulture";
+import OpenGround from "../OpenGround";
+import Checkout from "../Checkout";
+import { useSelector } from "react-redux";
+import { addDoc, collection, doc } from "firebase/firestore";
+import { db } from "../../../api/firebase";
 
 function RequestForm({ user, onSubmit }) {
-  const [farmAddr, setFarmAddr] = useState("");
-  const [option, setOption] = useState("facility");
-  const [farmName, setFarmName] = useState("");
   const [cropType, setCropType] = useState("딸기");
+  const [farmAddress, setFarmAddress] = useState("");
+  const [facilityType, setFacilityType] = useState("시설원예");
+  const [farmName, setFarmName] = useState("");
+  const [farmArea, setFarmArea] = useState("");
+  const [farmEquivalent, setFarmEquivalent] = useState("");
   const [additionalOptions, setAdditionalOptions] = useState({});
-  const [farmArea, setFarmArea] = useState(0);
-  const [farmEquivalent, setFarmEquivalent] = useState(0);
+  const [requestData, setRequestData] = useState([]);
+  const [accumulatedData, setAccumulatedData] = useState([]);
+  const { uid } = useSelector((state) => state.userSlice);
 
   useEffect(() => {
-    if (user) {
-      setFarmAddr(user.farmAddress || "");
+    if (!user) {
+      setFarmAddress(user.farmAddress || "");
     }
   }, [user]);
 
   const handleGetAddr = (addr) => {
-    setFarmAddr(addr);
+    setFarmAddress(addr);
   };
 
-  const handleOptionChange = (e) => {
-    setOption(e.target.value);
-    console.log(e.target.value);
+  const handleFacilityTypeChange = (e) => {
+    setFacilityType(e.target.value);
+    setAdditionalOptions({});
   };
 
-  const handleCheckboxChange = (e) => {
-    const { id, checked } = e.target;
-
+  const handleAdditionalOptionsChange = (e) => {
+    const value = e.target.value;
     setAdditionalOptions((prevOptions) => {
+      // 옵션이 이미 존재하는 경우 제거하고, 그렇지 않으면 추가합니다.
       const updatedOptions = { ...prevOptions };
-
-      if (checked) {
-        updatedOptions[id] = true;
+      if (updatedOptions[value]) {
+        delete updatedOptions[value];
       } else {
-        delete updatedOptions[id];
+        updatedOptions[value] = value;
       }
+      console.log(updatedOptions);
       return updatedOptions;
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = String(today.getMonth() + 1).padStart(2, "0");
+    const day = String(today.getDate()).padStart(2, "0");
+    const createdAt = `${year}${month}${day}${new Date().getTime()}`;
+
     const dataObj = {
-      farmAddress: farmAddr,
+      farmAddress: farmAddress,
       cropType: cropType,
-      option: option,
+      facilityType: facilityType,
       additionalOptions: Object.keys(additionalOptions).filter(
         (key) => additionalOptions[key]
       ),
       farmArea: farmArea,
       farmName: farmName,
       farmEquivalent: farmEquivalent,
+      createdAt: createdAt,
     };
     console.log(dataObj);
     onSubmit(dataObj);
+
+    try {
+      if (uid) {
+        // 사용자의 결제내역에 데이터를 추가합니다.
+        const userDocRef = doc(db, "users", uid);
+        const paymentCollectionRef = collection(userDocRef, "payments");
+        await addDoc(paymentCollectionRef, dataObj);
+        console.log("데이터가 성공적으로 추가되었습니다.");
+
+        // 데이터를 업데이트 합니다.
+        setAccumulatedData((prevData) => [...prevData, dataObj]);
+
+        // 데이터를 추가하고 초기화합니다.
+        setRequestData([]);
+      } else {
+        console.error("사용자 ID가 설정되지 않았습니다.");
+      }
+    } catch (error) {
+      console.error("에러가 발생하였습니다: ", error);
+    }
   };
 
   return (
@@ -79,7 +113,7 @@ function RequestForm({ user, onSubmit }) {
           <SearchAddr getAddr={handleGetAddr} className={styles.addr} />
         </div>
         <div className={styles.farmName}>
-          <h3>농장 이름: </h3>
+          <h3>농장 이름: </h3>5
           <input
             type="text"
             placeholder={"농장 이름을 입력해주세요."}
@@ -105,9 +139,9 @@ function RequestForm({ user, onSubmit }) {
           </div>
           <div>
             <h3>농장 선택: </h3>
-            <select onChange={handleOptionChange}>
-              <option value="facility">시설원예</option>
-              <option value="openGround">노지</option>
+            <select value={facilityType} onChange={handleFacilityTypeChange}>
+              <option value="시설원예">시설원예</option>
+              <option value="노지">노지</option>
             </select>
           </div>
           <div className={styles.farmArea}>
@@ -137,14 +171,24 @@ function RequestForm({ user, onSubmit }) {
 
         <div className={styles.option}>
           <h3>부가 옵션 선택: </h3>
-          <RequestOptions
-            option={installation[option]}
-            onCheckboxChange={handleCheckboxChange}
-          />
+          {facilityType === "시설원예" ? (
+            <FacilitiesHorticulture
+              additionalOptions={additionalOptions}
+              handleAdditionalOptionsChange={handleAdditionalOptionsChange}
+            />
+          ) : (
+            <OpenGround
+              additionalOptions={additionalOptions}
+              handleAdditionalOptionsChange={handleAdditionalOptionsChange}
+            />
+          )}
         </div>
-        <div className={styles.btn}>
-          <button type="submit">결제</button>
-          <button type="button">추가 의뢰</button>
+        <div>
+          <Checkout
+            type="submit"
+            description={"견적 내용 저장"}
+            onClick={handleSubmit}
+          />
         </div>
       </div>
     </form>

@@ -2,6 +2,7 @@ import React from 'react';
 import { IoArrowBackCircle } from 'react-icons/io5';
 import { TbBellFilled, TbHomeFilled, TbUserFilled } from 'react-icons/tb';
 import { useNavigate } from 'react-router-dom';
+import Clock from '../../../../../components/clock/Clock';
 import styles from './DashboardHeader.module.scss';
 import Weather from './weather/Weather';
 
@@ -23,28 +24,27 @@ function DashboardHeader({ info }) {
 
   return (
     <div className={styles.header}>
-      <div className={styles.title}>
-        <button onClick={() => navigate(-1)}>
-          <IoArrowBackCircle />
-        </button>
-        <h1>
-          {farmName} / {crop} / {typeTranslate(type)}
-        </h1>
-      </div>
-      <div className={styles.time}>
-        <span>{new Date().toLocaleDateString()}</span>
-        <span>{new Date().toLocaleDateString()}</span>
-      </div>
-      <div className={styles.icons}>
-        <button onClick={() => navigate('/')}>
-          <TbHomeFilled />
-        </button>
-        <button onClick={() => navigate('/')}>
-          <TbBellFilled />
-        </button>
-        <button onClick={() => navigate('/Mypage')}>
-          <TbUserFilled />
-        </button>
+      <div className={styles.info}>
+        <div className={styles.title}>
+          <button className={styles.back} onClick={() => navigate(-1)}>
+            <IoArrowBackCircle />
+          </button>
+          <h1>
+            {farmName} / {typeTranslate(type)} / {crop}
+          </h1>
+        </div>
+        <Clock />
+        <div className={styles.icons}>
+          <button onClick={() => navigate('/')}>
+            <TbHomeFilled />
+          </button>
+          <button onClick={() => navigate('/')}>
+            <TbBellFilled />
+          </button>
+          <button onClick={() => navigate('/Mypage')}>
+            <TbUserFilled />
+          </button>
+        </div>
       </div>
       <Weather />
     </div>

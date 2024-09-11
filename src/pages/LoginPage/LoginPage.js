@@ -32,83 +32,73 @@ function LoginPage() {
     };
     localInfoNum();
   }, [navigate]);
-  // const api = "D2KH68BM8I140W4B";
-  // const apiurl = `/desaster?serviceKey=${api}/numOfRows=10/pageNo=10`;
 
-  // axios
-  //   .get(apiurl)
-  //   .then((response) => {
-  //     console.log(response.data);
-  //   })
-  //   .catch((error) => {
-  //     console.error("There was an error!", error);
-  //   });
-
-  // const servicekey = "D2KH68BM8I140W4B";
-  // const pageNo = "12";
-  // const numOfRows = "30";
-
-  // API 호출을 위한 URL 생성
-  // const apiurl = `/desaster/V2/api/DSSP-IF-00247?serviceKey=D2KH68BM8I140W4B&pageNo=${pageNo}&numOfRows=${numOfRows}`;
-  // // API 호출
-  // useEffect(() => {
-  //   axios
-  //     .get(apiurl)
-  //     .then((response) => {
-  //       // console.log(response);
-  //       response.data.body.forEach((result) => {
-  //         console.log(result.DST_SE_NM);
-  //       }); // 응답 데이터 출력
-  //     })
-  //     .catch((error) => {
-  //       console.error("There was an error!", error); // 오류 처리
-  //     });
-  // }, []);
-
-  // 재난 유형
-  // 산사태,조수,지진,폭염,풍수해,감염병,다중밀집건축물붕괴대형사고,산불,
-  // 초미세먼지,해양선박사고
-  const { register, handleSubmit } = useForm({
+  const { register, handleSubmit, watch } = useForm({
     mode: "onChange",
   });
+  const [inputValue, setInputValue] = useState(true);
   const { isAuthenticated } = useSelector((state) => state.userSlice);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [myAddress, SetmyAddress] = useState();
+  const [modalOpen, setModalOpen] = useState(false);
   const openModal = () => setIsModalOpen(true);
-  const closeModal = () => setIsModalOpen(false);
+  const closeModal = () => {
+    setIsModalOpen(false);
+    window.location.reload();
+  };
+  const [myAddress, SetmyAddress] = useState();
   const auth = getUserAuth();
   const dispatch = useDispatch();
   const Info = auth.currentUser;
+  const allValues = watch(); // input에 들어가는 내용을 실시간 확인 가능
+  useEffect(() => {
+    if (isModalOpen === true) {
+      if (
+        allValues.number &&
+        allValues.number.length >= 13 &&
+        allValues.name &&
+        allValues.name.length >= 3 &&
+        myAddress &&
+        myAddress.length >= 15
+      ) {
+        setInputValue(false);
+      } else if (allValues.number && allValues.number.length < 13) {
+        setInputValue(true);
+      }
+    }
+  }, [inputValue, allValues]);
+
   const SignInWithGoogle = async () => {
     const provider = new GoogleAuthProvider();
     await signInWithPopup(auth, provider).then(async (result) => {
       const userInfo = await LoginGetDatas("users");
-      console.log(userInfo);
-      const Point = userInfo?.filter(
-        (item) => item?.email == result.user?.email
-      );
+      const Point = userInfo.filter((item) => item.email == result.user.email);
       if (Point.length === 0) {
+        setModalOpen(true);
         openModal();
-      }
-      Point.forEach((item) => {
-        dispatch(
-          setUser({
-            email: result.user.email,
-            token: result.user.refreshToken,
-            uid: result.user.uid,
-            nick: result.user.displayName,
-            number: item.number,
-            name: item.name,
-          })
-        );
-      });
-    });
-    navigate("/");
-  };
-  //
 
+        if (modalOpen) {
+          navigate("/");
+        }
+      } else {
+        Point.forEach((item) => {
+          dispatch(
+            setUser({
+              email: result.user.email,
+              token: result.user.refreshToken,
+              uid: result.user.uid,
+              nick: result.user.displayName,
+              number: item.number,
+              name: item.name,
+            })
+          );
+        });
+        navigate("/");
+      }
+    });
+  };
   const password = "";
   const onSubmit = ({ name, number }) => {
+    console.log({ ...register("number") });
     joinUser(Info.uid, Info.email, password, {
       number: number,
       address: myAddress,
@@ -129,6 +119,7 @@ function LoginPage() {
     );
     closeModal();
     // if(dashboard){} else{}
+    navigate("/");
   };
 
   // navigator.geolocation.getCurrentPosition((position) => {});
@@ -183,6 +174,7 @@ function LoginPage() {
         isOpen={isModalOpen}
         handleClose={closeModal}
         btnHandler={handleSubmit(onSubmit)}
+        isDisabled={inputValue}
       >
         <form>
           <div className={styles.modaleContainer}>
@@ -209,7 +201,7 @@ function LoginPage() {
                   },
                 }}
                 type="text"
-                label={"전화번호"}
+                label={"전화번호(- 포함한 13자리)"}
                 {...register("number")}
               />
             </div>
@@ -225,3 +217,40 @@ function LoginPage() {
 }
 
 export default LoginPage;
+
+// const api = "D2KH68BM8I140W4B";
+// const apiurl = `/desaster?serviceKey=${api}/numOfRows=10/pageNo=10`;
+
+// axios
+//   .get(apiurl)
+//   .then((response) => {
+//     console.log(response.data);
+//   })
+//   .catch((error) => {
+//     console.error("There was an error!", error);
+//   });
+
+// const servicekey = "D2KH68BM8I140W4B";
+// const pageNo = "12";
+// const numOfRows = "30";
+
+// API 호출을 위한 URL 생성
+// const apiurl = `/desaster/V2/api/DSSP-IF-00247?serviceKey=D2KH68BM8I140W4B&pageNo=${pageNo}&numOfRows=${numOfRows}`;
+// // API 호출
+// useEffect(() => {
+//   axios
+//     .get(apiurl)
+//     .then((response) => {
+//       // console.log(response);
+//       response.data.body.forEach((result) => {
+//         console.log(result.DST_SE_NM);
+//       }); // 응답 데이터 출력
+//     })
+//     .catch((error) => {
+//       console.error("There was an error!", error); // 오류 처리
+//     });
+// }, []);
+
+// 재난 유형
+// 산사태,조수,지진,폭염,풍수해,감염병,다중밀집건축물붕괴대형사고,산불,
+// 초미세먼지,해양선박사고

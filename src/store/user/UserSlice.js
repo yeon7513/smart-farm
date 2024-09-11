@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { LoginGetDatas } from "../../api/firebase";
-
+JSON.parse(localStorage.getItem("user"));
 const initialState = localStorage.getItem("user")
   ? JSON.parse(localStorage.getItem("user"))
   : {
@@ -40,7 +40,6 @@ const userSlice = createSlice({
       state.number = "";
       state.address = "";
       state.isAuthenticated = false;
-
       localStorage.removeItem("user");
     },
   },

@@ -30,8 +30,7 @@
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
-  padding: 0;
-  // background-color: var(--main-color);
+  padding: 0 !important;
 }
 
 .logo {

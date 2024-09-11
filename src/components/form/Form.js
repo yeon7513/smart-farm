@@ -14,8 +14,8 @@ function Form({ title, getDataForm, firebaseError, inputName1, type2, type }) {
     mode: "onChange",
   });
   const onSubmit = ({ name, password }) => {
-    const changePassword2 = CryptoJS.SHA256(password).toString();
-    getDataForm(name, changePassword2);
+    const changePassword = CryptoJS.SHA256(password).toString();
+    getDataForm(name, changePassword);
     reset();
   };
   const userEmail = {
