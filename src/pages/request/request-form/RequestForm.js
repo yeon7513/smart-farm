@@ -4,6 +4,9 @@ import styles from "./RequestForm.module.scss";
 import FacilitiesHorticulture from "../FacilitiesHorticulture";
 import OpenGround from "../OpenGround";
 import Checkout from "../Checkout";
+import { useSelector } from "react-redux";
+import { addDoc, collection, doc } from "firebase/firestore";
+import { db } from "../../../api/firebase";
 
 function RequestForm({ user, onSubmit }) {
   const [cropType, setCropType] = useState("딸기");
@@ -13,6 +16,9 @@ function RequestForm({ user, onSubmit }) {
   const [farmArea, setFarmArea] = useState("");
   const [farmEquivalent, setFarmEquivalent] = useState("");
   const [additionalOptions, setAdditionalOptions] = useState({});
+  const [requestData, setRequestData] = useState([]);
+  const [accumulatedData, setAccumulatedData] = useState([]);
+  const { uid } = useSelector((state) => state.userSlice);
 
   useEffect(() => {
     if (!user) {
@@ -44,7 +50,7 @@ function RequestForm({ user, onSubmit }) {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     const today = new Date();
@@ -67,6 +73,26 @@ function RequestForm({ user, onSubmit }) {
     };
     console.log(dataObj);
     onSubmit(dataObj);
+
+    try {
+      if (uid) {
+        // 사용자의 결제내역에 데이터를 추가합니다.
+        const userDocRef = doc(db, "users", uid);
+        const paymentCollectionRef = collection(userDocRef, "payments");
+        await addDoc(paymentCollectionRef, dataObj);
+        console.log("데이터가 성공적으로 추가되었습니다.");
+
+        // 데이터를 업데이트 합니다.
+        setAccumulatedData((prevData) => [...prevData, dataObj]);
+
+        // 데이터를 추가하고 초기화합니다.
+        setRequestData([]);
+      } else {
+        console.error("사용자 ID가 설정되지 않았습니다.");
+      }
+    } catch (error) {
+      console.error("에러가 발생하였습니다: ", error);
+    }
   };
 
   return (
@@ -85,7 +111,7 @@ function RequestForm({ user, onSubmit }) {
         <SearchAddr getAddr={handleGetAddr} />
       </div>
       <div className={styles.farmName}>
-        <h3>농장 이름</h3>
+        <h3>농장 이름 (최대 8자)</h3>
         <input
           type="text"
           placeholder={"농장 이름을 입력해주세요."}

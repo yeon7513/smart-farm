@@ -73,6 +73,22 @@ function Weather() {
     return `${splitArr[0]} ${timeArr[0]}`;
   };
 
+  //40개의 데이터를 {5:[8]}로 만듬
+  const groupForecastData = (data) => {
+    const grouped = [];
+
+    for (let i = 0; i < data.length; i += 8) {
+      const group = data.slice(i, i + 8);
+      grouped.push(group);
+      console.log(group);
+    }
+
+    return grouped;
+  };
+
+  const groupedForecastData = groupForecastData(forecastData);
+  console.log(groupedForecastData);
+
   const handleWeather = async (lat, lon) => {
     const APIkey = "3bd960b544d8e85c3f24e4e2d139794c";
     const url = `/weather/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${APIkey}&units=metric&lang=kr`;
@@ -275,7 +291,7 @@ function Weather() {
         return <IoIosThunderstorm size={size} color="#48484A" />;
 
       default:
-        return <BsFillCloudsFill size={size} color="gray" />; // 기본값: 흐린 날씨 아이콘
+        return <BsFillCloudsFill size={size} color="#48484A" />; // 기본값: 흐린 날씨 아이콘
     }
   };
 

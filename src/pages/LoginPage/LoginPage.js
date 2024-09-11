@@ -41,7 +41,10 @@ function LoginPage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const openModal = () => setIsModalOpen(true);
-  const closeModal = () => setIsModalOpen(false);
+  const closeModal = () => {
+    setIsModalOpen(false);
+    window.location.reload();
+  };
   const [myAddress, SetmyAddress] = useState();
   const auth = getUserAuth();
   const dispatch = useDispatch();
@@ -53,18 +56,16 @@ function LoginPage() {
         allValues.number &&
         allValues.number.length >= 13 &&
         allValues.name &&
-        allValues.name.length >= 3
+        allValues.name.length >= 3 &&
+        myAddress &&
+        myAddress.length >= 15
       ) {
         setInputValue(false);
       } else if (allValues.number && allValues.number.length < 13) {
         setInputValue(true);
       }
     }
-  }, [
-    // isModalOpen,
-    inputValue,
-    allValues,
-  ]);
+  }, [inputValue, allValues]);
 
   const SignInWithGoogle = async () => {
     const provider = new GoogleAuthProvider();
