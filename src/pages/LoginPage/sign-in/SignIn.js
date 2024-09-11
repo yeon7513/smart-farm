@@ -5,7 +5,6 @@ import { useNavigate } from "react-router-dom";
 import { getDatas, getUserAuth, LoginGetDatas } from "../../../api/firebase";
 import Form from "../../../components/form/Form";
 import { setUser } from "../../../store/user/UserSlice";
-import { CryptoJS } from "crypto-js";
 
 function SignIn(props) {
   const [firebaseError, setFirebaseError] = useState("");

@@ -94,7 +94,7 @@ function PostView() {
                     <p>작성일: {post.createdAt}</p>
                     <p>조회수: {count}</p>
                   </div>
-                  {post.nick === loginUser?.nick ? (
+                  {post.nick === loginUser.nick ? (
                     <div className={styles.test}>
                       <button onClick={() => setIsEditing(true)}>수정</button>
                       <p>/</p>

@@ -74,6 +74,7 @@ function LoginPage() {
   const { isAuthenticated } = useSelector((state) => state.userSlice);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [myAddress, SetmyAddress] = useState();
+  const [modalOpen, setModalOpen] = useState(false);
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
   const auth = getUserAuth();
@@ -83,29 +84,30 @@ function LoginPage() {
     const provider = new GoogleAuthProvider();
     await signInWithPopup(auth, provider).then(async (result) => {
       const userInfo = await LoginGetDatas("users");
-      console.log(userInfo);
-      const Point = userInfo?.filter(
-        (item) => item?.email == result.user?.email
-      );
+      const Point = userInfo.filter((item) => item.email == result.user.email);
       if (Point.length === 0) {
+        setModalOpen(true);
         openModal();
+        if (modalOpen) {
+          navigate("/");
+        }
+      } else {
+        Point.forEach((item) => {
+          dispatch(
+            setUser({
+              email: result.user.email,
+              token: result.user.refreshToken,
+              uid: result.user.uid,
+              nick: result.user.displayName,
+              number: item.number,
+              name: item.name,
+            })
+          );
+        });
+        navigate("/");
       }
-      Point.forEach((item) => {
-        dispatch(
-          setUser({
-            email: result.user.email,
-            token: result.user.refreshToken,
-            uid: result.user.uid,
-            nick: result.user.displayName,
-            number: item.number,
-            name: item.name,
-          })
-        );
-      });
     });
-    navigate("/");
   };
-  //
 
   const password = "";
   const onSubmit = ({ name, number }) => {
@@ -129,6 +131,7 @@ function LoginPage() {
     );
     closeModal();
     // if(dashboard){} else{}
+    navigate("/");
   };
 
   // navigator.geolocation.getCurrentPosition((position) => {});
