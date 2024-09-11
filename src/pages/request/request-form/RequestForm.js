@@ -26,6 +26,18 @@ function RequestForm({ user, onSubmit }) {
     }
   }, [user]);
 
+  const handleChange = (e) => {
+    const value = e.target.value;
+
+    const regex = /^[ㄱ-ㅎ가-힣a-zA-Z0-9]{0,8}$/;
+
+    if (regex.test(value)) {
+      setFarmName(value);
+    } else {
+      return false;
+    }
+  };
+
   const handleGetAddr = (addr) => {
     setFarmAddress(addr);
   };
