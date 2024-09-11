@@ -1,0 +1,8 @@
+.clock {
+  display: flex;
+  gap: 5px;
+  color: #555;
+  .date {
+    font-weight: 500;
+  }
+}
