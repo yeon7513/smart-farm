@@ -89,6 +89,7 @@ function LoginPage() {
               nick: result.user.displayName,
               number: item.number,
               name: item.name,
+              address: item.address,
             })
           );
         });
@@ -154,7 +155,6 @@ function LoginPage() {
             <h2>Google</h2>
           </div>
         </button>
-
         <Kakaoback />
       </div>
       <div>
@@ -189,6 +189,7 @@ function LoginPage() {
                 }}
                 type="text"
                 label={"이름"}
+                autoComplete="off"
                 {...register("name")}
               />
             </div>
@@ -202,6 +203,7 @@ function LoginPage() {
                 }}
                 type="text"
                 label={"전화번호(- 포함한 13자리)"}
+                autoComplete="off"
                 {...register("number")}
               />
             </div>

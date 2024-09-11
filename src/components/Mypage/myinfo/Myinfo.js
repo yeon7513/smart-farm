@@ -1,16 +1,54 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import style from "./Myinfo.module.scss";
 import styles from "../MypageGrobal.module.scss";
 import Container from "../../layout/container/Container";
 import { Avatar } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchItems } from "./../../../store/user/UserSlice";
+import { updateDatas } from "../../../api/firebase";
 
 function Myinfo(props) {
   const [NicknameState, SetnicknameState] = useState(false);
   const [nameState, SetnameState] = useState(false);
+  const [inputValue, setInputValue] = useState("");
   const [PasswordState, SetPasswordnameState] = useState(false);
   const [addressState, SetaddressState] = useState(false);
   const navigate = useNavigate();
+  const { items } = useSelector((state) => state.userSlice);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(fetchItems({ collectionName: "users" }));
+  }, []);
+
+  // 유저 정보 불러오기
+  const user = JSON.parse(localStorage.getItem("user")) || "";
+
+  const handleChange = (event) => {
+    setInputValue(event.target.value);
+  };
+
+  const handleSamethingConfirm = async (e) => {
+    console.log(e.target.value);
+    const SameName = items.filter((item) => {
+      return item.name == inputValue;
+    });
+    console.log(SameName);
+    if (SameName.length === 0) {
+      // alert("중복된게 없습니다.  테스트로 alert좀 썼어요!");
+      const SameNameChange = items.find((item) => {
+        return item.name == user.name;
+      });
+      const updateObj = {
+        name: inputValue,
+      };
+      // const { docId } = SameNameChange;
+      console.log(SameNameChange);
+      // await updateDatas("users", SameNameChange.do, updateObj);
+    } else {
+      alert("중복된 이름입니다. 다시 입력해주세요. 테스트로 alert좀 썼어요!");
+    }
+  };
 
   const nickClick = () => {
     if (NicknameState === true) {
@@ -45,9 +83,6 @@ function Myinfo(props) {
     navigate("/mypage");
   };
 
-  // 유저 정보 불러오기
-  const user = JSON.parse(localStorage.getItem("user")) || "";
-
   return (
     <Container className={style.container}>
       <div className={style.headers}>
@@ -78,8 +113,8 @@ function Myinfo(props) {
         </div>
         {nameState === true ? (
           <div className={style.double}>
-            <input type="text" />
-            <button>중복 확인</button>
+            <input type="text" onChange={handleChange} />
+            <button onClick={handleSamethingConfirm}>중복 확인</button>
           </div>
         ) : (
           ""
