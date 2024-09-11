@@ -13,6 +13,7 @@ function Board({ nopost, category, complain }) {
   const [currentPage, setCurrentPage] = useState(1);
   const [isWriting, setIsWriting] = useState(false); // 글쓰기 모드 상태
   const [view, setView] = useState([]);
+  const [nickname, setNickname] = useState("");
   const { isAuthenticated } = useSelector((state) => state.userSlice);
 
   const totalPages = Math.ceil(view.length / PAGE_SIZE);
@@ -47,8 +48,16 @@ function Board({ nopost, category, complain }) {
     setView(data);
   };
 
+  const fetchUserNickname = async () => {
+    const user = await getUserAuth(); // 사용자 정보 가져오는 함수 호출
+    if (user) {
+      setNickname(user.nickname); // 사용자 닉네임 상태 설정
+    }
+  };
+
   useEffect(() => {
     handleLoad();
+    fetchUserNickname();
   }, []);
 
   const handleWriteClick = () => {
@@ -112,7 +121,9 @@ function Board({ nopost, category, complain }) {
             </button>
           </div>
           {nopost === false ? (
-            ""
+            nickname === "관리자" && (
+              <button onClick={handleWriteClick}>글쓰기</button>
+            )
           ) : (
             <div className={styles.upload}>
               {<button onClick={handleWriteClick}>글쓰기</button>}

@@ -75,6 +75,34 @@ async function getLastNum(collectionName, field) {
   return lastNum;
 }
 
+// export async function addBoardDatas(collectionName, addObj) {
+//   try {
+//     if (addObj.imgUrl) {
+//       const path = `/board/${Date.now()}_${addObj.imgUrl.name}`;
+//       addObj.imgUrl = await uploadImage(path, addObj.imgUrl);
+//     }
+
+//     // No 필드를 최신 값에서 1 증가시키기
+//     const resultData = await runTransaction(db, async (tr) => {
+//       const lastId = (await getLastNum(collectionName, "id")) + 1;
+//       addObj.id = lastId;
+
+//       // 데이터베이스에 새 문서 추가
+//       const docRef = await addDoc(collection(db, collectionName), addObj);
+//       const snapshot = await getDoc(docRef);
+//       const docData = snapshot.exists()
+//         ? { ...snapshot.data(), docId: snapshot.id, collection: collectionName }
+//         : null;
+//       return docData;
+//     });
+
+//     return resultData;
+//   } catch (error) {
+//     console.error("addBoardDatas 에러: ", error);
+//     return false;
+//   }
+// }
+
 export async function addBoardDatas(collectionName, addObj) {
   try {
     if (addObj.imgUrl) {
@@ -82,13 +110,16 @@ export async function addBoardDatas(collectionName, addObj) {
       addObj.imgUrl = await uploadImage(path, addObj.imgUrl);
     }
 
-    // No 필드를 최신 값에서 1 증가시키기
     const resultData = await runTransaction(db, async (tr) => {
       const lastId = (await getLastNum(collectionName, "id")) + 1;
       addObj.id = lastId;
 
       // 데이터베이스에 새 문서 추가
       const docRef = await addDoc(collection(db, collectionName), addObj);
+      // 하위 컬렉션 "comment" 생성
+      const commentRef = collection(docRef, "comment");
+      await addDoc(commentRef, { initial: true }); // 초기값, 필요시 변경
+
       const snapshot = await getDoc(docRef);
       const docData = snapshot.exists()
         ? { ...snapshot.data(), docId: snapshot.id, collection: collectionName }
