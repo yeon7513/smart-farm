@@ -70,7 +70,7 @@ function RequestForQuote() {
           취소
         </button>
         <button className={styles.cancel} onClick={downloadExcel}>
-          다운로드
+          다운로드(단, 관리자만 가능)
         </button>
       </div>
       {/* <RequestForQuoteForm addEstimate={addEstimate} user={user} /> */}
