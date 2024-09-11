@@ -21,34 +21,34 @@ function RequestForQuote() {
   const navigate = useNavigate();
 
   // 결제 버튼 (임시로 콘솔에 결제정보가 나오는지 해놨어요.)
-  const handleSubmitRequest = async (e) => {
-    e.preventDefault();
+  // const handleSubmitRequest = async (e) => {
+  //   e.preventDefault();
 
-    if (!requestData || Object.keys(requestData).length === 0) {
-      console.error("견적 정보가 없습니다.");
-      return;
-    }
+  //   if (!requestData || Object.keys(requestData).length === 0) {
+  //     console.error("견적 정보가 없습니다.");
+  //     return;
+  //   }
 
-    try {
-      if (uid) {
-        // 사용자의 결제내역에 데이터를 추가합니다.
-        const userDocRef = doc(db, "users", uid);
-        const paymentCollectionRef = collection(userDocRef, "payments");
-        await addDoc(paymentCollectionRef, requestData);
-        console.log("데이터가 성공적으로 추가되었습니다.");
+  //   try {
+  //     if (uid) {
+  //       // 사용자의 결제내역에 데이터를 추가합니다.
+  //       const userDocRef = doc(db, "users", uid);
+  //       const paymentCollectionRef = collection(userDocRef, "payments");
+  //       await addDoc(paymentCollectionRef, requestData);
+  //       console.log("데이터가 성공적으로 추가되었습니다.");
 
-        // 데이터를 업데이트 합니다.
-        setAccumulatedData((prevData) => [...prevData, requestData]);
+  //       // 데이터를 업데이트 합니다.
+  //       setAccumulatedData((prevData) => [...prevData, requestData]);
 
-        // 데이터를 추가하고 초기화합니다.
-        setRequestData([]);
-      } else {
-        console.error("사용자 ID가 설정되지 않았습니다.");
-      }
-    } catch (error) {
-      console.error("에러가 발생하였습니다: ", error);
-    }
-  };
+  //       // 데이터를 추가하고 초기화합니다.
+  //       setRequestData([]);
+  //     } else {
+  //       console.error("사용자 ID가 설정되지 않았습니다.");
+  //     }
+  //   } catch (error) {
+  //     console.error("에러가 발생하였습니다: ", error);
+  //   }
+  // };
 
   const downloadExcel = () => {
     const today = new Date();
@@ -78,14 +78,12 @@ function RequestForQuote() {
       <RequestForm user={user} onSubmit={(data) => setRequestData(data)} />
       {/* Form을 추가할 수 있음 (Redux로 관리하기??) */}
       <div className={styles.btns}>
-        <button className={styles.submit} onClick={handleSubmitRequest}>
-          결제
-        </button>
+        <button className={styles.submit}>결제</button>
         <button className={styles.cancel} onClick={() => navigate(-1)}>
           취소
         </button>
         <button className={styles.cancel} onClick={downloadExcel}>
-          다운로드(단, 관리자만 가능)
+          다운로드(관리자 페이지에서만 되는 기능)
         </button>
       </div>
     </Container>

@@ -17,7 +17,10 @@ const Kakaoback = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const openModal = () => setIsModalOpen(true);
-  const closeModal = () => setIsModalOpen(false);
+  const closeModal = () => {
+    setIsModalOpen(false);
+    window.location.reload();
+  };
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { register, handleSubmit, watch } = useForm({
@@ -46,11 +49,7 @@ const Kakaoback = () => {
         setInputValue(true);
       }
     }
-  }, [
-    // isModalOpen,
-    inputValue,
-    allValues,
-  ]);
+  }, [inputValue, allValues]);
 
   const kakaoOnSuccess = async (data) => {
     console.log("카카오 로그인 성공:", data);
