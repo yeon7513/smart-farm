@@ -56,8 +56,10 @@
 
 .content {
   min-height: 300px;
-  padding: 30px 50px;
+  padding: 30px 50px 40px;
   border-bottom: 1px solid #ddd;
+  letter-spacing: 0.5px;
+  white-space: pre-line;
 
   div {
     width: 100%;
