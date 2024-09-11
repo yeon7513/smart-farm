@@ -25,7 +25,7 @@ function DeleteFarm({ farmName, crop, setIsDelete }) {
           <span>
             <PiSealWarningFill />
           </span>
-          <span>삭제 시 주의사항</span>
+          삭제 시 주의사항
         </h3>
         <ul>
           <li>
@@ -50,8 +50,8 @@ function DeleteFarm({ farmName, crop, setIsDelete }) {
         </ul>
       </div>
       <div className={styles.confirm}>
-        <input type="checkbox" onChange={handleCheckDelete} />
-        <label>주의사항을 확인했습니다.</label>
+        <input id="check" type="checkbox" onChange={handleCheckDelete} />
+        <label htmlFor="check">주의사항을 확인했습니다.</label>
       </div>
     </div>
   );
