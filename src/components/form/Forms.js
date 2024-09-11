@@ -2,13 +2,12 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import styles from "./Forms.module.scss";
 import { TextField } from "@mui/material";
-import Container from "../layout/container/Container";
 import SearchAddr from "../search-addr/SearchAddr";
+import CryptoJS from "crypto-js";
 
 function Forms({ title, getDataForm, firebaseError }) {
   const [state, setState] = useState();
   const [farmState, farmSetState] = useState();
-  console.log(state);
   const {
     register,
     handleSubmit,
@@ -19,7 +18,8 @@ function Forms({ title, getDataForm, firebaseError }) {
   });
 
   const onSubmit = ({ email, password, number, name, nickname }) => {
-    getDataForm(email, password, {
+    const changePassword = CryptoJS.SHA256(password).toString();
+    getDataForm(email, changePassword, {
       number: number,
       address: state,
       farmAddress: farmState,
@@ -27,7 +27,6 @@ function Forms({ title, getDataForm, firebaseError }) {
       nickname: nickname,
       deleteYn: "N",
     });
-    // reset();
   };
 
   const userEmail = {
@@ -173,14 +172,7 @@ function Forms({ title, getDataForm, firebaseError }) {
         <h3>농장 주소</h3>
         <SearchAddr getAddr={farmSetState} />
       </div>
-      {/* <div>
-        <input
-          type="text"
-          placeholder="요청사항"
-          autoComplete="off"
-          {...register("required")}
-        />
-      </div> */}
+
       <button>{title}</button>
       {firebaseError && <span className={styles.form_error}>에러메세지</span>}
     </form>

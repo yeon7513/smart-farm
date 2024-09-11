@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import KakaoLogin from "react-kakao-login";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { RiKakaoTalkFill } from "react-icons/ri";
 import { setUser } from "../../store/user/UserSlice";
@@ -12,17 +12,17 @@ import SearchAddr from "../../components/search-addr/SearchAddr";
 import styles from "./Kakaoback.module.scss";
 
 const Kakaoback = () => {
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const { isAuthenticated } = useSelector((state) => state.userSlice);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalOpen, setModalOpen] = useState(false);
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const { register, handleSubmit } = useForm({
     mode: "onChange",
   });
-  // const KakaoKey = localStorage.getItem(
-  //   "kakao_5ae84fc20432f560ee6fc559f3353ede"
-  // );
+
   const [state, setState] = useState({});
   const [myAddress, SetmyAddress] = useState();
   const kakaoClientId = "ab4d55383cde6894b80a6f361124e20b";
@@ -31,28 +31,32 @@ const Kakaoback = () => {
     setState(data);
     const userInfo = await LoginGetDatas("users");
     const Point = userInfo?.filter(
-      (item) => item?.nickname == data.profile?.nickname
+      (item) => item.nickname == data.profile.properties.nickname
     );
     if (Point.length === 0) {
+      setModalOpen(true);
       openModal();
+      if (modalOpen) {
+        navigate("/");
+      }
+    } else {
+      Point.forEach((item) => {
+        dispatch(
+          setUser({
+            email: item.email,
+            token: data.response.refresh_token,
+            uid: data.response.id_token,
+            name: item.name,
+            nick: data.profile.properties.nickname,
+            number: item.number,
+          })
+        );
+      });
+      navigate("/");
     }
-    console.log(state);
-    const token = data.response.refresh_token || "";
-    const uid = data.response.id_token || "";
+    // if(dashboard){
 
-    Point.forEach((item) => {
-      dispatch(
-        setUser({
-          email: item.email,
-          token: token,
-          uid: uid,
-          name: item.name,
-          nick: data.profile.properties.nickname,
-          number: item.number,
-        })
-      );
-    });
-
+    // } else{}
     const idToken = data.response.access_token;
     console.log("엑세스 토큰:", idToken);
   };
@@ -68,7 +72,7 @@ const Kakaoback = () => {
       address: myAddress,
       farmAddress: "",
       name: name,
-      nickname: state.profile.nickname,
+      nickname: state.profile.properties.nickname,
       deleteYn: "N",
     });
     dispatch(
@@ -77,10 +81,12 @@ const Kakaoback = () => {
         token: state?.response.refresh_token,
         uid: state?.response.id_token,
         name: name,
-        nick: state?.profile.nickname,
+        nick: state?.profile.properties.nickname,
         number: number,
       })
     );
+    closeModal();
+    navigate("/");
   };
   return (
     <>
@@ -106,7 +112,7 @@ const Kakaoback = () => {
               fontWeight: "bold", // 텍스트 두께
               padding: "2.5% 4% 2.5% 4%",
               transition: "background-color 0.3s", // 호버 시 색상 변경을 부드럽게
-              boxShadow: "0 0 8px 0 rgba(0, 0, 0, 0.15);",
+              // boxShadow: "0 0 8px 0 rgba(0, 0, 0, 0.15);",
             }}
             onMouseOver={(e) => (e.currentTarget.style.opacity = "0.6")}
             onMouseOut={(e) => (e.currentTarget.style.opacity = "1.0")}
@@ -133,6 +139,7 @@ const Kakaoback = () => {
         isOpen={isModalOpen}
         handleClose={closeModal}
         btnHandler={handleSubmit(onSubmit)}
+        isDisabled={isAuthenticated}
       >
         <form>
           <div className={styles.modaleContainer}>

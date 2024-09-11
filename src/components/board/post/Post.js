@@ -1,8 +1,8 @@
 import React, { useRef, useState } from "react";
 import styles from "./Post.module.scss";
 import { addBoardDatas, uploadImage } from "../../../api/firebase/board";
-import { getUserAuth } from "../../../api/firebase";
-import { ref } from "firebase/storage";
+// import { getUserAuth } from "../../../api/firebase";
+// import { ref } from "firebase/storage";
 import { useNavigate } from "react-router-dom";
 
 const loginUser = JSON.parse(localStorage.getItem("user"));
@@ -18,9 +18,8 @@ const INITIAL_VALUE = {
 function Post({ onClick, onSubmit, category, initialValue = INITIAL_VALUE }) {
   const [values, setValues] = useState(initialValue);
   const [file, setFile] = useState(null);
-  const fileInputRef = useRef(null);
   const navigate = useNavigate();
-  const [isSubmitting, setIsSubmitting] = useState(false); // 로딩 상태
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;

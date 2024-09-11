@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from "react";
-import styles from "./Weather.module.scss";
 import {
   BsCloudSun,
   BsFillCloudsFill,
   BsFillSunriseFill,
   BsSunsetFill,
 } from "react-icons/bs";
+import { IoIosThunderstorm, IoMdRainy } from "react-icons/io";
 import { IoCloudSharp } from "react-icons/io5";
-import { IoMdRainy, IoIosThunderstorm } from "react-icons/io";
-import { WiDayRainMix } from "react-icons/wi";
-import { TbMist } from "react-icons/tb";
 import { PiMoonStarsFill, PiSunDimFill } from "react-icons/pi";
+import { TbMist } from "react-icons/tb";
+import { WiDayRainMix } from "react-icons/wi";
+import styles from "./Weather.module.scss";
 function Weather() {
   const [forecastData, setForecastData] = useState([]); //5일치 데이터저장!
   const [avgForecastData, setAvgForecastData] = useState(); //4일치 데이터

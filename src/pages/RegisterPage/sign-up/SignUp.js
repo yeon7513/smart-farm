@@ -6,7 +6,6 @@ import { createUserWithEmailAndPassword } from "firebase/auth";
 import Form from "./../../../components/form/Form";
 import { setUser } from "../../../store/user/UserSlice";
 import Forms from "../../../components/form/Forms";
-import Container from "../../../components/layout/container/Container";
 
 function SingUp(props) {
   const [firebaseError, setFirebaseError] = useState("");
@@ -15,6 +14,8 @@ function SingUp(props) {
   const navigate = useNavigate();
 
   const handleSignupAndLogin = async (email, password, userInfo) => {
+    console.log(password);
+
     try {
       const userCredential = await createUserWithEmailAndPassword(
         auth,
@@ -28,6 +29,7 @@ function SingUp(props) {
           email: user.email,
           token: user.refreshToken,
           uid: user.uid,
+          number: userInfo.number,
           name: userInfo.name,
           nick: userInfo.nickname,
           address: userInfo.address,
@@ -40,13 +42,11 @@ function SingUp(props) {
     }
   };
   return (
-    <Container>
-      <Forms
-        title={"회원가입"}
-        getDataForm={handleSignupAndLogin}
-        firebaseError={firebaseError}
-      />
-    </Container>
+    <Forms
+      title={"회원가입"}
+      getDataForm={handleSignupAndLogin}
+      firebaseError={firebaseError}
+    />
   );
 }
 export default SingUp;

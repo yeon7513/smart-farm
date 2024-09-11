@@ -11,6 +11,7 @@ function CustomModal({
   isOpen,
   handleClose,
   className,
+  isDisabled,
 }) {
   return (
     <Modal className={styles.Modal} open={isOpen} onClose={handleClose}>
@@ -26,7 +27,11 @@ function CustomModal({
         <div className={styles.content}>{children}</div>
         {btnHandler && (
           <div className={styles.footer}>
-            <button className={styles.outBtn} onClick={btnHandler}>
+            <button
+              className={styles.outBtn}
+              onClick={btnHandler}
+              disabled={isDisabled}
+            >
               {btnName}
             </button>
             <button className={styles.cancelBtn} onClick={handleClose}>

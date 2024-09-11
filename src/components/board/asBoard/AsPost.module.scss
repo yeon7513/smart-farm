@@ -1,0 +1,76 @@
+.container {
+  h3 {
+    width: 100%;
+    border: 1px solid #e2e2e2;
+    padding: 18px;
+    border-radius: 10px;
+    background-color: var(--back-color);
+    font-size: 18px;
+    margin-bottom: 5px;
+  }
+
+  div {
+    margin: 20px auto;
+    display: flex;
+    text-align: center;
+    justify-content: center;
+  }
+
+  p {
+    margin-top: 20px;
+  }
+
+  b {
+    font-size: 14px;
+    margin-left: 50px;
+    color: gray;
+  }
+
+  input,
+  textarea {
+    width: 90%;
+    margin-left: 10px;
+    padding: 20px;
+    font-size: 18px;
+    border: 1px solid #e2e2e2;
+    border-radius: 8px;
+    font-size: 16px;
+  }
+}
+
+.content {
+  textarea {
+    height: 200px;
+    resize: none;
+  }
+}
+
+.file {
+  input {
+    color: gray;
+    font-size: 14px;
+  }
+}
+
+.btn {
+  button {
+    padding: 15px 30px;
+    border-radius: 10px;
+    margin: 0 6px;
+  }
+}
+.sub {
+  background-color: var(--back-color);
+
+  &:hover {
+    background-color: var(--common-color);
+  }
+}
+.delete {
+  background-color: #e3e3e3;
+  color: #fff;
+
+  &:hover {
+    background-color: #d3d3d3;
+  }
+}

@@ -2,7 +2,7 @@ import { signInWithEmailAndPassword } from "firebase/auth";
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { getDatas, getUserAuth } from "../../../api/firebase";
+import { getDatas, getUserAuth, LoginGetDatas } from "../../../api/firebase";
 import Form from "../../../components/form/Form";
 import { setUser } from "../../../store/user/UserSlice";
 
@@ -20,7 +20,7 @@ function SignIn(props) {
         password
       );
       const { user } = userCredential;
-      const userInfo = await getDatas("users");
+      const userInfo = await LoginGetDatas("users");
       const userInfoConfirm = userInfo.filter(
         (item) => item.email === user.email
       );
@@ -48,6 +48,8 @@ function SignIn(props) {
       title={"로그인"}
       getDataForm={handleLogin}
       firebaseError={firebaseError}
+      inputName1={"이메일 입력"}
+      type={"email"}
     />
   );
 }

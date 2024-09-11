@@ -5,8 +5,10 @@ import styles from "./Board.module.scss";
 import Post from "./post/Post";
 import { getUserAuth } from "../../api/firebase";
 import { useSelector } from "react-redux";
+import AsPost from "./asBoard/AsPost";
 
 const PAGE_SIZE = 10;
+const loginUser = JSON.parse(localStorage.getItem("user"));
 
 function Board({ nopost, category, complain }) {
   const navigate = useNavigate();
@@ -14,6 +16,8 @@ function Board({ nopost, category, complain }) {
   const [isWriting, setIsWriting] = useState(false); // 글쓰기 모드 상태
   const [view, setView] = useState([]);
   const { isAuthenticated } = useSelector((state) => state.userSlice);
+
+  const isAsBoard = category === "as";
 
   const totalPages = Math.ceil(view.length / PAGE_SIZE);
   const currentItem = view.slice(
@@ -64,7 +68,11 @@ function Board({ nopost, category, complain }) {
     <div className={styles.container}>
       {/* 글쓰기 모드 */}
       {isWriting ? (
-        <Post onClick={notPosting} onSubmit={addPost} category={category} />
+        isAsBoard ? (
+          <AsPost onClick={notPosting} onSubmit={addPost} />
+        ) : (
+          <Post onClick={notPosting} onSubmit={addPost} category={category} />
+        )
       ) : (
         <>
           <div className={styles.col}>
@@ -112,7 +120,11 @@ function Board({ nopost, category, complain }) {
             </button>
           </div>
           {nopost === false ? (
-            ""
+            loginUser.nick === "관리자" && (
+              <div className={styles.upload}>
+                {<button onClick={handleWriteClick}>글쓰기</button>}
+              </div>
+            )
           ) : (
             <div className={styles.upload}>
               {<button onClick={handleWriteClick}>글쓰기</button>}
