@@ -5,16 +5,19 @@ import styles from "./Board.module.scss";
 import Post from "./post/Post";
 import { getUserAuth } from "../../api/firebase";
 import { useSelector } from "react-redux";
+import AsPost from "./asBoard/AsPost";
 
 const PAGE_SIZE = 10;
+const loginUser = JSON.parse(localStorage.getItem("user"));
 
 function Board({ nopost, category, complain }) {
   const navigate = useNavigate();
   const [currentPage, setCurrentPage] = useState(1);
   const [isWriting, setIsWriting] = useState(false); // 글쓰기 모드 상태
   const [view, setView] = useState([]);
-  const [nickname, setNickname] = useState("");
   const { isAuthenticated } = useSelector((state) => state.userSlice);
+
+  const isAsBoard = category === "as";
 
   const totalPages = Math.ceil(view.length / PAGE_SIZE);
   const currentItem = view.slice(
@@ -48,16 +51,8 @@ function Board({ nopost, category, complain }) {
     setView(data);
   };
 
-  const fetchUserNickname = async () => {
-    const user = await getUserAuth(); // 사용자 정보 가져오는 함수 호출
-    if (user) {
-      setNickname(user.nickname); // 사용자 닉네임 상태 설정
-    }
-  };
-
   useEffect(() => {
     handleLoad();
-    fetchUserNickname();
   }, []);
 
   const handleWriteClick = () => {
@@ -73,7 +68,11 @@ function Board({ nopost, category, complain }) {
     <div className={styles.container}>
       {/* 글쓰기 모드 */}
       {isWriting ? (
-        <Post onClick={notPosting} onSubmit={addPost} category={category} />
+        isAsBoard ? (
+          <AsPost onClick={notPosting} onSubmit={addPost} />
+        ) : (
+          <Post onClick={notPosting} onSubmit={addPost} category={category} />
+        )
       ) : (
         <>
           <div className={styles.col}>
@@ -121,8 +120,10 @@ function Board({ nopost, category, complain }) {
             </button>
           </div>
           {nopost === false ? (
-            nickname === "관리자" && (
-              <button onClick={handleWriteClick}>글쓰기</button>
+            loginUser.nick === "관리자" && (
+              <div className={styles.upload}>
+                {<button onClick={handleWriteClick}>글쓰기</button>}
+              </div>
             )
           ) : (
             <div className={styles.upload}>
