@@ -31,6 +31,7 @@ function RequestForQuote() {
 
     try {
       if (uid) {
+        // 사용자의 결제내역에 데이터를 추가합니다.
         const userDocRef = doc(db, "users", uid);
         const paymentCollectionRef = collection(userDocRef, "payments");
         await addDoc(paymentCollectionRef, requestData);
@@ -74,7 +75,7 @@ function RequestForQuote() {
       사용자가 회원가입 시 사용한 내용을 출력해 다시 입력하지 않습니다. &nbsp;
       5. 비회원은 견적요청 아이디만 알려주고 마이페이지에서 조회할 때 사용(요청
       아이디를 꼭 알고 있어야 됨) */}
-      <RequestForm user={user} onSubmit={setRequestData} />
+      <RequestForm user={user} onSubmit={(data) => setRequestData(data)} />
       {/* Form을 추가할 수 있음 (Redux로 관리하기??) */}
       <div className={styles.btns}>
         <button className={styles.submit} onClick={handleSubmitRequest}>

@@ -33,11 +33,11 @@ function LoginPage() {
     localInfoNum();
   }, [navigate]);
 
-  const { register, handleSubmit } = useForm({
+  const { register, handleSubmit, watch } = useForm({
     mode: "onChange",
   });
+  const [inputValue, setInputValue] = useState(true);
   const { isAuthenticated } = useSelector((state) => state.userSlice);
-  console.log(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const openModal = () => setIsModalOpen(true);
@@ -46,6 +46,26 @@ function LoginPage() {
   const auth = getUserAuth();
   const dispatch = useDispatch();
   const Info = auth.currentUser;
+  const allValues = watch(); // input에 들어가는 내용을 실시간 확인 가능
+  useEffect(() => {
+    if (isModalOpen === true) {
+      if (
+        allValues.number &&
+        allValues.number.length >= 13 &&
+        allValues.name &&
+        allValues.name.length >= 3
+      ) {
+        setInputValue(false);
+      } else if (allValues.number && allValues.number.length < 13) {
+        setInputValue(true);
+      }
+    }
+  }, [
+    // isModalOpen,
+    inputValue,
+    allValues,
+  ]);
+
   const SignInWithGoogle = async () => {
     const provider = new GoogleAuthProvider();
     await signInWithPopup(auth, provider).then(async (result) => {
@@ -54,6 +74,7 @@ function LoginPage() {
       if (Point.length === 0) {
         setModalOpen(true);
         openModal();
+
         if (modalOpen) {
           navigate("/");
         }
@@ -74,9 +95,9 @@ function LoginPage() {
       }
     });
   };
-
   const password = "";
   const onSubmit = ({ name, number }) => {
+    console.log({ ...register("number") });
     joinUser(Info.uid, Info.email, password, {
       number: number,
       address: myAddress,
@@ -152,7 +173,7 @@ function LoginPage() {
         isOpen={isModalOpen}
         handleClose={closeModal}
         btnHandler={handleSubmit(onSubmit)}
-        isDisabled={!isAuthenticated}
+        isDisabled={inputValue}
       >
         <form>
           <div className={styles.modaleContainer}>
@@ -179,7 +200,7 @@ function LoginPage() {
                   },
                 }}
                 type="text"
-                label={"전화번호"}
+                label={"전화번호(- 포함한 13자리)"}
                 {...register("number")}
               />
             </div>

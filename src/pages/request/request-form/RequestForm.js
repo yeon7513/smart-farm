@@ -148,7 +148,11 @@ function RequestForm({ user, onSubmit }) {
           />
         )}
       </div>
-      <Checkout type="submit" description={"결제하기"} onClick={handleSubmit} />
+      <Checkout
+        type="submit"
+        description={"견적 내용 저장"}
+        onClick={handleSubmit}
+      />
     </form>
   );
 }
