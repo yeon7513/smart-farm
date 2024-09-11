@@ -76,9 +76,7 @@ function LoginPage() {
   const [myAddress, SetmyAddress] = useState();
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
-
   const auth = getUserAuth();
-  const [user, loading, error] = useAuthState(auth);
   const dispatch = useDispatch();
   const Info = auth.currentUser;
   const SignInWithGoogle = async () => {
@@ -105,6 +103,7 @@ function LoginPage() {
         );
       });
     });
+    navigate("/");
   };
   //
 
@@ -129,19 +128,23 @@ function LoginPage() {
       })
     );
     closeModal();
+    // if(dashboard){} else{}
   };
 
   // navigator.geolocation.getCurrentPosition((position) => {});
 
   return (
     <Container className={styles.container}>
-      <div>
+      <div className={styles.h1box}>
         <h1>로그인</h1>
       </div>
-      <div>
+      <div className={styles.avatar}>
         <Avatar
-          sx={{ mb: 4, background: "skyblue" }}
-          style={{ width: 80, height: 80 }}
+          sx={{ m: 0, background: "skyblue" }}
+          style={{
+            width: 80,
+            height: 80,
+          }}
         />
       </div>
       <div>
@@ -166,7 +169,6 @@ function LoginPage() {
       <div>
         <p className={styles.searchText}>
           <Link to="/searchEm">E-mail 찾기</Link>
-
           <Link to="/searchPw">비밀번호 찾기</Link>
         </p>
       </div>

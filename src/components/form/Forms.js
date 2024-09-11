@@ -27,7 +27,6 @@ function Forms({ title, getDataForm, firebaseError }) {
       nickname: nickname,
       deleteYn: "N",
     });
-    // reset();
   };
 
   const userEmail = {
@@ -173,14 +172,7 @@ function Forms({ title, getDataForm, firebaseError }) {
         <h3>농장 주소</h3>
         <SearchAddr getAddr={farmSetState} />
       </div>
-      {/* <div>
-        <input
-          type="text"
-          placeholder="요청사항"
-          autoComplete="off"
-          {...register("required")}
-        />
-      </div> */}
+
       <button>{title}</button>
       {firebaseError && <span className={styles.form_error}>에러메세지</span>}
     </form>

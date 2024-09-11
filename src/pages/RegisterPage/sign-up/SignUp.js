@@ -28,6 +28,7 @@ function SingUp(props) {
           email: user.email,
           token: user.refreshToken,
           uid: user.uid,
+          number: userInfo.number,
           name: userInfo.name,
           nick: userInfo.nickname,
           address: userInfo.address,
@@ -40,13 +41,11 @@ function SingUp(props) {
     }
   };
   return (
-    <Container>
-      <Forms
-        title={"회원가입"}
-        getDataForm={handleSignupAndLogin}
-        firebaseError={firebaseError}
-      />
-    </Container>
+    <Forms
+      title={"회원가입"}
+      getDataForm={handleSignupAndLogin}
+      firebaseError={firebaseError}
+    />
   );
 }
 export default SingUp;
