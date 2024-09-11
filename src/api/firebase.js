@@ -150,6 +150,16 @@ export async function getDatas(collectionName, queryOptions) {
     throw error;
   }
 }
+// 함수 수정시 어디서 사용중인지 확인하면 좋을듯요!
+export async function LoginGetDatas(collectionName) {
+  const collect = await collection(db, collectionName);
+  const snapshot = await getDocs(collect);
+  const resultData = snapshot.docs.map((doc) => ({
+    docId: doc.id,
+    ...doc.data(),
+  }));
+  return resultData;
+}
 
 export const getOrder = async (collectionName, orderByField) => {
   const q = query(
