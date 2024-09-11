@@ -1,15 +1,11 @@
 import React, { useEffect, useState } from "react";
 import SearchAddr from "../../../components/search-addr/SearchAddr";
-import { installation } from "../../../lib/requestOption";
 import styles from "./RequestForm.module.scss";
-import RequestOptions from "./request-options/RequestOptions";
 import FacilitiesHorticulture from "../FacilitiesHorticulture";
 import OpenGround from "../OpenGround";
 import Checkout from "../Checkout";
 
 function RequestForm({ user, onSubmit }) {
-  const [date, setDate] = useState("");
-  const [userEmail, setUserEmail] = useState("");
   const [cropType, setCropType] = useState("딸기");
   const [farmAddress, setFarmAddress] = useState("");
   const [facilityType, setFacilityType] = useState("시설원예");
@@ -17,7 +13,6 @@ function RequestForm({ user, onSubmit }) {
   const [farmArea, setFarmArea] = useState("");
   const [farmEquivalent, setFarmEquivalent] = useState("");
   const [additionalOptions, setAdditionalOptions] = useState({});
-  const [uid, setUid] = useState(user?.uid || "");
 
   useEffect(() => {
     if (!user) {
