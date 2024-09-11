@@ -1,5 +1,5 @@
 import React, { useRef, useState } from "react";
-import styles from "./Post.module.scss";
+import styles from "./AsPost.module.scss";
 import { addBoardDatas, uploadImage } from "../../../api/firebase/board";
 // import { getUserAuth } from "../../../api/firebase";
 // import { ref } from "firebase/storage";
@@ -8,16 +8,17 @@ import { useNavigate } from "react-router-dom";
 const loginUser = JSON.parse(localStorage.getItem("user"));
 
 const INITIAL_VALUE = {
-  title: "",
+  title: "🔒 문의합니다.",
   count: 0,
   summary: "",
   createdAt: new Date().toISOString().split("T")[0],
   imgUrl: null,
 };
 
-function Post({ onClick, onSubmit, category, initialValue = INITIAL_VALUE }) {
+function AsPost({ onClick, onSubmit, initialValue = INITIAL_VALUE }) {
   const [values, setValues] = useState(initialValue);
   const [file, setFile] = useState(null);
+  const [postPassword, setPostPassword] = useState(null);
   const navigate = useNavigate();
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -31,6 +32,13 @@ function Post({ onClick, onSubmit, category, initialValue = INITIAL_VALUE }) {
     setFile(imgFile);
   };
 
+  const handlePassword = (e) => {
+    const value = e.target.value;
+    if (value.length <= 4 && !isNaN(value)) {
+      setPostPassword(value);
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -38,19 +46,18 @@ function Post({ onClick, onSubmit, category, initialValue = INITIAL_VALUE }) {
       ...values,
       imgUrl: file || "",
       nick: loginUser.nick,
+      password: postPassword,
     };
 
     try {
       // 게시글 데이터베이스에 추가
-      const result = await addBoardDatas(category, addObj);
+      const result = await addBoardDatas("as", addObj);
       if (result) {
         onSubmit(result);
         setValues(INITIAL_VALUE);
         setFile(null);
-        // if (fileInputRef.current) {
-        //   fileInputRef.current.value = "";
-        // }
-        navigate(`/community/${category}/${result.id}`, { state: result });
+
+        navigate(`/community/as/${result.id}`, { state: result });
       } else {
         alert("게시글 등록에 실패했습니다.");
       }
@@ -70,9 +77,9 @@ function Post({ onClick, onSubmit, category, initialValue = INITIAL_VALUE }) {
           <input
             type="text"
             name="title"
-            placeholder="제목을 입력해주세요."
             value={values.title}
             onChange={handleChange}
+            readOnly
           />
         </div>
         <div className={styles.content}>
@@ -80,7 +87,7 @@ function Post({ onClick, onSubmit, category, initialValue = INITIAL_VALUE }) {
           <textarea
             name="summary"
             placeholder="내용을 입력해주세요."
-            value={values.summary}
+            value={values.summary || ""}
             onChange={handleChange}
           />
         </div>
@@ -91,6 +98,20 @@ function Post({ onClick, onSubmit, category, initialValue = INITIAL_VALUE }) {
         <div className={styles.file}>
           <p>첨부:</p>
           <input type="file" onChange={handleFileChange} />
+        </div>
+        <div className={styles.password}>
+          <p>암호:</p>
+          <input
+            type="number"
+            value={postPassword || ""}
+            onChange={handlePassword}
+          />
+        </div>
+        <div>
+          <b>
+            비밀번호는 숫자 4자리로 설정 가능합니다. 게시글 확인 시 비밀번호
+            입력이 필요하오니, 설정한 비밀번호를 기억해주세요.
+          </b>
         </div>
 
         <div className={styles.btn}>
@@ -112,4 +133,4 @@ function Post({ onClick, onSubmit, category, initialValue = INITIAL_VALUE }) {
   );
 }
 
-export default Post;
+export default AsPost;

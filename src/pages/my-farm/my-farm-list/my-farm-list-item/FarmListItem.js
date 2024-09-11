@@ -1,21 +1,38 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { updateCommonInfo } from '../../../../store/dashboard/dashboardSlice';
+import {
+  deactivationDashboard,
+  updateCommonInfo,
+} from '../../../../store/dashboard/dashboardSlice';
 import CustomModal from './../../../../components/modal/CustomModal';
 import styles from './FarmListItem.module.scss';
+import DeleteFarm from './delete-farm/DeleteFarm';
+import EditFarm from './edit-farm/EditFarm';
 
 function FarmListItem({ farmData }) {
   const { crop, farmName, docId } = farmData;
   const [isOpen, setIsOpen] = useState(false);
+  const [isDelete, setIsDelete] = useState(false);
   const [editedFarmName, setEditedFarmName] = useState(farmName);
   const [editedCrop, setEditedCrop] = useState(crop);
+  const [modalType, setModalType] = useState(null);
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const handleEdit = () => {
+  const handleEditOpen = () => {
     setIsOpen(true);
+    setModalType('edit');
+  };
+  const handleDeleteOpen = () => {
+    setIsOpen(true);
+    setModalType('delete');
+  };
+  const handleClose = () => {
+    setIsOpen(false);
+    setModalType(null);
+    setIsDelete(false);
   };
 
   const handleSave = () => {
@@ -36,6 +53,21 @@ function FarmListItem({ farmData }) {
     setIsOpen(false);
   };
 
+  const handleDeactivation = (e) => {
+    const params = {
+      collectionName: 'dashboard',
+      docId: docId,
+      fieldName: 'deleteYn',
+    };
+
+    if (isDelete) {
+      dispatch(deactivationDashboard(params));
+      setIsOpen(false);
+    }
+
+    setIsDelete(false);
+  };
+
   return (
     <li className={styles.item}>
       <div className={styles.name}>
@@ -47,43 +79,38 @@ function FarmListItem({ farmData }) {
         >
           관리
         </button>
-        <button onClick={handleEdit}>수정</button>
-        <button className={styles.deleteBtn}>삭제</button>
+        <button onClick={handleEditOpen}>수정</button>
+        <button className={styles.deleteBtn} onClick={handleDeleteOpen}>
+          삭제
+        </button>
       </div>
       {isOpen && (
         <CustomModal
           isOpen={isOpen}
-          handleClose={() => setIsOpen(false)}
-          btnHandler={handleSave}
-          btnName={'수정'}
-          title={`${farmName} 정보 수정`}
+          handleClose={handleClose}
+          btnHandler={modalType === 'delete' ? handleDeactivation : handleSave}
+          btnName={modalType === 'delete' ? '삭제' : '수정'}
+          title={
+            modalType === 'delete'
+              ? `${farmName} 삭제`
+              : `${farmName} 정보 수정`
+          }
+          isDisabled={modalType === 'delete' ? !isDelete : false}
         >
-          <div className={styles.edit}>
-            <div className={styles.editContent}>
-              <label htmlFor="farmName">농장 이름</label>
-              <input
-                type="text"
-                id="farmName"
-                value={editedFarmName}
-                onChange={(e) => setEditedFarmName(e.target.value)}
-              />
-            </div>
-            <div className={styles.editContent}>
-              <label htmlFor="crop">작물</label>
-              <select
-                id="crop"
-                value={editedCrop}
-                onChange={(e) => setEditedCrop(e.target.value)}
-              >
-                <option value="딸기">딸기</option>
-                <option value="토마토">토마토</option>
-                <option value="방울토마토">방울토마토</option>
-                <option value="블루베리">블루베리</option>
-                <option value="파프리카">파프리카</option>
-                <option value="참외">참외</option>
-              </select>
-            </div>
-          </div>
+          {modalType === 'delete' ? (
+            <DeleteFarm
+              farmName={farmName}
+              crop={crop}
+              setIsDelete={setIsDelete}
+            />
+          ) : (
+            <EditFarm
+              editedFarmName={editedFarmName}
+              editedCrop={editedCrop}
+              setEditedFarmName={setEditedFarmName}
+              setEditedCrop={setEditedCrop}
+            />
+          )}
         </CustomModal>
       )}
     </li>

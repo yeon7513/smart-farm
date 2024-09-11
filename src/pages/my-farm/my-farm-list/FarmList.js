@@ -10,9 +10,15 @@ function FarmList() {
   const dispatch = useDispatch();
 
   const userEmail = JSON.parse(localStorage.getItem('user')).email;
+
   const list = userEmail.includes('admin')
     ? commonInfo
-    : commonInfo.filter((list) => list.userId === userEmail);
+    : commonInfo.filter(
+        (list) =>
+          list.userId === userEmail &&
+          list.useYn === 'Y' &&
+          list.deleteYn === 'N'
+      );
 
   useEffect(() => {
     dispatch(fetchCommonInfo('dashboard'));
@@ -20,7 +26,7 @@ function FarmList() {
 
   return (
     <>
-      <h2 className={styles.title}>내 농장 리스트</h2>
+      <h2 className={styles.title}>농장 리스트</h2>
       <ul className={styles.list}>
         {list.map((item) => (
           <FarmListItem key={item.docId} farmData={item} />
