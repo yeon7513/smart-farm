@@ -25,37 +25,35 @@ const Kakaoback = () => {
   // );
   const [state, setState] = useState({});
   const [myAddress, SetmyAddress] = useState();
+  const [modalOpen, setModalOpen] = useState(false);
   const kakaoClientId = "ab4d55383cde6894b80a6f361124e20b";
   const kakaoOnSuccess = async (data) => {
     console.log("카카오 로그인 성공:", data);
     setState(data);
     const userInfo = await LoginGetDatas("users");
     const Point = userInfo?.filter(
-      (item) => item?.nickname == data.profile?.nickname
+      (item) => item.nickname == data.profile.properties.nickname
     );
     if (Point.length === 0) {
       openModal();
     }
-    console.log(state);
-    const token = data.response.refresh_token || "";
-    const uid = data.response.id_token || "";
-
     Point.forEach((item) => {
       dispatch(
         setUser({
           email: item.email,
-          token: token,
-          uid: uid,
+          token: data.response.refresh_token,
+          uid: data.response.id_token,
           name: item.name,
           nick: data.profile.properties.nickname,
           number: item.number,
         })
       );
     });
+
     // if(dashboard){
 
     // } else{}
-    navigate("/");
+    // navigate("/");
     const idToken = data.response.access_token;
     console.log("엑세스 토큰:", idToken);
   };
@@ -71,7 +69,7 @@ const Kakaoback = () => {
       address: myAddress,
       farmAddress: "",
       name: name,
-      nickname: state.profile.nickname,
+      nickname: state.profile.properties.nickname,
       deleteYn: "N",
     });
     dispatch(
@@ -80,7 +78,7 @@ const Kakaoback = () => {
         token: state?.response.refresh_token,
         uid: state?.response.id_token,
         name: name,
-        nick: state?.profile.nickname,
+        nick: state?.profile.properties.nickname,
         number: number,
       })
     );
