@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import KakaoLogin from "react-kakao-login";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { RiKakaoTalkFill } from "react-icons/ri";
 import { setUser } from "../../store/user/UserSlice";
@@ -12,20 +12,19 @@ import SearchAddr from "../../components/search-addr/SearchAddr";
 import styles from "./Kakaoback.module.scss";
 
 const Kakaoback = () => {
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const { isAuthenticated } = useSelector((state) => state.userSlice);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalOpen, setModalOpen] = useState(false);
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const { register, handleSubmit } = useForm({
     mode: "onChange",
   });
-  // const KakaoKey = localStorage.getItem(
-  //   "kakao_5ae84fc20432f560ee6fc559f3353ede"
-  // );
+
   const [state, setState] = useState({});
   const [myAddress, SetmyAddress] = useState();
-  const [modalOpen, setModalOpen] = useState(false);
   const kakaoClientId = "ab4d55383cde6894b80a6f361124e20b";
   const kakaoOnSuccess = async (data) => {
     console.log("카카오 로그인 성공:", data);
@@ -35,25 +34,29 @@ const Kakaoback = () => {
       (item) => item.nickname == data.profile.properties.nickname
     );
     if (Point.length === 0) {
+      setModalOpen(true);
       openModal();
+      if (modalOpen) {
+        navigate("/");
+      }
+    } else {
+      Point.forEach((item) => {
+        dispatch(
+          setUser({
+            email: item.email,
+            token: data.response.refresh_token,
+            uid: data.response.id_token,
+            name: item.name,
+            nick: data.profile.properties.nickname,
+            number: item.number,
+          })
+        );
+      });
+      navigate("/");
     }
-    Point.forEach((item) => {
-      dispatch(
-        setUser({
-          email: item.email,
-          token: data.response.refresh_token,
-          uid: data.response.id_token,
-          name: item.name,
-          nick: data.profile.properties.nickname,
-          number: item.number,
-        })
-      );
-    });
-
     // if(dashboard){
 
     // } else{}
-    // navigate("/");
     const idToken = data.response.access_token;
     console.log("엑세스 토큰:", idToken);
   };
@@ -82,6 +85,8 @@ const Kakaoback = () => {
         number: number,
       })
     );
+    closeModal();
+    navigate("/");
   };
   return (
     <>
@@ -134,6 +139,7 @@ const Kakaoback = () => {
         isOpen={isModalOpen}
         handleClose={closeModal}
         btnHandler={handleSubmit(onSubmit)}
+        isDisabled={isAuthenticated}
       >
         <form>
           <div className={styles.modaleContainer}>
