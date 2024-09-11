@@ -13,6 +13,12 @@ function RequestForm({ user, onSubmit }) {
   const [farmArea, setFarmArea] = useState(0);
   const [farmEquivalent, setFarmEquivalent] = useState(0);
 
+  useEffect(() => {
+    if (user) {
+      setFarmAddr(user.farmAddress || "");
+    }
+  }, [user]);
+
   const handleGetAddr = (addr) => {
     setFarmAddr(addr);
   };
@@ -37,13 +43,9 @@ function RequestForm({ user, onSubmit }) {
     });
   };
 
-  const today = new Date();
-  const year = today.getFullYear();
-  const month = String(today.getMonth() + 1).padStart(2, "0");
-  const day = String(today.getDate()).padStart(2, "0");
-  const createdAt = `${year}${month}${day}${new Date().getTime()}`;
+  const handleSubmit = (e) => {
+    e.preventDefault();
 
-  useEffect(() => {
     const dataObj = {
       farmAddress: farmAddr,
       cropType: cropType,
@@ -54,29 +56,13 @@ function RequestForm({ user, onSubmit }) {
       farmArea: farmArea,
       farmName: farmName,
       farmEquivalent: farmEquivalent,
-      createdAt: createdAt,
     };
+    console.log(dataObj);
     onSubmit(dataObj);
-  }, [
-    farmAddr,
-    cropType,
-    option,
-    additionalOptions,
-    farmArea,
-    farmName,
-    farmEquivalent,
-    createdAt,
-    onSubmit,
-  ]);
-
-  // if (farmArea <= 0)
-  //   console.log("농장 면적을 유효한 값으로 입력하여 주시기 바랍니다.");
-
-  // if (farmEquivalent <= 0)
-  //   console.log("농장 동 수를 선택하여 주시기 바랍니다.");
+  };
 
   return (
-    <form className={styles.requestForm}>
+    <form className={styles.requestForm} onSubmit={handleSubmit}>
       <div className={styles.user}>
         <h3>신청인</h3>
         <p>{user.name}</p>
@@ -147,8 +133,8 @@ function RequestForm({ user, onSubmit }) {
           onCheckboxChange={handleCheckboxChange}
         />
       </div>
-      <button>결제</button>
-      <button>추가 의뢰</button>
+      <button type="submit">결제</button>
+      <button type="button">추가 의뢰</button>
     </form>
   );
 }
