@@ -142,7 +142,6 @@ function Faq() {
       [`liked.${id}`]: !faqData.find((item) => item.id === id).liked,
     });
 
-    console.log("좋아요가 반영되었습니다.");
     dispatch(setFaqData(updatedData));
   };
 

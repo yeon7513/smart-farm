@@ -1,4 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { deactivationData } from '../../api/dashboard';
 import { getDatas, updateDatas } from '../../api/firebase';
 
 const initialState = {
@@ -49,6 +50,14 @@ const dashboardSlice = createSlice({
         });
         state.isLoading = false;
         state.error = null;
+      })
+      // 대시보드 삭제 (비활성화)
+      .addCase(deactivationDashboard.fulfilled, (state, action) => {
+        state.commonInfo = state.commonInfo.map((info) => {
+          return info.docId === action.payload.docId ? action.payload : info;
+        });
+        state.isLoading = false;
+        state.error = null;
       });
   },
 });
@@ -82,6 +91,18 @@ export const updateCommonInfo = createAsyncThunk(
   async ({ collectionName, docId, updateObj }) => {
     try {
       const result = await updateDatas(collectionName, docId, updateObj);
+      return result;
+    } catch (error) {
+      return error;
+    }
+  }
+);
+
+export const deactivationDashboard = createAsyncThunk(
+  'dashboard/deactivationDashboard',
+  async ({ collectionName, docId, fieldName }) => {
+    try {
+      const result = await deactivationData(collectionName, docId, fieldName);
       return result;
     } catch (error) {
       return error;

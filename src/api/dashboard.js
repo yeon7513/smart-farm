@@ -1,17 +1,19 @@
-import { getDocs } from 'firebase/firestore';
-import { getCollection } from './firebase';
+import { doc, getDoc, updateDoc } from 'firebase/firestore';
+import { db } from './firebase';
 
-export async function getDatas(collectionName) {
+export async function deactivationData(collectionName, docId, fieldName) {
   try {
-    const collect = getCollection(collectionName);
-    const snapshot = await getDocs(collect);
-    const returnData = snapshot.docs.map((doc) => ({
-      docId: doc.id,
-      ...doc.data(),
-    }));
-    return returnData;
+    const itemDoc = await doc(db, collectionName, docId);
+    await updateDoc(itemDoc, {
+      [fieldName]: 'Y',
+    });
+
+    const snapshot = await getDoc(itemDoc);
+    const result = { docId: snapshot.id, ...snapshot.data() };
+
+    return result;
   } catch (error) {
-    console.error('Error getting documents: ', error);
+    console.error('Fail to Deactivation: ', error);
     throw error;
   }
 }

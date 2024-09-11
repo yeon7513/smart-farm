@@ -3,42 +3,48 @@ import SearchAddr from "../../../components/search-addr/SearchAddr";
 import { installation } from "../../../lib/requestOption";
 import styles from "./RequestForm.module.scss";
 import RequestOptions from "./request-options/RequestOptions";
+import FacilitiesHorticulture from "../FacilitiesHorticulture";
+import OpenGround from "../OpenGround";
+import Checkout from "../Checkout";
 
 function RequestForm({ user, onSubmit }) {
-  const [farmAddr, setFarmAddr] = useState("");
-  const [option, setOption] = useState("facility");
-  const [farmName, setFarmName] = useState("");
+  const [date, setDate] = useState("");
+  const [userEmail, setUserEmail] = useState("");
   const [cropType, setCropType] = useState("딸기");
+  const [farmAddress, setFarmAddress] = useState("");
+  const [facilityType, setFacilityType] = useState("시설원예");
+  const [farmName, setFarmName] = useState("");
+  const [farmArea, setFarmArea] = useState("");
+  const [farmEquivalent, setFarmEquivalent] = useState("");
   const [additionalOptions, setAdditionalOptions] = useState({});
-  const [farmArea, setFarmArea] = useState(0);
-  const [farmEquivalent, setFarmEquivalent] = useState(0);
+  const [uid, setUid] = useState(user?.uid || "");
 
   useEffect(() => {
-    if (user) {
-      setFarmAddr(user.farmAddress || "");
+    if (!user) {
+      setFarmAddress(user.farmAddress || "");
     }
   }, [user]);
 
   const handleGetAddr = (addr) => {
-    setFarmAddr(addr);
+    setFarmAddress(addr);
   };
 
-  const handleOptionChange = (e) => {
-    setOption(e.target.value);
-    console.log(e.target.value);
+  const handleFacilityTypeChange = (e) => {
+    setFacilityType(e.target.value);
+    setAdditionalOptions({});
   };
 
-  const handleCheckboxChange = (e) => {
-    const { id, checked } = e.target;
-
+  const handleAdditionalOptionsChange = (e) => {
+    const value = e.target.value;
     setAdditionalOptions((prevOptions) => {
+      // 옵션이 이미 존재하는 경우 제거하고, 그렇지 않으면 추가합니다.
       const updatedOptions = { ...prevOptions };
-
-      if (checked) {
-        updatedOptions[id] = true;
+      if (updatedOptions[value]) {
+        delete updatedOptions[value];
       } else {
-        delete updatedOptions[id];
+        updatedOptions[value] = value;
       }
+      console.log(updatedOptions);
       return updatedOptions;
     });
   };
@@ -46,16 +52,23 @@ function RequestForm({ user, onSubmit }) {
   const handleSubmit = (e) => {
     e.preventDefault();
 
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = String(today.getMonth() + 1).padStart(2, "0");
+    const day = String(today.getDate()).padStart(2, "0");
+    const createdAt = `${year}${month}${day}${new Date().getTime()}`;
+
     const dataObj = {
-      farmAddress: farmAddr,
+      farmAddress: farmAddress,
       cropType: cropType,
-      option: option,
+      facilityType: facilityType,
       additionalOptions: Object.keys(additionalOptions).filter(
         (key) => additionalOptions[key]
       ),
       farmArea: farmArea,
       farmName: farmName,
       farmEquivalent: farmEquivalent,
+      createdAt: createdAt,
     };
     console.log(dataObj);
     onSubmit(dataObj);
@@ -96,9 +109,9 @@ function RequestForm({ user, onSubmit }) {
       </div>
       <div>
         <h3>시설원예 혹은 노지 선택</h3>
-        <select onChange={handleOptionChange}>
-          <option value="facility">시설원예</option>
-          <option value="openGround">노지</option>
+        <select value={facilityType} onChange={handleFacilityTypeChange}>
+          <option value="시설원예">시설원예</option>
+          <option value="노지">노지</option>
         </select>
       </div>
       <div className={styles.farmArea}>
@@ -128,13 +141,19 @@ function RequestForm({ user, onSubmit }) {
       </div>
       <div>
         <h3>부가 옵션 선택</h3>
-        <RequestOptions
-          option={installation[option]}
-          onCheckboxChange={handleCheckboxChange}
-        />
+        {facilityType === "시설원예" ? (
+          <FacilitiesHorticulture
+            additionalOptions={additionalOptions}
+            handleAdditionalOptionsChange={handleAdditionalOptionsChange}
+          />
+        ) : (
+          <OpenGround
+            additionalOptions={additionalOptions}
+            handleAdditionalOptionsChange={handleAdditionalOptionsChange}
+          />
+        )}
       </div>
-      <button type="submit">결제</button>
-      <button type="button">추가 의뢰</button>
+      <Checkout type="submit" description={"결제하기"} onClick={handleSubmit} />
     </form>
   );
 }
