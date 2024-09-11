@@ -11,7 +11,7 @@ function CustomModal({
   isOpen,
   handleClose,
   className,
-  isDisabled = false,
+  isDisabled,
 }) {
   return (
     <Modal className={styles.Modal} open={isOpen} onClose={handleClose}>
