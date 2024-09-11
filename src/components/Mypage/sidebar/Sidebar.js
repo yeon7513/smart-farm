@@ -1,8 +1,20 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { deleteDatas } from "../../../api/firebase";
 import { useComponentContext } from "../../../context/ComponentContext";
 import styles from "./sidebar.module.scss";
+import { useNavigate } from "react-router-dom";
 function Sidebar(props) {
+  const navigate = useNavigate();
+  useEffect(() => {
+    const localInfoNum = async () => {
+      const localInfo = localStorage.getItem("user");
+      if (localInfo === null) {
+        // if(dashboard)
+        navigate(-1);
+      }
+    };
+    localInfoNum();
+  }, [navigate]);
   const { currComp, setCurrComp } = useComponentContext();
   const handleDelete = async (docId) => {
     // alert("정말 회원 탈퇴 하시겠습니까?");
@@ -16,6 +28,11 @@ function Sidebar(props) {
       return false;
     }
   };
+  const localInfo = localStorage.getItem("user");
+  if (!localInfo == null) {
+    // if(dashboard)
+    navigate("/");
+  }
   return (
     <div className={styles.container}>
       <ul className={styles.items}>

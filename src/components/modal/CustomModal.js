@@ -1,7 +1,7 @@
-import { Modal } from '@mui/material';
-import cn from 'classnames';
-import React from 'react';
-import styles from './customModal.module.scss';
+import { Modal } from "@mui/material";
+import cn from "classnames";
+import React from "react";
+import styles from "./customModal.module.scss";
 
 function CustomModal({
   title,

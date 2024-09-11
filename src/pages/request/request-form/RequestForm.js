@@ -8,6 +8,7 @@ function RequestForm({ user, onSubmit }) {
   const [farmAddr, setFarmAddr] = useState("");
   const [option, setOption] = useState("facility");
   const [farmName, setFarmName] = useState("");
+  const [cropType, setCropType] = useState("딸기");
   const [additionalOptions, setAdditionalOptions] = useState({});
   const [farmArea, setFarmArea] = useState(0);
   const [farmEquivalent, setFarmEquivalent] = useState(0);
@@ -23,16 +24,29 @@ function RequestForm({ user, onSubmit }) {
 
   const handleCheckboxChange = (e) => {
     const { id, checked } = e.target;
-    setAdditionalOptions((prevOptions) =>
-      checked
-        ? { ...prevOptions, [id]: checked }
-        : prevOptions.filter((option) => option !== id)
-    );
+
+    setAdditionalOptions((prevOptions) => {
+      const updatedOptions = { ...prevOptions };
+
+      if (checked) {
+        updatedOptions[id] = true;
+      } else {
+        delete updatedOptions[id];
+      }
+      return updatedOptions;
+    });
   };
+
+  const today = new Date();
+  const year = today.getFullYear();
+  const month = String(today.getMonth() + 1).padStart(2, "0");
+  const day = String(today.getDate()).padStart(2, "0");
+  const createdAt = `${year}${month}${day}${new Date().getTime()}`;
 
   useEffect(() => {
     const dataObj = {
       farmAddress: farmAddr,
+      cropType: cropType,
       option: option,
       additionalOptions: Object.keys(additionalOptions).filter(
         (key) => additionalOptions[key]
@@ -40,17 +54,26 @@ function RequestForm({ user, onSubmit }) {
       farmArea: farmArea,
       farmName: farmName,
       farmEquivalent: farmEquivalent,
+      createdAt: createdAt,
     };
     onSubmit(dataObj);
   }, [
     farmAddr,
+    cropType,
     option,
     additionalOptions,
     farmArea,
     farmName,
     farmEquivalent,
+    createdAt,
     onSubmit,
   ]);
+
+  // if (farmArea <= 0)
+  //   console.log("농장 면적을 유효한 값으로 입력하여 주시기 바랍니다.");
+
+  // if (farmEquivalent <= 0)
+  //   console.log("농장 동 수를 선택하여 주시기 바랍니다.");
 
   return (
     <form className={styles.requestForm}>
@@ -75,6 +98,16 @@ function RequestForm({ user, onSubmit }) {
           onChange={(e) => setFarmName(e.target.value)}
         />
       </div>
+      <div className={styles.cropType}>
+        <h3>작물 종류</h3>
+        <select value={cropType} onChange={(e) => setCropType(e.target.value)}>
+          <option value="딸기">딸기</option>
+          <option value="블루베리">블루베리</option>
+          <option value="파프리카">파프리카</option>
+          <option value="토마토">토마토</option>
+          <option value="참외">참외</option>
+        </select>
+      </div>
       <div>
         <h3>시설원예 혹은 노지 선택</h3>
         <select onChange={handleOptionChange}>
@@ -95,18 +128,15 @@ function RequestForm({ user, onSubmit }) {
       <div className={styles.farmEquivalent}>
         <h3>농장 동 수</h3>
         <select
-          type="number"
+          value={farmEquivalent}
           onChange={(e) => setFarmEquivalent(Number(e.target.value))}
         >
           <option value="0">값을 선택하여 주시기 바랍니다.</option>
-          <option value="1">1</option>
-          <option value="2">2</option>
-          <option value="3">3</option>
-          <option value="4">4</option>
-          <option value="5">5</option>
-          <option value="6">6</option>
-          <option value="7">7</option>
-          <option value="8">8</option>
+          {Array.from({ length: 8 }, (_, i) => i + 1).map((num) => (
+            <option key={num} value={num}>
+              {num}
+            </option>
+          ))}
         </select>
         동
       </div>

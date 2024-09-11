@@ -37,11 +37,16 @@ const options = {
       label: "농약 살포기",
     },
   ],
-  "기상 모니터링": [
+  모니터링: [
     {
       id: "weatherStation",
       value: "기상 스테이션",
       label: "기상 스테이션",
+    },
+    {
+      id: "CCTV",
+      value: "CCTV",
+      label: "CCTV",
     },
   ],
   "지상용 드론": [
@@ -58,15 +63,33 @@ const options = {
   ],
   트랙터: [
     {
-      id: "xmforxj1",
-      value: "트랙터1",
-      label: "트랙터1",
+      id: "MT7",
+      value: "MT7",
+      label: "MT7",
     },
     {
-      id: "txmforxj2",
-      value: "트랙터2",
-      label: "트랙터2",
+      id: "MT5",
+      value: "MT5",
+      label: "MT5",
     },
+    {
+      id: "MT4",
+      value: "MT4",
+      label: "MT4",
+    },
+  ],
+  "기타 장비": [
+    {
+      id: "insectRepellect",
+      value: "해충 퇴치기",
+      label: "해충 퇴치기",
+    },
+    {
+      id: "pestDigitalTrap",
+      value: "해충 디지털 트랩",
+      label: "해충 디지털 트랩",
+    },
+    { id: "birdRepellent", value: "조류 퇴치기", label: "조류 퇴치기" },
   ],
 };
 
