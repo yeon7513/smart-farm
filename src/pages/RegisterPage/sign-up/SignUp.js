@@ -14,6 +14,8 @@ function SingUp(props) {
   const navigate = useNavigate();
 
   const handleSignupAndLogin = async (email, password, userInfo) => {
+    console.log(password);
+
     try {
       const userCredential = await createUserWithEmailAndPassword(
         auth,

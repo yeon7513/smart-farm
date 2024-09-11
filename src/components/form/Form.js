@@ -2,6 +2,7 @@ import React from "react";
 import styles from "./Form.module.scss";
 import { useForm } from "react-hook-form";
 import { Box, Button, FormControl, TextField } from "@mui/material";
+import CryptoJS from "crypto-js";
 
 function Form({ title, getDataForm, firebaseError, inputName1, type2, type }) {
   const {
@@ -13,7 +14,8 @@ function Form({ title, getDataForm, firebaseError, inputName1, type2, type }) {
     mode: "onChange",
   });
   const onSubmit = ({ name, password }) => {
-    getDataForm(name, password);
+    const changePassword2 = CryptoJS.SHA256(password).toString();
+    getDataForm(name, changePassword2);
     reset();
   };
   const userEmail = {

@@ -9,7 +9,6 @@ import CryptoJS from "crypto-js";
 function Forms({ title, getDataForm, firebaseError }) {
   const [state, setState] = useState();
   const [farmState, farmSetState] = useState();
-  console.log(state);
   const {
     register,
     handleSubmit,
@@ -20,7 +19,8 @@ function Forms({ title, getDataForm, firebaseError }) {
   });
 
   const onSubmit = ({ email, password, number, name, nickname }) => {
-    getDataForm(email, password, {
+    const changePassword = CryptoJS.SHA256(password).toString();
+    getDataForm(email, changePassword, {
       number: number,
       address: state,
       farmAddress: farmState,
