@@ -1,9 +1,22 @@
 .container {
   display: flex;
   flex-direction: column;
-  padding: 5% 0 5% 0;
-
-  div {
+  padding: 3% 0 3% 0;
+  .h1box {
+    margin: 0;
+    h1 {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  }
+  .avatar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 1.5%;
+  }
+  > div {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -17,7 +30,7 @@
   }
   h1 {
     font-weight: 500;
-    margin-bottom: 50px;
+    margin-bottom: 1%;
   }
   a {
     &:hover {
@@ -37,6 +50,7 @@
     display: flex;
     flex-direction: row;
     justify-content: center;
+    margin: 0;
   }
   .googleBt {
     display: flex;

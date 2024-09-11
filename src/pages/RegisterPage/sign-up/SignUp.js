@@ -40,13 +40,11 @@ function SingUp(props) {
     }
   };
   return (
-    <Container>
-      <Forms
-        title={"회원가입"}
-        getDataForm={handleSignupAndLogin}
-        firebaseError={firebaseError}
-      />
-    </Container>
+    <Forms
+      title={"회원가입"}
+      getDataForm={handleSignupAndLogin}
+      firebaseError={firebaseError}
+    />
   );
 }
 export default SingUp;

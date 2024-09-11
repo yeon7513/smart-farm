@@ -3,13 +3,7 @@ import styles from "./Form.module.scss";
 import { useForm } from "react-hook-form";
 import { Box, Button, FormControl, TextField } from "@mui/material";
 
-function Form({
-  title,
-  getDataForm,
-  firebaseError,
-  placeholder1,
-  placeholder2,
-}) {
+function Form({ title, getDataForm, firebaseError, inputName1 }) {
   const {
     register,
     handleSubmit,
@@ -45,7 +39,7 @@ function Form({
           },
         }}
         type="email"
-        label={"이메일 주소"}
+        label={inputName1}
         autoComplete="off"
         {...register("email", userEmail)}
       />

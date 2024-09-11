@@ -1,18 +1,18 @@
 import React from "react";
 import Form from "../../../components/form/Form";
+import Container from "../../../components/layout/container/Container";
+import styles from "./SearchEm.module.scss";
 
 function SearchEm(props) {
-  const url =
-    "/desease?apiKey=2024fae68820b6a8f539fd5def6a6dfd02c1&serviceCode=SVC41&serviceType=AA003&displayCount=20&cropName=토마토";
-  fetch(url)
-    .then((response) => response.json())
-    .then((result) => {
-      console.log(result);
-    });
   return (
-    <div>
-      <Form placeholder1={"닉네임"} placeholder2={"비밀번호"} />
-    </div>
+    <Container className={styles.container}>
+      <div className={styles.title}>
+        <h1>이메일 찾기</h1>
+      </div>
+      <Form title={"이메일 찾기"} inputName1={"이름"} />
+
+      <div>ㅎㅇ</div>
+    </Container>
   );
 }
 

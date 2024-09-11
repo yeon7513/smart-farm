@@ -52,7 +52,10 @@ const Kakaoback = () => {
         })
       );
     });
+    // if(dashboard){
 
+    // } else{}
+    navigate("/");
     const idToken = data.response.access_token;
     console.log("엑세스 토큰:", idToken);
   };
