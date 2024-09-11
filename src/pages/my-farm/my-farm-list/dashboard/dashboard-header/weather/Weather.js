@@ -27,11 +27,10 @@ function Weather() {
     icon: '',
     description: '',
   });
-  // utc시간을 로컬 시간대로 변환하는 함수
+  // UTC 시간을 현지 시간으로 변환하는 함수
   const convertToLocalTime = (timeStamp) => {
-    const date = new Date(timeStamp * 1000);
-    const localDate = new Date(date.getTime() + 9 * 60 * 60 * 1000);
-    return localDate.toLocaleTimeString([], {
+    const date = new Date(timeStamp * 1000); // UNIX timestamp를 밀리초로 변환
+    return date.toLocaleTimeString('ko-KR', {
       hour: '2-digit',
       minute: '2-digit',
       hour12: true,

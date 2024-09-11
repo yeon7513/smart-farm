@@ -1,4 +1,5 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { LoginGetDatas } from "../../api/firebase";
 
 const initialState = localStorage.getItem("user")
   ? JSON.parse(localStorage.getItem("user"))
@@ -11,6 +12,8 @@ const initialState = localStorage.getItem("user")
       number: "",
       address: "",
       isAuthenticated: false,
+      items: [],
+      isLoading: "false",
     };
 const userSlice = createSlice({
   name: "user",
@@ -41,7 +44,26 @@ const userSlice = createSlice({
       localStorage.removeItem("user");
     },
   },
+  extraReducers: (builder) => {
+    builder.addCase(fetchItems.fulfilled, (state, action) => {
+      state.isLoading = "true";
+      state.items = action.payload;
+    });
+  },
 });
 
+const fetchItems = createAsyncThunk(
+  "items/fetchAllItems",
+  async ({ collectionName }) => {
+    try {
+      const resultData = await LoginGetDatas(collectionName);
+      return resultData;
+    } catch (error) {
+      return "Error" + error;
+    }
+  }
+);
+
 export default userSlice.reducer;
+export { fetchItems };
 export const { setUser, removeUser } = userSlice.actions;
