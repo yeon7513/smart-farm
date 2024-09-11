@@ -6,12 +6,15 @@ import { useSelector } from 'react-redux';
 import { getOrder } from '../../api/firebase';
 
 
-function ChatRoom({ handleClose }) {
+function ChatRoom() {
   const [selectedAnswer, setSelectedAnswer] = useState(''); // 질문 선택 여부 관리
   const [isChatOptionsSelected, setisChatOptionsSelected] = useState(false); // 화면 전환 여부 관리
   const [sortedFaqData, setSortedFaqData] = useState([]); // 상태로 정렬된 FAQ 데이터를 관리
  const [isExtraQuestionSelected, setIsExtraQuestionSelected] = useState(false); // 다섯 번째 질문 선택 여부 관리
- 
+ const [isChatRoomVisible, setIsChatRoomVisible] = useState(true); // 챗룸의 가시성 상태
+
+
+
   const faqData = useSelector((state) => state.faqData);
 
   // FAQ 데이터를 Firestore에서 'likes' 필드를 기준으로 내림차순 정렬해서 가져오기
@@ -39,22 +42,23 @@ const extraQuestion = {
 //  chatOptionsData 화면에서 사용할 추가 질문과 답변
 const chatOptionsData = [
   { id: 'option1', question: '회원 정보', answerKey: 'answer1' },
-  { id: 'option2', question: '결제', answerKey: 'answer2' },
+  { id: 'option2', question: '결제/환불', answerKey: 'answer2' },
   { id: 'option3', question: '출장 서비스', answerKey: 'answer3' },
   { id: 'option4', question: '견적서', answerKey: 'answer4' },
   { id: 'option5', question: '스마트팜 시스템', answerKey: 'answer5' },
-  { id: 'option6', question: '기타', answerKey: 'answer6' },
+  { id: 'option6', question: 'A/S', answerKey: 'answer5' },
+  { id: 'option7', question: '기타', answerKey: 'answer7' },
 
 ]
 
 
   const answers = {
-    answer1: '회원 정보에 대한 상담원과 연결 중입니다. 잠시만 기다려 주세요...',
-    answer2: '결제에 대한 상담원과 연결 중입니다. 잠시만 기다려 주세요...',
-    answer3: '출장 서비스에 대한 상담원과 연결 중입니다. 잠시만 기다려 주세요..',
-    answer4: '견적서에 대한 상담원과 연결 중입니다. 잠시만 기다려 주세요...',
-    answer5: '스마트팜 시스템에 대한 상담원과 연결 중입니다. 잠시만 기다려 주세요...',
-    answer6: '기타 사항에 대한 상담원과 연결 중입니다. 잠시만 기다려 주세요...',
+    answer1: '요청하신 회원 정보 상담을 위해 채팅 상담원과 연결 중입니다. 잠시만 기다려 주세요...',
+    answer2: '요청하신 결제/환불 상담을 위해  채팅 상담원과 연결 중입니다. 잠시만 기다려 주세요...',
+    answer3: '요청하신 출장 서비스 상담을 위해  채팅 상담원과 연결 중입니다. 잠시만 기다려 주세요...',
+    answer4: '요청하신 견적서 상담을 위해  채팅 상담원과 연결 중입니다. 잠시만 기다려 주세요...',
+    answer5: '요청하신 A/S 상담을 위해  채팅 상담원과 연결 중입니다. 잠시만 기다려 주세요...',
+    answer7: '요청하신 기타 사항 상담을 위해  채팅 상담원과 연결 중입니다. 잠시만 기다려 주세요...',
   };
 
 
@@ -64,6 +68,7 @@ const chatOptionsData = [
 
   const handleChatButtonClick = (id) => {
     setisChatOptionsSelected(true); // "채팅 상담원 연결하기" 버튼 클릭 시 선택지 화면으로 전환
+    setSelectedAnswer(''); // 선택된 답변 초기화
   };
 
   const handleBackButtonClick = () => {
@@ -77,6 +82,7 @@ const chatOptionsData = [
     if (id === 'extral') { // 다섯 번째 질문을 선택한 경우 (올바른 ID로 수정)
       setIsExtraQuestionSelected(true); // 추가 질문 화면으로 전환
       setisChatOptionsSelected(true); 
+      setSelectedAnswer('');
     } else {
       const selectedFaq = [...sortedFaqData, extraQuestion].find((faq) => faq.id === id); // 클릭된 FAQ를 찾음
   
@@ -99,6 +105,12 @@ const chatOptionsData = [
       console.warn('선택한 옵션에 답변이 없습니다.', selectedOption);
     }
   }
+
+  const handleClose = () => {
+    setIsChatRoomVisible(false); // 챗룸 닫기 
+  }
+
+if(!isChatRoomVisible) return null; // 챗룸이 보이지 않도록 설정 
 
   return (
     <div className={styles.wrapper}>
@@ -165,8 +177,17 @@ const chatOptionsData = [
   )}
 </div>
 
-      <div className={styles.footer}>
-        채팅 상담원 연결 시간은 오전 9시부터 오후 6시까지 운영되오니 많은 참고 부탁드립니다.😊
+<div className={`${styles.footer} ${isExtraQuestionSelected ? styles.footerDetailOption : ''}`}>
+      {isExtraQuestionSelected ? (
+        <>
+     버튼 클릭 시 상담이 신속히 연결되며, 상담 대기자가 많을 경우 시간이 다소 소요될 수 있습니다.
+        </>
+      ) : (
+      <>
+          채팅 상담원 연결 시간은 오전 9시부터 오후 6시까지 운영되오니 많은 참고 부탁드립니다.😊 
+        </>
+      )}
+       
       </div>
       {/* 풋터의 영역 */}
     </div>
