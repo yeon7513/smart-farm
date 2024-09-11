@@ -1,4 +1,64 @@
 .requestForm {
   margin: 24px 0;
-  outline: 1px dotted red;
+  padding: 30px;
+
+  h3 {
+    margin-right: 10px;
+    font-size: 20px;
+  }
+
+  div {
+    margin-bottom: 10px;
+  }
+}
+
+.userContainer {
+  border: 2px solid var(--hover-color);
+  padding: 20px;
+  border-radius: 8px;
+}
+
+.user {
+  margin-bottom: 20px;
+  div {
+    display: flex;
+  }
+}
+
+.farmName {
+  display: flex;
+}
+
+.farm {
+  padding: 10px;
+
+  input {
+    border-bottom: 1px solid var(--hover-color);
+  }
+}
+
+.cropType {
+  div {
+    display: flex;
+  }
+
+  select {
+    border: none;
+    border-bottom: 1px solid var(--hover-color);
+    font-size: 18px;
+  }
+}
+
+.option {
+  display: flex;
+
+  div {
+    // margin: 10px;
+  }
+}
+
+.btn {
+  button {
+    padding: 20px;
+  }
 }

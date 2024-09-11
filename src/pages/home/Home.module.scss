@@ -177,8 +177,19 @@
   align-items: center;
   gap: 100px;
 }
+
 .map {
   overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 400px;
+  height: 600px;
+  > svg {
+    width: 600px;
+    height: 800px;
+    transform: scale(130%);
+  }
 }
 
 .community {

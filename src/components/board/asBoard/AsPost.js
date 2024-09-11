@@ -119,7 +119,7 @@ function AsPost({ onClick, onSubmit, initialValue = INITIAL_VALUE }) {
             <button
               type="submit"
               className={styles.sub}
-              disabled={isSubmitting}
+              disabled={isSubmitting || !values.summary || !postPassword}
             >
               작성완료
             </button>
