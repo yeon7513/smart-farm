@@ -1,9 +1,47 @@
 import React from 'react';
+import Card from '../../../../components/card/Card';
+import styles from './MemberList.module.scss';
 
-function MemberList({ data }) {
+function MemberList({ data, setIsOpen, setUserDetail }) {
+  const handleOpenDetail = () => {
+    setIsOpen(true);
+    setUserDetail(data);
+  };
+
   return (
-    <li>
-      <div></div>
+    <li onClick={handleOpenDetail}>
+      <Card className={styles.card}>
+        <h3 className={styles.id}>[FM{data.createdAt}]</h3>
+        <div className={styles.content}>
+          <img
+            className={styles.profile}
+            src={
+              data.photoUrl.length === 0
+                ? './img/profile.webp'
+                : data.photoUrl[0]
+            }
+            alt=""
+          />
+          <ul className={styles.info}>
+            <li>
+              <span className={styles.label}>이름</span>
+              <span>{data.name}</span>
+            </li>
+            <li>
+              <span className={styles.label}>이메일</span>
+              <span>{data.email}</span>
+            </li>
+            <li>
+              <span className={styles.label}>닉네임</span>
+              <span>{data.nickname}</span>
+            </li>
+            <li>
+              <span className={styles.label}>전화번호</span>
+              <span>{data.number}</span>
+            </li>
+          </ul>
+        </div>
+      </Card>
     </li>
   );
 }
