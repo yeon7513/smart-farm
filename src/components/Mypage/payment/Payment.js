@@ -53,6 +53,7 @@ const Payment = () => {
                     <th>이름</th>
                     <th>연락처</th>
                     <th>주소</th>
+                    <th>농장 이름</th>
                     <th>농장 주소</th>
                     <th>작물 종류</th>
                     <th>농장 종류</th>
@@ -68,6 +69,7 @@ const Payment = () => {
                       <td>{item.name}</td>
                       <td>{item.number}</td>
                       <td>{item.address}</td>
+                      <td>{item.farmName}</td>
                       <td>{item.farmAddress}</td>
                       <td>{item.cropType}</td>
                       <td>{item.facilityType}</td>
