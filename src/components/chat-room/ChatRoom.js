@@ -7,7 +7,7 @@ import { getOrder } from "../../api/firebase";
 
 function ChatRoom() {
   const [selectedAnswer, setSelectedAnswer] = useState(''); 
-  // 질문 선택 여부 관리
+ // 질문 선택 여부 관리
   const [isChatOptionsSelected, setisChatOptionsSelected] = useState(false); 
   // 화면 전환 여부 관리
   const [sortedFaqData, setSortedFaqData] = useState([]); 
@@ -18,11 +18,6 @@ function ChatRoom() {
   // 챗룸의 가시성 상태
 
 
-  const [selectedAnswer, setSelectedAnswer] = useState(""); // 질문 선택 여부 관리
-  const [isChatOptionsSelected, setisChatOptionsSelected] = useState(false); // 화면 전환 여부 관리
-  const [sortedFaqData, setSortedFaqData] = useState([]); // 상태로 정렬된 FAQ 데이터를 관리
-  const [isExtraQuestionSelected, setIsExtraQuestionSelected] = useState(false); // 다섯 번째 질문 선택 여부 관리
-  const [isChatRoomVisible, setIsChatRoomVisible] = useState(true); // 챗룸의 가시성 상태
 
   const faqData = useSelector((state) => state.faqData);
 
