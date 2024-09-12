@@ -7,23 +7,53 @@ function DashboardNav() {
 
   return (
     <ul className={styles.nav}>
-      <li className={currComp === 'Briefing' ? styles.active : ''}>
-        <button onClick={() => setCurrComp('Briefing')}>메인</button>
+      <li>
+        <button
+          className={currComp === 'Briefing' ? styles.active : ''}
+          onClick={() => setCurrComp('Briefing')}
+        >
+          메인
+        </button>
       </li>
-      <li className={currComp === 'Monitoring' ? styles.active : ''}>
-        <button onClick={() => setCurrComp('Monitoring')}>모니터링</button>
+      <li>
+        <button
+          className={currComp === 'Monitoring' ? styles.active : ''}
+          onClick={() => setCurrComp('Monitoring')}
+        >
+          모니터링
+        </button>
       </li>
-      <li className={currComp === 'ControlBox' ? styles.active : ''}>
-        <button onClick={() => setCurrComp('ControlBox')}>컨트롤</button>
+      <li>
+        <button
+          className={currComp === 'ControlBox' ? styles.active : ''}
+          onClick={() => setCurrComp('ControlBox')}
+        >
+          컨트롤
+        </button>
       </li>
-      <li className={currComp === 'Sensor' ? styles.active : ''}>
-        <button onClick={() => setCurrComp('Sensor')}>센서</button>
+      <li>
+        <button
+          className={currComp === 'Sensor' ? styles.active : ''}
+          onClick={() => setCurrComp('Sensor')}
+        >
+          센서
+        </button>
       </li>
-      <li className={currComp === 'Alert' ? styles.active : ''}>
-        <button onClick={() => setCurrComp('Alert')}>알림 내역</button>
+      <li>
+        <button
+          className={currComp === 'Alert' ? styles.active : ''}
+          onClick={() => setCurrComp('Alert')}
+        >
+          알림 내역
+        </button>
       </li>
-      <li className={currComp === 'Report' ? styles.active : ''}>
-        <button onClick={() => setCurrComp('Report')}>보고서</button>
+      <li>
+        <button
+          className={currComp === 'Report' ? styles.active : ''}
+          onClick={() => setCurrComp('Report')}
+        >
+          보고서
+        </button>
       </li>
     </ul>
   );

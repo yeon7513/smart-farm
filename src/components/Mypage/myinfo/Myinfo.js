@@ -35,15 +35,15 @@ function Myinfo(props) {
     });
     console.log(SameName);
     if (SameName.length === 0) {
-      // alert("중복된게 없습니다.  테스트로 alert좀 썼어요!");
-      const SameNameChange = items.find((item) => {
-        return item.name == user.name;
-      });
-      const updateObj = {
-        name: inputValue,
-      };
+      alert("중복된게 없습니다.  테스트로 alert좀 썼어요!");
+      // const SameNameChange = items.find((item) => {
+      //   return item.name == user.name;
+      // });
+      // const updateObj = {
+      //   name: inputValue,
+      // };
       // const { docId } = SameNameChange;
-      console.log(SameNameChange);
+      // console.log(SameNameChange);
       // await updateDatas("users", SameNameChange.do, updateObj);
     } else {
       alert("중복된 이름입니다. 다시 입력해주세요. 테스트로 alert좀 썼어요!");
