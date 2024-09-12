@@ -1,8 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import styles from "./Form.module.scss";
 import { useForm } from "react-hook-form";
 import { Box, Button, FormControl, TextField } from "@mui/material";
-import CryptoJS from "crypto-js";
 
 function Form({
   title,
@@ -21,9 +20,24 @@ function Form({
   } = useForm({
     mode: "onChange",
   });
+  // const [secretPassword, setSecretPassword] = useState();
+
+  // const CryptoJS = require("crypto-js");
+  // // 암호화에 사용할 키를 정의합니다. 실제로는 더 안전한 키 관리가 필요합니다.
+  // const encryptionKey = "mySecretKey123"; // 비밀번호를 안전하게 관리하기 위해 실제 환경에서는 더욱 복잡한 키를 사용해야 합니다.
+  // const iv = CryptoJS.lib.WordArray.random(128 / 8); // 초기화 벡터 (IV) 생성
+  // // 비밀번호를 암호화합니다.
+  // function encryptPassword(password) {
+  //   const encrypted = CryptoJS.AES.encrypt(password, encryptionKey, {
+  //     iv: iv,
+  //   }).toString();
+  //   setSecretPassword(encrypted);
+  //   return encrypted;
+  // }
+
   const onSubmit = ({ name, password, email }) => {
-    const changePassword = CryptoJS.SHA256(password).toString();
-    getDataForm(name, changePassword, email);
+    // encryptPassword(password);
+    getDataForm(name, password, email);
     reset();
   };
   const userEmail = {

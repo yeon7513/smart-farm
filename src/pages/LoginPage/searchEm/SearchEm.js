@@ -34,8 +34,9 @@ function SearchEm(props) {
         getDataForm={handleInputNum}
         title={"이메일 찾기"}
         inputName1={"이름"}
+        inputName2={"비밀번호 입력"}
         type={"text"}
-        type2={"name"}
+        type2={"password"}
       />
       <TextField
         className={styles.answer}
