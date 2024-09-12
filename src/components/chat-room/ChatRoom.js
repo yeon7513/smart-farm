@@ -7,17 +7,23 @@ import { getOrder } from '../../api/firebase';
 
 
 function ChatRoom() {
-  const [selectedAnswer, setSelectedAnswer] = useState(''); // 질문 선택 여부 관리
-  const [isChatOptionsSelected, setisChatOptionsSelected] = useState(false); // 화면 전환 여부 관리
-  const [sortedFaqData, setSortedFaqData] = useState([]); // 상태로 정렬된 FAQ 데이터를 관리
- const [isExtraQuestionSelected, setIsExtraQuestionSelected] = useState(false); // 다섯 번째 질문 선택 여부 관리
- const [isChatRoomVisible, setIsChatRoomVisible] = useState(true); // 챗룸의 가시성 상태
+  const [selectedAnswer, setSelectedAnswer] = useState(''); 
+  // 질문 선택 여부 관리
+  const [isChatOptionsSelected, setisChatOptionsSelected] = useState(false); 
+  // 화면 전환 여부 관리
+  const [sortedFaqData, setSortedFaqData] = useState([]); 
+  // 상태로 정렬된 FAQ 데이터를 관리
+ const [isExtraQuestionSelected, setIsExtraQuestionSelected] = useState(false); 
+ // 다섯 번째 질문 선택 여부 관리
+ const [isChatRoomVisible, setIsChatRoomVisible] = useState(true);
+  // 챗룸의 가시성 상태
 
 
 
   const faqData = useSelector((state) => state.faqData);
 
-  // FAQ 데이터를 Firestore에서 'likes' 필드를 기준으로 내림차순 정렬해서 가져오기
+
+// FAQ 데이터를 Firestore에서 'likes' 필드를 기준으로 내림차순 정렬해서 가져오기
 useEffect(() => {
   const fetchSortedFaqData = async () => {
    try {
