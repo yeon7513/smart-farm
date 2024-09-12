@@ -1,7 +1,6 @@
 import React from "react";
-import styles from "./Checkout.module.scss";
 
-function Checkout({ type, description, onClick }) {
+function Checkout({ className, type, description, onClick }) {
   const handleClick = (e) => {
     if (onClick) {
       onClick(e);
@@ -9,7 +8,7 @@ function Checkout({ type, description, onClick }) {
   };
   return (
     <div>
-      <button className={styles.submit} type={type} onClick={handleClick}>
+      <button className={className} type={type} onClick={handleClick}>
         {description}
       </button>
     </div>
