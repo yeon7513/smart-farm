@@ -13,7 +13,8 @@ import { WiDayRainMix } from "react-icons/wi";
 import styles from "./Weather.module.scss";
 function Weather() {
   const [forecastData, setForecastData] = useState([]); //5일치 데이터저장!
-  const [avgForecastData, setAvgForecastData] = useState(); //4일치 데이터
+  const [todayData, setTodayData] = useState([]); //8개데이터
+  const [avgForecastData, setAvgForecastData] = useState([]); //4일치 데이터
   const [weatherData, setWeatherData] = useState({
     temperature: null, //온도
     humidity: null, //습도
@@ -28,6 +29,7 @@ function Weather() {
     description: "",
   });
   const [selectedDay, setSelectedDay] = useState(null); //선택한 날짜를 추적하기위한
+  const [groupedForecastData, setGroupedForecastData] = useState();
 
   // UTC 시간을 현지 시간으로 변환하는 함수
   const convertToLocalTime = (timeStamp) => {
@@ -77,17 +79,27 @@ function Weather() {
   const groupForecastData = (data) => {
     const grouped = [];
 
-    for (let i = 0; i < data.length; i += 8) {
-      const group = data.slice(i, i + 8);
-      grouped.push(group);
-      console.log(group);
-    }
+    // 처음에 들어가는 8개는 그냥 순서대로 8개 push
+    grouped.push(data.slice(0, 8));
 
+    // 그다음 들어가는 8개는 날짜(내일꺼부터)별로 묶어서 8개 push
+
+    // 오늘이 몇일인지 알아야함
+    const today = new Date().getTime();
+    const yyyyMMdd = convertTime(today / 1000);
+    const todayDate = yyyyMMdd.split(" ")[0];
+    console.log(todayDate);
+
+    // 반복문을 통해서 걸러내야하는데 오늘날짜인거 빼고,
+    const filterdList = data.filter((item) => !item.dt_txt.includes(todayDate));
+    for (let i = 0; i < filterdList.length; i += 8) {
+      if (grouped.length == 5) break;
+      const group = filterdList.slice(i, i + 8);
+      grouped.push(group);
+    }
+    console.log(grouped);
     return grouped;
   };
-
-  const groupedForecastData = groupForecastData(forecastData);
-  console.log(groupedForecastData);
 
   const handleWeather = async (lat, lon) => {
     const APIkey = "3bd960b544d8e85c3f24e4e2d139794c";
@@ -103,7 +115,11 @@ function Weather() {
           dt: item.dt * 1000,
           dt_txt: convertTime(item.dt),
         }));
+        console.log(changedList);
         setForecastData(changedList);
+        const groupedData = groupForecastData(changedList);
+        setGroupedForecastData(groupedData);
+        setTodayData(groupedData[0]);
         const result = aggregateForecastData(changedList);
         setAvgForecastData(result);
       })
@@ -160,6 +176,9 @@ function Weather() {
           entry.main.temp
         );
         grouped[date].weatherIcon = entry.weather[0].icon;
+        // grouped[date].precipitationChance = entry.pop
+        //   ? Math.round(entry.pop * 100)
+        //   : grouped[date].precipitationChance;
       }
     });
 
@@ -172,89 +191,6 @@ function Weather() {
         maxTemp: grouped[date].maxTemp,
         weatherIcon: grouped[date].weatherIcon,
       }));
-  };
-
-  const getNextFourDaysData = () => {
-    const daysOfWeek = [
-      "일요일",
-      "월요일",
-      "화요일",
-      "수요일",
-      "목요일",
-      "금요일",
-      "토요일",
-    ];
-    const today = new Date().toISOString().split("T")[0];
-
-    return Object.keys(getNextFourDaysForecast(forecastData))
-      .slice(0, 4)
-      .map((date) => {
-        const dateObj = new Date(date);
-        const dayOfWeek = daysOfWeek[dateObj.getDay()];
-        return {
-          dayOfWeek,
-          minTemp: Math.round(
-            getNextFourDaysForecast(forecastData)[date].minTemp
-          ),
-          maxTemp: Math.round(
-            getNextFourDaysForecast(forecastData)[date].maxTemp
-          ),
-          precipitationChance: Math.round(
-            getNextFourDaysForecast(forecastData)[date].precipitationChance
-          ),
-          weatherIcon: getNextFourDaysForecast(forecastData)[date].weatherIcon,
-        };
-      });
-  };
-
-  const getNextFourDaysForecast = (data) => {
-    const daysOfWeek = [
-      "일요일",
-      "월요일",
-      "화요일",
-      "수요일",
-      "목요일",
-      "금요일",
-      "토요일",
-    ];
-    const today = new Date().toISOString().split("T")[0]; //오늘날짜
-
-    return data
-      .filter((forecast) => {
-        const forecastData = new Date(forecast.dt_txt)
-          .toISOString()
-          .split("T")[0];
-        return forecastData > today;
-      })
-      .reduce((result, entry) => {
-        const dateObj = new Date(entry.dt_txt);
-        const date = dateObj.toISOString().split("T")[0];
-        const dayOfWeek = daysOfWeek[dateObj.getDay()]; //요일 정보추출
-
-        if (!result[date]) {
-          result[date] = {
-            dayOfWeek,
-            minTemp: entry.main.temp,
-            maxTemp: entry.main.temp,
-            weatherIcon: entry.weather[0].icon,
-            precipitationChance: entry.pop ? Math.round(entry.pop * 100) : 0,
-          };
-        } else {
-          result[date].minTemp = Math.min(
-            result[date].minTemp,
-            entry.main.temp
-          );
-          result[date].maxTemp = Math.max(
-            result[date].maxTemp,
-            entry.main.temp
-          );
-          result[date].weatherIcon = entry.weather[0].icon;
-          result[date].precipitationChance = entry.pop
-            ? Math.round(entry.pop * 100)
-            : result[date].precipitationChance; // 강수 확률 업데이트
-        }
-        return result;
-      }, {});
   };
 
   // 날씨 설명에 따른 아이콘을 반환하는 함수
@@ -295,18 +231,6 @@ function Weather() {
     }
   };
 
-  // 8개의 날씨 데이터를 반환
-  const getNextEightForecasts = (forecastData) => {
-    return forecastData.slice(0, 8).map((forecast) => ({
-      ...forecast,
-      main: {
-        ...forecast.main,
-        temp: Math.round(forecast.main.temp), //온도 반올림
-      },
-      pop: forecast.pop ? Math.round(forecast.pop * 100) : 0,
-    }));
-  };
-
   // 시간 포맷팅함수
   const formatTime = (dateString) => {
     const date = new Date(dateString);
@@ -321,20 +245,13 @@ function Weather() {
     return `${period} ${formattedHours}시 `;
   };
 
-  // //특정날짜의 날씨 데이터를 가져오는 함수
-  // const getSelectedDayForecast = (date) => {
-  //   const filtered = forecastData.filter((forecast) => {
-  //     const forecastDate = new Date(forecast.dt_txt)
-  //       .toISOString()
-  //       .split("T")[0];
-  //     return forecastDate === date;
-  //   });
-  //   return filtered;
-  // };
+  const handleClick = (index) => {
+    setTodayData(groupedForecastData[index]);
+  };
 
   return (
     <div className={styles.weather}>
-      <div className={styles.today}>
+      <div className={styles.today} onClick={() => handleClick(0)}>
         <h2>대전</h2>
 
         <div className={styles.weather_icon}>
@@ -389,25 +306,29 @@ function Weather() {
         <div className={styles.mr_today}>
           {/* 특정 날짜 (예: 오늘) 날씨 예보 렌더링 */}
 
-          {getNextEightForecasts(forecastData, selectedDay) // 첫 8개의 데이터를 가져옴
-            .map((forecast, index) => (
-              <div key={index} className={styles.forecast_item}>
-                <div>{formatTime(forecast.dt_txt)}</div> {/* 시간 표시 */}
-                <div>{getWeatherIcon(forecast.weather[0].icon, 70)}</div>
-                {forecast.pop > 0 && (
-                  <div className={styles.precipitation}>
-                    {`${Math.round(forecast.pop)} %`}
-                  </div>
-                )}
-                <div className={styles.title}>{forecast.main.temp}°C</div>
-              </div>
-            ))}
+          {/* // 첫 8개의 데이터를 가져옴  */}
+          {todayData.map((forecast, index) => (
+            <div key={index} className={styles.forecast_item}>
+              <div>{formatTime(forecast.dt_txt)}</div> {/* 시간 표시 */}
+              <div>{getWeatherIcon(forecast.weather[0].icon, 70)}</div>
+              {forecast.pop > 0 && (
+                <div className={styles.precipitation}>
+                  {`${Math.round(forecast.pop)} %`}
+                </div>
+              )}
+              <div className={styles.title}>{forecast.main.temp}°C</div>
+            </div>
+          ))}
         </div>
         <div>
           <div className={styles.next_day}>
             {/* 4일치 날씨 예보 렌더링 */}
-            {getNextFourDaysData().map((day, index) => (
-              <div key={index} className={styles.forecast_item}>
+            {avgForecastData.map((day, index) => (
+              <div
+                key={index}
+                className={styles.forecast_item}
+                onClick={() => handleClick(index + 1)}
+              >
                 <div>{day.dayOfWeek}</div>
                 <div>{getWeatherIcon(day.weatherIcon, 58)}</div>
                 {day.precipitationChance > 0 && ( // 강수확률이 0보다 클 때만 표시
