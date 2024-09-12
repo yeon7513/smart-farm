@@ -1,11 +1,14 @@
 import { saveAs } from 'file-saver';
 import { collection, doc, getDocs } from 'firebase/firestore';
 import React, { useEffect, useState } from 'react';
+import { TbPencilSearch } from 'react-icons/tb';
+import { BeatLoader } from 'react-spinners';
 import * as XLSX from 'xlsx';
 import { db } from '../../../api/firebase';
+import SearchBox from '../../../components/search_box/SearchBox';
 import styles from './QuotationsCare.module.scss';
 
-function QuotationsCare(props) {
+function QuotationsCare() {
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState([]);
 
@@ -78,9 +81,13 @@ function QuotationsCare(props) {
   return (
     <div className={styles.quotations}>
       {loading ? (
-        <p>Loading...</p>
+        <BeatLoader color="#9a9a9a" />
       ) : (
         <>
+          <SearchBox
+            name={<TbPencilSearch />}
+            placeholder={'견적 의뢰서 검색'}
+          />
           <button onClick={exportToExcel}>견적 내역 다운로드</button>
         </>
       )}
