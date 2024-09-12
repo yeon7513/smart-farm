@@ -31,16 +31,6 @@ function Weather() {
   const [selectedDay, setSelectedDay] = useState(null); //선택한 날짜를 추적하기위한
   const [groupedForecastData, setGroupedForecastData] = useState();
 
-  // UTC 시간을 현지 시간으로 변환하는 함수
-  const convertToLocalTime = (timeStamp) => {
-    const date = new Date(timeStamp * 1000); // UNIX timestamp를 밀리초로 변환
-    return date.toLocaleTimeString("ko-KR", {
-      hour: "2-digit",
-      minute: "2-digit",
-      hour12: true,
-    });
-  };
-
   const getWindDirection = (degrees) => {
     const directions = [
       "북풍",
@@ -63,7 +53,7 @@ function Weather() {
     const index = Math.floor((degrees + 11.25) / 22.5);
     return directions[index % 16];
   };
-
+  //5일데이터의 날짜의 시간 변경
   const convertTime = (dtTxt) => {
     const date = new Date(dtTxt * 1000);
     const offset = date.getTimezoneOffset() * 60000; //ms단위라 60000곱해줌
@@ -73,6 +63,16 @@ function Weather() {
     const timeArr = splitArr[1].split(".");
 
     return `${splitArr[0]} ${timeArr[0]}`;
+  };
+  // 일몰,일출의 시간 변경
+  const convertLolTime = (timestamp) => {
+    const date = new Date(timestamp * 1000);
+    const options = {
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: true,
+    };
+    return date.toLocaleTimeString("ko-KR", options);
   };
 
   //40개의 데이터를 {5:[8]}로 만듬
@@ -136,8 +136,8 @@ function Weather() {
           solarRadiation: 655, // 이 값은 API에서 받아오는 값이 없으니 가정
           windSpeed: json.wind.speed, //풍속
           windDirection: json.wind.deg, //바람방향
-          sunrise: json.sys.sunrise, // 일출 시간
-          sunset: json.sys.sunset, // 일몰 시간
+          sunrise: convertLolTime(json.sys.sunrise), //일출
+          sunset: convertLolTime(json.sys.sunset), //일몰
           icon: json.weather[0].icon,
           description: json.weather[0].description,
         });
@@ -153,6 +153,21 @@ function Weather() {
     handleWeather(latitude, longitude);
   }, []);
 
+  //요일변환
+  const getDayOfWeek = (dateString) => {
+    const daysOfWeek = [
+      "일요일",
+      "월요일",
+      "화요일",
+      "수요일",
+      "목요일",
+      "금요일",
+      "토요일",
+    ];
+    const date = new Date(dateString);
+    return daysOfWeek[date.getDay()];
+  };
+
   // // 2번째 라인에서 4일날씨의 데이터..?!
   const aggregateForecastData = (data) => {
     const grouped = {};
@@ -165,87 +180,101 @@ function Weather() {
           minTemp: Math.round(entry.main.temp),
           maxTemp: Math.round(entry.main.temp),
           weatherIcon: entry.weather[0].icon,
+          precipitationChance: entry.pop ? Math.round(entry.pop * 100) : 0,
         };
       } else {
         grouped[date].minTemp = Math.min(
           grouped[date].minTemp,
-          entry.main.temp
+          Math.round(entry.main.temp)
         );
+
         grouped[date].maxTemp = Math.max(
           grouped[date].maxTemp,
-          entry.main.temp
+          Math.round(entry.main.temp)
         );
         grouped[date].weatherIcon = entry.weather[0].icon;
-        // grouped[date].precipitationChance = entry.pop
-        //   ? Math.round(entry.pop * 100)
-        //   : grouped[date].precipitationChance;
+        grouped[date].precipitationChance = Math.max(
+          grouped[date].precipitationChance,
+          entry.pop ? Math.round(entry.pop * 100) : 0
+        );
       }
     });
+    // 오늘 날짜 제외
+    const today = new Date().toISOString().split("T")[0];
+    const filteredDates = Object.keys(grouped).filter((date) => date !== today);
+
+    //날짜 오름차순 정렬
+    filteredDates.sort();
 
     // 최근4일치 데이터만 반환
-    return Object.keys(grouped)
-      .slice(0, 4)
-      .map((date) => ({
-        date,
-        minTemp: grouped[date].minTemp,
-        maxTemp: grouped[date].maxTemp,
-        weatherIcon: grouped[date].weatherIcon,
-      }));
+    return filteredDates.slice(0, 4).map((date) => ({
+      dayOfWeek: getDayOfWeek(date), // 요일로 변환
+      minTemp: grouped[date].minTemp,
+      maxTemp: grouped[date].maxTemp,
+      weatherIcon: grouped[date].weatherIcon,
+      precipitationChance: grouped[date].precipitationChance,
+    }));
   };
 
   // 날씨 설명에 따른 아이콘을 반환하는 함수
-  const getWeatherIcon = (icon, size = 60) => {
+  const getWeatherIcon = (icon, size = 60, isSelected = false) => {
+    const color = isSelected
+      ? "#669900"
+      : icon.includes("d")
+      ? "Coral"
+      : "#48484a";
     switch (icon) {
       case "01d": // 맑은 날 (낮)
-        return <PiSunDimFill size={size} color="Coral" />;
+        return <PiSunDimFill size={size} color={color} />;
       case "01n": // 맑은 날 (밤)
-        return <PiMoonStarsFill size={size} color="#48484A" />;
+        return <PiMoonStarsFill size={size} color={color} />;
 
       case "02d": // 약간의 구름 (낮)
-        return <BsCloudSun size={size} color="Coral" />;
+        return <BsCloudSun size={size} color={color} />;
       case "02n": // 약간의 구름 (밤)
-        return <BsCloudSun size={size} color="#48484A" />;
+        return <BsCloudSun size={size} color={color} />;
       case "03d": // 비가 내리는 구름 (낮)
       case "03n": // 비가 내리는 구름 (밤)
-        return <IoCloudSharp size={size} color="#48484A" />;
+        return <IoCloudSharp size={size} color={color} />;
 
       case "09d": // 구름 비(낮)
       case "09n": // 구름 비(밤)
-        return <IoMdRainy size={size} color="#48484A" />;
+        return <IoMdRainy size={size} color={color} />;
       case "10d": // 해&빛 (낮)
-        return <WiDayRainMix size={size} color="Coral" />;
+        return <WiDayRainMix size={size} color={color} />;
       case "10n": // 해&빛 (밤)
-        return <WiDayRainMix size={size} color="#48484A" />;
+        return <WiDayRainMix size={size} color={color} />;
       case "11d": // 천둥 (낮)
       case "11n": // 천둥 (밤)
-        return <IoIosThunderstorm size={size} color="#48484A" />;
+        return <IoIosThunderstorm size={size} color={color} />;
       case "13d": // 눈 (낮)
       case "13n": // 눈 (밤)
-        return <TbMist size={size} color="#48484A" />;
+        return <TbMist size={size} color={color} />;
       case "50d": // 안개 (낮)
       case "50n": // 안개 (밤)
-        return <IoIosThunderstorm size={size} color="#48484A" />;
+        return <IoIosThunderstorm size={size} color={color} />;
 
       default:
-        return <BsFillCloudsFill size={size} color="#48484A" />; // 기본값: 흐린 날씨 아이콘
+        return <BsFillCloudsFill size={size} color={color} />; // 기본값: 흐린 날씨 아이콘
     }
   };
 
   // 시간 포맷팅함수
   const formatTime = (dateString) => {
     const date = new Date(dateString);
-    // const localDate = new Date(date.getTime() + 9 * 60 * 60 * 1000);
     const hours = date.getHours();
-    // const minutes = localDate.getMinutes();
-
     const period = hours >= 12 ? "오후" : "오전";
     const formattedHours = hours % 12 || 12; // 12시간 형식으로 변환
-    // const formattedMinutes = minutes < 10 ? `0${minutes}` : minutes;
 
     return `${period} ${formattedHours}시 `;
   };
 
   const handleClick = (index) => {
+    if (index === 0) {
+      setSelectedDay(null);
+    } else {
+      setSelectedDay(index);
+    }
     setTodayData(groupedForecastData[index]);
   };
 
@@ -272,9 +301,6 @@ function Weather() {
             <div>{weatherData.precipitationChance}%</div>
           </div>
           <div className={styles.wind_title}>
-            {/* <div>풍속</div>
-            <div>:</div>
-            <div>{weatherData.windSpeed}m/s</div> */}
             풍속:{" "}
             {weatherData.windSpeed ? `${weatherData.windSpeed} m/s` : "N/A"}
           </div>
@@ -290,13 +316,13 @@ function Weather() {
             <div>
               <BsFillSunriseFill size={40} color="Coral" />
             </div>
-            <div>{convertToLocalTime(weatherData.sunrise)}</div>
+            <div>{weatherData.sunrise}</div>
           </div>
           <div className={styles.sunset}>
             <div>
               <BsSunsetFill size={40} color="#48484A" />
             </div>
-            <div>{convertToLocalTime(weatherData.sunset)}</div>
+            <div>{weatherData.sunset}</div>
           </div>
         </div>
       </div>
@@ -310,13 +336,15 @@ function Weather() {
           {todayData.map((forecast, index) => (
             <div key={index} className={styles.forecast_item}>
               <div>{formatTime(forecast.dt_txt)}</div> {/* 시간 표시 */}
-              <div>{getWeatherIcon(forecast.weather[0].icon, 70)}</div>
-              {forecast.pop > 0 && (
-                <div className={styles.precipitation}>
-                  {`${Math.round(forecast.pop)} %`}
+              <div className={styles.icon}>
+                {getWeatherIcon(forecast.weather[0].icon, 70)}
+              </div>
+              <div className={styles.title}>
+                {Math.round(forecast.main.temp)}°C
+                <div className={styles.precipitation_chance}>
+                  {Math.round(forecast.pop * 100)}%
                 </div>
-              )}
-              <div className={styles.title}>{forecast.main.temp}°C</div>
+              </div>
             </div>
           ))}
         </div>
@@ -329,16 +357,24 @@ function Weather() {
                 className={styles.forecast_item}
                 onClick={() => handleClick(index + 1)}
               >
-                <div>{day.dayOfWeek}</div>
-                <div>{getWeatherIcon(day.weatherIcon, 58)}</div>
-                {day.precipitationChance > 0 && ( // 강수확률이 0보다 클 때만 표시
-                  <div className={styles.precipitation}>
-                    {` ${Math.round(day.precipitationChance)}%`}
+                {" "}
+                <div>{day.dayOfWeek}</div> {/* 요일 표시 */}
+                <div>
+                  {getWeatherIcon(
+                    day.weatherIcon,
+                    58,
+                    selectedDay === index + 1
+                  )}
+                </div>
+                <div className={styles.temp_text}>
+                  {` ${Math.round(day.minTemp)}°C /  ${Math.round(
+                    day.maxTemp
+                  )}°C`}
+
+                  <div className={styles.precipitation_chance}>
+                    {day.precipitationChance}%
                   </div>
-                )}
-                <div
-                  className={styles.temp_text}
-                >{` ${day.minTemp}°C /  ${day.maxTemp}°C`}</div>
+                </div>
               </div>
             ))}
           </div>

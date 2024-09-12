@@ -20,6 +20,7 @@ function RequestForm({ user, onSubmit }) {
   const [requestData, setRequestData] = useState([]);
   const [accumulatedData, setAccumulatedData] = useState([]);
   const { uid } = useSelector((state) => state.userSlice);
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (!user) {
@@ -116,6 +117,9 @@ function RequestForm({ user, onSubmit }) {
 
         // 데이터를 추가하고 초기화합니다.
         setRequestData([]);
+
+        // 이전 페이지로 돌아갑니다.
+        navigate(-1);
       } else {
         console.error("사용자 ID가 설정되지 않았습니다.");
       }
@@ -123,8 +127,6 @@ function RequestForm({ user, onSubmit }) {
       console.error("에러가 발생하였습니다: ", error);
     }
   };
-
-  const navigate = useNavigate();
 
   return (
     <form className={styles.requestForm} onSubmit={handleSubmit}>
@@ -223,7 +225,11 @@ function RequestForm({ user, onSubmit }) {
           >
             저장
           </button>
-          <button className={styles.cancel} onClick={() => navigate(-1)}>
+          <button
+            type="button"
+            className={styles.cancel}
+            onClick={() => navigate(-1)}
+          >
             취소
           </button>
         </div>
