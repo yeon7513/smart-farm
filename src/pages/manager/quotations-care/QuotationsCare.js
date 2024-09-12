@@ -2,14 +2,12 @@ import React, { useEffect, useState } from "react";
 import styles from "./QuotationsCare.module.scss";
 import { collection, doc, getDocs } from "firebase/firestore";
 import { db } from "../../../api/firebase";
-import { useSelector } from "react-redux";
 import { saveAs } from "file-saver";
 import * as XLSX from "xlsx";
 
 function QuotationsCare(props) {
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState([]);
-  const { uid } = useSelector((state) => state.userSlice);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -79,7 +77,13 @@ function QuotationsCare(props) {
   };
   return (
     <div className={styles.quotations}>
-      <button onClick={exportToExcel}>견적 내역 다운로드</button>
+      {loading ? (
+        <p>Loading...</p>
+      ) : (
+        <>
+          <button onClick={exportToExcel}>견적 내역 다운로드</button>
+        </>
+      )}
     </div>
   );
 }
