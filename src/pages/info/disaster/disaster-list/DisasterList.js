@@ -1,13 +1,20 @@
-import React from "react";
-import styles from "./DisasterList.module.scss";
-import { CiSearch } from "react-icons/ci";
-import SearchBox from "../../../../components/search_box/SearchBox";
+import React from 'react';
+import { CiSearch } from 'react-icons/ci';
+import SearchBox from '../../../../components/search_box/SearchBox';
+import styles from './DisasterList.module.scss';
 
 function DisasterList(props) {
   return (
     <>
       {/* <div> */}
-      <SearchBox />
+      <SearchBox
+        placeholder={'검색어를 입력해주세요.'}
+        name={
+          <>
+            <CiSearch /> 조회
+          </>
+        }
+      />
       {/* </div> */}
       <div className={styles.menu}>
         <div className={styles.menu_bar}>
