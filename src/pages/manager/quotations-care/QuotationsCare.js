@@ -16,26 +16,13 @@ function QuotationsCare() {
     const fetchData = async () => {
       setLoading(true);
       try {
-        // users 컬렉션의 사용자 정보를 가져옵니다.
-        const usersSnapshot = await getDocs(collection(db, "users"));
-
-        // users 컬렉션의 이름, 전화번호, 주소 추출
-        const userData = usersSnapshot.docs.reduce((acc, doc) => {
-          acc[doc.id] = doc.data();
-          return acc;
-        }, {});
-
         // payments 컬렉션에서 견적 정보를 가져옵니다.
         const paymentsSnapshot = await getDocs(collection(db, "payments"));
 
         // 사용자 정보와 결제 정보를 결합합니다.
         const resultData = paymentsSnapshot.docs.map((payment) => {
           const paymentData = payment.data();
-          const user = userData[paymentData.userId] || {};
           return {
-            name: user ? user.name : "",
-            number: user ? user.number : "",
-            address: user ? user.address : "",
             ...paymentData,
           };
         });
@@ -46,7 +33,6 @@ function QuotationsCare() {
       }
       setLoading(false);
     };
-
     fetchData();
   }, []);
 
