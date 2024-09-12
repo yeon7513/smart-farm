@@ -24,7 +24,7 @@ function SearchPw(props) {
     });
     resultData.forEach((item) => {
       setState(item);
-      // setTemperPassword(item.password.slice(0, 10));
+      setTemperPassword(item.password.slice(0, 7));
     });
     setRendering(true);
   };
