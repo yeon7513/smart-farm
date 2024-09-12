@@ -22,7 +22,9 @@ import PostView from './components/board/post-view/PostView';
 import CommunityMenu from './context/CommunityMenu';
 import DashboardMenu from './context/DashboardMenu';
 import InfoMenu from './context/InfoMenu';
+import ManagerMenu from './context/ManagerMenu';
 import MyPageMenu from './context/MyPageMenu';
+import { SectorProvider } from './context/SectorContext';
 import KaKaoLogin from './pages/LoginPage/KaKaoLogin';
 import Manager from './pages/manager/Manager';
 import MyFarm from './pages/my-farm/MyFarm';
@@ -36,39 +38,58 @@ function App() {
     <BrowserRouter>
       <ComponentProvider>
         <Routes>
+          {/* 전체 레이아웃 구조 */}
           <Route path="/" element={<Layout />}>
             {/* <Route path="test" element={<Userout />} /> */}
+            {/* 홈 (메인) */}
             <Route index element={<Home />} />
+            {/* 소개 */}
             <Route path="about">
               <Route index element={<About />} />
               <Route path="service" element={<Service />} />
               {/* <Route path="counsel" element={<Counsel />} /> */}
             </Route>
+            {/* 정보 */}
             <Route path="info" element={<Info />}>
               <Route index element={<InfoMenu />} />
               <Route path=":path" element={<DiseasesItem />} />
             </Route>
+            {/* 로그인 */}
             <Route path="login" element={<LoginPage />} />
+            {/* 회원가입 */}
             <Route path="register" element={<RegisterPage />} />
             <Route path="SearchEm" element={<SearchEm />} />
             <Route path="SearchPw" element={<SearchPw />} />
+            {/* 견적의뢰 */}
             <Route path="request" element={<RequestForQuote />} />
             <Route path="oauth/kakao" element={<KaKaoLogin />} />
+            {/* 커뮤니티 */}
             <Route path="community" element={<Community />}>
               <Route index element={<CommunityMenu />} />
               <Route path=":collection/:id" element={<PostView />} />
             </Route>
+            {/* 내 농장 관리 */}
             <Route path="my-farm" element={<MyFarm />}>
               <Route index element={<FarmList />} />
             </Route>
-            <Route path="manager" element={<Manager />} />
-
             {/* 관리자 */}
+            <Route path="manager" element={<Manager />}>
+              <Route index element={<ManagerMenu />} />
+            </Route>
+            {/* 마이페이지 */}
             <Route path="/Mypage" element={<MyPage />}>
               <Route index element={<MyPageMenu />} />
             </Route>
           </Route>
-          <Route path="/my-farm/:id" element={<DashBoard />}>
+          {/* 대시보드 */}
+          <Route
+            path="/my-farm/:id"
+            element={
+              <SectorProvider>
+                <DashBoard />
+              </SectorProvider>
+            }
+          >
             <Route index element={<DashboardMenu />} />
           </Route>
         </Routes>

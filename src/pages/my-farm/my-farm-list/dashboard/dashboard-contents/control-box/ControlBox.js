@@ -6,11 +6,13 @@ import ControlItem from './control-item/ControlItem';
 function ControlBox() {
   const { sector } = useSectorContext();
 
-  const options = Object.keys(sector.control).map((key) => renameOptions(key));
+  const filteredOptions = Object.entries(sector.control)
+    .filter(([key, value]) => value === 'Y')
+    .map(([key, vlaue]) => renameOptions(key));
 
   return (
     <div>
-      {options.map((option, idx) => (
+      {filteredOptions.map((option, idx) => (
         <ControlItem key={idx} option={option} />
       ))}
     </div>

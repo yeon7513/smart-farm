@@ -15,6 +15,8 @@ function Contact() {
   const { setCurrComp } = useComponentContext();
   const [isShow, setIsShow] = useState(false);
 
+  const user = localStorage.getItem('user');
+
   const handleClickShow = () => {
     setIsShow(!isShow);
   };
@@ -27,7 +29,7 @@ function Contact() {
   return (
     <div className={styles.contact}>
       <div className={styles.btns}>
-        {!pathname.includes('my-farm') && auth ? (
+        {!pathname.includes('my-farm') && auth && user ? (
           <button
             className={styles.gotoMyFarm}
             onClick={() => navigate('/my-farm')}
