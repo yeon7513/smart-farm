@@ -1,0 +1,21 @@
+@import '/src/scss/mixins.scss';
+
+.sidebar {
+  width: 20%;
+  height: 100%;
+  position: sticky;
+  top: 20px;
+  left: 0;
+
+  .menu {
+    width: 100%;
+
+    li {
+      padding: 16px 32px;
+      > button {
+        font-size: 20px;
+        @include linkEffect();
+      }
+    }
+  }
+}

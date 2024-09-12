@@ -1,0 +1,10 @@
+.container {
+  display: flex;
+  max-height: max-content;
+  outline: 1px dotted red;
+}
+
+.content {
+  flex: 1;
+  outline: 1px dotted blue;
+}

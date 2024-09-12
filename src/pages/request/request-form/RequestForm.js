@@ -7,6 +7,7 @@ import Checkout from "../Checkout";
 import { useSelector } from "react-redux";
 import { addDoc, collection, doc } from "firebase/firestore";
 import { db } from "../../../api/firebase";
+import { useNavigate } from "react-router-dom";
 
 function RequestForm({ user, onSubmit }) {
   const [cropType, setCropType] = useState("딸기");
@@ -88,7 +89,6 @@ function RequestForm({ user, onSubmit }) {
       farmEquivalent: farmEquivalent,
       createdAt: createdAt,
     };
-    console.log(dataObj);
     onSubmit(dataObj);
 
     if (
@@ -97,7 +97,9 @@ function RequestForm({ user, onSubmit }) {
       farmAddress.trim() === "" ||
       farmName.trim() === ""
     ) {
-      console.log("유효한 값을 입력하여 주십시오.");
+      console.log(
+        "농장 면적과 동 수는 최소 1 이상, 농장 주소와 이름은 반드시 설정해주시기 바랍니다."
+      );
       return;
     }
 
@@ -122,6 +124,8 @@ function RequestForm({ user, onSubmit }) {
     }
   };
 
+  const navigate = useNavigate();
+
   return (
     <form className={styles.requestForm} onSubmit={handleSubmit}>
       <div className={styles.userContainer}>
@@ -143,7 +147,7 @@ function RequestForm({ user, onSubmit }) {
           <h3>농장 이름: </h3>
           <input
             type="text"
-            placeholder={"농장 이름을 입력해주세요."}
+            placeholder={"최대 8자 입력 가능합니다."}
             onChange={handleChange}
           />
         </div>
@@ -211,12 +215,17 @@ function RequestForm({ user, onSubmit }) {
             />
           )}
         </div>
-        <div>
-          <Checkout
+        <div className={styles.btns}>
+          <button
+            className={styles.submit}
             type="submit"
-            description={"견적 내용 저장"}
             onClick={handleSubmit}
-          />
+          >
+            저장
+          </button>
+          <button className={styles.cancel} onClick={() => navigate(-1)}>
+            취소
+          </button>
         </div>
       </div>
     </form>

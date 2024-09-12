@@ -62,3 +62,32 @@
     padding: 20px;
   }
 }
+
+.btns {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+
+  > button {
+    padding: 16px 48px;
+    font-size: 20px;
+    border-radius: 10px;
+
+    &.submit {
+      background-color: var(--common-color);
+
+      &:hover {
+        background-color: var(--hover-color);
+        color: var(--main-color);
+      }
+    }
+
+    &.cancel {
+      background-color: #eee;
+
+      &:hover {
+        background-color: #ddd;
+      }
+    }
+  }
+}
