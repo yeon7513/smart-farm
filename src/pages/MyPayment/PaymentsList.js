@@ -13,7 +13,7 @@ function PaymentsList() {
     if (uid) {
       dispatch(
         fetchPayment({
-          collectionName: ["users", uid, "payments"],
+          collectionName: "payments",
         })
       );
     }

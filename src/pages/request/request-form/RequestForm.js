@@ -67,10 +67,15 @@ function RequestForm({ user, onSubmit }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    const farmAreaNum = Number(farmArea);
+    const farmEquivalentNum = Number(farmEquivalent);
+
     // 입력 사항을 입력하지 않았을 경우 견적 제출을 할 수 없습니다.
     if (
-      farmArea <= 0 ||
-      farmEquivalent <= 0 ||
+      isNaN(farmAreaNum) ||
+      farmAreaNum <= 0 ||
+      isNaN(farmEquivalentNum) ||
+      farmEquivalentNum <= 0 ||
       farmAddress.trim() === "" ||
       farmName.trim() === ""
     ) {
@@ -89,6 +94,11 @@ function RequestForm({ user, onSubmit }) {
     const createdAt = `${year}${month}${day}${new Date().getTime()}`;
 
     const dataObj = {
+      uid: user.uid,
+      name: user.name,
+      nick: user.nick,
+      number: user.number,
+      address: user.address,
       farmAddress: farmAddress,
       cropType: cropType,
       facilityType: facilityType,
@@ -149,6 +159,7 @@ function RequestForm({ user, onSubmit }) {
             type="text"
             placeholder={"최대 8자 입력 가능합니다."}
             onChange={handleChange}
+            value={farmName}
           />
         </div>
       </div>
@@ -181,6 +192,7 @@ function RequestForm({ user, onSubmit }) {
               type="number"
               onChange={(e) => setFarmArea(Number(e.target.value))}
               min="1"
+              value={farmArea}
             />
             <button>평</button>
           </div>
@@ -216,11 +228,7 @@ function RequestForm({ user, onSubmit }) {
           )}
         </div>
         <div className={styles.btns}>
-          <button
-            className={styles.submit}
-            type="submit"
-            onClick={handleSubmit}
-          >
+          <button className={styles.submit} type="submit">
             저장
           </button>
           <button

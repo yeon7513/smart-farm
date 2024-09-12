@@ -14,7 +14,7 @@ function MyPayment() {
 
   useEffect(() => {
     if (uid) {
-      dispatch(fetchPayment({ collectionName: ["users", uid, "payments"] }));
+      dispatch(fetchPayment({ collectionName: "payments" }));
     }
   }, [uid, dispatch]);
 
