@@ -187,7 +187,7 @@ function InfoInput({ onSearch, resetSearch }) {
     };
 
     fetchData();
-  }, [selectedBig]);
+  }, []);
   const checkSearchButtonState = (inputValue, cropCode) => {
     const isBigSelected = selectedBig.length > 0;
     const isMiddleSelected = middleOptions.length > 0;
