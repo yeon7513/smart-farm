@@ -3,7 +3,6 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { getUserAuth, joinUser } from "../../../api/firebase";
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import Form from "./../../../components/form/Form";
 import { setUser } from "../../../store/user/UserSlice";
 import Forms from "../../../components/form/Forms";
 
