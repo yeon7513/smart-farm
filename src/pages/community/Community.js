@@ -23,20 +23,34 @@ function Community() {
       <Container className={styles.container}>
         <ul className={styles.links}>
           <li>
-            <button onClick={() => handleChangeTitles('Notice')}>
+            <button
+              className={currComp === 'Notice' ? styles.active : ''}
+              onClick={() => handleChangeTitles('Notice')}
+            >
               공지사항
             </button>
           </li>
           <li>
-            <button onClick={() => handleChangeTitles('Faq')}>FAQ</button>
+            <button
+              className={currComp === 'Faq' ? styles.active : ''}
+              onClick={() => handleChangeTitles('Faq')}
+            >
+              FAQ
+            </button>
           </li>
           <li>
-            <button onClick={() => handleChangeTitles('SharingInformation')}>
+            <button
+              className={currComp === 'SharingInformation' ? styles.active : ''}
+              onClick={() => handleChangeTitles('SharingInformation')}
+            >
               정보 공유
             </button>
           </li>
           <li>
-            <button onClick={() => handleChangeTitles('AfterService')}>
+            <button
+              className={currComp === 'AfterService' ? styles.active : ''}
+              onClick={() => handleChangeTitles('AfterService')}
+            >
               A/S 문의
             </button>
           </li>
