@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import Container from "../../components/layout/container/Container";
 import RequestForm from "./request-form/RequestForm";
 import styles from "./RequestForQuote.module.scss";
