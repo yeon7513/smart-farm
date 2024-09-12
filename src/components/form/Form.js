@@ -4,7 +4,15 @@ import { useForm } from "react-hook-form";
 import { Box, Button, FormControl, TextField } from "@mui/material";
 import CryptoJS from "crypto-js";
 
-function Form({ title, getDataForm, firebaseError, inputName1, type2, type }) {
+function Form({
+  title,
+  getDataForm,
+  firebaseError,
+  inputName1,
+  inputName2,
+  type2,
+  type,
+}) {
   const {
     register,
     handleSubmit,
@@ -13,9 +21,9 @@ function Form({ title, getDataForm, firebaseError, inputName1, type2, type }) {
   } = useForm({
     mode: "onChange",
   });
-  const onSubmit = ({ name, password }) => {
+  const onSubmit = ({ name, password, email }) => {
     const changePassword = CryptoJS.SHA256(password).toString();
-    getDataForm(name, changePassword);
+    getDataForm(name, changePassword, email);
     reset();
   };
   const userEmail = {
@@ -58,10 +66,10 @@ function Form({ title, getDataForm, firebaseError, inputName1, type2, type }) {
             pr: 2,
           },
         }}
-        type="password"
-        label={"비밀번호 (숫자+영문자+특수문자 8자리 이상)"}
+        type={type2}
+        label={inputName2}
         autoComplete="off"
-        {...register("password", userPassword)}
+        {...register(type2)}
       />
       {errors?.password && (
         <div>

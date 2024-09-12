@@ -1,0 +1,33 @@
+.container {
+  width: 40%;
+
+  .transfort {
+    display: flex;
+  }
+  .nav {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 5%;
+  }
+  button {
+    background-color: skyblue;
+    padding: 5px;
+    border-radius: 5px;
+  }
+  .transfort {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .configMail {
+    display: flex;
+    gap: 10px;
+    margin-top: 3%;
+    button {
+      flex: 1 1;
+    }
+  }
+}
