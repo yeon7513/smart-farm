@@ -29,15 +29,13 @@ function Contact() {
   return (
     <div className={styles.contact}>
       <div className={styles.btns}>
-        {!pathname.includes('my-farm') && auth && user ? (
+        {!pathname.includes('my-farm') && auth && user && (
           <button
             className={styles.gotoMyFarm}
             onClick={() => navigate('/my-farm')}
           >
             <PiFarmFill />
           </button>
-        ) : (
-          ''
         )}
         {!pathname.includes('info') && (
           <button className={styles.gotoSimul} onClick={gotoSimulation}>
