@@ -3,9 +3,8 @@ import SearchAddr from "../../../components/search-addr/SearchAddr";
 import styles from "./RequestForm.module.scss";
 import FacilitiesHorticulture from "../FacilitiesHorticulture";
 import OpenGround from "../OpenGround";
-import Checkout from "../Checkout";
 import { useSelector } from "react-redux";
-import { addDoc, collection, doc } from "firebase/firestore";
+import { addDoc, collection } from "firebase/firestore";
 import { db } from "../../../api/firebase";
 import { useNavigate } from "react-router-dom";
 
@@ -17,8 +16,6 @@ function RequestForm({ user, onSubmit }) {
   const [farmArea, setFarmArea] = useState("");
   const [farmEquivalent, setFarmEquivalent] = useState("");
   const [additionalOptions, setAdditionalOptions] = useState({});
-  const [requestData, setRequestData] = useState([]);
-  const [accumulatedData, setAccumulatedData] = useState([]);
   const { uid } = useSelector((state) => state.userSlice);
   const navigate = useNavigate();
 
@@ -70,6 +67,19 @@ function RequestForm({ user, onSubmit }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    // 입력 사항을 입력하지 않았을 경우 견적 제출을 할 수 없습니다.
+    if (
+      farmArea <= 0 ||
+      farmEquivalent <= 0 ||
+      farmAddress.trim() === "" ||
+      farmName.trim() === ""
+    ) {
+      console.log(
+        "농장 면적과 동 수는 최소 1 이상, 농장 주소와 이름은 반드시 설정해주시기 바랍니다."
+      );
+      return;
+    }
+
     const today = new Date();
     const year = today.getFullYear();
     const month = String(today.getMonth() + 1).padStart(2, "0");
@@ -92,32 +102,20 @@ function RequestForm({ user, onSubmit }) {
     };
     onSubmit(dataObj);
 
-    if (
-      farmArea <= 0 ||
-      farmEquivalent <= 0 ||
-      farmAddress.trim() === "" ||
-      farmName.trim() === ""
-    ) {
-      console.log(
-        "농장 면적과 동 수는 최소 1 이상, 농장 주소와 이름은 반드시 설정해주시기 바랍니다."
-      );
-      return;
-    }
-
     try {
       if (uid) {
         // 사용자의 결제내역에 데이터를 추가합니다.
-        const userDocRef = doc(db, "users", uid);
-        const paymentCollectionRef = collection(userDocRef, "payments");
+        // 'payments' 컬렉션에 새로운 데이터 추가
+        const paymentCollectionRef = collection(db, "payments");
         await addDoc(paymentCollectionRef, dataObj);
         console.log("데이터가 성공적으로 추가되었습니다.");
 
-        // 데이터를 업데이트 합니다.
-        setAccumulatedData((prevData) => [...prevData, dataObj]);
-
-        // 데이터를 추가하고 초기화합니다.
-        setRequestData([]);
-
+        // 폼 데이터 초기화
+        setFarmAddress("");
+        setFarmName("");
+        setFarmArea("");
+        setFarmEquivalent("");
+        setAdditionalOptions({});
         // 이전 페이지로 돌아갑니다.
         navigate(-1);
       } else {
