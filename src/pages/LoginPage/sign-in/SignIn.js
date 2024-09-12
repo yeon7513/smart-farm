@@ -12,7 +12,7 @@ function SignIn(props) {
   const auth = getUserAuth();
   const navigate = useNavigate();
 
-  const handleLogin = async (email, password) => {
+  const handleLogin = async (email, password, name) => {
     try {
       const userCredential = await signInWithEmailAndPassword(
         auth,
