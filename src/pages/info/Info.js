@@ -23,23 +23,35 @@ function Info() {
       <Container className={styles.container}>
         <ul className={styles.links}>
           <li>
-            <button onClick={() => handleChangeTitles('UsageStatus')}>
+            <button
+              className={currComp === 'UsageStatus' ? styles.active : ''}
+              onClick={() => handleChangeTitles('UsageStatus')}
+            >
               이용현황
             </button>
           </li>
           <li>
-            <button onClick={() => handleChangeTitles('Simulation')}>
+            <button
+              className={currComp === 'Simulation' ? styles.active : ''}
+              onClick={() => handleChangeTitles('Simulation')}
+            >
               시뮬레이션
             </button>
           </li>
           <li>
-            <button onClick={() => handleChangeTitles('Diseases')}>
-              병해충 상담
+            <button
+              className={currComp === 'Diseases' ? styles.active : ''}
+              onClick={() => handleChangeTitles('Diseases')}
+            >
+              병해충 정보
             </button>
           </li>
           <li>
-            <button onClick={() => handleChangeTitles('Disaster')}>
-              자연재해 상담
+            <button
+              className={currComp === 'Disaster' ? styles.active : ''}
+              onClick={() => handleChangeTitles('Disaster')}
+            >
+              자연재해 정보
             </button>
           </li>
         </ul>

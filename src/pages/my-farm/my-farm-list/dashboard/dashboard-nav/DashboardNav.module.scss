@@ -1,34 +1,16 @@
+@import '/src/scss/mixins.scss';
+
 .nav {
   width: 16%;
   outline: 1px dotted orange;
   li {
     width: 100%;
-    border-right: 2px solid var(--accent-color);
     transition: 0.3s;
 
-    &:last-child {
-      border-right: 0;
-    }
-
-    &:hover {
-      background-color: var(--accent-color);
-      button {
-        color: var(--main-color);
-      }
-    }
-
-    button {
-      display: block;
-      padding: 20px;
+    > button {
       width: 100%;
       font-size: 20px;
-    }
-    &.active {
-      background-color: var(--accent-color);
-
-      button {
-        color: var(--main-color);
-      }
+      @include filledBtn($padding: 20px);
     }
   }
 }

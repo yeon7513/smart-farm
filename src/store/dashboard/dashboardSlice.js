@@ -5,6 +5,7 @@ import { getDatas, updateDatas } from '../../api/firebase';
 const initialState = {
   commonInfo: [],
   sectorInfo: [],
+  resetSector: [],
   isLoading: false,
   error: null,
 };
@@ -43,6 +44,20 @@ const dashboardSlice = createSlice({
         state.isLoading = false;
         state.error = action.payload;
       })
+      // 대시보드 섹터 초기화
+      .addCase(resetSectorData.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(resetSectorData.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.resetSector = action.payload.find((item) => item.id === 1);
+        state.error = null;
+      })
+      .addCase(resetSectorData.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload;
+      })
       // 대시보드 이름, 작물 수정
       .addCase(updateCommonInfo.fulfilled, (state, action) => {
         state.commonInfo = state.commonInfo.map((info) => {
@@ -76,6 +91,18 @@ export const fetchCommonInfo = createAsyncThunk(
 
 export const fetchSectorInfo = createAsyncThunk(
   'dashboard/fetchSectorInfo',
+  async (collectionName) => {
+    try {
+      const data = await getDatas(collectionName);
+      return data;
+    } catch (error) {
+      return error;
+    }
+  }
+);
+
+export const resetSectorData = createAsyncThunk(
+  'dashboard/resetSectorData',
   async (collectionName) => {
     try {
       const data = await getDatas(collectionName);

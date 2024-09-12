@@ -1,15 +1,22 @@
-import React from "react";
-import { Outlet } from "react-router-dom";
-import Container from "../../components/layout/container/Container";
-import ManagerSidebar from "./manager-sidebar/ManagerSidebar";
-// import styles from './Manager.module.scss';
+import React, { useEffect } from 'react';
+import Container from '../../components/layout/container/Container';
+import { useComponentContext } from '../../context/ComponentContext';
+import ManagerMenu from '../../context/ManagerMenu';
+import ManagerSidebar from './manager-sidebar/ManagerSidebar';
+import styles from './Manager.module.scss';
 
-function Manager(props) {
+function Manager() {
+  const { setCurrComp } = useComponentContext();
+
+  useEffect(() => {
+    setCurrComp('OverallStatus');
+  }, [setCurrComp]);
+
   return (
-    <Container>
+    <Container className={styles.container}>
       <ManagerSidebar />
-      <div>
-        <Outlet />
+      <div className={styles.content}>
+        <ManagerMenu />
       </div>
     </Container>
   );
