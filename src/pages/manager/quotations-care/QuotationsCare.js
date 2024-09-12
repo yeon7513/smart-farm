@@ -1,9 +1,9 @@
-import { saveAs } from 'file-saver';
-import { collection, doc, getDocs } from 'firebase/firestore';
-import React, { useEffect, useState } from 'react';
-import * as XLSX from 'xlsx';
-import { db } from '../../../api/firebase';
-import styles from './QuotationsCare.module.scss';
+import { saveAs } from "file-saver";
+import { collection, doc, getDocs } from "firebase/firestore";
+import React, { useEffect, useState } from "react";
+import * as XLSX from "xlsx";
+import { db } from "../../../api/firebase";
+import styles from "./QuotationsCare.module.scss";
 
 function QuotationsCare(props) {
   const [loading, setLoading] = useState(false);
@@ -14,7 +14,7 @@ function QuotationsCare(props) {
       setLoading(true);
       try {
         // users 컬렉션의 사용자 정보를 가져옵니다.
-        const usersSnapshot = await getDocs(collection(db, 'users'));
+        const usersSnapshot = await getDocs(collection(db, "users"));
 
         // users 컬렉션 안의 payments 컬렉션의 주문 내역을 가져옵니다.
         const dataPromises = usersSnapshot.docs.map(async (userDoc) => {
@@ -26,8 +26,15 @@ function QuotationsCare(props) {
 
           // payments 컬렉션에서 견적 정보를 가져옵니다.
           const paymentsSnapshot = await getDocs(
-            collection(doc(db, 'users', userId), 'payments')
+            collection(doc(db, "payments"))
           );
+
+          const formattedAdditionalOptions = Object.keys(
+            paymentsSnapshot.additionalOptions
+          ).join(", ");
+
+          console.log(formattedAdditionalOptions);
+
           const paymentsData = paymentsSnapshot.docs.map((paymentDoc) => {
             const paymentData = paymentDoc.data();
             return {
@@ -48,7 +55,7 @@ function QuotationsCare(props) {
         // 데이터를 평탄화하여 하나의 배열로 생성
         setData(allPaymentsData.flat());
       } catch (error) {
-        console.error('Error fetching data:', error);
+        console.error("Error fetching data:", error);
       }
       setLoading(false);
     };
@@ -61,19 +68,19 @@ function QuotationsCare(props) {
     // 데이터 변환
     const worksheet = XLSX.utils.json_to_sheet(data);
     const workbook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(workbook, worksheet, '결제 내역');
+    XLSX.utils.book_append_sheet(workbook, worksheet, "결제 내역");
 
     // 엑셀 파일 생성
     const excelBuffer = XLSX.write(workbook, {
-      bookType: 'xlsx',
-      type: 'array',
+      bookType: "xlsx",
+      type: "array",
     });
     const file = new Blob([excelBuffer], {
-      type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+      type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
     });
 
     // 파일 다운로드
-    saveAs(file, '결제 내역.xlsx');
+    saveAs(file, "결제 내역.xlsx");
   };
   return (
     <div className={styles.quotations}>
