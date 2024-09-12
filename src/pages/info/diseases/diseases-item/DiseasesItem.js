@@ -2,17 +2,20 @@ import React, { useEffect, useState } from "react";
 import styles from "./DiseasesItem.module.scss";
 import BackButton from "../../../../components/back-button/BackButton";
 import { useLocation } from "react-router-dom";
+// import BarLoader  from "react-spinners/PulseLoader";
 
 const apiKey = "2024570e96d7a69a9e49dfeb7fdc9739177c";
 
 function DiseasesItem() {
   const { korName, cropName, selectedType, thumbImg } = useLocation().state;
   const [data, setData] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     console.log("selected type:", selectedType);
     console.log("korName:", korName);
     console.log("selectedType:", selectedType);
+    setIsLoading(true);
     const fetchData = async () => {
       try {
         // let serviceType = "AA003";
@@ -69,6 +72,7 @@ function DiseasesItem() {
       } catch (error) {
         // console.error("Error fetching data:", error);
       }
+      setIsLoading(false);
     };
     fetchData();
   }, [korName, selectedType, cropName]);

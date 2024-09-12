@@ -24,22 +24,22 @@ function SearchPw(props) {
     });
     resultData.forEach((item) => {
       setState(item);
-      setTemperPassword(item.password.slice(0, 10));
+      // setTemperPassword(item.password.slice(0, 10));
     });
     setRendering(true);
   };
-  const CryptoJS = require("crypto-js");
-  const encryptionKey = "mySecretKey123";
-  const iv = CryptoJS.lib.WordArray.random(128 / 8); // 초기화 벡터 (IV) 생성
-  const encryptedPassword = state.password;
+  // const CryptoJS = require("crypto-js");
+  // const encryptionKey = "mySecretKey123";
+  // const iv = CryptoJS.lib.WordArray.random(128 / 8); // 초기화 벡터 (IV) 생성
+  // const encryptedPassword = state.password;
 
-  // 암호화된 비밀번호를 복호화합니다.
-  function decryptPassword(encryptedPassword) {
-    const decrypted = CryptoJS.AES.decrypt(encryptedPassword, encryptionKey, {
-      iv: iv,
-    });
-    return decrypted.toString(CryptoJS.enc.Utf8);
-  }
+  // // 암호화된 비밀번호를 복호화합니다.
+  // function decryptPassword(encryptedPassword) {
+  //   const decrypted = CryptoJS.AES.decrypt(encryptedPassword, encryptionKey, {
+  //     iv: iv,
+  //   });
+  //   return decrypted.toString(CryptoJS.enc.Utf8);
+  // }
   return (
     <Container className={styles.container}>
       <div className={styles.title}>
@@ -48,7 +48,6 @@ function SearchPw(props) {
           소셜(Google, Kakao)이 아닌 <span>일반 회원가입</span>만 가능합니다.
         </h3>
       </div>
-
       <Form
         getDataForm={handleInputNum}
         title={"비밀번호 찾기"}
@@ -58,7 +57,6 @@ function SearchPw(props) {
         type2={"email"}
         user={state}
       />
-
       <EmailButton
         getDataForm={temperPassword}
         user={state}
@@ -66,7 +64,9 @@ function SearchPw(props) {
         setIsDisabled={setIsDisabled}
         isdisabled={isdisabled}
       />
-      {isdisabled && <div>{decryptPassword(encryptedPassword)}</div>}
+      {/* {isdisabled && */}
+      {/* <div>{decryptPassword(encryptedPassword)}</div> */}
+      {/* } */}
     </Container>
   );
 }

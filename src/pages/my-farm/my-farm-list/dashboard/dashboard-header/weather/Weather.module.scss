@@ -1,7 +1,14 @@
+.loader {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 120px;
+}
 .weather {
   padding: 0 !important;
   border-bottom: 5px solid var(--accent-color);
   display: flex;
+
   .today {
     width: 25%;
     border-right: 3px solid var(--accent-color);
