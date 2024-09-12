@@ -3,8 +3,6 @@ import style from "./Payment.module.scss";
 import Container from "../../layout/container/Container";
 import { db } from "../../../api/firebase";
 import { collection, doc, getDocs } from "firebase/firestore";
-import * as XLSX from "xlsx";
-import { saveAs } from "file-saver";
 import { useSelector } from "react-redux";
 
 const Payment = () => {
@@ -64,27 +62,6 @@ const Payment = () => {
     fetchData();
   }, []);
 
-  // 이건 관리자 페이지에서 따로 다룰 예정
-  // firebase의 데이터를 excel로 불러옵니다.
-  const exportToExcel = () => {
-    // 데이터 변환
-    const worksheet = XLSX.utils.json_to_sheet(data);
-    const workbook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(workbook, worksheet, "결제 내역");
-
-    // 엑셀 파일 생성
-    const excelBuffer = XLSX.write(workbook, {
-      bookType: "xlsx",
-      type: "array",
-    });
-    const file = new Blob([excelBuffer], {
-      type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-    });
-
-    // 파일 다운로드
-    saveAs(file, "결제 내역.xlsx");
-  };
-
   return (
     <Container>
       <div className={style.payment}>
@@ -102,7 +79,7 @@ const Payment = () => {
                     <th>농장 주소</th>
                     <th>작물 종류</th>
                     <th>농장 종류</th>
-                    <th>농장 면적</th>
+                    <th>농장 면적 (단위: 평)</th>
                     <th>농장 동 수</th>
                     <th>부가 옵션</th>
                     <th>주문번호</th>
@@ -128,7 +105,6 @@ const Payment = () => {
             ) : (
               <p>No data available.</p>
             )}
-            <button onClick={exportToExcel}>Download Excel</button>
           </>
         )}
       </div>
