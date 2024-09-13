@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import styles from "./Form.module.scss";
 import { useForm } from "react-hook-form";
 import { Box, Button, FormControl, TextField } from "@mui/material";
+import { useSelector } from "react-redux";
 
 function Form({
   title,
@@ -34,9 +35,17 @@ function Form({
   //   setSecretPassword(encrypted);
   //   return encrypted;
   // }
-
+  const { items } = useSelector((state) => state.userSlice);
   const onSubmit = ({ name, password, email }) => {
+    console.log(name);
     // encryptPassword(password);
+    const findUser = items.find((item) => {
+      return item.email == name;
+    });
+    if (findUser.deleteYn == "Y") {
+      return false;
+    }
+
     getDataForm(name, password, email);
     reset();
   };
