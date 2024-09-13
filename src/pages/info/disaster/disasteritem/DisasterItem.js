@@ -48,7 +48,9 @@ function DisasterItem(props) {
       </div>
 
       <div className={styles.measures}>
-        <div></div>
+        <div>
+          <h2>호우</h2>
+        </div>
       </div>
     </div>
   );
