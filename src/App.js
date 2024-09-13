@@ -18,6 +18,7 @@ import Info from './pages/info/Info';
 import DiseasesItem from './pages/info/diseases/diseases-item/DiseasesItem';
 
 // import PostView from './components/board/post-view/PostView';
+import PaymentDetail from './components/Mypage/payment/PaymentDetail';
 import PostView from './components/board/post-view/PostView';
 import CommunityMenu from './context/CommunityMenu';
 import DashboardMenu from './context/DashboardMenu';
@@ -30,6 +31,7 @@ import Manager from './pages/manager/Manager';
 import MyFarm from './pages/my-farm/MyFarm';
 import FarmList from './pages/my-farm/my-farm-list/FarmList';
 import DashBoard from './pages/my-farm/my-farm-list/dashboard/DashBoard';
+import NotFound from './pages/notFound/NotFound';
 import RequestForQuote from './pages/request/RequestForQuote';
 import './scss/global.scss';
 
@@ -78,6 +80,7 @@ function App() {
             </Route>
             {/* 마이페이지 */}
             <Route path="/Mypage" element={<MyPage />}>
+              <Route path=":createdAt" element={<PaymentDetail />} />
               <Route index element={<MyPageMenu />} />
             </Route>
           </Route>
@@ -92,6 +95,8 @@ function App() {
           >
             <Route index element={<DashboardMenu />} />
           </Route>
+          <Route path="/404" element={<NotFound />} />
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </ComponentProvider>
     </BrowserRouter>

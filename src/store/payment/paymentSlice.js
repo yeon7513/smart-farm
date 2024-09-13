@@ -19,6 +19,7 @@ const initialState = {
   payment: [],
   isLoading: false,
   error: "",
+  createdAt: 0,
 };
 
 const paymentSlice = createSlice({
@@ -33,6 +34,7 @@ const paymentSlice = createSlice({
       .addCase(fetchPayment.fulfilled, (state, action) => {
         state.isLoading = false;
         state.payment = action.payload;
+        state.createdAt = action.payload;
       })
       .addCase(fetchPayment.rejected, (state, action) => {
         state.isLoading = false;

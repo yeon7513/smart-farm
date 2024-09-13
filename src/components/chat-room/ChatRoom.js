@@ -4,6 +4,10 @@ import closeIcon from "../../assets/main/closeImg.svg";
 import backIcon from "../../assets/main/backImg.svg";
 import { useSelector } from "react-redux";
 import { getOrder } from "../../api/firebase";
+import ChatRoomHeader from "./chat-room-header/ChatRoomHeader";
+import ChatRoomFooter from "./chat-room-footer/ChatRoomFooter";
+import ChatOptions from "./chat-options/ChatOptions";
+import FaqQuestions from "./faq-questions/FaqQuestions";
 
 function ChatRoom() {
   const [selectedAnswer, setSelectedAnswer] = useState(''); 
@@ -123,105 +127,35 @@ function ChatRoom() {
 
   return (
     <div className={styles.wrapper}>
-      <div
-        className={`${styles.header} ${
-          isExtraQuestionSelected ? styles.headerDetailOption : ""
-        }`}
-      >
-        {isExtraQuestionSelected ? (
-          <>
-            <button className={styles.backBtn} onClick={handleBackButtonClick}>
-              <img
-                src={backIcon}
-                alt="뒤로 가기"
-                style={{ width: "16px", height: "16px" }}
-              />
-            </button>
-            <h2 className={styles.chatDetailTitle}>세부 선택</h2>
-            <button className={styles.closeBtn} onClick={handleClose}>
-              <img
-                src={closeIcon}
-                alt="닫기"
-                style={{ width: "16px", height: "16px" }}
-              />
-            </button>
-          </>
-        ) : (
-          <>
-            <h2 className={styles.title}>아이팜 채팅상담</h2>
-            <button className={styles.closeBtn} onClick={handleClose}>
-              <img
-                src={closeIcon}
-                alt="닫기"
-                style={{ width: "16px", height: "16px" }}
-              />
-            </button>
-            <p className={styles.guideText}>무엇을 도와드릴까요?</p>
-          </>
-        )}
-      </div>
+   <ChatRoomHeader
+   isExtraQuestionSelected={isExtraQuestionSelected}
+   handleBackButtonClick={handleBackButtonClick}
+   handleClose={handleClose}
+   />
       {/* 여기까지 헤더의 영역 */}
 
       <div className={styles.content}>
         {isExtraQuestionSelected ? (
-          <>
-            <div className={styles.chatOptions}>
-              {/* 추가 질문 화면 */}
-              {chatOptionsData.map((option) => (
-                <button
-                  key={option.id}
-                  className={styles.questionBtn}
-                  onClick={() => handleOptionClick(option.id)}
-                >
-                  {option.question}
-                </button>
-              ))}
-            </div>
-            {selectedAnswer && (
-              <div className={styles.answerArea}>{selectedAnswer}</div>
-            )}
-          </>
+        <ChatOptions 
+        chatOptionsData={chatOptionsData}
+        handleOptionClick={handleOptionClick}
+        selectedAnswer={selectedAnswer}
+        />
         ) : (
-          <>
-            <div className={styles.questionBtns}>
-              {/* Fetch된 데이터와 로컬에서 추가한 질문을 함께 렌더링 */}
-              {[...sortedFaqData, extraQuestion].map((faq) => (
-                <button
-                  key={faq.id}
-                  className={styles.questionBtn}
-                  onClick={() => handleFaqClick(faq.id)}
-                >
-                  {faq.question}
-                </button>
-              ))}
-            </div>
-            {/* 질문리스트 */}
-            {selectedAnswer && (
-              <div className={styles.answerArea}>{selectedAnswer}</div>
-            )}
-            {/* 답변리스트 */}
-          </>
+    <FaqQuestions
+    sortedFaqData={sortedFaqData}
+    extraQuestion={extraQuestion}
+    handleFaqClick={handleFaqClick}
+    selectedAnswer={selectedAnswer}
+      />
+    
         )}
       </div>
 
-      <div
-        className={`${styles.footer} ${
-          isExtraQuestionSelected ? styles.footerDetailOption : ""
-        }`}
-      >
-        {isExtraQuestionSelected ? (
-          <>
-            버튼 클릭 시 상담이 신속히 연결되며, 상담 대기자가 많을 경우 시간이
-            다소 소요될 수 있습니다.
-          </>
-        ) : (
-          <>
-            채팅 상담원 연결 시간은 오전 9시부터 오후 6시까지 운영되오니 많은
-            참고 부탁드립니다.😊
-          </>
-        )}
-      </div>
-      {/* 풋터의 영역 */}
+   <ChatRoomFooter
+   isExtraQuestionSelected={isExtraQuestionSelected}
+   />
+     {/* 풋터의 영역 */}
     </div>
   );
 }
