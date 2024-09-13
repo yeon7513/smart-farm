@@ -61,9 +61,10 @@ const Payment = () => {
                     <tr key={item.id}>
                       <td>{item.cropType}</td>
                       <td>{item.facilityType}</td>
+                      <td>{item.createdAt}</td>
                       <td>
                         <Link to={`/mypage/${item.createdAt}`} state={{ item }}>
-                          {item.createdAt}
+                          <button className={styles.button}>자세히 보기</button>
                         </Link>
                       </td>
                     </tr>
