@@ -14,13 +14,20 @@ function QuotationsCare() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(fetchPayments("users"));
-  }, [dispatch, payments]);
+    dispatch(fetchPayments("payments"));
+  }, [dispatch]);
 
   // firebase의 데이터를 excel로 불러옵니다.
   const exportToExcel = () => {
     // 데이터 변환
-    const worksheet = XLSX.utils.json_to_sheet(payments);
+    // "payments" 컬렉션에 배열로 저장되어 있는 additionalOptions의 내용들을 문자열로 변환합니다.
+    const processedData = payments.map((payment) => ({
+      ...payment,
+      additionalOptions: payment.additionalOptions
+        ? payment.additionalOptions.join(", ")
+        : "",
+    }));
+    const worksheet = XLSX.utils.json_to_sheet(processedData);
     const workbook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(workbook, worksheet, "결제 내역");
 
