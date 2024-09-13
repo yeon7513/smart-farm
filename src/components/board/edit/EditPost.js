@@ -21,7 +21,7 @@ function EditPost({ post, setIsEditing, onPostUpdate }) {
         updatedPost
       );
       if (success) {
-        await onPostUpdate(); // 성공적으로 수정된 후 데이터 갱신 함수 호출
+        await onPostUpdate();
       }
     } catch (error) {
       console.error("Error updating post: ", error);
