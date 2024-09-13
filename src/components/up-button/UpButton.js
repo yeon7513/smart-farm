@@ -16,10 +16,10 @@ function UpButton(props) {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
-  () => {
+  useEffect (() => {;
     window.addEventListener("scroll", handleScroll);
   },
-    [];
+    []);
 
   return (
     <div className={styles.up}>
