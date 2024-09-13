@@ -1,14 +1,14 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { getDatas } from '../../api/firebase';
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { getDatas } from "../../api/firebase";
 
 const initialState = {
   payments: [],
   isLoading: false,
-  error: '',
+  error: "",
 };
 
 const paymentsSlice = createSlice({
-  name: 'payments',
+  name: "payments",
   initialState,
   reducers: {},
   extraReducers: (builder) => {
@@ -22,27 +22,24 @@ const paymentsSlice = createSlice({
       })
       .addCase(fetchPayments.rejected, (state, action) => {
         state.isLoading = false;
-        state.error = action.payload;
+        state.error = action.error.message;
       });
   },
 });
 
 const fetchPayments = createAsyncThunk(
-  'payments/fetchPayments',
+  "payments/fetchPayments",
   async (collectionName) => {
     try {
       const result = await getDatas(collectionName);
 
       for (const user of result) {
-        const userDocId = user.docId;
-
-        const payments = await getDatas(`users/${userDocId}/payments`);
-
+        const payments = await getDatas(`payments`);
         user.payment = payments;
       }
       return result;
     } catch (error) {
-      return null;
+      throw error;
     }
   }
 );

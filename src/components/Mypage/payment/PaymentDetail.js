@@ -3,7 +3,8 @@ import Container from "../../layout/container/Container";
 import styles from "../payment/PaymentDetail.scss";
 import { collection, getDocs, query, where } from "firebase/firestore";
 import { db } from "../../../api/firebase";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
+import { GridLoader } from "react-spinners";
 
 function PaymentDetail() {
   const [loading, setLoading] = useState(false);
@@ -43,7 +44,7 @@ function PaymentDetail() {
       <Container>
         <div className={styles.payment}>
           {loading ? (
-            <p>Loading...</p>
+            <GridLoader color="#a2ca71" margin={5} size={20} />
           ) : data ? (
             <>
               <h2>견적 내역</h2>

@@ -4,6 +4,7 @@ import PaymentsList from "./PaymentsList";
 import { useDispatch, useSelector } from "react-redux";
 import PaymentEmpty from "../../components/payment-empty/PaymentEmpty";
 import { fetchPayment } from "../../store/payment/paymentSlice";
+import { GridLoader } from "react-spinners";
 
 function MyPayment() {
   const { payment, isLoading, error } = useSelector(
@@ -19,7 +20,7 @@ function MyPayment() {
   }, [uid, dispatch]);
 
   if (isLoading === true) {
-    return <div>Loading...</div>;
+    return <GridLoader color="#a2ca71" margin={5} size={20} />;
   }
 
   if (error) {
