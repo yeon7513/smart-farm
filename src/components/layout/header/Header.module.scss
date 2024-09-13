@@ -4,25 +4,114 @@
   background-color: var(--main-color);
   z-index: 100;
 
+  .logo {
+    margin-bottom: 24px;
+    font-family: var(--title-font);
+    font-weight: 400;
+    font-size: 30px;
+
+    a {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 5px;
+
+      .logoIcon {
+        width: 36px;
+        transition: 0.5s;
+      }
+    }
+
+    /* 모바일 */
+    @media (max-width: 768px) {
+      margin-bottom: 0;
+      font-size: 24px;
+    }
+
+    /* 작은모바일 */
+    @media (max-width: 576px) {
+    }
+  }
+
   &.home {
     position: fixed;
     top: 0;
     left: 0;
     right: 0;
     z-index: 100;
-    color: var(--main-color);
+    color: #fff;
     transition: 0.3s linear;
     background-color: transparent;
+
+    .logo {
+      a {
+        .logoIcon {
+          filter: brightness(0) invert(1);
+        }
+      }
+    }
+
+    .hamBtn {
+      > span {
+        background-color: #fff;
+      }
+    }
 
     &.scrolled {
       background-color: var(--main-color);
       color: #333;
+
+      .logo {
+        a {
+          .logoIcon {
+            filter: none;
+          }
+        }
+      }
+
+      .hamBtn {
+        > span {
+          background-color: #333;
+        }
+      }
     }
 
     &:hover {
       background-color: var(--main-color);
       color: #333;
+
+      .logo {
+        a {
+          .logoIcon {
+            filter: none;
+          }
+        }
+      }
+
+      .hamBtn {
+        > span {
+          background-color: #333;
+        }
+
+        &:hover {
+          > span {
+            background-color: var(--hover-color);
+          }
+        }
+      }
     }
+  }
+
+  /* 모바일 */
+  @media (max-width: 768px) {
+    padding: 20px 0;
+    .container {
+      align-items: center;
+    }
+  }
+
+  /* 작은모바일 */
+  @media (max-width: 576px) {
   }
 }
 
@@ -33,25 +122,61 @@
   padding: 0 !important;
 }
 
-.logo {
-  margin-bottom: 24px;
-  font-family: var(--title-font);
-  font-weight: 400;
-  font-size: 30px;
+.hamBtn {
+  position: relative;
+  display: none;
+  width: 24px;
+  height: 20px;
+  > span {
+    position: absolute;
+    left: 0;
+    width: 24px;
+    height: 3px;
+    background-color: #333;
+    border-radius: 2px;
+    transition: 0.3s;
 
-  a {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    &:nth-child(1) {
+      top: 0;
+    }
+    &:nth-child(2) {
+      top: 50%;
+      transform: translateY(-50%);
+    }
+    &:nth-child(3) {
+      bottom: 0;
+    }
+  }
+
+  &.active {
+    > span {
+      &:nth-child(1) {
+        top: 7px;
+        transform: rotate(45deg);
+      }
+      &:nth-child(2) {
+        opacity: 0;
+      }
+      &:nth-child(3) {
+        bottom: 10px;
+        transform: rotate(-45deg);
+      }
+    }
+  }
+
+  &:hover {
+    > span {
+      background-color: var(--hover-color);
+    }
   }
 
   /* 모바일 */
   @media (max-width: 768px) {
-    margin-bottom: 0;
+    display: block;
   }
 
-  /* 작은모바일 */
-  @media (max-width: 576px) {
-    margin-bottom: 0;
-  }
+  // /* 작은모바일 */
+  // @media (max-width: 576px) {
+  //   width: 80%;
+  // }
 }

@@ -12,6 +12,7 @@ import CaseSlide from "../../components/slide/case/CaseSlide";
 import { cases } from "../../lib/case";
 // import Charts from "../../components/chart/Charts";
 import Maps from "./../../components/map/Maps";
+import backImg from "../../assets/main/content2.jpg";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -108,7 +109,9 @@ function Home() {
             농장을 관측하고 최적의 상태로 관리하는 과학 기반의 농업방식
           </p>
         </div>
-        <div></div>
+        <div>
+          <img src={backImg} alt="" />
+        </div>
       </div>
 
       <div className={styles.content_two}>
@@ -121,14 +124,24 @@ function Home() {
       <div className={styles.content_three}>
         <h1>아이팜만의 차별화된 시스템을 만나보세요.</h1>
         <div>
-          <img src={phoneImg} ref={(el) => (imgRef.current[0] = el)} alt="" />
+          <img
+            className={styles.small}
+            src={phoneImg}
+            ref={(el) => (imgRef.current[0] = el)}
+            alt=""
+          />
           <img
             className={styles.big}
             src={phoneImg}
             ref={(el) => (imgRef.current[1] = el)}
             alt=""
           />
-          <img src={phoneImg} ref={(el) => (imgRef.current[2] = el)} alt="" />
+          <img
+            className={styles.small}
+            src={phoneImg}
+            ref={(el) => (imgRef.current[2] = el)}
+            alt=""
+          />
         </div>
       </div>
 
