@@ -1,24 +1,32 @@
-import { useEffect, useState } from "react";
-import styles from "./ChatRoom.module.scss";
-import closeIcon from "../../assets/main/closeImg.svg";
-import backIcon from "../../assets/main/backImg.svg";
-import { useSelector } from "react-redux";
-import { getOrder } from "../../api/firebase";
-import ChatRoomHeader from "./chat-room-header/ChatRoomHeader";
-import ChatRoomFooter from "./chat-room-footer/ChatRoomFooter";
-import ChatOptions from "./chat-options/ChatOptions";
-import FaqQuestions from "./faq-questions/FaqQuestions";
+ChatRoom-Rewrite part
 
-function ChatRoom() {
-  const [selectedAnswer, setSelectedAnswer] = useState(''); 
+
+ 
+const answers = {
+    answer1:
+      "요청하신 회원 정보 상담을 위해 채팅 상담원과 연결 중입니다. 잠시만 기다려 주세요...",
+    answer2:
+      "요청하신 결제/환불 상담을 위해  채팅 상담원과 연결 중입니다. 잠시만 기다려 주세요...",
+    answer3:
+      "요청하신 출장 서비스 상담을 위해  채팅 상담원과 연결 중입니다. 잠시만 기다려 주세요...",
+    answer4:
+      "요청하신 견적서 상담을 위해  채팅 상담원과 연결 중입니다. 잠시만 기다려 주세요...",
+    answer5:
+      "요청하신 A/S 상담을 위해  채팅 상담원과 연결 중입니다. 잠시만 기다려 주세요...",
+    answer7:
+      "요청하신 기타 사항 상담을 위해  채팅 상담원과 연결 중입니다. 잠시만 기다려 주세요...",
+  };
+
+
+ const [selectedAnswer, setSelectedAnswer] = useState(''); 
  // 질문 선택 여부 관리
   const [isChatOptionsSelected, setisChatOptionsSelected] = useState(false); 
   // 화면 전환 여부 관리
-  const [rankedFaqData, setRankedFaqData] = useState([]); 
-  // 추천수 순위가 정렬된 FAQ 데이터를 관리
- const [openChatSupported, setOpenChatSupported] = useState(false); 
+  const [sortedFaqData, setSortedFaqData] = useState([]); 
+  // 상태로 정렬된 FAQ 데이터를 관리
+ const [isExtraQuestionSelected, setIsExtraQuestionSelected] = useState(false); 
  // 다섯 번째 질문 선택 여부 관리
- const [isChatRoomOpened, setIsChatRoomOpened] = useState(true);
+ const [isChatRoomVisible, setIsChatRoomVisible] = useState(true);
   // 챗룸의 가시성 상태
 
 
@@ -27,26 +35,26 @@ function ChatRoom() {
 
   // FAQ 데이터를 Firestore에서 'likes' 필드를 기준으로 내림차순 정렬해서 가져오기
   useEffect(() => {
-    const fetchRankedFaqData = async () => {
+    const fetchSortedFaqData = async () => {
       try {
-        const rankedData = await getOrder("faq", "likes"); 
+        const sortedData = await getOrder("faq", "likes"); 
         // 'likes' 필드를 기준으로 FAQ 데이터를 가져옴
-        console.log("Fetched FAQ Data: ", rankedData); 
+        console.log("Fetched FAQ Data: ", sortedData); 
         // 가져온 데이터를 콘솔에 출력
-        setRankedFaqData(rankedData); 
+        setSortedFaqData(sortedData); 
         // 정렬된 데이터를 상태에 설정
       } catch (error) {
         console.error("Error fetching sorted FAQs:", error);
       }
     };
-    fetchRankedFaqData(); 
+    fetchSortedFaqData(); 
     // 컴포넌트가 마운트될 때 데이터를 가져옴
   }, []); 
   // 의존성 배열을 빈 배열로 설정하여 컴포넌트가 마운트될 때 한 번만 실행되도록 설정
 
   //  추가할 5번째 질문과 답변
-  const openChat = {
-    id: "supporter", // 고유 ID 생성
+  const extraQuestion = {
+    id: "extral", // 고유 ID 생성
     question: " 채팅 상담원 연결하기",
     answer: "이것은 파일 내부에서 추가된 다섯 번째 질문에 대한 답변입니다.",
   };
@@ -82,26 +90,25 @@ function ChatRoom() {
   };
 
   const handleChatButtonClick = (id) => {
-    setisChatOptionsSelected(true); 
-    // 첫번째 "채팅 상담원 연결하기" 버튼 클릭 시 선택지 화면으로 전환
+    setisChatOptionsSelected(true); // "채팅 상담원 연결하기" 버튼 클릭 시 선택지 화면으로 전환
     setSelectedAnswer(""); // 선택된 답변 초기화
   };
 
   const handleBackButtonClick = () => {
     setisChatOptionsSelected(false); // "뒤로 가기" 버튼 클릭 시 이전 화면으로 전환
-    setOpenChatSupported(false); // 추가 질문 선택 상태 초기화
+    setIsExtraQuestionSelected(false); // 추가 질문 선택 상태 초기화
     setSelectedAnswer(""); // 선택된 답변 초기화
   };
 
   const handleFaqClick = (id) => {
     // FAQ 버튼 클릭 시의 동작 정의
-    if (id === "supporter") {
+    if (id === "extral") {
       // 다섯 번째 질문을 선택한 경우 (올바른 ID로 수정)
-      setOpenChatSupported(true); // 추가 질문 화면으로 전환
+      setIsExtraQuestionSelected(true); // 추가 질문 화면으로 전환
       setisChatOptionsSelected(true);
       setSelectedAnswer("");
     } else {
-      const selectedFaq = [...rankedFaqData, openChat].find(
+      const selectedFaq = [...sortedFaqData, extraQuestion].find(
         (faq) => faq.id === id
       ); // 클릭된 FAQ를 찾음
 
@@ -127,49 +134,9 @@ function ChatRoom() {
   };
 
   const handleClose = () => {
-    setIsChatRoomOpened(false); 
+    setIsChatRoomVisible(false); 
     // 챗룸 닫기
   };
 
-  if (!isChatRoomOpened) return null;
+  if (!isChatRoomVisible) return null;
    // 챗룸이 보이지 않도록 설정
-
-  return (
-    <div className={styles.wrapper}>
-   <ChatRoomHeader
-   openChatSupported={openChatSupported}
-  //   5번째 추가버튼(채팅상담원) 선택지 이동 
-   handleBackButtonClick={handleBackButtonClick}
-  //  뒤로가기 버튼
-   handleClose={handleClose}
-  //  닫기 버튼 
-   />
-      {/* 여기까지 헤더의 영역 */}
-
-      <div className={styles.content}>
-        {openChatSupported ? (
-        <ChatOptions 
-        chatOptionsData={chatOptionsData}
-        handleOptionClick={handleOptionClick}
-        selectedAnswer={selectedAnswer}
-        />
-        ) : (
-    <FaqQuestions
-    rankedFaqData={rankedFaqData}
-    openChat={openChat}
-    handleFaqClick={handleFaqClick}
-    selectedAnswer={selectedAnswer}
-      />
-    
-        )}
-      </div>
-
-   <ChatRoomFooter
-   openChatSupported={openChatSupported}
-   />
-     {/* 풋터의 영역 */}
-    </div>
-  );
-}
-
-export default ChatRoom;
