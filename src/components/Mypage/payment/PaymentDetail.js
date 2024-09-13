@@ -56,7 +56,7 @@ function PaymentDetail() {
               <p>농장 종류: {data.facilityType}</p>
               <p>농장 면적: {data.farmArea}</p>
               <p>농장 동 수: {data.farmEquivalent}</p>
-              <p>부가 옵션: {data.additionalOptions}</p>
+              <p>부가 옵션: {data.additionalOptions.join(", ")}</p>
               <p>주문번호: {data.createdAt}</p>
             </>
           ) : (
