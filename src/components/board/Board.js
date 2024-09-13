@@ -8,16 +8,14 @@ import { useSelector } from "react-redux";
 import AsPost from "./asBoard/AsPost";
 
 const PAGE_SIZE = 10;
-const loginUser = JSON.parse(localStorage.getItem("user"));
 
 function Board({ nopost, category, complain }) {
+  const loginUser = JSON.parse(localStorage.getItem("user"));
   const navigate = useNavigate();
   const [currentPage, setCurrentPage] = useState(1);
   const [isWriting, setIsWriting] = useState(false); // 글쓰기 모드 상태
   const [view, setView] = useState([]);
   const { isAuthenticated } = useSelector((state) => state.userSlice);
-
-  const isAsBoard = category === "as";
 
   const totalPages = Math.ceil(view.length / PAGE_SIZE);
   const currentItem = view.slice(

@@ -122,6 +122,7 @@ const Kakaoback = () => {
           <button
             onClick={onClick}
             style={{
+              width: "40%",
               display: "flex",
               justifyContent: "center",
               alignItems: "center",
@@ -133,8 +134,9 @@ const Kakaoback = () => {
               cursor: "pointer", // 커서 모양
               fontSize: "15px", // 텍스트 크기
               fontWeight: "bold", // 텍스트 두께
-              padding: "2.5% 4% 2.5% 4%",
+              padding: "1% 4% 1% 4%",
               transition: "background-color 0.3s", // 호버 시 색상 변경을 부드럽게
+
               // boxShadow: "0 0 8px 0 rgba(0, 0, 0, 0.15);",
             }}
             onMouseOver={(e) => (e.currentTarget.style.opacity = "0.6")}

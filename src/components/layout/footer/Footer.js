@@ -1,8 +1,8 @@
-import React from "react";
-import { FaFacebook, FaGithub, FaInstagram } from "react-icons/fa";
-import { Link } from "react-router-dom";
-import Container from "../container/Container";
-import styles from "./Footer.module.scss";
+import React from 'react';
+import { FaFacebook, FaGithub, FaInstagram } from 'react-icons/fa';
+import { Link } from 'react-router-dom';
+import Container from '../container/Container';
+import styles from './Footer.module.scss';
 
 function Footer() {
   return (
@@ -10,11 +10,7 @@ function Footer() {
       <Container className={styles.container}>
         <h1 className={styles.logo}>
           <Link to="/">
-            <img
-              className="logo-icon"
-              // src={require('../../../assets/main/logo.png')}
-              alt=""
-            />
+            <img className={styles.logoIcon} src={'./img/logo.png'} alt="" />
             아이팜
           </Link>
         </h1>
@@ -59,7 +55,7 @@ function Footer() {
       </Container>
       <div className={styles.copy}>
         <small>
-          Copyright {new Date().getFullYear()}{" "}
+          Copyright {new Date().getFullYear()}{' '}
           <span className={styles.bold}>아이팜</span> All rights reserved.
         </small>
       </div>

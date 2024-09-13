@@ -9,21 +9,29 @@ import { getUserAuth } from '../../../../api/firebase';
 import { useComponentContext } from '../../../../context/ComponentContext';
 import { paths } from '../../../../lib/menu';
 import { removeUser } from '../../../../store/user/UserSlice';
+import Contact from './../../../contact/Contact';
 import styles from './Nav.module.scss';
 
-function NavLink({ className, path, depth, children }) {
+function NavLink({ className, path, depth, children, setMenuOpen }) {
   const { setCurrComp } = useComponentContext();
+
+  const handleToMove = (comp) => {
+    setCurrComp(comp);
+    setMenuOpen(false);
+  };
 
   return (
     <li className={className}>
       {depth ? (
         <>
-          <Link to={path}>{children}</Link>
+          <Link to={path} onClick={() => setMenuOpen(false)}>
+            {children}
+          </Link>
           <div className={styles.depthWrapper}>
             <ul className={styles.depth}>
               {depth.map((menu, idx) => (
                 <li key={idx}>
-                  <Link to={menu.path} onClick={() => setCurrComp(menu.comp)}>
+                  <Link to={menu.path} onClick={() => handleToMove(menu.comp)}>
                     {menu.name}
                   </Link>
                 </li>
@@ -32,24 +40,21 @@ function NavLink({ className, path, depth, children }) {
           </div>
         </>
       ) : (
-        <Link to={path}>{children}</Link>
+        <Link to={path} onClick={() => setMenuOpen(false)}>
+          {children}
+        </Link>
       )}
     </li>
   );
 }
 
-function Nav() {
+function Nav({ menuOpen, setMenuOpen }) {
   const [position, setPosition] = useState({ lat: null, lon: null });
   const [error, setError] = useState(null);
-  const [menuOpen, setMenuOpen] = useState(false);
   const auth = getUserAuth();
   const { isAuthenticated } = useSelector((state) => state.userSlice);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
-  const handleMenuOpen = () => {
-    setMenuOpen(!menuOpen);
-  };
 
   const handleLogout = async () => {
     try {
@@ -70,6 +75,7 @@ function Nav() {
     } catch (error) {
       console.error(error);
     }
+    setMenuOpen(false);
   };
 
   useEffect(() => {
@@ -119,16 +125,10 @@ function Nav() {
 
   return (
     <>
-      <button
-        className={menuOpen ? cn(styles.hamBtn, styles.active) : styles.hamBtn}
-        onClick={handleMenuOpen}
-      >
-        <span></span>
-        <span></span>
-        <span></span>
-      </button>
       <nav className={menuOpen ? cn(styles.nav, styles.show) : styles.nav}>
-        <div className={styles.spot}>
+        <div
+          className={menuOpen ? cn(styles.spot, styles.showMenu) : styles.spot}
+        >
           <ul>
             {isAuthenticated ? (
               <>
@@ -140,19 +140,31 @@ function Nav() {
                 </li>
                 {error && <p style={{ color: "red" }}>{error}</p>} */}
                 {loginUser.email.includes('admin') ? (
-                  <NavLink path={'/manager'}>관리자</NavLink>
+                  <NavLink path={'/manager'} setMenuOpen={setMenuOpen}>
+                    관리자
+                  </NavLink>
                 ) : (
                   <>
-                    {!menuOpen && <p>{loginUser.nick}님, 환영합니다.</p>}
-                    <NavLink path={'/my-farm'}>
+                    <li className={styles.welcome}>
+                      {loginUser.nick}님, 환영합니다.
+                    </li>
+                    <NavLink
+                      path={'/my-farm'}
+                      className={styles.gotoMyfarm}
+                      setMenuOpen={setMenuOpen}
+                    >
                       {menuOpen ? <PiFarmBold /> : '내 농장'}
                     </NavLink>
-                    <NavLink path={'/mypage'}>
+                    <NavLink
+                      path={'/mypage'}
+                      className={styles.gotoMypage}
+                      setMenuOpen={setMenuOpen}
+                    >
                       {menuOpen ? <LiaUserCogSolid /> : '마이페이지'}
                     </NavLink>
                   </>
                 )}
-                <li>
+                <li className={styles.logout}>
                   <Link onClick={handleLogout}>
                     {menuOpen ? <IoMdLogOut /> : '로그아웃'}
                   </Link>
@@ -160,7 +172,7 @@ function Nav() {
               </>
             ) : (
               paths.spot.map((menu, idx) => (
-                <NavLink key={idx} path={menu.path}>
+                <NavLink key={idx} path={menu.path} setMenuOpen={setMenuOpen}>
                   {menu.name}
                 </NavLink>
               ))
@@ -176,11 +188,15 @@ function Nav() {
               path={menu.path}
               depth={menu.depth}
               className={styles.mainMenu}
+              setMenuOpen={setMenuOpen}
             >
               {menu.name}
             </NavLink>
           ))}
         </ul>
+        {menuOpen && (
+          <Contact className={styles.navContact} isResponsive={menuOpen} />
+        )}
       </nav>
     </>
   );

@@ -8,7 +8,7 @@ import { useComponentContext } from '../../context/ComponentContext';
 import ChatRoom from '../chat-room/ChatRoom';
 import styles from './Contact.module.scss';
 
-function Contact() {
+function Contact({ className, isResponsive = false }) {
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const auth = getUserAuth();
@@ -27,7 +27,7 @@ function Contact() {
   };
 
   return (
-    <div className={styles.contact}>
+    <div className={isResponsive ? className : styles.contact}>
       <div className={styles.btns}>
         {!pathname.includes('my-farm') && auth && user && (
           <button

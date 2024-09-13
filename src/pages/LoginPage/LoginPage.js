@@ -152,7 +152,7 @@ function LoginPage() {
             <FcIcons.FcGoogle style={{ width: 40, height: 40 }} />
           </div>
           <div className={styles.h2}>
-            <h2>Google</h2>
+            <h2>Google 로그인</h2>
           </div>
         </button>
         <Kakaoback />
