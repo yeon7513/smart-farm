@@ -26,8 +26,8 @@ const buttonItem = [
   {
     id: 6,
     name: "한파",
-    title1: "한파 예방법",
-    title2: "한파 사후조치",
+    // title1: "한파 예방법",
+    // title2: "한파 사후조치",
   },
   {
     id: 7,
