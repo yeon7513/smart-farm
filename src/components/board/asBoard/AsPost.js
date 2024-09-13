@@ -5,8 +5,6 @@ import { addBoardDatas, uploadImage } from "../../../api/firebase/board";
 // import { ref } from "firebase/storage";
 import { useNavigate } from "react-router-dom";
 
-const loginUser = JSON.parse(localStorage.getItem("user"));
-
 const INITIAL_VALUE = {
   title: "🔒 문의합니다.",
   count: 0,
@@ -16,6 +14,7 @@ const INITIAL_VALUE = {
 };
 
 function AsPost({ onClick, onSubmit, initialValue = INITIAL_VALUE }) {
+  const loginUser = JSON.parse(localStorage.getItem("user"));
   const [values, setValues] = useState(initialValue);
   const [file, setFile] = useState(null);
   const [postPassword, setPostPassword] = useState(null);
@@ -45,7 +44,8 @@ function AsPost({ onClick, onSubmit, initialValue = INITIAL_VALUE }) {
     const addObj = {
       ...values,
       imgUrl: file || "",
-      nick: loginUser.nick,
+      nick: loginUser?.nick,
+      email: loginUser?.email,
       password: postPassword,
     };
 

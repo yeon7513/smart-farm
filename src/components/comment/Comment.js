@@ -11,9 +11,8 @@ import CustomModal from "../modal/CustomModal";
 import Radio from "../complain/Radio";
 import { useSelector } from "react-redux";
 
-const loginUser = JSON.parse(localStorage.getItem("user"));
-
 function Comment({ item }) {
+  const loginUser = JSON.parse(localStorage.getItem("user"));
   const [comments, setComments] = useState([]);
   const [newComment, setNewComment] = useState("");
   const [editComment, setEditComment] = useState("");
@@ -40,8 +39,8 @@ function Comment({ item }) {
 
     const commentObj = {
       text: newComment,
-      nickName: loginUser.nick,
-      userId: loginUser.email,
+      nick: loginUser.nick,
+      email: loginUser.email,
     };
 
     const success = await addComment(collectionName, docId, commentObj);
@@ -49,6 +48,7 @@ function Comment({ item }) {
       setNewComment(""); // 입력 필드 초기화
       getComments();
     }
+    console.log(commentObj);
   };
 
   // 댓글 수정 모드로 전환하는 함수
@@ -130,11 +130,11 @@ function Comment({ item }) {
                 <div className={styles.user}>
                   <div>
                     <p>
-                      {comment.nickName} <span>{comment.createdAt}</span>
+                      {comment.nick} <span>{comment.createdAt}</span>
                     </p>
                   </div>
                   <div>
-                    {comment.nickName === loginUser?.nick ? (
+                    {comment.nick === loginUser?.nick ? (
                       <div>
                         <button onClick={() => handleEditClick(comment)}>
                           수정
@@ -145,21 +145,26 @@ function Comment({ item }) {
                         </button>
                       </div>
                     ) : (
-                      <div>
-                        <button className={styles.complain} onClick={openModal}>
-                          🚨신고하기
-                        </button>
-                        <CustomModal
-                          title={"신고하기"}
-                          btnName={"접수"}
-                          handleClose={closeModal}
-                          isOpen={isModalOpen}
-                          btnHandler={goComplain}
-                          className={styles.modal}
-                        >
-                          <Radio />
-                        </CustomModal>
-                      </div>
+                      comment.nick !== "관리자" && (
+                        <div>
+                          <button
+                            className={styles.complain}
+                            onClick={openModal}
+                          >
+                            🚨신고하기
+                          </button>
+                          <CustomModal
+                            title={"신고하기"}
+                            btnName={"접수"}
+                            handleClose={closeModal}
+                            isOpen={isModalOpen}
+                            btnHandler={goComplain}
+                            className={styles.modal}
+                          >
+                            <Radio />
+                          </CustomModal>
+                        </div>
+                      )
                     )}
                   </div>
                 </div>
