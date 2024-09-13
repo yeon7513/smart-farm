@@ -80,7 +80,7 @@ function FacilitiesHorticulture({
   return (
     <>
       {Object.keys(options).map((category) => (
-        <div key={category}>
+        <div key={category} className={styles.category}>
           <h4>{category}</h4>
           {options[category].map((option) => (
             <div key={option.id} className={styles.additionalOptions}>

@@ -49,7 +49,7 @@ const Payment = () => {
           <>
             {data.length > 0 ? (
               <table>
-                <thead>
+                <thead className={styles.thead}>
                   <tr>
                     <th>작물 종류</th>
                     <th>농장 종류</th>
