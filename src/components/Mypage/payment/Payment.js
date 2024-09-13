@@ -2,80 +2,42 @@ import React, { useEffect, useState } from "react";
 import style from "./Payment.module.scss";
 import Container from "../../layout/container/Container";
 import { db } from "../../../api/firebase";
-import { collection, doc, getDocs } from "firebase/firestore";
-import * as XLSX from "xlsx";
-// import { saveAs } from "file-saver";
+import { collection, getDocs, query, where } from "firebase/firestore";
+import { useSelector } from "react-redux";
 
 const Payment = () => {
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState([]);
+  const { uid } = useSelector((state) => state.userSlice);
 
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
       try {
-        // users 컬렉션의 사용자 정보를 가져옵니다.
-        const usersSnapshot = await getDocs(collection(db, "users"));
+        // payments 컬렉션에서 사용자 ID로 필터링합니다.
+        const paymentsQuery = query(
+          collection(db, "payments"),
+          where("uid", "==", uid)
+        );
+        const paymentsSnapshot = await getDocs(paymentsQuery);
 
-        // users 컬렉션 안의 payments 컬렉션의 주문 내역을 가져옵니다.
-        const dataPromises = usersSnapshot.docs.map(async (userDoc) => {
-          const userId = userDoc.id;
-          const userData = userDoc.data();
+        // 결제 정보를 배열로 변환합니다.
+        const resultData = paymentsSnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
 
-          // users 컬렉션의 이름, 전화번호, 주소 추출
-          const { name, number, address } = userData;
-
-          // payments 컬렉션에서 견적 정보를 가져옵니다.
-          const paymentsSnapshot = await getDocs(
-            collection(doc(db, "users", userId), "payments")
-          );
-          const paymentsData = paymentsSnapshot.docs.map((paymentDoc) => {
-            const paymentData = paymentDoc.data();
-            return {
-              name,
-              number,
-              address,
-              ...paymentData,
-            };
-          });
-
-          // 사용자 정보와 합하여 출력합니다.
-          return paymentsData;
-        });
-
-        // Promise를 배열로 반환
-        const allPaymentsData = await Promise.all(dataPromises);
-
-        // 데이터를 평탄화하여 하나의 배열로 생성
-        setData(allPaymentsData.flat());
+        setData(resultData);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
       setLoading(false);
     };
 
-    fetchData();
-  }, []);
-
-  // firebase의 데이터를 excel로 보냅니다.
-  const exportToExcel = () => {
-    // 데이터 변환
-    const worksheet = XLSX.utils.json_to_sheet(data);
-    const workbook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(workbook, worksheet, "결제 내역");
-
-    // 엑셀 파일 생성
-    const excelBuffer = XLSX.write(workbook, {
-      bookType: "xlsx",
-      type: "array",
-    });
-    const file = new Blob([excelBuffer], {
-      type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-    });
-
-    // 파일 다운로드
-    // saveAs(file, "결제 내역.xlsx");
-  };
+    if (uid) {
+      fetchData();
+    }
+  }, [uid]);
 
   return (
     <Container>
@@ -83,7 +45,46 @@ const Payment = () => {
         {loading ? (
           <p>Loading...</p>
         ) : (
-          <button onClick={exportToExcel}>잘 되나 테스트</button>
+          <>
+            {data.length > 0 ? (
+              <table>
+                <thead>
+                  <tr>
+                    <th>이름</th>
+                    <th>연락처</th>
+                    <th>주소</th>
+                    <th>농장 이름</th>
+                    <th>농장 주소</th>
+                    <th>작물 종류</th>
+                    <th>농장 종류</th>
+                    <th>농장 면적 (단위: 평)</th>
+                    <th>농장 동 수</th>
+                    <th>부가 옵션</th>
+                    <th>주문번호</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {data.map((item, index) => (
+                    <tr key={index}>
+                      <td>{item.name}</td>
+                      <td>{item.number}</td>
+                      <td>{item.address}</td>
+                      <td>{item.farmName}</td>
+                      <td>{item.farmAddress}</td>
+                      <td>{item.cropType}</td>
+                      <td>{item.facilityType}</td>
+                      <td>{item.farmArea}</td>
+                      <td>{item.farmEquivalent}</td>
+                      <td>{item.additionalOptions.join(", ")}</td>
+                      <td>{item.createdAt}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            ) : (
+              <p>No data available.</p>
+            )}
+          </>
         )}
       </div>
     </Container>

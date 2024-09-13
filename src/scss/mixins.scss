@@ -43,8 +43,8 @@
   &::before {
     content: '';
     background-color: $hoverColor;
-    width: 120%;
-    left: -10%;
+    width: 130%;
+    left: -15%;
     transform: skew(30deg);
     transition: transform 0.3s cubic-bezier(0.3, 1, 0.8, 1);
   }
@@ -195,7 +195,6 @@
 
 /* 링크 효과 */
 @mixin linkEffect(
-  $padding: 8px 16px,
   $commonColor: var(--common-color),
   $accentColor: var(--accent-color),
   $hoverColor: var(--hover-color),
@@ -204,7 +203,6 @@
   position: relative;
   transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
 
-  &:focus,
   &:hover {
     color: $hoverColor;
 

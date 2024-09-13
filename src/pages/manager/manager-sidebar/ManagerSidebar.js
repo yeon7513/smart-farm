@@ -3,41 +3,58 @@ import { useComponentContext } from '../../../context/ComponentContext';
 import styles from './ManagerSidebar.module.scss';
 
 function ManagerSidebar() {
-  const { setCurrComp } = useComponentContext();
+  const { currComp, setCurrComp } = useComponentContext();
 
   return (
     <div className={styles.sidebar}>
       <ul className={styles.menu}>
         <li>
-          <button onClick={() => setCurrComp('OverallStatus')}>
-            <span>전체 현황</span>
+          <button
+            className={currComp === 'OverallStatus' ? styles.active : ''}
+            onClick={() => setCurrComp('OverallStatus')}
+          >
+            전체 현황
           </button>
         </li>
         <li>
           <button
-            className={styles.active}
+            className={currComp === 'MembersCare' ? styles.active : ''}
             onClick={() => setCurrComp('MembersCare')}
           >
-            <span>회원 관리</span>
+            회원 관리
           </button>
         </li>
         <li>
-          <button onClick={() => setCurrComp('QuotationsCare')}>
+          <button
+            className={currComp === 'QuotationsCare' ? styles.active : ''}
+            onClick={() => setCurrComp('QuotationsCare')}
+          >
             견적 관리
           </button>
         </li>
         <li>
-          <button onClick={() => setCurrComp('ComplaintsCare')}>
+          <button
+            className={currComp === 'ComplaintsCare' ? styles.active : ''}
+            onClick={() => setCurrComp('ComplaintsCare')}
+          >
             신고 관리
           </button>
         </li>
         <li>
-          <button onClick={() => setCurrComp('AfterServiceCare')}>
+          <button
+            className={currComp === 'AfterServiceCare' ? styles.active : ''}
+            onClick={() => setCurrComp('AfterServiceCare')}
+          >
             A/S 관리
           </button>
         </li>
         <li>
-          <button onClick={() => setCurrComp('ChatbotCare')}>챗봇 관리</button>
+          <button
+            className={currComp === 'ChatbotCare' ? styles.active : ''}
+            onClick={() => setCurrComp('ChatbotCare')}
+          >
+            챗봇 관리
+          </button>
         </li>
       </ul>
     </div>

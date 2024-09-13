@@ -26,13 +26,17 @@ function SearchEm(props) {
     <Container className={styles.container}>
       <div className={styles.title}>
         <h1>이메일 찾기</h1>
+        <h3>
+          소셜(Google, Kakao)이 아닌 <span>일반 회원가입</span>만 가능합니다.
+        </h3>
       </div>
       <Form
         getDataForm={handleInputNum}
         title={"이메일 찾기"}
         inputName1={"이름"}
+        inputName2={"비밀번호 입력"}
         type={"text"}
-        type2={"name"}
+        type2={"password"}
       />
       <TextField
         className={styles.answer}

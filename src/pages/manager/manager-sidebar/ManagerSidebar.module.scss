@@ -1,7 +1,6 @@
 @import '/src/scss/mixins.scss';
 
 .sidebar {
-  width: 20%;
   height: 100%;
   position: sticky;
   top: 20px;
@@ -11,16 +10,11 @@
     width: 100%;
 
     li {
-      padding: 16px;
+      padding-bottom: 16px;
       > button {
-        // width: 100%;
-        // padding: 20px;
-        // font-size: 20px;
-
-        // &:hover {
-        // }
-        font-size: 20px;
-        @include packedBtn();
+        font-size: 16px;
+        padding-top: 8px;
+        @include linkEffect();
       }
     }
   }

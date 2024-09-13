@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import Container from "../../components/layout/container/Container";
 import RequestForm from "./request-form/RequestForm";
 import styles from "./RequestForQuote.module.scss";
@@ -12,20 +11,6 @@ function RequestForQuote() {
   // 결제정보 저장 state
   const [requestData, setRequestData] = useState([]);
   const [accumulatedData, setAccumulatedData] = useState([]);
-
-  // 모아진 견적들을 한 엑셀 파일에 모아서 다운로드 받기 위한 함수입니다.
-  const downloadExcel = () => {
-    const today = new Date();
-    const year = today.getFullYear();
-    const month = String(today.getMonth() + 1).padStart(2, "0");
-    const day = String(today.getDate()).padStart(2, "0");
-    const createdAt = `${year}${month}${day}${new Date().getTime()}`;
-
-    const ws = XLSX.utils.json_to_sheet(accumulatedData);
-    const wb = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb, ws, "견적서");
-    XLSX.writeFile(wb, `${createdAt}.xlsx`);
-  };
 
   return (
     <Container className={styles.container}>

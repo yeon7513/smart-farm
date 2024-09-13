@@ -1,10 +1,7 @@
 import React, { useEffect } from "react";
-import styles from "./PaymentsList.module.scss";
-import { getISODate } from "../../utils/getFormattedDate";
 import { useDispatch, useSelector } from "react-redux";
 import PaymentEmpty from "../../components/payment-empty/PaymentEmpty";
 import { fetchPayment } from "../../store/payment/paymentSlice";
-import PaymentsItem from "./PaymentsItem";
 import Payment from "../../components/Mypage/payment/Payment";
 
 function PaymentsList() {
@@ -16,7 +13,7 @@ function PaymentsList() {
     if (uid) {
       dispatch(
         fetchPayment({
-          collectionName: ["users", uid, "payments"],
+          collectionName: "payments",
         })
       );
     }

@@ -17,12 +17,13 @@ function Myinfo(props) {
   const navigate = useNavigate();
   const { items } = useSelector((state) => state.userSlice);
   const dispatch = useDispatch();
+  const user = JSON.parse(localStorage.getItem("user")) || "";
   useEffect(() => {
     dispatch(fetchItems({ collectionName: "users" }));
-  }, []);
+  }, [user]);
 
   // 유저 정보 불러오기
-  const user = JSON.parse(localStorage.getItem("user")) || "";
+  // let userUpdate = JSON.parse(localStorage.getItem("user"));
 
   const handleChange = (event) => {
     setInputValue(event.target.value);
@@ -35,34 +36,34 @@ function Myinfo(props) {
     });
     console.log(SameName);
     if (SameName.length === 0) {
-      // alert("중복된게 없습니다.  테스트로 alert좀 썼어요!");
+      alert("중복된게 없습니다.  테스트로 alert좀 썼어요!");
+    } else {
+      alert("중복된 이름입니다. 다시 입력해주세요. 테스트로 alert좀 썼어요!");
+    }
+  };
+
+  const handleNameChange = async () => {
+    if (nameState === true) {
+      SetnameState(false);
       const SameNameChange = items.find((item) => {
         return item.name == user.name;
       });
       const updateObj = {
         name: inputValue,
       };
-      // const { docId } = SameNameChange;
-      console.log(SameNameChange);
-      // await updateDatas("users", SameNameChange.do, updateObj);
+      const { docId } = SameNameChange;
+      await updateDatas("users", docId, updateObj);
+      user.name = inputValue;
+      localStorage.setItem("user", JSON.stringify(user));
     } else {
-      alert("중복된 이름입니다. 다시 입력해주세요. 테스트로 alert좀 썼어요!");
+      SetnameState(true);
     }
   };
-
   const nickClick = () => {
     if (NicknameState === true) {
       SetnicknameState(false);
     } else {
       SetnicknameState(true);
-    }
-  };
-
-  const nickClick1 = () => {
-    if (nameState === true) {
-      SetnameState(false);
-    } else {
-      SetnameState(true);
     }
   };
   const nickClick2 = () => {
@@ -104,11 +105,11 @@ function Myinfo(props) {
         <div className={style.name}>
           <div className={style.title}>{user.name}</div>
           {nameState === true ? (
-            <button className={style.Change} onClick={nickClick1}>
+            <button className={style.Change} onClick={handleNameChange}>
               변경 완료
             </button>
           ) : (
-            <button onClick={nickClick1}>이름 변경</button>
+            <button onClick={handleNameChange}>이름 변경</button>
           )}
         </div>
         {nameState === true ? (
@@ -131,7 +132,7 @@ function Myinfo(props) {
         </div>
         {NicknameState === true ? (
           <div className={style.double}>
-            <input type="text" />
+            <input onChange={handleChange} type="text" />
             <button>중복 확인</button>
           </div>
         ) : (
