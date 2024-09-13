@@ -5,6 +5,7 @@ const buttonItem = [
   {
     id: 1,
     name: "호우",
+    // title:
   },
   {
     id: 2,
@@ -25,6 +26,8 @@ const buttonItem = [
   {
     id: 6,
     name: "한파",
+    title1: "한파 예방법",
+    title2: "한파 사후조치",
   },
   {
     id: 7,
@@ -50,6 +53,29 @@ function DisasterItem(props) {
       <div className={styles.measures}>
         <div>
           <h2>호우</h2>
+        </div>
+        <div>
+          {/* 예방법&조치 */}
+          <div>
+            <div className={styles.measures_item}>
+              <ul>
+                <h2>예방법</h2>
+                <li>
+                  <span>작물피복</span> :fffff
+                </li>
+                <li>관리</li>
+                <li>영양</li>
+              </ul>
+            </div>
+          </div>
+          <div className={styles.measures_item}>
+            <ul>
+              <h2>예방법</h2>
+              <li>작물피복 :fffff</li>
+              <li>관리</li>
+              <li>영양</li>
+            </ul>
+          </div>
         </div>
       </div>
     </div>
