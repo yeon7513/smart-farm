@@ -4,14 +4,14 @@ import closeIcon from "../../../assets/main/closeImg.svg";
 import styles from "./ChatRoomHeader.module.scss";
 
 
-function ChatRoomHeader({ isExtraQuestionSelected,handleBackButtonClick,handleClose }) {
+function ChatRoomHeader({ openChatSupported,handleBackButtonClick,handleClose }) {
   return (
     <div
     className={`${styles.header} ${
-      isExtraQuestionSelected ? styles.headerDetailOption : ""
+        openChatSupported ? styles.headerDetailOption : ""
     }`}
   >
-    {isExtraQuestionSelected ? (
+    {openChatSupported ? (
       <>
         <button className={styles.backBtn} onClick={handleBackButtonClick}>
           <img

@@ -12,15 +12,16 @@ import FaqQuestions from "./faq-questions/FaqQuestions";
 function ChatRoom() {
   const [selectedAnswer, setSelectedAnswer] = useState(''); 
  // 질문 선택 여부 관리
-  const [isChatOptionsSelected, setisChatOptionsSelected] = useState(false); 
-  // 화면 전환 여부 관리
+  const [isChatOptionsSelected, setIsChatOptionsSelected] = useState(false); 
+  // '무엇을 도와드릴까요?' 화면에서 채팅상담 시작하기 버튼 클릭했을 때 '세부 선택' 화면으로 전환 여부 관리
   const [rankedFaqData, setRankedFaqData] = useState([]); 
   // 추천수 순위가 정렬된 FAQ 데이터를 관리
  const [openChatSupported, setOpenChatSupported] = useState(false); 
- // 다섯 번째 질문 선택 여부 관리
+ // '세부 선택' 화면에서 '채팅상담원 연결하기' 질문 선택 여부 관리
  const [isChatRoomOpened, setIsChatRoomOpened] = useState(true);
   // 챗룸의 가시성 상태
-
+  const [isLiveChattingOpened, setIsLiveChattingOpened] = useState(false);
+// LiveChatting 접속을 위한 새로운 상태
 
 
   const faqData = useSelector((state) => state.faqData);
@@ -36,7 +37,7 @@ function ChatRoom() {
         setRankedFaqData(rankedData); 
         // 정렬된 데이터를 상태에 설정
       } catch (error) {
-        console.error("Error fetching sorted FAQs:", error);
+        console.error("Error fetching ranked FAQs:", error);
       }
     };
     fetchRankedFaqData(); 
@@ -47,7 +48,7 @@ function ChatRoom() {
   //  추가할 5번째 질문과 답변
   const openChat = {
     id: "supporter", // 고유 ID 생성
-    question: " 채팅 상담원 연결하기",
+    question: " 채팅 상담 시작하기",
     answer: "이것은 파일 내부에서 추가된 다섯 번째 질문에 대한 답변입니다.",
   };
 
@@ -82,23 +83,23 @@ function ChatRoom() {
   };
 
   const handleChatButtonClick = (id) => {
-    setisChatOptionsSelected(true); 
-    // 첫번째 "채팅 상담원 연결하기" 버튼 클릭 시 선택지 화면으로 전환
+    setIsChatOptionsSelected(true); 
+    // 첫번째 화면에서 "채팅 상담원 연결하기" 버튼 클릭 시 선택지 화면으로 전환
     setSelectedAnswer(""); // 선택된 답변 초기화
   };
 
   const handleBackButtonClick = () => {
-    setisChatOptionsSelected(false); // "뒤로 가기" 버튼 클릭 시 이전 화면으로 전환
+    setIsChatOptionsSelected(false); // "뒤로 가기" 버튼 클릭 시 이전 화면으로 전환
     setOpenChatSupported(false); // 추가 질문 선택 상태 초기화
     setSelectedAnswer(""); // 선택된 답변 초기화
   };
 
   const handleFaqClick = (id) => {
-    // FAQ 버튼 클릭 시의 동작 정의
+    // 첫번째 화면에서 FAQ 버튼 클릭 시의 동작 정의 -> 클릭 시 FaqQuestions 화면으로 이동 
     if (id === "supporter") {
-      // 다섯 번째 질문을 선택한 경우 (올바른 ID로 수정)
+      // '채팅 상담사 연결하기' 질문을 선택한 경우 (올바른 ID로 수정)
       setOpenChatSupported(true); // 추가 질문 화면으로 전환
-      setisChatOptionsSelected(true);
+      setIsChatOptionsSelected(true);
       setSelectedAnswer("");
     } else {
       const selectedFaq = [...rankedFaqData, openChat].find(
@@ -115,6 +116,7 @@ function ChatRoom() {
   };
 
   const handleOptionClick = (id) => {
+    // 두번째 화면에서 카테고리 버튼 클릭시 답변 연결 후 세번째 채팅방으로 연결 
     const selectedOption = chatOptionsData.find((option) => option.id === id);
      // 클릭된 추가 질문 찾기
 
