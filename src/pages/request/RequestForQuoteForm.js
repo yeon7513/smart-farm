@@ -94,28 +94,6 @@ function RequestForQuoteForm({ addEstimate, user }) {
     const createdAt = `${year}${month}${day}${new Date().getTime()}`;
     const formattedAdditionalOptions =
       Object.keys(additionalOptions).join(", ");
-    console.log(
-      `견적 의뢰 아이디:`,
-      userEmail,
-      `, 결제 날짜:`,
-      date,
-      `, 농장 주소:`,
-      farmAddress,
-      `, 작물 종류:`,
-      cropType,
-      `, 농장 종류:`,
-      facilityType,
-      `, 농장 이름:`,
-      farmName,
-      `, 부가 옵션:`,
-      formattedAdditionalOptions,
-      `, 농장 면적:`,
-      farmArea,
-      `평`,
-      `, 농장 동 수:`,
-      farmEquivalent,
-      `동`
-    );
     const dataObj = {
       userEmail,
       date,

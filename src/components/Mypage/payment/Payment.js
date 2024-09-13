@@ -58,11 +58,15 @@ const Payment = () => {
                 </thead>
                 <tbody>
                   {data.map((item) => (
-                    <Link to={`/mypage/${item.createdAt}`} state={{ item }}>
+                    <tr key={item.id}>
                       <td>{item.cropType}</td>
                       <td>{item.facilityType}</td>
-                      <td>{item.createdAt}</td>
-                    </Link>
+                      <td>
+                        <Link to={`/mypage/${item.createdAt}`} state={{ item }}>
+                          {item.createdAt}
+                        </Link>
+                      </td>
+                    </tr>
                   ))}
                 </tbody>
               </table>
