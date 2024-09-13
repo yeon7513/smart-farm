@@ -29,10 +29,9 @@ function Myinfo(props) {
     setInputValue(event.target.value);
   };
 
-  const handleSamethingConfirm = async (e) => {
-    console.log(e.target.value);
+  const handleSamethingConfirm = async (content) => {
     const SameName = items.filter((item) => {
-      return item.name == inputValue;
+      return item == inputValue;
     });
     console.log(SameName);
     if (SameName.length === 0) {
@@ -133,7 +132,7 @@ function Myinfo(props) {
         {NicknameState === true ? (
           <div className={style.double}>
             <input onChange={handleChange} type="text" />
-            <button>중복 확인</button>
+            <button onClick={handleSamethingConfirm}>중복 확인</button>
           </div>
         ) : (
           ""
