@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import styles from "./AsBoard.module.scss";
 import { useSelector } from "react-redux";
@@ -7,16 +7,17 @@ import AsPost from "./AsPost";
 import CustomModal from "../../modal/CustomModal";
 import PasswordModal from "../../modal/PasswordModal";
 
-// const loginUser = JSON.parse(localStorage.getItem("user"));
 const PAGE_SIZE = 10;
 
 function AsBoard({ complain }) {
+  const loginUser = JSON.parse(localStorage.getItem("user"));
   const navigate = useNavigate();
   const [currentPage, setCurrentPage] = useState(1);
   const [isWriting, setIsWriting] = useState(false); // 글쓰기 모드 상태
   const [view, setView] = useState([]);
   const { isAuthenticated } = useSelector((state) => state.userSlice);
-  // const isAsBoard = category === "as";
+  const inputRef = useRef(null); // input 요소 참조
+  const [errorMessage, setErrorMessage] = useState("");
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const openModal = () => setIsModalOpen(true);
@@ -73,16 +74,28 @@ function AsBoard({ complain }) {
 
   const handlePostClick = (post) => {
     setSelectedPost(post);
-    setIsModalOpen(true);
+    setErrorMessage("");
+
+    if (loginUser?.nick === "관리자") {
+      // 관리자 모드일 경우 비밀번호 없이 바로 이동
+      navigate(`/community/as/${post.id}`, { state: post });
+    } else {
+      // 일반 사용자일 경우 비밀번호 입력 모달 표시
+      setIsModalOpen(true);
+    }
   };
 
-  const handlePasswordConfirm = (password) => {
-    if (selectedPost && selectedPost.password === password) {
+  const handlePasswordConfirm = () => {
+    if (selectedPost && selectedPost.password === inputPassword) {
       setIsModalOpen(false);
       navigate(`/community/as/${selectedPost.id}`, { state: selectedPost });
-      return true; // 비밀번호가 맞을 경우 true 반환
+    } else {
+      setErrorMessage("⁎ 설정하신 암호가 틀립니다.");
+      if (inputRef.current) {
+        inputRef.current.focus();
+        setInputPassword(""); // 틀린 비밀번호 입력 초기화
+      }
     }
-    return false; // 비밀번호가 틀릴 경우 false 반환
   };
 
   return (
@@ -140,14 +153,19 @@ function AsBoard({ complain }) {
           </div>
 
           <CustomModal
-            title={"신고하기"}
-            btnName={"접수"}
+            title={"게시글 열기"}
+            btnName={"확인"}
             handleClose={closeModal}
             isOpen={isModalOpen}
-            //  btnHandler={goComplain}
+            btnHandler={handlePasswordConfirm}
             className={styles.modal}
           >
-            <PasswordModal />
+            <PasswordModal
+              inputRef={inputRef} // input 요소에 ref 전달
+              password={inputPassword}
+              onPasswordChange={setInputPassword}
+              errorMessage={errorMessage}
+            />
           </CustomModal>
         </>
       )}

@@ -14,9 +14,8 @@ import Comment from "../../comment/Comment";
 import { useSelector } from "react-redux";
 import EditPost from "../edit/EditPost";
 
-const loginUser = JSON.parse(localStorage.getItem("user"));
-
 function PostView() {
+  const loginUser = JSON.parse(localStorage.getItem("user"));
   const navigate = useNavigate();
   // const [post, setPost] = useState(null);
   const { state } = useLocation();
@@ -53,11 +52,13 @@ function PostView() {
   };
 
   const handlePostUpdate = async () => {
-    // 게시글 데이터를 다시 불러오는 로직 추가
-    const updatedPost = await getBoardDatas(post.collection);
-    const updatedPostData = updatedPost.find((p) => p.docId === post.docId);
-    setPost(updatedPostData);
-    setIsEditing(false); // 수정 모드 종료
+    try {
+      const updatedPost = await getPostById(post.collection, post.docId);
+      setPost(updatedPost); // 수정된 데이터로 상태 업데이트
+      setIsEditing(false); // 수정 모드 종료
+    } catch (error) {
+      console.error("게시글 업데이트 중 오류 발생: ", error);
+    }
   };
 
   useEffect(() => {
@@ -94,7 +95,7 @@ function PostView() {
                     <p>작성일: {post.createdAt}</p>
                     <p>조회수: {count}</p>
                   </div>
-                  {post.nick === loginUser?.nick ? (
+                  {post.nick === loginUser.nick ? (
                     <div className={styles.test}>
                       <button onClick={() => setIsEditing(true)}>수정</button>
                       <p>/</p>
