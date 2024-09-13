@@ -145,12 +145,9 @@ function Faq() {
     dispatch(setFaqData(updatedData));
   };
 
-  const handleViewsClick = () => {
-    setSortOrder("views");
-  };
-
-  const handleLikesClick = () => {
-    setSortOrder("likes");
+  const handleSortClick = (sortName) => {
+    setSortOrder(sortName);
+    navigate("/community");
   };
 
   return (
@@ -161,11 +158,19 @@ function Faq() {
           <p>- 자주 묻는 질문을 확인해보세요 !</p>
         </div>
         <div>
-          <button selected={sortOrder === "views"} onClick={handleViewsClick}>
+          <button
+            // selected={sortOrder === "views"}
+            onClick={() => handleSortClick("views")}
+            className={sortOrder === "views" ? styles.active : ""}
+          >
             조회순
           </button>{" "}
           |{" "}
-          <button selected={sortOrder === "likes"} onClick={handleLikesClick}>
+          <button
+            // selected={sortOrder === "likes"}
+            onClick={() => handleSortClick("likes")}
+            className={sortOrder === "likes" ? styles.active : ""}
+          >
             좋아요순
           </button>
         </div>

@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
-import style from "./Payment.module.scss";
+import styles from "./Payment.module.scss";
 import Container from "../../layout/container/Container";
 import { db } from "../../../api/firebase";
 import { collection, getDocs, query, where } from "firebase/firestore";
 import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 
 const Payment = () => {
   const [loading, setLoading] = useState(false);
@@ -41,7 +42,7 @@ const Payment = () => {
 
   return (
     <Container>
-      <div className={style.payment}>
+      <div className={styles.payment}>
         {loading ? (
           <p>Loading...</p>
         ) : (
@@ -50,33 +51,21 @@ const Payment = () => {
               <table>
                 <thead>
                   <tr>
-                    <th>이름</th>
-                    <th>연락처</th>
-                    <th>주소</th>
-                    <th>농장 이름</th>
-                    <th>농장 주소</th>
                     <th>작물 종류</th>
                     <th>농장 종류</th>
-                    <th>농장 면적 (단위: 평)</th>
-                    <th>농장 동 수</th>
-                    <th>부가 옵션</th>
                     <th>주문번호</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {data.map((item, index) => (
-                    <tr key={index}>
-                      <td>{item.name}</td>
-                      <td>{item.number}</td>
-                      <td>{item.address}</td>
-                      <td>{item.farmName}</td>
-                      <td>{item.farmAddress}</td>
+                  {data.map((item) => (
+                    <tr key={item.id}>
                       <td>{item.cropType}</td>
                       <td>{item.facilityType}</td>
-                      <td>{item.farmArea}</td>
-                      <td>{item.farmEquivalent}</td>
-                      <td>{item.additionalOptions.join(", ")}</td>
-                      <td>{item.createdAt}</td>
+                      <td>
+                        <Link to={`/mypage/${item.createdAt}`} state={{ item }}>
+                          {item.createdAt}
+                        </Link>
+                      </td>
                     </tr>
                   ))}
                 </tbody>
