@@ -1,3 +1,4 @@
+import cn from 'classnames';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
@@ -37,26 +38,16 @@ function NavLink({ className, path, depth, children }) {
 function Nav() {
   const [position, setPosition] = useState({ lat: null, lon: null });
   const [error, setError] = useState(null);
+  const [menuOpen, setMenuOpen] = useState(false);
   const auth = getUserAuth();
   const { isAuthenticated } = useSelector((state) => state.userSlice);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  // const handleLogout = () => {
-  //   auth.signOut();
-  //   dispatch(removeUser());
-  //   if (window.Kakao.Auth.getAccessToken()) {
-  //     console.log('로그아웃 중입니다.');
-  //     window.Kakao.Auth.logout(function () {
-  //       console.log('로그아웃 성공');
-  //     });
-  //   } else {
-  //     console.log('로그인 상태가 아닙니다.');
-  //   }
-  //   navigate('/');
-  // };
+  const handleMenuOpen = () => {
+    setMenuOpen(!menuOpen);
+  };
 
-  // navigate가 작동하지 않아서 로그아웃 함수 변경했습니다.
   const handleLogout = async () => {
     try {
       await auth.signOut();
@@ -125,7 +116,15 @@ function Nav() {
 
   return (
     <>
-      <nav className={styles.nav}>
+      <button
+        className={menuOpen ? cn(styles.hamBtn, styles.active) : styles.hamBtn}
+        onClick={handleMenuOpen}
+      >
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+      <nav className={!menuOpen ? cn(styles.nav, styles.hide) : styles.nav}>
         <div className={styles.spot}>
           <ul>
             {isAuthenticated ? (

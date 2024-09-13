@@ -19,6 +19,8 @@ function MemberListItem({ detail }) {
 
   const navigate = useNavigate();
 
+  console.log(farmAddress);
+
   return (
     <div className={styles.detailInfo}>
       <span>[FM{createdAt}]</span>
@@ -27,21 +29,27 @@ function MemberListItem({ detail }) {
         alt=""
       />
       <ul>
-        <li>{email}</li>
-        <li>{name}</li>
-        <li>{number}</li>
-        <li>{address}</li>
-        <li>{nickname}</li>
+        <li>이메일: {email}</li>
+        <li>이름: {name}</li>
+        <li>전화번호: {number}</li>
+        <li>주소: {address}</li>
+        <li>닉네임: {nickname}</li>
         <li>
           <ul>
-            {farmAddress.map((addr, idx) => (
-              <li key={idx}>
-                <span>{addr}</span>
+            {farmAddress.length === 0 ? (
+              <li>
+                <span>소유한 농장이 없습니다.</span>
               </li>
-            ))}
+            ) : (
+              farmAddress.map((addr, idx) => (
+                <li key={idx}>
+                  <span>농장: {addr}</span>
+                </li>
+              ))
+            )}
           </ul>
         </li>
-        <li>{complaneNum}</li>
+        <li>신고 누적 횟수: {complaneNum}</li>
       </ul>
       <div className={styles.btns}>
         <button>정보수정</button>
