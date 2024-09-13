@@ -6,7 +6,7 @@
   display: flex;
   flex-direction: column;
   gap: 20px;
-  border: 1px solid rgb(192, 192, 192);
+  box-shadow: var(--box-shadow);
   padding: 30px;
   input {
     border: 1px solid black;
@@ -15,13 +15,27 @@
     padding: 5px;
     width: 31.8%;
   }
+  .proTitle {
+    display: flex;
+    justify-content: center;
+    background-color: var(--main-color);
+    align-items: center;
+    padding: 5%;
+    width: 100%;
+    box-shadow: var(--box-shadow);
+    transition: 0.5s ease;
+  }
   .name {
     display: flex;
   }
   button {
-    border: 1px solid black;
-    padding: 5px;
-    width: 80px;
+    font-size: 14px;
+    box-shadow: var(--box-shadow);
+    padding: 5px 10px 5px 10px;
+    background-color: var(--main-color);
+    &:hover {
+      background-color: var(--hover-color);
+    }
   }
   .file {
     border: none;
@@ -49,19 +63,18 @@
     flex-direction: column;
   }
   .complete {
-    margin-left: 300px;
+    padding: 4% 0 4% 0;
+    background-color: var(--main-color);
+
+    &:hover {
+      box-shadow: none;
+      background-color: var(--hover-color);
+    }
   }
   .profile {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-  }
-  .photo {
-    align-self: flex-end;
-    &::-webkit-file-upload-button {
-      border: none;
-      background-color: transparent;
-    }
   }
 }

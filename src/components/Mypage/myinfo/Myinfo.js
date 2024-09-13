@@ -14,29 +14,42 @@ function Myinfo(props) {
   const [inputValue, setInputValue] = useState("");
   const [PasswordState, SetPasswordnameState] = useState(false);
   const [addressState, SetaddressState] = useState(false);
+  const [sameAlert, SetsameAlert] = useState(false);
   const navigate = useNavigate();
   const { items } = useSelector((state) => state.userSlice);
   const dispatch = useDispatch();
+
   const user = JSON.parse(localStorage.getItem("user")) || "";
   useEffect(() => {
     dispatch(fetchItems({ collectionName: "users" }));
-  }, [user]);
-
-  // 유저 정보 불러오기
-  // let userUpdate = JSON.parse(localStorage.getItem("user"));
+  }, []);
 
   const handleChange = (event) => {
     setInputValue(event.target.value);
   };
 
-  const handleSamethingConfirm = async (content) => {
+  const handleSameNamethingConfirm = async () => {
     const SameName = items.filter((item) => {
-      return item == inputValue;
+      return item.name == inputValue;
+    });
+    if (SameName.length === 0) {
+      SetsameAlert(false);
+      alert("중복된게 없습니다.  테스트로 alert좀 썼어요!");
+    } else {
+      SetsameAlert(true);
+      alert("중복된 이름입니다. 다시 입력해주세요. 테스트로 alert좀 썼어요!");
+    }
+  };
+  const handleSameNickNamethingConfirm = async () => {
+    const SameName = items.filter((item) => {
+      return item.nickname == inputValue;
     });
     console.log(SameName);
     if (SameName.length === 0) {
+      SetsameAlert(false);
       alert("중복된게 없습니다.  테스트로 alert좀 썼어요!");
     } else {
+      SetsameAlert(true);
       alert("중복된 이름입니다. 다시 입력해주세요. 테스트로 alert좀 썼어요!");
     }
   };
@@ -58,9 +71,19 @@ function Myinfo(props) {
       SetnameState(true);
     }
   };
-  const nickClick = () => {
+  const nickClick = async () => {
     if (NicknameState === true) {
       SetnicknameState(false);
+      const SameNickNameChange = items.find((item) => {
+        return item.nickname == user.nick;
+      });
+      const updateObj = {
+        nickname: inputValue,
+      };
+      const { docId } = SameNickNameChange;
+      await updateDatas("users", docId, updateObj);
+      user.nick = inputValue;
+      localStorage.setItem("user", JSON.stringify(user));
     } else {
       SetnicknameState(true);
     }
@@ -87,7 +110,7 @@ function Myinfo(props) {
     <Container className={style.container}>
       <div className={style.headers}>
         <div className={style.profile}>
-          <div>프로필 사진</div>
+          <div className={style.proTitle}>{user.nickname}</div>
           <Avatar
             sx={{
               m: 3,
@@ -104,7 +127,11 @@ function Myinfo(props) {
         <div className={style.name}>
           <div className={style.title}>{user.name}</div>
           {nameState === true ? (
-            <button className={style.Change} onClick={handleNameChange}>
+            <button
+              disabled={sameAlert}
+              className={style.Change}
+              onClick={handleNameChange}
+            >
               변경 완료
             </button>
           ) : (
@@ -114,7 +141,7 @@ function Myinfo(props) {
         {nameState === true ? (
           <div className={style.double}>
             <input type="text" onChange={handleChange} />
-            <button onClick={handleSamethingConfirm}>중복 확인</button>
+            <button onClick={handleSameNamethingConfirm}>중복 확인</button>
           </div>
         ) : (
           ""
@@ -122,7 +149,11 @@ function Myinfo(props) {
         <div className={style.name}>
           <div className={style.title}>{user.nick}</div>
           {NicknameState === true ? (
-            <button className={style.Change} onClick={nickClick}>
+            <button
+              disabled={sameAlert}
+              className={style.Change}
+              onClick={nickClick}
+            >
               변경 완료
             </button>
           ) : (
@@ -132,7 +163,7 @@ function Myinfo(props) {
         {NicknameState === true ? (
           <div className={style.double}>
             <input onChange={handleChange} type="text" />
-            <button onClick={handleSamethingConfirm}>중복 확인</button>
+            <button onClick={handleSameNickNamethingConfirm}>중복 확인</button>
           </div>
         ) : (
           ""
@@ -144,7 +175,7 @@ function Myinfo(props) {
             {PasswordState === true ? (
               <button onClick={nickClick2}>수정 완료</button>
             ) : (
-              <button onClick={nickClick2}>수정</button>
+              <button onClick={nickClick2}>비밀번호 수정</button>
             )}
           </div>
           {PasswordState === true ? (

@@ -46,23 +46,23 @@
   p {
     display: block;
   }
-  .buttons {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    margin: 0;
-  }
+
   .googleBt {
+    width: 40%;
+    font-size: 9px;
+    font-weight: 500;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 2% 5% 2% 5%;
+    padding: 1% 5% 1% 5%;
     background-color: beige;
     border-radius: 10px;
     gap: 10px;
-    box-shadow: var(--box-shadow);
     &:hover {
       opacity: 0.6;
+    }
+    h2 {
+      font-weight: bold;
     }
   }
   .searchText {
@@ -77,4 +77,24 @@
   justify-content: center;
   align-items: center;
   gap: 20px;
+}
+/* 작은 모니터 */
+@media (max-width: 1200px) {
+}
+/* 태블릿 */
+@media (max-width: 992px) {
+}
+
+/* 모바일 */
+@media (max-width: 768px) {
+}
+
+/* 작은모바일 */
+@media (max-width: 576px) {
+  body {
+    font-size: 50%;
+  }
+  div {
+    font-size: 70%;
+  }
 }
