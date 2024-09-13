@@ -1,26 +1,14 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { getDatasRest } from "../../api/api";
-
-const fetchPayments = createAsyncThunk(
-  "payments/fetchPayments",
-  async ({ collectionName }) => {
-    try {
-      const resultData = await getDatasRest(collectionName);
-      return resultData;
-    } catch (error) {
-      return null;
-    }
-  }
-);
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { getDatas } from '../../api/firebase';
 
 const initialState = {
   payments: [],
   isLoading: false,
-  error: "",
+  error: '',
 };
 
 const paymentsSlice = createSlice({
-  name: "payments",
+  name: 'payments',
   initialState,
   reducers: {},
   extraReducers: (builder) => {
@@ -38,6 +26,26 @@ const paymentsSlice = createSlice({
       });
   },
 });
+
+const fetchPayments = createAsyncThunk(
+  'payments/fetchPayments',
+  async (collectionName) => {
+    try {
+      const result = await getDatas(collectionName);
+
+      for (const user of result) {
+        const userDocId = user.docId;
+
+        const payments = await getDatas(`users/${userDocId}/payments`);
+
+        user.payment = payments;
+      }
+      return result;
+    } catch (error) {
+      return null;
+    }
+  }
+);
 
 export default paymentsSlice.reducer;
 export { fetchPayments };

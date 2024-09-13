@@ -1,5 +1,9 @@
 .nav {
   padding-top: 24px;
+
+  &.hide {
+    display: none;
+  }
 }
 
 .main {
@@ -53,6 +57,7 @@
       width: 1200px;
       font-size: 16px;
       color: #808080;
+      outline: 1px dotted red;
 
       li {
         padding: 16px 0;
@@ -71,6 +76,25 @@
           color: var(--hover-color);
         }
       }
+
+      /* 작은 모니터 */
+      @media (max-width: 1200px) {
+        width: 80%;
+      }
+      /* 태블릿 */
+      @media (max-width: 992px) {
+        width: 80%;
+      }
+
+      /* 모바일 */
+      @media (max-width: 768px) {
+        width: 80%;
+      }
+
+      /* 작은모바일 */
+      @media (max-width: 576px) {
+        width: 80%;
+      }
     }
   }
 }
@@ -87,6 +111,32 @@
     li {
       &:hover {
         color: var(--hover-color);
+      }
+    }
+  }
+}
+
+.hamBtn {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  > span {
+    display: block;
+    width: 20px;
+    height: 3px;
+    background-color: #333;
+  }
+
+  &.active {
+    > span {
+      &:nth-child(1) {
+        background-color: red;
+      }
+      &:nth-child(2) {
+        background-color: blue;
+      }
+      &:nth-child(3) {
+        background-color: green;
       }
     }
   }
