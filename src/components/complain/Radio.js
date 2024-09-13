@@ -1,7 +1,11 @@
 import React from "react";
 import styles from "./Radio.module.scss";
 
-function Radio() {
+function Radio({ selectedRadio, errorMessage }) {
+  const handleChange = (e) => {
+    selectedRadio(e.target.value);
+  };
+
   return (
     <form className={styles.complain}>
       <div>
@@ -22,25 +26,51 @@ function Radio() {
         </p>
 
         <div>
-          <input type="radio" name="complain" />
+          <input
+            type="radio"
+            name="complain"
+            value="광고성 게시글"
+            onChange={handleChange}
+          />
           <label>광고성 게시글</label>
         </div>
         <div>
-          <input type="radio" name="complain" />
-          <label>욕설 및 비방, 선정성, 불법, 정치 등 부적절한 게시글</label>
+          <input
+            type="radio"
+            name="complain"
+            value="부적절한 게시글"
+            onChange={handleChange}
+          />
+          <label>욕설 및 비방, 음란물, 불법, 정치 등 부적절한 게시글</label>
         </div>
         <div>
-          <input type="radio" name="complain" />
+          <input
+            type="radio"
+            name="complain"
+            value="중복 게시물 도배"
+            onChange={handleChange}
+          />
           <label>중복 게시물 도배</label>
         </div>
         <div>
-          <input type="radio" name="complain" />
+          <input
+            type="radio"
+            name="complain"
+            value="부적절한 프로필 사진"
+            onChange={handleChange}
+          />
           <label>부적절한 프로필 사진</label>
         </div>
         <div>
-          <input type="radio" name="complain" />
+          <input
+            type="radio"
+            name="complain"
+            value="부적절한 닉네임"
+            onChange={handleChange}
+          />
           <label>부적절한 닉네임</label>
         </div>
+        {errorMessage && <p>{errorMessage}</p>}
       </div>
     </form>
   );
