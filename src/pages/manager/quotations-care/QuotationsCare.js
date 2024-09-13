@@ -1,12 +1,12 @@
-import { saveAs } from 'file-saver';
-import React, { useEffect } from 'react';
-import { TbPencilSearch } from 'react-icons/tb';
-import { useDispatch, useSelector } from 'react-redux';
-import { BeatLoader } from 'react-spinners';
-import * as XLSX from 'xlsx';
-import SearchBox from '../../../components/search_box/SearchBox';
-import { fetchPayments } from '../../../store/payment/paymentsSlice';
-import styles from './QuotationsCare.module.scss';
+import { saveAs } from "file-saver";
+import React, { useEffect } from "react";
+import { TbPencilSearch } from "react-icons/tb";
+import { useDispatch, useSelector } from "react-redux";
+import { BeatLoader } from "react-spinners";
+import * as XLSX from "xlsx";
+import SearchBox from "../../../components/search_box/SearchBox";
+import { fetchPayments } from "../../../store/payment/paymentsSlice";
+import styles from "./QuotationsCare.module.scss";
 
 function QuotationsCare() {
   const { payments, isLoading } = useSelector((state) => state.paymentsSlice);
@@ -14,27 +14,34 @@ function QuotationsCare() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(fetchPayments('users'));
-  }, [dispatch, payments]);
+    dispatch(fetchPayments("payments"));
+  }, [dispatch]);
 
   // firebase의 데이터를 excel로 불러옵니다.
   const exportToExcel = () => {
     // 데이터 변환
-    const worksheet = XLSX.utils.json_to_sheet(payments);
+    // "payments" 컬렉션에 배열로 저장되어 있는 additionalOptions의 내용들을 문자열로 변환합니다.
+    const processedData = payments.map((payment) => ({
+      ...payment,
+      additionalOptions: payment.additionalOptions
+        ? payment.additionalOptions.join(", ")
+        : "",
+    }));
+    const worksheet = XLSX.utils.json_to_sheet(processedData);
     const workbook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(workbook, worksheet, '결제 내역');
+    XLSX.utils.book_append_sheet(workbook, worksheet, "결제 내역");
 
     // 엑셀 파일 생성
     const excelBuffer = XLSX.write(workbook, {
-      bookType: 'xlsx',
-      type: 'array',
+      bookType: "xlsx",
+      type: "array",
     });
     const file = new Blob([excelBuffer], {
-      type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+      type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
     });
 
     // 파일 다운로드
-    saveAs(file, '결제 내역.xlsx');
+    saveAs(file, "결제 내역.xlsx");
   };
   return (
     <div className={styles.quotations}>
@@ -44,7 +51,7 @@ function QuotationsCare() {
         <>
           <SearchBox
             name={<TbPencilSearch />}
-            placeholder={'견적 의뢰서 검색'}
+            placeholder={"견적 의뢰서 검색"}
           />
           <button onClick={exportToExcel}>견적 내역 다운로드</button>
           <div>

@@ -5,6 +5,7 @@
 .headers {
   display: flex;
   flex-direction: column;
+  border-radius: 5px;
   gap: 20px;
   box-shadow: var(--box-shadow);
   padding: 30px;
@@ -14,16 +15,22 @@
     outline: none;
     padding: 5px;
     width: 31.8%;
+    border: 1px solid rgb(138, 138, 138);
+    box-shadow: var(--box-shadow);
   }
   .proTitle {
     display: flex;
     justify-content: center;
     background-color: var(--main-color);
+    border-radius: 5px;
     align-items: center;
     padding: 5%;
     width: 100%;
     box-shadow: var(--box-shadow);
     transition: 0.5s ease;
+    &:hover {
+      background-color: var(--hover-color);
+    }
   }
   .name {
     display: flex;
@@ -31,8 +38,10 @@
   button {
     font-size: 14px;
     box-shadow: var(--box-shadow);
-    padding: 5px 10px 5px 10px;
-    background-color: var(--main-color);
+    border-radius: 5px;
+    padding: 2% 0 2% 0;
+    width: 100px;
+    background-color: var(--common-color);
     &:hover {
       background-color: var(--hover-color);
     }
@@ -41,7 +50,12 @@
     border: none;
   }
   .title {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    box-shadow: var(--box-shadow);
     width: 300px;
+    padding: 0 10px 0 10px;
   }
   .double {
     display: flex;
@@ -58,13 +72,11 @@
     flex-direction: column;
     gap: 5px;
   }
-  .title {
-    display: flex;
-    flex-direction: column;
-  }
+
   .complete {
     padding: 4% 0 4% 0;
-    background-color: var(--main-color);
+    background-color: var(--common-color);
+    width: 100%;
 
     &:hover {
       box-shadow: none;

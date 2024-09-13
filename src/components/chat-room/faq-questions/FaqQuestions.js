@@ -1,12 +1,12 @@
 import React from 'react'
 import styles from '../ChatRoom.module.scss'
 
-function FaqQuestions({sortedFaqData, extraQuestion, handleFaqClick, selectedAnswer}) {
+function FaqQuestions({rankedFaqData, openChat, handleFaqClick, selectedAnswer}) {
   return (
     <>
     <div className={styles.questionBtns}>
       {/* Fetch된 데이터와 로컬에서 추가한 질문을 함께 렌더링 */}
-      {[...sortedFaqData, extraQuestion].map((faq) => (
+      {[...rankedFaqData, openChat].map((faq) => (
         <button
           key={faq.id}
           className={styles.questionBtn}

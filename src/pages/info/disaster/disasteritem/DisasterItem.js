@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import styles from "./DisasterItem.module.scss";
-
+import disasterText from "./DisasterText";
+import { TbChevronDownLeft } from "react-icons/tb";
 const buttonItem = [
   {
     id: 1,
@@ -26,8 +27,8 @@ const buttonItem = [
   {
     id: 6,
     name: "한파",
-    title1: "한파 예방법",
-    title2: "한파 사후조치",
+    // title1: "한파 예방법",
+    // title2: "한파 사후조치",
   },
   {
     id: 7,
@@ -40,20 +41,32 @@ const buttonItem = [
 ];
 
 function DisasterItem(props) {
+  console.log(disasterText);
+  const [selectedDisaster, setSelectedDisaster] = useState(disasterText[0]);
+
+  const handleButtonClick = (disaster) => {
+    setSelectedDisaster(disaster);
+  };
   return (
     <div className={styles.main}>
       <div className={styles.button_items}>
-        {buttonItem.map((item, idx) => (
-          <button item={item} key={idx} className={styles.button_item}>
-            {item.name}
+        {disasterText.map((item) => (
+          <button
+            className={styles.button_item}
+            item={item}
+            key={item.id}
+            onClick={handleButtonClick}
+          >
+            {item.name}{" "}
           </button>
         ))}
       </div>
-
       <div className={styles.measures}>
+        {/* {disasterText.map((item) => ( */}
         <div>
           <h2>호우</h2>
         </div>
+        {/* // ))} */}
         <div>
           {/* 예방법&조치 */}
           <div>
