@@ -36,10 +36,11 @@ function Forms({ title, getDataForm, firebaseError }) {
     getDataForm(email, password, {
       number: number,
       address: state,
-      farmAddress: farmState,
+      farmAddress: [],
       name: name,
       nickname: nickname,
       deleteYn: "N",
+      complaneNum: "",
     });
   };
 
@@ -181,10 +182,6 @@ function Forms({ title, getDataForm, firebaseError }) {
       <div>
         <h3>주소</h3>
         <SearchAddr getAddr={setState} />
-      </div>
-      <div>
-        <h3>농장 주소</h3>
-        <SearchAddr getAddr={farmSetState} />
       </div>
 
       <button>{title}</button>

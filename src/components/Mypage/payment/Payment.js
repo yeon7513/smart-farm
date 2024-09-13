@@ -49,7 +49,7 @@ const Payment = () => {
           <>
             {data.length > 0 ? (
               <table>
-                <thead>
+                <thead className={styles.thead}>
                   <tr>
                     <th>작물 종류</th>
                     <th>농장 종류</th>
@@ -61,9 +61,10 @@ const Payment = () => {
                     <tr key={item.id}>
                       <td>{item.cropType}</td>
                       <td>{item.facilityType}</td>
+                      <td>{item.createdAt}</td>
                       <td>
                         <Link to={`/mypage/${item.createdAt}`} state={{ item }}>
-                          {item.createdAt}
+                          <button className={styles.button}>자세히 보기</button>
                         </Link>
                       </td>
                     </tr>

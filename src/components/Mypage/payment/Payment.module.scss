@@ -1,14 +1,21 @@
-.container {
+@import "/src/scss/mixins.scss";
+
+Container {
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   width: 100%;
+  gap: 60px;
+
   .main {
     display: flex;
     justify-content: center;
     width: 100%;
   }
 
-  .paylist {
+  .payment {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
     border: 1px solid black;
     width: 500px;
     padding: 10px;
@@ -17,5 +24,22 @@
     display: flex;
     flex-direction: column;
     gap: 10px;
+  }
+}
+
+td {
+  text-align: center;
+  border-bottom: 1px dotted #000;
+}
+
+.button {
+  border: 1px solid #000;
+  background-color: #eee;
+  padding: 4px 8px;
+  margin: 8px;
+  margin-left: 12px;
+
+  &:hover {
+    background-color: #ccc;
   }
 }
