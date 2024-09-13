@@ -20,6 +20,7 @@
     "cookie-parser": "^1.4.6",
     "crypto-js": "^4.2.0",
     "d3": "^7.9.0",
+    "dotenv": "^16.4.5",
     "emailjs-com": "^3.2.0",
     "file-saver": "^2.0.5",
     "file-server": "^2.2.1",

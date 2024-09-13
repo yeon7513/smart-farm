@@ -56,7 +56,6 @@ function Myinfo(props) {
       const updateObj = {
         name: inputValue,
       };
-      console.log(nameState);
 
       const { docId } = SameNameChange;
       await updateDatas("users", docId, updateObj);
@@ -214,7 +213,7 @@ function Myinfo(props) {
         {addressState === true ? (
           <div>
             <div>주소 API</div>
-            <SearchAddr getAddr={SetToManyState} />{" "}
+            <SearchAddr getAddr={SetToManyState} />
           </div>
         ) : (
           ""

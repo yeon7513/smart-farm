@@ -1,0 +1,50 @@
+[build]
+  environment: {
+    REACT_APP_GOOGLE_MAP_API_KEY,
+    REACT_APP_SMART_FARM_BIG_DATA_API_KEY,
+    REACT_APP_FIREBASE_API_KEY,
+    REACT_APP_FIREBASE_AUTH_DOMAIN,
+    REACT_APP_FIREBASE_PROJECT_ID,
+    REACT_APP_FIREBASE_STORAGE_BUCKET,
+    REACT_APP_FIREBASE_MESSAGING_SENDER_ID,
+    REACT_APP_FIREBASE_APP_ID,
+    
+  }
+
+
+[[redirects]]
+    from = "/*"
+    to = "/index.html"
+    status = 200
+
+[[redirects]]
+from = "/weather/*"
+  to = "https://api.openweathermap.org/:splat"  
+  status = 200
+  force = true
+
+
+  [[redirects]]
+from = "/desease/*"
+  to = "http://ncpms.rda.go.kr/npmsAPI/service/:splat"  
+  status = 200
+  force = true
+
+
+[[redirects]]
+from = "/bestfarm/*"
+  to = "https://apis.data.go.kr/1390000/SmartFarmdata/:splat"  
+  status = 200
+  force = true
+
+[[redirects]]
+from = "/smart/*"
+  to = "https://www.smartfarmkorea.net/:splat"  
+  status = 200
+  force = true
+
+[[redirects]]
+from = "/desaster/*"
+  to = "https://www.safetydata.go.kr/:splat"  
+  status = 200
+  force = true
