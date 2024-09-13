@@ -1,5 +1,8 @@
 import cn from 'classnames';
 import React, { useEffect, useState } from 'react';
+import { IoMdLogOut } from 'react-icons/io';
+import { LiaUserCogSolid } from 'react-icons/lia';
+import { PiFarmBold } from 'react-icons/pi';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { getUserAuth } from '../../../../api/firebase';
@@ -124,7 +127,7 @@ function Nav() {
         <span></span>
         <span></span>
       </button>
-      <nav className={!menuOpen ? cn(styles.nav, styles.hide) : styles.nav}>
+      <nav className={menuOpen ? cn(styles.nav, styles.show) : styles.nav}>
         <div className={styles.spot}>
           <ul>
             {isAuthenticated ? (
@@ -140,13 +143,19 @@ function Nav() {
                   <NavLink path={'/manager'}>관리자</NavLink>
                 ) : (
                   <>
-                    <p>{loginUser.nick}님, 환영합니다.</p>
-                    <NavLink path={'/my-farm'}>내 농장</NavLink>
-                    <NavLink path={'/mypage'}>마이페이지</NavLink>
+                    {!menuOpen && <p>{loginUser.nick}님, 환영합니다.</p>}
+                    <NavLink path={'/my-farm'}>
+                      {menuOpen ? <PiFarmBold /> : '내 농장'}
+                    </NavLink>
+                    <NavLink path={'/mypage'}>
+                      {menuOpen ? <LiaUserCogSolid /> : '마이페이지'}
+                    </NavLink>
                   </>
                 )}
                 <li>
-                  <Link onClick={handleLogout}>로그아웃</Link>
+                  <Link onClick={handleLogout}>
+                    {menuOpen ? <IoMdLogOut /> : '로그아웃'}
+                  </Link>
                 </li>
               </>
             ) : (
@@ -158,7 +167,9 @@ function Nav() {
             )}
           </ul>
         </div>
-        <ul className={styles.main}>
+        <ul
+          className={menuOpen ? cn(styles.main, styles.showMenu) : styles.main}
+        >
           {paths.gnb.map((menu, idx) => (
             <NavLink
               key={idx}
