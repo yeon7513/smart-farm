@@ -13,6 +13,7 @@ import Radio from "../../complain/Radio";
 import Comment from "../../comment/Comment";
 import { useSelector } from "react-redux";
 import EditPost from "../edit/EditPost";
+import { addDatas } from "../../../api/firebase";
 
 function PostView() {
   const loginUser = JSON.parse(localStorage.getItem("user"));
@@ -25,12 +26,33 @@ function PostView() {
   // console.log(isAuthenticated);
   const [isEditing, setIsEditing] = useState(false);
   const [post, setPost] = useState(state); // 게시글 상태 추가
+  const [errorMessage, setErrorMessage] = useState("");
 
+  const [selectedReason, setSelectedReason] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
 
-  const goComplain = () => setIsModalOpen(false);
+  const goComplain = async () => {
+    if (selectedReason) {
+      const complaintData = {
+        reason: selectedReason,
+        postId: post.docId,
+        postCollection: post.collection,
+        reportedBy: loginUser.nick,
+        reportedAt: new Date().toISOString().split("T")[0],
+      };
+
+      const success = await addDatas("complain", complaintData);
+      if (success) {
+        closeModal();
+      } else {
+        console.log("신고 접수 중 오류 발생.");
+      }
+    } else {
+      setErrorMessage("신고 사유를 선택해주세요.");
+    }
+  };
 
   const updatePostCount = async () => {
     if (state?.collection && state?.docId) {
@@ -113,7 +135,10 @@ function PostView() {
                           btnHandler={goComplain}
                           className={styles.modal}
                         >
-                          <Radio />
+                          <Radio
+                            selectedRadio={setSelectedReason}
+                            errorMessage={errorMessage}
+                          />
                         </CustomModal>
                       </div>
                     )
