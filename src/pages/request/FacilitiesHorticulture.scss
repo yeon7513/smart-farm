@@ -12,13 +12,12 @@
 
 // 작은모바일
 @media (max-width: 576px) {
-  .additionalOptions {
-    display: flex;
-    margin: 400px;
-
-    input {
-      flex-direction: column;
-      margin: 40px;
-    }
+  h4 {
+    margin: 16px;
+  }
+  input {
+    width: 40px;
+    margin: 4px;
+    margin-left: 0;
   }
 }
