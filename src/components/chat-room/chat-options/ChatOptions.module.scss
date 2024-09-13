@@ -1,0 +1,14 @@
+.questionBtn {
+    margin: 5px;
+      padding: 10px 15px;
+      border: none;
+      background-color: var(--common-color);
+      color: var(--main-color);
+      border-radius: 5px;
+      cursor: pointer;
+flex: 0 0 calc(50% - 10px);
+
+      &:hover {
+          background-color: var(--hover-color);
+        }
+    }

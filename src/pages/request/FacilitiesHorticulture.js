@@ -1,4 +1,5 @@
 import React from "react";
+import styles from "./FacilitiesHorticulture.scss";
 
 const options = {
   "환경 제어": [
@@ -79,16 +80,17 @@ function FacilitiesHorticulture({
   return (
     <>
       {Object.keys(options).map((category) => (
-        <div key={category}>
+        <div key={category} className={styles.category}>
           <h4>{category}</h4>
           {options[category].map((option) => (
-            <div key={option.id}>
+            <div key={option.id} className={styles.additionalOptions}>
               <input
                 type="checkbox"
                 id={option.id}
                 value={option.value}
                 checked={checkedOptions[option.value] || false}
                 onChange={handleAdditionalOptionsChange}
+                className={styles.input}
               />
               <label htmlFor={option.id}>{option.label}</label>
             </div>

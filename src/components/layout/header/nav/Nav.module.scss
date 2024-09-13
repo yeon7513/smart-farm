@@ -1,5 +1,39 @@
 .nav {
   padding-top: 24px;
+
+  &.show {
+    height: 500px;
+
+    opacity: 1;
+    transition: 0.3s;
+
+    @media (max-width: 768px) {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background-color: #fff;
+      color: #333;
+    }
+
+    /* 작은모바일 */
+    @media (max-width: 576px) {
+    }
+  }
+
+  /* 모바일 */
+  @media (max-width: 768px) {
+    padding: 0;
+    height: 0;
+    opacity: 0;
+  }
+
+  /* 작은모바일 */
+  @media (max-width: 576px) {
+    padding: 0;
+    height: 0;
+    opacity: 0;
+  }
 }
 
 .main {
@@ -7,6 +41,19 @@
   justify-content: right;
   align-items: center;
   font-size: 20px;
+
+  &.showMenu {
+    display: block;
+  }
+  /* 모바일 */
+  @media (max-width: 768px) {
+    display: none;
+  }
+
+  /* 작은모바일 */
+  @media (max-width: 576px) {
+    display: none;
+  }
 }
 
 .mainMenu {
@@ -53,6 +100,7 @@
       width: 1200px;
       font-size: 16px;
       color: #808080;
+      outline: 1px dotted red;
 
       li {
         padding: 16px 0;
@@ -70,6 +118,25 @@
         &:hover a {
           color: var(--hover-color);
         }
+      }
+
+      /* 작은 모니터 */
+      @media (max-width: 1200px) {
+        width: 80%;
+      }
+      /* 태블릿 */
+      @media (max-width: 992px) {
+        width: 80%;
+      }
+
+      /* 모바일 */
+      @media (max-width: 768px) {
+        width: 80%;
+      }
+
+      /* 작은모바일 */
+      @media (max-width: 576px) {
+        width: 80%;
       }
     }
   }
@@ -90,4 +157,63 @@
       }
     }
   }
+}
+
+.hamBtn {
+  position: absolute;
+  top: 20px;
+  right: 50px;
+  z-index: 999;
+
+  display: none;
+  width: 24px;
+  height: 20px;
+  > span {
+    position: absolute;
+    width: 24px;
+    height: 3px;
+    background-color: #333;
+    border-radius: 2px;
+    transition: 0.3s;
+
+    &:nth-child(1) {
+      top: 0;
+    }
+    &:nth-child(2) {
+      top: 50%;
+      transform: translateY(-50%);
+    }
+    &:nth-child(3) {
+      bottom: 0;
+    }
+  }
+
+  &.active {
+    > span {
+      &:nth-child(1) {
+        top: 7px;
+        transform: rotate(45deg);
+        background-color: red;
+      }
+      &:nth-child(2) {
+        opacity: 0;
+        background-color: blue;
+      }
+      &:nth-child(3) {
+        bottom: 10px;
+        transform: rotate(-45deg);
+        background-color: green;
+      }
+    }
+  }
+
+  /* 모바일 */
+  @media (max-width: 768px) {
+    display: block;
+  }
+
+  // /* 작은모바일 */
+  // @media (max-width: 576px) {
+  //   width: 80%;
+  // }
 }

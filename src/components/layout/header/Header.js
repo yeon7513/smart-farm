@@ -35,11 +35,7 @@ function Header() {
       <Container className={styles.container}>
         <h1 className={styles.logo}>
           <Link to="/" state="home">
-            <img
-              className="logo-icon"
-              // src={require('../../../assets/main/logo.png')}
-              alt=""
-            />
+            <img className="logo-icon" src="./img/logo.png" alt="" />
             아이팜
           </Link>
         </h1>

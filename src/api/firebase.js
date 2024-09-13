@@ -65,6 +65,7 @@ export async function joinUser(uid, email, password = "", userInfo = {}) {
     ...(userInfo.required && { required: userInfo.required }),
     ...(userInfo.name && { name: userInfo.name }),
     ...(userInfo.nickname && { nickname: userInfo.nickname }),
+    ...(userInfo.complaneNum && { complaneNum: userInfo.complaneNum }),
   };
   await setDoc(doc(db, "users", uid), userData);
 }

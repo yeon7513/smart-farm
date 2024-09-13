@@ -19,3 +19,13 @@
     gap: 10px;
   }
 }
+
+.payment {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+td {
+  text-align: center;
+}

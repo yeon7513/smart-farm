@@ -1,4 +1,8 @@
+import cn from 'classnames';
 import React, { useEffect, useState } from 'react';
+import { IoMdLogOut } from 'react-icons/io';
+import { LiaUserCogSolid } from 'react-icons/lia';
+import { PiFarmBold } from 'react-icons/pi';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { getUserAuth } from '../../../../api/firebase';
@@ -37,26 +41,16 @@ function NavLink({ className, path, depth, children }) {
 function Nav() {
   const [position, setPosition] = useState({ lat: null, lon: null });
   const [error, setError] = useState(null);
+  const [menuOpen, setMenuOpen] = useState(false);
   const auth = getUserAuth();
   const { isAuthenticated } = useSelector((state) => state.userSlice);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  // const handleLogout = () => {
-  //   auth.signOut();
-  //   dispatch(removeUser());
-  //   if (window.Kakao.Auth.getAccessToken()) {
-  //     console.log('로그아웃 중입니다.');
-  //     window.Kakao.Auth.logout(function () {
-  //       console.log('로그아웃 성공');
-  //     });
-  //   } else {
-  //     console.log('로그인 상태가 아닙니다.');
-  //   }
-  //   navigate('/');
-  // };
+  const handleMenuOpen = () => {
+    setMenuOpen(!menuOpen);
+  };
 
-  // navigate가 작동하지 않아서 로그아웃 함수 변경했습니다.
   const handleLogout = async () => {
     try {
       await auth.signOut();
@@ -125,7 +119,15 @@ function Nav() {
 
   return (
     <>
-      <nav className={styles.nav}>
+      <button
+        className={menuOpen ? cn(styles.hamBtn, styles.active) : styles.hamBtn}
+        onClick={handleMenuOpen}
+      >
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+      <nav className={menuOpen ? cn(styles.nav, styles.show) : styles.nav}>
         <div className={styles.spot}>
           <ul>
             {isAuthenticated ? (
@@ -141,13 +143,19 @@ function Nav() {
                   <NavLink path={'/manager'}>관리자</NavLink>
                 ) : (
                   <>
-                    <p>{loginUser.nick}님, 환영합니다.</p>
-                    <NavLink path={'/my-farm'}>내 농장</NavLink>
-                    <NavLink path={'/mypage'}>마이페이지</NavLink>
+                    {!menuOpen && <p>{loginUser.nick}님, 환영합니다.</p>}
+                    <NavLink path={'/my-farm'}>
+                      {menuOpen ? <PiFarmBold /> : '내 농장'}
+                    </NavLink>
+                    <NavLink path={'/mypage'}>
+                      {menuOpen ? <LiaUserCogSolid /> : '마이페이지'}
+                    </NavLink>
                   </>
                 )}
                 <li>
-                  <Link onClick={handleLogout}>로그아웃</Link>
+                  <Link onClick={handleLogout}>
+                    {menuOpen ? <IoMdLogOut /> : '로그아웃'}
+                  </Link>
                 </li>
               </>
             ) : (
@@ -159,7 +167,9 @@ function Nav() {
             )}
           </ul>
         </div>
-        <ul className={styles.main}>
+        <ul
+          className={menuOpen ? cn(styles.main, styles.showMenu) : styles.main}
+        >
           {paths.gnb.map((menu, idx) => (
             <NavLink
               key={idx}
