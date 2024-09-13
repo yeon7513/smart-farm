@@ -4,7 +4,7 @@ import Container from "../../layout/container/Container";
 import { db } from "../../../api/firebase";
 import { collection, doc, getDocs } from "firebase/firestore";
 import * as XLSX from "xlsx";
-import { saveAs } from "file-saver";
+// import { saveAs } from "file-saver";
 
 const Payment = () => {
   const [loading, setLoading] = useState(false);
@@ -74,7 +74,7 @@ const Payment = () => {
     });
 
     // 파일 다운로드
-    saveAs(file, "결제 내역.xlsx");
+    // saveAs(file, "결제 내역.xlsx");
   };
 
   return (
