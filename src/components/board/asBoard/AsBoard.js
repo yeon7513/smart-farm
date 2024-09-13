@@ -4,6 +4,8 @@ import styles from "./AsBoard.module.scss";
 import { useSelector } from "react-redux";
 import { getBoardDatas } from "../../../api/firebase/board";
 import AsPost from "./AsPost";
+import CustomModal from "../../modal/CustomModal";
+import PasswordModal from "../../modal/PasswordModal";
 
 // const loginUser = JSON.parse(localStorage.getItem("user"));
 const PAGE_SIZE = 10;
@@ -69,6 +71,20 @@ function AsBoard({ complain }) {
     }
   };
 
+  const handlePostClick = (post) => {
+    setSelectedPost(post);
+    setIsModalOpen(true);
+  };
+
+  const handlePasswordConfirm = (password) => {
+    if (selectedPost && selectedPost.password === password) {
+      setIsModalOpen(false);
+      navigate(`/community/as/${selectedPost.id}`, { state: selectedPost });
+      return true; // 비밀번호가 맞을 경우 true 반환
+    }
+    return false; // 비밀번호가 틀릴 경우 false 반환
+  };
+
   return (
     <div className={styles.container}>
       {/* 글쓰기 모드 */}
@@ -87,19 +103,17 @@ function AsBoard({ complain }) {
           <div className={styles.board}>
             <ul>
               {currentItem.map((item, idx) => (
-                <Link
+                <li
                   key={idx}
-                  to={`/community/as/${item.id}`}
-                  state={{ ...item, complain }}
+                  id={view.length - ((currentPage - 1) * PAGE_SIZE + idx)}
+                  onClick={() => handlePostClick(item)}
                 >
-                  <li id={view.length - ((currentPage - 1) * PAGE_SIZE + idx)}>
-                    <div>{item.id}</div>
-                    <div>{item.title}</div>
-                    <div>{item.nick}</div>
-                    <div>{item.createdAt}</div>
-                    <div>{item.count}</div>
-                  </li>
-                </Link>
+                  <div>{item.id}</div>
+                  <div>{item.title}</div>
+                  <div>{item.nick}</div>
+                  <div>{item.createdAt}</div>
+                  <div>{item.count}</div>
+                </li>
               ))}
             </ul>
           </div>
@@ -124,6 +138,17 @@ function AsBoard({ complain }) {
           <div className={styles.upload}>
             {<button onClick={handleWriteClick}>글쓰기</button>}
           </div>
+
+          <CustomModal
+            title={"신고하기"}
+            btnName={"접수"}
+            handleClose={closeModal}
+            isOpen={isModalOpen}
+            //  btnHandler={goComplain}
+            className={styles.modal}
+          >
+            <PasswordModal />
+          </CustomModal>
         </>
       )}
     </div>
