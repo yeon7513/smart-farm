@@ -38,9 +38,20 @@
   font-family: var(--title-font);
   font-weight: 400;
   font-size: 30px;
+
   a {
     display: flex;
     justify-content: center;
     align-items: center;
+  }
+
+  /* 모바일 */
+  @media (max-width: 768px) {
+    margin-bottom: 0;
+  }
+
+  /* 작은모바일 */
+  @media (max-width: 576px) {
+    margin-bottom: 0;
   }
 }
