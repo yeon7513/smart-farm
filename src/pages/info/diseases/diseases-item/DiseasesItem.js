@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import BarLoader from 'react-spinners/BarLoader';
 import BackButton from '../../../../components/back-button/BackButton';
 import styles from './DiseasesItem.module.scss';
-// import BarLoader  from "react-spinners/PulseLoader";
 
 const apiKey = '2024570e96d7a69a9e49dfeb7fdc9739177c';
 
@@ -91,119 +91,126 @@ function DiseasesItem() {
     if (!korName || !cropName || !selectedType || !thumbImg) {
       navigate('/404', { replace: true });
     }
-  }, [navigate, state]);
+  }, [navigate]);
 
   return (
     <div>
       <BackButton />
-
-      <div className={styles.main}>
-        {/* <div> */}
-        <img src={thumbImg} />
-        {/* </div> */}
-        <div className={styles.title}>
-          <div>
-            <span>해충명</span>
-            <p>{korName}</p>
-          </div>
-          <div>
-            <span>{selectedType === 'NP01' ? '영문명' : '목/과명'}</span>
-            <p>
-              {' '}
-              {data && data.insectOrder && data.insectFamily
-                ? `${data.insectOrder}/${data.insectFamily}`
-                : data
-                ? data.sickNameEng
-                : 'Loading...'}
-            </p>
-          </div>
-          <div>
-            <span>작물명</span>
-            <p>{data?.cropName}</p>
-          </div>
+      {isLoading ? (
+        <div className={styles.loader}>
+          <BarLoader size={15} color={'#669900'} loading={isLoading} />
         </div>
-      </div>
-      <div className={styles.title_item}>
-        <div>
-          <h1>일반정보</h1>
-        </div>
-        {selectedType === 'NP01' ? (
-          // 병해의 경우
-          <div className={styles.text_item}>
-            <h4>발생환경</h4>
-            {data?.developmentCondition ? (
-              <p
-                dangerouslySetInnerHTML={{
-                  __html: formatHtml(data.developmentCondition),
-                }}
-              />
-            ) : (
-              <p className={styles.no_explanation}>조사중입니다...</p>
-            )}
+      ) : (
+        <>
+          <div className={styles.main}>
+            {/* <div> */}
+            <img src={thumbImg} />
+            {/* </div> */}
+            <div className={styles.title}>
+              <div>
+                <span>해충명</span>
+                <p>{korName}</p>
+              </div>
+              <div>
+                <span>{selectedType === 'NP01' ? '영문명' : '목/과명'}</span>
+                <p>
+                  {' '}
+                  {data && data.insectOrder && data.insectFamily
+                    ? `${data.insectOrder}/${data.insectFamily}`
+                    : data
+                    ? data.sickNameEng
+                    : 'Loading...'}
+                </p>
+              </div>
+              <div>
+                <span>작물명</span>
+                <p>{data?.cropName}</p>
+              </div>
+            </div>
           </div>
-        ) : (
-          // 해충의 경우
-          <div className={styles.text_item}>
-            <h4>생태정보</h4>
-            {data?.ecologyInfo ? (
-              <p
-                dangerouslySetInnerHTML={{
-                  __html: formatHtml(data.ecologyInfo),
-                }}
-              />
+          <div className={styles.title_item}>
+            <div>
+              <h1>일반정보</h1>
+            </div>
+            {selectedType === 'NP01' ? (
+              // 병해의 경우
+              <div className={styles.text_item}>
+                <h4>발생환경</h4>
+                {data?.developmentCondition ? (
+                  <p
+                    dangerouslySetInnerHTML={{
+                      __html: formatHtml(data.developmentCondition),
+                    }}
+                  />
+                ) : (
+                  <p className={styles.no_explanation}>조사중입니다...</p>
+                )}
+              </div>
             ) : (
-              <p className={styles.no_explanation}>조사중입니다...</p>
+              // 해충의 경우
+              <div className={styles.text_item}>
+                <h4>생태정보</h4>
+                {data?.ecologyInfo ? (
+                  <p
+                    dangerouslySetInnerHTML={{
+                      __html: formatHtml(data.ecologyInfo),
+                    }}
+                  />
+                ) : (
+                  <p className={styles.no_explanation}>조사중입니다...</p>
+                )}
+              </div>
             )}
-          </div>
-        )}
-        {selectedType === 'NP01' ? (
-          // 병해의 경우
-          <div className={styles.text_item}>
-            <h4>증상설명</h4>
-            {data?.symptoms ? (
-              <p
-                dangerouslySetInnerHTML={{
-                  __html: formatHtml(data.symptoms),
-                }}
-              />
+            {selectedType === 'NP01' ? (
+              // 병해의 경우
+              <div className={styles.text_item}>
+                <h4>증상설명</h4>
+                {data?.symptoms ? (
+                  <p
+                    dangerouslySetInnerHTML={{
+                      __html: formatHtml(data.symptoms),
+                    }}
+                  />
+                ) : (
+                  <p className={styles.no_explanation}>조사중입니다...</p>
+                )}
+              </div>
             ) : (
-              <p className={styles.no_explanation}>조사중입니다...</p>
+              // 해충의 경우
+              <div className={styles.text_item}>
+                <h4>피해정보</h4>
+                {data?.damageInfo ? (
+                  <p
+                    dangerouslySetInnerHTML={{
+                      __html: formatHtml(data.damageInfo),
+                    }}
+                  />
+                ) : (
+                  <p className={styles.no_explanation}>조사중입니다...</p>
+                )}
+              </div>
             )}
-          </div>
-        ) : (
-          // 해충의 경우
-          <div className={styles.text_item}>
-            <h4>피해정보</h4>
-            {data?.damageInfo ? (
-              <p
-                dangerouslySetInnerHTML={{
-                  __html: formatHtml(data.damageInfo),
-                }}
-              />
-            ) : (
-              <p className={styles.no_explanation}>조사중입니다...</p>
-            )}
-          </div>
-        )}
 
-        {data?.preventionMethod || data?.preventMethod ? (
-          <div className={styles.text_item}>
-            <h4>방재방법</h4> {/* 제목은 항상 "방재방법"으로 고정 */}
-            <p
-              dangerouslySetInnerHTML={{
-                __html: formatHtml(
-                  data.preventionMethod || data.preventMethod || ''
-                ),
-              }}
-            />
+            {data?.preventionMethod || data?.preventMethod ? (
+              <div className={styles.text_item}>
+                <h4>방재방법</h4> {/* 제목은 항상 "방재방법"으로 고정 */}
+                <p
+                  dangerouslySetInnerHTML={{
+                    __html: formatHtml(
+                      data.preventionMethod || data.preventMethod || ''
+                    ),
+                  }}
+                />
+              </div>
+            ) : (
+              <div className={styles.text_item}>
+                <h4>방재방법</h4>
+                <p className={styles.no_explanation}>조사중입니다...</p>
+              </div>
+            )}
           </div>
-        ) : (
-          <div className={styles.text_item}>
-            <h4>방재방법</h4>
-            <p className={styles.no_explanation}>조사중입니다...</p>
-          </div>
-        )}
-      </div>
+        </>
+      )}
     </div>
   );
 }
