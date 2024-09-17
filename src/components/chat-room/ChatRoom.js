@@ -54,33 +54,14 @@ function ChatRoom() {
 
   //  chatOptionsData 화면에서 사용할 추가 질문과 답변
   const chatOptionsData = [
-    { id: "option1", question: "회원 정보", answerKey: "answer1" },
-    { id: "option2", question: "결제/환불", answerKey: "answer2" },
-    { id: "option3", question: "출장 서비스", answerKey: "answer3" },
-    { id: "option4", question: "견적서", answerKey: "answer4" },
-    { id: "option5", question: "스마트팜 시스템", answerKey: "answer5" },
-    { id: "option6", question: "A/S", answerKey: "answer5" },
-    { id: "option7", question: "기타", answerKey: "answer7" },
+    { id: "option1", question: "회원 정보", answer: "요청하신 회원 정보 상담을 위해 채팅 상담원과 연결 중입니다. 잠시만 기다려 주세요..." },
+    { id: "option2", question: "결제/환불", answer: "요청하신 결제/환불 상담을 위해  채팅 상담원과 연결 중입니다. 잠시만 기다려 주세요..." },
+    { id: "option3", question: "출장 서비스", answer: "요청하신 출장 서비스 상담을 위해  채팅 상담원과 연결 중입니다. 잠시만 기다려 주세요..." },
+    { id: "option4", question: "견적서", answer: "요청하신 견적서 상담을 위해  채팅 상담원과 연결 중입니다. 잠시만 기다려 주세요..." },
+    { id: "option5", question: "스마트팜 시스템", answer: "요청하신 스마트팜 시스템 상담을 위해  채팅 상담원과 연결 중입니다. 잠시만 기다려 주세요..." },
+    { id: "option6", question: "A/S", answer: "요청하신 A/S 상담을 위해  채팅 상담원과 연결 중입니다. 잠시만 기다려 주세요..." },
+    { id: "option7", question: "기타", answer: "요청하신 기타 사항 상담을 위해  채팅 상담원과 연결 중입니다. 잠시만 기다려 주세요..." },
   ];
-
-  const answers = {
-    answer1:
-      "요청하신 회원 정보 상담을 위해 채팅 상담원과 연결 중입니다. 잠시만 기다려 주세요...",
-    answer2:
-      "요청하신 결제/환불 상담을 위해  채팅 상담원과 연결 중입니다. 잠시만 기다려 주세요...",
-    answer3:
-      "요청하신 출장 서비스 상담을 위해  채팅 상담원과 연결 중입니다. 잠시만 기다려 주세요...",
-    answer4:
-      "요청하신 견적서 상담을 위해  채팅 상담원과 연결 중입니다. 잠시만 기다려 주세요...",
-    answer5:
-      "요청하신 A/S 상담을 위해  채팅 상담원과 연결 중입니다. 잠시만 기다려 주세요...",
-    answer7:
-      "요청하신 기타 사항 상담을 위해  채팅 상담원과 연결 중입니다. 잠시만 기다려 주세요...",
-  };
-
-  const showAnswer = (answerKey) => {
-    setSelectedAnswer(answers[answerKey]);
-  };
 
   const handleChatButtonClick = (id) => {
     setIsStartChatSelected(true); 
@@ -122,7 +103,7 @@ function ChatRoom() {
 
     if (selectedOption) {
       // showAnswer 함수에 answerKey를 전달
-      showAnswer(selectedOption.answerKey);
+      setSelectedAnswer(selectedOption.answerKey);
     } else {
       console.warn("선택한 옵션에 답변이 없습니다.", selectedOption);
     }
