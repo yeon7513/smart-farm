@@ -47,16 +47,13 @@ function Myinfo(props) {
   };
   const handleNameChange = async () => {
     if (nameState === true) {
-      console.log(nameState);
       SetnameState(false);
       const SameNameChange = items.find((item) => {
         return item.name == localChange.name;
       });
-      console.log(SameNameChange);
       const updateObj = {
         name: inputValue,
       };
-
       const { docId } = SameNameChange;
       await updateDatas("users", docId, updateObj);
       const updatedUser = { ...localChange, name: inputValue };
@@ -79,7 +76,7 @@ function Myinfo(props) {
       alert("중복된 이름입니다. 다시 입력해주세요. 테스트로 alert좀 썼어요!");
     }
   };
-  const nickClick = async () => {
+  const handleNickNameChange = async () => {
     if (NicknameState === true) {
       SetnicknameState(false);
       const SameNickNameChange = items.find((item) => {
@@ -136,9 +133,8 @@ function Myinfo(props) {
         </div>
         <div className={style.name}>
           <div className={style.title}>
-            <div>
-              <span>이름</span> {localChange.name}
-            </div>
+            <span>이름</span>
+            <div className={style.namePosition}>{localChange.name}</div>
           </div>
           {nameState === true ? (
             <button
@@ -149,7 +145,7 @@ function Myinfo(props) {
               변경 완료
             </button>
           ) : (
-            <button onClick={handleNameChange}>이름 변경</button>
+            <button onClick={handleNameChange}>변경</button>
           )}
         </div>
         {nameState === true ? (
@@ -161,17 +157,20 @@ function Myinfo(props) {
           ""
         )}
         <div className={style.name}>
-          <div className={style.title}>닉네임 : {localChange.nick}</div>
+          <div className={style.title}>
+            <span>닉네임</span>
+            <div className={style.namePosition}>{localChange.nick}</div>
+          </div>
           {NicknameState === true ? (
             <button
               disabled={sameAlert}
               className={style.Change}
-              onClick={nickClick}
+              onClick={handleNickNameChange}
             >
               변경 완료
             </button>
           ) : (
-            <button onClick={nickClick}>닉네임 변경</button>
+            <button onClick={handleNickNameChange}>변경</button>
           )}
         </div>
         {NicknameState === true ? (
@@ -185,11 +184,14 @@ function Myinfo(props) {
 
         <div>
           <div className={style.name}>
-            <div className={style.title}>비밀번호</div>
+            <div className={style.title}>
+              <span>비밀번호</span>
+              <div className={style.namePosition}>{localChange.nick}</div>
+            </div>
             {PasswordState === true ? (
               <button onClick={nickClick2}>수정 완료</button>
             ) : (
-              <button onClick={nickClick2}>비밀번호 수정</button>
+              <button onClick={nickClick2}>변경</button>
             )}
           </div>
           {PasswordState === true ? (
@@ -205,26 +207,21 @@ function Myinfo(props) {
         </div>
         <div className={style.homeTitle}>집 주소</div>
         <div className={style.name}>
-          <div className={style.title}>{localChange.address}</div>
+          <div className={style.title}>
+            {addressState == false ? `${localChange.address}` : toManyState}
+          </div>
           {addressState === true ? (
             <button className={style.Change} onClick={nickClick3}>
               변경 완료
             </button>
           ) : (
-            <button onClick={nickClick3}>주소 변경</button>
+            <button onClick={nickClick3}>변경</button>
           )}
         </div>
-        {addressState === true ? (
-          <div>
-            <div>주소 API</div>
-            <SearchAddr getAddr={SetToManyState} />
-          </div>
-        ) : (
-          ""
-        )}
-        <button className={style.complete} onClick={CompleteButton}>
+        {addressState === true ? <SearchAddr getAddr={SetToManyState} /> : ""}
+        {/* <button className={style.complete} onClick={CompleteButton}>
           변경 완료
-        </button>
+        </button> */}
       </div>
     </Container>
   );
