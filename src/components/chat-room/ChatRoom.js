@@ -12,16 +12,16 @@ import FaqQuestions from "./faq-questions/FaqQuestions";
 function ChatRoom() {
   const [selectedAnswer, setSelectedAnswer] = useState(''); 
  // 질문 선택 여부 관리
-  const [isChatOptionsSelected, setIsChatOptionsSelected] = useState(false); 
+  const [isStartChatSelected, setIsStartChatSelected] = useState(false); 
   // '무엇을 도와드릴까요?' 화면에서 채팅상담 시작하기 버튼 클릭했을 때 '세부 선택' 화면으로 전환 여부 관리
   const [rankedFaqData, setRankedFaqData] = useState([]); 
   // 추천수 순위가 정렬된 FAQ 데이터를 관리
- const [openChatSupported, setOpenChatSupported] = useState(false); 
+ const [openChatLived, setOpenChatLived] = useState(false); 
  // '세부 선택' 화면에서 '채팅상담원 연결하기' 질문 선택 여부 관리
  const [isChatRoomOpened, setIsChatRoomOpened] = useState(true);
-  // 챗룸의 가시성 상태
+  // 챗룸의 가시성 상태(챗룸을 닫을 수 있는{숨길 수 있는} 기능) 관리 
   const [isLiveChattingOpened, setIsLiveChattingOpened] = useState(false);
-// LiveChatting 접속을 위한 새로운 상태
+// LiveChatting 접속을 위한 새로운 상태 -> 아직 미완성 상태임
 
 
   const faqData = useSelector((state) => state.faqData);
@@ -47,7 +47,7 @@ function ChatRoom() {
 
   //  추가할 5번째 질문과 답변
   const openChat = {
-    id: "supporter", // 고유 ID 생성
+    id: "chattingCounselor", // 고유 ID 생성
     question: " 채팅 상담 시작하기",
     answer: "이것은 파일 내부에서 추가된 다섯 번째 질문에 대한 답변입니다.",
   };
@@ -83,23 +83,23 @@ function ChatRoom() {
   };
 
   const handleChatButtonClick = (id) => {
-    setIsChatOptionsSelected(true); 
+    setIsStartChatSelected(true); 
     // 첫번째 화면에서 "채팅 상담원 연결하기" 버튼 클릭 시 선택지 화면으로 전환
     setSelectedAnswer(""); // 선택된 답변 초기화
   };
 
   const handleBackButtonClick = () => {
-    setIsChatOptionsSelected(false); // "뒤로 가기" 버튼 클릭 시 이전 화면으로 전환
-    setOpenChatSupported(false); // 추가 질문 선택 상태 초기화
+    setIsStartChatSelected(false); // "뒤로 가기" 버튼 클릭 시 이전 화면으로 전환
+    setOpenChatLived(false); // 추가 질문 선택 상태 초기화
     setSelectedAnswer(""); // 선택된 답변 초기화
   };
 
   const handleFaqClick = (id) => {
     // 첫번째 화면에서 FAQ 버튼 클릭 시의 동작 정의 -> 클릭 시 FaqQuestions 화면으로 이동 
-    if (id === "supporter") {
+    if (id === "chattingCounselor") {
       // '채팅 상담사 연결하기' 질문을 선택한 경우 (올바른 ID로 수정)
-      setOpenChatSupported(true); // 추가 질문 화면으로 전환
-      setIsChatOptionsSelected(true);
+      setOpenChatLived(true); // 추가 질문 화면으로 전환
+      setIsStartChatSelected(true);
       setSelectedAnswer("");
     } else {
       const selectedFaq = [...rankedFaqData, openChat].find(
@@ -139,7 +139,7 @@ function ChatRoom() {
   return (
     <div className={styles.wrapper}>
    <ChatRoomHeader
-   openChatSupported={openChatSupported}
+   openChatLived={openChatLived}
   //   5번째 추가버튼(채팅상담원) 선택지 이동 
    handleBackButtonClick={handleBackButtonClick}
   //  뒤로가기 버튼
@@ -149,7 +149,7 @@ function ChatRoom() {
       {/* 여기까지 헤더의 영역 */}
 
       <div className={styles.content}>
-        {openChatSupported ? (
+        {openChatLived ? (
         <ChatOptions 
         chatOptionsData={chatOptionsData}
         handleOptionClick={handleOptionClick}
@@ -167,7 +167,7 @@ function ChatRoom() {
       </div>
 
    <ChatRoomFooter
-   openChatSupported={openChatSupported}
+   openChatLived={openChatLived}
    />
      {/* 풋터의 영역 */}
     </div>

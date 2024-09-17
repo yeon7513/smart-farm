@@ -1,14 +1,14 @@
 import React from 'react'
 import styles from "./ChatRoomFooter.module.scss";
 
-function ChatRoomFooter({openChatSupported}) {
+function ChatRoomFooter({openChatLived}) {
   return (
     <div
     className={`${styles.footer} ${
-        openChatSupported ? styles.footerDetailOption : ""
+        openChatLived ? styles.footerDetailOption : ""
     }`}
   >
-    {openChatSupported ? (
+    {openChatLived ? (
       <>
         버튼 클릭 시 상담이 신속히 연결되며, 상담 대기자가 많을 경우 시간이
         다소 소요될 수 있습니다.
