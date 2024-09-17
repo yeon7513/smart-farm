@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./Form.module.scss";
 import { useForm } from "react-hook-form";
 import { Box, Button, FormControl, TextField } from "@mui/material";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchItems } from "../../store/user/UserSlice";
 
 function Form({
   title,
@@ -36,13 +37,18 @@ function Form({
   //   return encrypted;
   // }
   const { items } = useSelector((state) => state.userSlice);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(fetchItems({ collectionName: "users" }));
+  }, []);
   const onSubmit = ({ name, password, email }) => {
-    console.log(name);
     // encryptPassword(password);
     const findUser = items.find((item) => {
       return item.email == name;
     });
+    console.log(findUser.deleteYn);
     if (findUser.deleteYn == "Y") {
+      alert("탈퇴된 회원입니다.");
       return false;
     }
 

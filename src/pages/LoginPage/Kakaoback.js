@@ -130,11 +130,11 @@ const Kakaoback = () => {
               backgroundColor: "#F7E700", // 버튼 배경색
               color: "#3E0C02", // 버튼 텍스트 색상
               border: "none", // 버튼 테두리
-              borderRadius: "10px", // 버튼 모서리 둥글기
+              borderRadius: "5px", // 버튼 모서리 둥글기
               cursor: "pointer", // 커서 모양
               fontSize: "15px", // 텍스트 크기
               fontWeight: "bold", // 텍스트 두께
-              padding: "1% 4% 1% 4%",
+              padding: "0.6% 0 0.6% 0",
               transition: "background-color 0.3s", // 호버 시 색상 변경을 부드럽게
 
               // boxShadow: "0 0 8px 0 rgba(0, 0, 0, 0.15);",
@@ -142,7 +142,7 @@ const Kakaoback = () => {
             onMouseOver={(e) => (e.currentTarget.style.opacity = "0.6")}
             onMouseOut={(e) => (e.currentTarget.style.opacity = "1.0")}
           >
-            <RiKakaoTalkFill style={{ width: 40, height: 40 }} />
+            <RiKakaoTalkFill style={{ width: 32, height: 32 }} />
             카카오 로그인
           </button>
         )}

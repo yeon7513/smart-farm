@@ -11,7 +11,7 @@
   }
   a {
     &:hover {
-      color: skyblue;
+      color: var(--common-color);
       text-decoration: underline;
     }
   }

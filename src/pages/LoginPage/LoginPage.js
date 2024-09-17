@@ -132,7 +132,7 @@ function LoginPage() {
       </div>
       <div className={styles.avatar}>
         <Avatar
-          sx={{ m: 0, background: "skyblue" }}
+          sx={{ m: 0, background: "var(--common-color)" }}
           style={{
             width: 80,
             height: 80,
@@ -143,30 +143,33 @@ function LoginPage() {
         <SignIn />
       </div>
       <div className={styles.buttons}>
+        <Kakaoback />
         <button
           className={styles.googleBt}
           type="submit"
           onClick={SignInWithGoogle}
         >
           <div>
-            <FcIcons.FcGoogle style={{ width: 40, height: 40 }} />
+            <FcIcons.FcGoogle style={{ width: 30, height: 30 }} />
           </div>
-          <div className={styles.h2}>
-            <h2>Google 로그인</h2>
+          <div>
+            <h2 className={styles.h2}>Google 로그인</h2>
           </div>
         </button>
-        <Kakaoback />
       </div>
-      <div>
-        <p className={styles.searchText}>
+      <div className={styles.searchText}>
+        <div>
           <Link to="/searchEm">E-mail 찾기</Link>
+        </div>
+        <div>
           <Link to="/searchPw">비밀번호 찾기</Link>
-        </p>
+        </div>
       </div>
-      <div>
-        <p>
-          아직 회원이 아니신가요? &nbsp; <Link to={"/register"}>회원가입</Link>
-        </p>
+      <div className={styles.searchText}>
+        <div>아직 회원이 아니신가요?</div>
+        <div>
+          <Link to={"/register"}>회원가입</Link>
+        </div>
       </div>
       <CustomModal
         title={"추가 정보"}

@@ -135,7 +135,11 @@ function Myinfo(props) {
           </button>
         </div>
         <div className={style.name}>
-          <div className={style.title}>{localChange.name}</div>
+          <div className={style.title}>
+            <div>
+              <span>이름</span> {localChange.name}
+            </div>
+          </div>
           {nameState === true ? (
             <button
               disabled={sameAlert}
@@ -157,7 +161,7 @@ function Myinfo(props) {
           ""
         )}
         <div className={style.name}>
-          <div className={style.title}>{localChange.nick}</div>
+          <div className={style.title}>닉네임 : {localChange.nick}</div>
           {NicknameState === true ? (
             <button
               disabled={sameAlert}

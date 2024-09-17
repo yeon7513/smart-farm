@@ -196,11 +196,3 @@ export async function deleteDatas(collectionName, docId) {
     return false;
   }
 }
-
-// const api = "D2KH68BM8I140W4B"; // 여기에 실제 API 키를 넣으세요
-// const apiurl = `/desaster?serviceKey=${api}`;
-// fetch(apiurl)
-//   .then((response) => response.json())
-//   .then((result) => {
-//     console.log(result);
-//   });
