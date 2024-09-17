@@ -102,8 +102,8 @@ function ChatRoom() {
      // 클릭된 추가 질문 찾기
 
     if (selectedOption) {
-      // showAnswer 함수에 answerKey를 전달
-      setSelectedAnswer(selectedOption.answerKey);
+      // showAnswer 함수에 answer을 전달
+      setSelectedAnswer(selectedOption.answer);
     } else {
       console.warn("선택한 옵션에 답변이 없습니다.", selectedOption);
     }
