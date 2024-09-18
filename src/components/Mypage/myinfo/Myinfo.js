@@ -13,6 +13,8 @@ function Myinfo(props) {
   const [NicknameState, SetnicknameState] = useState(false);
   const [nameState, SetnameState] = useState(false);
   const [inputValue, setInputValue] = useState("");
+  const [inputValueSub, setInputValueSub] = useState("");
+  const [itemBox, setItemBox] = useState("");
   const [PasswordState, SetPasswordnameState] = useState(false);
   const [addressState, SetaddressState] = useState(false);
   const [sameAlert, SetsameAlert] = useState(false);
@@ -30,6 +32,9 @@ function Myinfo(props) {
 
   const handleChange = (event) => {
     setInputValue(event.target.value);
+  };
+  const handleChangeSub = (event) => {
+    setInputValueSub(event.target.value);
   };
 
   const handleSameNamethingConfirm = async () => {
@@ -95,9 +100,20 @@ function Myinfo(props) {
       SetnicknameState(true);
     }
   };
-  const nickClick2 = () => {
+  const handlePasswordChange = async () => {
     if (PasswordState === true) {
       SetPasswordnameState(false);
+      const SameNameChange = items.find((item) => {
+        return item.name == localChange.name;
+      });
+      const updateObj = {
+        password: inputValue,
+      };
+      setItemBox(SameNameChange);
+      const { docId } = SameNameChange;
+      if (inputValueSub == SameNameChange.password) {
+        await updateDatas("users", docId, updateObj);
+      }
     } else {
       SetPasswordnameState(true);
     }
@@ -108,9 +124,6 @@ function Myinfo(props) {
     } else {
       SetaddressState(true);
     }
-  };
-  const CompleteButton = () => {
-    navigate("/mypage");
   };
 
   return (
@@ -186,20 +199,20 @@ function Myinfo(props) {
           <div className={style.name}>
             <div className={style.title}>
               <span>비밀번호</span>
-              <div className={style.namePosition}>{localChange.nick}</div>
+              <div className={style.namePosition}>{itemBox.password}</div>
             </div>
             {PasswordState === true ? (
-              <button onClick={nickClick2}>수정 완료</button>
+              <button onClick={handlePasswordChange}>수정 완료</button>
             ) : (
-              <button onClick={nickClick2}>변경</button>
+              <button onClick={handlePasswordChange}>변경</button>
             )}
           </div>
           {PasswordState === true ? (
             <div className={style.password}>
               <div>기존 비밀번호</div>
-              <input type="text" />
+              <input onChange={handleChangeSub} type="text" />
               <div>변경할 비밀번호</div>
-              <input type="text" />
+              <input onChange={handleChange} type="text" />
             </div>
           ) : (
             ""
@@ -219,9 +232,20 @@ function Myinfo(props) {
           )}
         </div>
         {addressState === true ? <SearchAddr getAddr={SetToManyState} /> : ""}
-        {/* <button className={style.complete} onClick={CompleteButton}>
-          변경 완료
-        </button> */}
+        <div className={style.homeTitle}>농장 주소</div>
+        <div className={style.name}>
+          <div className={style.title}>
+            {addressState == false ? `${localChange.address}` : toManyState}
+          </div>
+          {addressState === true ? (
+            <button className={style.Change} onClick={nickClick3}>
+              변경 완료
+            </button>
+          ) : (
+            <button onClick={nickClick3}>변경</button>
+          )}
+        </div>
+        {addressState === true ? <SearchAddr getAddr={SetToManyState} /> : ""}
       </div>
     </Container>
   );

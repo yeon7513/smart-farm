@@ -16,9 +16,11 @@ import { Navigate, useNavigate } from "react-router-dom";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "../../../api/firebase";
 import { setUser } from "../../../store/user/UserSlice";
+import { useComponentContext } from "../../../context/ComponentContext";
 
 function Mymain(props) {
   const user = JSON.parse(localStorage.getItem("user")) || "";
+  const { currComp, setCurrComp } = useComponentContext();
   const Navigate = useNavigate();
   const ButtonClick = () => {
     Navigate("/mypage/Myinfo");
@@ -136,7 +138,7 @@ function Mymain(props) {
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
               size="large"
-              onClick={ButtonClick}
+              onClick={() => setCurrComp("Myinfo")}
             >
               내 정보 수정하기
             </Button>

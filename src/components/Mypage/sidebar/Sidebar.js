@@ -1,38 +1,90 @@
-import React, { useEffect } from "react";
-import { deleteDatas } from "../../../api/firebase";
+import React, { useEffect, useState } from "react";
+import { deleteDatas, getUserAuth, updateDatas } from "../../../api/firebase";
 import { useComponentContext } from "../../../context/ComponentContext";
 import styles from "./sidebar.module.scss";
 import { useNavigate } from "react-router-dom";
+import CustomModal from "../../modal/CustomModal";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchItems, removeUser } from "../../../store/user/UserSlice";
+
 function Sidebar(props) {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const openModal = () => setIsModalOpen(true);
+  const closeModal = () => setIsModalOpen(false);
+  const auth = getUserAuth();
+  const dispatch = useDispatch();
+  const { items } = useSelector((state) => state.userSlice);
+  const user = JSON.parse(localStorage.getItem("user"));
   const navigate = useNavigate();
   useEffect(() => {
     const localInfoNum = async () => {
       const localInfo = localStorage.getItem("user");
       if (localInfo === null) {
-        // if(dashboard)
         navigate(-1);
       }
     };
     localInfoNum();
   }, [navigate]);
+  useEffect(() => {
+    dispatch(fetchItems({ collectionName: "users" }));
+  }, []);
   const { currComp, setCurrComp } = useComponentContext();
-  const handleDelete = async (docId) => {
-    // alert("정말 회원 탈퇴 하시겠습니까?");
-    // localStorage에 저장되어 있는 회원 정보를 삭제합니다.
-    localStorage.removeItem("user");
-    // Firebase에 "users" 컬렉션에 저장되어 있는 회원 정보를 삭제합니다.
-    const result = await deleteDatas("users", docId);
+  // const handleDelete = async (docId) => {
+  //   // alert("정말 회원 탈퇴 하시겠습니까?");
+  //   // localStorage에 저장되어 있는 회원 정보를 삭제합니다.
+  //   localStorage.removeItem("user");
+  //   // Firebase에 "users" 컬렉션에 저장되어 있는 회원 정보를 삭제합니다.
+  //   const result = await deleteDatas("users", docId);
 
-    if (!result) {
-      alert("회원 정보가 없습니다. \n 관리자에게 문의하세요.");
-      return false;
-    }
-  };
+  //   if (!result) {
+  //     alert("회원 정보가 없습니다. \n 관리자에게 문의하세요.");
+  //     return false;
+  //   }
+  // };
   const localInfo = localStorage.getItem("user");
   if (!localInfo == null) {
     // if(dashboard)
     navigate("/");
   }
+
+  const handleLogout = async () => {
+    try {
+      await auth.signOut();
+      dispatch(removeUser());
+      if (window.Kakao.Auth.getAccessToken()) {
+        console.log("로그아웃 중입니다.");
+        await new Promise((resolve) => {
+          window.Kakao.Auth.logout(function () {
+            console.log("로그아웃 성공");
+            resolve();
+          });
+        });
+      } else {
+        console.log("로그인 상태가 아닙니다.");
+      }
+      navigate("/");
+    } catch (error) {
+      console.error(error);
+    }
+    // setMenuOpen(false);
+  };
+
+  const deleteUserInfo = async () => {
+    const deleteUser = items.find((item) => item.name === user.name);
+    if (deleteUser) {
+      const { docId } = deleteUser;
+      const updateData = {
+        deleteYn: "Y",
+      };
+      await updateDatas("users", docId, updateData);
+    } else {
+      console.error("User not found in items");
+    }
+    closeModal();
+    alert("탈퇴가 완료되었습니다.");
+    handleLogout();
+    navigate("/");
+  };
   return (
     <div className={styles.container}>
       <ul className={styles.items}>
@@ -67,14 +119,23 @@ function Sidebar(props) {
       </ul>
       <ul>
         <li className={styles.items}>
-          <button
-            className={styles.items}
-            onClick={() => setCurrComp("Userout")}
-          >
+          <button className={styles.items} onClick={openModal}>
             회원 탈퇴
           </button>
         </li>
       </ul>
+      <CustomModal
+        title={"회원탈퇴"}
+        btnName={"탈퇴하기"}
+        isOpen={isModalOpen}
+        handleClose={closeModal}
+        btnHandler={deleteUserInfo}
+      >
+        <div>
+          <p>회원 탈퇴시 회원님의 정보는 삭제됩니다.</p>
+          <p>탈퇴하시겠습니까?</p>
+        </div>
+      </CustomModal>
     </div>
   );
 }
