@@ -24,6 +24,7 @@ function ChatRoom() {
 // LiveChatting 접속을 위한 새로운 상태 -> 아직 미완성 상태임
 
 
+
   const faqData = useSelector((state) => state.faqData);
 
   // FAQ 데이터를 Firestore에서 'likes' 필드를 기준으로 내림차순 정렬해서 가져오기
@@ -117,6 +118,30 @@ function ChatRoom() {
   if (!isChatRoomOpened) return null;
    // 챗룸이 보이지 않도록 설정
 
+   const renderContent = () => {
+    switch (true) {
+      case openChatLived:
+        return (
+          <ChatOptions 
+            chatOptionsData={chatOptionsData}
+            handleOptionClick={handleOptionClick}
+            selectedAnswer={selectedAnswer}
+          />
+        );
+      default:
+        return (
+          <FaqQuestions
+            rankedFaqData={rankedFaqData}
+            openChat={openChat}
+            handleFaqClick={handleFaqClick}
+            selectedAnswer={selectedAnswer}
+          />
+        );
+    }
+  };
+
+
+
   return (
     <div className={styles.wrapper}>
    <ChatRoomHeader
@@ -130,21 +155,7 @@ function ChatRoom() {
       {/* 여기까지 헤더의 영역 */}
 
       <div className={styles.content}>
-        {openChatLived ? (
-        <ChatOptions 
-        chatOptionsData={chatOptionsData}
-        handleOptionClick={handleOptionClick}
-        selectedAnswer={selectedAnswer}
-        />
-        ) : (
-    <FaqQuestions
-    rankedFaqData={rankedFaqData}
-    openChat={openChat}
-    handleFaqClick={handleFaqClick}
-    selectedAnswer={selectedAnswer}
-      />
-    
-        )}
+    {renderContent()}
       </div>
 
    <ChatRoomFooter
