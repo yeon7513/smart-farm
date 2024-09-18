@@ -1,16 +1,19 @@
 import React, { useEffect, useState } from 'react'
 import styles from '../ChatRoom.module.scss'
 import LiveChatting from './live-chatting/LiveChatting';
+import {BeatLoader} from 'react-spinners'
 
 
 function ChatOptions({chatOptionsData, handleOptionClick, selectedAnswer}) {
   const [isTransitioningToLiveChat, setIsTransitioningToLiveChat] = useState(false);
+  const [isLoading, setIsLoading] = useState(false); // 로딩 상태 추가
   
 useEffect( () => {
-  console.log('selected answer:', selectedAnswer); 
   if(selectedAnswer) {
-    // answer이 선택되면 5초 후에 live-chatting으로 전환
-    const timer = setTimeout(() => setIsTransitioningToLiveChat(true), 5000);
+    // answer이 선택되면 8초 후에 live-chatting으로 전환
+ setIsLoading(true);
+ 
+    const timer = setTimeout(() => setIsTransitioningToLiveChat(true), 8000);
     return () => clearTimeout(timer); // 컴포넌트 언마운트 시 타이머 정리
   }
 }, [selectedAnswer]);
@@ -23,7 +26,7 @@ if (isTransitioningToLiveChat) {
 
   return (
     <>
-    <div className={styles.chatOptions}>
+     <div className={styles.chatOptions}>
       {/* 추가 질문 화면 */}
       {chatOptionsData.map((option) => (
         <button
@@ -35,8 +38,14 @@ if (isTransitioningToLiveChat) {
         </button>
       ))}
     </div>
-    {selectedAnswer && (
-      <div className={styles.answerArea}>{selectedAnswer}</div>
+
+   {selectedAnswer && ( 
+    <>     <div className={styles.answerArea}>{selectedAnswer}</div>
+    {isLoading && (
+      <div className={styles.loadingContainer}>
+      <BeatLoader color="#36d7b7" />
+      </div>
+    )}</>
     )}
   </>
   )
