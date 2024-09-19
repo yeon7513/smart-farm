@@ -292,7 +292,10 @@ function RequestForm({ user, onSubmit }) {
             {paymentMethod === "" ? (
               "결제 방식을 선택하여 주시기 바랍니다."
             ) : paymentMethod === "신용카드" ? (
-              "신용카드 결제"
+              <>
+                <div>삼성카드</div>
+                <div>NH카드</div>
+              </>
             ) : paymentMethod === "가상계좌" ? (
               "가상계좌 결제"
             ) : paymentMethod === "무통장 입금" ? (
