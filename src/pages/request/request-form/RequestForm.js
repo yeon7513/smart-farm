@@ -37,36 +37,19 @@ function RequestForm({ user, onSubmit }) {
       setIMP(window.IMP);
       const IMP = window.IMP;
       IMP.init("imp68411640"); // 스크립트가 로드된 후 초기화
+      setIMP(IMP);
     };
     document.body.appendChild(script);
   }, []);
 
-  useEffect(() => {
-    const handleScroll = () => {
-      const element = document.querySelector(".your-element-class");
-      if (element) {
-        // your logic that uses element.classList
-      }
-    };
-
-    window.addEventListener("scroll", handleScroll);
-
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, []);
-
   // 결제가 진행되는 창을 띄웁니다.
   const onclickPay = (pgValue, payMethod) => {
-    if (!IMP) {
-      console.error("IMP 객체가 로드되지 않았습니다.");
-      return;
-    }
+    if (!IMP) return;
 
     const data = {
-      pg: pgValue,
+      pg: "kcp",
       pay_method: payMethod,
-      merchant_uid: "ORD20180131-0000012",
+      merchant_uid: `merchant_${Date.now()}`,
       name: "견적 비용",
       amount: 1,
       buyer_email: user.email,
@@ -75,11 +58,13 @@ function RequestForm({ user, onSubmit }) {
       buyer_address: user.address,
       m_redirect_url: "",
     };
-    IMP.request_pay(data, (rsp) => {
+
+    IMP.request_pay(data, async (rsp) => {
       if (rsp.success) {
-        console.log("결제 됐다");
+        console.log("결제에 성공하셨습니다.", rsp);
+        await handleSubmit();
       } else {
-        console.log("결제 안됐다");
+        console.log("결제에 실패하였습니다.", rsp.error_msg);
       }
     });
   };
@@ -178,7 +163,7 @@ function RequestForm({ user, onSubmit }) {
       createdAt: createdAt,
       // paymentMethod: paymentMethod,
     };
-    onSubmit(dataObj);
+    // onSubmit(dataObj);
 
     try {
       if (uid) {
@@ -392,7 +377,14 @@ function RequestForm({ user, onSubmit }) {
               "카카오페이 결제"
             )}
           </div> */}
-        <button onClick={() => onclickPay("kcp.imp68411640", "card")}>
+        <button
+          onClick={() =>
+            onclickPay(
+              "kcp.WTvRVd3q9eL7xTQBJupokRHAfykYvVFLGSgCggJ6Vo0BSzz7oRqzaeNjpdj2N1W9Wlewf00XBljCtp29",
+              "card"
+            )
+          }
+        >
           결제하기
         </button>
       </div>
