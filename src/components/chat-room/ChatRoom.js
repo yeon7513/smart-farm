@@ -8,6 +8,8 @@ import ChatRoomHeader from "./chat-room-header/ChatRoomHeader";
 import ChatRoomFooter from "./chat-room-footer/ChatRoomFooter";
 import ChatOptions from "./chat-options/ChatOptions";
 import FaqQuestions from "./faq-questions/FaqQuestions";
+import LiveChatting from "./chat-options/live-chatting/LiveChatting";
+import { BeatLoader } from "react-spinners";
 
 function ChatRoom() {
   const [selectedAnswer, setSelectedAnswer] = useState(''); 
@@ -20,8 +22,8 @@ function ChatRoom() {
  // '세부 선택' 화면에서 '채팅상담원 연결하기' 질문 선택 여부 관리
  const [isChatRoomOpened, setIsChatRoomOpened] = useState(true);
   // 챗룸의 가시성 상태(챗룸을 닫을 수 있는{숨길 수 있는} 기능) 관리 
-  const [isLiveChattingOpened, setIsLiveChattingOpened] = useState(false);
-// LiveChatting 접속을 위한 새로운 상태 -> 아직 미완성 상태임
+const [isTransitioningToLiveChat, setIsTransitioningToLiveChat] = useState(false);
+const [isLoading, setIsLoading] = useState(false); // 로딩 상태 추가
 
 
 
@@ -50,8 +52,26 @@ function ChatRoom() {
   const openChat = {
     id: "chattingCounselor", // 고유 ID 생성
     question: " 채팅 상담 시작하기",
-    answer: "이것은 파일 내부에서 추가된 다섯 번째 질문에 대한 답변입니다.",
+    answer: "",
   };
+
+  useEffect( () => {
+    if(selectedAnswer) {
+      // answer이 선택되면 1초 후에 live-chatting으로 전환
+   setIsLoading(true);
+   
+      const timer = setTimeout(() => {
+        setIsTransitioningToLiveChat(true);
+        setIsLoading(false); // 로딩 종료
+      }, 1000);
+
+      return () => clearTimeout(timer); // 컴포넌트 언마운트 시 타이머 정리
+    }
+  }, [selectedAnswer]);
+  
+  console.log('Is transitioning to LiveChat:', isTransitioningToLiveChat); // 상태 변화 확인 로그 추가
+  
+
 
   //  chatOptionsData 화면에서 사용할 추가 질문과 답변
   const chatOptionsData = [
@@ -74,6 +94,7 @@ function ChatRoom() {
     setIsStartChatSelected(false); // "뒤로 가기" 버튼 클릭 시 이전 화면으로 전환
     setOpenChatLived(false); // 추가 질문 선택 상태 초기화
     setSelectedAnswer(""); // 선택된 답변 초기화
+    setIsTransitioningToLiveChat(false); // 뒤로 가기 시 전환 초기화
   };
 
   const handleFaqClick = (id) => {
@@ -118,28 +139,38 @@ function ChatRoom() {
   if (!isChatRoomOpened) return null;
    // 챗룸이 보이지 않도록 설정
 
-   const renderContent = () => {
-    switch (true) {
-      case openChatLived:
-        return (
-          <ChatOptions 
-            chatOptionsData={chatOptionsData}
-            handleOptionClick={handleOptionClick}
-            selectedAnswer={selectedAnswer}
-          />
-        );
-      default:
-        return (
-          <FaqQuestions
-            rankedFaqData={rankedFaqData}
-            openChat={openChat}
-            handleFaqClick={handleFaqClick}
-            selectedAnswer={selectedAnswer}
-          />
-        );
-    }
-  };
+ 
 
+   // renderContent 내에서만 상태 관리
+const renderContent = () => {
+if (isTransitioningToLiveChat) {
+    return <LiveChatting />; // 1초 후 live-chatting 컴포넌트로 전환 
+  }
+
+  if (isTransitioningToLiveChat) {
+    return <LiveChatting />;
+  }
+
+  if (openChatLived) {
+    return (
+      <ChatOptions 
+        chatOptionsData={chatOptionsData}
+        handleOptionClick={handleOptionClick}
+        selectedAnswer={selectedAnswer}
+        isLoading={isLoading} 
+      />
+    );
+  }
+
+  return (
+    <FaqQuestions
+      rankedFaqData={rankedFaqData}
+      openChat={openChat}
+      handleFaqClick={handleFaqClick}
+      selectedAnswer={selectedAnswer}
+    />
+  );
+};
 
 
   return (
@@ -151,6 +182,7 @@ function ChatRoom() {
   //  뒤로가기 버튼
    handleClose={handleClose}
   //  닫기 버튼 
+  isTransitioningToLiveChat={isTransitioningToLiveChat}
    />
       {/* 여기까지 헤더의 영역 */}
 
@@ -160,6 +192,7 @@ function ChatRoom() {
 
    <ChatRoomFooter
    openChatLived={openChatLived}
+   isTransitioningToLiveChat={isTransitioningToLiveChat}
    />
      {/* 풋터의 영역 */}
     </div>
