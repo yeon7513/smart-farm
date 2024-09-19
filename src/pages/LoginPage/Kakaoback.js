@@ -4,12 +4,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { RiKakaoTalkFill } from "react-icons/ri";
 import { setUser } from "../../store/user/UserSlice";
-import { getDatas, joinUser, LoginGetDatas } from "../../api/firebase";
 import CustomModal from "../../components/modal/CustomModal";
 import { TextField } from "@mui/material";
 import { useForm } from "react-hook-form";
 import SearchAddr from "../../components/search-addr/SearchAddr";
 import styles from "./Kakaoback.module.scss";
+import { joinUser, LoginGetDatas } from "../../api/userPage";
 
 const Kakaoback = () => {
   const [inputValue, setInputValue] = useState(true);

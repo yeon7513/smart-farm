@@ -2,9 +2,10 @@ import { signInWithEmailAndPassword } from "firebase/auth";
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { getDatas, getUserAuth, LoginGetDatas } from "../../../api/firebase";
+import { getDatas, getUserAuth } from "../../../api/firebase";
 import Form from "../../../components/form/Form";
 import { setUser } from "../../../store/user/UserSlice";
+import { LoginGetDatas } from "../../../api/userPage";
 
 function SignIn(props) {
   const [firebaseError, setFirebaseError] = useState("");
