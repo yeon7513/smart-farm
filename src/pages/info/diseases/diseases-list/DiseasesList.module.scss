@@ -5,6 +5,7 @@
   display: flex;
   gap: 30px;
   margin-bottom: 10px;
+  justify-content: center;
 }
 .party,
 .pest {
@@ -127,8 +128,8 @@
   }
 
   .items {
-    flex-direction: column;
-    gap: 8px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
   }
 
   .no_results {
@@ -140,27 +141,66 @@
     padding: 100px;
   }
 }
-// 모바일
+// 작은모바일
 @media (max-width: 576px) {
   .pest_search {
-    gap: 5px;
+    flex-direction: row;
+    gap: 10px;
   }
 
   .party,
   .pest {
     button {
-      padding: 8px 30px;
-      font-size: 14px;
+      padding: 10px 50px;
+      font-size: 16px;
     }
   }
 
-  .item_img img {
-    width: 100%;
-    height: auto;
+  .item {
+    // flex-wrap: wrap;
+    // flex-direction: column;
+    // align-items: center;
+
+    .title {
+      width: 160px;
+      height: 15rem;
+
+      .item_list {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+    }
+
+    .item_img img {
+      width: 130px;
+      height: 150px;
+    }
+
+    .item_name {
+      padding: 0;
+      // width: 100%;
+    }
+    .name {
+      &:hover {
+        color: var(--hover-color);
+        border-bottom: 1px solid var(--hover-color);
+      }
+    }
   }
 
   .items {
-    flex-direction: column;
-    gap: 5px;
+    // flex-direction: column;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .no_results {
+    margin-top: 50px;
+    font-size: 20px;
+  }
+
+  .loader {
+    padding: 100px;
   }
 }
