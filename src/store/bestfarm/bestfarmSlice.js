@@ -62,6 +62,11 @@ const bestfarmSlice = createSlice({
   },
 });
 
+// 필수 요청
+// searchFrmhsCode : 검색 농가 코드
+// 시뮬레이션 페이지에서는
+// 딸기 : S23 / 토마토 : 349 / 파프리카 : SP205 사용중입니다.
+
 export const fetchEnvironmentData = createAsyncThunk(
   'bestFarmData/fetchEnvironmentData',
   async (query) => {
