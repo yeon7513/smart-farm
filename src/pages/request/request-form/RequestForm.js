@@ -45,6 +45,11 @@ function RequestForm({ user, onSubmit }) {
   }, []);
 
   function onClickPayment() {
+    if (!paymentMethod) {
+      console.error("결제 방식을 선택하여 주시기 바랍니다.");
+      return;
+    }
+
     if (typeof window.IMP === "undefined") {
       console.error("결제 라이브러리가 로드되지 않았습니다.");
       return;
@@ -56,7 +61,7 @@ function RequestForm({ user, onSubmit }) {
       pg: "inicis",
       pay_method: "card",
       merchant_uid: `order_${new Date().getTime()}`,
-      amount: 1,
+      amount: 1000,
       name: "아이팜 결제",
       buyer_name: user.name,
       buyer_number: user.number,
@@ -67,11 +72,12 @@ function RequestForm({ user, onSubmit }) {
     IMP.request_pay(data, callback);
   }
 
-  function callback(response) {
+  async function callback(response) {
     const { success, merchant_uid, error_msg } = response;
 
     if (success) {
       console.log("결제 성공");
+      await handleSubmit();
     } else {
       console.log(`결제 실패: ${error_msg}`);
     }
@@ -199,7 +205,13 @@ function RequestForm({ user, onSubmit }) {
   };
 
   return (
-    <form className={styles.requestForm} onSubmit={handleSubmit}>
+    <form
+      className={styles.requestForm}
+      onSubmit={(e) => {
+        e.preventDefault();
+        handleSubmit();
+      }}
+    >
       <div className={styles.userContainer}>
         <div className={styles.user}>
           <div>
