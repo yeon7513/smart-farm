@@ -163,7 +163,7 @@
   h1 {
     font-weight: 600;
     font-size: 46px;
-    color: var(--hover-color);
+    color: var(--accent-color);
     letter-spacing: 2px;
     margin-bottom: 10px;
   }
@@ -251,7 +251,7 @@
     margin-bottom: 30px;
     font-weight: 500;
     font-size: 28px;
-    color: var(--accent-color);
+    color: var(--hover-color);
     // color: #fff;
     font-family: var(--title-font);
   }
@@ -274,24 +274,18 @@
 .state {
   height: 100%;
 }
-.map_chart {
-  display: flex;
-  align-items: center;
-  gap: 100px;
-}
 
-.map {
-  overflow: hidden;
+.map_chart {
+  margin-top: 40px;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
-  width: 400px;
-  height: 600px;
-  > svg {
-    width: 600px;
-    height: 800px;
-    transform: scale(130%);
-  }
+  gap: 20px;
+}
+.status {
+  border: 1px solid #ddd;
+  padding: 10px 20px;
+  border-radius: 9999px;
 }
 
 .community {
@@ -331,8 +325,9 @@
 }
 
 .case {
+  margin-top: 50px;
   width: 100%;
-  height: 100vh;
+  height: 85vh;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -344,7 +339,7 @@
   h1 {
     font-family: var(--title-font);
     font-weight: 500;
-    color: var(--accent-color);
+    color: var(--common-color);
   }
   h4 {
     margin: 6px auto 40px;
