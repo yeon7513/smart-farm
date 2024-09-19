@@ -36,7 +36,7 @@ function RequestForm({ user, onSubmit }) {
     script.onload = () => {
       setIMP(window.IMP);
       const IMP = window.IMP;
-      IMP.init("imp68411640"); // 스크립트가 로드된 후 초기화
+      IMP.init("store-0e1988f8-ba2a-4002-a4be-8a4edbfd439e"); // 스크립트가 로드된 후 초기화
       setIMP(IMP);
     };
     document.body.appendChild(script);
@@ -47,7 +47,7 @@ function RequestForm({ user, onSubmit }) {
     if (!IMP) return;
 
     const data = {
-      pg: "kcp",
+      pg: pgValue,
       pay_method: payMethod,
       merchant_uid: `merchant_${Date.now()}`,
       name: "견적 비용",
@@ -58,6 +58,8 @@ function RequestForm({ user, onSubmit }) {
       buyer_address: user.address,
       m_redirect_url: "",
     };
+
+    console.log("결제 요청 데이터:", data);
 
     IMP.request_pay(data, async (rsp) => {
       if (rsp.success) {
