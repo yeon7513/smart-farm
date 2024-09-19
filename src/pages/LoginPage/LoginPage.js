@@ -220,18 +220,18 @@ function LoginPage() {
 
 export default LoginPage;
 
-const api =
-  "iv2U4%2BpsJ7CRlDQ2ukixg4slrgEMjbIL%2FB%2B9pefVtqqEHGHhSRX7tNubbe2Y%2FGpjV59et7GLPJwxAdVe7iXycA%3D%3D";
-const apiurl = `/bestfarm/envdatarqst?serviceKey=${api}&searchFrmhsCode=TestFarm01&searchMeasDt=2019010100&returnType=json`;
+// const api =
+//   "iv2U4%2BpsJ7CRlDQ2ukixg4slrgEMjbIL%2FB%2B9pefVtqqEHGHhSRX7tNubbe2Y%2FGpjV59et7GLPJwxAdVe7iXycA%3D%3D";
+// const apiurl = `/bestfarm/envdatarqst?serviceKey=${api}&searchFrmhsCode=81&returnType=json`;
 
-axios
-  .get(apiurl)
-  .then((response) => {
-    console.log(response.data);
-  })
-  .catch((error) => {
-    console.error("There was an error!", error);
-  });
+// axios
+//   .get(apiurl)
+//   .then((response) => {
+//     console.log(response.data);
+//   })
+//   .catch((error) => {
+//     console.error("There was an error!", error);
+//   });
 
 // const servicekey = "D2KH68BM8I140W4B";
 // const pageNo = "12";

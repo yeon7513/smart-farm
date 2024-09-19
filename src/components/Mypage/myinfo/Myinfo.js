@@ -33,7 +33,7 @@ function Myinfo(props) {
     const passwordSameThing = items.find((item) => {
       return item.name == localChange.name;
     });
-    setPasswordInfoState(passwordSameThing.password);
+    setPasswordInfoState(passwordSameThing?.password);
   }, [
     nameState,
     NicknameState,
@@ -163,25 +163,25 @@ function Myinfo(props) {
       SetaddressState(true);
     }
   };
-  const handleFarmAddressChange = async () => {
-    if (farmAddressState === true) {
-      SetFarmAddressState(false);
-      const addressSameThing = items.find((item) => {
-        return item.name == localChange.name;
-      });
-      const updateObj = {
-        ...addressSameThing,
-        farmAddress: [farmAddress],
-      };
+  // const handleFarmAddressChange = async () => {
+  //   if (farmAddressState === true) {
+  //     SetFarmAddressState(false);
+  //     const addressSameThing = items.find((item) => {
+  //       return item.name == localChange.name;
+  //     });
+  //     const updateObj = {
+  //       ...addressSameThing,
+  //       farmAddress: [farmAddress],
+  //     };
 
-      const { docId } = addressSameThing;
-      if (addressSameThing.farmAddress != farmAddress) {
-        await updateDatas("users", docId, updateObj);
-      }
-    } else {
-      SetFarmAddressState(true);
-    }
-  };
+  //     const { docId } = addressSameThing;
+  //     if (addressSameThing.farmAddress != farmAddress) {
+  //       await updateDatas("users", docId, updateObj);
+  //     }
+  //   } else {
+  //     SetFarmAddressState(true);
+  //   }
+  // };
   return (
     <Container className={style.container}>
       <div className={style.headers}>
@@ -191,8 +191,8 @@ function Myinfo(props) {
             sx={{
               m: 3,
               backgroundColor: "secondary.main",
-              width: "70px",
-              height: "70px",
+              width: "120px",
+              height: "120px",
               type: "file",
             }}
           />

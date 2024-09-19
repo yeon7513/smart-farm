@@ -7,6 +7,7 @@
   flex-direction: column;
   border-radius: 5px;
   gap: 30px;
+  background-color: var(--main-color);
   box-shadow: var(--box-shadow);
   padding: 4%;
   width: 60%;
@@ -17,7 +18,7 @@
     outline: none;
     box-shadow: var(--box-shadow);
     width: 100%;
-    margin: 0 1% 0 12%;
+    margin: 0 1% 0 13.5%;
   }
   .proTitle {
     display: flex;
@@ -31,7 +32,7 @@
     margin: 2% 0 2% 0%;
     background-color: var(--main-color);
     &:hover {
-      background-color: var(--hover-color);
+      background-color: var(--back-color);
     }
   }
   .secretButton {
@@ -53,6 +54,7 @@
       border-radius: 5px;
       padding: 2%;
       width: 15%;
+      background-color: var(--main-color);
       box-shadow: var(--box-shadow);
       span {
         font-size: 14px;
@@ -64,10 +66,10 @@
     box-shadow: var(--box-shadow);
     border-radius: 5px;
     padding: 2% 0 2% 0;
-    width: 12%;
+    width: 15%;
     background-color: var(--main-color);
     &:hover {
-      background-color: var(--hover-color);
+      background-color: var(--back-color);
     }
   }
   .file {
@@ -82,6 +84,7 @@
     font-weight: 500;
     justify-content: center;
     border-radius: 5px;
+    background-color: var(--main-color);
     box-shadow: var(--box-shadow);
     width: 100%;
     position: relative;
