@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styles from "./EditPost.module.scss";
 import { useNavigate } from "react-router-dom";
-import { updatePost } from "../../../api/firebase/board";
+import { updatePost } from "../../../api/firebase.js";
 
 function EditPost({ post, setIsEditing, onPostUpdate }) {
   const navigate = useNavigate();

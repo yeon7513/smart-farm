@@ -16,6 +16,7 @@ function RequestForm({ user, onSubmit }) {
   const [farmArea, setFarmArea] = useState("");
   const [farmEquivalent, setFarmEquivalent] = useState("");
   const [additionalOptions, setAdditionalOptions] = useState({});
+  const [paymentMethod, setPaymentMethod] = useState("");
   const { uid } = useSelector((state) => state.userSlice);
   const navigate = useNavigate();
 
@@ -63,6 +64,11 @@ function RequestForm({ user, onSubmit }) {
     });
   };
 
+  // 결제 방식을 변경합니다.
+  const handlePaymentMethodChange = (e) => {
+    setPaymentMethod(e.target.value);
+  };
+
   // 견적 내용을 저장합니다.
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -77,10 +83,11 @@ function RequestForm({ user, onSubmit }) {
       isNaN(farmEquivalentNum) ||
       farmEquivalentNum <= 0 ||
       farmAddress.trim() === "" ||
-      farmName.trim() === ""
+      farmName.trim() === "" ||
+      paymentMethod === ""
     ) {
       console.log(
-        "농장 면적과 동 수는 최소 1 이상, 농장 주소와 이름은 반드시 설정해주시기 바랍니다."
+        "농장 면적과 동 수는 최소 1 이상, 농장 주소와 이름, 결제내역은 반드시 설정해주시기 바랍니다."
       );
       return;
     }
@@ -109,6 +116,7 @@ function RequestForm({ user, onSubmit }) {
       farmName: farmName,
       farmEquivalent: farmEquivalent,
       createdAt: createdAt,
+      paymentMethod: paymentMethod,
     };
     onSubmit(dataObj);
 
@@ -126,6 +134,7 @@ function RequestForm({ user, onSubmit }) {
         setFarmArea("");
         setFarmEquivalent("");
         setAdditionalOptions({});
+        setPaymentMethod("");
         // 이전 페이지로 돌아갑니다.
         navigate(-1);
       } else {
@@ -226,6 +235,58 @@ function RequestForm({ user, onSubmit }) {
               handleAdditionalOptionsChange={handleAdditionalOptionsChange}
             />
           )}
+        </div>
+        <div
+          className={styles.paymentMethod}
+          onChange={handlePaymentMethodChange}
+        >
+          <h3>결제 방식: </h3>
+          <label>
+            <input
+              type="radio"
+              value="신용카드"
+              name="paymentMethod"
+              onChange={(e) => setPaymentMethod(e.target.value)}
+            />
+            신용카드
+          </label>
+          <label>
+            <input
+              type="radio"
+              value="가상계좌"
+              name="paymentMethod"
+              onChange={(e) => setPaymentMethod(e.target.value)}
+            />
+            가상계좌
+          </label>
+          <label>
+            <input
+              type="radio"
+              value="무통장 입금"
+              name="paymentMethod"
+              onChange={(e) => setPaymentMethod(e.target.value)}
+            />
+            무통장 입금
+          </label>
+          <label>
+            <input
+              type="radio"
+              value="핸드폰 결제"
+              name="paymentMethod"
+              onChange={(e) => setPaymentMethod(e.target.value)}
+            />
+            핸드폰 결제
+          </label>
+          <label>
+            <input
+              type="radio"
+              value="카카오페이"
+              name="paymentMethod"
+              onChange={(e) => setPaymentMethod(e.target.value)}
+            />
+            카카오페이
+          </label>
+          {paymentMethod === "신용카드" ? <div></div> : "다른 결제"}
         </div>
         <div className={styles.btns}>
           <button className={styles.submit} type="submit">
