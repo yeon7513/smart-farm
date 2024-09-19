@@ -59,10 +59,7 @@ function PaymentDetail() {
               <p>농장 동 수: {data.farmEquivalent}</p>
               <p>부가 옵션: {data.additionalOptions.join(", ")}</p>
               <p>주문번호: {data.createdAt}</p>
-              <p>
-                결제 방식: 카드 or 현금?(나중에 이것도 결제 방식에 따라 나오게
-                할 예정)
-              </p>
+              <p>결제 방식:{data.payment}</p>
             </>
           ) : (
             <p>No data available.</p>
