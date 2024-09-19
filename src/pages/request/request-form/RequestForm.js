@@ -16,9 +16,8 @@ function RequestForm({ user, onSubmit }) {
   const [farmArea, setFarmArea] = useState("");
   const [farmEquivalent, setFarmEquivalent] = useState("");
   const [additionalOptions, setAdditionalOptions] = useState({});
-  // const [paymentMethod, setPaymentMethod] = useState("");
-  // const [accountHolder, setAccountHolder] = useState("");
-  const [IMP, setIMP] = useState(null);
+  const [paymentMethod, setPaymentMethod] = useState("");
+  const [accountHolder, setAccountHolder] = useState("");
   const { uid } = useSelector((state) => state.userSlice);
   const navigate = useNavigate();
 
@@ -28,48 +27,6 @@ function RequestForm({ user, onSubmit }) {
       setFarmAddress(user.farmAddress || "");
     }
   }, [user]);
-
-  // 포트원의 라이브러리를 추가합니다.
-  useEffect(() => {
-    const script = document.createElement("script");
-    script.src = "https://cdn.iamport.kr/v1/iamport.js";
-    script.onload = () => {
-      setIMP(window.IMP);
-      const IMP = window.IMP;
-      IMP.init("INIBillTst"); // 스크립트가 로드된 후 초기화
-      setIMP(IMP);
-    };
-    document.body.appendChild(script);
-  }, []);
-
-  // 결제가 진행되는 창을 띄웁니다.
-  const onclickPay = (pgValue = "inicis", payMethod = "card") => {
-    if (!IMP) return;
-
-    const data = {
-      pg: pgValue,
-      pay_method: payMethod,
-      merchant_uid: `merchant_${Date.now()}`,
-      name: "견적 비용",
-      amount: 1,
-      buyer_email: user.email,
-      buyer_name: user.name,
-      buyer_number: user.number,
-      buyer_address: user.address,
-      m_redirect_url: "",
-    };
-
-    console.log("결제 요청 데이터:", data);
-
-    IMP.request_pay(data, async (rsp) => {
-      if (rsp.success) {
-        console.log("결제에 성공하셨습니다.", rsp);
-        await handleSubmit();
-      } else {
-        console.log("결제에 실패하였습니다.", rsp.error_msg);
-      }
-    });
-  };
 
   const handleChange = (e) => {
     const value = e.target.value;
@@ -110,9 +67,9 @@ function RequestForm({ user, onSubmit }) {
   };
 
   // 결제 방식을 변경합니다.
-  // const handlePaymentMethodChange = (e) => {
-  //   setPaymentMethod(e.target.value);
-  // };
+  const handlePaymentMethodChange = (e) => {
+    setPaymentMethod(e.target.value);
+  };
 
   // 견적 내용을 저장합니다.
   const handleSubmit = async (e) => {
@@ -163,9 +120,9 @@ function RequestForm({ user, onSubmit }) {
       farmName: farmName,
       farmEquivalent: farmEquivalent,
       createdAt: createdAt,
-      // paymentMethod: paymentMethod,
+      paymentMethod: paymentMethod,
     };
-    // onSubmit(dataObj);
+    onSubmit(dataObj);
 
     try {
       if (uid) {
@@ -181,8 +138,8 @@ function RequestForm({ user, onSubmit }) {
         setFarmArea("");
         setFarmEquivalent("");
         setAdditionalOptions({});
-        // setPaymentMethod("");
-        // setAccountHolder("");
+        setPaymentMethod("");
+        setAccountHolder("");
         // 이전 페이지로 돌아갑니다.
         navigate(-1);
       } else {
@@ -251,7 +208,7 @@ function RequestForm({ user, onSubmit }) {
               min="1"
               value={farmArea}
             />
-            <button>평</button>
+            <span>평</span>
           </div>
           <div className={styles.farmEquivalent}>
             <h3>농장 동 수:</h3>
@@ -284,7 +241,7 @@ function RequestForm({ user, onSubmit }) {
             />
           )}
         </div>
-        {/* <div className={styles.paymentMethod}>
+        <div className={styles.paymentMethod}>
           <h3>결제 방식: </h3>
           <label>
             <input
@@ -335,7 +292,10 @@ function RequestForm({ user, onSubmit }) {
             {paymentMethod === "" ? (
               "결제 방식을 선택하여 주시기 바랍니다."
             ) : paymentMethod === "신용카드" ? (
-              "신용카드 결제"
+              <>
+                <div>삼성카드</div>
+                <div>NH카드</div>
+              </>
             ) : paymentMethod === "가상계좌" ? (
               "가상계좌 결제"
             ) : paymentMethod === "무통장 입금" ? (
@@ -378,22 +338,22 @@ function RequestForm({ user, onSubmit }) {
             ) : (
               "카카오페이 결제"
             )}
-          </div> */}
-        <button onClick={() => onclickPay("inicis", "card")}>결제하기</button>
+          </div>
+          <button>결제하기</button>
+        </div>
+        <div className={styles.btns}>
+          <button className={styles.submit} type="submit">
+            저장
+          </button>
+          <button
+            type="button"
+            className={styles.cancel}
+            onClick={() => navigate(-1)}
+          >
+            취소
+          </button>
+        </div>
       </div>
-      <div className={styles.btns}>
-        <button className={styles.submit} type="submit">
-          저장
-        </button>
-        <button
-          type="button"
-          className={styles.cancel}
-          onClick={() => navigate(-1)}
-        >
-          취소
-        </button>
-      </div>
-      {/* </div> */}
     </form>
   );
 }

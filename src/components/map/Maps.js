@@ -61,13 +61,14 @@ const Maps = forwardRef(
           //   .style('left', `${e.pageX + 5}px`)
           //   .style('top', `${e.pageY - 28}px`);
 
-          d3.select(this).transition().duration(300).attr("fill", "#669900");
+          d3.select(this).transition().duration(300).attr("fill", "#4b9f9e");
         })
         .on("mouseout", function () {
           // tooltip.transition().duration(200).style('opacity', 0);
-          d3.select(this).transition().duration(300).attr("fill", "#E9EFEC");
+          d3.select(this).transition().duration(300).attr("fill", "#8adab2");
         });
 
+      // 사용자 위치 강조 처리
       if (userLocation) {
         const [longitude, latitude] = [
           userLocation.longitude,
@@ -81,18 +82,17 @@ const Maps = forwardRef(
         });
 
         if (closestRegion) {
-          setSelectedRegion(closestRegion.properties.CTP_KOR_NM);
           svg
             .select(`#${closestRegion.properties.CTP_ENG_NM}`)
-            .attr("fill", "#a2ca71");
-          onRegionClick(closestRegion.properties.CTP_KOR_NM);
+            .attr("fill", "#8adab2");
+          setSelectedRegion(closestRegion.properties.CTP_KOR_NM);
         }
       }
 
       return () => {
         d3.select("body").selectAll(".map-tooltip").remove();
       };
-    }, [onRegionClick, selectedRegion]);
+    }, [onRegionClick, selectedRegion, userLocation]);
 
     useImperativeHandle(ref, () => ({
       resetMap: () => {

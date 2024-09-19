@@ -6,10 +6,11 @@ import {
   deleteComment,
   getComment,
   updateComment, // 댓글 수정 함수 추가
-} from "../../api/firebase.js";
+} from "../../api/board";
 import CustomModal from "../modal/CustomModal";
-import Radio from "../complain/Radio";
 import { useSelector } from "react-redux";
+import CmRadio from "../complain/CmRadio.js";
+import { addDatas } from "../../api/firebase.js";
 
 function Comment({ item }) {
   const loginUser = JSON.parse(localStorage.getItem("user"));
@@ -21,11 +22,35 @@ function Comment({ item }) {
   const collectionName = item.collection;
   const { isAuthenticated } = useSelector((state) => state.userSlice);
 
+  const [errorMessage, setErrorMessage] = useState("");
+  const [selectedReason, setSelectedReason] = useState("");
+
   const [isModalOpen, setIsModalOpen] = useState(false);
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
 
-  const goComplain = () => setIsModalOpen(false);
+  const goComplain = async () => {
+    if (selectedReason) {
+      const complaintData = {
+        defendant: item.nick,
+        complainant: loginUser.nick,
+        reason: selectedReason,
+        postId: item.docId,
+        createdAt: new Date().toISOString().split("T")[0],
+        processedAt: "",
+        processYn: "n",
+      };
+
+      const success = await addDatas("complain", complaintData);
+      if (success) {
+        closeModal();
+      } else {
+        console.log("신고 접수 중 오류 발생.");
+      }
+    } else {
+      setErrorMessage("신고 사유를 선택해주세요.");
+    }
+  };
 
   const getComments = async () => {
     if (docId) {
@@ -161,7 +186,10 @@ function Comment({ item }) {
                             btnHandler={goComplain}
                             className={styles.modal}
                           >
-                            <Radio />
+                            <CmRadio
+                              selectedRadio={setSelectedReason}
+                              errorMessage={errorMessage}
+                            />
                           </CustomModal>
                         </div>
                       )

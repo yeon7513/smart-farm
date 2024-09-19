@@ -33,7 +33,7 @@ function SimpleBarChart({ data }) {
         />
       ));
     } else {
-      return <Bar dataKey="value" fill="#a2ca71" />;
+      return <Bar dataKey="value" fill="#00a76b" />;
     }
   };
 
