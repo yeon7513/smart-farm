@@ -28,6 +28,60 @@ function RequestForm({ user, onSubmit }) {
     }
   }, [user]);
 
+  useEffect(() => {
+    const script = document.createElement("script");
+    script.src = "https://cdn.iamport.kr/v1/iamport.js";
+    script.async = true;
+    document.body.appendChild(script);
+
+    script.onload = () => {
+      // 스크립트가 로드된 후의 동작을 여기에 작성할 수 있습니다.
+      console.log("IAMPORT 라이브러리가 로드되었습니다.");
+    };
+
+    return () => {
+      document.body.removeChild(script);
+    };
+  }, []);
+
+  function onClickPayment() {
+    if (!paymentMethod) {
+      console.error("결제 방식을 선택하여 주시기 바랍니다.");
+      return;
+    }
+
+    if (typeof window.IMP === "undefined") {
+      console.error("결제 라이브러리가 로드되지 않았습니다.");
+      return;
+    }
+    const { IMP } = window;
+    IMP.init("imp68411640");
+
+    const data = {
+      pg: "inicis",
+      pay_method: "card",
+      merchant_uid: `order_${new Date().getTime()}`,
+      amount: 1000,
+      name: "아이팜 결제",
+      buyer_name: user.name,
+      buyer_number: user.number,
+      buyer_email: user.email,
+      buyer_address: user.address,
+    };
+
+    IMP.request_pay(data, callback);
+  }
+
+  async function callback(response) {
+    const { success, merchant_uid, error_msg } = response;
+
+    if (success) {
+      console.log("결제 성공");
+      await handleSubmit();
+    } else {
+      console.log(`결제 실패: ${error_msg}`);
+    }
+  }
   const handleChange = (e) => {
     const value = e.target.value;
 
@@ -151,7 +205,13 @@ function RequestForm({ user, onSubmit }) {
   };
 
   return (
-    <form className={styles.requestForm} onSubmit={handleSubmit}>
+    <form
+      className={styles.requestForm}
+      onSubmit={(e) => {
+        e.preventDefault();
+        handleSubmit();
+      }}
+    >
       <div className={styles.userContainer}>
         <div className={styles.user}>
           <div>
@@ -339,7 +399,7 @@ function RequestForm({ user, onSubmit }) {
               "카카오페이 결제"
             )}
           </div>
-          <button>결제하기</button>
+          <button onClick={onClickPayment}>결제하기</button>
         </div>
         <div className={styles.btns}>
           <button className={styles.submit} type="submit">
