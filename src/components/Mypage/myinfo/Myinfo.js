@@ -14,11 +14,13 @@ function Myinfo(props) {
   const [nameState, SetnameState] = useState(false);
   const [inputValue, setInputValue] = useState("");
   const [inputValueSub, setInputValueSub] = useState("");
-  const [itemBox, setItemBox] = useState("");
-  const [PasswordState, SetPasswordnameState] = useState(false);
+  const [passwordState, setPasswordState] = useState("");
+  const [passwordInfo, setPasswordInfoState] = useState("");
   const [addressState, SetaddressState] = useState(false);
+  const [farmAddressState, SetFarmAddressState] = useState([]);
   const [sameAlert, SetsameAlert] = useState(false);
-  const [toManyState, SetToManyState] = useState(false);
+  const [toManyState, SetToManyState] = useState("");
+  const [farmAddress, setFarmAddress] = useState([]);
   const [localChange, setUser] = useState(
     JSON.parse(localStorage.getItem("user"))
   );
@@ -28,7 +30,18 @@ function Myinfo(props) {
 
   useEffect(() => {
     dispatch(fetchItems({ collectionName: "users" }));
-  }, [nameState]);
+    const passwordSameThing = items.find((item) => {
+      return item.name == localChange.name;
+    });
+    setPasswordInfoState(passwordSameThing?.password);
+  }, [
+    nameState,
+    NicknameState,
+    passwordState,
+    passwordState == false,
+    items,
+    passwordInfo,
+  ]);
 
   const handleChange = (event) => {
     setInputValue(event.target.value);
@@ -41,7 +54,6 @@ function Myinfo(props) {
     const SameName = items.filter((item) => {
       return item.name == inputValue;
     });
-    console.log(SameName);
     if (SameName.length === 0) {
       SetsameAlert(false);
       alert("중복된게 없습니다.  테스트로 alert좀 썼어요!");
@@ -94,38 +106,82 @@ function Myinfo(props) {
       await updateDatas("users", docId, updateObj);
       const updatedUser = { ...localChange, nick: inputValue };
       setUser(updatedUser);
-      // localChange.nick = inputValue;
       localStorage.setItem("user", JSON.stringify(updatedUser));
     } else {
       SetnicknameState(true);
     }
   };
+
   const handlePasswordChange = async () => {
-    if (PasswordState === true) {
-      SetPasswordnameState(false);
-      const SameNameChange = items.find((item) => {
+    if (passwordState === true) {
+      setPasswordState(false);
+      const passwordChange = items.find((item) => {
         return item.name == localChange.name;
       });
       const updateObj = {
+        ...passwordChange,
         password: inputValue,
       };
-      setItemBox(SameNameChange);
-      const { docId } = SameNameChange;
-      if (inputValueSub == SameNameChange.password) {
+      const { docId } = passwordChange;
+      if (inputValue != passwordChange.password) {
         await updateDatas("users", docId, updateObj);
       }
     } else {
-      SetPasswordnameState(true);
+      setPasswordState(true);
+      SetsameAlert(false);
     }
   };
-  const nickClick3 = () => {
+  const handlePasswordConfirm = async () => {
+    const passwordSameThing = items.find((item) => {
+      return item.name == localChange.name;
+    });
+    if (passwordSameThing.password == inputValueSub) {
+      SetsameAlert(true);
+    } else {
+      alert("비밀번호가 틀립니다.");
+    }
+  };
+
+  const handleAddressChange = async () => {
     if (addressState === true) {
       SetaddressState(false);
+      const addressSameThing = items.find((item) => {
+        return item.name == localChange.name;
+      });
+      const updateObj = {
+        ...addressSameThing,
+        address: toManyState,
+      };
+      const { docId } = addressSameThing;
+      if (addressSameThing.address != toManyState) {
+        await updateDatas("users", docId, updateObj);
+        const updatedUser = { ...localChange, address: toManyState };
+        setUser(updatedUser);
+        localStorage.setItem("user", JSON.stringify(updatedUser));
+      }
     } else {
       SetaddressState(true);
     }
   };
+  // const handleFarmAddressChange = async () => {
+  //   if (farmAddressState === true) {
+  //     SetFarmAddressState(false);
+  //     const addressSameThing = items.find((item) => {
+  //       return item.name == localChange.name;
+  //     });
+  //     const updateObj = {
+  //       ...addressSameThing,
+  //       farmAddress: [farmAddress],
+  //     };
 
+  //     const { docId } = addressSameThing;
+  //     if (addressSameThing.farmAddress != farmAddress) {
+  //       await updateDatas("users", docId, updateObj);
+  //     }
+  //   } else {
+  //     SetFarmAddressState(true);
+  //   }
+  // };
   return (
     <Container className={style.container}>
       <div className={style.headers}>
@@ -135,8 +191,8 @@ function Myinfo(props) {
             sx={{
               m: 3,
               backgroundColor: "secondary.main",
-              width: "70px",
-              height: "70px",
+              width: "120px",
+              height: "120px",
               type: "file",
             }}
           />
@@ -145,10 +201,10 @@ function Myinfo(props) {
           </button>
         </div>
         <div className={style.name}>
-          <div className={style.title}>
+          <div className={style.titleName}>
             <span>이름</span>
-            <div className={style.namePosition}>{localChange.name}</div>
           </div>
+          <div className={style.title}>{localChange.name}</div>
           {nameState === true ? (
             <button
               disabled={sameAlert}
@@ -163,17 +219,21 @@ function Myinfo(props) {
         </div>
         {nameState === true ? (
           <div className={style.double}>
-            <input type="text" onChange={handleChange} />
+            <input
+              className={style.input}
+              type="text"
+              onChange={handleChange}
+            />
             <button onClick={handleSameNamethingConfirm}>중복 확인</button>
           </div>
         ) : (
           ""
         )}
         <div className={style.name}>
-          <div className={style.title}>
+          <div className={style.titleName}>
             <span>닉네임</span>
-            <div className={style.namePosition}>{localChange.nick}</div>
           </div>
+          <div className={style.title}>{localChange.nick}</div>
           {NicknameState === true ? (
             <button
               disabled={sameAlert}
@@ -188,7 +248,11 @@ function Myinfo(props) {
         </div>
         {NicknameState === true ? (
           <div className={style.double}>
-            <input onChange={handleChange} type="text" />
+            <input
+              className={style.input}
+              onChange={handleChange}
+              type="text"
+            />
             <button onClick={handleSameNickNamethingConfirm}>중복 확인</button>
           </div>
         ) : (
@@ -197,55 +261,77 @@ function Myinfo(props) {
 
         <div>
           <div className={style.name}>
-            <div className={style.title}>
+            <div className={style.titleName}>
               <span>비밀번호</span>
-              <div className={style.namePosition}>{itemBox.password}</div>
             </div>
-            {PasswordState === true ? (
+            <div className={style.title}>{passwordInfo}</div>
+            {passwordState === true ? (
               <button onClick={handlePasswordChange}>수정 완료</button>
             ) : (
               <button onClick={handlePasswordChange}>변경</button>
             )}
           </div>
-          {PasswordState === true ? (
+          {passwordState === true ? (
             <div className={style.password}>
-              <div>기존 비밀번호</div>
-              <input onChange={handleChangeSub} type="text" />
-              <div>변경할 비밀번호</div>
-              <input onChange={handleChange} type="text" />
+              <p>기존 비밀번호</p>
+              <div className={style.passwordInput}>
+                <input
+                  disabled={sameAlert}
+                  className={style.input}
+                  onChange={handleChangeSub}
+                  type="password"
+                />
+                <button disabled={sameAlert} onClick={handlePasswordConfirm}>
+                  확인
+                </button>
+              </div>
+              <p>변경할 비밀번호</p>
+              <div className={style.passwordInput}>
+                <input
+                  className={style.input}
+                  onChange={handleChange}
+                  type="password"
+                />
+                <button className={style.secretButton}>확인</button>
+              </div>
             </div>
           ) : (
             ""
           )}
         </div>
-        <div className={style.homeTitle}>집 주소</div>
         <div className={style.name}>
-          <div className={style.title}>
-            {addressState == false ? `${localChange.address}` : toManyState}
+          <div className={style.titleName}>
+            <span>집</span>
           </div>
+          <div className={style.title}>{localChange.address}</div>
           {addressState === true ? (
-            <button className={style.Change} onClick={nickClick3}>
+            <button className={style.Change} onClick={handleAddressChange}>
               변경 완료
             </button>
           ) : (
-            <button onClick={nickClick3}>변경</button>
+            <button onClick={handleAddressChange}>변경</button>
           )}
         </div>
         {addressState === true ? <SearchAddr getAddr={SetToManyState} /> : ""}
-        <div className={style.homeTitle}>농장 주소</div>
-        <div className={style.name}>
-          <div className={style.title}>
-            {addressState == false ? `${localChange.address}` : toManyState}
+
+        {/* <div className={style.name}>
+          <div className={style.titleName}>
+            <span>농장</span>
           </div>
-          {addressState === true ? (
-            <button className={style.Change} onClick={nickClick3}>
+          <div className={style.title}>{passwordInfo.farmAddress}</div>
+          {farmAddressState === true ? (
+            <button className={style.Change} onClick={handleFarmAddressChange}>
               변경 완료
             </button>
           ) : (
-            <button onClick={nickClick3}>변경</button>
+            <button onClick={handleFarmAddressChange}>변경</button>
           )}
-        </div>
-        {addressState === true ? <SearchAddr getAddr={SetToManyState} /> : ""}
+        </div> */}
+        {/* {farmAddressState === true ? (
+          <SearchAddr getAddr={setFarmAddress} />
+        ) : (
+          ""
+        )} */}
       </div>
     </Container>
   );

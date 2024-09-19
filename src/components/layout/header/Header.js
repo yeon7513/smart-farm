@@ -39,14 +39,20 @@ function Header() {
   }, []);
 
   useEffect(() => {
-    ScrollTrigger.create({
-      trigger: headerScrollRef.current,
-      start: '900vh top+=100vh',
-      end: 'bottom top',
-      onEnter: () => headerScrollRef.current.classList.add(styles.scrolled),
-      onLeaveBack: () =>
-        headerScrollRef.current.classList.remove(styles.scrolled),
-    });
+    if (headerScrollRef.current) {
+      ScrollTrigger.create({
+        trigger: headerScrollRef.current,
+        start: '900vh top+=100vh',
+        end: 'bottom top',
+        onEnter: () => headerScrollRef.current.classList.add(styles.scrolled),
+        onLeaveBack: () =>
+          headerScrollRef.current.classList.remove(styles.scrolled),
+      });
+    }
+
+    return () => {
+      ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
+    };
   }, []);
 
   return (

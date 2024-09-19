@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { getUserAuth, joinUser } from "../../../api/firebase";
+import { getUserAuth } from "../../../api/firebase";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { setUser } from "../../../store/user/UserSlice";
 import Forms from "../../../components/form/Forms";
+import { joinUser } from "../../../api/userPage";
 
 function SingUp(props) {
   const [firebaseError, setFirebaseError] = useState("");

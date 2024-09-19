@@ -41,7 +41,7 @@ const Payment = () => {
   }, [uid]);
 
   return (
-    <Container>
+    <Container className={styles.container}>
       <div className={styles.payment}>
         {loading ? (
           <p>Loading...</p>

@@ -6,18 +6,15 @@ import { useForm } from "react-hook-form";
 import * as FcIcons from "react-icons/fc";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, Navigate, useNavigate } from "react-router-dom";
-import {
-  getDatas,
-  getUserAuth,
-  joinUser,
-  LoginGetDatas,
-} from "../../api/firebase";
+import { joinUser, LoginGetDatas } from "../../api/userPage";
 import CustomModal from "../../components/modal/CustomModal";
 import { setUser } from "../../store/user/UserSlice";
 import Kakaoback from "./Kakaoback";
 import styles from "./LoginPage.module.scss";
 import SignIn from "./sign-in/SignIn";
 import SearchAddr from "../../components/search-addr/SearchAddr";
+import axios from "axios";
+import { getUserAuth } from "./../../api/firebase";
 
 function LoginPage() {
   const navigate = useNavigate();
@@ -223,8 +220,9 @@ function LoginPage() {
 
 export default LoginPage;
 
-// const api = "D2KH68BM8I140W4B";
-// const apiurl = `/desaster?serviceKey=${api}/numOfRows=10/pageNo=10`;
+// const api =
+//   "iv2U4%2BpsJ7CRlDQ2ukixg4slrgEMjbIL%2FB%2B9pefVtqqEHGHhSRX7tNubbe2Y%2FGpjV59et7GLPJwxAdVe7iXycA%3D%3D";
+// const apiurl = `/bestfarm/envdatarqst?serviceKey=${api}&searchFrmhsCode=81&returnType=json`;
 
 // axios
 //   .get(apiurl)

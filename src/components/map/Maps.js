@@ -44,14 +44,14 @@ const Maps = forwardRef(
         .append("path")
         .attr("d", path)
         .attr("id", (d) => d.properties.CTP_ENG_NM)
-        .attr("fill", "#E9EFEC")
+        .attr("fill", "#8adab2")
         .attr("stroke", "#fff")
         .attr("transition", "fill 0.3s linear")
         .on("click", (e, d) => {
           const regionName = d.properties.CTP_KOR_NM;
           setSelectedRegion(regionName);
-          svg.selectAll("path").attr("fill", "#E9EFEC");
-          d3.select(e.target).attr("fill", "#a2ca71");
+          svg.selectAll("path").attr("fill", "#8adab2");
+          d3.select(e.target).attr("fill", "#00a76b");
           onRegionClick(regionName);
         })
         .on("mouseover", function (e, d) {
@@ -101,7 +101,7 @@ const Maps = forwardRef(
           .selectAll("path")
           .transition()
           .duration(300)
-          .attr("fill", "#E9EFEC");
+          .attr("fill", "#8adab2");
       },
     }));
 

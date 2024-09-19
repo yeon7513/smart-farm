@@ -262,8 +262,10 @@ function InfoInput({ onSearch, resetSearch }) {
       </div>
       <div className={styles.btn}>
         <button onClick={handleSearch}>
-          <CiSearch />
-          <span>조회</span>
+          <span>
+            <CiSearch />
+            조회
+          </span>
         </button>
       </div>
     </div>

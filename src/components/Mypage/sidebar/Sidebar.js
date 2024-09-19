@@ -29,21 +29,8 @@ function Sidebar(props) {
     dispatch(fetchItems({ collectionName: "users" }));
   }, []);
   const { currComp, setCurrComp } = useComponentContext();
-  // const handleDelete = async (docId) => {
-  //   // alert("정말 회원 탈퇴 하시겠습니까?");
-  //   // localStorage에 저장되어 있는 회원 정보를 삭제합니다.
-  //   localStorage.removeItem("user");
-  //   // Firebase에 "users" 컬렉션에 저장되어 있는 회원 정보를 삭제합니다.
-  //   const result = await deleteDatas("users", docId);
-
-  //   if (!result) {
-  //     alert("회원 정보가 없습니다. \n 관리자에게 문의하세요.");
-  //     return false;
-  //   }
-  // };
   const localInfo = localStorage.getItem("user");
   if (!localInfo == null) {
-    // if(dashboard)
     navigate("/");
   }
 
@@ -66,7 +53,6 @@ function Sidebar(props) {
     } catch (error) {
       console.error(error);
     }
-    // setMenuOpen(false);
   };
 
   const deleteUserInfo = async () => {
@@ -131,9 +117,17 @@ function Sidebar(props) {
         handleClose={closeModal}
         btnHandler={deleteUserInfo}
       >
-        <div>
-          <p>회원 탈퇴시 회원님의 정보는 삭제됩니다.</p>
-          <p>탈퇴하시겠습니까?</p>
+        <div className={styles.modalContent}>
+          <p>
+            회원 탈퇴 시 <span>30일</span> 간 회원 가입이 <span>불가능</span>
+            합니다.
+          </p>
+          <p>
+            회원 탈퇴 시 회원님의 정보가 <span>삭제</span>됩니다.
+          </p>
+          <p>
+            <span>탈퇴</span>하시겠습니까?
+          </p>
         </div>
       </CustomModal>
     </div>

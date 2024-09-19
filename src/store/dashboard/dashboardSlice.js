@@ -30,6 +30,7 @@ const dashboardSlice = createSlice({
         state.isLoading = false;
         state.error = action.payload;
       })
+
       // 대시보드 섹터 데이터
       .addCase(fetchSectorInfo.pending, (state) => {
         state.isLoading = true;
@@ -44,6 +45,7 @@ const dashboardSlice = createSlice({
         state.isLoading = false;
         state.error = action.payload;
       })
+
       // 대시보드 섹터 초기화
       .addCase(resetSectorData.pending, (state) => {
         state.isLoading = true;
@@ -58,6 +60,7 @@ const dashboardSlice = createSlice({
         state.isLoading = false;
         state.error = action.payload;
       })
+
       // 대시보드 이름, 작물 수정
       .addCase(updateCommonInfo.fulfilled, (state, action) => {
         state.commonInfo = state.commonInfo.map((info) => {
@@ -66,6 +69,7 @@ const dashboardSlice = createSlice({
         state.isLoading = false;
         state.error = null;
       })
+
       // 대시보드 삭제 (비활성화)
       .addCase(deactivationDashboard.fulfilled, (state, action) => {
         state.commonInfo = state.commonInfo.map((info) => {
