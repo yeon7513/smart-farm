@@ -208,7 +208,7 @@ function RequestForm({ user, onSubmit }) {
               min="1"
               value={farmArea}
             />
-            <button>평</button>
+            <span>평</span>
           </div>
           <div className={styles.farmEquivalent}>
             <h3>농장 동 수:</h3>
