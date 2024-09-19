@@ -119,11 +119,11 @@ function Sidebar(props) {
       >
         <div className={styles.modalContent}>
           <p>
-            회원 <span>탈퇴</span>시 <span>30일</span>간 회원 가입이{" "}
-            <span>불가능</span>합니다.
+            회원 탈퇴 시 <span>30일</span> 간 회원 가입이 <span>불가능</span>
+            합니다.
           </p>
           <p>
-            회원 <span>탈퇴</span>시 회원님의 정보가 <span>삭제</span>됩니다.
+            회원 탈퇴 시 회원님의 정보가 <span>삭제</span>됩니다.
           </p>
           <p>
             <span>탈퇴</span>하시겠습니까?

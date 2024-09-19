@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import styles from "./AsBoard.module.scss";
 import { useSelector } from "react-redux";
-import { getBoardDatas } from "../../../api/firebase.js";
+import { getBoardDatas } from "../../../api/board";
 import AsPost from "./AsPost";
 import CustomModal from "../../modal/CustomModal";
 import PasswordModal from "../../modal/PasswordModal";
@@ -16,7 +16,7 @@ function AsBoard({ complain }) {
   const [isWriting, setIsWriting] = useState(false); // 글쓰기 모드 상태
   const [view, setView] = useState([]);
   const { isAuthenticated } = useSelector((state) => state.userSlice);
-  const inputRef = useRef(null); // input 요소 참조
+  const inputRef = useRef(null);
   const [errorMessage, setErrorMessage] = useState("");
 
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -45,8 +45,8 @@ function AsBoard({ complain }) {
   };
 
   const addPost = (newPost) => {
-    setView([...view, newPost]); // Also add to view
-    setIsWriting(false); // 글쓰기 모드 종료
+    setView([...view, newPost]);
+    setIsWriting(false);
   };
 
   // 글쓰기 취소

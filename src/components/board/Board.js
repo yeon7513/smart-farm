@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { getBoardDatas } from "../../api/firebase.js";
+import { getBoardDatas } from "../../api/board";
 import styles from "./Board.module.scss";
 import Post from "./post/Post";
 import { useSelector } from "react-redux";
