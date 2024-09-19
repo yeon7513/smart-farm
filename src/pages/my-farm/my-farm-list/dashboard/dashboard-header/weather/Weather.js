@@ -1,17 +1,17 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from 'react';
 import {
   BsCloudSun,
   BsFillCloudsFill,
   BsFillSunriseFill,
   BsSunsetFill,
-} from "react-icons/bs";
-import PulseLoader from "react-spinners/PulseLoader";
-import { IoIosThunderstorm, IoMdRainy } from "react-icons/io";
-import { IoCloudSharp } from "react-icons/io5";
-import { PiMoonStarsFill, PiSunDimFill } from "react-icons/pi";
-import { TbMist } from "react-icons/tb";
-import { WiDayRainMix } from "react-icons/wi";
-import styles from "./Weather.module.scss";
+} from 'react-icons/bs';
+import { IoIosThunderstorm, IoMdRainy } from 'react-icons/io';
+import { IoCloudSharp } from 'react-icons/io5';
+import { PiMoonStarsFill, PiSunDimFill } from 'react-icons/pi';
+import { TbMist } from 'react-icons/tb';
+import { WiDayRainMix } from 'react-icons/wi';
+import PulseLoader from 'react-spinners/PulseLoader';
+import styles from './Weather.module.scss';
 function Weather() {
   const [forecastData, setForecastData] = useState([]); //5일치 데이터저장!
   const [todayData, setTodayData] = useState([]); //8개데이터
@@ -26,8 +26,8 @@ function Weather() {
     windDirection: null,
     sunrise: null, // 일출 시간
     sunset: null, // 일몰 시간
-    icon: "",
-    description: "",
+    icon: '',
+    description: '',
   });
   const [selectedDay, setSelectedDay] = useState(null); //선택한 날짜를 추적하기위한
   const [groupedForecastData, setGroupedForecastData] = useState();
@@ -35,22 +35,22 @@ function Weather() {
 
   const getWindDirection = (degrees) => {
     const directions = [
-      "북풍",
-      "북북동풍",
-      "북동풍",
-      "동북동풍",
-      "동풍",
-      "동남동품",
-      "남동풍",
-      "남남동풍",
-      "남풍",
-      "남남서풍",
-      "남서풍",
-      "서남서풍",
-      "서풍",
-      "서남서풍",
-      "북서풍",
-      "북북서풍",
+      '북풍',
+      '북북동풍',
+      '북동풍',
+      '동북동풍',
+      '동풍',
+      '동남동품',
+      '남동풍',
+      '남남동풍',
+      '남풍',
+      '남남서풍',
+      '남서풍',
+      '서남서풍',
+      '서풍',
+      '서남서풍',
+      '북서풍',
+      '북북서풍',
     ];
     const index = Math.floor((degrees + 11.25) / 22.5);
     return directions[index % 16];
@@ -61,8 +61,8 @@ function Weather() {
     const offset = date.getTimezoneOffset() * 60000; //ms단위라 60000곱해줌
     const dateOffset = new Date(date.getTime() - offset);
     const localDate = dateOffset.toISOString();
-    const splitArr = localDate.split("T");
-    const timeArr = splitArr[1].split(".");
+    const splitArr = localDate.split('T');
+    const timeArr = splitArr[1].split('.');
 
     return `${splitArr[0]} ${timeArr[0]}`;
   };
@@ -70,11 +70,11 @@ function Weather() {
   const convertLolTime = (timestamp) => {
     const date = new Date(timestamp * 1000);
     const options = {
-      hour: "2-digit",
-      minute: "2-digit",
+      hour: '2-digit',
+      minute: '2-digit',
       hour12: true,
     };
-    return date.toLocaleTimeString("ko-KR", options);
+    return date.toLocaleTimeString('ko-KR', options);
   };
 
   //40개의 데이터를 {5:[8]}로 만듬
@@ -89,7 +89,7 @@ function Weather() {
     // 오늘이 몇일인지 알아야함
     const today = new Date().getTime();
     const yyyyMMdd = convertTime(today / 1000);
-    const todayDate = yyyyMMdd.split(" ")[0];
+    const todayDate = yyyyMMdd.split(' ')[0];
     console.log(todayDate);
 
     // 반복문을 통해서 걸러내야하는데 오늘날짜인거 빼고,
@@ -152,7 +152,6 @@ function Weather() {
 
   const handleWeather = async (lat, lon) => {
     setIsLoading(true); // 로딩 시작
-    // const APIkey = "3bd960b544d8e85c3f24e4e2d139794c";
     const APIkey = process.env.REACT_APP_WEATHER_API_KEY;
 
     const url = `/weather/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${APIkey}&units=metric&lang=kr`;
@@ -178,7 +177,7 @@ function Weather() {
       setWeatherData({
         temperature: Math.round(json2.main.temp),
         humidity: json2.main.humidity,
-        precipitationChance: json2.rain ? json2.rain["1h"] : 0,
+        precipitationChance: json2.rain ? json2.rain['1h'] : 0,
         solarRadiation: 655, // 임의의 값
         windSpeed: json2.wind.speed,
         windDirection: json2.wind.deg,
@@ -188,7 +187,7 @@ function Weather() {
         description: json2.weather[0].description,
       });
     } catch (error) {
-      console.error("Error fetching data:", error);
+      console.error('Error fetching data:', error);
     } finally {
       setIsLoading(false); // 로딩 완료
     }
@@ -204,13 +203,13 @@ function Weather() {
   //요일변환
   const getDayOfWeek = (dateString) => {
     const daysOfWeek = [
-      "일요일",
-      "월요일",
-      "화요일",
-      "수요일",
-      "목요일",
-      "금요일",
-      "토요일",
+      '일요일',
+      '월요일',
+      '화요일',
+      '수요일',
+      '목요일',
+      '금요일',
+      '토요일',
     ];
     const date = new Date(dateString);
     return daysOfWeek[date.getDay()];
@@ -221,7 +220,7 @@ function Weather() {
     const grouped = {};
 
     data.forEach((entry) => {
-      const date = entry.dt_txt.split(" ")[0];
+      const date = entry.dt_txt.split(' ')[0];
 
       if (!grouped[date]) {
         grouped[date] = {
@@ -248,7 +247,7 @@ function Weather() {
       }
     });
     // 오늘 날짜 제외
-    const today = new Date().toISOString().split("T")[0];
+    const today = new Date().toISOString().split('T')[0];
     const filteredDates = Object.keys(grouped).filter((date) => date !== today);
 
     //날짜 오름차순 정렬
@@ -267,39 +266,39 @@ function Weather() {
   // 날씨 설명에 따른 아이콘을 반환하는 함수
   const getWeatherIcon = (icon, size = 60, isSelected = false) => {
     const color = isSelected
-      ? "#669900"
-      : icon.includes("d")
-      ? "Coral"
-      : "#48484a";
+      ? '#669900'
+      : icon.includes('d')
+      ? 'Coral'
+      : '#48484a';
     switch (icon) {
-      case "01d": // 맑은 날 (낮)
+      case '01d': // 맑은 날 (낮)
         return <PiSunDimFill size={size} color={color} />;
-      case "01n": // 맑은 날 (밤)
+      case '01n': // 맑은 날 (밤)
         return <PiMoonStarsFill size={size} color={color} />;
 
-      case "02d": // 약간의 구름 (낮)
+      case '02d': // 약간의 구름 (낮)
         return <BsCloudSun size={size} color={color} />;
-      case "02n": // 약간의 구름 (밤)
+      case '02n': // 약간의 구름 (밤)
         return <BsCloudSun size={size} color={color} />;
-      case "03d": // 비가 내리는 구름 (낮)
-      case "03n": // 비가 내리는 구름 (밤)
+      case '03d': // 비가 내리는 구름 (낮)
+      case '03n': // 비가 내리는 구름 (밤)
         return <IoCloudSharp size={size} color={color} />;
 
-      case "09d": // 구름 비(낮)
-      case "09n": // 구름 비(밤)
+      case '09d': // 구름 비(낮)
+      case '09n': // 구름 비(밤)
         return <IoMdRainy size={size} color={color} />;
-      case "10d": // 해&빛 (낮)
+      case '10d': // 해&빛 (낮)
         return <WiDayRainMix size={size} color={color} />;
-      case "10n": // 해&빛 (밤)
+      case '10n': // 해&빛 (밤)
         return <WiDayRainMix size={size} color={color} />;
-      case "11d": // 천둥 (낮)
-      case "11n": // 천둥 (밤)
+      case '11d': // 천둥 (낮)
+      case '11n': // 천둥 (밤)
         return <IoIosThunderstorm size={size} color={color} />;
-      case "13d": // 눈 (낮)
-      case "13n": // 눈 (밤)
+      case '13d': // 눈 (낮)
+      case '13n': // 눈 (밤)
         return <TbMist size={size} color={color} />;
-      case "50d": // 안개 (낮)
-      case "50n": // 안개 (밤)
+      case '50d': // 안개 (낮)
+      case '50n': // 안개 (밤)
         return <IoIosThunderstorm size={size} color={color} />;
 
       default:
@@ -311,7 +310,7 @@ function Weather() {
   const formatTime = (dateString) => {
     const date = new Date(dateString);
     const hours = date.getHours();
-    const period = hours >= 12 ? "오후" : "오전";
+    const period = hours >= 12 ? '오후' : '오전';
     const formattedHours = hours % 12 || 12; // 12시간 형식으로 변환
 
     return `${period} ${formattedHours}시 `;
@@ -330,7 +329,7 @@ function Weather() {
     <>
       {isLoading ? (
         <div className={styles.loader}>
-          <PulseLoader size={15} color={"#669900"} loading={isLoading} />
+          <PulseLoader size={15} color={'#669900'} loading={isLoading} />
         </div>
       ) : (
         <div className={styles.weather}>
@@ -356,16 +355,16 @@ function Weather() {
                   <div>{weatherData.precipitationChance}%</div>
                 </div>
                 <div className={styles.wind_title}>
-                  풍속:{" "}
+                  풍속:{' '}
                   {weatherData.windSpeed
                     ? `${weatherData.windSpeed} m/s`
-                    : "N/A"}
+                    : 'N/A'}
                 </div>
                 <div className={styles.wind_title}>
-                  풍향:{" "}
+                  풍향:{' '}
                   {weatherData.windDirection !== null
                     ? getWindDirection(weatherData.windDirection)
-                    : "N/A"}
+                    : 'N/A'}
                 </div>
               </div>
               <div className={styles.today_time}>
@@ -414,7 +413,7 @@ function Weather() {
                       className={styles.forecast_item}
                       onClick={() => handleClick(index + 1)}
                     >
-                      {" "}
+                      {' '}
                       <div>{day.dayOfWeek}</div> {/* 요일 표시 */}
                       <div>
                         {getWeatherIcon(

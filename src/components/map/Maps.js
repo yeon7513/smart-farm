@@ -41,14 +41,14 @@ const Maps = forwardRef(({ onRegionClick = () => {}, className }, ref) => {
       .append('path')
       .attr('d', path)
       .attr('id', (d) => d.properties.CTP_ENG_NM)
-      .attr('fill', '#E9EFEC')
+      .attr('fill', '#8adab2')
       .attr('stroke', '#fff')
       .attr('transition', 'fill 0.3s linear')
       .on('click', (e, d) => {
         const regionName = d.properties.CTP_KOR_NM;
         setSelectedRegion(regionName);
-        svg.selectAll('path').attr('fill', '#E9EFEC');
-        d3.select(e.target).attr('fill', '#a2ca71');
+        svg.selectAll('path').attr('fill', '#8adab2');
+        d3.select(e.target).attr('fill', '#00a76b');
         onRegionClick(regionName);
       })
       .on('mouseover', function (e, d) {
@@ -58,11 +58,11 @@ const Maps = forwardRef(({ onRegionClick = () => {}, className }, ref) => {
         //   .style('left', `${e.pageX + 5}px`)
         //   .style('top', `${e.pageY - 28}px`);
 
-        d3.select(this).transition().duration(300).attr('fill', '#669900');
+        d3.select(this).transition().duration(300).attr('fill', '#4b9f9e');
       })
       .on('mouseout', function () {
         // tooltip.transition().duration(200).style('opacity', 0);
-        d3.select(this).transition().duration(300).attr('fill', '#E9EFEC');
+        d3.select(this).transition().duration(300).attr('fill', '#8adab2');
       });
 
     return () => {
@@ -73,7 +73,7 @@ const Maps = forwardRef(({ onRegionClick = () => {}, className }, ref) => {
   useImperativeHandle(ref, () => ({
     resetMap: () => {
       const svg = d3.select(svgRef.current);
-      svg.selectAll('path').transition().duration(300).attr('fill', '#E9EFEC');
+      svg.selectAll('path').transition().duration(300).attr('fill', '#8adab2');
     },
   }));
 

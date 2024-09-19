@@ -1,4 +1,5 @@
 import { configureStore } from '@reduxjs/toolkit';
+import bestfarmSlice from './bestfarm/bestfarmSlice';
 import dashboardSlice from './dashboard/dashboardSlice';
 import faqDataSlice from './faq-data/faqDataSlice';
 import orderSlice from './order/orderSlice';
@@ -16,5 +17,6 @@ export const store = configureStore({
     usageStatusSlice,
     faqDataSlice,
     dashboardSlice,
+    bestfarmSlice,
   },
 });
