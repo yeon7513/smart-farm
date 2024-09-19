@@ -91,3 +91,76 @@
   align-items: center;
   padding: 200px;
 }
+// 작은모바일
+@media (max-width: 768px) {
+  .pest_search {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .party,
+  .pest {
+    button {
+      padding: 10px 50px;
+      font-size: 16px;
+    }
+  }
+
+  .item {
+    display: flex;
+    flex-wrap: wrap;
+    // flex-direction: column;
+    // align-items: center;
+
+    .title {
+      width: 200px;
+    }
+
+    .item_img img {
+      width: 100%;
+      height: auto;
+    }
+
+    .item_name {
+      width: 100%;
+    }
+  }
+
+  .items {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .no_results {
+    margin-top: 50px;
+    font-size: 20px;
+  }
+
+  .loader {
+    padding: 100px;
+  }
+}
+// 모바일
+@media (max-width: 576px) {
+  .pest_search {
+    gap: 5px;
+  }
+
+  .party,
+  .pest {
+    button {
+      padding: 8px 30px;
+      font-size: 14px;
+    }
+  }
+
+  .item_img img {
+    width: 100%;
+    height: auto;
+  }
+
+  .items {
+    flex-direction: column;
+    gap: 5px;
+  }
+}
