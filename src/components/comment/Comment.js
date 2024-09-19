@@ -6,7 +6,7 @@ import {
   deleteComment,
   getComment,
   updateComment, // 댓글 수정 함수 추가
-} from "../../api/firebase/board";
+} from "../../api/firebase.js";
 import CustomModal from "../modal/CustomModal";
 import Radio from "../complain/Radio";
 import { useSelector } from "react-redux";

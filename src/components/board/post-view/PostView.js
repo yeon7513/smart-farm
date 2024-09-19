@@ -7,7 +7,7 @@ import {
   getPostById,
   incrementPostCount,
   updatePost,
-} from "../../../api/firebase/board";
+} from "../../../api/firebase.js";
 import CustomModal from "../../modal/CustomModal";
 import Radio from "../../complain/Radio";
 import Comment from "../../comment/Comment";

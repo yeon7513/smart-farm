@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import styles from "./AsBoard.module.scss";
 import { useSelector } from "react-redux";
-import { getBoardDatas } from "../../../api/firebase/board";
+import { getBoardDatas } from "../../../api/firebase.js";
 import AsPost from "./AsPost";
 import CustomModal from "../../modal/CustomModal";
 import PasswordModal from "../../modal/PasswordModal";

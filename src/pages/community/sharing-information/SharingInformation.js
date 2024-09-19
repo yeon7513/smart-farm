@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Outlet } from "react-router-dom";
 import Board from "../../../components/board/Board";
-import { sharing } from "../../../lib/post";
 import styles from "../community.module.scss";
-import { getBoardDatas } from "../../../api/firebase/board";
 
 function SharingInformation(props) {
   // const [sharingPost, setSharingPost] = useState([]);
