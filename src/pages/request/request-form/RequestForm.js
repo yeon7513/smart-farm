@@ -16,14 +16,73 @@ function RequestForm({ user, onSubmit }) {
   const [farmArea, setFarmArea] = useState("");
   const [farmEquivalent, setFarmEquivalent] = useState("");
   const [additionalOptions, setAdditionalOptions] = useState({});
+  // const [paymentMethod, setPaymentMethod] = useState("");
+  // const [accountHolder, setAccountHolder] = useState("");
+  const [IMP, setIMP] = useState(null);
   const { uid } = useSelector((state) => state.userSlice);
   const navigate = useNavigate();
 
+  // 회원가입이 되어있지 않은 경우 농장 주소는 공백이 됩니다.
   useEffect(() => {
-    if (!user) {
+    if (user) {
       setFarmAddress(user.farmAddress || "");
     }
   }, [user]);
+
+  // 포트원의 라이브러리를 추가합니다.
+  useEffect(() => {
+    const script = document.createElement("script");
+    script.src = "https://cdn.iamport.kr/v1/iamport.js";
+    script.onload = () => {
+      setIMP(window.IMP);
+      const IMP = window.IMP;
+      IMP.init("imp68411640"); // 스크립트가 로드된 후 초기화
+    };
+    document.body.appendChild(script);
+  }, []);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const element = document.querySelector(".your-element-class");
+      if (element) {
+        // your logic that uses element.classList
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
+  // 결제가 진행되는 창을 띄웁니다.
+  const onclickPay = (pgValue, payMethod) => {
+    if (!IMP) {
+      console.error("IMP 객체가 로드되지 않았습니다.");
+      return;
+    }
+
+    const data = {
+      pg: pgValue,
+      pay_method: payMethod,
+      merchant_uid: "ORD20180131-0000012",
+      name: "견적 비용",
+      amount: 1,
+      buyer_email: user.email,
+      buyer_name: user.name,
+      buyer_number: user.number,
+      buyer_address: user.address,
+      m_redirect_url: "",
+    };
+    IMP.request_pay(data, (rsp) => {
+      if (rsp.success) {
+        console.log("결제 됐다");
+      } else {
+        console.log("결제 안됐다");
+      }
+    });
+  };
 
   const handleChange = (e) => {
     const value = e.target.value;
@@ -63,6 +122,11 @@ function RequestForm({ user, onSubmit }) {
     });
   };
 
+  // 결제 방식을 변경합니다.
+  // const handlePaymentMethodChange = (e) => {
+  //   setPaymentMethod(e.target.value);
+  // };
+
   // 견적 내용을 저장합니다.
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -78,9 +142,12 @@ function RequestForm({ user, onSubmit }) {
       farmEquivalentNum <= 0 ||
       farmAddress.trim() === "" ||
       farmName.trim() === ""
+      // paymentMethod === "" ||
+      // (paymentMethod === "무통장 입금" && accountHolder.trim() === ""
     ) {
+      // )
       console.log(
-        "농장 면적과 동 수는 최소 1 이상, 농장 주소와 이름은 반드시 설정해주시기 바랍니다."
+        "농장 면적과 동 수는 최소 1 이상, 농장 주소와 이름, 결제내역은 반드시 설정해주시기 바랍니다."
       );
       return;
     }
@@ -109,6 +176,7 @@ function RequestForm({ user, onSubmit }) {
       farmName: farmName,
       farmEquivalent: farmEquivalent,
       createdAt: createdAt,
+      // paymentMethod: paymentMethod,
     };
     onSubmit(dataObj);
 
@@ -126,6 +194,8 @@ function RequestForm({ user, onSubmit }) {
         setFarmArea("");
         setFarmEquivalent("");
         setAdditionalOptions({});
+        // setPaymentMethod("");
+        // setAccountHolder("");
         // 이전 페이지로 돌아갑니다.
         navigate(-1);
       } else {
@@ -227,19 +297,118 @@ function RequestForm({ user, onSubmit }) {
             />
           )}
         </div>
-        <div className={styles.btns}>
-          <button className={styles.submit} type="submit">
-            저장
-          </button>
-          <button
-            type="button"
-            className={styles.cancel}
-            onClick={() => navigate(-1)}
-          >
-            취소
-          </button>
-        </div>
+        {/* <div className={styles.paymentMethod}>
+          <h3>결제 방식: </h3>
+          <label>
+            <input
+              type="radio"
+              value="신용카드"
+              name="paymentMethod"
+              onChange={handlePaymentMethodChange}
+            />
+            신용카드
+          </label>
+          <label>
+            <input
+              type="radio"
+              value="가상계좌"
+              name="paymentMethod"
+              onChange={handlePaymentMethodChange}
+            />
+            가상계좌
+          </label>
+          <label>
+            <input
+              type="radio"
+              value="무통장 입금"
+              name="paymentMethod"
+              onChange={handlePaymentMethodChange}
+            />
+            무통장 입금
+          </label>
+          <label>
+            <input
+              type="radio"
+              value="핸드폰 결제"
+              name="paymentMethod"
+              onChange={handlePaymentMethodChange}
+            />
+            핸드폰 결제
+          </label>
+          <label>
+            <input
+              type="radio"
+              value="카카오페이"
+              name="paymentMethod"
+              onChange={handlePaymentMethodChange}
+            />
+            카카오페이
+          </label>
+          <div>
+            {paymentMethod === "" ? (
+              "결제 방식을 선택하여 주시기 바랍니다."
+            ) : paymentMethod === "신용카드" ? (
+              "신용카드 결제"
+            ) : paymentMethod === "가상계좌" ? (
+              "가상계좌 결제"
+            ) : paymentMethod === "무통장 입금" ? (
+              <>
+                <div>
+                  <select>
+                    <option>농협은행: 355-08-37955 예금주명</option>
+                  </select>
+                </div>
+                <div>
+                  {user ? (
+                    <input type="text" value={user.name} readOnly />
+                  ) : (
+                    <input
+                      type="text"
+                      placeholder="예금주명을 입력하여 주십시오."
+                      onChange={(e) => setAccountHolder(e.target.value)}
+                    />
+                  )}
+                </div>
+              </>
+            ) : paymentMethod === "핸드폰 결제" ? (
+              <>
+                <select>
+                  <option value="SKT">SKT</option>
+                  <option value="KT">KT</option>
+                  <option value="LG U+">LG U+</option>
+                  <option value="SKT 알뜰폰">SKT 알뜰폰</option>
+                  <option value="KT 알뜰폰">KT 알뜰폰</option>
+                  <option value="LG U+ 알뜰폰">LG U+ 알뜰폰</option>
+                </select>
+                <div>
+                  {user ? (
+                    <input type="text" value={user.number} readOnly />
+                  ) : (
+                    <input type="text" />
+                  )}
+                </div>
+              </>
+            ) : (
+              "카카오페이 결제"
+            )}
+          </div> */}
+        <button onClick={() => onclickPay("kcp.imp68411640", "card")}>
+          결제하기
+        </button>
       </div>
+      <div className={styles.btns}>
+        <button className={styles.submit} type="submit">
+          저장
+        </button>
+        <button
+          type="button"
+          className={styles.cancel}
+          onClick={() => navigate(-1)}
+        >
+          취소
+        </button>
+      </div>
+      {/* </div> */}
     </form>
   );
 }

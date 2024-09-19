@@ -49,7 +49,6 @@ function PaymentDetail() {
             <>
               <h2>견적 내역</h2>
               <p>이름: {data.name}</p>
-              <p>닉네임: {data.nick}</p>
               <p>연락처: {data.number}</p>
               <p>주소: {data.address}</p>
               <p>농장 이름: {data.farmName}</p>
@@ -60,6 +59,7 @@ function PaymentDetail() {
               <p>농장 동 수: {data.farmEquivalent}</p>
               <p>부가 옵션: {data.additionalOptions.join(", ")}</p>
               <p>주문번호: {data.createdAt}</p>
+              <p>결제 방식:{data.payment}</p>
             </>
           ) : (
             <p>No data available.</p>

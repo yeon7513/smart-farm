@@ -152,7 +152,9 @@ function Weather() {
 
   const handleWeather = async (lat, lon) => {
     setIsLoading(true); // 로딩 시작
-    const APIkey = "3bd960b544d8e85c3f24e4e2d139794c";
+    // const APIkey = "3bd960b544d8e85c3f24e4e2d139794c";
+    const APIkey = process.env.REACT_APP_WEATHER_API_KEY;
+
     const url = `/weather/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${APIkey}&units=metric&lang=kr`;
     const url2 = `/weather/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${APIkey}&units=metric&lang=kr`;
 
