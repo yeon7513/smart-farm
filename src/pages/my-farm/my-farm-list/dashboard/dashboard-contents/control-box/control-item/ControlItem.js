@@ -3,7 +3,7 @@ import styles from "./ControlItem.module.scss";
 import { useComponentContext } from "../../../../../../../context/ComponentContext";
 import { useNavigate } from "react-router-dom";
 
-function ControlItem({ option, idx }) {
+function ControlItem({ option, idx, onMoveComponent }) {
   const { currComp, setCurrComp } = useComponentContext();
 
   const handleControlContent = () => {
