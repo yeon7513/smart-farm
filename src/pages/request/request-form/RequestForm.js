@@ -286,7 +286,11 @@ function RequestForm({ user, onSubmit }) {
             />
             카카오페이
           </label>
-          {paymentMethod === "신용카드" ? <div></div> : "다른 결제"}
+          {paymentMethod === "신용카드" ? (
+            <div>농협카드 우체국카드 등등..</div>
+          ) : (
+            "다른 결제"
+          )}
         </div>
         <div className={styles.btns}>
           <button className={styles.submit} type="submit">
