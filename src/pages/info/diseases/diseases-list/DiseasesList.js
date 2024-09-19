@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import InfoInput from "../input/InfoInput";
-import styles from "./DiseasesList.module.scss";
-import Pagination from "./pagination/Pagination";
-import ScaleLoader from "react-spinners/ScaleLoader";
+import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+import ScaleLoader from 'react-spinners/ScaleLoader';
+import InfoInput from '../input/InfoInput';
+import styles from './DiseasesList.module.scss';
+import Pagination from './pagination/Pagination';
 
 const DISPLAY_COUNT = 12; //한 페이지에 표시할 데이터의 개수를 정의.
 // const apiKey = "2024570e96d7a69a9e49dfeb7fdc9739177c";
@@ -13,8 +13,8 @@ function DiseasesList() {
   const [data, setData] = useState({ list: [], totalCount: 0 }); // API 데이터를 저장할 상태
   const [totalPages, setTotalPages] = useState(1); //전체 페이지 수를 저장할 상태.
   const [currentPage, setCurrentPage] = useState(1); //현재 페이지 번호를 저장할 상태.
-  const [selectedType, setSelectedType] = useState("NP01"); // 현재 선택된 유형 ("병해" 또는 "해충")
-  const [searchTerm, setSearchTerm] = useState(""); // 검색어 저장
+  const [selectedType, setSelectedType] = useState('NP01'); // 현재 선택된 유형 ("병해" 또는 "해충")
+  const [searchTerm, setSearchTerm] = useState(''); // 검색어 저장
   const [isLoading, setIsLoading] = useState(true); // 로딩 상태 추가
   // 페이지 번호가 변경되었을 때 호출되는 함수
   const handlePageChange = (pageNumber) => {
@@ -22,7 +22,7 @@ function DiseasesList() {
   };
 
   const handleSearch = (term) => {
-    console.log("검색어:", term);
+    console.log('검색어:', term);
     setSearchTerm(term);
     setCurrentPage(1);
   };
@@ -38,7 +38,7 @@ function DiseasesList() {
       try {
         const searchQuery = searchTerm
           ? `&cropName=${encodeURIComponent(searchTerm)}`
-          : "";
+          : '';
 
         const response = await fetch(
           `desease/?apiKey=${apiKey}&serviceCode=SVC16&serviceType=AA003&displayCount=12&startPoint=${
@@ -59,7 +59,7 @@ function DiseasesList() {
         // setTotalPages(totalCount);
         console.log(result.service);
       } catch (error) {
-        console.error("There was a problem with the fetch operation:", error);
+        console.error('There was a problem with the fetch operation:', error);
       }
       setIsLoading(false);
     };
@@ -74,16 +74,16 @@ function DiseasesList() {
       <div className={styles.pest_search}>
         <div className={styles.party}>
           <button
-            onClick={() => handleTypeChange("NP01")} // 해충 유형을 선택했을 때 호출됩니다.
-            className={selectedType === "NP01" ? styles.active : ""} // 현재 선택된 유형에 따라 버튼 스타일을 변경합니다.
+            onClick={() => handleTypeChange('NP01')} // 해충 유형을 선택했을 때 호출됩니다.
+            className={selectedType === 'NP01' ? styles.active : ''} // 현재 선택된 유형에 따라 버튼 스타일을 변경합니다.
           >
             병해
           </button>
         </div>
         <div className={styles.pest}>
           <button
-            onClick={() => handleTypeChange("NP03")}
-            className={selectedType === "NP03" ? styles.active : ""}
+            onClick={() => handleTypeChange('NP03')}
+            className={selectedType === 'NP03' ? styles.active : ''}
           >
             해충
           </button>
@@ -92,7 +92,7 @@ function DiseasesList() {
       {/* <SearchBox /> */}
       {isLoading ? (
         <div className={styles.loader}>
-          <ScaleLoader size={100} color={"#669900"} loading={isLoading} />
+          <ScaleLoader size={100} color={'#669900'} loading={isLoading} />
         </div>
       ) : (
         <div className={styles.items}>
