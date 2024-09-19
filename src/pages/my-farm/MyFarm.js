@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, Outlet, useLocation } from 'react-router-dom';
+import { convertAddressToGeocode } from '../../api/geocoding';
 import Container from '../../components/layout/container/Container';
 import CustomMaps from '../../components/map/CustomMaps';
 import { useComponentContext } from '../../context/ComponentContext';
@@ -14,6 +15,20 @@ function MyFarm() {
 
   const location = useLocation();
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    const address = '서울특별시 종로구 사직로 161';
+
+    const test = async () => {
+      const result = await convertAddressToGeocode(address);
+      if (result) {
+        console.log(result.lat);
+        console.log(result.lng);
+      }
+    };
+
+    test();
+  }, []);
 
   useEffect(() => {
     dispatch(fetchCommonInfo('dashboard'));
