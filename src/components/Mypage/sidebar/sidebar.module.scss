@@ -25,3 +25,13 @@
     color: var(--back-color);
   }
 }
+.modalContent {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding-top: 5%;
+
+  span {
+    color: var(--danger-color);
+  }
+}

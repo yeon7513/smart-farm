@@ -1,8 +1,9 @@
 @import "/src/scss/mixins.scss";
 
-Container {
+.container {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
+  align-items: center;
   width: 100%;
   gap: 60px;
 
@@ -16,7 +17,6 @@ Container {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    border: 1px solid black;
     width: 500px;
     padding: 10px;
   }
