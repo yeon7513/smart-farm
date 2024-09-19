@@ -1,0 +1,42 @@
+.map_chart {
+  display: flex;
+}
+
+.map {
+  margin-top: 30px;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 300px;
+  height: 400px;
+  > svg {
+    width: 500px;
+    height: 600px;
+    transform: scale(120%);
+  }
+}
+
+.sortBtns {
+  button {
+    margin-left: 5px;
+    font-size: 14px;
+
+    &:hover {
+      color: var(--hover-color);
+    }
+  }
+}
+
+.content {
+  h2 {
+    margin-top: 5px;
+    font-size: 16px;
+  }
+}
+
+.chart {
+  width: 250px;
+  font-size: 14px;
+  color: #ddd;
+}

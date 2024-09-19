@@ -15,6 +15,7 @@ const bestfarmSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
+      // 환경 정보 조회
       .addCase(fetchEnvironmentData.pending, (state) => {
         state.isLoading = true;
         state.error = null;
@@ -27,15 +28,74 @@ const bestfarmSlice = createSlice({
       .addCase(fetchEnvironmentData.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload;
+      })
+
+      // 생육 정보 조회
+      .addCase(fetchGrowthData.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(fetchGrowthData.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.growthData = action.payload;
+        state.error = null;
+      })
+      .addCase(fetchGrowthData.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload;
+      })
+
+      // 생산 정보 조회
+      .addCase(fetchProductionData.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(fetchProductionData.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.productionData = action.payload;
+        state.error = null;
+      })
+      .addCase(fetchProductionData.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload;
       });
   },
 });
+
+// 필수 요청
+// searchFrmhsCode : 검색 농가 코드
+// 시뮬레이션 페이지에서는
+// 딸기 : S23 / 토마토 : 349 / 파프리카 : SP205 사용중입니다.
 
 export const fetchEnvironmentData = createAsyncThunk(
   'bestFarmData/fetchEnvironmentData',
   async (query) => {
     try {
       const data = await bestFarmInfo('envdatarqst', query);
+      return data;
+    } catch (error) {
+      return error;
+    }
+  }
+);
+
+export const fetchGrowthData = createAsyncThunk(
+  'bestFarmData/fetchGrowthData',
+  async (query) => {
+    try {
+      const data = await bestFarmInfo('grwdatarqst', query);
+      return data;
+    } catch (error) {
+      return error;
+    }
+  }
+);
+
+export const fetchProductionData = createAsyncThunk(
+  'bestFarmData/fetchProductionData',
+  async (query) => {
+    try {
+      const data = await bestFarmInfo('prddatarqst', query);
       return data;
     } catch (error) {
       return error;

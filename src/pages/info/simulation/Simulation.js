@@ -11,12 +11,9 @@ function Simulation() {
 
   console.log(environmentData);
 
-  const handleChangeFarmCode = (e) => {
-    setFarmCode(e.target.value);
-  };
-
   useEffect(() => {
-    dispatch(fetchEnvironmentData(`searchFrmhsCode=${farmCode}`));
+    dispatch(fetchEnvironmentData(`pageSize=1&searchFrmhsCode=${farmCode}`));
+    console.log(farmCode);
   }, [dispatch, farmCode]);
 
   return (
@@ -28,20 +25,45 @@ function Simulation() {
       <div>
         <h3>작물선택</h3>
         <label htmlFor="strbr">
-          <input type="radio" id="strbr" name="crops" value="S23" />
+          <input
+            type="radio"
+            id="strbr"
+            name="crops"
+            value="S23"
+            defaultChecked
+            onChange={(e) => setFarmCode(e.target.value)}
+          />
           딸기
         </label>
         <label htmlFor="tmt">
-          <input type="radio" id="tmt" name="crops" value="349" />
+          <input
+            type="radio"
+            id="tmt"
+            name="crops"
+            value="349"
+            onChange={(e) => setFarmCode(e.target.value)}
+          />
           토마토
         </label>
         <label htmlFor="pprk">
-          <input type="radio" id="pprk" name="crops" value="SP210" />
+          <input
+            type="radio"
+            id="pprk"
+            name="crops"
+            value="SP205"
+            onChange={(e) => setFarmCode(e.target.value)}
+          />
           파프리카
         </label>
       </div>
       <div>면적, 생산량, 주차 선택</div>
       <div>온실 환경 선택</div>
+      <div>
+        <h3>result</h3>
+        농가 코드 : {environmentData[0]?.frmhsId}
+        내부온도 : {environmentData[0]?.inTp}
+        내부습도 : {environmentData[0]?.inHd}
+      </div>
     </div>
   );
 }
