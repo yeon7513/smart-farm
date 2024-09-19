@@ -2,8 +2,6 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   item: [],
-  isLoading: false,
-  error: null,
 };
 
 const controlSlice = createSlice({
