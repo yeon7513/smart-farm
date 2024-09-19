@@ -1,10 +1,14 @@
+// @media (max-width: 1024px) {
 .main {
-  // display: flex;
-  // flex-direction: column;
-
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   .list {
+    // display: flex;
+    // justify-content: center;
+    // flex-direction: column;
+    // align-items: center;
     display: flex;
-    justify-content: center;
     flex-direction: column;
     align-items: center;
     ul {
@@ -21,13 +25,24 @@
     // }
   }
 }
+// }
 
 // 모바일
 @media (max-width: 768px) {
   .list {
     width: 500px;
-    display: none;
+    display: flex;
   }
 }
 
 //작은모바일
+@media (max-width: 576px) {
+  .list {
+    width: 350px;
+    display: flex;
+    align-items: center;
+    ul {
+      gap: 0px;
+    }
+  }
+}
