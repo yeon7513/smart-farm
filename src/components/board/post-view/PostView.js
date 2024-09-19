@@ -7,7 +7,7 @@ import {
   getPostById,
   incrementPostCount,
   updatePost,
-} from "../../../api/firebase.js";
+} from "../../../api/board";
 import CustomModal from "../../modal/CustomModal";
 import Radio from "../../complain/Radio";
 import Comment from "../../comment/Comment";
@@ -18,7 +18,6 @@ import { addDatas } from "../../../api/firebase";
 function PostView() {
   const loginUser = JSON.parse(localStorage.getItem("user"));
   const navigate = useNavigate();
-  // const [post, setPost] = useState(null);
   const { state } = useLocation();
   const [count, setCount] = useState(state?.count);
   // console.log(state);
@@ -36,11 +35,13 @@ function PostView() {
   const goComplain = async () => {
     if (selectedReason) {
       const complaintData = {
+        defendant: post.nick,
+        complainant: loginUser.nick,
         reason: selectedReason,
         postId: post.docId,
-        postCollection: post.collection,
-        reportedBy: loginUser.nick,
-        reportedAt: new Date().toISOString().split("T")[0],
+        createdAt: new Date().toISOString().split("T")[0],
+        processedAt: "",
+        processYn: "n",
       };
 
       const success = await addDatas("complain", complaintData);

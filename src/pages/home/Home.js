@@ -11,7 +11,6 @@ import { Link } from "react-router-dom";
 import CaseSlide from "../../components/slide/case/CaseSlide";
 import { cases } from "../../lib/case";
 // import Charts from "../../components/chart/Charts";
-import Maps from "./../../components/map/Maps";
 import backImg from "../../assets/main/content2.jpg";
 import HomeChart from "../../components/home-chart/HomeChart";
 import { useComponentContext } from "../../context/ComponentContext";
@@ -201,13 +200,13 @@ function Home() {
       </div>
 
       <div className={styles.service}>
-        <Link>
+        <Link to={"/info"} onClick={() => setCurrComp("simulation")}>
           <button>스마트팜 체험해보기</button>
         </Link>
-        <Link>
+        <Link to={"/request"}>
           <button>스마트팜 견적 요청하기</button>
         </Link>
-        <Link>
+        <Link to={"/community"} onClick={() => setCurrComp("faq")}>
           <button>자주 묻는 질문</button>
         </Link>
       </div>
