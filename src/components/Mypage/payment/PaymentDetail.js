@@ -47,27 +47,22 @@ function PaymentDetail() {
             <GridLoader color="#a2ca71" margin={5} size={20} />
           ) : data ? (
             <>
-              <h2 className={styles.h2}>견적 내역</h2>
-              <p className={styles.p}>이름: {data.name}</p>
-              <p className={styles.p}>연락처: {data.number}</p>
-              <p className={styles.p}>주소: {data.address}</p>
-              <p className={styles.p}>농장 이름: {data.farmName}</p>
-              <p className={styles.p}>농장 주소: {data.farmAddress}</p>
-              <p className={styles.p}>작물 종류: {data.cropType}</p>
-              <p className={styles.p}>농장 종류: {data.facilityType}</p>
-              <p className={styles.p}>농장 면적: {data.farmArea}</p>
-              <p className={styles.p}>농장 동 수: {data.farmEquivalent}</p>
-              <p className={styles.p}>
-                부가 옵션: {data.additionalOptions.join(", ")}
-              </p>
-              <p className={styles.p}>주문번호: {data.createdAt}</p>
-              <p className={styles.p}>
-                결제 방식: 카드 or 현금?(나중에 이것도 결제 방식에 따라 나오게
-                할 예정)
-              </p>
+              <h2>견적 내역</h2>
+              <p>이름: {data.name}</p>
+              <p>연락처: {data.number}</p>
+              <p>주소: {data.address}</p>
+              <p>농장 이름: {data.farmName}</p>
+              <p>농장 주소: {data.farmAddress}</p>
+              <p>작물 종류: {data.cropType}</p>
+              <p>농장 종류: {data.facilityType}</p>
+              <p>농장 면적: {data.farmArea}</p>
+              <p>농장 동 수: {data.farmEquivalent}</p>
+              <p>부가 옵션: {data.additionalOptions.join(", ")}</p>
+              <p>주문번호: {data.createdAt}</p>
+              <p>결제 방식:{data.payment}</p>
             </>
           ) : (
-            <p className={styles.p}>No data available.</p>
+            <p>No data available.</p>
           )}
         </div>
       </Container>

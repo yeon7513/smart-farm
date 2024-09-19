@@ -34,6 +34,7 @@ function SignIn(props) {
             nick: item.nickname,
             number: item.number,
             address: item.address,
+            farmAddress: item.farmAddress,
           })
         );
       });
