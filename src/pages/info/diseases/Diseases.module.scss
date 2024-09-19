@@ -21,3 +21,13 @@
     // }
   }
 }
+
+// 모바일
+@media (max-width: 768px) {
+  .list {
+    width: 500px;
+    display: none;
+  }
+}
+
+//작은모바일
