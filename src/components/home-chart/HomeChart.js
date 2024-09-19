@@ -27,22 +27,10 @@ function HomeChart() {
 
   const handleLocalClick = (name) => {
     setLocalName(name);
+    // if (mapRef.current && mapRef.current.resetMap) {
+    //   mapRef.current.resetMap();
+    // }
   };
-
-  // 차트 타입 변경
-  //   const handleChangeChartType = (type) => {
-  //     setChartType(type);
-  //   };
-
-  //   지역 초기화 (전체 이용 현황 렌더링)
-  //   const handleResetClick = () => {
-  //     setLocalFarm(null);
-  //     setLocalName("");
-  //     setChartType("bar");
-  //     if (mapRef.current && mapRef.current.resetMap) {
-  //       mapRef.current.resetMap();
-  //     }
-  //   };
 
   // 조회별 렌더링
   const handleSortClick = (sort) => {
@@ -76,6 +64,7 @@ function HomeChart() {
     }
   }, [localFarm]);
 
+  // 사용자 위치 가져오기
   useEffect(() => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
@@ -106,13 +95,15 @@ function HomeChart() {
             className={sort === "local" ? styles.active : ""}
             onClick={() => handleSortClick("local")}
           >
-            <HiMiniCheck /> 지역별
+            <HiMiniCheck />
+            지역별
           </button>
           <button
             className={sort === "crop" ? styles.active : ""}
             onClick={() => handleSortClick("crop")}
           >
-            <HiMiniCheck /> 작물별
+            <HiMiniCheck />
+            작물별
           </button>
         </div>
         <div className={styles.content}>
@@ -135,12 +126,9 @@ function HomeChart() {
                     />
                   ))}
                 </div> */}
-
-                  <RenderingChart
-                    chartType={chartType}
-                    data={entireRegion}
-                    className={styles.chart}
-                  />
+                  <div className={styles.chart}>
+                    <RenderingChart chartType={chartType} data={entireRegion} />
+                  </div>
                 </>
               )}
             </div>

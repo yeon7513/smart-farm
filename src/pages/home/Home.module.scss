@@ -49,6 +49,7 @@
     font-family: var(--title-font);
     font-size: 42px;
     color: var(--accent-color);
+    font-weight: 500;
   }
   p {
     line-height: 1.5rem;
@@ -161,7 +162,7 @@
   height: 90vh;
 
   h1 {
-    font-weight: 600;
+    font-weight: 500;
     font-size: 46px;
     color: var(--accent-color);
     letter-spacing: 2px;
@@ -339,7 +340,7 @@
   h1 {
     font-family: var(--title-font);
     font-weight: 500;
-    color: var(--common-color);
+    color: var(--hover-color);
   }
   h4 {
     margin: 6px auto 40px;

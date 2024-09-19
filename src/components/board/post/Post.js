@@ -1,6 +1,6 @@
 import React, { useRef, useState } from "react";
 import styles from "./Post.module.scss";
-import { addBoardDatas, uploadImage } from "../../../api/firebase.js";
+import { addBoardDatas, uploadImage } from "../../../api/board";
 // import { getUserAuth } from "../../../api/firebase";
 // import { ref } from "firebase/storage";
 import { useNavigate } from "react-router-dom";
