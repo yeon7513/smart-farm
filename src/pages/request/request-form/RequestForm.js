@@ -36,14 +36,14 @@ function RequestForm({ user, onSubmit }) {
     script.onload = () => {
       setIMP(window.IMP);
       const IMP = window.IMP;
-      IMP.init("store-0e1988f8-ba2a-4002-a4be-8a4edbfd439e"); // 스크립트가 로드된 후 초기화
+      IMP.init("INIBillTst"); // 스크립트가 로드된 후 초기화
       setIMP(IMP);
     };
     document.body.appendChild(script);
   }, []);
 
   // 결제가 진행되는 창을 띄웁니다.
-  const onclickPay = (pgValue, payMethod) => {
+  const onclickPay = (pgValue = "inicis", payMethod = "card") => {
     if (!IMP) return;
 
     const data = {
@@ -379,16 +379,7 @@ function RequestForm({ user, onSubmit }) {
               "카카오페이 결제"
             )}
           </div> */}
-        <button
-          onClick={() =>
-            onclickPay(
-              "kcp.WTvRVd3q9eL7xTQBJupokRHAfykYvVFLGSgCggJ6Vo0BSzz7oRqzaeNjpdj2N1W9Wlewf00XBljCtp29",
-              "card"
-            )
-          }
-        >
-          결제하기
-        </button>
+        <button onClick={() => onclickPay("inicis", "card")}>결제하기</button>
       </div>
       <div className={styles.btns}>
         <button className={styles.submit} type="submit">
