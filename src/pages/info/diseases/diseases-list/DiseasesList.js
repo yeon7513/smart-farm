@@ -6,7 +6,8 @@ import Pagination from "./pagination/Pagination";
 import ScaleLoader from "react-spinners/ScaleLoader";
 
 const DISPLAY_COUNT = 12; //한 페이지에 표시할 데이터의 개수를 정의.
-const apiKey = "2024570e96d7a69a9e49dfeb7fdc9739177c";
+// const apiKey = "2024570e96d7a69a9e49dfeb7fdc9739177c";
+const apiKey = process.env.REACT_APP_DISEASESLIST_API_KEY;
 
 function DiseasesList() {
   const [data, setData] = useState({ list: [], totalCount: 0 }); // API 데이터를 저장할 상태
@@ -110,22 +111,22 @@ function DiseasesList() {
                   <div className={styles.item_name}>
                     <div className={styles.item_list}>
                       <p>{item.cropName}</p>
-                    </div>
-                    <span>({item.divName})</span>
+                      <span>({item.divName})</span>
 
-                    {/* <p>해충</p> */}
-                    <div className={styles.item_list}>
-                      <Link
-                        to={`/info/${item.cropCode}`} //클릭 시 해당 작물의 상세 정보 페이지로 이동한다.
-                        state={{
-                          korName: item.korName,
-                          cropName: item.cropName,
-                          selectedType,
-                          thumbImg: item.thumbImg,
-                        }} // 상태로 korName과 selectedType을 전달합니다.
-                      >
-                        <p className={styles.name}>{item.korName}</p>
-                      </Link>
+                      {/* <p>해충</p> */}
+                      <div className={styles.item_list}>
+                        <Link
+                          to={`/info/${item.cropCode}`} //클릭 시 해당 작물의 상세 정보 페이지로 이동한다.
+                          state={{
+                            korName: item.korName,
+                            cropName: item.cropName,
+                            selectedType,
+                            thumbImg: item.thumbImg,
+                          }} // 상태로 korName과 selectedType을 전달합니다.
+                        >
+                          <span className={styles.name}>{item.korName}</span>
+                        </Link>
+                      </div>
                     </div>
                   </div>
                 </div>

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styles from "./DisasterItem.module.scss";
 import disasterText from "./DisasterText";
-import { TbChevronDownLeft } from "react-icons/tb";
+// import { TbChevronDownLeft } from "react-icons/tb";
 const buttonItem = [
   {
     id: 1,
