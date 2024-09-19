@@ -1,6 +1,7 @@
+@import "/src/scss/mixins.scss";
 .main {
   display: flex;
-  border: 2px solid #ececec;
+  border: 2px solid var(--common-color);
   padding: 10px;
   width: 65%;
   margin: 20px 0;
@@ -22,7 +23,7 @@
       align-items: center;
       gap: 10px;
       input {
-        border: 1px solid black;
+        border-bottom: 2px solid var(--hover-color);
         width: 320px;
         font-size: 20px;
         padding: 10px;
@@ -39,7 +40,10 @@
       display: flex;
       align-items: center;
       gap: 10px;
-
+      select {
+        border: none;
+        border-bottom: 2px solid var(--hover-color);
+      }
       span {
         margin: 0 8px 0 0;
       }
@@ -58,14 +62,15 @@
 
   button {
     display: flex;
-    align-items: center;
-    border: 1px solid black;
-    padding: 20px 40px;
-    font-size: 25px;
+    @include packedBtn($padding: 20px 40px);
     border-radius: 8px;
-    &:hover {
-      color: var(--hover-color);
-      border: 1px solid var(--hover-color);
+    > span {
+      @include flexCenter();
+
+      gap: 5px;
+      > svg {
+        font-size: 24px;
+      }
     }
   }
 }
@@ -74,12 +79,13 @@
   justify-content: center;
   align-items: center;
   button {
+    color: var(--hover-color);
     font-size: 25px;
     display: flex;
     align-items: center;
 
     &:hover {
-      color: var(--hover-color);
+      color: var(--common-color);
     }
   }
 }

@@ -1,12 +1,8 @@
 import React, { useState } from "react";
 import styles from "./DisasterItem.module.scss";
 import disasterText from "./DisasterText";
-// import imgs from "../../../../assets/abou/가뭄.jpg";
-// import { TbChevronDownLeft } from "react-icons/tb";
 
 function DisasterItem(props) {
-  // console.log(disasterText);
-
   const [selectedDisaster, setSelectedDisaster] = useState(disasterText[0]);
 
   const handleButtonClick = (disaster) => {
@@ -17,8 +13,9 @@ function DisasterItem(props) {
       <div className={styles.button_items}>
         {disasterText.map((item) => (
           <button
-            className={styles.button_item}
-            item={item}
+            className={`${styles.button_item} ${
+              selectedDisaster.id === item.id ? styles.active : ""
+            }`}
             key={item.id}
             onClick={() => handleButtonClick(item)}
           >
