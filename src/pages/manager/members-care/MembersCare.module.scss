@@ -1,3 +1,25 @@
+.memberSearch {
+  justify-content: left;
+
+  /* 작은 모니터 */
+  @media (max-width: 1200px) {
+  }
+  /* 태블릿 */
+  @media (max-width: 992px) {
+  }
+
+  /* 모바일 */
+  @media (max-width: 768px) {
+    width: 100%;
+    > input {
+      width: 100%;
+    }
+  }
+
+  /* 작은모바일 */
+  @media (max-width: 576px) {
+  }
+}
 .members {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -5,5 +27,21 @@
 
   .list {
     padding: 60px;
+  }
+
+  /* 작은 모니터 */
+  @media (max-width: 1200px) {
+  }
+  /* 태블릿 */
+  @media (max-width: 992px) {
+  }
+
+  /* 모바일 */
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+  }
+
+  /* 작은모바일 */
+  @media (max-width: 576px) {
   }
 }

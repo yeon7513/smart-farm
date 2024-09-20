@@ -321,7 +321,7 @@ function RequestForm({ user, onSubmit }) {
               "결제 방식을 선택하여 주시기 바랍니다."
             ) : paymentMethod === "신용카드" ? (
               <>
-                <div>카드</div>
+                <div>결제 버튼을 누르시면 결제 창으로 이동합니다.</div>
               </>
             ) : (
               <>
@@ -344,7 +344,7 @@ function RequestForm({ user, onSubmit }) {
                   )}
                 </div>
                 <label>
-                  <input type="checkbox" />
+                  <input type="checkbox" value="cashReceipt" />
                   현금영수증 발행
                 </label>
               </>
@@ -357,7 +357,7 @@ function RequestForm({ user, onSubmit }) {
             type="button"
             onClick={onClickPayment}
           >
-            저장
+            결제
           </button>
           <button
             type="button"

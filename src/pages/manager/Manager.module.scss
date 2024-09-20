@@ -1,9 +1,29 @@
 .container {
   display: flex;
-  gap: 120px;
+  gap: 15%;
   max-height: max-content;
-}
 
-.content {
-  flex: 1;
+  .content {
+    flex: 1;
+  }
+
+  /* 작은 모니터 */
+  @media (max-width: 1200px) {
+    gap: 10%;
+  }
+  /* 태블릿 */
+  @media (max-width: 992px) {
+    flex-direction: column;
+    gap: 30px;
+  }
+
+  /* 모바일 */
+  @media (max-width: 768px) {
+    gap: 50px;
+  }
+
+  /* 작은모바일 */
+  @media (max-width: 576px) {
+    gap: 40px;
+  }
 }

@@ -27,3 +27,9 @@
     width: 80%;
   }
 }
+
+.layoutContact {
+  @media (max-width: 768px) {
+    display: none;
+  }
+}

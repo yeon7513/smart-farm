@@ -27,8 +27,12 @@ function MembersCare() {
   }, [dispatch]);
 
   return (
-    <div>
-      <SearchBox name={<TbUserSearch />} placeholder={'회원 검색'} />
+    <>
+      <SearchBox
+        className={styles.memberSearch}
+        name={<TbUserSearch />}
+        placeholder={'회원 검색'}
+      />
       <ul className={styles.members}>
         {filteredUsers // createdAt으로 오름차순 => 신규 가입자가 위로 옵니다.
           .sort((a, b) => b.createdAt - a.createdAt)
@@ -50,7 +54,7 @@ function MembersCare() {
           <MemberListItem detail={userDetail} />
         </CustomModal>
       )}
-    </div>
+    </>
   );
 }
 

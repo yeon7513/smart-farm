@@ -1,17 +1,39 @@
-import React from "react";
+import React, { useState } from "react";
 import styles from "./ControlItem.module.scss";
+import { useSectorContext } from "../../../../../../../context/SectorContext";
 
-function ControlItem({ option, idx, onMoveComponent }) {
+function ControlItem({
+  option,
+  idx,
+  onMoveComponent,
+  state,
+  handleDeleteItem,
+}) {
+  const { sector } = useSectorContext();
+
   const handleControlContent = () => {
-    // 현재 ControlItem의 데이터를 부모에게 전달
-    onMoveComponent({ option, idx });
+    onMoveComponent({ option, idx, id: sector.id });
   };
 
   return (
     <div className={styles.control}>
-      <div className={styles.name}>{option}</div>
-      <button onClick={handleControlContent}>{idx + 1}</button>
-      <div>제어 버튼들....</div>
+      <div className={styles.name}>
+        <div>{option}</div>
+      </div>
+      <div>
+        <div>제어 버튼들....</div>
+      </div>
+      <div className={styles.buttons}>
+        {!state == true ? (
+          <button onClick={handleControlContent}>
+            <span>+</span>
+          </button>
+        ) : null}
+
+        <button onClick={() => handleDeleteItem(option)}>
+          <span>-</span>
+        </button>
+      </div>
     </div>
   );
 }
