@@ -207,8 +207,7 @@ function RequestForm({ user, onSubmit }) {
   return (
     <form
       className={styles.requestForm}
-      onSubmit={(e) => {
-        e.preventDefault();
+      onSubmit={() => {
         handleSubmit();
       }}
     >
