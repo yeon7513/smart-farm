@@ -54,6 +54,7 @@ function RequestForm({ user, onSubmit }) {
       console.error("결제 라이브러리가 로드되지 않았습니다.");
       return;
     }
+
     const { IMP } = window;
     // 가맹점 식별코드를 이용하여 IMP 객체를 초기화합니다.
     IMP.init("imp68411640");
@@ -63,7 +64,7 @@ function RequestForm({ user, onSubmit }) {
       pg: "html5_inicis.INIpayTest",
       pay_method: "card",
       merchant_uid: `order_${new Date().getTime()}`,
-      amount: 1000,
+      amount: 10,
       name: "아이팜 결제",
       buyer_name: user.name,
       buyer_number: user.number,
@@ -75,15 +76,18 @@ function RequestForm({ user, onSubmit }) {
   }
 
   async function callback(response) {
-    const { success, merchant_uid, error_msg } = response;
+    const { success, error_msg } = response;
 
     if (success) {
       console.log("결제 성공");
+
+      // 결제에 성공하면 견적 내용을 저장하는 함수를 호출하고 뒤로가기를 실행합니다.
       await handleSubmit();
     } else {
       console.log(`결제 실패: ${error_msg}`);
     }
   }
+
   const handleChange = (e) => {
     const value = e.target.value;
 
@@ -128,9 +132,7 @@ function RequestForm({ user, onSubmit }) {
   };
 
   // 견적 내용을 저장합니다.
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
+  async function handleSubmit() {
     const farmAreaNum = Number(farmArea);
     const farmEquivalentNum = Number(farmEquivalent);
 
@@ -142,11 +144,10 @@ function RequestForm({ user, onSubmit }) {
       farmEquivalentNum <= 0 ||
       farmAddress.trim() === "" ||
       farmName.trim() === "" ||
-      paymentMethod ===
-        ""(paymentMethod === "무통장 입금" && accountHolder.trim() === "")
+      paymentMethod === ""
     ) {
       console.log(
-        "농장 면적과 동 수는 최소 1 이상, 농장 주소와 이름, 결제내역은 반드시 설정해주시기 바랍니다."
+        "농장 면적과 동 수는 최소 1 이상, 농장 주소, 이름, 결제내역, 결제방법은 반드시 설정해주시기 바랍니다."
       );
       return;
     }
@@ -177,7 +178,7 @@ function RequestForm({ user, onSubmit }) {
       createdAt: createdAt,
       paymentMethod: paymentMethod,
     };
-    onSubmit(dataObj);
+    // onSubmit(dataObj);
 
     try {
       if (uid) {
@@ -202,10 +203,10 @@ function RequestForm({ user, onSubmit }) {
     } catch (error) {
       console.error("에러가 발생하였습니다: ", error);
     }
-  };
+  }
 
   return (
-    <form className={styles.requestForm} onSubmit={handleSubmit}>
+    <form className={styles.requestForm} onSubmit={(e) => e.preventDefault()}>
       <div className={styles.userContainer}>
         <div className={styles.user}>
           <div>
@@ -320,28 +321,30 @@ function RequestForm({ user, onSubmit }) {
               "결제 방식을 선택하여 주시기 바랍니다."
             ) : paymentMethod === "신용카드" ? (
               <>
-                <div>대충 카드인거 설명하기 귀찮아서 쓰는 말..</div>
+                <div>결제 버튼을 누르시면 결제 창으로 이동합니다.</div>
               </>
             ) : (
               <>
                 <div>
                   <select>
-                    <option>농협은행: 355-08-37955 김철수</option>
+                    <option>농협은행: 355-08-37955 {user.name}</option>
                   </select>
                 </div>
-                {/* <div>
+                {/* 비회원의 경우 예금주명을 따로 적어주어야 합니다. */}
+                <div>
                   {user ? (
-                    <input type="text" value={user.name} readOnly />
+                    ""
                   ) : (
                     <input
                       type="text"
                       placeholder="예금주명을 입력하여 주십시오."
                       onChange={(e) => setAccountHolder(e.target.value)}
+                      value={accountHolder}
                     />
                   )}
-                </div> */}
+                </div>
                 <label>
-                  <input type="checkbox" />
+                  <input type="checkbox" value="cashReceipt" />
                   현금영수증 발행
                 </label>
               </>
@@ -351,10 +354,10 @@ function RequestForm({ user, onSubmit }) {
         <div className={styles.btns}>
           <button
             className={styles.submit}
-            type="submit"
+            type="button"
             onClick={onClickPayment}
           >
-            저장
+            결제
           </button>
           <button
             type="button"

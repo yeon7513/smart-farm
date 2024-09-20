@@ -9,7 +9,7 @@ import PasswordModal from "../../modal/PasswordModal";
 
 const PAGE_SIZE = 10;
 
-function AsBoard({ complain }) {
+function AsBoard({ complain, nopost }) {
   const loginUser = JSON.parse(localStorage.getItem("user"));
   const navigate = useNavigate();
   const [currentPage, setCurrentPage] = useState(1);
@@ -148,9 +148,13 @@ function AsBoard({ complain }) {
             </button>
           </div>
 
-          <div className={styles.upload}>
-            {<button onClick={handleWriteClick}>글쓰기</button>}
-          </div>
+          {nopost === false
+            ? ""
+            : loginUser?.nick !== "관리자" && (
+                <div className={styles.upload}>
+                  {<button onClick={handleWriteClick}>글쓰기</button>}
+                </div>
+              )}
 
           <CustomModal
             title={"게시글 열기"}

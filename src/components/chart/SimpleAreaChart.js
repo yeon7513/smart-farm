@@ -10,6 +10,8 @@ import {
 } from 'recharts';
 
 function SimpleAreaChart({ data }) {
+  const hasAllData = data.some((item) => item.hasOwnProperty('user'));
+
   return (
     <ResponsiveContainer
       width="100%"
@@ -28,9 +30,31 @@ function SimpleAreaChart({ data }) {
       >
         <CartesianGrid strokeDasharray="3 3" />
         <XAxis dataKey="name" />
-        <YAxis />
+        <YAxis domain={[0, data.length * 2]} />
         <Tooltip />
-        <Area type="monotone" dataKey="value" stroke="#a2ca71" fill="#a2ca71" />
+        {hasAllData ? (
+          <>
+            <Area
+              type="monotone"
+              dataKey="user"
+              stroke="#4b9f9e"
+              fill="#8adab2"
+            />
+            <Area
+              type="monotone"
+              dataKey="dashboard"
+              stroke="#4b9f9e"
+              fill="#8adab2"
+            />
+          </>
+        ) : (
+          <Area
+            type="monotone"
+            dataKey="value"
+            stroke="#4b9f9e"
+            fill="#8adab2"
+          />
+        )}
       </AreaChart>
     </ResponsiveContainer>
   );

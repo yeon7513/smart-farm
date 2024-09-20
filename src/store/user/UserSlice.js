@@ -1,23 +1,23 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { LoginGetDatas } from "../../api/userPage";
-JSON.parse(localStorage.getItem("user"));
-const initialState = localStorage.getItem("user")
-  ? JSON.parse(localStorage.getItem("user"))
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { LoginGetDatas } from '../../api/userPage';
+JSON.parse(localStorage.getItem('user'));
+const initialState = localStorage.getItem('user')
+  ? JSON.parse(localStorage.getItem('user'))
   : {
-      email: "",
-      token: "",
-      uid: "",
-      nick: "",
-      name: "",
-      number: "",
-      address: "",
-      farmAddress: "",
+      email: '',
+      token: '',
+      uid: '',
+      nick: '',
+      name: '',
+      number: '',
+      address: '',
+      farmAddress: '',
       isAuthenticated: false,
       items: [],
-      isLoading: "false",
+      isLoading: false,
     };
 const userSlice = createSlice({
-  name: "user",
+  name: 'user',
   initialState,
   reducers: {
     setUser: (state, action) => {
@@ -31,37 +31,44 @@ const userSlice = createSlice({
       state.farmAddress = action.payload.farmAddress;
       state.isAuthenticated = true;
 
-      localStorage.setItem("user", JSON.stringify(state));
+      localStorage.setItem('user', JSON.stringify(state));
     },
     removeUser: (state) => {
-      state.email = "";
-      state.token = "";
-      state.uid = "";
-      state.name = "";
-      state.nick = "";
-      state.number = "";
-      state.address = "";
-      state.farmAddress = "";
+      state.email = '';
+      state.token = '';
+      state.uid = '';
+      state.name = '';
+      state.nick = '';
+      state.number = '';
+      state.address = '';
+      state.farmAddress = '';
       state.isAuthenticated = false;
-      localStorage.removeItem("user");
+      localStorage.removeItem('user');
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(fetchItems.fulfilled, (state, action) => {
-      state.isLoading = "true";
-      state.items = action.payload;
-    });
+    builder
+      .addCase(fetchItems.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(fetchItems.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.items = action.payload;
+      })
+      .addCase(fetchItems.rejected, (state) => {
+        state.isLoading = false;
+      });
   },
 });
 
 const fetchItems = createAsyncThunk(
-  "items/fetchAllItems",
+  'items/fetchAllItems',
   async ({ collectionName }) => {
     try {
       const resultData = await LoginGetDatas(collectionName);
       return resultData;
     } catch (error) {
-      return "Error" + error;
+      return 'Error' + error;
     }
   }
 );

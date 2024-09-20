@@ -1,12 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import {
-  Cell,
-  Legend,
-  Pie,
-  PieChart,
-  ResponsiveContainer,
-  Tooltip,
-} from 'recharts';
+import { Cell, Pie, PieChart, ResponsiveContainer, Tooltip } from 'recharts';
 import {
   COLORS,
   customTooltip,
@@ -46,7 +39,7 @@ function SimplePieChart({ data }) {
             labelLine={false}
             label={renderCustomizedLabel}
             outerRadius={200}
-            fill="#8884d8"
+            fill="#8adab2"
             dataKey="value"
           >
             {data.map((entry, index) => (
@@ -68,7 +61,7 @@ function SimplePieChart({ data }) {
           labelLine={false}
           label={renderCustomizedLabel}
           outerRadius={200}
-          fill="#8884d8"
+          fill="#8adab2"
           dataKey="value"
         >
           {data.map((entry, index) => (
@@ -87,7 +80,9 @@ function SimplePieChart({ data }) {
       maxHeight={600}
     >
       <PieChart>
-        <Legend layout="vertical" align="right" />
+        {/* {hasCrops && data[0].crops.length < 10 ? null : (
+          <Legend layout="vertical" align="right" />
+        )} */}
         {renderPies()}
         {hasCrops ? null : <Tooltip content={customTooltip(totalValue)} />}
       </PieChart>

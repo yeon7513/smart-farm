@@ -47,3 +47,55 @@
     opacity: 1;
   }
 }
+
+// 모바일
+@media (max-width: 768px) {
+  .system {
+    display: flex;
+    margin: 30px;
+    gap: 20px;
+
+    &:nth-child(even) {
+      // margin-left: 400px;
+      flex-direction: row-reverse;
+    }
+    h3 {
+      font-size: 30px;
+      margin-top: 50px;
+      padding: 10px 0;
+      color: var(--accent-color);
+      font-family: var(--title-font);
+    }
+    img {
+      width: 300px;
+      height: 200px;
+      position: relative;
+      animation: slideIn 3s ease forwards;
+      opacity: 0;
+    }
+    p {
+      width: 350px;
+      font-size: 20px;
+    }
+  }
+}
+// 작은모바일
+@media (max-width: 576px) {
+  .system {
+    margin: 10px;
+
+    h3 {
+      font-size: 23px;
+      margin-top: 10px;
+      padding: 10px 0;
+    }
+    img {
+      width: 200px;
+      height: 150px;
+    }
+    p {
+      width: 100%;
+      font-size: 18px;
+    }
+  }
+}
