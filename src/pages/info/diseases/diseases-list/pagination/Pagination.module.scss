@@ -44,8 +44,7 @@
   }
 }
 
-// 작은모바일
-@media (max-width: 576px) {
+@media (max-width: 768px) {
   .pagination {
     display: flex;
     list-style: none;
@@ -95,7 +94,9 @@
     }
   }
 }
-@media (max-width: 768px) {
+
+// 작은모바일
+@media (max-width: 576px) {
   .pagination {
     display: flex;
     list-style: none;

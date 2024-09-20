@@ -1,9 +1,9 @@
-import React from 'react';
-import { useSectorContext } from '../../../../../../context/SectorContext';
+import React from "react";
+import { useSectorContext } from "../../../../../../context/SectorContext";
 
 function DashboardSector({ id, data, className }) {
   const { setSector } = useSectorContext();
-
+  console.log(data);
   const handleClickSaveData = () => {
     setSector(data);
   };

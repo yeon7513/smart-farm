@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import {
   Bar,
   BarChart,
@@ -8,8 +8,8 @@ import {
   Tooltip,
   XAxis,
   YAxis,
-} from "recharts";
-import { COLORS, transformDataForBarGraphs } from "./Charts";
+} from 'recharts';
+import { COLORS, transformDataForBarGraphs } from './Charts';
 
 function SimpleBarChart({ data }) {
   const hasCrops = data.length > 0 && data[0].crops && data[0].crops.length > 0;
@@ -19,7 +19,7 @@ function SimpleBarChart({ data }) {
       const transformedData = transformDataForBarGraphs(data);
 
       const cropNames = transformedData.reduce((acc, item) => {
-        return [...acc, ...Object.keys(item).filter((key) => key !== "name")];
+        return [...acc, ...Object.keys(item).filter((key) => key !== 'name')];
       }, []);
 
       const uniqueCropNames = [...new Set(cropNames)];
@@ -33,7 +33,7 @@ function SimpleBarChart({ data }) {
         />
       ));
     } else {
-      return <Bar dataKey="value" fill="#00a76b" />;
+      return <Bar dataKey="value" fill="#4b9f9e" />;
     }
   };
 
