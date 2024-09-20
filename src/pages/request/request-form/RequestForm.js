@@ -55,10 +55,12 @@ function RequestForm({ user, onSubmit }) {
       return;
     }
     const { IMP } = window;
+    // 가맹점 식별코드를 이용하여 IMP 객체를 초기화합니다.
     IMP.init("imp68411640");
 
     const data = {
-      pg: "inicis",
+      // pg의 값은 PG Provider.MID 의 값입니다.
+      pg: "html5_inicis.INIpayTest",
       pay_method: "card",
       merchant_uid: `order_${new Date().getTime()}`,
       amount: 1000,
@@ -139,11 +141,10 @@ function RequestForm({ user, onSubmit }) {
       isNaN(farmEquivalentNum) ||
       farmEquivalentNum <= 0 ||
       farmAddress.trim() === "" ||
-      farmName.trim() === ""
-      // paymentMethod === "" ||
-      // (paymentMethod === "무통장 입금" && accountHolder.trim() === ""
+      farmName.trim() === "" ||
+      paymentMethod ===
+        ""(paymentMethod === "무통장 입금" && accountHolder.trim() === "")
     ) {
-      // )
       console.log(
         "농장 면적과 동 수는 최소 1 이상, 농장 주소와 이름, 결제내역은 반드시 설정해주시기 바랍니다."
       );
@@ -181,7 +182,6 @@ function RequestForm({ user, onSubmit }) {
     try {
       if (uid) {
         // 사용자의 결제내역에 데이터를 추가합니다.
-        // 'payments' 컬렉션에 새로운 데이터 추가
         const paymentCollectionRef = collection(db, "payments");
         await addDoc(paymentCollectionRef, dataObj);
         console.log("데이터가 성공적으로 추가되었습니다.");
@@ -205,13 +205,7 @@ function RequestForm({ user, onSubmit }) {
   };
 
   return (
-    <form
-      className={styles.requestForm}
-      onSubmit={(e) => {
-        e.preventDefault();
-        handleSubmit();
-      }}
-    >
+    <form className={styles.requestForm} onSubmit={handleSubmit}>
       <div className={styles.userContainer}>
         <div className={styles.user}>
           <div>
@@ -315,57 +309,27 @@ function RequestForm({ user, onSubmit }) {
           <label>
             <input
               type="radio"
-              value="가상계좌"
-              name="paymentMethod"
-              onChange={handlePaymentMethodChange}
-            />
-            가상계좌
-          </label>
-          <label>
-            <input
-              type="radio"
               value="무통장 입금"
               name="paymentMethod"
               onChange={handlePaymentMethodChange}
             />
             무통장 입금
           </label>
-          <label>
-            <input
-              type="radio"
-              value="핸드폰 결제"
-              name="paymentMethod"
-              onChange={handlePaymentMethodChange}
-            />
-            핸드폰 결제
-          </label>
-          <label>
-            <input
-              type="radio"
-              value="카카오페이"
-              name="paymentMethod"
-              onChange={handlePaymentMethodChange}
-            />
-            카카오페이
-          </label>
           <div>
             {paymentMethod === "" ? (
               "결제 방식을 선택하여 주시기 바랍니다."
             ) : paymentMethod === "신용카드" ? (
               <>
-                <div>삼성카드</div>
-                <div>NH카드</div>
+                <div>대충 카드인거 설명하기 귀찮아서 쓰는 말..</div>
               </>
-            ) : paymentMethod === "가상계좌" ? (
-              "가상계좌 결제"
-            ) : paymentMethod === "무통장 입금" ? (
+            ) : (
               <>
                 <div>
                   <select>
-                    <option>농협은행: 355-08-37955 예금주명</option>
+                    <option>농협은행: 355-08-37955 김철수</option>
                   </select>
                 </div>
-                <div>
+                {/* <div>
                   {user ? (
                     <input type="text" value={user.name} readOnly />
                   ) : (
@@ -375,34 +339,21 @@ function RequestForm({ user, onSubmit }) {
                       onChange={(e) => setAccountHolder(e.target.value)}
                     />
                   )}
-                </div>
+                </div> */}
+                <label>
+                  <input type="checkbox" />
+                  현금영수증 발행
+                </label>
               </>
-            ) : paymentMethod === "핸드폰 결제" ? (
-              <>
-                <select>
-                  <option value="SKT">SKT</option>
-                  <option value="KT">KT</option>
-                  <option value="LG U+">LG U+</option>
-                  <option value="SKT 알뜰폰">SKT 알뜰폰</option>
-                  <option value="KT 알뜰폰">KT 알뜰폰</option>
-                  <option value="LG U+ 알뜰폰">LG U+ 알뜰폰</option>
-                </select>
-                <div>
-                  {user ? (
-                    <input type="text" value={user.number} readOnly />
-                  ) : (
-                    <input type="text" />
-                  )}
-                </div>
-              </>
-            ) : (
-              "카카오페이 결제"
             )}
           </div>
-          <button onClick={onClickPayment}>결제하기</button>
         </div>
         <div className={styles.btns}>
-          <button className={styles.submit} type="submit">
+          <button
+            className={styles.submit}
+            type="submit"
+            onClick={onClickPayment}
+          >
             저장
           </button>
           <button

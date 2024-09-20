@@ -12,12 +12,10 @@ function DashboardContent({ docId }) {
   // const { setSector } = useSectorContext();
 
   const dispatch = useDispatch();
-  console.log(sectorInfo);
   useEffect(() => {
     const collectionName = `dashboard/${docId}/sector`;
     dispatch(fetchSectorInfo(collectionName));
   }, [dispatch, docId]);
-
   return (
     <div className={styles.content}>
       <ul className={styles.sectorMenu}>
