@@ -1,10 +1,7 @@
 import React from "react";
 import styles from "./ControlItem.module.scss";
-import { useComponentContext } from "../../../../../../../context/ComponentContext";
-import { useNavigate } from "react-router-dom";
 
 function ControlItem({ option, idx, onMoveComponent }) {
-  const { currComp, setCurrComp } = useComponentContext();
   const handleControlContent = () => {
     // 현재 ControlItem의 데이터를 부모에게 전달
     onMoveComponent({ option, idx });
