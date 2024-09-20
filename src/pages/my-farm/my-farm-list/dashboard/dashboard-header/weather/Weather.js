@@ -11,8 +11,7 @@ import { PiMoonStarsFill, PiSunDimFill } from "react-icons/pi";
 import { TbMist } from "react-icons/tb";
 import { WiDayRainMix } from "react-icons/wi";
 import PulseLoader from "react-spinners/PulseLoader";
-import { Swiper, SwiperSlide } from "swiper/react";
-import "swiper/swiper-bundle.css"; //스와이퍼
+
 import styles from "./Weather.module.scss";
 function Weather() {
   const [forecastData, setForecastData] = useState([]); //5일치 데이터저장!
@@ -34,6 +33,19 @@ function Weather() {
   const [selectedDay, setSelectedDay] = useState(null); //선택한 날짜를 추적하기위한
   const [groupedForecastData, setGroupedForecastData] = useState();
   const [isLoading, setIsLoading] = useState(true); // 로딩 상태 추가
+
+  // const handleResize = () => {
+  //   if (window.innerWidth <= 768) {
+  //     setIsMobile(true);
+  //   } else {
+  //     setIsMobile(false);
+  //   }
+  // };
+  // useEffect(() => {
+  //   window.addEventListener("resize", handleResize);
+  //   handleResize();
+  //   return () => window.removeEventListener("resize", handleResize);
+  // }, []);
 
   const getWindDirection = (degrees) => {
     const directions = [
@@ -296,44 +308,47 @@ function Weather() {
                 {getWeatherIcon(weatherData.icon, 110)}
               </div>
               <div className={styles.title}>{weatherData.description}</div>
-              <div className={styles.temperature}>
-                {/* 온습도 등 표시 */}
-                <div>{`${weatherData.temperature}°C`}</div>
-                <div>/</div>
-                <div> {weatherData.humidity}%</div>
-              </div>
-              <div className={styles.wind}>
-                {/* 강수,풍속,풍량 */}
-                <div className={styles.wind_title}>
-                  <div>강수확률</div>
-                  <div>:</div>
-                  <div>{weatherData.precipitationChance}%</div>
+              <div className={styles.weather_bundle}>
+                <div className={styles.temperature}>
+                  {/* 온습도 등 표시 */}
+                  <div>{`${weatherData.temperature}°C`}</div>
+                  <div>/</div>
+                  <div> {weatherData.humidity}%</div>
                 </div>
-                <div className={styles.wind_title}>
-                  풍속:{" "}
-                  {weatherData.windSpeed
-                    ? `${weatherData.windSpeed} m/s`
-                    : "N/A"}
-                </div>
-                <div className={styles.wind_title}>
-                  풍향:{" "}
-                  {weatherData.windDirection !== null
-                    ? getWindDirection(weatherData.windDirection)
-                    : "N/A"}
-                </div>
-              </div>
-              <div className={styles.today_time}>
-                <div className={styles.sunrise}>
-                  <div>
-                    <BsFillSunriseFill size={40} color="Coral" />
+                <div className={styles.wind}>
+                  {/* 강수,풍속,풍량 */}
+                  <div className={styles.wind_title}>
+                    <div>강수확률</div>
+                    <div>:</div>
+                    <div>{weatherData.precipitationChance}%</div>
                   </div>
-                  <div>{weatherData.sunrise}</div>
-                </div>
-                <div className={styles.sunset}>
-                  <div>
-                    <BsSunsetFill size={40} color="#48484A" />
+                  <div className={styles.wind_title}>
+                    풍속:{" "}
+                    {weatherData.windSpeed
+                      ? `${weatherData.windSpeed} m/s`
+                      : "N/A"}
                   </div>
-                  <div>{weatherData.sunset}</div>
+                  <div className={styles.wind_title}>
+                    풍향:{" "}
+                    {weatherData.windDirection !== null
+                      ? getWindDirection(weatherData.windDirection)
+                      : "N/A"}
+                  </div>
+                </div>
+
+                <div className={styles.today_time}>
+                  <div className={styles.sunrise}>
+                    <div>
+                      <BsFillSunriseFill size={40} color="Coral" />
+                    </div>
+                    <div>{weatherData.sunrise}</div>
+                  </div>
+                  <div className={styles.sunset}>
+                    <div>
+                      <BsSunsetFill size={40} color="#48484A" />
+                    </div>
+                    <div>{weatherData.sunset}</div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -342,14 +357,7 @@ function Weather() {
             <div className={styles.weather_menu}>
               <div className={styles.mr_today}>
                 {/* 특정 날짜 (예: 오늘) 날씨 예보 렌더링 */}
-                {/* <Swiper
-                  spaceBetween={20}
-                  slidesPerView={1}
-                  breakpoints={{
-                    576: { slidesPerView: 2 },
-                    768: { slidesPerView: 3 },
-                  }}
-                > */}
+
                 {/* // 첫 8개의 데이터를 가져옴  */}
                 {todayData.map((forecast, index) => (
                   <div key={index} className={styles.forecast_item}>

@@ -9,7 +9,7 @@ const controlSlice = createSlice({
   initialState,
   reducers: {
     setData: (state, action) => {
-      state.item = action.payload.Data;
+      state.item = [...state.item, ...action.payload.Data];
     },
   },
 });
