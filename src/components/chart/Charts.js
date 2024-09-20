@@ -14,7 +14,14 @@ export const chartTypes = [
   // { value: 'line', label: <LiaChartLineSolid /> },
 ];
 
-export const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
+export const COLORS = [
+  '#8adab2',
+  '#51c6af',
+  '#00b0af',
+  '#009ab0',
+  '#0083af',
+  '#006baa',
+];
 
 // [막대그래프]작물별 상세 조회용 데이터 변환
 export const transformDataForBarGraphs = (data) => {

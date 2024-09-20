@@ -150,21 +150,21 @@ function Nav({ menuOpen, setMenuOpen }) {
                     </li>
                     <NavLink
                       path={'/my-farm'}
-                      className={styles.gotoMyfarm}
+                      className={cn(styles.gotoMyfarm, styles.loggingIn)}
                       setMenuOpen={setMenuOpen}
                     >
                       {menuOpen ? <PiFarmBold /> : '내 농장'}
                     </NavLink>
                     <NavLink
                       path={'/mypage'}
-                      className={styles.gotoMypage}
+                      className={cn(styles.gotoMypage, styles.loggingIn)}
                       setMenuOpen={setMenuOpen}
                     >
                       {menuOpen ? <LiaUserCogSolid /> : '마이페이지'}
                     </NavLink>
                   </>
                 )}
-                <li className={styles.logout}>
+                <li className={cn(styles.logout, styles.loggingIn)}>
                   <Link onClick={handleLogout}>
                     {menuOpen ? <IoMdLogOut /> : '로그아웃'}
                   </Link>

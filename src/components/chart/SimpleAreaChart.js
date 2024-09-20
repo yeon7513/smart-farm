@@ -30,7 +30,7 @@ function SimpleAreaChart({ data }) {
         <XAxis dataKey="name" />
         <YAxis />
         <Tooltip />
-        <Area type="monotone" dataKey="value" stroke="#a2ca71" fill="#a2ca71" />
+        <Area type="monotone" dataKey="value" stroke="#4b9f9e" fill="#8adab2" />
       </AreaChart>
     </ResponsiveContainer>
   );

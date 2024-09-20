@@ -20,11 +20,11 @@ function SimpleLineChart({ data }) {
       <Line
         type="monotone"
         dataKey="value"
-        stroke="#8884d8"
+        stroke="#4b9f9e"
         activeDot={{ r: 8 }}
       />
       {/* 여러 개의 선이 필요할 경우 Line 컴포넌트 추가 */}
-      <Line type="monotone" dataKey="uv" stroke="#82ca9d" />
+      <Line type="monotone" dataKey="uv" stroke="#8adab2" />
     </LineChart>
   );
 }
