@@ -95,3 +95,53 @@
     }
   }
 }
+@media (max-width: 768px) {
+  .pagination {
+    display: flex;
+    list-style: none;
+    gap: 0;
+    padding: 0;
+
+    li {
+      margin: 0;
+      background-color: none;
+
+      &.disabled {
+        button {
+          cursor: not-allowed;
+          opacity: 0.5;
+        }
+      }
+
+      &.active {
+        button {
+          font-size: 16px;
+          display: flex;
+          justify-content: center;
+          cursor: default;
+          padding: 0;
+        }
+      }
+    }
+
+    .pageButton {
+      background: none;
+      border: none;
+      color: #333;
+      padding: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s, color 0.3s;
+
+      &:hover {
+        // background-color: var(--hover-color);
+        background-color: #fff;
+        color: var(--hover-color);
+      }
+
+      &:disabled {
+        cursor: not-allowed;
+        opacity: 0.5;
+      }
+    }
+  }
+}
