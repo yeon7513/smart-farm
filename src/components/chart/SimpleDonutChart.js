@@ -1,12 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import {
-  Cell,
-  Legend,
-  Pie,
-  PieChart,
-  ResponsiveContainer,
-  Tooltip,
-} from 'recharts';
+import { Cell, Pie, PieChart, ResponsiveContainer, Tooltip } from 'recharts';
 import {
   COLORS,
   customTooltip,
@@ -93,9 +86,9 @@ function SimpleDonutChart({ data }) {
       maxHeight={600}
     >
       <PieChart>
-        {hasCrops && data[0].crops.length < 10 ? null : (
+        {/* {hasCrops && data[0].crops.length < 10 ? null : (
           <Legend layout="vertical" align="right" />
-        )}
+        )} */}
         {renderPies()}
         {hasCrops ? null : <Tooltip content={customTooltip(totalValue)} />}
       </PieChart>
