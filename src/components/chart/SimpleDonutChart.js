@@ -8,12 +8,11 @@ import {
   Tooltip,
 } from 'recharts';
 import {
+  COLORS,
   customTooltip,
   renderCustomizedLabel,
   transformDataForCircularGraphs,
 } from './Charts';
-
-const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
 
 function SimpleDonutChart({ data }) {
   const [cropData, setCropData] = useState([]);
@@ -48,7 +47,7 @@ function SimpleDonutChart({ data }) {
             cx={250}
             cy={230}
             outerRadius={90}
-            fill="#8884d8"
+            fill="#8adab2"
             dataKey="value"
           />
           <Pie
@@ -59,7 +58,7 @@ function SimpleDonutChart({ data }) {
             label={renderCustomizedLabel}
             innerRadius={120}
             outerRadius={200}
-            fill="#8884d8"
+            fill="#4b9f9e"
             dataKey="value"
           />
           <Tooltip content={customTooltip(cropTotalValue)} />
@@ -75,7 +74,7 @@ function SimpleDonutChart({ data }) {
           label={renderCustomizedLabel}
           innerRadius={80}
           outerRadius={200}
-          fill="#8884d8"
+          fill="#8adab2"
           dataKey="value"
         >
           {data.map((entry, index) => (
@@ -94,7 +93,9 @@ function SimpleDonutChart({ data }) {
       maxHeight={600}
     >
       <PieChart>
-        {hasCrops ? null : <Legend layout="vertical" align="right" />}
+        {hasCrops && data[0].crops.length < 10 ? null : (
+          <Legend layout="vertical" align="right" />
+        )}
         {renderPies()}
         {hasCrops ? null : <Tooltip content={customTooltip(totalValue)} />}
       </PieChart>

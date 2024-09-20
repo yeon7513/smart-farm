@@ -136,6 +136,9 @@
         padding: 16px 16px 8px;
         color: var(--accent-color);
       }
+      &:hover > a {
+        color: var(--hover-color);
+      }
 
       .depthWrapper {
         position: static;
@@ -219,13 +222,13 @@
         }
 
         &:not(.welcome):hover {
-          &::before,
-          &::after {
+          &.loggingIn::before,
+          &.loggingIn::after {
             content: '';
             position: absolute;
           }
 
-          &::before {
+          &.loggingIn::before {
             top: 120%;
             left: 50%;
             width: 10px;
@@ -234,7 +237,7 @@
             border-radius: 3px;
             background-color: var(--common-color);
           }
-          &::after {
+          &.loggingIn::after {
             top: 135%;
             left: -150%;
             padding: 8px 0;
