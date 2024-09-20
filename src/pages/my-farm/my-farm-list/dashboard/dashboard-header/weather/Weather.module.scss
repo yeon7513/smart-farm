@@ -139,3 +139,106 @@
     }
   }
 }
+@media (max-width: 768px) {
+  .loader {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+  }
+  .weather {
+    padding: 0 !important;
+    border-bottom: 5px solid var(--accent-color);
+    display: flex;
+
+    .today {
+      height: 330px;
+      h2 {
+      }
+      .title {
+        font-size: 18px;
+      }
+
+      .temperature {
+        display: flex;
+        justify-content: center;
+        font-size: 18px;
+        gap: 6px;
+        margin-top: 6px;
+      }
+      .wind {
+        flex-direction: column;
+        gap: 3px;
+        padding: 8px 0 0 8px;
+      }
+      .today_time {
+        display: flex;
+        font-size: 18px;
+        gap: 8px;
+        padding: 0;
+        .sunrise {
+          display: flex;
+          flex-direction: column;
+          div {
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+          }
+        }
+      }
+      .weather_icon {
+        width: 85px;
+        margin-left: 15px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+    }
+
+    .weather_menu {
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      .mr_today {
+        flex: 2;
+        width: 100%;
+        .forecast_item {
+          font-size: 18px;
+          justify-content: space-evenly;
+
+          .time {
+            font-size: 16px;
+          }
+          .title {
+            font-size: 16px;
+            flex-direction: column;
+            gap: 0;
+          }
+        }
+      }
+      .next_day {
+        flex: 1.5;
+        display: flex;
+        .forecast_item {
+          border-right: 2px solid var(--accent-color);
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          flex: 1;
+          &:last-child {
+            border: none;
+          }
+
+          .temp_text {
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+          }
+        }
+      }
+    }
+  }
+}

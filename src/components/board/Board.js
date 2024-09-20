@@ -1,20 +1,38 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { getBoardDatas } from "../../api/board";
+// import { getBoardDatas } from "../../api/board";
 import styles from "./Board.module.scss";
 import Post from "./post/Post";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { dispatch } from "d3";
+import { fetchBoardDatas } from "../../store/board/boardSlice";
 
 const PAGE_SIZE = 10;
 
-function Board({ nopost, category, complain }) {
+function Board({ nopost, category, complain, myPosts }) {
   const loginUser = JSON.parse(localStorage.getItem("user"));
   const navigate = useNavigate();
   const [currentPage, setCurrentPage] = useState(1);
   const [isWriting, setIsWriting] = useState(false); // 글쓰기 모드 상태
   const [view, setView] = useState([]);
+
+  const dispatch = useDispatch();
+  const { posts, isLoading } = useSelector((state) => state.boardSlice);
   const { isAuthenticated } = useSelector((state) => state.userSlice);
 
+  // 데이터 로드
+  useEffect(() => {
+    dispatch(fetchBoardDatas(category));
+  }, [dispatch, category]);
+
+  // posts가 업데이트되면 view도 업데이트
+  useEffect(() => {
+    if (!isLoading && posts.length > 0) {
+      setView(posts); // posts 데이터를 view 상태로 설정
+    }
+  }, [posts, isLoading]);
+
+  // 페이지 넘기기
   const totalPages = Math.ceil(view.length / PAGE_SIZE);
   const currentItem = view.slice(
     (currentPage - 1) * PAGE_SIZE,
@@ -32,6 +50,7 @@ function Board({ nopost, category, complain }) {
     }
   };
 
+  // 글쓰기
   const addPost = (newPost) => {
     setView([...view, newPost]); // Also add to view
     setIsWriting(false); // 글쓰기 모드 종료
@@ -42,15 +61,7 @@ function Board({ nopost, category, complain }) {
     setIsWriting(false);
   };
 
-  const handleLoad = async () => {
-    const data = await getBoardDatas(category);
-    setView(data);
-  };
-
-  useEffect(() => {
-    handleLoad();
-  }, []);
-
+  // 글쓰기 버튼
   const handleWriteClick = () => {
     if (!isAuthenticated) {
       navigate("/login");
@@ -59,6 +70,16 @@ function Board({ nopost, category, complain }) {
       setIsWriting(true); // 로그인된 경우에만 글쓰기 모드로 전환
     }
   };
+
+  // 데이터 불러오기
+  // const handleLoad = async () => {
+  //   const data = await getBoardDatas(category);
+  //   setView(data);
+  // };
+
+  // useEffect(() => {
+  //   handleLoad();
+  // }, []);
 
   return (
     <div className={styles.container}>

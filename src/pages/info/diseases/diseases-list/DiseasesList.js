@@ -66,93 +66,95 @@ function DiseasesList() {
 
     fetchData(); //데이터를 가져오는 함수 호출
   }, [selectedType, currentPage, searchTerm]); // selectedType이나 currentPage가 변경될 때마다 이 effect가 재실행됩니다.
-
   return (
     <>
-      {/* <Input /> */}
-      <InfoInput onSearch={handleSearch} />
-      <div className={styles.pest_search}>
-        <div className={styles.party}>
-          <button
-            onClick={() => handleTypeChange("NP01")} // 해충 유형을 선택했을 때 호출됩니다.
-            className={selectedType === "NP01" ? styles.active : ""} // 현재 선택된 유형에 따라 버튼 스타일을 변경합니다.
-          >
-            병해
-          </button>
-        </div>
-        <div className={styles.pest}>
-          <button
-            onClick={() => handleTypeChange("NP03")}
-            className={selectedType === "NP03" ? styles.active : ""}
-          >
-            해충
-          </button>
-        </div>
-      </div>
-      {/* <SearchBox /> */}
+      {/* 로딩 중일 때 ScaleLoader 표시 */}
       {isLoading ? (
         <div className={styles.loader}>
-          <ScaleLoader size={100} color={"#669900"} loading={isLoading} />
+          <ScaleLoader color="#36D7B7" />
         </div>
       ) : (
-        <div className={styles.items}>
-          {data.list.length === 0 ? (
-            <div className={styles.no_results}>
-              <p>조회된 결과가 없습니다.</p>
+        <>
+          {/* 검색 입력 */}
+          <InfoInput onSearch={handleSearch} />
+
+          {/* 병해와 해충 버튼 */}
+          <div className={styles.pest_search}>
+            <div className={styles.party}>
+              <button
+                onClick={() => handleTypeChange("NP01")}
+                className={selectedType === "NP01" ? styles.active : ""}
+              >
+                병해
+              </button>
             </div>
-          ) : (
-            data.list?.map((item, idx) => (
-              <div key={idx} className={styles.item}>
-                <div className={styles.title}>
-                  <div className={styles.item_img}>
-                    <img src={item.thumbImg} alt={item.korName} />
-                  </div>
+            <div className={styles.pest}>
+              <button
+                onClick={() => handleTypeChange("NP03")}
+                className={selectedType === "NP03" ? styles.active : ""}
+              >
+                해충
+              </button>
+            </div>
+          </div>
 
-                  <div className={styles.item_name}>
-                    <div className={styles.item_list}>
-                      <div>
-                        <p>{item.cropName}</p>
-                      </div>
-                      <div>
-                        <span>({item.divName})</span>
-                      </div>
+          {/* 데이터 리스트 */}
+          <div className={styles.items}>
+            {data.list.length === 0 ? (
+              <div className={styles.no_results}>
+                <p>조회된 결과가 없습니다.</p>
+              </div>
+            ) : (
+              data.list?.map((item, idx) => (
+                <div key={idx} className={styles.item}>
+                  <div className={styles.title}>
+                    <div className={styles.item_img}>
+                      <img src={item.thumbImg} alt={item.korName} />
+                    </div>
 
-                      {/* <p>해충</p> */}
+                    <div className={styles.item_name}>
                       <div className={styles.item_list}>
-                        <Link
-                          to={`/info/${item.cropCode}`} //클릭 시 해당 작물의 상세 정보 페이지로 이동한다.
-                          state={{
-                            korName: item.korName,
-                            cropName: item.cropName,
-                            selectedType,
-                            thumbImg: item.thumbImg,
-                          }} // 상태로 korName과 selectedType을 전달합니다.
-                        >
-                          <span className={styles.name}>{item.korName}</span>
-                        </Link>
+                        <div>
+                          <p>{item.cropName}</p>
+                        </div>
+                        <div>
+                          <span>({item.divName})</span>
+                        </div>
+
+                        <div className={styles.item_list}>
+                          <Link
+                            to={`/info/${item.cropCode}`}
+                            state={{
+                              korName: item.korName,
+                              cropName: item.cropName,
+                              selectedType,
+                              thumbImg: item.thumbImg,
+                            }}
+                          >
+                            <span className={styles.name}>{item.korName}</span>
+                          </Link>
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            ))
-          )}
-          {/*  */}
-        </div>
-      )}
+              ))
+            )}
+          </div>
 
-      {data.list.length > 0 && (
-        <div className={styles.more}>
-          <Pagination
-            currentPage={currentPage} //현재 페이지 번호를 전달
-            totalPages={totalPages} //전체 페이지 수를 전달.
-            onPageChange={handlePageChange} //페이지가 변경될 때 마다 호출할 함수 전달.
-          />
-        </div>
+          {/* 페이지네이션 */}
+          {data.list.length > 0 && (
+            <div className={styles.more}>
+              <Pagination
+                currentPage={currentPage}
+                totalPages={totalPages}
+                onPageChange={handlePageChange}
+              />
+            </div>
+          )}
+        </>
       )}
-      {/*  */}
     </>
   );
 }
-
 export default DiseasesList;
