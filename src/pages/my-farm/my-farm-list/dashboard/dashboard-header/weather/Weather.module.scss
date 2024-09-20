@@ -32,11 +32,13 @@
       margin-top: 6px;
     }
     .wind {
+      // flex-direction: column;
+      align-items: center;
       display: flex;
       gap: 8px;
       color: #48484a;
       padding: 8px;
-      font-size: smaller;
+      font-size: small;
       justify-content: center;
 
       .wind_title {
@@ -134,6 +136,118 @@
           display: flex;
           align-items: center;
           gap: 8px;
+        }
+      }
+    }
+  }
+}
+@media (max-width: 768px) {
+  .loader {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+  }
+  .weather {
+    padding: 0 !important;
+    border-bottom: 5px solid var(--accent-color);
+    display: block;
+    .today {
+      width: 100%;
+      h2 {
+        font-size: 30px;
+      }
+      .weather_bundle {
+        display: flex;
+        position: absolute;
+        top: 200px;
+        right: 100px;
+        // flex-direction: column;
+      }
+      .title {
+        font-size: 18px;
+        display: block;
+        padding: 0 0 0 20px;
+      }
+
+      .temperature {
+        // display: flex;
+        // justify-content: center;
+        // font-size: 18px;
+        // gap: 6px;
+        // margin-top: 6px;
+      }
+      .wind {
+        flex-direction: column;
+        gap: 3px;
+        padding: 8px 0 0 8px;
+      }
+      .today_time {
+        // display: flex;
+        // font-size: 18px;
+        // gap: 8px;
+        // padding: 0;
+        .sunrise {
+          display: flex;
+          flex-direction: column;
+          div {
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+          }
+        }
+      }
+      .weather_icon {
+        width: 150px;
+        // margin-left: 15px;
+        // display: flex;
+        // justify-content: center;
+        // align-items: center;
+      }
+    }
+
+    .weather_menu {
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      .mr_today {
+        flex: 2;
+        width: 100%;
+        .forecast_item {
+          font-size: 18px;
+          justify-content: space-evenly;
+
+          .time {
+            font-size: 16px;
+          }
+          .title {
+            font-size: 16px;
+            flex-direction: column;
+            gap: 0;
+          }
+        }
+      }
+      .next_day {
+        flex: 1.5;
+        display: flex;
+        .forecast_item {
+          border-right: 2px solid var(--accent-color);
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          flex: 1;
+          &:last-child {
+            border: none;
+          }
+
+          .temp_text {
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+          }
         }
       }
     }

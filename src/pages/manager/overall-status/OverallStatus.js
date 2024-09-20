@@ -1,33 +1,147 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import RenderingChart from '../../../components/chart/RenderingChart';
 import { fetchCommonInfo } from '../../../store/dashboard/dashboardSlice';
 import { fetchItems } from '../../../store/user/UserSlice';
 import styles from './OverallStatus.module.scss';
+import AccumulatedStatus from './status-chart/AccumulatedStatus';
+import NewStatus from './status-chart/NewStatus';
 
 function OverallStatus() {
-  const { items } = useSelector((state) => state.userSlice);
-  const { commonInfo } = useSelector((state) => state.dashboardSlice);
-  const [chartType, setChartType] = useState('area');
-  const [changeData, setChangeData] = useState('all');
-  const [chartData, setChartData] = useState([]);
+  const { items, isLoading: userLoading } = useSelector(
+    (state) => state.userSlice
+  );
+  const { commonInfo, isLoading: dashboardLoading } = useSelector(
+    (state) => state.dashboardSlice
+  );
 
   const dispatch = useDispatch();
 
-  // console.log(items);
-  // console.log(commonInfo);
-
   const filteredData = (data) => {
     if (!data || data.length === 0) return [];
+
     return data
       .filter((item) => item.deleteYn === 'N')
-      .map((item) => ({
-        value: item.useYn === 'Y' ? 'dashboard' : 'users',
-        name: new Date(item.createdAt).toLocaleDateString(),
-      }));
+      .reduce((acc, item) => {
+        const date = new Date(item.createdAt).toLocaleDateString();
+        const exist = acc.find((entry) => entry.name === date);
+
+        if (exist) {
+          exist.value += 1;
+        } else {
+          acc.push({ name: date, value: 1 });
+        }
+        return acc;
+      }, []);
   };
 
-  console.log(changeData);
+  // 신규 데이터
+  const getNewChartData = (changeData) => {
+    if (userLoading || dashboardLoading) return [];
+
+    if (changeData === 'all') {
+      const allDataMap = new Map();
+
+      filteredData(items).forEach((entry) => {
+        const date = entry.name;
+        if (!allDataMap.has(date)) {
+          allDataMap.set(date, { name: date, user: 0, dashboard: 0 });
+        }
+        allDataMap.get(date).user += entry.value;
+      });
+
+      filteredData(commonInfo).forEach((entry) => {
+        const date = entry.name;
+        if (!allDataMap.has(date)) {
+          allDataMap.set(date, { name: date, user: 0, dashboard: 0 });
+        }
+        allDataMap.get(date).dashboard += entry.value;
+      });
+
+      return Array.from(allDataMap.values())
+        .sort((a, b) => new Date(a.name) - new Date(b.name))
+        .map((arr) => ({
+          name: new Date(arr.name).toLocaleDateString(),
+          user: arr.user,
+          dashboard: arr.dashboard,
+        }));
+    } else if (changeData === 'users') {
+      return filteredData(items)
+        .sort((a, b) => new Date(a.name) - new Date(b.name))
+        .map((item) => ({
+          ...item,
+          name: item.name,
+        }));
+    } else if (changeData === 'dashboard') {
+      return filteredData(commonInfo)
+        .sort((a, b) => new Date(a.name) - new Date(b.name))
+        .map((item) => ({
+          ...item,
+          name: item.name,
+        }));
+    }
+  };
+
+  // 누적 데이터
+  const getAccumulatedChartData = (changeData) => {
+    if (userLoading || dashboardLoading) return [];
+
+    if (changeData === 'all') {
+      const allDataMap = new Map();
+
+      filteredData(items).forEach((entry) => {
+        const date = entry.name;
+        if (!allDataMap.has(date)) {
+          allDataMap.set(date, { name: date, user: 0, dashboard: 0 });
+        }
+        allDataMap.get(date).user += entry.value;
+      });
+
+      filteredData(commonInfo).forEach((entry) => {
+        const date = entry.name;
+        if (!allDataMap.has(date)) {
+          allDataMap.set(date, { name: date, user: 0, dashboard: 0 });
+        }
+        allDataMap.get(date).dashboard += entry.value;
+      });
+
+      let cumulativeUser = 0;
+      let cumulativeDashboard = 0;
+
+      return Array.from(allDataMap.values())
+        .sort((a, b) => new Date(a.name) - new Date(b.name))
+        .map((entry) => {
+          cumulativeUser += entry.user;
+          cumulativeDashboard += entry.dashboard;
+          return {
+            name: new Date(entry.name).toLocaleDateString(),
+            user: cumulativeUser,
+            dashboard: cumulativeDashboard,
+          };
+        });
+    } else if (changeData === 'users') {
+      let cumulativeUser = 0;
+      return filteredData(items)
+        .sort((a, b) => new Date(a.name) - new Date(b.name))
+        .map((item) => {
+          cumulativeUser += item.value;
+          return {
+            name: item.name,
+            value: cumulativeUser,
+          };
+        });
+    } else if (changeData === 'dashboard') {
+      let cumulativeDashboard = 0;
+      return filteredData(commonInfo)
+        .sort((a, b) => new Date(a.name) - new Date(b.name))
+        .map((item) => {
+          cumulativeDashboard += item.value;
+          return {
+            name: item.name,
+            value: cumulativeDashboard,
+          };
+        });
+    }
+  };
 
   useEffect(() => {
     dispatch(fetchItems({ collectionName: 'users' }));
@@ -37,55 +151,10 @@ function OverallStatus() {
     dispatch(fetchCommonInfo('dashboard'));
   }, [dispatch]);
 
-  useEffect(() => {
-    if (items.length > 0 && commonInfo.length > 0) {
-      setChartData([...filteredData(items), ...filteredData(commonInfo)]);
-    }
-  }, [items, commonInfo]);
-
   return (
     <div className={styles.overall}>
-      <div>
-        <button
-          onClick={
-            chartType === 'area'
-              ? () => setChartType('line')
-              : () => setChartType('area')
-          }
-        >
-          {chartType}
-        </button>
-        <RenderingChart type={chartType} data={chartData} />
-      </div>
-      <div>
-        <label htmlFor="">
-          <input
-            type="radio"
-            name="info"
-            value="users"
-            onChange={() => setChangeData('all')}
-          />
-          <span>전체</span>
-        </label>
-        <label htmlFor="">
-          <input
-            type="radio"
-            name="info"
-            value="users"
-            onChange={() => setChangeData('users')}
-          />
-          <span>회원</span>
-        </label>
-        <label htmlFor="">
-          <input
-            type="radio"
-            name="info"
-            value="dashboard"
-            onChange={() => setChangeData('dashboard')}
-          />
-          <span>대시보드</span>
-        </label>
-      </div>
+      <NewStatus data={getNewChartData} />
+      <AccumulatedStatus data={getAccumulatedChartData} />
     </div>
   );
 }

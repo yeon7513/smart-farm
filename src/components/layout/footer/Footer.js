@@ -6,7 +6,7 @@ import styles from './Footer.module.scss';
 
 function Footer() {
   return (
-    <footer>
+    <footer className={styles.footer}>
       <Container className={styles.container}>
         <h1 className={styles.logo}>
           <Link to="/">

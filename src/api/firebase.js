@@ -55,26 +55,6 @@ export async function addDatas(collectionName, addObj) {
   return resultData;
 }
 
-// export async function joinUser(uid, email, password = "", userInfo = {}) {
-//   const userData = {
-//     email: email,
-//     password: password,
-//     createdAt: new Date().getTime(),
-//     updatedAt: new Date().getTime(),
-//     photoUrl: [],
-//     liked: "",
-//     ...(userInfo.deleteYn && { deleteYn: userInfo.deleteYn }),
-//     ...(userInfo.address && { address: userInfo.address }),
-//     ...(userInfo.number && { number: userInfo.number }),
-//     ...(userInfo.farmAddress && { farmAddress: userInfo.farmAddress }),
-//     ...(userInfo.required && { required: userInfo.required }),
-//     ...(userInfo.name && { name: userInfo.name }),
-//     ...(userInfo.nickname && { nickname: userInfo.nickname }),
-//     ...(userInfo.complaneNum && { complaneNum: userInfo.complaneNum }),
-//   };
-//   await setDoc(doc(db, "users", uid), userData);
-// }
-
 export async function syncOrder(uid, orderArr) {
   const orderRef = getCollection("user", uid, "order");
   const batch = writeBatch(db);
@@ -157,7 +137,6 @@ export async function getDatas(collectionName) {
     throw error;
   }
 }
-// 함수 수정시 어디서 사용중인지 확인하면 좋을듯요!
 
 export const getOrder = async (collectionName, orderByField) => {
   const q = query(
