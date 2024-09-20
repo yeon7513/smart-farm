@@ -1,12 +1,19 @@
-import cn from 'classnames';
-import React from 'react';
-import styles from './SearchBox.module.scss';
+import cn from "classnames";
+import React, { useState } from "react";
+import styles from "./SearchBox.module.scss";
 
-function SearchBox({ className, placeholder, name, handleSearch = () => {} }) {
+function SearchBox({
+  className,
+  placeholder,
+  name,
+  // handleSearch = () => {}
+  onChange,
+  onClick,
+}) {
   return (
     <div className={cn(styles.search, className)}>
-      <input type="text" placeholder={placeholder} />
-      <button onClick={handleSearch}>
+      <input type="text" placeholder={placeholder} onChange={onChange} />
+      <button onClick={onClick}>
         <span>{name}</span>
       </button>
     </div>
