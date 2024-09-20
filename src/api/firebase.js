@@ -19,6 +19,7 @@ import {
   where,
   writeBatch,
 } from "firebase/firestore";
+import { getLastNum } from "./board";
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
   authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
@@ -191,3 +192,27 @@ export async function deleteDatas(collectionName, docId) {
     return false;
   }
 }
+
+export const addSetDocDatas = async (collectionName, complainData) => {
+  try {
+    // 마지막 신고 번호 가져오기
+    const lastNum = await getLastNum(collectionName, "docIdNum");
+    const newIdNumber = lastNum + 1; // 마지막 번호에서 1 증가
+
+    let docId = `Cp_${newIdNumber}`;
+
+    // if (complainData.selectedReason.value === "ps") {
+    //   docId = `Ps_${newIdNumber}`; // 게시글 신고 ID
+    // } else if (complainData.selectedReason.value === "pf") {
+    //   docId = `Pf_${newIdNumber}`; // 프로필 신고 ID
+    // }
+
+    const complainWithId = { ...complainData, docIdNum: newIdNumber };
+    const docRef = doc(db, collectionName, docId);
+    await setDoc(docRef, complainWithId);
+
+    return true;
+  } catch (error) {
+    console.error("setDoc 에러 발생: ", error);
+  }
+};
