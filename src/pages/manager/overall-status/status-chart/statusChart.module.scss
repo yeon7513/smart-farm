@@ -1,0 +1,39 @@
+@import '/src/scss/mixins.scss';
+
+.statusChart {
+  .title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    > h2 {
+      font-size: 18px;
+    }
+
+    .change {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+
+      > button {
+        @include flexCenter();
+        @include linearBtn();
+        padding: 10px 12px;
+        border-radius: 5px;
+      }
+    }
+  }
+}
+
+.tabs {
+  position: relative;
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+  border-radius: 0.5rem;
+  background-color: #efefef;
+  box-sizing: border-box;
+  padding: 0.25rem;
+  width: 300px;
+  font-size: 14px;
+}

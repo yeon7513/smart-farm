@@ -55,7 +55,7 @@ function SimpleBarChart({ data }) {
       >
         <CartesianGrid strokeDasharray="3 3" />
         <XAxis dataKey="name" />
-        <YAxis />
+        <YAxis domain={[0, data.length * 2]} />
         <Tooltip />
         {renderBars()}
         {hasCrops && <Legend align="center" />}
