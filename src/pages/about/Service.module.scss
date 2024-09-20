@@ -131,3 +131,137 @@
   color: rgb(0, 0, 0, 0.3);
   padding: 5px 0;
 }
+
+// 모바일
+@media (max-width: 768px) {
+  .farm {
+    margin: 20px;
+    .farm_img {
+      img {
+        width: 250px;
+      }
+    }
+    .farm_title {
+      gap: 10px;
+    }
+  }
+  .technology_img {
+    position: relative;
+    height: 250px;
+
+    img {
+      height: 250px;
+    }
+  }
+  .core_items {
+    .core_item {
+      padding: 0;
+      margin: 0 50px;
+
+      img {
+        width: 200px;
+        height: 150px;
+        margin-right: 50px;
+      }
+      h2 {
+        font-size: 24px;
+        padding: 8px 0;
+      }
+      p {
+        padding: 8px 0;
+        font-size: 18px;
+      }
+    }
+  }
+  .peoples {
+    flex-direction: column;
+    margin: 20px 0;
+    gap: 10px;
+  }
+  .people {
+    gap: 20px;
+    span {
+      display: block;
+      padding: 8px 0;
+      font-size: 20px;
+      background-color: #fff5e4;
+      border-radius: 8px;
+      text-align: center;
+    }
+
+    img {
+      width: 150px;
+      height: 250px;
+    }
+  }
+  .system {
+    margin: 0;
+  }
+  .people_title {
+    font-size: 18px;
+    color: rgb(0, 0, 0, 0.3);
+    padding: 5px 0;
+  }
+}
+//작은 모바일
+@media (max-width: 576px) {
+  .farm {
+    gap: 10px;
+    margin: 20px 0;
+    .farm_img {
+      img {
+        width: 250px;
+      }
+    }
+    .farm_title {
+      gap: 8px;
+      span {
+        font-size: 32px;
+        padding-right: 6px;
+      }
+      h2 {
+        font-size: 32px;
+      }
+      p {
+        width: 300px;
+        font-size: 16px;
+      }
+    }
+  }
+
+  .core_items {
+    .core_item {
+      width: 90%;
+      padding: 0;
+      margin: 0 0 0 20px;
+
+      img {
+        width: 200px;
+        height: 150px;
+        margin-right: 10px;
+      }
+      h2 {
+        font-size: 24px;
+        padding: 8px 0;
+        width: 100%;
+      }
+      p {
+        padding: 6px 0;
+        font-size: 1rem;
+      }
+    }
+  }
+  .peoples {
+    flex-direction: column;
+    margin: 20px 0;
+    gap: 10px;
+  }
+  .people {
+    gap: 30px;
+
+    img {
+      width: 100px;
+      height: 200px;
+    }
+  }
+}
