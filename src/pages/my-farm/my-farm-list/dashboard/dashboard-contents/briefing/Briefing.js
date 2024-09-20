@@ -14,7 +14,8 @@ function Briefing() {
   }
 
   const local = localStorage.getItem("movedData");
-  const localResult = JSON.parse(local);
+  // const localResult = JSON.parse(local);
+  const localResult = JSON.parse(local) || [];
 
   const filteredOptions = Object.entries(sector.control)
     .filter(([key, value]) => value === "Y")
