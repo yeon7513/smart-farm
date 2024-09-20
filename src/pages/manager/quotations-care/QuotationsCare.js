@@ -7,6 +7,7 @@ import * as XLSX from "xlsx";
 import SearchBox from "../../../components/search_box/SearchBox";
 import { fetchPayments } from "../../../store/payment/paymentsSlice";
 import styles from "./QuotationsCare.module.scss";
+import { Link } from "react-router-dom";
 
 function QuotationsCare() {
   const { payments, isLoading } = useSelector((state) => state.paymentsSlice);
@@ -55,9 +56,35 @@ function QuotationsCare() {
           />
           <button onClick={exportToExcel}>견적 내역 다운로드</button>
           <div>
-            {/* {payments.map(data => (
-              <span>{data}</span>
-            ))} */}
+            {payments.length > 0 ? (
+              <table>
+                <thead>
+                  <tr>
+                    <th>이름</th>
+                    <th>작물 종류</th>
+                    <th>농장 종류</th>
+                    <th>주문번호</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {payments.map((item) => (
+                    <tr key={item.id}>
+                      <td>{item.name}</td>
+                      <td>{item.cropType}</td>
+                      <td>{item.facilityType}</td>
+                      <td>{item.createdAt}</td>
+                      <td>
+                        <Link to={`/mypage/${item.createdAt}`} state={{ item }}>
+                          <button className={styles.button}>자세히 보기</button>
+                        </Link>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            ) : (
+              <p>No data available.</p>
+            )}
           </div>
         </>
       )}

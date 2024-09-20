@@ -56,7 +56,7 @@ const [isLoading, setIsLoading] = useState(false); // 로딩 상태 추가
   };
 
   useEffect( () => {
-    if(selectedAnswer) {
+    if(selectedAnswer && openChatLived) {
       // answer이 선택되면 1초 후에 live-chatting으로 전환
    setIsLoading(true);
    
@@ -145,10 +145,6 @@ const [isLoading, setIsLoading] = useState(false); // 로딩 상태 추가
 const renderContent = () => {
 if (isTransitioningToLiveChat) {
     return <LiveChatting />; // 1초 후 live-chatting 컴포넌트로 전환 
-  }
-
-  if (isTransitioningToLiveChat) {
-    return <LiveChatting />;
   }
 
   if (openChatLived) {
