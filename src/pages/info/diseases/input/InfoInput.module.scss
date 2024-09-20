@@ -92,13 +92,13 @@
   }
 }
 
-// 작은모바일
-@media (max-width: 576px) {
+// 모바일
+@media (max-width: 768px) {
   .main {
     display: flex;
     border: 2px solid var(--common-color);
     padding: 0;
-    width: 100%;
+    width: 70%;
     margin: 20px 0;
     gap: 0px;
     span {
@@ -171,14 +171,16 @@
     }
   }
 }
-// 모바일
-@media (max-width: 768px) {
+
+// 작은모바일
+@media (max-width: 576px) {
   .main {
     display: flex;
     border: 2px solid var(--common-color);
     padding: 0;
-    width: 70%;
+    width: 100%;
     margin: 20px 0;
+
     gap: 0px;
     span {
       font-size: 1rem;
