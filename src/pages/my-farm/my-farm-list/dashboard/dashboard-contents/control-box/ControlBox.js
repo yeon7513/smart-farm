@@ -9,7 +9,6 @@ import { setData } from "../../../../../../store/controlData/controSlice";
 function ControlBox() {
   const { sector } = useSectorContext();
   const [movedData, setMovedData] = useState([]);
-  // const { item } = useSelector((state) => state.controlSlice);
   const dispatch = useDispatch();
   const filteredOptions = Object.entries(sector.control)
     .filter(([key, value]) => value === "Y")
@@ -25,7 +24,6 @@ function ControlBox() {
   const handleMoveComponent = (data) => {
     setMovedData((prevData) => [...prevData, data.option]);
   };
-  console.log(movedData);
   return (
     <>
       <div>
@@ -38,7 +36,6 @@ function ControlBox() {
           />
         ))}
       </div>
-      <Briefing option={movedData} />
     </>
   );
 }

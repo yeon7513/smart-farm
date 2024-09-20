@@ -5,8 +5,6 @@ import { Input } from "@mui/material";
 import { Outlet } from "react-router-dom";
 
 function Diseases(props) {
-  const [pests, setPests] = useState(null);
-
   return (
     <>
       {/* <Input /> */}

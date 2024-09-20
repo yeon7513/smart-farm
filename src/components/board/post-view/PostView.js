@@ -114,7 +114,10 @@ function PostView() {
                 </div>
                 <div>
                   <div className={styles.titleBar}>
-                    <p>작성자: {post.nick}</p>
+                    <div className={styles.profile}>
+                      <img src={post.profileImg} />
+                      <p>작성자: {post.nick}</p>
+                    </div>
                     <p>작성일: {post.createdAt}</p>
                     <p>조회수: {count}</p>
                   </div>

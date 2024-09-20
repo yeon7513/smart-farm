@@ -38,6 +38,7 @@ function Post({ onClick, onSubmit, category, initialValue = INITIAL_VALUE }) {
       imgUrl: file || "",
       nick: loginUser?.nick,
       email: loginUser?.email,
+      profileImg: loginUser?.photoUrl,
     };
 
     try {

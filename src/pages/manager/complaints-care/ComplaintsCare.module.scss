@@ -1,0 +1,36 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+}
+
+.state {
+  padding: 10px;
+  div {
+    display: flex;
+    gap: 15px;
+  }
+  button {
+    font-size: 16px;
+  }
+}
+.category {
+  div {
+    display: flex;
+    gap: 20px;
+  }
+  button {
+    font-size: 16px;
+  }
+}
+
+.content {
+  padding: 20px;
+
+  p {
+    padding: 20px;
+    border: 1px solid #dedede;
+    box-shadow: var(--box-shadow);
+    margin-bottom: 20px;
+  }
+}
