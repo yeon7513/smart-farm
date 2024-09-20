@@ -95,7 +95,7 @@
 // 작은모바일
 @media (max-width: 768px) {
   .pest_search {
-    flex-direction: column;
+    flex-direction: row;
     gap: 10px;
   }
 
@@ -108,28 +108,42 @@
   }
 
   .item {
-    display: flex;
-    flex-wrap: wrap;
+    // flex-wrap: wrap;
     // flex-direction: column;
     // align-items: center;
 
     .title {
-      width: 200px;
+      width: 160px;
+      height: 15rem;
+
+      .item_list {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
     }
 
     .item_img img {
-      width: 100%;
-      height: auto;
+      width: 130px;
+      height: 150px;
     }
 
     .item_name {
-      width: 100%;
+      padding: 0;
+      // width: 100%;
+    }
+    .name {
+      &:hover {
+        color: var(--hover-color);
+        border-bottom: 1px solid var(--hover-color);
+      }
     }
   }
 
   .items {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    // flex-direction: column;
+    flex-wrap: wrap;
+    gap: 8px;
   }
 
   .no_results {
