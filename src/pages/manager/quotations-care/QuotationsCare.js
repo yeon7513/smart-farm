@@ -67,9 +67,9 @@ function QuotationsCare() {
 
   const handleSearch = (e) => {
     e.preventDefault();
-    // 전체 데이터를 가지고 있는 listItems를 활용해
-    // 사용자가 입력한 키워드를 데이터에 포함하고 있는 객체를 원소로 가지는 배열을 만든다.
-    // 만들어진 배열을 items state에 set 합니다.
+    //   // 전체 데이터를 가지고 있는 listItems를 활용해
+    //   // 사용자가 입력한 키워드를 데이터에 포함하고 있는 객체를 원소로 가지는 배열을 만든다.
+    //   // 만들어진 배열을 items state에 set 합니다.
     setItems(listItems.filter(({ name }) => name.includes(keyword)));
   };
 
