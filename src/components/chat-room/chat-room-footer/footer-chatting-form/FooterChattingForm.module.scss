@@ -1,0 +1,32 @@
+.footerChattingForm {
+    flex: none;
+    background-color: #ffec42;
+    width: 100%;
+    max-width: 450px;
+    font-size: 1.5rem;
+    height: 8vh;
+    display: flex;
+    align-items: center; // 가운데 정렬을 위해 추가
+    margin: 0;
+
+    .chatInput {
+  display: inline;
+  width: 100%;
+      padding: 20px;
+      border: none;
+      font-size: 30px;
+background-color: #fff;
+    }
+  
+    .chatBtn {
+      background-color: #ffec42;
+      border: none;
+      color: gray;
+      padding: 5px 10px;
+      font-size: 1rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center; // 아이콘을 버튼 안에서 가운데 정렬
+    }
+  }
+  
