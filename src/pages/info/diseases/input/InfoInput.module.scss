@@ -171,3 +171,82 @@
     }
   }
 }
+// 모바일
+@media (max-width: 768px) {
+  .main {
+    display: flex;
+    border: 2px solid var(--common-color);
+    padding: 0;
+    width: 70%;
+    margin: 20px 0;
+    gap: 0px;
+    span {
+      font-size: 1rem;
+    }
+    .menu {
+      display: flex;
+      flex-direction: column;
+    }
+    .input {
+      margin: 10px;
+      display: flex;
+      align-items: center;
+      .input_item {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        input {
+          border-bottom: 2px solid var(--hover-color);
+          width: 200px;
+          font-size: 20px;
+          padding: 10px;
+        }
+      }
+    }
+    .select_box {
+      margin: 6px 16px;
+      display: flex;
+      align-items: center;
+
+      // justify-content: space-between;
+
+      .select_box_item {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        select {
+          border: none;
+          border-bottom: 2px solid var(--hover-color);
+        }
+        span {
+          margin: 0 8px 0 0;
+        }
+        select {
+          width: 50px;
+          height: 40px;
+          padding: 0;
+        }
+      }
+    }
+  }
+  .btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    button {
+      // display: flex;
+      // margin-right: 6px;
+      @include packedBtn($padding: 12px 6px);
+      border-radius: 8px;
+      > span {
+        @include flexCenter();
+
+        gap: 5px;
+        > svg {
+          display: none;
+        }
+      }
+    }
+  }
+}
