@@ -34,19 +34,6 @@ function Weather() {
   const [groupedForecastData, setGroupedForecastData] = useState();
   const [isLoading, setIsLoading] = useState(true); // 로딩 상태 추가
 
-  // const handleResize = () => {
-  //   if (window.innerWidth <= 768) {
-  //     setIsMobile(true);
-  //   } else {
-  //     setIsMobile(false);
-  //   }
-  // };
-  // useEffect(() => {
-  //   window.addEventListener("resize", handleResize);
-  //   handleResize();
-  //   return () => window.removeEventListener("resize", handleResize);
-  // }, []);
-
   const getWindDirection = (degrees) => {
     const directions = [
       "북풍",
@@ -309,33 +296,34 @@ function Weather() {
               </div>
               <div className={styles.title}>{weatherData.description}</div>
               <div className={styles.weather_bundle}>
-                <div className={styles.temperature}>
-                  {/* 온습도 등 표시 */}
-                  <div>{`${weatherData.temperature}°C`}</div>
-                  <div>/</div>
-                  <div> {weatherData.humidity}%</div>
+                <div className={styles.weather_main}>
+                  <div className={styles.temperature}>
+                    {/* 온습도 등 표시 */}
+                    <div>{`${weatherData.temperature}°C`}</div>
+                    <div>/</div>
+                    <div> {weatherData.humidity}%</div>
+                  </div>
+                  <div className={styles.wind}>
+                    {/* 강수,풍속,풍량 */}
+                    <div className={styles.wind_title}>
+                      <div>강수확률</div>
+                      <div>:</div>
+                      <div>{weatherData.precipitationChance}%</div>
+                    </div>
+                    <div className={styles.wind_title}>
+                      풍속:{" "}
+                      {weatherData.windSpeed
+                        ? `${weatherData.windSpeed} m/s`
+                        : "N/A"}
+                    </div>
+                    <div className={styles.wind_title}>
+                      풍향:{" "}
+                      {weatherData.windDirection !== null
+                        ? getWindDirection(weatherData.windDirection)
+                        : "N/A"}
+                    </div>
+                  </div>
                 </div>
-                <div className={styles.wind}>
-                  {/* 강수,풍속,풍량 */}
-                  <div className={styles.wind_title}>
-                    <div>강수확률</div>
-                    <div>:</div>
-                    <div>{weatherData.precipitationChance}%</div>
-                  </div>
-                  <div className={styles.wind_title}>
-                    풍속:{" "}
-                    {weatherData.windSpeed
-                      ? `${weatherData.windSpeed} m/s`
-                      : "N/A"}
-                  </div>
-                  <div className={styles.wind_title}>
-                    풍향:{" "}
-                    {weatherData.windDirection !== null
-                      ? getWindDirection(weatherData.windDirection)
-                      : "N/A"}
-                  </div>
-                </div>
-
                 <div className={styles.today_time}>
                   <div className={styles.sunrise}>
                     <div>
