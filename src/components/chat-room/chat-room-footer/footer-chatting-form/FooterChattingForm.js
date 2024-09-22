@@ -3,7 +3,7 @@ import styles from './FooterChattingForm.module.scss';
 import * as FaIcons from "react-icons/fa";
 
 
-function FooterChattingForm() {
+function FooterChattingForm({onSendMessage}) {
   const [message, setMessage] = useState('');
 
   // 메시지 전송 핸들러
@@ -12,6 +12,7 @@ function FooterChattingForm() {
     if (message.trim()) {
       // 메시지를 서버로 전송하거나 처리하는 로직
       console.log('전송된 메시지:', message);
+      onSendMessage(message); // 상위 컴포넌트로 메세지 전달 
       setMessage(''); // 메시지 입력 필드 초기화
     }
   };

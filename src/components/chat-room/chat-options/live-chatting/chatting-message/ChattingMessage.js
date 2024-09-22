@@ -1,15 +1,14 @@
 import React from 'react'
 
-function ChattingMessage({ message, auth }) {
-    const { text, uid, photoURL } = message;
-    const messageClass = uid === auth?.currentUser.uid ? "sent" : "received";
+function ChattingMessage({ messages }) {
   return (
-    <>
-    <div className={`message ${messageClass}`}>
-      <img src={photoURL} />
-      <p>{text}</p>
+    <div>
+      <div>
+        {messages.map((msg, index) => (
+          <p key={index}>{msg}</p>  // 각 메시지를 렌더링
+        ))}
+      </div>
     </div>
-  </>
   )
 }
 
