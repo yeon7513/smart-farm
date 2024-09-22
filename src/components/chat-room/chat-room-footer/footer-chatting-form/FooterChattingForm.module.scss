@@ -1,32 +1,36 @@
-.footerChattingForm {
-    flex: none;
-    background-color: #ffec42;
-    width: 100%;
-    max-width: 450px;
-    font-size: 1.5rem;
-    height: 8vh;
-    display: flex;
-    align-items: center; // 가운데 정렬을 위해 추가
-    margin: 0;
+.chattingForm {
+  display: flex;
+  align-items: center;
+  width: calc(100% + 20px); /* 부모 패딩을 상쇄하도록 너비를 확장 */
+  height: calc(100% + 20px); /* 부모 패딩을 상쇄하도록 높이를 확장 */
+  padding: 10px; /* 내부 여백 */
+  background-color: var(--common-color);
+  border-radius: 10px;
+  // box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  margin: -10px; /* 부모의 padding 값을 음수 margin으로 보정 */
+}
 
-    .chatInput {
-  display: inline;
-  width: 100%;
-      padding: 20px;
-      border: none;
-      font-size: 30px;
-background-color: #fff;
-    }
+.input {
+  flex: 1; /* 남은 공간을 모두 차지 */
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 16px;
+  background-color: var(--main-color);
+}
+
+.submitButton {
+  padding: 10px 20px;
+  background-color: var(--common-color);
+  color: white;
+  border: none;
+  border-radius: 5px;
+  margin-left: 10px;
+  cursor: pointer;
+  font-weight: bold;
+  border: 1px solid var(--main-color);
   
-    .chatBtn {
-      background-color: #ffec42;
-      border: none;
-      color: gray;
-      padding: 5px 10px;
-      font-size: 1rem;
-      cursor: pointer;
-      display: flex;
-      align-items: center; // 아이콘을 버튼 안에서 가운데 정렬
-    }
+  &:hover {
+background-color: var(--hover-color);
   }
-  
+}
