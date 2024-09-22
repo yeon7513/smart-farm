@@ -13,78 +13,78 @@ function PaymentDetail() {
   const { createdAt } = useParams();
   const [jwt, setJwt] = useState("");
 
-   // JWT를 설정하는 함수 (로그인 시 호출)
-   const handleLogin = async (username, password) => {
-    try {
-      const response = await axios.post("/login", { username, password });
-      const { token } = response.data; // 서버에서 JWT를 받아옴
-      setJwt(token); // 상태에 JWT 저장
-    } catch (error) {
-      console.error("로그인 에러:", error);
-    }
-  };
+  //  // JWT를 설정하는 함수 (로그인 시 호출)
+  //  const handleLogin = async (username, password) => {
+  //   try {
+  //     const response = await axios.post("/login", { username, password });
+  //     const { token } = response.data; // 서버에서 JWT를 받아옴
+  //     setJwt(token); // 상태에 JWT 저장
+  //   } catch (error) {
+  //     console.error("로그인 에러:", error);
+  //   }
+  // };
 
-  // 결제 취소 함수 (아직 완성 안 됨)
-  const onPayCancel = async (pointCertify) => {
-    const confirm = window.confirm("결제번호: " + pointCertify + " / 결제를 취소하시겠습니까?");
-    const impKey = process.env.REACT_APP_IMP_KEY;
-    const impSecret = process.env.REACT_APP_IMP_SECRET;
+  // // 결제 취소 함수 (아직 완성 안 됨)
+  // const onPayCancel = async (pointCertify) => {
+  //   const confirm = window.confirm("결제번호: " + pointCertify + " / 결제를 취소하시겠습니까?");
+  //   const impKey = process.env.REACT_APP_IMP_KEY;
+  //   const impSecret = process.env.REACT_APP_IMP_SECRET;
 
-    if (confirm) {
-      try {
-        // access_token을 받아옵니다.
-        const response = await axios.post("/users/getToken", {
-          imp_key: impKey,
-          imp_secret: impSecret,
-        }, { headers: { "Content-Type": "application/json" } });
+  //   if (confirm) {
+  //     try {
+  //       // access_token을 받아옵니다.
+  //       const response = await axios.post("/users/getToken", {
+  //         imp_key: impKey,
+  //         imp_secret: impSecret,
+  //       }, { headers: { "Content-Type": "application/json" } });
 
-        const { access_token } = response.data.response;
-        console.log("받아온 access_token:", access_token);
+  //       const { access_token } = response.data.response;
+  //       console.log("받아온 access_token:", access_token);
 
-        // 취소요청
-        await getCancelData(access_token, pointCertify);
-      } catch (error) {
-        console.error("토큰 추출 에러 발생: ", error);
-      }
-    }
-  }
+  //       // 취소요청
+  //       await getCancelData(access_token, pointCertify);
+  //     } catch (error) {
+  //       console.error("토큰 추출 에러 발생: ", error);
+  //     }
+  //   }
+  // }
 
-  // 취소요청을 하는 함수입니다.
-  const getCancelData = async (access_token, pointCertify) => {
-    try {
-      const response = await axios.post(
-        "/payments/cancel",
-        { imp_uid: pointCertify },
-        { headers: { "Content-Type": "application/json", Authorization: `Bearer ${access_token}` } }
-      );
-      console.log("결제 취소 완료:", response.data);
+  // // 취소요청을 하는 함수입니다.
+  // const getCancelData = async (access_token, pointCertify) => {
+  //   try {
+  //     const response = await axios.post(
+  //       "/payments/cancel",
+  //       { imp_uid: pointCertify },
+  //       { headers: { "Content-Type": "application/json", Authorization: `Bearer ${access_token}` } }
+  //     );
+  //     console.log("결제 취소 완료:", response.data);
 
-      // Firebase에 저장되어 있는 데이터를 삭제합니다.
-      await pointTableCancel(pointCertify);
-    } catch (error) {
-      console.error("결제 취소 에러 발생:", error);
-    }
-  };
+  //     // Firebase에 저장되어 있는 데이터를 삭제합니다.
+  //     await pointTableCancel(pointCertify);
+  //   } catch (error) {
+  //     console.error("결제 취소 에러 발생:", error);
+  //   }
+  // };
 
-  // Firebase에 저장되어 있는 데이터를 삭제하는 함수입니다.
-  const pointTableCancel = async (pointCertify) => {
-    try {
-      console.log("넘어가는 결제 번호: " + pointCertify);
-      const response = await axios.post(
-        "http://localhost:3000/admin/userPointTable/cancel",
-        { pointCertify },
-        { headers: { Authorization: `Bearer ${jwt}` } }
-      );
+  // // Firebase에 저장되어 있는 데이터를 삭제하는 함수입니다.
+  // const pointTableCancel = async (pointCertify) => {
+  //   try {
+  //     console.log("넘어가는 결제 번호: " + pointCertify);
+  //     const response = await axios.post(
+  //       "http://localhost:3000/admin/userPointTable/cancel",
+  //       { pointCertify },
+  //       { headers: { Authorization: `Bearer ${jwt}` } }
+  //     );
 
-      console.log(response.data);
-      fetchUserPoint();
-    } catch (error) {
-      console.error("결제 테이블 삭제 실패", error);
-    }
-  }
+  //     console.log(response.data);
+  //     fetchUserPoint();
+  //   } catch (error) {
+  //     console.error("결제 테이블 삭제 실패", error);
+  //   }
+  // }
 
-  const fetchUserPoint = async () => {
-  };
+  // const fetchUserPoint = async () => {
+  // };
 
   useEffect(() => {
     const paymentData = async () => {
@@ -135,7 +135,9 @@ function PaymentDetail() {
               <p>부가 옵션: {data.additionalOptions.join(", ")}</p>
               <p>주문번호: {data.createdAt}</p>
               <p>결제 방식:{data.paymentMethod}</p>
-              <button type="button" onClick={() => onPayCancel(data.imp_uid)}>주문 취소</button>
+              <button type="button"
+              // onClick={() => onPayCancel(data.imp_uid)}
+              >주문 취소</button>
             </>
           ) : (
             <p>No data available.</p>
