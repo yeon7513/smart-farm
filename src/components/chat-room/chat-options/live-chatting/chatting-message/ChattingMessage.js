@@ -5,7 +5,10 @@ function ChattingMessage({ messages }) {
     <div>
       <div>
         {messages.map((msg, index) => (
-          <p key={index}>{msg}</p>  // 각 메시지를 렌더링
+          <div key={index}>
+          <p>{msg.content}</p>  // 각 메시지를 렌더링
+          <small>{new Date(msg.createdAt.seconds * 1000).toLocaleDateString()}</small>
+          </div>
         ))}
       </div>
     </div>
