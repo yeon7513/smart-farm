@@ -102,7 +102,7 @@ function DiseasesList() {
           <div className={styles.items}>
             {data.list.length === 0 ? (
               <div className={styles.no_results}>
-                <p>조회된 결과가 없습니다.</p>
+                <span>조회된 결과가 없습니다.</span>
               </div>
             ) : (
               data.list?.map((item, idx) => (
