@@ -31,17 +31,10 @@ function Myinfo(props) {
   useEffect(() => {
     dispatch(fetchItems({ collectionName: "users" }));
     const passwordSameThing = items.find((item) => {
-      return item.name == localChange.name;
+      return item.email == localChange.email;
     });
     setPasswordInfoState(passwordSameThing?.password);
-  }, [
-    nameState,
-    NicknameState,
-    passwordState,
-    passwordState == false,
-    items,
-    passwordInfo,
-  ]);
+  }, [nameState, NicknameState, items]);
 
   const handleChange = (event) => {
     setInputValue(event.target.value);
@@ -89,8 +82,9 @@ function Myinfo(props) {
   };
   const handleSameNickNamethingConfirm = async () => {
     const SameName = items.filter((item) => {
-      return item.nickname == inputValue;
+      return item.nickname == inputValueSub;
     });
+    console.log(SameName);
     if (SameName.length === 0) {
       SetsameAlert(false);
       alert("중복된게 없습니다.  테스트로 alert좀 썼어요!");
@@ -106,12 +100,12 @@ function Myinfo(props) {
         return item.nickname == localChange.nick;
       });
       const updateObj = {
-        nickname: inputValue,
+        nickname: inputValueSub,
       };
       const { docId } = SameNickNameChange;
       if (updateObj.nickname.length !== 0) {
         await updateDatas("users", docId, updateObj);
-        const updatedUser = { ...localChange, nick: inputValue };
+        const updatedUser = { ...localChange, nick: inputValueSub };
         setUser(updatedUser);
         localStorage.setItem("user", JSON.stringify(updatedUser));
       } else {
@@ -250,7 +244,7 @@ function Myinfo(props) {
           <div className={style.double}>
             <input
               className={style.input}
-              onChange={handleChange}
+              onChange={handleChangeSub}
               type="text"
             />
             <button onClick={handleSameNickNamethingConfirm}>중복 확인</button>
