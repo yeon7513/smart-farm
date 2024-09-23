@@ -77,6 +77,18 @@ export const infoSideMenu = [
   { comp: 'Disaster', name: '자연재해 정보' },
 ];
 
-export const communitySideMenu = [{ comp: '', name: '' }];
+export const communitySideMenu = [
+  { comp: 'Notice', name: '공지사항' },
+  { comp: 'Faq', name: 'FAQ' },
+  { comp: 'SharingInformation', name: '정보 공유' },
+  { comp: 'AfterService', name: 'A/S 문의' },
+];
 
-export const managerSideMenu = [{ comp: '', name: '' }];
+export const managerSideMenu = [
+  { comp: 'OverallStatus', name: '전체 현황' },
+  { comp: 'MembersCare', name: '회원 관리' },
+  { comp: 'QuotationsCare', name: '견적 관리' },
+  { comp: 'ComplaintsCare', name: '신고 관리' },
+  { comp: 'AfterServiceCare', name: 'A/S 관리' },
+  { comp: 'ChatbotCare', name: '챗봇 관리' },
+];
