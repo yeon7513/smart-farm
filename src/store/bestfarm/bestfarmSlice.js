@@ -1,5 +1,5 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { bestFarmInfo } from '../../api/simulationData';
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { bestFarmInfo } from "../../api/simulationData";
 
 const initialState = {
   environmentData: [], // 환경 정보
@@ -10,7 +10,7 @@ const initialState = {
 };
 
 const bestfarmSlice = createSlice({
-  name: 'bestFarmData',
+  name: "bestFarmData",
   initialState,
   reducers: {},
   extraReducers: (builder) => {
@@ -68,10 +68,10 @@ const bestfarmSlice = createSlice({
 // 딸기 : S23 / 토마토 : 349 / 파프리카 : SP205 사용중입니다.
 
 export const fetchEnvironmentData = createAsyncThunk(
-  'bestFarmData/fetchEnvironmentData',
+  "bestFarmData/fetchEnvironmentData",
   async (query) => {
     try {
-      const data = await bestFarmInfo('envdatarqst', query);
+      const data = await bestFarmInfo("envdatarqst", query);
       return data;
     } catch (error) {
       return error;
@@ -80,10 +80,10 @@ export const fetchEnvironmentData = createAsyncThunk(
 );
 
 export const fetchGrowthData = createAsyncThunk(
-  'bestFarmData/fetchGrowthData',
+  "bestFarmData/fetchGrowthData",
   async (query) => {
     try {
-      const data = await bestFarmInfo('grwdatarqst', query);
+      const data = await bestFarmInfo("grwdatarqst", query);
       return data;
     } catch (error) {
       return error;
@@ -92,10 +92,10 @@ export const fetchGrowthData = createAsyncThunk(
 );
 
 export const fetchProductionData = createAsyncThunk(
-  'bestFarmData/fetchProductionData',
+  "bestFarmData/fetchProductionData",
   async (query) => {
     try {
-      const data = await bestFarmInfo('prddatarqst', query);
+      const data = await bestFarmInfo("prddatarqst", query);
       return data;
     } catch (error) {
       return error;

@@ -4,17 +4,17 @@ import { renameOptions } from "../../../../../../utils/renameOptions";
 import ControlItem from "./control-item/ControlItem";
 import Briefing from "../briefing/Briefing";
 import { useDispatch, useSelector } from "react-redux";
-import { setData } from "../../../../../../store/controlData/controSlice";
+import { setData } from "../../../../../../store/controlData/controlSlice";
 
 function ControlBox() {
   const { sector } = useSectorContext();
   const { item } = useSelector((state) => state.controlSlice);
+  const { items } = useSelector((state) => state.controlSlice);
   const [movedData, setMovedData] = useState([]);
   const dispatch = useDispatch();
   const filteredOptions = Object.entries(sector.control)
     .filter(([key, value]) => value === "Y")
     .map(([key, vlaue]) => renameOptions(key));
-
   useEffect(() => {
     dispatch(
       setData({
