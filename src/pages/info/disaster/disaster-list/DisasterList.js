@@ -4,39 +4,7 @@ import SearchBox from "../../../../components/search_box/SearchBox";
 import styles from "./DisasterList.module.scss";
 import { Link } from "react-router-dom";
 import Writing from "../writing/Writing";
-import { getDatas } from "../../../../api/firebase";
-
-// const post = [
-//   {
-//     id: 1,
-//     title: "2020년 농작물 폭염",
-//     name: "관리자",
-//     dat: "2020.01.13",
-//     views: 23,
-//   },
-//   {
-//     id: 2,
-//     title: "2020년 농작물 폭염",
-//     name: "관리자",
-//     dat: "2020.01.23",
-//     views: 25,
-//   },
-
-//   {
-//     id: 3,
-//     title: "2020년 농작물 폭염",
-//     name: "관리자",
-//     dat: "2020.01.23",
-//     views: 25,
-//   },
-//   {
-//     id: 4,
-//     title: "2020년 농작물 폭염",
-//     name: "관리자",
-//     dat: "2020.01.23",
-//     views: 25,
-//   },
-// ];
+import { getDatas, incrementViewCount } from "../../../../api/firebase";
 
 function DisasterList(props) {
   const [posts, setPosts] = useState([]); //상태관리
@@ -53,6 +21,20 @@ function DisasterList(props) {
     };
     fetchPosts();
   }, []);
+  // const handlePostClick = async (post) => {
+  //   console.log("Post clicked:", post); // 확인용 로그 추가
+  //   if (!post || !post.id) {
+  //     console.error("Invalid post:", post);
+  //     return; // 잘못된 포스트 처리
+  //   }
+  //   try {
+  //     await incrementViewCount(post.id);
+  //     // ...
+  //   } catch (error) {
+  //     console.error("Error updating view count: ", error);
+  //   }
+  // };
+
   return (
     <>
       {/* <div> */}
@@ -88,7 +70,11 @@ function DisasterList(props) {
         <div>
           {posts.map((item, idx) => (
             <li key={idx} item={item}>
-              <Link to={`/info/disaster/${item.id}`}>
+              <Link
+                to={`/info/disaster/${item.id}`}
+                state={{ post: item }}
+                // onClick={() => handlePostClick(item)}
+              >
                 <div className={styles.menu_list}>
                   <div className={styles.menu_number}>
                     <p>{item.id}</p>
@@ -103,7 +89,7 @@ function DisasterList(props) {
                     <p>{item.createdAt}</p>
                   </div>
                   <div className={styles.check}>
-                    <p>{item.views}</p>
+                    <p>{item.views || 0}</p>
                   </div>
                 </div>
               </Link>

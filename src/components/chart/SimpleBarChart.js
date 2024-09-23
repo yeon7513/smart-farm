@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {
   Bar,
   BarChart,
@@ -8,8 +8,8 @@ import {
   Tooltip,
   XAxis,
   YAxis,
-} from 'recharts';
-import { COLORS, transformDataForBarGraphs } from './Charts';
+} from "recharts";
+import { COLORS, transformDataForBarGraphs } from "./Charts";
 
 function SimpleBarChart({ data }) {
   const hasCrops = data.length > 0 && data[0].crops && data[0].crops.length > 0;
@@ -19,7 +19,7 @@ function SimpleBarChart({ data }) {
       const transformedData = transformDataForBarGraphs(data);
 
       const cropNames = transformedData.reduce((acc, item) => {
-        return [...acc, ...Object.keys(item).filter((key) => key !== 'name')];
+        return [...acc, ...Object.keys(item).filter((key) => key !== "name")];
       }, []);
 
       const uniqueCropNames = [...new Set(cropNames)];
@@ -54,7 +54,7 @@ function SimpleBarChart({ data }) {
         }}
       >
         <CartesianGrid strokeDasharray="3 3" />
-        <XAxis dataKey="name" />
+        <XAxis dataKey="name" fill="#fff" />
         <YAxis domain={[0, data.length * 2]} />
         <Tooltip />
         {renderBars()}

@@ -7,7 +7,7 @@ import paymentSlice from "./payment/paymentSlice";
 import paymentsSlice from "./payment/paymentsSlice";
 import usageStatusSlice from "./usage-status/usageStatusSlice";
 import userSlice from "./user/UserSlice";
-import controlSlice from "./controlData/controSlice";
+import controlSlice from "./controlData/controlSlice";
 import boardSlice from "./board/boardSlice";
 import complainSlice from "./complain/complainSlice";
 import AsServiceSlide from "./as-service/AsServiceSlide";
