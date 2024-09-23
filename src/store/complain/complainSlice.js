@@ -49,8 +49,7 @@ const complainSlice = createSlice({
       })
       .addCase(addComplain.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.Processing.push(action.payload); // 성공 시 데이터 추가
-        state.Processed.push(action.payload); // 성공 시 데이터 추가
+        state.processing.push(action.payload); // 성공 시 데이터 추가
       })
       .addCase(addComplain.rejected, (state, action) => {
         state.isLoading = false;

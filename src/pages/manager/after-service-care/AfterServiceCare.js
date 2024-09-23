@@ -8,8 +8,17 @@ function AfterServiceCare(props) {
   return (
     <div className={styles.afterService}>
       <SearchBox name={<TbSettingsSearch />} placeholder={"A/S 검색"} />
-      AfterServiceCare
-      <AsBoard nopost={false} />
+      <div className={styles.header}>
+        <div className={styles.state}>
+          <div>
+            <button>답변중</button>
+            <button>답변완료</button>
+          </div>
+        </div>
+      </div>
+      <div>
+        <AsBoard nopost={false} />
+      </div>
     </div>
   );
 }

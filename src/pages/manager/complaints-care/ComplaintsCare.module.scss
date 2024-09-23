@@ -117,3 +117,74 @@
   border-bottom: 1px solid var(--common-color);
   padding: 3px;
 }
+
+.processBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+
+  button {
+    padding: 10px 15px;
+    border: 1px solid var(--common-color);
+    border-radius: 8px;
+  }
+}
+
+// 게시글 승인 모달
+.container {
+  margin: 30px;
+  padding: 10px;
+}
+
+.modlaTitle {
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 8px;
+  margin: 10px;
+
+  div {
+    display: flex;
+    align-items: center;
+  }
+
+  h2 {
+    margin-bottom: 25px;
+  }
+
+  p {
+    font-size: 14px;
+    color: gray;
+  }
+}
+
+.profile {
+  img {
+    width: 70px;
+    border-radius: 50%;
+  }
+}
+
+.titleBar {
+  width: 70%;
+  display: flex;
+  // justify-content: space-between;
+  gap: 80px;
+}
+
+.modlaContent {
+  min-height: 300px;
+  padding: 30px 50px 40px;
+  border-bottom: 1px solid #ddd;
+  letter-spacing: 0.5px;
+  white-space: pre-line;
+
+  div {
+    width: 100%;
+
+    img {
+      margin-top: 30px;
+      max-width: 60%;
+      height: auto;
+    }
+  }
+}
