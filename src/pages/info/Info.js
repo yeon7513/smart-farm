@@ -26,6 +26,7 @@ function Info() {
         <ul className={styles.links}>
           {infoSideMenu.map((menu) => (
             <Sidebar
+              key={menu.comp}
               comp={menu.comp}
               name={menu.name}
               handleClick={handleChangeTitles}
