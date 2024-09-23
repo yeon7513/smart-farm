@@ -7,8 +7,9 @@ import { useSelector } from "react-redux";
 import { addDoc, collection } from "firebase/firestore";
 import { db } from "../../../api/firebase";
 import { useNavigate } from "react-router-dom";
+import { convertingAddressToGeoCode } from "./../../../api/geoCode";
 
-function RequestForm({ user, onSubmit }) {
+function RequestForm({ user }) {
   const [cropType, setCropType] = useState("딸기");
   const [farmAddress, setFarmAddress] = useState("");
   const [facilityType, setFacilityType] = useState("시설원예");
@@ -18,6 +19,9 @@ function RequestForm({ user, onSubmit }) {
   const [additionalOptions, setAdditionalOptions] = useState({});
   const [paymentMethod, setPaymentMethod] = useState("");
   const [accountHolder, setAccountHolder] = useState("");
+  const [cashReceipt, setCashReceipt] = useState("현금영수증 ×");
+  const [lat, setLat] = useState(null);
+  const [lng, setLng] = useState(null);
   const { uid } = useSelector((state) => state.userSlice);
   const navigate = useNavigate();
 
@@ -39,14 +43,30 @@ function RequestForm({ user, onSubmit }) {
       console.log("IAMPORT 라이브러리가 로드되었습니다.");
     };
 
+    script.onerror = () => {
+      console.error("IAMPORT 라이브러리 로드 실패");
+    };
+
     return () => {
       document.body.removeChild(script);
     };
   }, []);
 
   function onClickPayment() {
-    if (!paymentMethod) {
-      console.error("결제 방식을 선택하여 주시기 바랍니다.");
+    const farmAreaNum = Number(farmArea);
+    const farmEquivalentNum = Number(farmEquivalent);
+
+    // 입력 사항을 입력하지 않았을 경우 견적 제출을 할 수 없습니다.
+    if (
+      isNaN(farmAreaNum) ||
+      farmAreaNum <= 0 ||
+      isNaN(farmEquivalentNum) ||
+      farmEquivalentNum <= 0 ||
+      farmAddress.trim() === "" ||
+      farmName.trim() === "" ||
+      paymentMethod === ""
+    ) {
+      console.log("필수 항목을 모두 입력하여 주시기 바랍니다.");
       return;
     }
 
@@ -76,13 +96,21 @@ function RequestForm({ user, onSubmit }) {
   }
 
   async function callback(response) {
+    console.log("결제 응답: ", response);
     const { success, error_msg } = response;
 
     if (success) {
-      console.log("결제 성공");
+      try {
+        // 결제에 성공하면 견적 내용을 저장하는 함수를 호출하고 뒤로가기를 실행합니다.
+        await handleSubmit();
 
-      // 결제에 성공하면 견적 내용을 저장하는 함수를 호출하고 뒤로가기를 실행합니다.
-      await handleSubmit();
+        console.log("결제 성공");
+
+        // 데이터를 저장한 후에 뒤로가기를 실행합니다.
+        navigate(-1);
+      } catch (error) {
+        console.error("데이터 저장 중 오류 발생: ", error.message);
+      }
     } else {
       console.log(`결제 실패: ${error_msg}`);
     }
@@ -95,14 +123,18 @@ function RequestForm({ user, onSubmit }) {
 
     if (regex.test(value)) {
       setFarmName(value);
-    } else {
-      return false;
     }
   };
 
   // 주소를 받아옵니다.
-  const handleGetAddr = (addr) => {
+  const handleGetAddr = async (addr) => {
     setFarmAddress(addr);
+
+    // 주소의 위도, 경도 값을 가져옵니다.
+    const { lat = null, lng = null } =
+      (await convertingAddressToGeoCode(addr)) || {};
+    setLat(lat);
+    setLng(lng);
   };
 
   // 농장 종류를 변경합니다.
@@ -126,32 +158,21 @@ function RequestForm({ user, onSubmit }) {
     });
   };
 
+  // 현금영수증 발행 여부를 결정하는 함수입니다.
+  const handleCashReceipt = (e) => {
+    setCashReceipt(e.target.checked ? "현금영수증 ○" : "현금영수증 ×");
+  };
+
   // 결제 방식을 변경합니다.
   const handlePaymentMethodChange = (e) => {
     setPaymentMethod(e.target.value);
+    if (e.target.value === "신용카드") {
+      setCashReceipt("현금영수증 ×");
+    }
   };
 
   // 견적 내용을 저장합니다.
-  async function handleSubmit() {
-    const farmAreaNum = Number(farmArea);
-    const farmEquivalentNum = Number(farmEquivalent);
-
-    // 입력 사항을 입력하지 않았을 경우 견적 제출을 할 수 없습니다.
-    if (
-      isNaN(farmAreaNum) ||
-      farmAreaNum <= 0 ||
-      isNaN(farmEquivalentNum) ||
-      farmEquivalentNum <= 0 ||
-      farmAddress.trim() === "" ||
-      farmName.trim() === "" ||
-      paymentMethod === ""
-    ) {
-      console.log(
-        "농장 면적과 동 수는 최소 1 이상, 농장 주소, 이름, 결제내역, 결제방법은 반드시 설정해주시기 바랍니다."
-      );
-      return;
-    }
-
+  const handleSubmit = async () => {
     const today = new Date();
     const year = today.getFullYear();
     const month = String(today.getMonth() + 1).padStart(2, "0");
@@ -167,6 +188,8 @@ function RequestForm({ user, onSubmit }) {
       number: user.number,
       address: user.address,
       farmAddress: farmAddress,
+      lat: parseFloat(lat),
+      lng: parseFloat(lng),
       cropType: cropType,
       facilityType: facilityType,
       additionalOptions: Object.keys(additionalOptions).filter(
@@ -177,33 +200,32 @@ function RequestForm({ user, onSubmit }) {
       farmEquivalent: farmEquivalent,
       createdAt: createdAt,
       paymentMethod: paymentMethod,
+      cashReceipt: cashReceipt,
     };
-    // onSubmit(dataObj);
 
     try {
-      if (uid) {
-        // 사용자의 결제내역에 데이터를 추가합니다.
-        const paymentCollectionRef = collection(db, "payments");
-        await addDoc(paymentCollectionRef, dataObj);
-        console.log("데이터가 성공적으로 추가되었습니다.");
-
-        // 폼 데이터 초기화
-        setFarmAddress("");
-        setFarmName("");
-        setFarmArea("");
-        setFarmEquivalent("");
-        setAdditionalOptions({});
-        setPaymentMethod("");
-        setAccountHolder("");
-        // 이전 페이지로 돌아갑니다.
-        navigate(-1);
-      } else {
-        console.error("사용자 ID가 설정되지 않았습니다.");
-      }
+      const paymentCollectionRef = collection(db, "payments");
+      await addDoc(paymentCollectionRef, dataObj);
+      console.log("데이터가 성공적으로 추가되었습니다.", dataObj);
+      resetForm();
     } catch (error) {
-      console.error("에러가 발생하였습니다: ", error);
+      console.error("에러가 발생하였습니다: ", error.message);
     }
-  }
+  };
+
+  // 폼 데이터 초기화하는 함수입니다.
+  const resetForm = () => {
+    setFarmAddress("");
+    setFarmName("");
+    setFarmArea("");
+    setFarmEquivalent("");
+    setAdditionalOptions({});
+    setPaymentMethod("");
+    setAccountHolder("");
+    setCashReceipt("현금영수증 ×");
+    setLat(null);
+    setLng(null);
+  };
 
   return (
     <form className={styles.requestForm} onSubmit={(e) => e.preventDefault()}>
@@ -344,8 +366,12 @@ function RequestForm({ user, onSubmit }) {
                   )}
                 </div>
                 <label>
-                  <input type="checkbox" value="cashReceipt" />
-                  현금영수증 발행
+                  <input
+                    type="checkbox"
+                    value="현금영수증"
+                    onClick={handleCashReceipt}
+                  />
+                  {cashReceipt}
                 </label>
               </>
             )}

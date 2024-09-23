@@ -1,34 +1,30 @@
-import React from "react";
-import { useComponentContext } from "./ComponentContext";
-import Myinfo from "../components/Mypage/myinfo/Myinfo";
-import MyFarm from "../pages/my-farm/MyFarm";
-import Payment from "../components/Mypage/payment/Payment";
-import Chatbot from "../components/Mypage/chatbot/Chatbot";
-import Asinfo from "../components/Mypage/asinfo/Asinfo";
-import Myletter from "../components/Mypage/myletter/Myletter";
-import Userout from "../components/Mypage/userout/Userout";
-import Mymain from "./../components/Mypage/mymain/Mymain";
+import React from 'react';
+import IntroMyPage from '../pages/MyPage/intro-my-page/IntroMyPage';
+import MyChatbot from '../pages/MyPage/my-chatbot/MyChatbot';
+import Myinfo from '../pages/MyPage/myinfo/Myinfo';
+import Payment from '../pages/MyPage/payment/Payment';
+import { useComponentContext } from './ComponentContext';
 
-function MyPageMenu(props) {
+function MyPageMenu() {
   const { currComp } = useComponentContext();
 
   switch (currComp) {
-    case "Myinfo":
-      return <Myinfo />;
-    case "my-farm":
-      return <MyFarm />;
-    case "Paymentinfo":
+    case 'IntroMyPage':
+      return <IntroMyPage />;
+    case 'Payment':
       return <Payment />;
-    case "Chatbotinfo":
-      return <Chatbot />;
-    case "Asinfo":
-      return <Asinfo />;
-    case "Myletter":
-      return <Myletter />;
-    case "Userout":
-      return <Userout />;
+    case 'Myinfo':
+      return <Myinfo />;
+    case 'MyChatbot':
+      return <MyChatbot />;
+    // case 'Asinfo':
+    //   return <Asinfo />;
+    // case 'Myletter':
+    //   return <Myletter />;
+    // case 'Userout':
+    //   return <Userout />;
     default:
-      return <Mymain />;
+      return <IntroMyPage />;
   }
 }
 

@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import ImageBox from '../../../../../components/image-box/ImageBox';
 import styles from './MemberListItem.module.scss';
 
-function MemberListItem({ detail }) {
+function MemberListItem({ detail, handleEdit }) {
   const {
     address,
     complaneNum,
@@ -15,51 +16,70 @@ function MemberListItem({ detail }) {
     createdAt,
   } = detail;
 
-  const [editedData, setEditedData] = useState();
-
   const navigate = useNavigate();
-
-  console.log(farmAddress);
 
   return (
     <div className={styles.detailInfo}>
-      <span>[FM{createdAt}]</span>
-      <img
-        src={photoUrl.length === 0 ? './img/profile.webp' : photoUrl[0]}
-        alt=""
-      />
-      <ul>
-        <li>이메일: {email}</li>
-        <li>이름: {name}</li>
-        <li>전화번호: {number}</li>
-        <li>주소: {address}</li>
-        <li>닉네임: {nickname}</li>
-        <li>
-          <ul>
-            {farmAddress.length === 0 ? (
-              <li>
-                <span>소유한 농장이 없습니다.</span>
-              </li>
-            ) : (
-              farmAddress.map((addr, idx) => (
-                <li key={idx}>
-                  <span>농장: {addr}</span>
-                </li>
-              ))
-            )}
-          </ul>
-        </li>
-        <li>신고 누적 횟수: {complaneNum}</li>
-      </ul>
-      <div className={styles.btns}>
-        <button>정보수정</button>
-        <button
-          onClick={() =>
-            navigate('/my-farm', { state: { email: email, name: name } })
-          }
-        >
-          스마트팜 관리
-        </button>
+      <ImageBox imgUrl={photoUrl} />
+      <div className={styles.content}>
+        <div className={styles.btns}>
+          <button onClick={handleEdit}>정보수정</button>
+          <button
+            onClick={() =>
+              navigate('/my-farm', {
+                state: {
+                  email: email,
+                  name: name,
+                },
+              })
+            }
+          >
+            스마트팜 관리
+          </button>
+        </div>
+        <ul className={styles.info}>
+          <li>
+            <span className={styles.memberId}>[FM{createdAt}]</span>
+          </li>
+          <li>
+            <span className={styles.nowrap}>이메일</span>
+            <span className={styles.data}>{email}</span>
+          </li>
+          <li>
+            <span className={styles.nowrap}>이름</span>
+            <span className={styles.data}>{name}</span>
+          </li>
+          <li>
+            <span className={styles.nowrap}>전화번호</span>
+            <span className={styles.data}>{number}</span>
+          </li>
+          <li>
+            <span className={styles.wrap}>주소</span>
+            <span className={styles.data}>{address}</span>
+          </li>
+          <li>
+            <span className={styles.nowrap}>닉네임</span>
+            <span className={styles.data}>{nickname}</span>
+          </li>
+          <li>
+            <div className={styles.farmList}>
+              <span className={styles.wrap}>소유한 농장</span>
+              {farmAddress.length === 0 ? (
+                <span className={styles.data}>소유한 농장이 없습니다.</span>
+              ) : (
+                <div className={styles.farmAddr}>
+                  {farmAddress.map((addr, idx) => (
+                    <p key={idx}>{addr}</p>
+                  ))}
+                </div>
+              )}
+            </div>
+          </li>
+          <li>
+            <span className={styles.nowrap}>신고 누적 횟수</span>
+            <span className={styles.data}>{complaneNum || 0}</span>
+          </li>
+        </ul>
       </div>
     </div>
   );
