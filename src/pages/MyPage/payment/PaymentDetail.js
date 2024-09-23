@@ -17,37 +17,44 @@ import axios from "axios";
 function PaymentDetail() {
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState(null);
-  const { createdAt } = useParams();
+  const { imp_uid } = useParams();
 
   // 액세스 토큰을 받아오는 함수입니다.
   const getAccessToken = async () => {
     const impKey = process.env.REACT_APP_IMP_KEY; // 본인의 IMP 키
     const impSecret = process.env.REACT_APP_IMP_SECRET; // 본인의 IMP 비밀키
 
-    const response = await axios.post(
-      "http://localhost:3000/api/getToken", // 실제 API URL
-      {
-        imp_key: impKey,
-        imp_secret: impSecret,
-      },
-      {
-        headers: {
-          "Content-Type": "application/json",
+    try {
+      const response = await axios.post(
+        "https://api.iamport.kr/users/getToken",
+        {
+          imp_key: impKey,
+          imp_secret: impSecret,
         },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      if (response.data.code !== 0) {
+        throw new Error("토큰을 가져오는 데 실패했습니다.");
       }
-    );
 
-    if (response.data.code !== 0) {
-      throw new Error("토큰을 가져오는 데 실패했습니다.");
+      return response.data.response.access_token;
+    } catch (error) {
+      console.error("액세스 토큰 가져오기 에러:", error);
+      throw error;
     }
-
-    return response.data.response.access_token; // 액세스 토큰 반환
   };
 
   // 결제 취소 함수
-  const onPayCancel = async (imp_uid) => {
+  const onPayCancel = async () => {
+    if (!data) return;
+
     const confirm = window.confirm(
-      `결제번호: ${imp_uid} / 결제를 취소하시겠습니까?`
+      `결제번호: ${data.imp_uid} / 결제를 취소하시겠습니까?`
     );
 
     if (confirm) {
@@ -55,10 +62,10 @@ function PaymentDetail() {
       try {
         // 결제 취소 API 호출
         const accessToken = await getAccessToken();
-        await cancelPayment(accessToken, imp_uid);
+        await cancelPayment(accessToken, data.imp_uid);
 
         // Firebase에서 데이터 삭제
-        await deletePaymentData(imp_uid);
+        await deletePaymentData(data.imp_uid);
       } catch (error) {
         console.error("결제 취소 에러 발생: ", error);
       } finally {
@@ -77,7 +84,8 @@ function PaymentDetail() {
   const cancelPayment = async (accessToken, imp_uid) => {
     try {
       const response = await axios.post(
-        process.env.REACT_APP_API_URL, // 실제 API URL로 변경
+        process.env.REACT_APP_API_URL ||
+          "http://localhost:3000/api/cancelPayment",
         { imp_uid },
         { headers: { Authorization: `Bearer ${accessToken}` } }
       );
@@ -94,10 +102,10 @@ function PaymentDetail() {
     const paymentData = async () => {
       setLoading(true);
       try {
-        // payments 컬렉션에서 주문번호로 필터링합니다.
+        // payments 컬렉션에서 imp_uid로 필터링합니다.
         const paymentsQuery = query(
           collection(db, "payments"),
-          where("createdAt", "==", createdAt)
+          where("imp_uid", "==", imp_uid)
         );
         const paymentsSnapshot = await getDocs(paymentsQuery);
 
@@ -117,7 +125,7 @@ function PaymentDetail() {
     };
 
     paymentData();
-  }, [createdAt]);
+  }, [imp_uid]);
   return (
     <div>
       <Container>
@@ -142,7 +150,7 @@ function PaymentDetail() {
               <p>주문번호: {data.createdAt}</p>
               <p>결제 방식: {data.paymentMethod}</p>
               <p>현금영수증: {data.cashReceipt}</p>
-              <button type="button" onClick={() => onPayCancel(data.imp_uid)}>
+              <button type="button" onClick={onPayCancel}>
                 주문 취소
               </button>
             </>

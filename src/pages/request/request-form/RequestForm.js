@@ -22,6 +22,7 @@ function RequestForm({ user }) {
   const [cashReceipt, setCashReceipt] = useState("현금영수증 ×");
   const [lat, setLat] = useState(null);
   const [lng, setLng] = useState(null);
+  const [isIamportLoaded, setIsIamportLoaded] = useState(false);
   const { uid } = useSelector((state) => state.userSlice);
   const navigate = useNavigate();
 
@@ -41,6 +42,7 @@ function RequestForm({ user }) {
     script.onload = () => {
       // 스크립트가 로드된 후의 동작을 여기에 작성할 수 있습니다.
       console.log("IAMPORT 라이브러리가 로드되었습니다.");
+      setIsIamportLoaded(true);
     };
 
     script.onerror = () => {
@@ -53,6 +55,13 @@ function RequestForm({ user }) {
   }, []);
 
   function onClickPayment() {
+    const merchant_uid = `order_${new Date().getTime()}`;
+
+    if (!isIamportLoaded) {
+      console.error("IAMPORT 라이브러리가 로드되지 않았습니다.");
+      return;
+    }
+
     const farmAreaNum = Number(farmArea);
     const farmEquivalentNum = Number(farmEquivalent);
 
@@ -92,21 +101,14 @@ function RequestForm({ user }) {
       buyer_address: user.address,
     };
 
-    IMP.request_pay(data, callback);
+    IMP.request_pay(data, (response) => callback(response, merchant_uid));
   }
 
-  async function callback(response) {
-    console.log("결제 응답: ", response);
-    const { success, error_msg } = response;
-
+  const callback = async (response, merchant_uid) => {
+    const { success, error_msg, imp_uid } = response;
     if (success) {
       try {
-        // 결제에 성공하면 견적 내용을 저장하는 함수를 호출하고 뒤로가기를 실행합니다.
-        await handleSubmit();
-
-        console.log("결제 성공");
-
-        // 데이터를 저장한 후에 뒤로가기를 실행합니다.
+        await handleSubmit(imp_uid, merchant_uid); // handleSubmit에 merchant_uid 전달
         navigate(-1);
       } catch (error) {
         console.error("데이터 저장 중 오류 발생: ", error.message);
@@ -114,7 +116,7 @@ function RequestForm({ user }) {
     } else {
       console.log(`결제 실패: ${error_msg}`);
     }
-  }
+  };
 
   const handleChange = (e) => {
     const value = e.target.value;
@@ -172,7 +174,12 @@ function RequestForm({ user }) {
   };
 
   // 견적 내용을 저장합니다.
-  const handleSubmit = async () => {
+  const handleSubmit = async (imp_uid, merchant_uid) => {
+    if (!imp_uid) {
+      console.error("imp_uid가 필요합니다.");
+      return;
+    }
+
     const today = new Date();
     const year = today.getFullYear();
     const month = String(today.getMonth() + 1).padStart(2, "0");
@@ -201,6 +208,8 @@ function RequestForm({ user }) {
       createdAt: createdAt,
       paymentMethod: paymentMethod,
       cashReceipt: cashReceipt,
+      imp_uid: imp_uid,
+      merchant_uid: merchant_uid,
     };
 
     try {

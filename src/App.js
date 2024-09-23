@@ -1,38 +1,38 @@
-import React from 'react';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import React from "react";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 
-import Layout from './components/layout/Layout';
-import { ComponentProvider } from './context/ComponentContext';
-import LoginPage from './pages/LoginPage/LoginPage';
-import SearchEm from './pages/LoginPage/searchEm/SearchEm';
-import SearchPw from './pages/LoginPage/searchPw/SearchPw';
-import MyPage from './pages/MyPage/MyPage';
-import RegisterPage from './pages/RegisterPage/RegisterPage';
-import About from './pages/about/About';
-import Service from './pages/about/Service';
-import Community from './pages/community/Community';
+import Layout from "./components/layout/Layout";
+import { ComponentProvider } from "./context/ComponentContext";
+import LoginPage from "./pages/LoginPage/LoginPage";
+import SearchEm from "./pages/LoginPage/searchEm/SearchEm";
+import SearchPw from "./pages/LoginPage/searchPw/SearchPw";
+import MyPage from "./pages/MyPage/MyPage";
+import RegisterPage from "./pages/RegisterPage/RegisterPage";
+import About from "./pages/about/About";
+import Service from "./pages/about/Service";
+import Community from "./pages/community/Community";
 
-import Home from './pages/home/Home';
-import Info from './pages/info/Info';
+import Home from "./pages/home/Home";
+import Info from "./pages/info/Info";
 
-import DiseasesItem from './pages/info/diseases/diseases-item/DiseasesItem';
+import DiseasesItem from "./pages/info/diseases/diseases-item/DiseasesItem";
 
-import PostView from './components/board/post-view/PostView';
-import CommunityMenu from './context/CommunityMenu';
-import DashboardMenu from './context/DashboardMenu';
-import InfoMenu from './context/InfoMenu';
-import ManagerMenu from './context/ManagerMenu';
-import MyPageMenu from './context/MyPageMenu';
-import { SectorProvider } from './context/SectorContext';
-import KaKaoLogin from './pages/LoginPage/KaKaoLogin';
-import PaymentDetail from './pages/MyPage/payment/PaymentDetail';
-import Manager from './pages/manager/Manager';
-import MyFarm from './pages/my-farm/MyFarm';
-import FarmList from './pages/my-farm/my-farm-list/FarmList';
-import DashBoard from './pages/my-farm/my-farm-list/dashboard/DashBoard';
-import NotFound from './pages/notFound/NotFound';
-import RequestForQuote from './pages/request/RequestForQuote';
-import './scss/global.scss';
+import PostView from "./components/board/post-view/PostView";
+import CommunityMenu from "./context/CommunityMenu";
+import DashboardMenu from "./context/DashboardMenu";
+import InfoMenu from "./context/InfoMenu";
+import ManagerMenu from "./context/ManagerMenu";
+import MyPageMenu from "./context/MyPageMenu";
+import { SectorProvider } from "./context/SectorContext";
+import KaKaoLogin from "./pages/LoginPage/KaKaoLogin";
+import PaymentDetail from "./pages/MyPage/payment/PaymentDetail";
+import Manager from "./pages/manager/Manager";
+import MyFarm from "./pages/my-farm/MyFarm";
+import FarmList from "./pages/my-farm/my-farm-list/FarmList";
+import DashBoard from "./pages/my-farm/my-farm-list/dashboard/DashBoard";
+import NotFound from "./pages/notFound/NotFound";
+import RequestForQuote from "./pages/request/RequestForQuote";
+import "./scss/global.scss";
 
 function App() {
   return (
@@ -80,7 +80,7 @@ function App() {
             {/* 마이페이지 */}
             <Route path="/Mypage" element={<MyPage />}>
               <Route index element={<MyPageMenu />} />
-              <Route path=":createdAt" element={<PaymentDetail />} />
+              <Route path=":imp_uid" element={<PaymentDetail />} />
             </Route>
           </Route>
           {/* 대시보드 */}

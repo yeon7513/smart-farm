@@ -106,7 +106,7 @@ function QuotationsCare() {
                       <td>{item.facilityType}</td>
                       <td>{item.createdAt}</td>
                       <td>
-                        <Link to={`/mypage/${item.createdAt}`} state={{ item }}>
+                        <Link to={`/mypage/${item.imp_uid}`} state={{ item }}>
                           <button className={styles.button}>자세히 보기</button>
                         </Link>
                       </td>
