@@ -135,6 +135,7 @@ function PaymentDetail() {
               <p>부가 옵션: {data.additionalOptions.join(", ")}</p>
               <p>주문번호: {data.createdAt}</p>
               <p>결제 방식: {data.paymentMethod}</p>
+              <p>현금영수증: </p>
               <button
                 type="button"
                 // onClick={() => onPayCancel(data.imp_uid)}
