@@ -81,6 +81,7 @@
   z-index: 1;
   padding: $padding;
   border: 1px solid $commonColor;
+  border-radius: $borderRadius;
   color: $accentColor;
 
   &::before,

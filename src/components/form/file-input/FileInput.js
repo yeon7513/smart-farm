@@ -5,7 +5,14 @@ import placeholderImg from '../../../assets/member/profile.webp';
 import ImageBox from '../../image-box/ImageBox';
 import styles from './FileInput.module.scss';
 
-function FileInput({ name, setFile, value, initialPreview, selected }) {
+function FileInput({
+  name,
+  setFile,
+  value,
+  initialPreview,
+  selected,
+  className,
+}) {
   const [preview, setPreview] = useState(initialPreview);
   const inputRef = useRef();
 
@@ -33,7 +40,7 @@ function FileInput({ name, setFile, value, initialPreview, selected }) {
   // }, [value]);
 
   return (
-    <div className={styles.fileInput}>
+    <div className={cn(styles.fileInput, className)}>
       <ImageBox isSelected={selected} imgUrl={preview || placeholderImg} />
       <input
         className={styles.hiddenOverlay}

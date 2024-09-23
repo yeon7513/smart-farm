@@ -25,19 +25,6 @@ const userSlice = createSlice({
   initialState,
   reducers: {
     setUser: (state, action) => {
-      // state.email = action.payload.email;
-      // state.token = action.payload.token;
-      // state.uid = action.payload.uid;
-      // state.name = action.payload.name;
-      // state.nick = action.payload.nick;
-      // state.number = action.payload.number;
-      // state.address = action.payload.address;
-      // state.farmAddress = action.payload.farmAddress;
-      // state.photoUrl = action.payload.photoUrl;
-      // state.complaneNum = action.payload.complaneNum;
-      // state.isAuthenticated = true;
-
-      // localStorage.setItem('user', JSON.stringify(state));
       Object.assign(state, action.payload, { isAuthenticated: true });
 
       const { items, ...userWithoutItems } = state;
@@ -71,6 +58,10 @@ const userSlice = createSlice({
         state.isLoading = false;
       })
       .addCase(updateUserInfo.fulfilled, (state, action) => {
+        const idx = state.items.findIndex(
+          (user) => user.docId === action.payload.docId
+        );
+        state.items[idx] = action.payload;
         state.isLoading = false;
       });
   },
