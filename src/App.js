@@ -33,6 +33,8 @@ import DashBoard from "./pages/my-farm/my-farm-list/dashboard/DashBoard";
 import NotFound from "./pages/notFound/NotFound";
 import RequestForQuote from "./pages/request/RequestForQuote";
 import "./scss/global.scss";
+import DisasterLIstItem from "./pages/info/disaster/disaster-list/disaster-list-item/DisasterLIstItem";
+import DisasterPost from "./pages/info/disaster/disasterpost/DisasterPost";
 
 function App() {
   return (

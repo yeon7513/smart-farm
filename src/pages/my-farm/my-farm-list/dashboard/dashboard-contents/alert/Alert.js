@@ -19,7 +19,7 @@ function Alert() {
   const [realState, setRealState] = useState(false);
   const [fruitNum, setFruitNum] = useState("");
   const [farmCode, setFarmCode] = useState("349");
-  const [value, setValue] = useState(3); // 초기 값 설정
+  const [value, setValue] = useState(0); // 초기 값 설정
 
   const handleAddAlert = async () => {
     let content;
