@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from "react";
-import { useSectorContext } from "../../../../../../context/SectorContext";
-import { renameOptions } from "../../../../../../utils/renameOptions";
-import ControlItem from "./control-item/ControlItem";
-import Briefing from "../briefing/Briefing";
-import { useDispatch, useSelector } from "react-redux";
-import { setData } from "../../../../../../store/controlData/controlSlice";
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useSectorContext } from '../../../../../../context/SectorContext';
+import { setData } from '../../../../../../store/controlData/controlSlice';
+import { renameOptionsKor } from '../../../../../../utils/renameOptions';
+import ControlItem from './control-item/ControlItem';
 
 function ControlBox() {
   const { sector } = useSectorContext();
@@ -13,8 +12,8 @@ function ControlBox() {
   const [movedData, setMovedData] = useState([]);
   const dispatch = useDispatch();
   const filteredOptions = Object.entries(sector.control)
-    .filter(([key, value]) => value === "Y")
-    .map(([key, vlaue]) => renameOptions(key));
+    .filter(([key, value]) => value === 'Y')
+    .map(([key, vlaue]) => renameOptionsKor(key));
   useEffect(() => {
     dispatch(
       setData({
@@ -25,53 +24,55 @@ function ControlBox() {
   const handleMoveComponent = (data) => {
     setMovedData((prevData) => [...prevData, data]);
 
-    localStorage.setItem("movedData", JSON.stringify(movedData));
+    localStorage.setItem('movedData', JSON.stringify(movedData));
   };
 
   let db;
-  let request = indexedDB.open("MyDatabase", 1);
+  let request = indexedDB.open('MyDatabase', 1);
 
   // 데이터베이스 업그레이드가 필요할 때 호출
   request.onupgradeneeded = function (event) {
     db = event.target.result;
-    let objectStore = db.createObjectStore("items", {
-      keyPath: "indexId",
-      autoIncrement: true,
+    let objectStore = db.createObjectStore('items', {
+      keyPath: 'docId', // 자동 생성될 키
+      autoIncrement: true, // 키 자동 증가
     });
-    objectStore.createIndex("name", "name", { unique: false });
-    console.log("ObjectStore created or upgraded");
+    objectStore.createIndex('option', 'option', { unique: true });
+    console.log('ObjectStore created or upgraded');
   };
 
   // 데이터베이스가 성공적으로 열렸을 때 호출
   request.onsuccess = function (event) {
     db = event.target.result;
-    console.log("Database opened successfully");
+    console.log('Database opened successfully');
 
     // 배열 형태의 데이터를 추가하는 함수 호출
-    addItem(item);
+    const items = item;
+
+    addItem(items); // docId 없이 데이터를 추가
   };
 
   // 데이터베이스가 열리지 않으면 에러 처리
   request.onerror = function (event) {
-    console.log("Error opening database: ", event.target.errorCode);
+    console.log('Error opening database: ', event.target.errorCode);
   };
 
   // 데이터를 추가하는 함수 (배열로 처리)
   function addItem(items) {
     // 트랜잭션 생성
-    let transaction = db.transaction(["items"], "readwrite");
+    let transaction = db.transaction(['items'], 'readwrite');
 
     // ObjectStore 참조
-    let objectStore = transaction.objectStore("items");
+    let objectStore = transaction.objectStore('items');
 
-    // 배열을 순회하며 각 객체를 추가
+    // 배열을 순회하며 각 객체를 추가 (자동으로 docId 생성됨)
     items.forEach((item) => {
-      let request = objectStore.add(item);
+      let request = objectStore.add(item); // docId 없이 item 추가
       request.onsuccess = function () {
-        console.log("Item added: ", item);
+        console.log('Item added: ', item);
       };
       request.onerror = function () {
-        console.log("Error adding item: ", request.error);
+        console.log('Error adding item: ', request.error);
       };
     });
   }

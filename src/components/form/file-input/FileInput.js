@@ -1,6 +1,6 @@
 import cn from 'classnames';
-import React, { useRef, useState } from 'react';
-import { MdAddCircle, MdCancel } from 'react-icons/md';
+import React, { useEffect, useRef, useState } from 'react';
+import { MdCancel } from 'react-icons/md';
 import placeholderImg from '../../../assets/member/profile.webp';
 import ImageBox from '../../image-box/ImageBox';
 import styles from './FileInput.module.scss';
@@ -18,47 +18,51 @@ function FileInput({
 
   const handleFileChange = (e) => {
     const nextFile = e.target.files[0];
-    setFile(name, nextFile);
+    if (nextFile) {
+      setFile(name, [nextFile]);
+    }
   };
 
   const handleClearClick = () => {
-    const inputNode = inputRef;
-    inputNode.current.value = '';
-    setFile(name, null);
+    if (inputRef.current) {
+      inputRef.current.value = '';
+      setFile(name, []);
+    }
   };
 
-  // useEffect(() => {
-  //   if (!value) return;
+  useEffect(() => {
+    if (!value || !Array.isArray(value) || !(value[0] instanceof Blob)) return;
 
-  //   const nextPreview = URL.createObjectURL(value);
-  //   setPreview(nextPreview);
+    const nextPreview = URL.createObjectURL(value[0]);
+    setPreview((prev) => [...prev, nextPreview]);
 
-  //   return () => {
-  //     setPreview(null);
-  //     URL.revokeObjectURL(nextPreview);
-  //   };
-  // }, [value]);
+    return () => {
+      setPreview([]);
+      URL.revokeObjectURL(nextPreview);
+    };
+  }, [value]);
 
   return (
     <div className={cn(styles.fileInput, className)}>
-      <ImageBox isSelected={selected} imgUrl={preview || placeholderImg} />
+      <ImageBox
+        isSelected={preview.length === 0 ? selected : !selected}
+        imgUrl={preview || placeholderImg}
+      />
       <input
         className={styles.hiddenOverlay}
         type="file"
+        name={name}
         accept="image/*"
         onChange={handleFileChange}
         ref={inputRef}
       />
-      {value ? (
+      {value.length !== 0 && (
         <button
+          type="button"
           className={cn(styles.btn, styles.clearBtn)}
           onClick={handleClearClick}
         >
           <MdCancel />
-        </button>
-      ) : (
-        <button className={cn(styles.btn, styles.addBtn)}>
-          <MdAddCircle />
         </button>
       )}
     </div>

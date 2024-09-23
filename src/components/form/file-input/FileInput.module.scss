@@ -27,5 +27,12 @@
     @include flexCenter();
     font-size: 40px;
     color: #ccc;
+
+    &.clearBtn {
+      &:hover {
+        transform: rotate(180deg);
+        color: var(--hover-color);
+      }
+    }
   }
 }
