@@ -45,7 +45,7 @@ function ChatRoomHeader({ openChatLived,handleBackButtonClick,handleClose, isTra
       </>
     ) : (
       <>
-        <h2 className={styles.title}>아이팜 채팅상담</h2>
+        <h2 className={styles.chattingTitle}>아이팜 채팅상담</h2>
         <button className={styles.closeBtn} onClick={handleClose}>
           <img
             src={closeIcon}

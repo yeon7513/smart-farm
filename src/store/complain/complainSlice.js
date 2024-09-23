@@ -1,8 +1,9 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { getDatas } from "../../api/firebase";
+import { addSetDocDatas, getDatas } from "../../api/firebase";
 
 const initialState = {
-  complain: [],
+  processing: [],
+  processed: [],
   isLoading: false,
   error: null,
 };
@@ -25,6 +26,20 @@ const complainSlice = createSlice({
       .addCase(fetchComplain.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload;
+      })
+
+      // 신고 데이터 추가
+      .addCase(addComplain.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(addComplain.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.complain.push(action.payload); // 성공 시 데이터 추가
+      })
+      .addCase(addComplain.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload;
       });
   },
 });
@@ -34,10 +49,24 @@ export const fetchComplain = createAsyncThunk(
   "complain/fetchComplain",
   async (collectionName) => {
     try {
-      const data = await getDatas(collectionName);
+      const data = await getDatas("complain");
       return data;
     } catch (error) {
       return error;
+    }
+  }
+);
+
+export const addComplain = createAsyncThunk(
+  "complain/addComplain",
+  async ({ collectionName, complainData }, { rejectWithValue }) => {
+    try {
+      // Firestore에 수동으로 문서 ID 설정
+      await addSetDocDatas(collectionName, complainData);
+
+      return complainData; // 추가한 데이터를 리턴
+    } catch (error) {
+      return rejectWithValue(error.message);
     }
   }
 );

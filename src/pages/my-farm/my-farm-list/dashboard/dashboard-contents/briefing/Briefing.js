@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
-import ControlItem from "../control-box/control-item/ControlItem";
+import React, { useState } from "react";
 import { useSelector } from "react-redux";
-import { renameOptions } from "../../../../../../utils/renameOptions";
 import { useSectorContext } from "../../../../../../context/SectorContext";
+import { renameOptions } from "../../../../../../utils/renameOptions";
+import ControlItem from "../control-box/control-item/ControlItem";
 
 function Briefing() {
   const { sector } = useSectorContext();

@@ -5,6 +5,19 @@ function Radio({ selectedRadio, errorMessage }) {
   const handleChange = (e) => {
     selectedRadio(e.target.value);
   };
+  // const categoryMap = {
+  //   ps_01: "광고성 게시글",
+  //   ps_02: "부적절한 게시글",
+  //   ps_03: "중복 게시글 도배",
+  //   pf_01: "부적절한 프로필 사진",
+  //   pf_02: "부적절한 닉네임",
+  // };
+
+  // const handleChange = (e) => {
+  //   const selectedValue = e.target.value;
+  //   const selectedName = categoryMap[selectedValue];
+  //   selectedRadio({ code: selectedValue, name: selectedName });
+  // };
 
   return (
     <form className={styles.complain}>
@@ -29,7 +42,7 @@ function Radio({ selectedRadio, errorMessage }) {
           <input
             type="radio"
             name="complain"
-            value="광고성 게시글"
+            value="ps_01"
             onChange={handleChange}
           />
           <label>광고성 게시글</label>
@@ -38,7 +51,7 @@ function Radio({ selectedRadio, errorMessage }) {
           <input
             type="radio"
             name="complain"
-            value="부적절한 게시글"
+            value="ps_02"
             onChange={handleChange}
           />
           <label>욕설 및 비방, 음란물, 불법, 정치 등 부적절한 게시글</label>
@@ -47,7 +60,7 @@ function Radio({ selectedRadio, errorMessage }) {
           <input
             type="radio"
             name="complain"
-            value="중복 게시물 도배"
+            value="ps_03"
             onChange={handleChange}
           />
           <label>중복 게시물 도배</label>
@@ -56,7 +69,7 @@ function Radio({ selectedRadio, errorMessage }) {
           <input
             type="radio"
             name="complain"
-            value="부적절한 프로필 사진"
+            value="pf_01"
             onChange={handleChange}
           />
           <label>부적절한 프로필 사진</label>
@@ -65,7 +78,7 @@ function Radio({ selectedRadio, errorMessage }) {
           <input
             type="radio"
             name="complain"
-            value="부적절한 닉네임"
+            value="pf_02"
             onChange={handleChange}
           />
           <label>부적절한 닉네임</label>

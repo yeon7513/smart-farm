@@ -11,9 +11,9 @@ import {
 import CustomModal from "../../modal/CustomModal";
 import Radio from "../../complain/Radio";
 import Comment from "../../comment/Comment";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import EditPost from "../edit/EditPost";
-import { addDatas } from "../../../api/firebase";
+import { addComplain } from "../../../store/complain/complainSlice";
 
 function PostView() {
   const loginUser = JSON.parse(localStorage.getItem("user"));
@@ -27,6 +27,8 @@ function PostView() {
   const [post, setPost] = useState(state); // 게시글 상태 추가
   const [errorMessage, setErrorMessage] = useState("");
 
+  const dispatch = useDispatch();
+
   const [selectedReason, setSelectedReason] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const openModal = () => setIsModalOpen(true);
@@ -34,9 +36,11 @@ function PostView() {
 
   const goComplain = async () => {
     if (selectedReason) {
-      const complaintData = {
+      const complainData = {
         defendant: post.nick,
         complainant: loginUser.nick,
+        // reasonCode: selectedReason.code, // 'pf_01' 등의 코드 사용
+        // reasonName: selectedReason.name,
         reason: selectedReason,
         postId: post.docId,
         createdAt: new Date().toISOString().split("T")[0],
@@ -44,12 +48,13 @@ function PostView() {
         processYn: "n",
       };
 
-      const success = await addDatas("complain", complaintData);
-      if (success) {
-        closeModal();
-      } else {
-        console.log("신고 접수 중 오류 발생.");
-      }
+      dispatch(addComplain({ collectionName: "complain", complainData }))
+        .then(() => {
+          closeModal(); // 성공 시 모달 닫기
+        })
+        .catch((error) => {
+          console.log("신고 접수 중 오류 발생:", error);
+        });
     } else {
       setErrorMessage("신고 사유를 선택해주세요.");
     }

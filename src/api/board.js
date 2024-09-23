@@ -48,7 +48,7 @@ export async function uploadImage(path, imgFile) {
   }
 }
 
-async function getLastNum(collectionName, field) {
+export async function getLastNum(collectionName, field) {
   const q = query(
     collection(db, collectionName),
     orderBy(field, "desc"),

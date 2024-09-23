@@ -19,17 +19,17 @@ function Myletter() {
   const dispatch = useDispatch();
   const { myPosts } = useSelector((state) => state.boardSlice);
 
-  useEffect(() => {
-    // 게시물 데이터 로드
-    dispatch(fetchBoardDatas("sharing"));
-  }, [dispatch]);
+  // useEffect(() => {
+  //   // 게시물 데이터 로드
+  //   dispatch(fetchBoardDatas("sharing"));
+  // }, [dispatch]);
 
-  useEffect(() => {
-    // 로그인된 사용자의 게시물만 필터링
-    if (loginUser) {
-      dispatch(filterMyPosts(loginUser));
-    }
-  }, [loginUser, dispatch]);
+  // useEffect(() => {
+  //   // 로그인된 사용자의 게시물만 필터링
+  //   if (loginUser) {
+  //     dispatch(filterMyPosts(loginUser));
+  //   }
+  // }, [loginUser, dispatch]);
 
   return (
     <Container className={style.container}>

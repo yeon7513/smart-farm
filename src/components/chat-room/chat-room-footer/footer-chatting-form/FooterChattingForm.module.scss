@@ -1,0 +1,36 @@
+.chattingForm {
+  display: flex;
+  align-items: center;
+  width: calc(100% + 20px); /* 부모 패딩을 상쇄하도록 너비를 확장 */
+  height: calc(100% + 20px); /* 부모 패딩을 상쇄하도록 높이를 확장 */
+  padding: 10px; /* 내부 여백 */
+  background-color: var(--common-color);
+  border-radius: 10px;
+  // box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  margin: -10px; /* 부모의 padding 값을 음수 margin으로 보정 */
+}
+
+.input {
+  flex: 1; /* 남은 공간을 모두 차지 */
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 16px;
+  background-color: var(--main-color);
+}
+
+.submitButton {
+  padding: 10px 20px;
+  background-color: var(--common-color);
+  color: white;
+  border: none;
+  border-radius: 5px;
+  margin-left: 10px;
+  cursor: pointer;
+  font-weight: bold;
+  border: 1px solid var(--main-color);
+  
+  &:hover {
+background-color: var(--hover-color);
+  }
+}
