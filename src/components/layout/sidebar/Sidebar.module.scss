@@ -1,0 +1,12 @@
+@import '/src/scss/mixins.scss';
+
+.menu {
+  padding: 16px 0;
+  font-size: 20px;
+  text-align: center;
+
+  > button {
+    font-size: 20px;
+    @include linkEffect();
+  }
+}

@@ -67,6 +67,7 @@ const bestfarmSlice = createSlice({
 // 시뮬레이션 페이지에서는
 // 딸기 : S23 / 토마토 : 349 / 파프리카 : SP205 사용중입니다.
 
+// 환경
 export const fetchEnvironmentData = createAsyncThunk(
   "bestFarmData/fetchEnvironmentData",
   async (query) => {
@@ -79,6 +80,7 @@ export const fetchEnvironmentData = createAsyncThunk(
   }
 );
 
+// 생육
 export const fetchGrowthData = createAsyncThunk(
   "bestFarmData/fetchGrowthData",
   async (query) => {
@@ -91,6 +93,7 @@ export const fetchGrowthData = createAsyncThunk(
   }
 );
 
+// 수확
 export const fetchProductionData = createAsyncThunk(
   "bestFarmData/fetchProductionData",
   async (query) => {

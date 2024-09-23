@@ -11,6 +11,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { chartTypes } from "../chart/Charts";
 import Maps from "../map/Maps";
 import { HiMiniCheck } from "react-icons/hi2";
+import * as d3 from "d3";
 
 function HomeChart() {
   const { entireRegion, localRegion, isLoading } = useSelector(
@@ -22,14 +23,12 @@ function HomeChart() {
   const [sort, setSort] = useState("local");
   const [localName, setLocalName] = useState("");
   const [localFarm, setLocalFarm] = useState(null);
-  const mapRef = useRef(null);
   const [userLocation, setUserLocation] = useState(null);
+  const [showUserLocation, setShowUserLocation] = useState(true); // 사용자 위치 표시 여부
 
   const handleLocalClick = (name) => {
     setLocalName(name);
-    // if (mapRef.current && mapRef.current.resetMap) {
-    //   mapRef.current.resetMap();
-    // }
+    setShowUserLocation(false); // 사용자가 클릭하면 사용자 위치 숨기기
   };
 
   // 조회별 렌더링
@@ -41,19 +40,13 @@ function HomeChart() {
   // 데이터 불러오기
   useEffect(() => {
     dispatch(fetchEntireRegion(sort));
-  }, [dispatch, sort]);
-
-  useEffect(() => {
     dispatch(fetchLocalRegion(sort));
   }, [dispatch, sort]);
 
   // 상세 지역 필터링 후 저장
   useEffect(() => {
     const filteredData = localRegion.find((local) => local.local === localName);
-
-    if (!filteredData) {
-      return;
-    } else {
+    if (filteredData) {
       setLocalFarm(filteredData.data);
     }
   }, [localRegion, localName]);
@@ -79,14 +72,29 @@ function HomeChart() {
     }
   }, []);
 
+  // 사용자 위치 지역 클릭
+  useEffect(() => {
+    if (userLocation) {
+      const closestRegion = localRegion.find((local) =>
+        d3.geoContains(local.geometry, [
+          userLocation.longitude,
+          userLocation.latitude,
+        ])
+      );
+
+      if (closestRegion) {
+        handleLocalClick(closestRegion.local); // 지역 클릭 처리
+      }
+    }
+  }, [userLocation, localRegion]);
+
   return (
     <div className={styles.map_chart}>
       <div>
         <Maps
           className={styles.map}
           onRegionClick={handleLocalClick}
-          ref={mapRef}
-          userLocation={userLocation}
+          userLocation={showUserLocation ? userLocation : null} // 사용자 위치를 조건에 따라 전달
         />
       </div>
       <div>
@@ -116,16 +124,6 @@ function HomeChart() {
                   <h2>
                     {sort === "local" ? "스마트팜" : "작물별"} 전체 이용 현황
                   </h2>
-                  {/* <div className={styles.select}>
-                  {chartTypes.map((type, idx) => (
-                    <SelectChartType
-                      key={idx}
-                      {...type}
-                      type={chartType}
-                      handleChange={handleChangeChartType}
-                    />
-                  ))}
-                </div> */}
                   <div className={styles.chart}>
                     <RenderingChart chartType={chartType} data={entireRegion} />
                   </div>
@@ -141,16 +139,6 @@ function HomeChart() {
                   <h2>
                     {sort === "local" ? "스마트팜" : "작물별"} 상세 이용 현황
                   </h2>
-                  {/* <div className={styles.select}>
-                    {chartTypes.map((type, idx) => (
-                      <SelectChartType
-                        key={idx}
-                        {...type}
-                        type={chartType}
-                        handleChange={handleChangeChartType}
-                      />
-                    ))}
-                  </div> */}
                   <div className={styles.chart}>
                     <RenderingChart chartType={chartType} data={localFarm} />
                   </div>

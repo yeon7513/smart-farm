@@ -1,19 +1,26 @@
 .menu {
   .menu_bar {
     display: flex;
-    border: 1px solid #ececec;
-    border-radius: 6px;
-    margin: 6px 0;
 
-    width: 700px;
-    justify-content: space-between;
+    width: 900px;
     padding: 20px;
+    align-items: center;
+    text-align: center;
+    border: 1px solid #e2e2e2;
+    border-radius: 10px;
+    background-color: var(--back-color);
+    font-size: 18px;
+    margin-bottom: 5px;
   }
   .menu_number {
-    width: 50px;
+    width: 40px;
   }
   .title {
     width: 70%;
+    text-align: center;
+  }
+  .name {
+    width: 30%;
     text-align: center;
   }
   .date {
@@ -27,10 +34,5 @@
   .menu_list {
     display: flex;
     justify-content: space-between;
-
-    //   div {
-    //     height: 100%;
-    //     // border-right: 1px solid black;
-    //   }
   }
 }

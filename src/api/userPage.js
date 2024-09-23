@@ -1,20 +1,23 @@
 import {
   collection,
   doc,
+  getDoc,
   getDocs,
-  runTransaction,
   setDoc,
-} from "firebase/firestore";
-import { db } from "./firebase";
+  updateDoc,
+} from 'firebase/firestore';
+import { deleteObject, getStorage, ref } from 'firebase/storage';
+import { uploadImage } from './board';
+import { createPath, db } from './firebase';
 
-export async function joinUser(uid, email, password = "", userInfo = {}) {
+export async function joinUser(uid, email, password = '', userInfo = {}) {
   const userData = {
     email: email,
     password: password,
     createdAt: new Date().getTime(),
     updatedAt: new Date().getTime(),
     photoUrl: [],
-    liked: "",
+    liked: '',
     ...(userInfo.deleteYn && { deleteYn: userInfo.deleteYn }),
     ...(userInfo.address && { address: userInfo.address }),
     ...(userInfo.number && { number: userInfo.number }),
@@ -24,7 +27,7 @@ export async function joinUser(uid, email, password = "", userInfo = {}) {
     ...(userInfo.nickname && { nickname: userInfo.nickname }),
     ...(userInfo.complaneNum && { complaneNum: userInfo.complaneNum }),
   };
-  await setDoc(doc(db, "users", uid), userData);
+  await setDoc(doc(db, 'users', uid), userData);
 }
 export async function LoginGetDatas(collectionName) {
   const collect = await collection(db, collectionName);
@@ -36,22 +39,32 @@ export async function LoginGetDatas(collectionName) {
   return resultData;
 }
 
-export async function addDatasTransJaction(collection, addObj) {
-  try {
-    await runTransaction(db, async (transaction) => {
-      const docRef = doc(db, collection, addObj.id); // 문서 참조 생성
-      const docSnapshot = await transaction.get(docRef); // 해당 문서 가져오기
+export async function updateDatasWithImage(
+  collectionName,
+  docId,
+  updateObj,
+  photoUrl
+) {
+  const docRef = await doc(db, collectionName, docId);
 
-      if (!docSnapshot.exists()) {
-        // 문서가 존재하지 않는 경우 추가
-        transaction.set(docRef, addObj);
-      } else {
-        // 문서가 이미 존재할 경우 처리 (선택적)
-        console.log("Document already exists");
-      }
-    });
-    console.log("Transaction successfully committed!");
-  } catch (error) {
-    console.error("Transaction failed: ", error);
+  const time = new Date().getTime();
+
+  updateObj.updatedAt = time;
+
+  if (updateObj.photoUrl === null) {
+    delete updateObj['photoUrl'];
+  } else {
+    const storage = getStorage();
+    const deleteRef = ref(storage, photoUrl);
+    await deleteObject(deleteRef);
+
+    const url = await uploadImage(createPath('profiles/'), updateObj.photoUrl);
+    updateObj.photoUrl = url;
   }
+
+  await updateDoc(docRef, updateObj);
+  const snapshot = await getDoc(docRef);
+  const resultData = { docId: snapshot.id, ...snapshot.data() };
+
+  return resultData;
 }

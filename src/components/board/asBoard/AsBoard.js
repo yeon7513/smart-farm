@@ -9,17 +9,18 @@ import PasswordModal from "../../modal/PasswordModal";
 
 const PAGE_SIZE = 10;
 
-function AsBoard({ complain, nopost }) {
+function AsBoard({ nopost }) {
   const loginUser = JSON.parse(localStorage.getItem("user"));
+  const { isAuthenticated } = useSelector((state) => state.userSlice);
   const navigate = useNavigate();
+
   const [currentPage, setCurrentPage] = useState(1);
   const [isWriting, setIsWriting] = useState(false); // 글쓰기 모드 상태
   const [view, setView] = useState([]);
-  const { isAuthenticated } = useSelector((state) => state.userSlice);
   const inputRef = useRef(null);
-  const [errorMessage, setErrorMessage] = useState("");
 
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
   const goView = () => setIsModalOpen(false);

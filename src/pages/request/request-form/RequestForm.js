@@ -7,6 +7,7 @@ import { useSelector } from "react-redux";
 import { addDoc, collection } from "firebase/firestore";
 import { db } from "../../../api/firebase";
 import { useNavigate } from "react-router-dom";
+import { convertingAddressToGeoCode } from "./../../../api/geoCode";
 
 function RequestForm({ user }) {
   const [cropType, setCropType] = useState("딸기");
@@ -19,6 +20,8 @@ function RequestForm({ user }) {
   const [paymentMethod, setPaymentMethod] = useState("");
   const [accountHolder, setAccountHolder] = useState("");
   const [cashReceipt, setCashReceipt] = useState("현금영수증 ×");
+  const [lat, setLat] = useState(null);
+  const [lng, setLng] = useState(null);
   const { uid } = useSelector((state) => state.userSlice);
   const navigate = useNavigate();
 
@@ -40,6 +43,10 @@ function RequestForm({ user }) {
       console.log("IAMPORT 라이브러리가 로드되었습니다.");
     };
 
+    script.onerror = () => {
+      console.error("IAMPORT 라이브러리 로드 실패");
+    };
+
     return () => {
       document.body.removeChild(script);
     };
@@ -59,9 +66,7 @@ function RequestForm({ user }) {
       farmName.trim() === "" ||
       paymentMethod === ""
     ) {
-      console.log(
-        "농장 면적과 동 수는 최소 1 이상, 농장 주소, 이름, 결제내역, 결제방법은 반드시 설정해주시기 바랍니다."
-      );
+      console.log("필수 항목을 모두 입력하여 주시기 바랍니다.");
       return;
     }
 
@@ -91,6 +96,7 @@ function RequestForm({ user }) {
   }
 
   async function callback(response) {
+    console.log("결제 응답: ", response);
     const { success, error_msg } = response;
 
     if (success) {
@@ -117,14 +123,18 @@ function RequestForm({ user }) {
 
     if (regex.test(value)) {
       setFarmName(value);
-    } else {
-      return false;
     }
   };
 
   // 주소를 받아옵니다.
-  const handleGetAddr = (addr) => {
+  const handleGetAddr = async (addr) => {
     setFarmAddress(addr);
+
+    // 주소의 위도, 경도 값을 가져옵니다.
+    const { lat = null, lng = null } =
+      (await convertingAddressToGeoCode(addr)) || {};
+    setLat(lat);
+    setLng(lng);
   };
 
   // 농장 종류를 변경합니다.
@@ -178,6 +188,8 @@ function RequestForm({ user }) {
       number: user.number,
       address: user.address,
       farmAddress: farmAddress,
+      lat: parseFloat(lat),
+      lng: parseFloat(lng),
       cropType: cropType,
       facilityType: facilityType,
       additionalOptions: Object.keys(additionalOptions).filter(
@@ -194,7 +206,7 @@ function RequestForm({ user }) {
     try {
       const paymentCollectionRef = collection(db, "payments");
       await addDoc(paymentCollectionRef, dataObj);
-      console.log("데이터가 성공적으로 추가되었습니다.");
+      console.log("데이터가 성공적으로 추가되었습니다.", dataObj);
       resetForm();
     } catch (error) {
       console.error("에러가 발생하였습니다: ", error.message);
@@ -211,6 +223,8 @@ function RequestForm({ user }) {
     setPaymentMethod("");
     setAccountHolder("");
     setCashReceipt("현금영수증 ×");
+    setLat(null);
+    setLng(null);
   };
 
   return (

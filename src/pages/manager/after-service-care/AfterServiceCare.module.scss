@@ -1,0 +1,16 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+}
+
+.state {
+  padding: 10px;
+  div {
+    display: flex;
+    gap: 15px;
+  }
+  button {
+    font-size: 18px;
+  }
+}

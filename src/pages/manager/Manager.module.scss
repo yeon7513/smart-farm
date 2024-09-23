@@ -27,3 +27,64 @@
     gap: 40px;
   }
 }
+
+@import '/src/scss/mixins.scss';
+
+.sidebar {
+  height: 100%;
+  position: sticky;
+  top: 20px;
+  left: 0;
+
+  .menu {
+    width: 100%;
+
+    li {
+      padding-bottom: 16px;
+      > button {
+        font-size: 16px;
+        padding-top: 8px;
+        @include linkEffect();
+      }
+    }
+  }
+
+  /* 작은 모니터 */
+  @media (max-width: 1200px) {
+  }
+  /* 태블릿 */
+  @media (max-width: 992px) {
+    position: static;
+
+    .menu {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 24px;
+    }
+  }
+
+  /* 모바일 */
+  @media (max-width: 768px) {
+    .menu {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-template-rows: repeat(2, 1fr);
+      gap: 14px;
+      padding-bottom: 16px;
+      border-bottom: 2px dotted #efefef;
+
+      li {
+        padding-bottom: 0;
+        text-align: center;
+        > button {
+          font-size: 16px;
+        }
+      }
+    }
+  }
+
+  /* 작은모바일 */
+  @media (max-width: 576px) {
+  }
+}
