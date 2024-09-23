@@ -134,14 +134,14 @@ function PaymentDetail() {
             <GridLoader color="#a2ca71" margin={5} size={20} />
           ) : data ? (
             <>
+              {/* 관리자의 경우 견적 내역이 마이페이지가 아닌 새로운 팝업으로 뜰 것 */}
               <h2>견적 내역</h2>
               <p>이름: {data.name}</p>
+              <p>아이디: {data.email}</p>
               <p>연락처: {data.number}</p>
               <p>주소: {data.address}</p>
               <p>농장 이름: {data.farmName}</p>
               <p>농장 주소: {data.farmAddress}</p>
-              <p>농장 위도: {data.lat}</p>
-              <p>농장 경도: {data.lng}</p>
               <p>작물 종류: {data.cropType}</p>
               <p>농장 종류: {data.facilityType}</p>
               <p>농장 면적: {data.farmArea}</p>

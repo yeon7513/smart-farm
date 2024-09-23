@@ -190,6 +190,7 @@ function RequestForm({ user }) {
 
     const dataObj = {
       uid: user.uid,
+      email: user.email,
       name: user.name,
       nick: user.nick,
       number: user.number,
@@ -212,10 +213,27 @@ function RequestForm({ user }) {
       merchant_uid: merchant_uid,
     };
 
+    // dashboard로 넘겨서 승인여부(useYn)를 검사합니다. (기본값: n)
+    const dashboardObj = {
+      createdAt: `${new Date().getTime()}`,
+      crop: cropType,
+      deleteYn: "N",
+      docId: user.uid,
+      farmName: farmName,
+      latitude: lat,
+      longitude: lng,
+      type: facilityType,
+      updatedAt: `${new Date().getTime()}`,
+      useYn: "N",
+      userId: user.email,
+    };
+
     try {
       const paymentCollectionRef = collection(db, "payments");
+      const dashboardObjCollectionRef = collection(db, "dashboard");
       await addDoc(paymentCollectionRef, dataObj);
-      console.log("데이터가 성공적으로 추가되었습니다.", dataObj);
+      await addDoc(dashboardObjCollectionRef, dashboardObj);
+      console.log("데이터가 성공적으로 추가되었습니다.");
       resetForm();
     } catch (error) {
       console.error("에러가 발생하였습니다: ", error.message);
