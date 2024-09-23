@@ -1,8 +1,9 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { LoginGetDatas } from '../../api/userPage';
+import { LoginGetDatas, updateDatasWithImage } from '../../api/userPage';
 JSON.parse(localStorage.getItem('user'));
+
 const initialState = localStorage.getItem('user')
-  ? JSON.parse(localStorage.getItem('user'))
+  ? { ...JSON.parse(localStorage.getItem('user')), items: [] }
   : {
       email: '',
       token: '',
@@ -12,26 +13,35 @@ const initialState = localStorage.getItem('user')
       number: '',
       address: '',
       farmAddress: '',
+      photoUrl: '',
+      complaneNum: 0,
       isAuthenticated: false,
       items: [],
       isLoading: false,
     };
+
 const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
     setUser: (state, action) => {
-      state.email = action.payload.email;
-      state.token = action.payload.token;
-      state.uid = action.payload.uid;
-      state.name = action.payload.name;
-      state.nick = action.payload.nick;
-      state.number = action.payload.number;
-      state.address = action.payload.address;
-      state.farmAddress = action.payload.farmAddress;
-      state.isAuthenticated = true;
+      // state.email = action.payload.email;
+      // state.token = action.payload.token;
+      // state.uid = action.payload.uid;
+      // state.name = action.payload.name;
+      // state.nick = action.payload.nick;
+      // state.number = action.payload.number;
+      // state.address = action.payload.address;
+      // state.farmAddress = action.payload.farmAddress;
+      // state.photoUrl = action.payload.photoUrl;
+      // state.complaneNum = action.payload.complaneNum;
+      // state.isAuthenticated = true;
 
-      localStorage.setItem('user', JSON.stringify(state));
+      // localStorage.setItem('user', JSON.stringify(state));
+      Object.assign(state, action.payload, { isAuthenticated: true });
+
+      const { items, ...userWithoutItems } = state;
+      localStorage.setItem('user', JSON.stringify(userWithoutItems));
     },
     removeUser: (state) => {
       state.email = '';
@@ -42,6 +52,8 @@ const userSlice = createSlice({
       state.number = '';
       state.address = '';
       state.farmAddress = '';
+      state.photoUrl = '';
+      state.complaneNum = 0;
       state.isAuthenticated = false;
       localStorage.removeItem('user');
     },
@@ -56,6 +68,9 @@ const userSlice = createSlice({
         state.items = action.payload;
       })
       .addCase(fetchItems.rejected, (state) => {
+        state.isLoading = false;
+      })
+      .addCase(updateUserInfo.fulfilled, (state, action) => {
         state.isLoading = false;
       });
   },
@@ -73,6 +88,23 @@ const fetchItems = createAsyncThunk(
   }
 );
 
+const updateUserInfo = createAsyncThunk(
+  'user/updateUserInfo',
+  async ({ collectionName, docId, updateObj, photoUrl }) => {
+    try {
+      const result = await updateDatasWithImage(
+        collectionName,
+        docId,
+        updateObj,
+        photoUrl
+      );
+      return result;
+    } catch (error) {
+      return error;
+    }
+  }
+);
+
 export default userSlice.reducer;
-export { fetchItems };
+export { fetchItems, updateUserInfo };
 export const { setUser, removeUser } = userSlice.actions;

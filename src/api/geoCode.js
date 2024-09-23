@@ -11,8 +11,6 @@ export const convertingAddressToGeoCode = async (addr) => {
     if (response.data.status === 'OK') {
       const location = response.data.results[0].geometry.location;
       return { lat: location.lat, lng: location.lng };
-    } else {
-      console.error('좌표 변환 실패: ', response.status);
     }
   } catch (error) {
     console.error('Geocoding API 호출 실패: ', error);
