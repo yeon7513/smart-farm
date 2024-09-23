@@ -87,6 +87,8 @@
 
   .weather_menu {
     display: flex;
+    // flex-wrap: nowrap;
+    // overflow: auto;
     flex-direction: column;
     flex: 1;
     .mr_today {
@@ -142,56 +144,24 @@
   }
 }
 @media (max-width: 768px) {
-  .loader {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 20px;
-  }
   .weather {
-    padding: 0 !important;
-    border-bottom: 5px solid var(--accent-color);
-    display: block;
     .today {
-      width: 100%;
       h2 {
-        font-size: 30px;
+        font-size: 20px;
       }
-      .weather_bundle {
-        display: flex;
-        position: absolute;
-        top: 200px;
-        right: 100px;
-        // flex-direction: column;
-      }
-      .title {
-        font-size: 18px;
-        display: block;
-        padding: 0 0 0 20px;
-      }
-
       .temperature {
-        display: flex;
-        .weather_main {
-          display: flex;
-          flex-direction: column;
-        }
-        // justify-content: center;
-        font-size: 24px;
-        gap: 6px;
-        margin-top: 6px;
+        font-size: 18px;
       }
       .wind {
-        font-size: 20px;
         flex-direction: column;
-        gap: 3px;
-        padding: 8px 0 0 8px;
       }
       .today_time {
-        // display: flex;
-        // font-size: 18px;
-        // gap: 8px;
-        // padding: 0;
+        display: flex;
+        font-size: 20px;
+        gap: 24px;
+        justify-content: center;
+        padding: 6px;
+
         .sunrise {
           display: flex;
           flex-direction: column;
@@ -200,58 +170,141 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            text-align: center;
+          }
+        }
+
+        .sunset {
+          display: flex;
+          flex-direction: column;
+          div {
+            text-align: center;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
           }
         }
       }
       .weather_icon {
-        width: 150px;
-        // margin-left: 15px;
-        // display: flex;
-        // justify-content: center;
-        // align-items: center;
+        display: flex;
+        justify-content: center;
+        align-items: center;
       }
+    }
+    .precipitation_chance {
+      color: #4f75ff;
+      font-size: 14px;
     }
 
     .weather_menu {
       display: flex;
+      flex-wrap: nowrap;
+      overflow: auto;
       flex-direction: column;
       flex: 1;
       .mr_today {
-        flex: 2;
-        width: 100%;
-        .forecast_item {
-          font-size: 18px;
-          justify-content: space-evenly;
-
-          .time {
-            font-size: 16px;
-          }
-          .title {
-            font-size: 16px;
-            flex-direction: column;
-            gap: 0;
-          }
-        }
-      }
-      .next_day {
-        flex: 1.5;
         display: flex;
+        flex-wrap: nowrap;
+        overflow: auto;
         .forecast_item {
-          border-right: 2px solid var(--accent-color);
-          display: flex;
-          flex-direction: column;
-          justify-content: center;
-          align-items: center;
-          flex: 1;
+          font-size: 16px;
+          padding: 0 10px;
+          .title {
+            font-size: 18px;
+            flex-direction: column;
+          }
           &:last-child {
             border: none;
           }
+        }
+      }
 
+      .next_day {
+        .forecast_item {
           .temp_text {
+            flex-direction: column;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 576px) {
+  .weather {
+    .today {
+      .temperature {
+        font-size: 18px;
+      }
+      .wind {
+        flex-direction: column;
+      }
+      .today_time {
+        display: flex;
+        font-size: 20px;
+        gap: 16px;
+        justify-content: center;
+        padding: 6px;
+
+        .sunrise {
+          display: flex;
+          flex-direction: column;
+          div {
             font-size: 16px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
+            text-align: center;
+          }
+        }
+
+        .sunset {
+          display: flex;
+          flex-direction: column;
+          div {
+            text-align: center;
+            font-size: 16px;
+          }
+        }
+      }
+      .weather_icon {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+    }
+    .precipitation_chance {
+      color: #4f75ff;
+      font-size: 14px;
+    }
+
+    .weather_menu {
+      display: flex;
+      flex-wrap: nowrap;
+      overflow: auto;
+      flex-direction: column;
+      flex: 1;
+      .mr_today {
+        display: flex;
+        flex-wrap: nowrap;
+        overflow: auto;
+        .forecast_item {
+          font-size: 16px;
+          padding: 0 10px;
+
+          .title {
+            font-size: 18px;
+            flex-direction: column;
+          }
+          &:last-child {
+            border: none;
+          }
+        }
+      }
+
+      .next_day {
+        .forecast_item {
+          .temp_text {
+            font-size: 14px;
+            flex-direction: column;
           }
         }
       }

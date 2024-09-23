@@ -75,9 +75,8 @@
   }
 }
 .items {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
   gap: 16px;
 }
 .no_results {
@@ -205,7 +204,8 @@
 
   .items {
     // flex-direction: column;
-    flex-wrap: wrap;
+    // flex-wrap: wrap;
+    grid-template-columns: repeat(2, 1fr);
     gap: 8px;
   }
 
