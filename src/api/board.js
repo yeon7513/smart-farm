@@ -151,7 +151,7 @@ export const getPostById = async (collection, docId) => {
 export async function getComment(collectionName, docId) {
   try {
     const commentRef = collection(db, collectionName, docId, "comment");
-    const q = query(commentRef, orderBy("createdAt", "desc"));
+    const q = query(commentRef, orderBy("createdAt", "asc"));
     const snapshot = await getDocs(q);
 
     const comment = snapshot.docs.map((doc) => ({
