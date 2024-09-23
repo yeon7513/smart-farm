@@ -127,6 +127,8 @@ function PaymentDetail() {
               <p>주소: {data.address}</p>
               <p>농장 이름: {data.farmName}</p>
               <p>농장 주소: {data.farmAddress}</p>
+              <p>농장 위도: {data.lat}</p>
+              <p>농장 경도: {data.lng}</p>
               <p>작물 종류: {data.cropType}</p>
               <p>농장 종류: {data.facilityType}</p>
               <p>농장 면적: {data.farmArea}</p>
