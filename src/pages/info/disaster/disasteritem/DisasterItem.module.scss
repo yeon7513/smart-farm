@@ -96,7 +96,7 @@
 // 모바일
 @media (max-width: 768px) {
   .main {
-    align-items: start;
+    align-items: center;
 
     .button_items {
       gap: 6px;
@@ -108,8 +108,8 @@
     }
 
     .measures {
+      width: 100%;
       display: flex;
-      width: 500px;
       gap: 0.5rem;
       .measures_title {
         h1 {
@@ -145,8 +145,6 @@
 // 작은 모바일
 @media (max-width: 576px) {
   .main {
-    align-items: start;
-
     .button_items {
       gap: 2px;
       .button_item {
@@ -157,9 +155,10 @@
     }
 
     .measures {
+      margin-left: 20px;
       display: flex;
-      width: 350px;
       gap: 0.5rem;
+      width: 100%;
       .measures_title {
         h1 {
           padding: 0px;
