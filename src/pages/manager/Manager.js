@@ -15,16 +15,18 @@ function Manager() {
 
   return (
     <Container className={styles.container}>
-      <ul>
-        {managerSideMenu.map((menu) => (
-          <Sidebar
-            key={menu.comp}
-            comp={menu.comp}
-            name={menu.name}
-            handleClick={setCurrComp}
-          />
-        ))}
-      </ul>
+      <div className={styles.sidebar}>
+        <ul className={styles.menu}>
+          {managerSideMenu.map((menu) => (
+            <Sidebar
+              key={menu.comp}
+              comp={menu.comp}
+              name={menu.name}
+              handleClick={setCurrComp}
+            />
+          ))}
+        </ul>
+      </div>
       <div className={styles.content}>
         <ManagerMenu />
       </div>
