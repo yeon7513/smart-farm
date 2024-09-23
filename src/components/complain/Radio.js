@@ -2,22 +2,22 @@ import React from "react";
 import styles from "./Radio.module.scss";
 
 function Radio({ selectedRadio, errorMessage }) {
-  const handleChange = (e) => {
-    selectedRadio(e.target.value);
-  };
-  // const categoryMap = {
-  //   ps_01: "광고성 게시글",
-  //   ps_02: "부적절한 게시글",
-  //   ps_03: "중복 게시글 도배",
-  //   pf_01: "부적절한 프로필 사진",
-  //   pf_02: "부적절한 닉네임",
-  // };
-
   // const handleChange = (e) => {
-  //   const selectedValue = e.target.value;
-  //   const selectedName = categoryMap[selectedValue];
-  //   selectedRadio({ code: selectedValue, name: selectedName });
+  //   selectedRadio(e.target.value);
   // };
+  const categoryMap = {
+    ps_01: "광고성 게시글",
+    ps_02: "부적절한 게시글",
+    ps_03: "중복 게시글 도배",
+    pf_01: "부적절한 프로필 사진",
+    pf_02: "부적절한 닉네임",
+  };
+
+  const handleChange = (e) => {
+    const selectedValue = e.target.value;
+    const selectedName = categoryMap[selectedValue];
+    selectedRadio({ code: selectedValue, name: selectedName });
+  };
 
   return (
     <form className={styles.complain}>

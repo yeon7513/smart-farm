@@ -2,8 +2,21 @@ import React from "react";
 import styles from "./Radio.module.scss";
 
 function CmRadio({ selectedRadio, errorMessage }) {
+  // const handleChange = (e) => {
+  //   selectedRadio(e.target.value);
+  // };
+
+  const categoryMap = {
+    cm_01: "광고성 댓글",
+    cm_02: "부적절한 댓글",
+    cm_03: "중복 댓글 도배",
+    pf_02: "부적절한 닉네임",
+  };
+
   const handleChange = (e) => {
-    selectedRadio(e.target.value);
+    const selectedValue = e.target.value;
+    const selectedName = categoryMap[selectedValue];
+    selectedRadio({ code: selectedValue, name: selectedName });
   };
 
   return (
@@ -29,7 +42,7 @@ function CmRadio({ selectedRadio, errorMessage }) {
           <input
             type="radio"
             name="complain"
-            value="광고성 댓글"
+            value="cm_01"
             onChange={handleChange}
           />
           <label>광고성 댓글</label>
@@ -38,7 +51,7 @@ function CmRadio({ selectedRadio, errorMessage }) {
           <input
             type="radio"
             name="complain"
-            value="부적절한 댓글"
+            value="cm_02"
             onChange={handleChange}
           />
           <label>욕설 및 비방, 음란물, 불법, 정치 등 부적절한 댓글</label>
@@ -47,7 +60,7 @@ function CmRadio({ selectedRadio, errorMessage }) {
           <input
             type="radio"
             name="complain"
-            value="중복 댓글 도배"
+            value="cm_03"
             onChange={handleChange}
           />
           <label>중복 댓글 도배</label>
@@ -56,7 +69,7 @@ function CmRadio({ selectedRadio, errorMessage }) {
           <input
             type="radio"
             name="complain"
-            value="부적절한 닉네임"
+            value="pf_02"
             onChange={handleChange}
           />
           <label>부적절한 닉네임</label>
