@@ -18,7 +18,7 @@ import Info from "./pages/info/Info";
 import DiseasesItem from "./pages/info/diseases/diseases-item/DiseasesItem";
 
 // import PostView from './components/board/post-view/PostView';
-import PaymentDetail from "./components/Mypage/payment/PaymentDetail";
+// import PaymentDetail from "./components/Mypage/payment/PaymentDetail";
 import PostView from "./components/board/post-view/PostView";
 import CommunityMenu from "./context/CommunityMenu";
 import DashboardMenu from "./context/DashboardMenu";
@@ -34,7 +34,7 @@ import DashBoard from "./pages/my-farm/my-farm-list/dashboard/DashBoard";
 import NotFound from "./pages/notFound/NotFound";
 import RequestForQuote from "./pages/request/RequestForQuote";
 import "./scss/global.scss";
-import Payment from "./components/Mypage/payment/Payment";
+// import Payment from "./components/Mypage/payment/Payment";
 import DisasterLIstItem from "./pages/info/disaster/disaster-list/disaster-list-item/DisasterLIstItem";
 import DisasterPost from "./pages/info/disaster/disasterpost/DisasterPost";
 
@@ -86,7 +86,7 @@ function App() {
             {/* 마이페이지 */}
             <Route path="/Mypage" element={<MyPage />}>
               <Route index element={<MyPageMenu />} />
-              <Route path=":createdAt" element={<PaymentDetail />} />
+              {/* <Route path=":createdAt" element={<PaymentDetail />} /> */}
             </Route>
           </Route>
           {/* 대시보드 */}
@@ -100,8 +100,8 @@ function App() {
           >
             <Route index element={<DashboardMenu />} />
           </Route>
-          {/* <Route path="/404" element={<NotFound />} /> */}
-          {/* <Route path="*" element={<NotFound />} /> */}
+          <Route path="/404" element={<NotFound />} />
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </ComponentProvider>
     </BrowserRouter>
