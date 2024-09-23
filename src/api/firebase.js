@@ -196,6 +196,7 @@ export const addSetDocDatas = async (collectionName, complainData) => {
   }
 };
 
+// 결제를 취소하는 함수입니다.
 export const pointTableCancel = async (pointCertify) => {
   try {
     const paymentsQuery = query(

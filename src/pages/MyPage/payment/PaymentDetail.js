@@ -1,8 +1,15 @@
-import { collection, getDocs, query, where } from "firebase/firestore";
+import {
+  collection,
+  deleteDoc,
+  doc,
+  getDocs,
+  query,
+  where,
+} from "firebase/firestore";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { GridLoader } from "react-spinners";
-import { db, pointTableCancel } from "../../../api/firebase";
+import { db } from "../../../api/firebase";
 import Container from "../../../components/layout/container/Container";
 import styles from "./PaymentDetail.scss";
 import axios from "axios";
@@ -12,48 +19,74 @@ function PaymentDetail() {
   const [data, setData] = useState(null);
   const { createdAt } = useParams();
 
+  // 액세스 토큰을 받아오는 함수입니다.
+  const getAccessToken = async () => {
+    const impKey = process.env.REACT_APP_IMP_KEY; // 본인의 IMP 키
+    const impSecret = process.env.REACT_APP_IMP_SECRET; // 본인의 IMP 비밀키
+
+    const response = await axios.post(
+      "https://api.iamport.kr/users/getToken", // 실제 API URL
+      {
+        imp_key: impKey,
+        imp_secret: impSecret,
+      },
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    if (response.data.code !== 0) {
+      throw new Error("토큰을 가져오는 데 실패했습니다.");
+    }
+
+    return response.data.response.access_token; // 액세스 토큰 반환
+  };
+
   // 결제 취소 함수
-  const onPayCancel = async (pointCertify) => {
+  const onPayCancel = async (imp_uid) => {
     const confirm = window.confirm(
-      `결제번호: ${pointCertify} / 결제를 취소하시겠습니까?`
+      `결제번호: ${imp_uid} / 결제를 취소하시겠습니까?`
     );
 
     if (confirm) {
+      setLoading(true);
       try {
-        const impKey = process.env.REACT_APP_IMP_KEY;
-        const impSecret = process.env.REACT_APP_IMP_SECRET;
+        // 결제 취소 API 호출
+        const accessToken = await getAccessToken();
+        await cancelPayment(accessToken, imp_uid);
 
-        // access_token을 받아옵니다.
-        const tokenResponse = await axios.post(
-          "/users/getToken",
-          {
-            imp_key: impKey,
-            imp_secret: impSecret,
-          },
-          { headers: { "Content-Type": "application/json" } }
-        );
-
-        const { access_token } = tokenResponse.data.response;
-
-        // 결제 취소 요청
-        const cancelResponse = await axios.post(
-          "/payments/cancel",
-          { imp_uid: pointCertify },
-          {
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${access_token}`,
-            },
-          }
-        );
-
-        console.log("결제 취소 완료: ", cancelResponse.data);
-
-        // Firebase에서 결제 정보 삭제
-        await pointTableCancel(pointCertify);
+        // Firebase에서 데이터 삭제
+        await deletePaymentData(imp_uid);
       } catch (error) {
         console.error("결제 취소 에러 발생: ", error);
+      } finally {
+        setLoading(false);
       }
+    }
+  };
+
+  // Firebase에서 결제 데이터 삭제
+  const deletePaymentData = async (imp_uid) => {
+    const paymentDocRef = doc(db, "payments", imp_uid); // pointCertify를 문서 ID로 사용
+    await deleteDoc(paymentDocRef);
+  };
+
+  // 결제 취소 요청 함수
+  const cancelPayment = async (accessToken, imp_uid) => {
+    try {
+      const response = await axios.post(
+        process.env.REACT_APP_API_URL, // 실제 API URL로 변경
+        { imp_uid },
+        { headers: { Authorization: `Bearer ${accessToken}` } }
+      );
+
+      if (response.status !== 200) {
+        throw new Error("결제 취소 요청 실패");
+      }
+    } catch (error) {
+      console.error("결제 취소 에러 발생: ", error);
     }
   };
 
@@ -108,8 +141,8 @@ function PaymentDetail() {
               <p>부가 옵션: {data.additionalOptions.join(", ")}</p>
               <p>주문번호: {data.createdAt}</p>
               <p>결제 방식: {data.paymentMethod}</p>
-              <p>현금영수증: </p>
-              <button type="button" onClick={() => onPayCancel(data.createdAt)}>
+              <p>현금영수증: {data.cashReceipt}</p>
+              <button type="button" onClick={() => onPayCancel(data.imp_uid)}>
                 주문 취소
               </button>
             </>
