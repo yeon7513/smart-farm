@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from "react";
-import styles from "./Payment.module.scss";
-import Container from "../../layout/container/Container";
-import { db } from "../../../api/firebase";
-import { collection, getDocs, query, where } from "firebase/firestore";
-import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { collection, getDocs, query, where } from 'firebase/firestore';
+import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
+import { db } from '../../../api/firebase';
+import Container from '../../../components/layout/container/Container';
+import styles from './Payment.module.scss';
 
 const Payment = () => {
   const [loading, setLoading] = useState(false);
@@ -17,8 +17,8 @@ const Payment = () => {
       try {
         // payments 컬렉션에서 사용자 ID로 필터링합니다.
         const paymentsQuery = query(
-          collection(db, "payments"),
-          where("uid", "==", uid)
+          collection(db, 'payments'),
+          where('uid', '==', uid)
         );
         const paymentsSnapshot = await getDocs(paymentsQuery);
 
@@ -30,7 +30,7 @@ const Payment = () => {
 
         setData(resultData);
       } catch (error) {
-        console.error("Error fetching data:", error);
+        console.error('Error fetching data:', error);
       }
       setLoading(false);
     };

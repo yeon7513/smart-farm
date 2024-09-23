@@ -1,17 +1,16 @@
-import React, { useEffect, useState } from "react";
-import Container from "../../layout/container/Container";
-import styles from "../payment/PaymentDetail.scss";
-import { collection, getDocs, query, where } from "firebase/firestore";
-import { db } from "../../../api/firebase";
-import { useParams } from "react-router-dom";
-import { GridLoader } from "react-spinners";
-import axios from "axios";
+import { collection, getDocs, query, where } from 'firebase/firestore';
+import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import { GridLoader } from 'react-spinners';
+import { db } from '../../../api/firebase';
+import Container from '../../../components/layout/container/Container';
+import styles from './PaymentDetail.scss';
 
 function PaymentDetail() {
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState(null);
   const { createdAt } = useParams();
-  const [jwt, setJwt] = useState("");
+  const [jwt, setJwt] = useState('');
 
   //  // JWT를 설정하는 함수 (로그인 시 호출)
   //  const handleLogin = async (username, password) => {
@@ -92,8 +91,8 @@ function PaymentDetail() {
       try {
         // payments 컬렉션에서 주문번호로 필터링합니다.
         const paymentsQuery = query(
-          collection(db, "payments"),
-          where("createdAt", "==", createdAt)
+          collection(db, 'payments'),
+          where('createdAt', '==', createdAt)
         );
         const paymentsSnapshot = await getDocs(paymentsQuery);
 
@@ -107,7 +106,7 @@ function PaymentDetail() {
         console.log(resultData);
         setData(resultData.length > 0 ? resultData[0] : null);
       } catch (error) {
-        console.error("Error fetching data:", error);
+        console.error('Error fetching data:', error);
       }
       setLoading(false);
     };
@@ -134,7 +133,7 @@ function PaymentDetail() {
               <p>농장 종류: {data.facilityType}</p>
               <p>농장 면적: {data.farmArea}</p>
               <p>농장 동 수: {data.farmEquivalent}</p>
-              <p>부가 옵션: {data.additionalOptions.join(", ")}</p>
+              <p>부가 옵션: {data.additionalOptions.join(', ')}</p>
               <p>주문번호: {data.createdAt}</p>
               <p>결제 방식: {data.paymentMethod}</p>
               <p>현금영수증: </p>
