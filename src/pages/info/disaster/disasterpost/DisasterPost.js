@@ -19,22 +19,23 @@ function DisasterPost(props) {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault(); // 기본 제출 이벤트 방지
+    e.preventDefault();
     setIsSubmitting(true);
 
-    // 현재 날짜를 ISO 형식으로 저장
-    const currentDate = new Date().toISOString();
-
-    // 데이터 객체에 작성 날짜 추가
     const postData = {
       ...values,
-      createdAt: currentDate, // 작성 날짜 추가
+      createdAt: new Date().toISOString().slice(0, 10),
     };
 
+    console.log("Form submitted:", postData);
+    console.log("File attached:", file);
+
     try {
-      // Firebase에 데이터 저장
       await addDatas("disasters", postData);
-      navigate("/info"); // 게시글 목록 페이지로 이동
+      const posts = await getDatas("disasters");
+      console.log(posts);
+
+      navigate("/info");
     } catch (error) {
       console.error("Error saving data: ", error);
     } finally {

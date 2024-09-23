@@ -1,0 +1,20 @@
+.main {
+  //   display: flex;
+
+  .written {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--hover-color);
+
+    .btn {
+      display: flex;
+      gap: 8px;
+      .written_btn {
+        display: flex;
+        border: 1px solid bisque;
+        padding: 10px;
+      }
+    }
+  }
+}
