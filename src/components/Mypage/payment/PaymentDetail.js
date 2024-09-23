@@ -134,10 +134,13 @@ function PaymentDetail() {
               <p>농장 동 수: {data.farmEquivalent}</p>
               <p>부가 옵션: {data.additionalOptions.join(", ")}</p>
               <p>주문번호: {data.createdAt}</p>
-              <p>결제 방식:{data.paymentMethod}</p>
-              <button type="button"
-              // onClick={() => onPayCancel(data.imp_uid)}
-              >주문 취소</button>
+              <p>결제 방식: {data.paymentMethod}</p>
+              <button
+                type="button"
+                // onClick={() => onPayCancel(data.imp_uid)}
+              >
+                주문 취소
+              </button>
             </>
           ) : (
             <p>No data available.</p>
