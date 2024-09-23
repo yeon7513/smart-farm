@@ -19,7 +19,7 @@ function Alert() {
   const [realState, setRealState] = useState(false);
   const [fruitNum, setFruitNum] = useState("");
   const [farmCode, setFarmCode] = useState("349");
-  const [value, setValue] = useState(0); // 초기 값 설정
+  const [value, setValue] = useState(3); // 초기 값 설정
 
   const handleAddAlert = async () => {
     let content;
@@ -52,39 +52,30 @@ function Alert() {
   }
 
   useEffect(() => {
-    const checkTimeAndChangeValue = () => {
-      const now = new Date();
-      const currentHours = now.getHours();
-
-      if (currentHours === 6 && currentHours === 18) {
-        setValue(1);
-      }
-      if (currentHours === 3 && currentHours === 15) {
-      }
-    };
-
-    // 1분마다 현재 시간 체크
-    const intervalId = setInterval(checkTimeAndChangeValue, 60000);
-
-    return () => clearInterval(intervalId); // 컴포넌트 언마운트 시 타이머 정리
+    const now = new Date();
+    const currentHours = now.getMinutes();
+    if (currentHours == 30) {
+      setValue((prevValue) => prevValue + 1);
+    }
   }, []);
 
   useEffect(() => {
     dispatch(getItems({ collectionName: "alert" }));
     dispatch(fetchGrowthData(`searchFrmhsCode=${farmCode}`));
-    const firstThing = growthData.filter((data) => data.frtstCo > 16);
-    firstThing.map((data) => setFruitNum(data.frtstCo));
+    const firstThing = growthData?.filter((data) => data.frtstCo > 16);
+    firstThing?.map((data) => setFruitNum(data.frtstCo));
   }, []);
 
   useEffect(() => {
-    if (value) {
+    if (value === 3) {
       setRealState(true);
       handleAddAlert();
-    } else if (count === value * 0.8) {
+    } else if (value === 2) {
       setRealState(false);
       handleAddAlert();
     }
   }, []);
+  console.log(value);
   return (
     <div className={styles.alert}>
       {items.map((item) => {

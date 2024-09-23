@@ -30,7 +30,6 @@ function ControlBox() {
 
   let db;
   let request = indexedDB.open("MyDatabase", 1);
-
   // 데이터베이스 업그레이드가 필요할 때 호출
   request.onupgradeneeded = function (event) {
     db = event.target.result;
