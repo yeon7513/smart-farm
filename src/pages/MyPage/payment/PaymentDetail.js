@@ -25,7 +25,7 @@ function PaymentDetail() {
     const impSecret = process.env.REACT_APP_IMP_SECRET; // 본인의 IMP 비밀키
 
     const response = await axios.post(
-      "https://api.iamport.kr/users/getToken", // 실제 API URL
+      "http://localhost:3000/api/getToken", // 실제 API URL
       {
         imp_key: impKey,
         imp_secret: impSecret,
