@@ -106,7 +106,8 @@ function QuotationsCare() {
                       <td>{item.facilityType}</td>
                       <td>{item.createdAt}</td>
                       <td>
-                        <Link to={`/mypage/${item.createdAt}`} state={{ item }}>
+                        {/* 일반 사용자는 자세히보기를 누르면 마이페이지 견적 내역 관리자는 모달로 승인여부 결정 */}
+                        <Link to={`/mypage/${item.imp_uid}`} state={{ item }}>
                           <button className={styles.button}>자세히 보기</button>
                         </Link>
                       </td>

@@ -199,11 +199,11 @@ export const addSetDocDatas = async (collectionName, complainData) => {
 };
 
 // 결제를 취소하는 함수입니다.
-export const pointTableCancel = async (pointCertify) => {
+export const pointTableCancel = async (imp_uid) => {
   try {
     const paymentsQuery = query(
       collection(db, "payments"),
-      where("createdAt", "==", pointCertify)
+      where("imp_uid", "==", imp_uid)
     );
     const paymentsSnapshot = await getDocs(paymentsQuery);
 
