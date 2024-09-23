@@ -35,6 +35,8 @@ import NotFound from "./pages/notFound/NotFound";
 import RequestForQuote from "./pages/request/RequestForQuote";
 import "./scss/global.scss";
 import Payment from "./components/Mypage/payment/Payment";
+import DisasterLIstItem from "./pages/info/disaster/disaster-list/disaster-list-item/DisasterLIstItem";
+import DisasterPost from "./pages/info/disaster/disasterpost/DisasterPost";
 
 function App() {
   return (
@@ -55,7 +57,9 @@ function App() {
             {/* 정보 */}
             <Route path="info" element={<Info />}>
               <Route index element={<InfoMenu />} />
-              <Route path=":path" element={<DiseasesItem />} />
+              <Route path="diseases/:path" element={<DiseasesItem />} />
+              <Route path="disaster/:id" element={<DisasterLIstItem />} />
+              <Route path="disaster/write" element={<DisasterPost />} />
             </Route>
             {/* 로그인 */}
             <Route path="login" element={<LoginPage />} />
@@ -96,8 +100,8 @@ function App() {
           >
             <Route index element={<DashboardMenu />} />
           </Route>
-          <Route path="/404" element={<NotFound />} />
-          <Route path="*" element={<NotFound />} />
+          {/* <Route path="/404" element={<NotFound />} /> */}
+          {/* <Route path="*" element={<NotFound />} /> */}
         </Routes>
       </ComponentProvider>
     </BrowserRouter>

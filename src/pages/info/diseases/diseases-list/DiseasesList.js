@@ -123,7 +123,7 @@ function DiseasesList() {
 
                         <div className={styles.item_list}>
                           <Link
-                            to={`/info/${item.cropCode}`}
+                            to={`/info/diseases/${item.cropCode}`}
                             state={{
                               korName: item.korName,
                               cropName: item.cropName,

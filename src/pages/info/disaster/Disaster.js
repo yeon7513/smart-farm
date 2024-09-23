@@ -5,28 +5,19 @@ import { GrFormPrevious } from "react-icons/gr";
 import { MdOutlineNavigateNext } from "react-icons/md";
 import DisasterButton from "./disaster-button/DisasterButton";
 import DisasterItem from "./disasteritem/DisasterItem";
+import { Outlet } from "react-router-dom";
+import Writing from "./writing/Writing";
 
 function Disaster(props) {
   return (
     <div className={styles.main}>
       <div className={styles.list}>
         <DisasterItem />
+        {/* <Outlet /> */}
         <ul>
           <DisasterList />
         </ul>
-      </div>
-
-      <div className={styles.more}>
-        <button>FIRST</button>
-        <button>
-          <GrFormPrevious />
-        </button>
-        <button>1</button>
-        <button>2</button>
-        <button>
-          <MdOutlineNavigateNext />
-        </button>
-        <button>END</button>
+        <Writing />
       </div>
     </div>
   );
