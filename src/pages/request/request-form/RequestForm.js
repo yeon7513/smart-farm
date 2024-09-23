@@ -126,6 +126,11 @@ function RequestForm({ user, onSubmit }) {
     });
   };
 
+  // 현금영수증 발행
+  const handleCashReceipt = (e) => {
+    console.log(e.target.value);
+  };
+
   // 결제 방식을 변경합니다.
   const handlePaymentMethodChange = (e) => {
     setPaymentMethod(e.target.value);
@@ -344,7 +349,11 @@ function RequestForm({ user, onSubmit }) {
                   )}
                 </div>
                 <label>
-                  <input type="checkbox" value="cashReceipt" />
+                  <input
+                    type="checkbox"
+                    value="현금영수증"
+                    onClick={handleCashReceipt}
+                  />
                   현금영수증 발행
                 </label>
               </>
