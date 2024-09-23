@@ -24,6 +24,7 @@ function ChatRoom() {
   // 챗룸의 가시성 상태(챗룸을 닫을 수 있는{숨길 수 있는} 기능) 관리 
 const [isTransitioningToLiveChat, setIsTransitioningToLiveChat] = useState(false);
 const [isLoading, setIsLoading] = useState(false); // 로딩 상태 추가
+const [messages, setMessages] = useState([]);
 
 
 
@@ -139,12 +140,25 @@ const [isLoading, setIsLoading] = useState(false); // 로딩 상태 추가
   if (!isChatRoomOpened) return null;
    // 챗룸이 보이지 않도록 설정
 
- 
+
+  // 메시지 전송 함수
+  const handleSendMessage = (message) => {
+    const newMessage = {
+      content: message,
+      createdAt: new Date(),
+      uid: 'localUser', // 임의의 사용자 ID
+    };
+  
+    setMessages((prevMessages) => [...prevMessages, newMessage]); // 새로운 메시지를 추가하여 상태 업데이트
+  };
 
    // renderContent 내에서만 상태 관리
 const renderContent = () => {
 if (isTransitioningToLiveChat) {
-    return <LiveChatting />; // 1초 후 live-chatting 컴포넌트로 전환 
+    return <LiveChatting // 1초 후 live-chatting 컴포넌트로 전환  
+    messages={messages} 
+    onSendMessage={handleSendMessage} 
+    />; 
   }
 
   if (openChatLived) {
@@ -154,6 +168,7 @@ if (isTransitioningToLiveChat) {
         handleOptionClick={handleOptionClick}
         selectedAnswer={selectedAnswer}
         isLoading={isLoading} 
+        onSendMessage={handleSendMessage}
       />
     );
   }
@@ -167,6 +182,8 @@ if (isTransitioningToLiveChat) {
     />
   );
 };
+
+
 
 
   return (
@@ -189,6 +206,7 @@ if (isTransitioningToLiveChat) {
    <ChatRoomFooter
    openChatLived={openChatLived}
    isTransitioningToLiveChat={isTransitioningToLiveChat}
+   onSendMessage={handleSendMessage}
    />
      {/* 풋터의 영역 */}
     </div>
