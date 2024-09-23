@@ -33,7 +33,7 @@ function FarmList() {
       listData = commonInfo.filter((list) => {
         return list.userId === state.email && list.useYn === 'Y';
       });
-      owner = state.name;
+      owner = `${state.name} 님`;
     } else if (userEmail === 'admin@gmail.com' && state === null) {
       // 관리자가 전체 회원 정보를 조회하는 경우
       listData = commonInfo;

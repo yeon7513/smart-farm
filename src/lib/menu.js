@@ -51,3 +51,44 @@ export const paths = {
     // { path: '/mypage', name: '마이페이지' },
   ],
 };
+
+export const myPageSideMenu = [
+  {
+    label: '내 정보',
+    menu: [
+      { comp: 'IntroMyPage', name: '내 정보 조회' },
+      { comp: 'Myinfo', name: '내 정보 수정' },
+    ],
+  },
+  {
+    label: '결제',
+    menu: [{ comp: 'Payment', name: '결제 내역' }],
+  },
+  {
+    label: '챗봇',
+    menu: [{ comp: 'MyChatbot', name: '챗봇 문의 내역' }],
+  },
+];
+
+export const infoSideMenu = [
+  { comp: 'UsageStatus', name: '이용현황' },
+  { comp: 'Simulation', name: '시뮬레이션' },
+  { comp: 'Diseases', name: '병해충 정보' },
+  { comp: 'Disaster', name: '자연재해 정보' },
+];
+
+export const communitySideMenu = [
+  { comp: 'Notice', name: '공지사항' },
+  { comp: 'Faq', name: 'FAQ' },
+  { comp: 'SharingInformation', name: '정보 공유' },
+  { comp: 'AfterService', name: 'A/S 문의' },
+];
+
+export const managerSideMenu = [
+  { comp: 'OverallStatus', name: '전체 현황' },
+  { comp: 'MembersCare', name: '회원 관리' },
+  { comp: 'QuotationsCare', name: '견적 관리' },
+  { comp: 'ComplaintsCare', name: '신고 관리' },
+  { comp: 'AfterServiceCare', name: 'A/S 관리' },
+  { comp: 'ChatbotCare', name: '챗봇 관리' },
+];

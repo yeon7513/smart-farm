@@ -11,6 +11,7 @@ const INITIAL_VALUE = {
   summary: "",
   createdAt: new Date().toISOString().split("T")[0],
   imgUrl: null,
+  category: "",
 };
 
 function Post({ onClick, onSubmit, category, initialValue = INITIAL_VALUE }) {
@@ -38,7 +39,8 @@ function Post({ onClick, onSubmit, category, initialValue = INITIAL_VALUE }) {
       imgUrl: file || "",
       nick: loginUser?.nick,
       email: loginUser?.email,
-      profileImg: loginUser?.photoUrl,
+      // profileImg: loginUser?.photoUrl,
+      category: category,
     };
 
     try {

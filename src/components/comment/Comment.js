@@ -8,19 +8,21 @@ import {
   updateComment, // 댓글 수정 함수 추가
 } from "../../api/board";
 import CustomModal from "../modal/CustomModal";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import CmRadio from "../complain/CmRadio.js";
 import { addDatas } from "../../api/firebase.js";
+import { addComplain } from "../../store/complain/complainSlice.js";
 
 function Comment({ item }) {
   const loginUser = JSON.parse(localStorage.getItem("user"));
-  const [comments, setComments] = useState([]);
+  const [comments, setComments] = useState("");
   const [newComment, setNewComment] = useState("");
   const [editComment, setEditComment] = useState("");
   const [editCommentId, setEditCommentId] = useState(null);
   const docId = item.docId;
   const collectionName = item.collection;
   const { isAuthenticated } = useSelector((state) => state.userSlice);
+  const dispatch = useDispatch();
 
   const [errorMessage, setErrorMessage] = useState("");
   const [selectedReason, setSelectedReason] = useState("");
@@ -29,24 +31,28 @@ function Comment({ item }) {
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
 
-  const goComplain = async () => {
+  const goComplain = async (comment) => {
     if (selectedReason) {
-      const complaintData = {
-        defendant: item.nick,
+      const complainData = {
+        defendant: comment.nick,
         complainant: loginUser.nick,
-        reason: selectedReason,
-        postId: item.docId,
+        reasonCode: selectedReason.code, // 'pf_01' 등의 코드 사용
+        reasonName: selectedReason.name,
         createdAt: new Date().toISOString().split("T")[0],
         processedAt: "",
         processYn: "n",
+        text: comment.text,
+        category: item.category,
+        postId: item.id,
       };
 
-      const success = await addDatas("complain", complaintData);
-      if (success) {
-        closeModal();
-      } else {
-        console.log("신고 접수 중 오류 발생.");
-      }
+      dispatch(addComplain({ collectionName: "complain", complainData }))
+        .then(() => {
+          closeModal(); // 성공 시 모달 닫기
+        })
+        .catch((error) => {
+          console.log("신고 접수 중 오류 발생:", error);
+        });
     } else {
       setErrorMessage("신고 사유를 선택해주세요.");
     }
@@ -73,7 +79,7 @@ function Comment({ item }) {
       setNewComment(""); // 입력 필드 초기화
       getComments();
     }
-    console.log(commentObj);
+    // console.log(commentObj);
   };
 
   // 댓글 수정 모드로 전환하는 함수
@@ -174,7 +180,7 @@ function Comment({ item }) {
                         <div>
                           <button
                             className={styles.complain}
-                            onClick={openModal}
+                            onClick={() => openModal(comment)}
                           >
                             🚨신고하기
                           </button>
@@ -183,7 +189,7 @@ function Comment({ item }) {
                             btnName={"접수"}
                             handleClose={closeModal}
                             isOpen={isModalOpen}
-                            btnHandler={goComplain}
+                            btnHandler={() => goComplain(comment)}
                             className={styles.modal}
                           >
                             <CmRadio

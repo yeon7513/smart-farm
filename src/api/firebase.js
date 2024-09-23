@@ -195,3 +195,25 @@ export const addSetDocDatas = async (collectionName, complainData) => {
     console.error("setDoc 에러 발생: ", error);
   }
 };
+
+// 결제를 취소하는 함수입니다.
+export const pointTableCancel = async (pointCertify) => {
+  try {
+    const paymentsQuery = query(
+      collection(db, "payments"),
+      where("createdAt", "==", pointCertify)
+    );
+    const paymentsSnapshot = await getDocs(paymentsQuery);
+
+    // 결제 문서가 있으면 삭제합니다.
+    if (!paymentsSnapshot.empty) {
+      const docRef = paymentsSnapshot.docs[0].ref;
+      await deleteDoc(docRef);
+      console.log("결제 정보가 삭제되었습니다.");
+    } else {
+      console.log("결제 정보를 찾을 수 없습니다.");
+    }
+  } catch (error) {
+    console.error("결제 정보 삭제 실패: ", error);
+  }
+};

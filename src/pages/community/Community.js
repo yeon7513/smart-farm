@@ -1,10 +1,12 @@
-import React from "react";
-import { Outlet, useNavigate } from "react-router-dom";
-import Container from "../../components/layout/container/Container";
-import Title from "../../components/layout/title/Title";
-import { useComponentContext } from "../../context/ComponentContext";
-import { communityTitle } from "../../lib/intro";
-import styles from "./community.module.scss";
+import React from 'react';
+import { Outlet, useNavigate } from 'react-router-dom';
+import Container from '../../components/layout/container/Container';
+import Sidebar from '../../components/layout/sidebar/Sidebar';
+import Title from '../../components/layout/title/Title';
+import { useComponentContext } from '../../context/ComponentContext';
+import { communityTitle } from '../../lib/intro';
+import { communitySideMenu } from '../../lib/menu';
+import styles from './community.module.scss';
 
 function Community() {
   const { currComp, setCurrComp } = useComponentContext();
@@ -14,7 +16,7 @@ function Community() {
 
   const handleChangeTitles = (compName) => {
     setCurrComp(compName);
-    navigate("/community");
+    navigate('/community');
   };
 
   return (
@@ -22,38 +24,14 @@ function Community() {
       <Title {...titleProps} />
       <Container className={styles.container}>
         <ul className={styles.links}>
-          <li>
-            <button
-              className={currComp === "Notice" ? styles.active : ""}
-              onClick={() => handleChangeTitles("Notice")}
-            >
-              공지사항
-            </button>
-          </li>
-          <li>
-            <button
-              className={currComp === "Faq" ? styles.active : ""}
-              onClick={() => handleChangeTitles("Faq")}
-            >
-              FAQ
-            </button>
-          </li>
-          <li>
-            <button
-              className={currComp === "SharingInformation" ? styles.active : ""}
-              onClick={() => handleChangeTitles("SharingInformation")}
-            >
-              정보 공유
-            </button>
-          </li>
-          <li>
-            <button
-              className={currComp === "AfterService" ? styles.active : ""}
-              onClick={() => handleChangeTitles("AfterService")}
-            >
-              A/S 문의
-            </button>
-          </li>
+          {communitySideMenu.map((menu) => (
+            <Sidebar
+              key={menu.comp}
+              comp={menu.comp}
+              name={menu.name}
+              handleClick={handleChangeTitles}
+            />
+          ))}
         </ul>
         <div className={styles.content}>
           <Outlet />

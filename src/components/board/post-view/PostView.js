@@ -39,13 +39,17 @@ function PostView() {
       const complainData = {
         defendant: post.nick,
         complainant: loginUser.nick,
-        // reasonCode: selectedReason.code, // 'pf_01' 등의 코드 사용
-        // reasonName: selectedReason.name,
-        reason: selectedReason,
-        postId: post.docId,
+        reasonCode: selectedReason.code, // 'pf_01' 등의 코드 사용
+        reasonName: selectedReason.name,
+        // reason: selectedReason,
+        category: post.category,
+        postId: post.id,
         createdAt: new Date().toISOString().split("T")[0],
         processedAt: "",
         processYn: "n",
+        // profileUrl: post.photoUrl,
+        title: post.title,
+        summary: post.summary,
       };
 
       dispatch(addComplain({ collectionName: "complain", complainData }))
@@ -91,11 +95,7 @@ function PostView() {
 
   useEffect(() => {
     updatePostCount();
-
-    if (!isAuthenticated) {
-      navigate("/login");
-    }
-  }, [post.collection, post.docId, isAuthenticated]);
+  }, []);
 
   if (!state) {
     return <div>게시글을 불러오는 중입니다...</div>;

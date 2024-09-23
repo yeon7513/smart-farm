@@ -1,8 +1,9 @@
 import React, { useEffect } from 'react';
 import Container from '../../components/layout/container/Container';
+import Sidebar from '../../components/layout/sidebar/Sidebar';
 import { useComponentContext } from '../../context/ComponentContext';
 import ManagerMenu from '../../context/ManagerMenu';
-import ManagerSidebar from './manager-sidebar/ManagerSidebar';
+import { managerSideMenu } from '../../lib/menu';
 import styles from './Manager.module.scss';
 
 function Manager() {
@@ -14,7 +15,18 @@ function Manager() {
 
   return (
     <Container className={styles.container}>
-      <ManagerSidebar />
+      <div className={styles.sidebar}>
+        <ul className={styles.menu}>
+          {managerSideMenu.map((menu) => (
+            <Sidebar
+              key={menu.comp}
+              comp={menu.comp}
+              name={menu.name}
+              handleClick={setCurrComp}
+            />
+          ))}
+        </ul>
+      </div>
       <div className={styles.content}>
         <ManagerMenu />
       </div>
