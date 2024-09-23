@@ -18,7 +18,6 @@ import Info from "./pages/info/Info";
 import DiseasesItem from "./pages/info/diseases/diseases-item/DiseasesItem";
 
 // import PostView from './components/board/post-view/PostView';
-// import PaymentDetail from "./components/Mypage/payment/PaymentDetail";
 import PostView from "./components/board/post-view/PostView";
 import CommunityMenu from "./context/CommunityMenu";
 import DashboardMenu from "./context/DashboardMenu";
@@ -27,6 +26,9 @@ import ManagerMenu from "./context/ManagerMenu";
 import MyPageMenu from "./context/MyPageMenu";
 import { SectorProvider } from "./context/SectorContext";
 import KaKaoLogin from "./pages/LoginPage/KaKaoLogin";
+import PaymentDetail from "./pages/MyPage/payment/PaymentDetail";
+import DisasterLIstItem from "./pages/info/disaster/disaster-list/disaster-list-item/DisasterLIstItem";
+import DisasterPost from "./pages/info/disaster/disasterpost/DisasterPost";
 import Manager from "./pages/manager/Manager";
 import MyFarm from "./pages/my-farm/MyFarm";
 import FarmList from "./pages/my-farm/my-farm-list/FarmList";
@@ -34,9 +36,6 @@ import DashBoard from "./pages/my-farm/my-farm-list/dashboard/DashBoard";
 import NotFound from "./pages/notFound/NotFound";
 import RequestForQuote from "./pages/request/RequestForQuote";
 import "./scss/global.scss";
-// import Payment from "./components/Mypage/payment/Payment";
-import DisasterLIstItem from "./pages/info/disaster/disaster-list/disaster-list-item/DisasterLIstItem";
-import DisasterPost from "./pages/info/disaster/disasterpost/DisasterPost";
 
 function App() {
   return (
@@ -86,7 +85,7 @@ function App() {
             {/* 마이페이지 */}
             <Route path="/Mypage" element={<MyPage />}>
               <Route index element={<MyPageMenu />} />
-              {/* <Route path=":createdAt" element={<PaymentDetail />} /> */}
+              <Route path=":createdAt" element={<PaymentDetail />} />
             </Route>
           </Route>
           {/* 대시보드 */}

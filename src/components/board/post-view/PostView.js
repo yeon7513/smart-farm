@@ -95,7 +95,13 @@ function PostView() {
 
   useEffect(() => {
     updatePostCount();
-  }, []);
+  }, [post.docId]);
+
+  useEffect(() => {
+    if (!isAuthenticated) {
+      navigate("/login");
+    }
+  }, [isAuthenticated, navigate]);
 
   if (!state) {
     return <div>게시글을 불러오는 중입니다...</div>;
@@ -103,82 +109,78 @@ function PostView() {
 
   return (
     <>
-      {isAuthenticated ? (
-        <div className={styles.container}>
-          {isEditing ? (
-            <EditPost
-              post={post}
-              setIsEditing={setIsEditing}
-              onPostUpdate={handlePostUpdate}
-            />
-          ) : (
-            <>
-              <div className={styles.title}>
-                <div>
-                  <h2>{post.title}</h2>
-                </div>
-                <div>
-                  <div className={styles.titleBar}>
-                    <div className={styles.profile}>
-                      <img src={post.profileImg} />
-                      <p>작성자: {post.nick}</p>
-                    </div>
-                    <p>작성일: {post.createdAt}</p>
-                    <p>조회수: {count}</p>
-                  </div>
-                  {post.nick === loginUser.nick ? (
-                    <div className={styles.test}>
-                      <button onClick={() => setIsEditing(true)}>수정</button>
-                      <p>/</p>
-                      <button onClick={handleDeletePost}>삭제</button>
-                    </div>
-                  ) : (
-                    post.complain && (
-                      <div className={styles.complain}>
-                        <button onClick={openModal}>🚨 신고하기</button>
-                        <CustomModal
-                          title={"신고하기"}
-                          btnName={"접수"}
-                          handleClose={closeModal}
-                          isOpen={isModalOpen}
-                          btnHandler={goComplain}
-                          className={styles.modal}
-                        >
-                          <Radio
-                            selectedRadio={setSelectedReason}
-                            errorMessage={errorMessage}
-                          />
-                        </CustomModal>
-                      </div>
-                    )
-                  )}
-                </div>
-              </div>
-
-              <div className={styles.content}>
-                <div>{post.summary}</div>
-                <div>
-                  {state.imgUrl ? (
-                    <img src={post.imgUrl} alt="첨부 이미지" />
-                  ) : (
-                    ""
-                  )}
-                </div>
-              </div>
-
+      <div className={styles.container}>
+        {isEditing ? (
+          <EditPost
+            post={post}
+            setIsEditing={setIsEditing}
+            onPostUpdate={handlePostUpdate}
+          />
+        ) : (
+          <>
+            <div className={styles.title}>
               <div>
-                <Comment item={post} />
+                <h2>{post.title}</h2>
               </div>
+              <div>
+                <div className={styles.titleBar}>
+                  <div className={styles.profile}>
+                    <img src={post.profileImg} />
+                    <p>작성자: {post.nick}</p>
+                  </div>
+                  <p>작성일: {post.createdAt}</p>
+                  <p>조회수: {count}</p>
+                </div>
+                {post.nick === loginUser?.nick ? (
+                  <div className={styles.test}>
+                    <button onClick={() => setIsEditing(true)}>수정</button>
+                    <p>/</p>
+                    <button onClick={handleDeletePost}>삭제</button>
+                  </div>
+                ) : (
+                  post.complain && (
+                    <div className={styles.complain}>
+                      <button onClick={openModal}>🚨 신고하기</button>
+                      <CustomModal
+                        title={"신고하기"}
+                        btnName={"접수"}
+                        handleClose={closeModal}
+                        isOpen={isModalOpen}
+                        btnHandler={goComplain}
+                        className={styles.modal}
+                      >
+                        <Radio
+                          selectedRadio={setSelectedReason}
+                          errorMessage={errorMessage}
+                        />
+                      </CustomModal>
+                    </div>
+                  )
+                )}
+              </div>
+            </div>
 
-              <div className={styles.back}>
-                <button onClick={() => navigate(-1)}>목록으로</button>
+            <div className={styles.content}>
+              <div>{post.summary}</div>
+              <div>
+                {state.imgUrl ? (
+                  <img src={post.imgUrl} alt="첨부 이미지" />
+                ) : (
+                  ""
+                )}
               </div>
-            </>
-          )}
-        </div>
-      ) : (
-        navigate("/login")
-      )}
+            </div>
+
+            <div>
+              <Comment item={post} />
+            </div>
+
+            <div className={styles.back}>
+              <button onClick={() => navigate(-1)}>목록으로</button>
+            </div>
+          </>
+        )}
+      </div>
     </>
   );
 }

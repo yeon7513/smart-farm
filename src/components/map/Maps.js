@@ -84,8 +84,9 @@ const Maps = forwardRef(
         if (closestRegion) {
           svg
             .select(`#${closestRegion.properties.CTP_ENG_NM}`)
-            .attr("fill", "#8adab2");
+            .attr("fill", "#00a76b"); // 사용자 위치 강조
           setSelectedRegion(closestRegion.properties.CTP_KOR_NM);
+          onRegionClick(closestRegion.properties.CTP_KOR_NM); // 자동 클릭 처리
         }
       }
 

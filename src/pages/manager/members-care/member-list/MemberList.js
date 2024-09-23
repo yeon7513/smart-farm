@@ -1,5 +1,6 @@
 import React from 'react';
 import Card from '../../../../components/card/Card';
+import ImageBox from '../../../../components/image-box/ImageBox';
 import styles from './MemberList.module.scss';
 
 function MemberList({ data, setIsOpen, setUserDetail }) {
@@ -13,15 +14,7 @@ function MemberList({ data, setIsOpen, setUserDetail }) {
       <Card className={styles.card}>
         <h3 className={styles.id}>[FM{data.createdAt}]</h3>
         <div className={styles.content}>
-          <img
-            className={styles.profile}
-            src={
-              data.photoUrl.length === 0
-                ? './img/profile.webp'
-                : data.photoUrl[0]
-            }
-            alt=""
-          />
+          <ImageBox imgUrl={data.photoUrl} />
           <ul className={styles.info}>
             <li>
               <span className={styles.label}>이름</span>

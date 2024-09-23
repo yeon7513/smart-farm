@@ -57,7 +57,7 @@ export const myPageSideMenu = [
     label: '내 정보',
     menu: [
       { comp: 'IntroMyPage', name: '내 정보 조회' },
-      { comp: 'Myinfo', name: '내 정보 수정' },
+      { comp: 'InfoEdit', name: '내 정보 수정' },
     ],
   },
   {
