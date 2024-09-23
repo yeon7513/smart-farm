@@ -14,6 +14,7 @@ function Myinfo(props) {
   const [nameState, SetnameState] = useState(false);
   const [inputValue, setInputValue] = useState("");
   const [inputValueSub, setInputValueSub] = useState("");
+  const [inputValueThird, setInputValueThird] = useState("");
   const [passwordState, setPasswordState] = useState("");
   const [passwordInfo, setPasswordInfoState] = useState("");
   const [addressState, SetaddressState] = useState(false);
@@ -27,7 +28,6 @@ function Myinfo(props) {
   const navigate = useNavigate();
   const { items } = useSelector((state) => state.userSlice);
   const dispatch = useDispatch();
-
   useEffect(() => {
     dispatch(fetchItems({ collectionName: "users" }));
     const passwordSameThing = items.find((item) => {
@@ -48,6 +48,9 @@ function Myinfo(props) {
   };
   const handleChangeSub = (event) => {
     setInputValueSub(event.target.value);
+  };
+  const handleChangeThird = (event) => {
+    setInputValueThird(event.target.value);
   };
 
   const handleSameNamethingConfirm = async () => {
@@ -72,11 +75,14 @@ function Myinfo(props) {
         name: inputValue,
       };
       const { docId } = SameNameChange;
-      await updateDatas("users", docId, updateObj);
-      const updatedUser = { ...localChange, name: inputValue };
-      setUser(updatedUser);
-      // localChange.name = inputValue;
-      localStorage.setItem("user", JSON.stringify(updatedUser));
+      if (updateObj.name.length !== 0) {
+        await updateDatas("users", docId, updateObj);
+        const updatedUser = { ...localChange, name: inputValue };
+        setUser(updatedUser);
+        localStorage.setItem("user", JSON.stringify(updatedUser));
+      } else {
+        return false;
+      }
     } else {
       SetnameState(true);
     }
@@ -103,10 +109,14 @@ function Myinfo(props) {
         nickname: inputValue,
       };
       const { docId } = SameNickNameChange;
-      await updateDatas("users", docId, updateObj);
-      const updatedUser = { ...localChange, nick: inputValue };
-      setUser(updatedUser);
-      localStorage.setItem("user", JSON.stringify(updatedUser));
+      if (updateObj.nickname.length !== 0) {
+        await updateDatas("users", docId, updateObj);
+        const updatedUser = { ...localChange, nick: inputValue };
+        setUser(updatedUser);
+        localStorage.setItem("user", JSON.stringify(updatedUser));
+      } else {
+        return false;
+      }
     } else {
       SetnicknameState(true);
     }
@@ -120,11 +130,15 @@ function Myinfo(props) {
       });
       const updateObj = {
         ...passwordChange,
-        password: inputValue,
+        password: inputValueThird,
       };
       const { docId } = passwordChange;
-      if (inputValue != passwordChange.password) {
-        await updateDatas("users", docId, updateObj);
+      if (updateObj.password.length !== 0) {
+        if (inputValueThird != passwordChange.password) {
+          await updateDatas("users", docId, updateObj);
+        } else {
+          return false;
+        }
       }
     } else {
       setPasswordState(true);
@@ -141,7 +155,6 @@ function Myinfo(props) {
       alert("비밀번호가 틀립니다.");
     }
   };
-
   const handleAddressChange = async () => {
     if (addressState === true) {
       SetaddressState(false);
@@ -152,36 +165,23 @@ function Myinfo(props) {
         ...addressSameThing,
         address: toManyState,
       };
+
       const { docId } = addressSameThing;
-      if (addressSameThing.address != toManyState) {
-        await updateDatas("users", docId, updateObj);
-        const updatedUser = { ...localChange, address: toManyState };
-        setUser(updatedUser);
-        localStorage.setItem("user", JSON.stringify(updatedUser));
+      if (toManyState.length > 1) {
+        if (addressSameThing.address != toManyState) {
+          await updateDatas("users", docId, updateObj);
+          const updatedUser = { ...localChange, address: toManyState };
+          setUser(updatedUser);
+          localStorage.setItem("user", JSON.stringify(updatedUser));
+        }
+      } else if (toManyState.length <= 1) {
+        return false;
       }
     } else {
       SetaddressState(true);
     }
   };
-  // const handleFarmAddressChange = async () => {
-  //   if (farmAddressState === true) {
-  //     SetFarmAddressState(false);
-  //     const addressSameThing = items.find((item) => {
-  //       return item.name == localChange.name;
-  //     });
-  //     const updateObj = {
-  //       ...addressSameThing,
-  //       farmAddress: [farmAddress],
-  //     };
 
-  //     const { docId } = addressSameThing;
-  //     if (addressSameThing.farmAddress != farmAddress) {
-  //       await updateDatas("users", docId, updateObj);
-  //     }
-  //   } else {
-  //     SetFarmAddressState(true);
-  //   }
-  // };
   return (
     <Container className={style.container}>
       <div className={style.headers}>
@@ -289,7 +289,7 @@ function Myinfo(props) {
               <div className={style.passwordInput}>
                 <input
                   className={style.input}
-                  onChange={handleChange}
+                  onChange={handleChangeThird}
                   type="password"
                 />
                 <button className={style.secretButton}>확인</button>
@@ -313,25 +313,6 @@ function Myinfo(props) {
           )}
         </div>
         {addressState === true ? <SearchAddr getAddr={SetToManyState} /> : ""}
-
-        {/* <div className={style.name}>
-          <div className={style.titleName}>
-            <span>농장</span>
-          </div>
-          <div className={style.title}>{passwordInfo.farmAddress}</div>
-          {farmAddressState === true ? (
-            <button className={style.Change} onClick={handleFarmAddressChange}>
-              변경 완료
-            </button>
-          ) : (
-            <button onClick={handleFarmAddressChange}>변경</button>
-          )}
-        </div> */}
-        {/* {farmAddressState === true ? (
-          <SearchAddr getAddr={setFarmAddress} />
-        ) : (
-          ""
-        )} */}
       </div>
     </Container>
   );
