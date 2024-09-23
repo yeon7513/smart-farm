@@ -16,7 +16,6 @@ import { addComplain } from "../../store/complain/complainSlice.js";
 function Comment({ item }) {
   const loginUser = JSON.parse(localStorage.getItem("user"));
   const [comments, setComments] = useState("");
-  // console.log(comments);
   const [newComment, setNewComment] = useState("");
   const [editComment, setEditComment] = useState("");
   const [editCommentId, setEditCommentId] = useState(null);
@@ -32,18 +31,19 @@ function Comment({ item }) {
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
 
-  const goComplain = async () => {
+  const goComplain = async (comment) => {
     if (selectedReason) {
       const complainData = {
-        defendant: item.nick,
+        defendant: comment.nick,
         complainant: loginUser.nick,
         reasonCode: selectedReason.code, // 'pf_01' 등의 코드 사용
         reasonName: selectedReason.name,
-        postId: item.docId,
         createdAt: new Date().toISOString().split("T")[0],
         processedAt: "",
         processYn: "n",
-        // text: comments.text,
+        text: comment.text,
+        category: item.category,
+        postId: item.id,
       };
 
       dispatch(addComplain({ collectionName: "complain", complainData }))
@@ -180,7 +180,7 @@ function Comment({ item }) {
                         <div>
                           <button
                             className={styles.complain}
-                            onClick={openModal}
+                            onClick={() => openModal(comment)}
                           >
                             🚨신고하기
                           </button>
@@ -189,7 +189,7 @@ function Comment({ item }) {
                             btnName={"접수"}
                             handleClose={closeModal}
                             isOpen={isModalOpen}
-                            btnHandler={goComplain}
+                            btnHandler={() => goComplain(comment)}
                             className={styles.modal}
                           >
                             <CmRadio

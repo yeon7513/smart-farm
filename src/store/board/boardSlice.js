@@ -1,30 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { getBoardDatas, updatePost } from "../../api/board";
 
-export const fetchBoardDatas = createAsyncThunk(
-  "board/fetchBoardDatas",
-  async (category) => {
-    try {
-      const data = await getBoardDatas(category);
-      return data;
-    } catch (error) {
-      return error;
-    }
-  }
-);
-
-export const updateBoardDatas = createAsyncThunk(
-  "board/updateBoardDatas",
-  async ({ category, docId, updateObj }) => {
-    try {
-      const result = await updatePost(category, docId, updateObj);
-      return result;
-    } catch (error) {
-      return error;
-    }
-  }
-);
-
 const initialState = {
   posts: [], // 전체 게시글
   myPosts: [], // 로그인한 사용자의 게시글
@@ -69,6 +45,30 @@ const boardSlice = createSlice({
       });
   },
 });
+
+export const fetchBoardDatas = createAsyncThunk(
+  "board/fetchBoardDatas",
+  async (category) => {
+    try {
+      const data = await getBoardDatas(category);
+      return data;
+    } catch (error) {
+      return error;
+    }
+  }
+);
+
+export const updateBoardDatas = createAsyncThunk(
+  "board/updateBoardDatas",
+  async ({ category, docId, updateObj }) => {
+    try {
+      const result = await updatePost(category, docId, updateObj);
+      return result;
+    } catch (error) {
+      return error;
+    }
+  }
+);
 
 export const { filterMyPosts } = boardSlice.actions;
 export default boardSlice.reducer;

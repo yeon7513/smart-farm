@@ -11,6 +11,7 @@ const INITIAL_VALUE = {
   summary: "",
   createdAt: new Date().toISOString().split("T")[0],
   imgUrl: null,
+  completedYn: "n",
 };
 
 function AsPost({ onClick, onSubmit, initialValue = INITIAL_VALUE }) {

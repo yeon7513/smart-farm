@@ -9,9 +9,8 @@ function Diseases(props) {
     <>
       {/* <Input /> */}
       <div className={styles.main}>
-        {/* {pests && <pre>{JSON.stringify(pests, null, 2)}</pre>} */}
         <div className={styles.list}>
-          <Outlet />
+          {/* <Outlet /> */}
           <DiseasesList />
         </div>
       </div>
