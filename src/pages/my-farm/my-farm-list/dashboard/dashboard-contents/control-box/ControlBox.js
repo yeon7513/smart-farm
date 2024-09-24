@@ -4,11 +4,18 @@ import { useSectorContext } from "../../../../../../context/SectorContext";
 import { setData } from "../../../../../../store/controlData/controlSlice";
 import { renameOptionsKor } from "../../../../../../utils/renameOptions";
 import ControlItem from "./control-item/ControlItem";
+import { getBoardDatas } from "../../../../../../api/board";
+import { LoginGetDatas } from "../../../../../../api/userPage";
+import { useLocation } from "react-router-dom";
+import { collection, query } from "firebase/firestore";
 
 function ControlBox() {
   const { sector } = useSectorContext();
+  const { state } = useLocation();
   const [movedData, setMovedData] = useState([]);
+  const [docIdInfo, setDocIdInfo] = useState("");
   const dispatch = useDispatch();
+
   const filteredOptions = Object.entries(sector.control)
     .filter(([key, value]) => value === "Y")
     .map(([key, vlaue]) => renameOptionsKor(key));
@@ -21,13 +28,13 @@ function ControlBox() {
     );
   }, []);
 
+  // ControlItem 클릭시 해당 Item의 정보를 받는 함수
   const handleMoveComponent = (data) => {
     setMovedData((prevData) => [...prevData, data]);
-
-    localStorage.setItem("movedData", JSON.stringify(movedData));
   };
+  console.log(docIdInfo);
+  // indexed DB 함수
   let db;
-
   // 데이터베이스를 여는 함수
   function openDatabase() {
     let request = indexedDB.open("MyDatabase", 1);
@@ -57,7 +64,7 @@ function ControlBox() {
     };
   }
 
-  function addUniqueData(movedData) {
+  async function addUniqueData(movedData) {
     // 데이터베이스가 열려 있지 않은 경우 오류 처리
     if (!db) {
       console.error("데이터베이스가 열리지 않았습니다.");
@@ -95,41 +102,37 @@ function ControlBox() {
     };
   }
 
+  const handleDashboardData = async () => {
+    const dashboardInfo = await LoginGetDatas("dashboard");
+    const boardInfo = dashboardInfo.filter(
+      (data) => data.docId === state.docId
+    );
+    boardInfo.forEach((item) => {
+      setDocIdInfo(item.docId);
+    });
+  };
+  console.log(docIdInfo);
   // 데이터베이스 열기 호출
+  useEffect(() => {
+    openDatabase();
+    handleDashboardData();
+  }, []);
 
-  openDatabase();
-
-  // function deleteDatabase(dbName) {
-  //   // 데이터베이스 삭제 요청
-  //   const request = indexedDB.deleteDatabase(dbName);
-
-  //   request.onsuccess = function () {
-  //     console.log(`${dbName} 데이터베이스 삭제 성공`);
-  //   };
-
-  //   request.onerror = function (event) {
-  //     console.error(`${dbName} 데이터베이스 삭제 실패`, event);
-  //   };
-
-  //   request.onblocked = function () {
-  //     console.log(`${dbName} 데이터베이스 삭제가 차단되었습니다.`);
-  //   };
-  // }
-
-  // deleteDatabase("MyDatabase"); // 삭제할 데이터베이스 이름
   return (
     <>
-      <div>
-        {filteredOptions.map((option, idx) => (
-          <ControlItem
-            key={idx}
-            idx={idx}
-            option={option}
-            onMoveComponent={handleMoveComponent}
-            state={false}
-          />
-        ))}
-      </div>
+      {docIdInfo === state.docId && (
+        <div>
+          {filteredOptions.map((option, idx) => (
+            <ControlItem
+              key={idx}
+              idx={idx}
+              option={option}
+              onMoveComponent={handleMoveComponent}
+              state={false}
+            />
+          ))}
+        </div>
+      )}
     </>
   );
 }

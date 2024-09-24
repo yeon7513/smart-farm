@@ -4,13 +4,18 @@ import { useSectorContext } from "../../../../../../context/SectorContext";
 import { renameOptions } from "../../../../../../utils/renameOptions";
 import ControlItem from "../control-box/control-item/ControlItem";
 import { DBdeleteData } from "../../../../../../api/indexedDB";
+import { useLocation } from "react-router-dom";
+import { LoginGetDatas } from "../../../../../../api/userPage";
 
 function Briefing() {
+  const { state } = useLocation();
   const { sector } = useSectorContext();
   const { item } = useSelector((state) => state.controlSlice);
   const [someState, setSomeState] = useState([]);
+  const [docIdInfo, setDocIdInfo] = useState("");
   const [openDB, setOpenDB] = useState(null);
   const [count, setCount] = useState(0);
+
   const filteredOptions = Object.entries(sector?.control || {})
     .filter(([key, value]) => value === "Y")
     .map(([key, value]) => renameOptions(key));
@@ -84,7 +89,11 @@ function Briefing() {
     openDatabase();
   }, [count]);
 
-  // 삭제 버튼 클릭 시 DBdeleteData 호출
+  // useEffect(async () => {
+  //   const dashboardInfo = await LoginGetDatas("dashboard");
+  //   setDocIdInfo(dashboardInfo.docId);
+  // }, []);
+  // 아이템 삭제
   const handleDeleteItem = (docId) => {
     if (openDB) {
       DBdeleteData(openDB, "myStore", docId);
@@ -95,20 +104,22 @@ function Briefing() {
   };
 
   return (
-    <div>
-      {correctValue?.map((data, idx) => {
-        return (
-          <ControlItem
-            option={data.option}
-            docId={data.docId}
-            key={idx}
-            idx={idx}
-            state={true}
-            handleDeleteItem={handleDeleteItem}
-          />
-        );
-      })}
-    </div>
+    <>
+      <div>
+        {correctValue?.map((data, idx) => {
+          return (
+            <ControlItem
+              option={data.option}
+              docId={data.docId}
+              key={idx}
+              idx={idx}
+              state={true}
+              handleDeleteItem={handleDeleteItem}
+            />
+          );
+        })}
+      </div>
+    </>
   );
 }
 export default Briefing;

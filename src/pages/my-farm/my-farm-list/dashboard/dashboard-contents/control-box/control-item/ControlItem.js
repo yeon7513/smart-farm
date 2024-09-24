@@ -8,7 +8,7 @@ function ControlItem({
   onMoveComponent,
   state,
   handleDeleteItem,
-  docId
+  docId,
 }) {
   const { sector } = useSectorContext();
   const handleControlContent = () => {
@@ -16,7 +16,6 @@ function ControlItem({
       option,
       idx,
       id: sector.id,
-      // docId: sector.id * 2,
     });
   };
   return (
