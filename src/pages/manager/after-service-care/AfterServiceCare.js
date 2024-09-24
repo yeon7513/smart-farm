@@ -7,24 +7,39 @@ import {
   fetchCompleted,
   fetchCompleting,
 } from "../../../store/as-service/AsServiceSlide";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import AsCareItem from "./asItem/AsCareItem";
 
 function AfterServiceCare(props) {
-  const [complete, setComplete] = useState("processing");
+  const [complete, setComplete] = useState("completing");
   const dispatch = useDispatch();
+  const { completing, completed } = useSelector(
+    (state) => state.AsServiceSlide
+  );
 
   // 처리별 렌더링
   const handleProcessClick = (selectedComplete) => {
     setComplete(selectedComplete);
   };
 
+  // useEffect(() => {
+  //   dispatch(fetchCompleting(complete));
+  // }, [dispatch, complete]);
+
+  // useEffect(() => {
+  //   dispatch(fetchCompleted(complete));
+  // }, [dispatch, complete]);
   useEffect(() => {
-    dispatch(fetchCompleting(complete));
+    if (complete === "completing") {
+      dispatch(fetchCompleting());
+    } else if (complete === "completed") {
+      dispatch(fetchCompleted());
+    }
   }, [dispatch, complete]);
 
-  useEffect(() => {
-    dispatch(fetchCompleted(complete));
-  }, [dispatch, complete]);
+  const filteredData = () => {
+    return complete === "completing" ? completing : completed;
+  };
 
   return (
     <div className={styles.afterService}>
@@ -42,7 +57,7 @@ function AfterServiceCare(props) {
         </div>
       </div>
       <div>
-        <AsBoard nopost={false} />
+        <AsCareItem items={filteredData()} />
       </div>
     </div>
   );

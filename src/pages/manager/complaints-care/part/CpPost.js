@@ -4,32 +4,52 @@ import ex from "../../../../assets/main/logo2.png";
 import { Link } from "react-router-dom";
 import CustomModal from "../../../../components/modal/CustomModal";
 import CpModal from "./CpModal";
+import { useDispatch } from "react-redux";
+import { deleteBoardDatas } from "../../../../store/board/boardSlice";
+import { approveComplaint } from "../../../../store/complain/complainSlice";
 
 function CpPost({ item }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
 
+  const dispatch = useDispatch();
+
   const goProcessed = () => {
+    dispatch(
+      approveComplaint({ userId: item.defendant, complaintId: item.id })
+    );
     setIsModalOpen(false);
+  };
+
+  const handleDeletePost = () => {
+    dispatch(deleteBoardDatas({ category: item.category, docId: item.postId }))
+      .then(() => {
+        alert("게시글이 성공적으로 삭제되었습니다.");
+        setIsModalOpen(false); // 모달 닫기
+      })
+      .catch((error) => {
+        alert("게시글 삭제 중 오류가 발생했습니다.");
+        console.error(error);
+      });
   };
 
   return (
     <>
       <div className={styles.flex_box}>
         <div className={styles.post}>
-          <div className={styles.title}>
-            <h2>{item.title}</h2>
-            <div>
-              <img src={ex} alt="" />
-              <h4>{item.defendant}</h4>
+          <Link to={`/community/${item.category}/${item.postId}`}>
+            <div className={styles.title}>
+              <h2>{item.title}</h2>
+              <div>
+                <img src={ex} alt="" />
+                <h4>{item.defendant}</h4>
+              </div>
             </div>
-          </div>
-          <div>
-            <Link to={`/community/${item.category}/${item.postId}`}>
+            <div>
               <h3>{item.summary}</h3>
-            </Link>
-          </div>
+            </div>
+          </Link>
         </div>
         <div className={styles.care}>
           <p>신고사유: {item.reasonName}</p>
@@ -62,16 +82,16 @@ function CpPost({ item }) {
                 <div className={styles.modlaContent}>
                   <div>{item.summary}</div>
                   <div>
-                    {/* {state.imgUrl ? (
-                    <img src={post.imgUrl} alt="첨부 이미지" />
-                  ) : (
-                    ""
-                  )} */}
+                    {item.imgUrl ? (
+                      <img src={item.imgUrl} alt="첨부 이미지" />
+                    ) : (
+                      ""
+                    )}
                   </div>
                 </div>
               </div>
               <div className={styles.processBtn}>
-                <button>게시글 삭제</button>
+                <button onClick={() => handleDeletePost()}>게시글 삭제</button>
                 <button>활동 정지</button>
               </div>
             </CustomModal>

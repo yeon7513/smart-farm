@@ -14,6 +14,7 @@ import Comment from "../../comment/Comment";
 import { useDispatch, useSelector } from "react-redux";
 import EditPost from "../edit/EditPost";
 import { addComplain } from "../../../store/complain/complainSlice";
+import { GridLoader } from "react-spinners";
 
 function PostView() {
   const loginUser = JSON.parse(localStorage.getItem("user"));
@@ -50,6 +51,7 @@ function PostView() {
         // profileUrl: post.photoUrl,
         title: post.title,
         summary: post.summary,
+        imgUrl: post.imgUrl,
       };
 
       dispatch(addComplain({ collectionName: "complain", complainData }))
@@ -95,7 +97,7 @@ function PostView() {
 
   useEffect(() => {
     updatePostCount();
-  }, [post.docId]);
+  }, []);
 
   useEffect(() => {
     if (!isAuthenticated) {
@@ -104,7 +106,11 @@ function PostView() {
   }, [isAuthenticated, navigate]);
 
   if (!state) {
-    return <div>게시글을 불러오는 중입니다...</div>;
+    return (
+      <div className={styles.loading}>
+        <GridLoader color="#a2ca71" margin={5} size={20} />
+      </div>
+    );
   }
 
   return (
