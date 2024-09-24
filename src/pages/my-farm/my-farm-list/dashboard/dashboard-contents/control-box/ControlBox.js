@@ -4,19 +4,15 @@ import { useSectorContext } from "../../../../../../context/SectorContext";
 import { setData } from "../../../../../../store/controlData/controlSlice";
 import { renameOptionsKor } from "../../../../../../utils/renameOptions";
 import ControlItem from "./control-item/ControlItem";
-import { getBoardDatas } from "../../../../../../api/board";
-import { LoginGetDatas } from "../../../../../../api/userPage";
 import { useLocation } from "react-router-dom";
-import { collection, query } from "firebase/firestore";
 
 function ControlBox() {
   const { sector } = useSectorContext();
   const { state } = useLocation();
   const [movedData, setMovedData] = useState([]);
-  const [docIdInfo, setDocIdInfo] = useState("");
   const dispatch = useDispatch();
-
-  const filteredOptions = Object.entries(sector.control)
+  console.log(state.docId);
+  const filteredOptions = Object.entries(sector?.control || {})
     .filter(([key, value]) => value === "Y")
     .map(([key, vlaue]) => renameOptionsKor(key));
 
@@ -26,13 +22,12 @@ function ControlBox() {
         Data: movedData,
       })
     );
-  }, []);
-
+  }, [movedData]);
+  console.log(movedData);
   // ControlItem 클릭시 해당 Item의 정보를 받는 함수
   const handleMoveComponent = (data) => {
     setMovedData((prevData) => [...prevData, data]);
   };
-  console.log(docIdInfo);
   // indexed DB 함수
   let db;
   // 데이터베이스를 여는 함수
@@ -44,7 +39,7 @@ function ControlBox() {
       db = event.target.result;
       if (!db.objectStoreNames.contains("myStore")) {
         db.createObjectStore("myStore", {
-          keyPath: "docId",
+          keyPath: "boxId",
           autoIncrement: true,
         });
         console.log("Object Store 생성 완료");
@@ -102,37 +97,23 @@ function ControlBox() {
     };
   }
 
-  const handleDashboardData = async () => {
-    const dashboardInfo = await LoginGetDatas("dashboard");
-    const boardInfo = dashboardInfo.filter(
-      (data) => data.docId === state.docId
-    );
-    boardInfo.forEach((item) => {
-      setDocIdInfo(item.docId);
-    });
-  };
-  console.log(docIdInfo);
   // 데이터베이스 열기 호출
-  useEffect(() => {
-    openDatabase();
-    handleDashboardData();
-  }, []);
+
+  openDatabase();
 
   return (
     <>
-      {docIdInfo === state.docId && (
-        <div>
-          {filteredOptions.map((option, idx) => (
-            <ControlItem
-              key={idx}
-              idx={idx}
-              option={option}
-              onMoveComponent={handleMoveComponent}
-              state={false}
-            />
-          ))}
-        </div>
-      )}
+      <div>
+        {filteredOptions.map((option, idx) => (
+          <ControlItem
+            key={idx}
+            idx={idx}
+            option={option}
+            onMoveComponent={handleMoveComponent}
+            state={false}
+          />
+        ))}
+      </div>
     </>
   );
 }

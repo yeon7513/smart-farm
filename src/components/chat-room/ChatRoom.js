@@ -3,22 +3,23 @@ import styles from "./ChatRoom.module.scss";
 import closeIcon from "../../assets/main/closeImg.svg";
 import backIcon from "../../assets/main/backImg.svg";
 import { useSelector } from "react-redux";
-import { getOrder } from "../../api/firebase";
+import { db, getOrder } from "../../api/firebase";
 import ChatRoomHeader from "./chat-room-header/ChatRoomHeader";
 import ChatRoomFooter from "./chat-room-footer/ChatRoomFooter";
 import ChatOptions from "./chat-options/ChatOptions";
 import FaqQuestions from "./faq-questions/FaqQuestions";
 import LiveChatting from "./chat-options/live-chatting/LiveChatting";
 import { BeatLoader } from "react-spinners";
+import { collection, onSnapshot, orderBy, query } from "firebase/firestore";
 
-function ChatRoom() {
+function ChatRoom({chatroomId}) {
   const [selectedAnswer, setSelectedAnswer] = useState(''); 
  // 질문 선택 여부 관리
   const [isStartChatSelected, setIsStartChatSelected] = useState(false); 
   // '무엇을 도와드릴까요?' 화면에서 채팅상담 시작하기 버튼 클릭했을 때 '세부 선택' 화면으로 전환 여부 관리
   const [rankedFaqData, setRankedFaqData] = useState([]); 
   // 추천수 순위가 정렬된 FAQ 데이터를 관리
- const [openChatLived, setOpenChatLived] = useState(false); 
+ const [isLiveChatOpend, setIsLiveChatOpend] = useState(false); 
  // '세부 선택' 화면에서 '채팅상담원 연결하기' 질문 선택 여부 관리
  const [isChatRoomOpened, setIsChatRoomOpened] = useState(true);
   // 챗룸의 가시성 상태(챗룸을 닫을 수 있는{숨길 수 있는} 기능) 관리 
@@ -57,7 +58,7 @@ const [messages, setMessages] = useState([]);
   };
 
   useEffect( () => {
-    if(selectedAnswer && openChatLived) {
+    if(selectedAnswer && isLiveChatOpend) {
       // answer이 선택되면 1초 후에 live-chatting으로 전환
    setIsLoading(true);
    
@@ -72,7 +73,26 @@ const [messages, setMessages] = useState([]);
   
   console.log('Is transitioning to LiveChat:', isTransitioningToLiveChat); // 상태 변화 확인 로그 추가
   
+  useEffect(() => {
+    // chatroomId가 있을 때만 Firestore 쿼리 실행
+    if (!chatroomId) return;
 
+    const q = query(
+      collection(db, 'chatroom', chatroomId, 'message'), // 실제 채팅방 ID로 교체
+      orderBy('createdAt', 'asc')
+    );
+
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+      const fetchedMessages = snapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+      setMessages(fetchedMessages); // 메시지 상태 업데이트
+    });
+
+    return () => unsubscribe(); // 컴포넌트 언마운트 시 구독 해제
+  }, [chatroomId]); // chatroomId가 상태나 props에서 변화할 때만 실행
+  
 
   //  chatOptionsData 화면에서 사용할 추가 질문과 답변
   const chatOptionsData = [
@@ -93,7 +113,7 @@ const [messages, setMessages] = useState([]);
 
   const handleBackButtonClick = () => {
     setIsStartChatSelected(false); // "뒤로 가기" 버튼 클릭 시 이전 화면으로 전환
-    setOpenChatLived(false); // 추가 질문 선택 상태 초기화
+    setIsLiveChatOpend(false); // 추가 질문 선택 상태 초기화
     setSelectedAnswer(""); // 선택된 답변 초기화
     setIsTransitioningToLiveChat(false); // 뒤로 가기 시 전환 초기화
   };
@@ -102,7 +122,7 @@ const [messages, setMessages] = useState([]);
     // 첫번째 화면에서 FAQ 버튼 클릭 시의 동작 정의 -> 클릭 시 FaqQuestions 화면으로 이동 
     if (id === "chattingCounselor") {
       // '채팅 상담사 연결하기' 질문을 선택한 경우 (올바른 ID로 수정)
-      setOpenChatLived(true); // 추가 질문 화면으로 전환
+      setIsLiveChatOpend(true); // 추가 질문 화면으로 전환
       setIsStartChatSelected(true);
       setSelectedAnswer("");
     } else {
@@ -161,7 +181,7 @@ if (isTransitioningToLiveChat) {
     />; 
   }
 
-  if (openChatLived) {
+  if (isLiveChatOpend) {
     return (
       <ChatOptions 
         chatOptionsData={chatOptionsData}
@@ -189,7 +209,7 @@ if (isTransitioningToLiveChat) {
   return (
     <div className={styles.wrapper}>
    <ChatRoomHeader
-   openChatLived={openChatLived}
+   isLiveChatOpend={isLiveChatOpend}
   //   5번째 추가버튼(채팅상담원) 선택지 이동 
    handleBackButtonClick={handleBackButtonClick}
   //  뒤로가기 버튼
@@ -204,7 +224,7 @@ if (isTransitioningToLiveChat) {
       </div>
 
    <ChatRoomFooter
-   openChatLived={openChatLived}
+   isLiveChatOpend={isLiveChatOpend}
    isTransitioningToLiveChat={isTransitioningToLiveChat}
    onSendMessage={handleSendMessage}
    />

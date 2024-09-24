@@ -85,23 +85,18 @@ function Briefing() {
     return filteredOptions.includes(data.option) && data.id === sector.id;
   });
 
-  useEffect(() => {
-    openDatabase();
-  }, [count]);
-
-  // useEffect(async () => {
-  //   const dashboardInfo = await LoginGetDatas("dashboard");
-  //   setDocIdInfo(dashboardInfo.docId);
-  // }, []);
-  // 아이템 삭제
   const handleDeleteItem = (docId) => {
     if (openDB) {
       DBdeleteData(openDB, "myStore", docId);
     } else {
       console.error("데이터베이스가 아직 열리지 않았습니다.");
     }
-    setCount((prev) => prev + 1);
+    setSomeState((prev) => prev.filter((data) => data.docId !== docId));
   };
+
+  useEffect(() => {
+    openDatabase();
+  }, []);
 
   return (
     <>

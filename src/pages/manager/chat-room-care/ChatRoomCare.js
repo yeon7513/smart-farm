@@ -1,41 +1,54 @@
-import React, { useEffect, useState } from 'react';
-import { TbMessageSearch } from 'react-icons/tb';
-import { db } from '../../../api/firebase';
-import { collection, query, where, onSnapshot, updateDoc, doc } from 'firebase/firestore';
-import SearchBox from '../../../components/search_box/SearchBox';
+import React, { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux'; // 중복된 useDispatch import 제거
+import { setMessages } from '../../../store/chat-room/chatRoomSlice';
+import { collection, query, orderBy, onSnapshot } from 'firebase/firestore';
+import { db, fetchChatroomId } from '../../../api/firebase';
 import styles from './ChatRoomCare.module.scss';
-import ChatRequestList from './chat-request-list/ChatRequestList';
 
-function ChatRoomCare() {
-  const [chatRequests, setChatRequests] = useState([]);
+
+function ChatRoomCare({ userEmail }) {
+  const dispatch = useDispatch();
+  const chatroomId = useSelector((state) => state.chatRoom.chatroomId); // Redux에서 chatroomId 가져오기
 
   useEffect(() => {
-    const q = query(collection(db, 'chatbot'), where('activeYn', '==', 'N'));
-    const unsubscribe = onSnapshot(q, (querySnapshot) => {
-      const requests = [];
-      querySnapshot.forEach((doc) => {
-        requests.push({ id: doc.id, ...doc.data() });
-      });
-      setChatRequests(requests);
-    });
-    return () => unsubscribe();
-  }, []);
+    if (!chatroomId) return;
 
-  const approveChat = async (chatId) => {
-    const chatDocRef = doc(db, 'chatbot', 'yjw1732@gmail.com', 'chatroom1', chatId);
-    await updateDoc(chatDocRef, {
-      activeYn: 'Y',
+    const q = query(
+      collection(db, 'chatbot', userEmail, 'chatroom1', chatroomId, 'message'),
+      orderBy('createdAt', 'asc')
+    );
+
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+      const fetchedMessages = snapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+      dispatch(setMessages(fetchedMessages)); // 상태 업데이트
     });
-  };
+
+    return () => unsubscribe();
+  }, [chatroomId, userEmail, dispatch]);
+
+  // Firestore에서 chatroomId 가져오기
+  useEffect(() => {
+    async function exampleUsage() {
+      const email = 'yjw1732@gmail.com'; // 예시 이메일
+      const chatroomId = await fetchChatroomId(email);
+    
+      if (chatroomId) {
+        console.log('Fetched chatroomId:', chatroomId);
+        // chatroomId로 Firestore에서 해당 방의 데이터를 처리하는 로직 추가 가능
+      } else {
+        console.log('No chatroom found for this user.');
+      }
+    }
+
+    exampleUsage();
+  }, [dispatch]);
 
   return (
     <div className={styles.chatRoom}>
-      <SearchBox name={<TbMessageSearch />} placeholder={'채팅방 검색'} />
-      <h2>상담 요청 목록</h2>
-      <ChatRequestList 
-      chatRequests={chatRequests} 
-      onApproveChat={approveChat} 
-      />
+      {/* ChatRequestList 렌더링 */}
     </div>
   );
 }

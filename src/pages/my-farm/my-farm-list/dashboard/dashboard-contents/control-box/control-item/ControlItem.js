@@ -16,6 +16,8 @@ function ControlItem({
       option,
       idx,
       id: sector.id,
+      // docId: sector.docId,
+      boxId: 0,
     });
   };
   return (
