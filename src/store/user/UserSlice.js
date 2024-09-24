@@ -26,10 +26,8 @@ const userSlice = createSlice({
   reducers: {
     setUser: (state, action) => {
       Object.assign(state, action.payload, { isAuthenticated: true });
-      console.log(action.payload);
 
       const { items, nick, ...restState } = state;
-      console.log(restState);
 
       localStorage.setItem('user', JSON.stringify(restState));
     },
@@ -68,6 +66,7 @@ const userSlice = createSlice({
         if (idx !== -1) {
           state.items[idx] = action.payload;
         }
+
         state.isLoading = false;
       });
   },

@@ -42,7 +42,7 @@ function SearchAddr({ getAddr, className }) {
 
   useEffect(() => {
     const mergeAddr = firstAddr + ' ' + secondAddr;
-    getAddr(mergeAddr);
+    getAddr(() => mergeAddr);
   }, [firstAddr, getAddr, secondAddr]);
 
   return (

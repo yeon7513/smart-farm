@@ -42,8 +42,8 @@ export async function LoginGetDatas(collectionName) {
 export async function updateDatasWithImage(
   collectionName,
   docId,
-  updateObj,
-  photoUrl
+  updateObj, // 업데이트할 객체들 (기존 정보)
+  photoUrl // 기존 이미지 경로
 ) {
   const docRef = await doc(db, collectionName, docId);
 
@@ -51,19 +51,20 @@ export async function updateDatasWithImage(
 
   updateObj.updatedAt = time;
 
-  const storage = getStorage();
-
-  if (typeof photoUrl === 'string' && photoUrl) {
-    const deleteRef = ref(storage, photoUrl);
-    await deleteObject(deleteRef);
-  }
-
+  // 업데이트 객체의 photoUrl이 파일 객체일 경우
   if (updateObj.photoUrl instanceof File) {
-    const imagePath = createPath('profiles/') + `${docId}.jpg`;
-    const uploadedUrl = await uploadImage(imagePath, updateObj.photoUrl);
-    updateObj.photoUrl = uploadedUrl;
-  } else if (photoUrl === null) {
-    delete updateObj['photoUrl'];
+    // 기존 이미지가 있을 경우
+    if (photoUrl !== '') {
+      const storage = getStorage();
+      const deleteRef = ref(storage, photoUrl);
+      await deleteObject(deleteRef);
+    }
+
+    // 새 이미지를 업로드하고 새로운 url로 저장
+    const url = await uploadImage(createPath('profiles/'), updateObj.photoUrl);
+    updateObj.photoUrl = url;
+
+    localStorage.setItem('user', JSON.stringify(updateObj));
   }
 
   await updateDoc(docRef, updateObj);

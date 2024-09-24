@@ -146,7 +146,7 @@ function Nav({ menuOpen, setMenuOpen }) {
                 ) : (
                   <>
                     <li className={styles.welcome}>
-                      {loginUser.nick}님, 환영합니다.
+                      {loginUser.nickname}님, 환영합니다.
                     </li>
                     <NavLink
                       path={'/my-farm'}

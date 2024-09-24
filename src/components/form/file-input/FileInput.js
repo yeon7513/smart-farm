@@ -22,7 +22,6 @@ function FileInput({
 
   const handleFileChange = (e) => {
     const nextFile = e.target.files[0];
-    console.log(nextFile);
     setFile(name, nextFile);
   };
 
