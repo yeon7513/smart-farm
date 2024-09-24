@@ -28,6 +28,7 @@ function SearchPw(props) {
     });
     setRendering(true);
   };
+  console.log(state);
   // const CryptoJS = require("crypto-js");
   // const encryptionKey = "mySecretKey123";
   // const iv = CryptoJS.lib.WordArray.random(128 / 8); // 초기화 벡터 (IV) 생성
