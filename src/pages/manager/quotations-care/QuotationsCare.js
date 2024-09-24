@@ -8,6 +8,7 @@ import SearchBox from "../../../components/search_box/SearchBox";
 import { fetchPayments } from "../../../store/payment/paymentsSlice";
 import styles from "./QuotationsCare.module.scss";
 import { Link } from "react-router-dom";
+import { fetchCommonInfo } from "../../../store/dashboard/dashboardSlice";
 
 // listItems 변수는 firebase에서 데이터를 가져와서 메모리에 저장합니다.
 // 이를 기반으로 검색 기능 구현 및 초기 데이터를 렌더링 합니다.
@@ -15,6 +16,7 @@ let listItems;
 
 function QuotationsCare() {
   const { payments, isLoading } = useSelector((state) => state.paymentsSlice);
+  const { commonInfo } = useSelector((state) => state.dashboardSlice);
   const [items, setItems] = useState([]);
   const [keyword, setKeyword] = useState("");
 
@@ -27,6 +29,7 @@ function QuotationsCare() {
 
   useEffect(() => {
     dispatch(fetchPayments("payments"));
+    dispatch(fetchCommonInfo("dashboard"));
   }, [dispatch]);
 
   // payments를 listItems에 저장
@@ -73,6 +76,16 @@ function QuotationsCare() {
     setItems(listItems.filter(({ name }) => name.includes(keyword)));
   };
 
+  // 일반 사용자와 관리자의 기능을 다르게 부여하기 위한 함수입니다.
+  const userData = JSON.parse(localStorage.getItem("user"));
+  const userUid = userData.uid;
+  const isAdmin = userData.email === "admin@gmail.com";
+
+  // 관리자가 아닌 경우 자신의 데이터만 보이게 합니다.
+  const filteredCommonInfo = isAdmin
+    ? commonInfo
+    : commonInfo.filter((item) => item.docId === userUid);
+
   return (
     <div className={styles.quotations}>
       {isLoading ? (
@@ -87,7 +100,7 @@ function QuotationsCare() {
           />
           <button onClick={exportToExcel}>견적 내역 다운로드</button>
           <div>
-            {payments.length > 0 ? (
+            {filteredCommonInfo.length > 0 ? (
               <table>
                 <thead>
                   <tr>
@@ -95,19 +108,20 @@ function QuotationsCare() {
                     <th>작물 종류</th>
                     <th>농장 종류</th>
                     <th>주문번호</th>
+                    <th>승인여부</th>
                     <th></th>
                   </tr>
                 </thead>
                 <tbody>
-                  {payments.map((item) => (
+                  {filteredCommonInfo.map((item) => (
                     <tr key={item.id}>
                       <td>{item.name}</td>
-                      <td>{item.cropType}</td>
-                      <td>{item.facilityType}</td>
+                      <td>{item.crop}</td>
+                      <td>{item.type}</td>
                       <td>{item.createdAt}</td>
+                      <td>{item.useYn}</td>
                       <td>
-                        {/* 일반 사용자는 자세히보기를 누르면 마이페이지 견적 내역 관리자는 모달로 승인여부 결정 */}
-                        <Link to={`/mypage/${item.imp_uid}`} state={{ item }}>
+                        <Link to={`/mypage/${item.createdAt}`} state={{ item }}>
                           <button className={styles.button}>자세히 보기</button>
                         </Link>
                       </td>
