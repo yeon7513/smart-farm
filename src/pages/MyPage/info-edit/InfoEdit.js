@@ -11,7 +11,7 @@ import styles from './InfoEdit.module.scss';
 function InfoEdit() {
   const { setCurrComp } = useComponentContext();
   const userInfo = JSON.parse(localStorage.getItem('user'));
-  const { items } = useSelector((state) => state.userSlice);
+  const { items, isLoading } = useSelector((state) => state.userSlice);
 
   const [values, setValues] = useState({ ...userInfo });
   const [homeAddr, setHomeAddr] = useState(userInfo?.address);
@@ -22,6 +22,7 @@ function InfoEdit() {
   const dispatch = useDispatch();
 
   const handleChange = (name, value) => {
+    console.log('handleChange: ', value);
     setValues((prev) => ({ ...prev, [name]: value }));
   };
 
@@ -34,11 +35,15 @@ function InfoEdit() {
   const handleNickNameCheckDuplication = (e) => {
     const { name, value } = e.target;
 
-    const checkNickName = items.some((item) => item.nickname === value);
+    const nickNameCheck = items.some((item) => item.nickname === value);
 
-    if (checkNickName) {
-      alert('중복된 닉네임');
-    } else {
+    if (value !== '' && !nickNameCheck) {
+      // 중복이 없을 경우
+      setCheckNickName(false);
+      handleChange(name, value);
+    } else if (value === '' || nickNameCheck) {
+      // 중복이 있을 경우
+      setCheckNickName(true);
       handleChange(name, value);
     }
   };
@@ -55,9 +60,16 @@ function InfoEdit() {
       photoUrl: userInfo.photoUrl,
     };
 
-    dispatch(updateUserInfo(params));
+    try {
+      await dispatch(updateUserInfo(params));
+      console.log(isLoading);
 
-    setCurrComp('IntroMyPage');
+      if (isLoading === false) {
+        setCurrComp('IntroMyPage');
+      }
+    } catch (error) {
+      console.error('My Info Update Error: ', error);
+    }
   };
 
   useEffect(() => {
@@ -65,7 +77,10 @@ function InfoEdit() {
   }, [dispatch]);
 
   return (
-    <form className={styles.myEdit} onSubmit={handleSubmit}>
+    <form
+      className={isLoading ? cn(styles.myEdit, styles.loading) : styles.myEdit}
+      onSubmit={handleSubmit}
+    >
       <FileInput
         selected={true}
         className={styles.imgUpload}
@@ -93,7 +108,13 @@ function InfoEdit() {
           />
           <label>이름</label>
         </div>
-        <div className={cn(styles.enable, styles.inputContainer)}>
+        <div
+          className={cn(
+            styles.enable,
+            styles.inputContainer,
+            !checkNickName ? '' : styles.error
+          )}
+        >
           <TextInput
             type="text"
             name="nickname"
@@ -103,9 +124,6 @@ function InfoEdit() {
           />
           <label className={styles.enable}>닉네임</label>
           <span className={styles.highlight}></span>
-          {/* <button type="button" onClick={handleNickNameCheckDuplication}>
-            중복확인
-          </button> */}
         </div>
         <div className={cn(styles.enable, styles.inputContainer)}>
           <TextInput
@@ -118,7 +136,13 @@ function InfoEdit() {
           <label>연락처</label>
           <span className={styles.highlight}></span>
         </div>
-        <div className={cn(styles.enable, styles.inputContainer)}>
+        <div
+          className={cn(
+            styles.enable,
+            styles.inputContainer,
+            !checkPw ? '' : styles.error
+          )}
+        >
           <TextInput
             type="password"
             name="pw"

@@ -59,6 +59,9 @@ const userSlice = createSlice({
       .addCase(fetchItems.rejected, (state) => {
         state.isLoading = false;
       })
+      .addCase(updateUserInfo.pending, (state) => {
+        state.isLoading = true;
+      })
       .addCase(updateUserInfo.fulfilled, (state, action) => {
         const idx = state.items.findIndex(
           (user) => user.docId === action.payload.docId

@@ -52,11 +52,7 @@ function MyFarm() {
   return (
     <Container className={styles.myFarm}>
       <div className={styles.map}>
-        {commonInfo.latitude && commonInfo.longitude ? (
-          <CustomMaps lat={commonInfo.latitude} lng={commonInfo.longitude} />
-        ) : (
-          <p>Loading...</p>
-        )}
+        <CustomMaps lat={commonInfo.latitude} lng={commonInfo.longitude} />
       </div>
       <div className={styles.content}>
         <Outlet />

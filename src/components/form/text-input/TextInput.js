@@ -1,32 +1,26 @@
-import React, { forwardRef } from 'react';
+import React from 'react';
 
-const TextInput = forwardRef(
-  (
-    {
-      type = 'text',
-      className,
-      placeholder,
-      name,
-      onChange,
-      value,
-      isDisabled = false,
-    },
-    ref
-  ) => {
-    return (
-      <input
-        ref={ref}
-        className={className}
-        type={type}
-        name={name}
-        value={value}
-        placeholder={placeholder}
-        onChange={onChange}
-        disabled={isDisabled}
-        autoComplete="off"
-      />
-    );
-  }
-);
+function TextInput({
+  type,
+  className,
+  name,
+  value,
+  placeholder,
+  isDisabled,
+  onChange,
+}) {
+  return (
+    <input
+      className={className}
+      type={type}
+      name={name}
+      value={value}
+      placeholder={placeholder}
+      onChange={onChange}
+      disabled={isDisabled}
+      autoComplete="off"
+    />
+  );
+}
 
 export default TextInput;

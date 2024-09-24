@@ -65,6 +65,8 @@ export async function updateDatasWithImage(
     updateObj.photoUrl = url;
 
     localStorage.setItem('user', JSON.stringify(updateObj));
+
+    console.log('updateObj: ', updateObj);
   }
 
   await updateDoc(docRef, updateObj);

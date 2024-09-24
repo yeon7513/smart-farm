@@ -1,9 +1,15 @@
+@import '/src/scss/mixins.scss';
+
 .myEdit {
   display: flex;
   gap: 40px;
   margin: 0 auto;
   width: 70%;
   outline: 1px dotted red;
+
+  &.loading {
+    opacity: 0.8;
+  }
 
   /* 작은 모니터 */
   @media (max-width: 1200px) {
@@ -109,6 +115,20 @@
           background-color: var(--hover-color);
           transition: 0.3s;
         }
+
+        &.error {
+          > input {
+            border-bottom: 2px solid var(--danger-color);
+            &:focus {
+              + label {
+                color: var(--danger-color);
+                + .highlight {
+                  width: 0;
+                }
+              }
+            }
+          }
+        }
       }
 
       &.disable {
@@ -118,6 +138,26 @@
           left: 0;
           font-size: 12px;
           color: #ccc;
+        }
+      }
+    }
+
+    .btns {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 16px;
+
+      > button {
+        &[type='submit'] {
+          @include linearBtn();
+        }
+        &[type='button'] {
+          @include linearBtn(
+            $commonColor: var(--danger-color),
+            $accentColor: var(--danger-color),
+            $hoverColor: var(--danger-hover-color)
+          );
         }
       }
     }
