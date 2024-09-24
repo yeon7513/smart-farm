@@ -195,3 +195,37 @@ export const pointTableCancel = async (imp_uid) => {
     console.error("결제 정보 삭제 실패: ", error);
   }
 };
+
+// chatroomId를 가져오는 함수 추가
+export const fetchChatroomId = async (email) => {
+  try {
+    const q = query(
+      collection(db, 'chatbot', email, 'chatroom1'), // 경로에 맞는 컬렉션
+      where('activeYn', '==', 'N') // 승인되지 않은 방만 가져옴
+    );
+    const querySnapshot = await getDocs(q);
+
+    if (!querySnapshot.empty) {
+      const chatroomId = querySnapshot.docs[0].id; // 첫 번째 문서의 ID를 chatroomId로 사용
+      return chatroomId; // chatroomId를 반환
+    } else {
+      console.log('No chatroom found.');
+      return null;
+    }
+  } catch (error) {
+    console.error('Error fetching chatroomId: ', error);
+    throw error;
+  }
+};
+
+async function onApproveChat(chatId) {
+  try {
+    const chatRoomRef = doc(db, 'chatbot', 'admin@gmail.com', 'chatroom1', chatId);
+    await updateDoc(chatRoomRef, {
+      activeYn: 'Y', // 승인 상태로 변경
+    });
+    console.log(`Chatroom ${chatId} 승인 완료`);
+  } catch (error) {
+    console.error('승인 처리 중 오류가 발생했습니다:', error);
+  }
+}
