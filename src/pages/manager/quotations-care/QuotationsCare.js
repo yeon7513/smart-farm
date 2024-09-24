@@ -8,9 +8,12 @@ import SearchBox from "../../../components/search_box/SearchBox";
 import { fetchPayments } from "../../../store/payment/paymentsSlice";
 import styles from "./QuotationsCare.module.scss";
 import { Link } from "react-router-dom";
-import { fetchCommonInfo } from "../../../store/dashboard/dashboardSlice";
+import {
+  fetchCommonInfo,
+  updateCommonInfo,
+} from "../../../store/dashboard/dashboardSlice";
 import CustomModal from "../../../components/modal/CustomModal";
-import { doc, updateDoc } from "firebase/firestore";
+import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { db } from "../../../api/firebase";
 
 // listItems 변수는 firebase에서 데이터를 가져와서 메모리에 저장합니다.
@@ -20,6 +23,7 @@ let listItems;
 function QuotationsCare() {
   const { payments, isLoading } = useSelector((state) => state.paymentsSlice);
   const { commonInfo } = useSelector((state) => state.dashboardSlice);
+  const { user } = useSelector((state) => state.userSlice);
   const [items, setItems] = useState([]);
   const [keyword, setKeyword] = useState("");
   const [selectedItem, setSelectedItem] = useState(null);
@@ -99,25 +103,26 @@ function QuotationsCare() {
   const handleApproval = async () => {
     // 승인 처리 로직 구현
     if (selectedItem && selectedItem.useYn === "N") {
-      // 문서의 ID를 가져옵니다.
-      const selectedItemId = selectedItem.docRef
-        ? selectedItem.docRef.id
-        : selectedItem.docId;
-      console.log(selectedItemId);
-
-      // Firebase에 변경 사항을 반영합니다.
+      console.log(selectedItem);
+      console.log(selectedItem.docId);
       try {
-        const itemRef = doc(db, "dashboard", selectedItemId);
-        await updateDoc(itemRef, { useYn: "Y" });
-        console.log(`${selectedItem.createdAt} 승인되었습니다!`);
+        const result = await dispatch(
+          updateCommonInfo({
+            collectionName: "dashboard",
+            docId: selectedItem.docId,
+            updateObj: { ...selectedItem, useYn: "Y" },
+          })
+        ).unwrap();
 
-        // commonInfo의 상태를 갱신합니다.
+        console.log(`문서 ${selectedItem}가 승인되었습니다!`, result);
+
         dispatch(fetchCommonInfo("dashboard"));
-
         setModalOpen(false); // 모달 닫기
       } catch (error) {
         console.error("승인 처리 중 오류 발생: ", error);
       }
+    } else {
+      console.error("승인할 수 없는 항목입니다.");
     }
   };
 
