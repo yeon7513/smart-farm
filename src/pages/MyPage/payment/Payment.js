@@ -8,12 +8,32 @@ import styles from "./Payment.module.scss";
 
 const Payment = () => {
   const [loading, setLoading] = useState(false);
+  const { commonInfo } = useSelector((state) => state.dashboardSlice);
   const [data, setData] = useState([]);
   const { uid } = useSelector((state) => state.userSlice);
+  const [filteredData, setFilteredData] = useState([]);
+
+  // 각 버튼 클릭 시 호출될 함수
+  const filterData = (status) => {
+    if (status === "pending") {
+      setFilteredData(
+        data.filter((item) => item.useYn === "N" && item.deleteYn === "N")
+      );
+    } else if (status === "approved") {
+      setFilteredData(
+        data.filter((item) => item.useYn === "Y" && item.deleteYn === "N")
+      );
+    } else if (status === "rejected") {
+      setFilteredData(
+        data.filter((item) => item.useYn === "N" && item.deleteYn === "Y")
+      );
+    } else {
+      setFilteredData(data); // 전체 내역
+    }
+  };
 
   useEffect(() => {
     const fetchData = async () => {
-      console.log(data);
       setLoading(true);
       try {
         // dashboard 컬렉션에서 사용자 ID로 필터링합니다.
@@ -30,6 +50,7 @@ const Payment = () => {
         }));
 
         setData(resultData);
+        setFilteredData(resultData);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -41,9 +62,6 @@ const Payment = () => {
     }
   }, [uid]);
 
-  // 관리자가 아닌 경우 자신의 데이터를 필터링
-  const filteredData = data.filter((item) => item.userDocId === uid);
-
   return (
     <Container className={styles.container}>
       <div className={styles.payment}>
@@ -51,6 +69,12 @@ const Payment = () => {
           <p>Loading...</p>
         ) : (
           <>
+            <select onChange={(e) => filterData(e.target.value)}>
+              <option value="all">전체</option>
+              <option value="pending">대기</option>
+              <option value="approved">승인</option>
+              <option value="rejected">거절</option>
+            </select>
             {filteredData.length > 0 ? (
               <table>
                 <thead className={styles.thead}>
@@ -64,12 +88,20 @@ const Payment = () => {
                 </thead>
                 <tbody>
                   {filteredData.map((item) => {
+                    let approvalStatus;
+                    if (item.useYn === "Y" && item.deleteYn === "N") {
+                      approvalStatus = "승인";
+                    } else if (item.deleteYn === "Y" && item.useYn === "N") {
+                      approvalStatus = "거절";
+                    } else {
+                      approvalStatus = "대기";
+                    }
                     return (
                       <tr key={item.id}>
                         <td>{item.crop}</td>
                         <td>{item.type}</td>
                         <td>{item.createdAt}</td>
-                        <td>{item.useYn}</td>
+                        <td>{approvalStatus}</td>
                         <td>
                           <Link to={`/mypage/${item.imp_uid}`}>
                             <button className={styles.button}>

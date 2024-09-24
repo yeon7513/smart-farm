@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "./FacilitiesHorticulture.scss";
+import styles from "./FacilitiesHorticulture.module.scss";
 
 const options = {
   "환경 제어": [
