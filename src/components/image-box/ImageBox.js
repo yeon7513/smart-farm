@@ -4,10 +4,11 @@ import basicProfile from '../../assets/member/basic_profile.png';
 import styles from './ImageBox.module.scss';
 
 function ImageBox({ imgUrl, isSelected }) {
+  console.log(imgUrl);
   return (
     <img
       className={cn(styles.imgBox, isSelected ? styles.selected : '')}
-      src={imgUrl[0] || basicProfile}
+      src={imgUrl || basicProfile}
       alt=""
     />
   );

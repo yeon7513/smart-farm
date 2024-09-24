@@ -1,5 +1,5 @@
-import { initializeApp } from "firebase/app";
-import { getAuth } from "firebase/auth";
+import { initializeApp } from 'firebase/app';
+import { getAuth } from 'firebase/auth';
 import {
   addDoc,
   collection,
@@ -14,8 +14,8 @@ import {
   updateDoc,
   where,
   writeBatch,
-} from "firebase/firestore";
-import { getLastNum } from "./board";
+} from 'firebase/firestore';
+import { getLastNum } from './board';
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
   authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
@@ -33,7 +33,7 @@ export const db = getFirestore(app);
 
 export function getCollection(...path) {
   let newPath = path;
-  if (typeof path[0] !== "string") {
+  if (typeof path[0] !== 'string') {
     newPath = path.flat();
   }
   return collection(db, ...newPath);
@@ -43,7 +43,6 @@ export function getUserAuth() {
   return auth;
 }
 
-// 랜덤 파일 이름 생성
 export function createPath(path) {
   const uuid = crypto.randomUUID();
   return path + uuid;
@@ -58,7 +57,7 @@ export async function addDatas(collectionName, addObj) {
 }
 
 export async function syncOrder(uid, orderArr) {
-  const orderRef = getCollection("user", uid, "order");
+  const orderRef = getCollection('user', uid, 'order');
   const batch = writeBatch(db);
   for (const item of orderArr) {
     const result = await updateOrder(uid, item);
@@ -68,12 +67,12 @@ export async function syncOrder(uid, orderArr) {
     }
   }
   await batch.commit();
-  const resultData = await getDatas(["user", uid, "order"], {});
+  const resultData = await getDatas(['user', uid, 'order'], {});
   return resultData;
 }
 
 export async function updateOrder(uid, orderItem) {
-  const orderRef = getCollection("user", uid, "order");
+  const orderRef = getCollection('user', uid, 'order');
   const itemRef = doc(orderRef, orderItem.id.toString());
 
   const itemDoc = await getDoc(itemRef);
@@ -86,7 +85,7 @@ export async function updateOrder(uid, orderItem) {
 
 export async function createPayment(uid, paymentObj) {
   try {
-    const paymentsRef = collection("users", uid, "payments");
+    const paymentsRef = collection('users', uid, 'payments');
     const createObj = {
       createdAt: new Date().getTime(),
       updatedAt: new Date().getTime(),
@@ -95,7 +94,7 @@ export async function createPayment(uid, paymentObj) {
     const batch = writeBatch(db);
     const docRef = await addDoc(paymentsRef, createObj);
     batch.delete(paymentsRef);
-    const paymentRef = getCollection("users", uid, "payment");
+    const paymentRef = getCollection('users', uid, 'payment');
     paymentObj.products.forEach((product) => {
       const itemRef = doc(paymentRef, product.id.toString());
       batch.delete(itemRef);
@@ -119,7 +118,7 @@ export async function getQuery(collectionName, queryOption) {
 
   // orderBy 조건
   orderBys.forEach((order) => {
-    q = query(q, orderBy(order.field, order.direction || "asc"));
+    q = query(q, orderBy(order.field, order.direction || 'asc'));
   });
 
   return q;
@@ -133,9 +132,10 @@ export async function getDatas(collectionName) {
       docId: doc.id,
       ...doc.data(),
     }));
+
     return returnData;
   } catch (error) {
-    console.error("Error getting documents: ", error);
+    console.error('Error getting documents: ', error);
     throw error;
   }
 }
@@ -143,7 +143,7 @@ export async function getDatas(collectionName) {
 export const getOrder = async (collectionName, orderByField) => {
   const q = query(
     collection(db, collectionName),
-    orderBy(orderByField, "desc")
+    orderBy(orderByField, 'desc')
   );
   const querySnapshot = await getDocs(q);
   return querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
@@ -158,7 +158,7 @@ export async function updateDatas(collectionName, docId, updateObj) {
 
     return resultData;
   } catch (error) {
-    console.error("Error updating document: ", error);
+    console.error('Error updating document: ', error);
     throw error;
   }
 }
@@ -169,7 +169,7 @@ export async function deleteDatas(collectionName, docId) {
     await deleteDoc(docRef);
     return true;
   } catch (error) {
-    console.error("Error deleting document: ", error);
+    console.error('Error deleting document: ', error);
     return false;
   }
 }
@@ -177,7 +177,7 @@ export async function deleteDatas(collectionName, docId) {
 export const addSetDocDatas = async (collectionName, complainData) => {
   try {
     // 마지막 신고 번호 가져오기
-    const lastNum = await getLastNum(collectionName, "docIdNum");
+    const lastNum = await getLastNum(collectionName, 'docIdNum');
     const newIdNumber = lastNum + 1; // 마지막 번호에서 1 증가
 
     let docId = `Cp_${newIdNumber}`;
@@ -194,7 +194,7 @@ export const addSetDocDatas = async (collectionName, complainData) => {
 
     return true;
   } catch (error) {
-    console.error("setDoc 에러 발생: ", error);
+    console.error('setDoc 에러 발생: ', error);
   }
 };
 
@@ -202,8 +202,8 @@ export const addSetDocDatas = async (collectionName, complainData) => {
 export const pointTableCancel = async (imp_uid) => {
   try {
     const paymentsQuery = query(
-      collection(db, "payments"),
-      where("imp_uid", "==", imp_uid)
+      collection(db, 'payments'),
+      where('imp_uid', '==', imp_uid)
     );
     const paymentsSnapshot = await getDocs(paymentsQuery);
 
@@ -211,11 +211,11 @@ export const pointTableCancel = async (imp_uid) => {
     if (!paymentsSnapshot.empty) {
       const docRef = paymentsSnapshot.docs[0].ref;
       await deleteDoc(docRef);
-      console.log("결제 정보가 삭제되었습니다.");
+      console.log('결제 정보가 삭제되었습니다.');
     } else {
-      console.log("결제 정보를 찾을 수 없습니다.");
+      console.log('결제 정보를 찾을 수 없습니다.');
     }
   } catch (error) {
-    console.error("결제 정보 삭제 실패: ", error);
+    console.error('결제 정보 삭제 실패: ', error);
   }
 };

@@ -1,7 +1,7 @@
 import cn from 'classnames';
 import React, { useEffect, useRef, useState } from 'react';
 import { MdCancel } from 'react-icons/md';
-import placeholderImg from '../../../assets/member/profile.webp';
+import placeholderImg from '../../../assets/member/basic_profile.png';
 import ImageBox from '../../image-box/ImageBox';
 import styles from './FileInput.module.scss';
 
@@ -13,39 +13,42 @@ function FileInput({
   selected,
   className,
 }) {
+  if (typeof value === 'string') {
+    value = null;
+  }
+
   const [preview, setPreview] = useState(initialPreview);
   const inputRef = useRef();
 
   const handleFileChange = (e) => {
     const nextFile = e.target.files[0];
-    if (nextFile) {
-      setFile(name, [nextFile]);
-    }
+    console.log(nextFile);
+    setFile(name, nextFile);
   };
 
   const handleClearClick = () => {
     if (inputRef.current) {
       inputRef.current.value = '';
-      setFile(name, []);
+      setFile(name, null);
     }
   };
 
   useEffect(() => {
-    if (!value || !Array.isArray(value) || !(value[0] instanceof Blob)) return;
+    if (!value) return;
 
-    const nextPreview = URL.createObjectURL(value[0]);
-    setPreview((prev) => [...prev, nextPreview]);
+    const nextPreview = URL.createObjectURL(value);
+    setPreview(nextPreview);
 
     return () => {
+      setPreview(null);
       URL.revokeObjectURL(nextPreview);
-      setPreview([]);
     };
   }, [value]);
 
   return (
     <div className={cn(styles.fileInput, className)}>
       <ImageBox
-        isSelected={preview.length === 0 ? selected : !selected}
+        isSelected={preview ? !selected : selected}
         imgUrl={preview || placeholderImg}
       />
       <input
@@ -56,7 +59,7 @@ function FileInput({
         onChange={handleFileChange}
         ref={inputRef}
       />
-      {value.length !== 0 && (
+      {value && (
         <button
           type="button"
           className={cn(styles.btn, styles.clearBtn)}

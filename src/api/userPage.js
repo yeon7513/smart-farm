@@ -51,20 +51,24 @@ export async function updateDatasWithImage(
 
   updateObj.updatedAt = time;
 
-  if (updateObj.photoUrl === null) {
-    delete updateObj['photoUrl'];
-  } else {
-    const storage = getStorage();
+  const storage = getStorage();
+
+  if (typeof photoUrl === 'string' && photoUrl) {
     const deleteRef = ref(storage, photoUrl);
     await deleteObject(deleteRef);
+  }
 
-    const url = await uploadImage(createPath('profiles/'), updateObj.photoUrl);
-    updateObj.photoUrl = url;
+  if (updateObj.photoUrl instanceof File) {
+    const imagePath = createPath('profiles/') + `${docId}.jpg`;
+    const uploadedUrl = await uploadImage(imagePath, updateObj.photoUrl);
+    updateObj.photoUrl = uploadedUrl;
+  } else if (photoUrl === null) {
+    delete updateObj['photoUrl'];
   }
 
   await updateDoc(docRef, updateObj);
-  const snapshot = await getDoc(docRef);
-  const resultData = { docId: snapshot.id, ...snapshot.data() };
+  const updatedData = await getDoc(docRef);
+  const resultData = { docId: updatedData.id, ...updatedData.data() };
 
   return resultData;
 }

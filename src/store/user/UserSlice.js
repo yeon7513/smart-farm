@@ -1,6 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { LoginGetDatas, updateDatasWithImage } from '../../api/userPage';
-JSON.parse(localStorage.getItem('user'));
 
 const initialState = localStorage.getItem('user')
   ? { ...JSON.parse(localStorage.getItem('user')), items: [] }
@@ -14,7 +13,7 @@ const initialState = localStorage.getItem('user')
       number: '',
       address: '',
       farmAddress: '',
-      photoUrl: [],
+      photoUrl: '',
       complaneNum: 0,
       isAuthenticated: false,
       items: [],
@@ -27,9 +26,12 @@ const userSlice = createSlice({
   reducers: {
     setUser: (state, action) => {
       Object.assign(state, action.payload, { isAuthenticated: true });
+      console.log(action.payload);
 
-      const { items, ...userWithoutItems } = state;
-      localStorage.setItem('user', JSON.stringify(userWithoutItems));
+      const { items, nick, ...restState } = state;
+      console.log(restState);
+
+      localStorage.setItem('user', JSON.stringify(restState));
     },
     removeUser: (state) => {
       state.email = '';
@@ -41,7 +43,7 @@ const userSlice = createSlice({
       state.number = '';
       state.address = '';
       state.farmAddress = '';
-      state.photoUrl = [];
+      state.photoUrl = '';
       state.complaneNum = 0;
       state.isAuthenticated = false;
       localStorage.removeItem('user');
@@ -63,7 +65,9 @@ const userSlice = createSlice({
         const idx = state.items.findIndex(
           (user) => user.docId === action.payload.docId
         );
-        state.items[idx] = action.payload;
+        if (idx !== -1) {
+          state.items[idx] = action.payload;
+        }
         state.isLoading = false;
       });
   },
@@ -91,6 +95,7 @@ const updateUserInfo = createAsyncThunk(
         updateObj,
         photoUrl
       );
+
       return result;
     } catch (error) {
       return error;
