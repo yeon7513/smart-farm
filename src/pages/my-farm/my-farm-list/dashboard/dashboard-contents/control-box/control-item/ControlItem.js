@@ -8,6 +8,7 @@ function ControlItem({
   onMoveComponent,
   state,
   handleDeleteItem,
+  docId,
 }) {
   const { sector } = useSectorContext();
   const handleControlContent = () => {
@@ -15,7 +16,6 @@ function ControlItem({
       option,
       idx,
       id: sector.id,
-      // docId: sector.id * 2,
     });
   };
   return (
@@ -33,7 +33,7 @@ function ControlItem({
           </button>
         ) : null}
 
-        <button onClick={() => handleDeleteItem(option)}>
+        <button onClick={() => handleDeleteItem(docId)}>
           <span>-</span>
         </button>
       </div>

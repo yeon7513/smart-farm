@@ -23,6 +23,9 @@
     font-size: 18px;
   }
 }
+.active {
+  border-bottom: 2px solid var(--accent-color);
+}
 
 .content {
   padding: 20px;
@@ -35,8 +38,8 @@
     margin-bottom: 5px;
     font-weight: 500;
   }
-  p {
-    font-size: 15px;
+  b {
+    font-size: 18px;
   }
   h4 {
     font-size: 15px;
@@ -46,6 +49,7 @@
     border: 1px solid #dedede;
     box-shadow: var(--box-shadow);
     margin-bottom: 20px;
+    margin-top: 5px;
 
     button {
       border: 1px solid #ddd;
@@ -55,6 +59,9 @@
       font-weight: 500;
     }
   }
+}
+.hide {
+  display: none;
 }
 
 .flex_box {
@@ -85,6 +92,15 @@
     border-radius: 50%;
     margin-right: 5px;
     margin-bottom: 5px;
+  }
+  .summary {
+    display: flex;
+    flex-direction: column;
+
+    img {
+      width: 200px;
+      border-radius: 8px;
+    }
   }
 
   .title {

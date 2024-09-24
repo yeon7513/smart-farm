@@ -1,22 +1,19 @@
-import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { Outlet } from 'react-router-dom';
-import { useComponentContext } from '../../../../../context/ComponentContext';
-import DashboardSector from '../dashboard-nav/dashboard-sector/DashboardSector';
-import { fetchSectorInfo } from './../../../../../store/dashboard/dashboardSlice';
-import styles from './DashboardContent.module.scss';
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Outlet } from "react-router-dom";
+import { useComponentContext } from "../../../../../context/ComponentContext";
+import DashboardSector from "../dashboard-nav/dashboard-sector/DashboardSector";
+import { fetchSectorInfo } from "./../../../../../store/dashboard/dashboardSlice";
+import styles from "./DashboardContent.module.scss";
 
 function DashboardContent({ docId }) {
   const { sectorInfo } = useSelector((state) => state.dashboardSlice);
   const { currComp } = useComponentContext();
 
-  console.log(sectorInfo);
   const dispatch = useDispatch();
 
   useEffect(() => {
     const collectionName = `dashboard/${docId}/sector`;
-
-    console.log(docId);
 
     dispatch(fetchSectorInfo(collectionName));
   }, [dispatch, docId]);
@@ -24,7 +21,7 @@ function DashboardContent({ docId }) {
   return (
     <div className={styles.content}>
       <ul className={styles.sectorMenu}>
-        {currComp !== 'Alert' &&
+        {currComp !== "Alert" &&
           [...sectorInfo]
             .sort((a, b) => a.id - b.id)
             .map((sector) => (

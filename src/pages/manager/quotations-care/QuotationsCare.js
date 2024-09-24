@@ -8,7 +8,13 @@ import SearchBox from "../../../components/search_box/SearchBox";
 import { fetchPayments } from "../../../store/payment/paymentsSlice";
 import styles from "./QuotationsCare.module.scss";
 import { Link } from "react-router-dom";
-import { fetchCommonInfo } from "../../../store/dashboard/dashboardSlice";
+import {
+  fetchCommonInfo,
+  updateCommonInfo,
+} from "../../../store/dashboard/dashboardSlice";
+import CustomModal from "../../../components/modal/CustomModal";
+import { doc, getDoc, updateDoc } from "firebase/firestore";
+import { db } from "../../../api/firebase";
 
 // listItems 변수는 firebase에서 데이터를 가져와서 메모리에 저장합니다.
 // 이를 기반으로 검색 기능 구현 및 초기 데이터를 렌더링 합니다.
@@ -17,8 +23,11 @@ let listItems;
 function QuotationsCare() {
   const { payments, isLoading } = useSelector((state) => state.paymentsSlice);
   const { commonInfo } = useSelector((state) => state.dashboardSlice);
+  const { user } = useSelector((state) => state.userSlice);
   const [items, setItems] = useState([]);
   const [keyword, setKeyword] = useState("");
+  const [selectedItem, setSelectedItem] = useState(null);
+  const [modalOpen, setModalOpen] = useState(false);
 
   const dispatch = useDispatch();
 
@@ -86,6 +95,37 @@ function QuotationsCare() {
     ? commonInfo
     : commonInfo.filter((item) => item.docId === userUid);
 
+  const openModal = (item) => {
+    setSelectedItem(item);
+    setModalOpen(true);
+  };
+
+  const handleApproval = async () => {
+    // 승인 처리 로직 구현
+    if (selectedItem && selectedItem.useYn === "N") {
+      console.log(selectedItem);
+      console.log(selectedItem.docId);
+      try {
+        const result = await dispatch(
+          updateCommonInfo({
+            collectionName: "dashboard",
+            docId: selectedItem.docId,
+            updateObj: { ...selectedItem, useYn: "Y" },
+          })
+        ).unwrap();
+
+        console.log(`문서 ${selectedItem}가 승인되었습니다!`, result);
+
+        dispatch(fetchCommonInfo("dashboard"));
+        setModalOpen(false); // 모달 닫기
+      } catch (error) {
+        console.error("승인 처리 중 오류 발생: ", error);
+      }
+    } else {
+      console.error("승인할 수 없는 항목입니다.");
+    }
+  };
+
   return (
     <div className={styles.quotations}>
       {isLoading ? (
@@ -100,7 +140,7 @@ function QuotationsCare() {
           />
           <button onClick={exportToExcel}>견적 내역 다운로드</button>
           <div>
-            {filteredCommonInfo.length > 0 ? (
+            {commonInfo.length > 0 ? (
               <table>
                 <thead>
                   <tr>
@@ -113,7 +153,7 @@ function QuotationsCare() {
                   </tr>
                 </thead>
                 <tbody>
-                  {filteredCommonInfo.map((item) => (
+                  {commonInfo.map((item) => (
                     <tr key={item.id}>
                       <td>{item.name}</td>
                       <td>{item.crop}</td>
@@ -121,9 +161,12 @@ function QuotationsCare() {
                       <td>{item.createdAt}</td>
                       <td>{item.useYn}</td>
                       <td>
-                        <Link to={`/mypage/${item.createdAt}`} state={{ item }}>
-                          <button className={styles.button}>자세히 보기</button>
-                        </Link>
+                        <button
+                          className={styles.button}
+                          onClick={() => openModal(item)}
+                        >
+                          자세히 보기
+                        </button>
                       </td>
                     </tr>
                   ))}
@@ -133,6 +176,23 @@ function QuotationsCare() {
               <p>주문 내역이 없습니다.</p>
             )}
           </div>
+
+          <CustomModal
+            title="견적 내역"
+            isOpen={modalOpen}
+            handleClose={() => setModalOpen(false)}
+            onApprove={handleApproval}
+          >
+            {selectedItem && (
+              <div>
+                <p>이름: {selectedItem.name}</p>
+                <p>작물 종류: {selectedItem.crop}</p>
+                <p>농장 종류: {selectedItem.type}</p>
+                <p>주문번호: {selectedItem.createdAt}</p>
+                <p>승인여부: {selectedItem.useYn}</p>
+              </div>
+            )}
+          </CustomModal>
         </>
       )}
     </div>

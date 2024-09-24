@@ -13,12 +13,13 @@ const Payment = () => {
 
   useEffect(() => {
     const fetchData = async () => {
+      console.log(data);
       setLoading(true);
       try {
         // dashboard 컬렉션에서 사용자 ID로 필터링합니다.
         const dashboardQuery = query(
           collection(db, "dashboard"),
-          where("docId", "==", uid)
+          where("userDocId", "==", uid)
         );
         const dashboardSnapshot = await getDocs(dashboardQuery);
 
@@ -41,7 +42,7 @@ const Payment = () => {
   }, [uid]);
 
   // 관리자가 아닌 경우 자신의 데이터를 필터링
-  const filteredData = data.filter((item) => item.docId === uid);
+  const filteredData = data.filter((item) => item.userDocId === uid);
 
   return (
     <Container className={styles.container}>
@@ -63,9 +64,6 @@ const Payment = () => {
                 </thead>
                 <tbody>
                   {filteredData.map((item) => {
-                    // createdAt에서 앞의 8자리 제거
-                    const createdAtShort = item.createdAt.slice(-13);
-
                     return (
                       <tr key={item.id}>
                         <td>{item.crop}</td>
@@ -73,7 +71,7 @@ const Payment = () => {
                         <td>{item.createdAt}</td>
                         <td>{item.useYn}</td>
                         <td>
-                          <Link to={`/mypage/${createdAtShort}`}>
+                          <Link to={`/mypage/${item.imp_uid}`}>
                             <button className={styles.button}>
                               자세히 보기
                             </button>

@@ -58,19 +58,19 @@ function HomeChart() {
   }, [localFarm]);
 
   // 사용자 위치 가져오기
-  useEffect(() => {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          const { latitude, longitude } = position.coords;
-          setUserLocation({ latitude, longitude });
-        },
-        (error) => {
-          console.error("위치 정보를 가져오는 데 실패했습니다:", error);
-        }
-      );
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (navigator.geolocation) {
+  //     navigator.geolocation.getCurrentPosition(
+  //       (position) => {
+  //         const { latitude, longitude } = position.coords;
+  //         setUserLocation({ latitude, longitude });
+  //       },
+  //       (error) => {
+  //         console.error("위치 정보를 가져오는 데 실패했습니다:", error);
+  //       }
+  //     );
+  //   }
+  // }, []);
 
   // 사용자 위치 지역 클릭
   useEffect(() => {

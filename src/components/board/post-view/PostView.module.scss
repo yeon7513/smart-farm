@@ -2,6 +2,12 @@
   margin: 30px;
   padding: 10px;
 }
+.loading {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
 .title {
   border-bottom: 1px solid #ddd;

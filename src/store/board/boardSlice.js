@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { getBoardDatas, updatePost } from "../../api/board";
+import { deletePost, getBoardDatas, updatePost } from "../../api/board";
 
 const initialState = {
   posts: [], // 전체 게시글
@@ -42,6 +42,15 @@ const boardSlice = createSlice({
         });
         state.isLoading = false;
         state.error = null;
+      })
+
+      // 글 삭제
+      .addCase(deleteBoardDatas.fulfilled, (state, action) => {
+        state.posts = state.posts.filter(
+          (post) => post.docId !== action.payload.docId
+        );
+        state.isLoading = false;
+        state.error = null;
       });
   },
 });
@@ -63,6 +72,18 @@ export const updateBoardDatas = createAsyncThunk(
   async ({ category, docId, updateObj }) => {
     try {
       const result = await updatePost(category, docId, updateObj);
+      return result;
+    } catch (error) {
+      return error;
+    }
+  }
+);
+
+export const deleteBoardDatas = createAsyncThunk(
+  "board/deleteBoardDatas",
+  async ({ category, docId }) => {
+    try {
+      const result = await deletePost(category, docId);
       return result;
     } catch (error) {
       return error;

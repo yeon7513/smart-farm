@@ -15,7 +15,7 @@ function RequestForm({ user }) {
   const [facilityType, setFacilityType] = useState("시설원예");
   const [farmName, setFarmName] = useState("");
   const [farmArea, setFarmArea] = useState("");
-  const [farmEquivalent, setFarmEquivalent] = useState("");
+  const [farmEquivalent, setFarmEquivalent] = useState(0);
   const [additionalOptions, setAdditionalOptions] = useState({});
   const [paymentMethod, setPaymentMethod] = useState("");
   const [accountHolder, setAccountHolder] = useState("");
@@ -25,6 +25,11 @@ function RequestForm({ user }) {
   const [isIamportLoaded, setIsIamportLoaded] = useState(false);
   const { uid } = useSelector((state) => state.userSlice);
   const navigate = useNavigate();
+
+  // 농장 동 수 선택 핸들러 수정
+  const handleFarmEquivalentChange = (e) => {
+    setFarmEquivalent(Number(e.target.value));
+  };
 
   // 회원가입이 되어있지 않은 경우 농장 주소는 공백이 됩니다.
   useEffect(() => {
@@ -106,7 +111,7 @@ function RequestForm({ user }) {
 
   const callback = async (response, merchant_uid) => {
     const { success, error_msg, imp_uid } = response;
-    if (success) {
+    if (success && imp_uid) {
       try {
         await handleSubmit(imp_uid, merchant_uid); // handleSubmit에 merchant_uid 전달
         navigate(-1);
@@ -132,11 +137,15 @@ function RequestForm({ user }) {
   const handleGetAddr = async (addr) => {
     setFarmAddress(addr);
 
-    // 주소의 위도, 경도 값을 가져옵니다.
-    const { lat = null, lng = null } =
-      (await convertingAddressToGeoCode(addr)) || {};
-    setLat(lat);
-    setLng(lng);
+    try {
+      // 주소의 위도, 경도 값을 가져옵니다.
+      const { lat = null, lng = null } =
+        (await convertingAddressToGeoCode(addr)) || {};
+      setLat(lat);
+      setLng(lng);
+    } catch (error) {
+      console.error("주소 변환 중 오류 발생: ", error.message);
+    }
   };
 
   // 농장 종류를 변경합니다.
@@ -192,7 +201,7 @@ function RequestForm({ user }) {
       uid: user.uid,
       email: user.email,
       name: user.name,
-      nick: user.nick,
+      nick: user.nickname,
       number: user.number,
       address: user.address,
       farmAddress: farmAddress,
@@ -203,9 +212,9 @@ function RequestForm({ user }) {
       additionalOptions: Object.keys(additionalOptions).filter(
         (key) => additionalOptions[key]
       ),
-      farmArea: farmArea,
+      farmArea: Number(farmArea),
       farmName: farmName,
-      farmEquivalent: farmEquivalent,
+      farmEquivalent: Number(farmEquivalent),
       createdAt: createdAt,
       paymentMethod: paymentMethod,
       cashReceipt: cashReceipt,
@@ -219,7 +228,7 @@ function RequestForm({ user }) {
       createdAt: `${new Date().getTime()}`,
       crop: cropType,
       deleteYn: "N",
-      docId: user.uid,
+      userDocId: user.uid,
       farmName: farmName,
       latitude: lat,
       longitude: lng,
@@ -227,13 +236,20 @@ function RequestForm({ user }) {
       updatedAt: `${new Date().getTime()}`,
       useYn: "N",
       userId: user.email,
+      imp_uid: imp_uid,
+      merchant_uid: merchant_uid,
     };
 
     try {
-      const paymentCollectionRef = collection(db, "payments");
-      const dashboardObjCollectionRef = collection(db, "dashboard");
-      await addDoc(paymentCollectionRef, dataObj);
-      await addDoc(dashboardObjCollectionRef, dashboardObj);
+      await Promise.all(
+        Array.from({ length: farmEquivalent }, async () => {
+          const paymentCollectionRef = collection(db, "payments");
+          const dashboardObjCollectionRef = collection(db, "dashboard");
+
+          await addDoc(paymentCollectionRef, dataObj);
+          await addDoc(dashboardObjCollectionRef, dashboardObj);
+        })
+      );
       console.log("데이터가 성공적으로 추가되었습니다.");
       resetForm();
     } catch (error) {
@@ -319,7 +335,7 @@ function RequestForm({ user }) {
             <h3>농장 동 수:</h3>
             <select
               value={farmEquivalent}
-              onChange={(e) => setFarmEquivalent(Number(e.target.value))}
+              onChange={handleFarmEquivalentChange}
             >
               <option value="0">값을 선택하여 주시기 바랍니다.</option>
               {Array.from({ length: 8 }, (_, i) => i + 1).map((num) => (

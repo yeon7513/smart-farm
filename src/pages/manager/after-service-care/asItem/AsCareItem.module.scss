@@ -1,0 +1,146 @@
+.container {
+  margin: 40px 30px;
+}
+
+.col {
+  display: grid;
+  grid-template-columns: 0.5fr 3fr 1fr 1fr 0.5fr;
+  align-items: center;
+  text-align: center;
+  border: 1px solid #e2e2e2;
+  padding: 18px;
+  border-radius: 10px;
+  background-color: var(--board-color);
+  //   background-color: var(--common-color);
+  //   color: #fff;
+  font-size: 18px;
+  margin-bottom: 5px;
+}
+
+.board {
+  div {
+    font-weight: 300;
+  }
+  ul {
+    cursor: pointer;
+    li {
+      display: grid;
+      grid-template-columns: 0.5fr 3fr 1fr 1fr 0.5fr;
+      align-items: center;
+      text-align: center;
+      padding: 15px;
+      border-bottom: 1px solid #e2e2e2;
+
+      &:hover {
+        background-color: #f1f1f1;
+        border-radius: 10px;
+      }
+    }
+  }
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 20px 0;
+  font-size: 12px;
+
+  span {
+    font-weight: 300;
+  }
+
+  button {
+    margin: 0 10px;
+    padding: 5px 10px;
+    border: 1px solid #e2e2e2;
+    border-radius: 5px;
+    font-weight: 300;
+    font-size: 12px;
+
+    &:disabled {
+      cursor: not-allowed;
+      opacity: 0.5;
+    }
+  }
+}
+
+.upload {
+  display: flex;
+  justify-content: end;
+  padding: 20px;
+
+  button {
+    border: 1px solid #e2e2e2;
+    padding: 10px;
+    border-radius: 8px;
+    font-size: 14px;
+
+    &:hover {
+      background-color: var(--back-color);
+    }
+  }
+}
+
+.modal {
+  width: 20%;
+}
+
+// 모달 css
+
+.modalContainer {
+  margin: 30px;
+  padding: 10px;
+}
+
+.modlaTitle {
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 8px;
+  margin: 10px;
+
+  div {
+    display: flex;
+    align-items: center;
+  }
+
+  h2 {
+    margin-bottom: 25px;
+  }
+
+  p {
+    font-size: 14px;
+    color: gray;
+  }
+}
+
+.modalProfile {
+  img {
+    width: 70px;
+    border-radius: 50%;
+  }
+}
+
+.titleBar {
+  width: 70%;
+  display: flex;
+  // justify-content: space-between;
+  gap: 80px;
+}
+
+.modlaContent {
+  min-height: 300px;
+  padding: 30px 50px 40px;
+  border-bottom: 1px solid #ddd;
+  letter-spacing: 0.5px;
+  white-space: pre-line;
+
+  div {
+    width: 100%;
+
+    img {
+      margin-top: 30px;
+      max-width: 60%;
+      height: auto;
+    }
+  }
+}
