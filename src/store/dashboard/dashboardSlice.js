@@ -98,6 +98,7 @@ export const fetchSectorInfo = createAsyncThunk(
   async (collectionName) => {
     try {
       const data = await getDatas(collectionName);
+      console.log(data);
       return data;
     } catch (error) {
       return error;
