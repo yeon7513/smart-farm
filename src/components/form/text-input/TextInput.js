@@ -1,19 +1,31 @@
-import React from 'react';
-import styles from './TextInput.module.scss';
+import React, { forwardRef } from 'react';
 
-function TextInput({ label, name, value, onChange, isDisabled = false }) {
-  return (
-    <label className={styles.label}>
-      <span>{label}</span>
+const TextInput = forwardRef(
+  (
+    {
+      type = 'text',
+      className,
+      placeholder,
+      name,
+      onChange,
+      value,
+      isDisabled = false,
+    },
+    ref
+  ) => {
+    return (
       <input
-        type="text"
+        ref={ref}
+        className={className}
+        type={type}
         name={name}
         value={value}
+        placeholder={placeholder}
         onChange={onChange}
-        isDisabled={isDisabled}
+        disabled={isDisabled}
       />
-    </label>
-  );
-}
+    );
+  }
+);
 
 export default TextInput;

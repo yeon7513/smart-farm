@@ -37,8 +37,8 @@ function FileInput({
     setPreview((prev) => [...prev, nextPreview]);
 
     return () => {
-      setPreview([]);
       URL.revokeObjectURL(nextPreview);
+      setPreview([]);
     };
   }, [value]);
 
