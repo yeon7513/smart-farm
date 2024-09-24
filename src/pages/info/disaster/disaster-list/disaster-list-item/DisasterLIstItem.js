@@ -1,14 +1,26 @@
 import React from "react";
 import styles from "./DisasterListItem.module.scss";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
-function DisasterLIstItem(props) {
+function DisasterLIstItem({ onDelete }) {
   const location = useLocation();
-  const { post } = location.state || {};
+  const navigate = useNavigate();
+  const { post } = location.state || {}; // onDelete를 props로 받음
 
   if (!post) {
     return <p>Post data not available</p>;
   }
+  //  게시글 삭제처리
+  // const handleDelete = async () => {
+  //   try {
+  //     await deleteDatas("disasters", post.id);
+  //     onDelete(post.id); // 부모에서 받은 onDelete 호출
+  //     navigate("/info/");
+  //   } catch (error) {
+  //     console.error("게시글 삭제 오류:", error);
+  //   }
+  // };
+
   return (
     <div className={styles.main}>
       <div className={styles.written}>

@@ -215,6 +215,7 @@ function RequestForm({ user }) {
 
     // dashboard로 넘겨서 승인여부(useYn)를 검사합니다. (기본값: n)
     const dashboardObj = {
+      name: user.name,
       createdAt: `${new Date().getTime()}`,
       crop: cropType,
       deleteYn: "N",

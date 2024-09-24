@@ -35,7 +35,7 @@ function EmailButton({
         console.error("이메일 보내기 실패:", error);
       });
   };
-
+  console.log(user);
   const handleVerification = () => {
     sendVerificationEmail();
   };

@@ -10,12 +10,12 @@ function ControlItem({
   handleDeleteItem,
 }) {
   const { sector } = useSectorContext();
-  console.log(sector);
   const handleControlContent = () => {
     onMoveComponent({
       option,
       idx,
-      //  id: sector.id, docId: sector.docId
+      id: sector.id,
+      // docId: sector.id * 2,
     });
   };
   return (

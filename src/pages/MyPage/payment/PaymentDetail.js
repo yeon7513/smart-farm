@@ -17,7 +17,7 @@ import axios from "axios";
 function PaymentDetail() {
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState(null);
-  const { imp_uid } = useParams();
+  const { createdAt } = useParams();
 
   // 액세스 토큰을 받아오는 함수입니다.
   const getAccessToken = async () => {
@@ -99,33 +99,52 @@ function PaymentDetail() {
   };
 
   useEffect(() => {
-    const paymentData = async () => {
+    const fetchData = async () => {
+      if (!createdAt) return;
       setLoading(true);
       try {
-        // payments 컬렉션에서 imp_uid로 필터링합니다.
+        // "dashboard" 컬렉션에서 createdAt 가져오기
+        const dashboardQuery = query(
+          collection(db, "dashboard"),
+          where("createdAt", "==", createdAt)
+        );
+        const dashboardSnapshot = await getDocs(dashboardQuery);
+
+        if (dashboardSnapshot.empty) {
+          console.log("Dashboard data not found");
+          setData(null);
+          return;
+        }
+
+        // "payments" 컬렉션에서 createdAt 가져오기
         const paymentsQuery = query(
           collection(db, "payments"),
-          where("imp_uid", "==", imp_uid)
+          where("createdAt", "==", createdAt)
         );
         const paymentsSnapshot = await getDocs(paymentsQuery);
 
-        console.log(paymentsSnapshot);
+        if (paymentsSnapshot.empty) {
+          console.log("Payments data not found");
+          setData(null);
+          return;
+        }
 
-        // 결제 정보를 배열로 변환합니다.
         const resultData = paymentsSnapshot.docs.map((doc) => ({
           id: doc.id,
           ...doc.data(),
         }));
-        console.log(resultData);
+
         setData(resultData.length > 0 ? resultData[0] : null);
       } catch (error) {
         console.error("Error fetching data:", error);
+      } finally {
+        setLoading(false);
       }
-      setLoading(false);
     };
 
-    paymentData();
-  }, [imp_uid]);
+    fetchData();
+  }, [createdAt]);
+
   return (
     <div>
       <Container>

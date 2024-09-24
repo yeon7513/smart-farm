@@ -91,9 +91,11 @@ function FarmList() {
         <div>등록된 농장이 없습니다.</div>
       ) : (
         <ul className={styles.list}>
-          {listData?.map((item) => (
-            <FarmListItem key={item.docId} farmData={item} />
-          ))}
+          {listData?.map((item) =>
+            item.useYn === "Y" ? (
+              <FarmListItem key={item.docId} farmData={item} />
+            ) : null
+          )}
         </ul>
       )}
     </>
