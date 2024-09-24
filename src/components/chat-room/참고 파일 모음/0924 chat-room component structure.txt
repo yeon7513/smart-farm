@@ -1,0 +1,22 @@
+chatRoom/
+│
+├── chatRoom.js                // 최상위 컴포넌트
+├── chatRoom.module.scss        // 스타일 파일
+│
+├── chat-room-header/           // ChatRoomHeader 컴포넌트 폴더
+│   └── chatRoomHeader.js
+│
+├── chat-options/               // ChatOptions 컴포넌트 폴더
+│   ├── chatOptions.js
+│   └── live-chatting/          // LiveChatting 컴포넌트 폴더
+│       ├── liveChatting.js
+│       └── chatting-message/   // ChattingMessage 컴포넌트 폴더
+│           └── chattingMessage.js
+│
+├── faq-questions/              // FaqQuestions 컴포넌트 폴더
+│   └── faqQuestions.js
+│
+└── chat-room-footer/           // ChatRoomFooter 컴포넌트 폴더
+    ├── chatRoomFooter.js
+    └── footer-chatting-form/   // FooterChattingForm 컴포넌트 폴더
+        └── footerChattingForm.js
