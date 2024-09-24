@@ -1,6 +1,10 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { deletePost, getBoardDatas, updatePost } from "../../api/board";
-import { getDisasterDatas } from "../../api/disaster";
+import {
+  deleteDisaster,
+  getDisasterDatas,
+  updateDisaster,
+} from "../../api/disaster";
 
 // 초기 상태
 const initialState = {
@@ -72,7 +76,7 @@ export const fetchDisasterDatas = createAsyncThunk(
 export const updateDisasterDatas = createAsyncThunk(
   "disaster/updateDisasterDatas",
   async ({ category, docId, updateObj }) => {
-    const result = await updatePost(category, docId, updateObj);
+    const result = await updateDisaster(category, docId, updateObj);
     return result;
   }
 );
@@ -80,7 +84,7 @@ export const updateDisasterDatas = createAsyncThunk(
 export const deleteDisasterDatas = createAsyncThunk(
   "disaster/deleteDisasterDatas",
   async (docId) => {
-    await deletePost(docId);
+    await deleteDisaster("disasters", docId);
     return { docId };
   }
 );

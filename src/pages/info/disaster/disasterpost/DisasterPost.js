@@ -10,7 +10,6 @@ function DisasterPost(props) {
     title: "",
     summary: "",
   });
-  // const [file, setFile] = useState(null); //
   const [isSubmitting, setIsSubmitting] = useState(false);
   const navigate = useNavigate();
   const disPath = useDispatch();

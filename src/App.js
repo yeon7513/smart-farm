@@ -35,6 +35,7 @@ import DashBoard from "./pages/my-farm/my-farm-list/dashboard/DashBoard";
 import NotFound from "./pages/notFound/NotFound";
 import RequestForQuote from "./pages/request/RequestForQuote";
 import "./scss/global.scss";
+import DisasterEdit from "./pages/info/disaster/disasteredit/DisasterEdit";
 
 function App() {
   return (
@@ -58,6 +59,7 @@ function App() {
               <Route path="diseases/:path" element={<DiseasesItem />} />
               <Route path="disaster/:id" element={<DisasterLIstItem />} />
               <Route path="disaster/write" element={<DisasterPost />} />
+              <Route path="disaster/edit:docId" element={<DisasterEdit />} />
             </Route>
             {/* 로그인 */}
             <Route path="login" element={<LoginPage />} />
