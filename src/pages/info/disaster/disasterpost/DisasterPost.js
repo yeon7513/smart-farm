@@ -1,18 +1,20 @@
 import React, { useState } from "react";
 import styles from "./DisasterPost.module.scss";
 import { useNavigate } from "react-router-dom"; // For navigation after submission
-import { addDatas, getDatas } from "../../../../api/firebase";
+import { addDatas, deleteDatas, getDatas } from "../../../../api/firebase";
+import { useDispatch } from "react-redux";
+import { fetchDisasterDatas } from "../../../../store/disaster/disasterSlice";
 
 function DisasterPost(props) {
   const [values, setValues] = useState({
     title: "",
     summary: "",
   });
-  const [file, setFile] = useState(null); //
+  // const [file, setFile] = useState(null); //
   const [isSubmitting, setIsSubmitting] = useState(false);
   const navigate = useNavigate();
+  const disPath = useDispatch();
 
-  // Handle form input change
   const handleChange = (e) => {
     const { name, value } = e.target;
     setValues({ ...values, [name]: value });
@@ -28,12 +30,11 @@ function DisasterPost(props) {
     };
 
     console.log("Form submitted:", postData);
-    console.log("File attached:", file);
 
     try {
+      //파이어베이스에 데이터 추가
       await addDatas("disasters", postData);
-      const posts = await getDatas("disasters");
-      console.log(posts);
+      disPath(fetchDisasterDatas("disasters")); //카테고리에 맞는게시글 데이터 가져옴.
 
       navigate("/info");
     } catch (error) {
@@ -42,7 +43,7 @@ function DisasterPost(props) {
       setIsSubmitting(false);
     }
   };
-
+  //취소버튼
   const handleCancel = () => {
     window.history.back();
   };
