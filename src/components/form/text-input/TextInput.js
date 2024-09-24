@@ -23,6 +23,7 @@ const TextInput = forwardRef(
         placeholder={placeholder}
         onChange={onChange}
         disabled={isDisabled}
+        autoComplete="off"
       />
     );
   }

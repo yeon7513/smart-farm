@@ -1,4 +1,5 @@
-import React, { useEffect, useRef, useState } from 'react';
+import cn from 'classnames';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import TextInput from '../../../components/form/text-input/TextInput';
 import SearchAddr from '../../../components/search-addr/SearchAddr';
@@ -14,7 +15,9 @@ function InfoEdit() {
 
   const [values, setValues] = useState({ ...userInfo });
   const [homeAddr, setHomeAddr] = useState(userInfo?.address);
-  const nickRef = useRef();
+
+  const [checkNickName, setCheckNickName] = useState(false);
+  const [checkPw, setCheckPw] = useState(false);
 
   const dispatch = useDispatch();
 
@@ -28,8 +31,8 @@ function InfoEdit() {
     handleChange(name, value);
   };
 
-  const handleNickNameCheckDuplication = () => {
-    const { name, value } = nickRef.current;
+  const handleNickNameCheckDuplication = (e) => {
+    const { name, value } = e.target;
 
     const checkNickName = items.some((item) => item.nickname === value);
 
@@ -72,7 +75,7 @@ function InfoEdit() {
         value={values.photoUrl}
       />
       <div className={styles.content}>
-        <div className={styles.disabled}>
+        <div className={cn(styles.disable, styles.inputContainer)}>
           <TextInput
             type="text"
             name="email"
@@ -80,9 +83,8 @@ function InfoEdit() {
             isDisabled={true}
           />
           <label>이메일</label>
-          <span className={styles.highlight}></span>
         </div>
-        <div className={styles.disabled}>
+        <div className={cn(styles.disable, styles.inputContainer)}>
           <TextInput
             type="text"
             name="name"
@@ -90,24 +92,22 @@ function InfoEdit() {
             isDisabled={true}
           />
           <label>이름</label>
-          <span className={styles.highlight}></span>
         </div>
-        <div className={styles.enable}>
+        <div className={cn(styles.enable, styles.inputContainer)}>
           <TextInput
             type="text"
             name="nickname"
-            ref={nickRef}
-            defaultValue={values.nickname}
+            value={values.nickname}
             placeholder="새로운 닉네임"
+            onChange={handleNickNameCheckDuplication}
           />
           <label className={styles.enable}>닉네임</label>
-          <button type="button" onClick={handleNickNameCheckDuplication}>
-            중복확인
-          </button>
           <span className={styles.highlight}></span>
+          {/* <button type="button" onClick={handleNickNameCheckDuplication}>
+            중복확인
+          </button> */}
         </div>
-        <label className={styles.enable}>
-          <span className={styles.highlight}>연락처</span>
+        <div className={cn(styles.enable, styles.inputContainer)}>
           <TextInput
             type="text"
             name="number"
@@ -115,25 +115,29 @@ function InfoEdit() {
             placeholder="000-0000-0000"
             onChange={handleChangeValues}
           />
-        </label>
-        <label className={styles.enable}>
-          <span className={styles.highlight}>비밀번호</span>
+          <label>연락처</label>
+          <span className={styles.highlight}></span>
+        </div>
+        <div className={cn(styles.enable, styles.inputContainer)}>
           <TextInput
             type="password"
             name="pw"
             placeholder="기존 비밀번호"
             onChange={handleChangeValues}
           />
-        </label>
-        <label className={styles.enable}>
-          <span className={styles.highlight}>비밀번호</span>
+          <label>기존 비밀번호</label>
+          <span className={styles.highlight}></span>
+        </div>
+        <div className={cn(styles.enable, styles.inputContainer)}>
           <TextInput
             type="password"
             name="pwck"
             placeholder="새로운 비밀번호"
             onChange={handleChangeValues}
           />
-        </label>
+          <label>새로운 비밀번호</label>
+          <span className={styles.highlight}></span>
+        </div>
         <SearchAddr getAddr={setHomeAddr} className={styles.homeAddrSearch} />
         <div className={styles.btns}>
           <button type="submit">수정</button>
