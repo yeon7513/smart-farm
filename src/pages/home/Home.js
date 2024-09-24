@@ -14,6 +14,8 @@ import { cases } from "../../lib/case";
 import backImg from "../../assets/main/content2.jpg";
 import HomeChart from "../../components/home-chart/HomeChart";
 import { useComponentContext } from "../../context/ComponentContext";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchBoardDatas } from "./../../store/board/boardSlice";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -24,6 +26,47 @@ function Home() {
 
   const twoText = useRef();
   const imgRef = useRef([]);
+
+  const dispatch = useDispatch();
+  const { posts, isLoading } = useSelector((state) => state.boardSlice);
+  const [notice, setNotice] = useState();
+  const [sharing, setSharing] = useState();
+
+  // 데이터 로드
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const [noticePosts, sharingPosts] = await Promise.all([
+          dispatch(fetchBoardDatas("notice")).unwrap(),
+          dispatch(fetchBoardDatas("sharing")).unwrap(),
+        ]);
+
+        // 3개씩만, 최신순
+        setNotice([
+          ...noticePosts
+            .slice(0, 3)
+            .sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt)),
+        ]);
+        setSharing([
+          ...sharingPosts
+            .slice(0, 3)
+            .sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt)),
+        ]);
+      } catch (error) {
+        console.error("데이터 불러오기 실패:", error);
+      }
+    };
+
+    fetchCategories();
+  }, [dispatch]);
+
+  // posts가 업데이트되면 view도 업데이트
+  useEffect(() => {
+    if (!isLoading && posts.length > 0) {
+      setNotice(posts);
+      setSharing(posts);
+    }
+  }, [posts, isLoading]);
 
   useEffect(() => {
     gsap.to(".mainText", {
@@ -155,24 +198,36 @@ function Home() {
           <h1>커뮤니티</h1>
           <div className={styles.commu}>
             <div>
-              <Link to={"/community"} onClick={() => setCurrComp("notice")}>
-                <ul>
+              <ul>
+                <Link to={"/community"} onClick={() => setCurrComp("notice")}>
                   <h2>공지사항</h2>
-                  <li>2024-08-23 / 신규 업데이트</li>
-                  <li>2024-08-20 / 불편사항 신고 ...</li>
-                  <li>2024-08-15 / 여름휴가 안내</li>
-                </ul>
-              </Link>
+                </Link>
+                {notice &&
+                  notice.map((item, idx) => (
+                    <Link
+                      key={idx}
+                      to={`/community/${item.collection}/${item.id}`}
+                    >
+                      <li>{item.title}</li>
+                    </Link>
+                  ))}
+              </ul>
             </div>
             <div>
-              <Link to={"/community"} onClick={() => setCurrComp("sharing")}>
-                <ul>
+              <ul>
+                <Link to={"/community"} onClick={() => setCurrComp("sharing")}>
                   <h2>정보 공유 게시판</h2>
-                  <li>요즘 날씨 진짜 덥네요</li>
-                  <li>회원님들은 어떤 시스템...</li>
-                  <li>내일부터 2박3일 여행 가는데...</li>
-                </ul>
-              </Link>
+                </Link>
+                {sharing &&
+                  sharing.map((item, idx) => (
+                    <Link
+                      key={idx}
+                      to={`/community/${item.collection}/${item.id}`}
+                    >
+                      <li>{item.title}</li>
+                    </Link>
+                  ))}
+              </ul>
             </div>
           </div>
         </div>

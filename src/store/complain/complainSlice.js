@@ -1,5 +1,10 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { addSetDocDatas, getDatas } from "../../api/firebase";
+import { getDatas } from "../../api/firebase";
+import {
+  addSetDocDatas,
+  incrementComplainCount,
+  updateComplaintProcess,
+} from "../../api/complaint";
 
 const initialState = {
   processing: [], // 처리 중
@@ -54,6 +59,25 @@ const complainSlice = createSlice({
       .addCase(addComplain.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload;
+      })
+
+      // 승인
+      .addCase(approveComplaint.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(approveComplaint.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.processing = state.processing.map((complain) =>
+          complain.id === action.payload.complainId
+            ? { ...complain, processYn: "Y" }
+            : complain
+        );
+        state.error = null;
+      })
+      .addCase(approveComplaint.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload;
       });
   },
 });
@@ -99,6 +123,7 @@ export const fetchProcessed = createAsyncThunk(
   }
 );
 
+// 신고 추가
 export const addComplain = createAsyncThunk(
   "complain/addComplain",
   async ({ collectionName, complainData }) => {
@@ -110,6 +135,24 @@ export const addComplain = createAsyncThunk(
     } catch (error) {
       console.log(`신고하기 에러 발생`);
       return false;
+    }
+  }
+);
+
+// 신고 누적횟수 증가
+export const approveComplaint = createAsyncThunk(
+  "complain/approveComplaint",
+  async ({ userId, complainId }) => {
+    try {
+      // 신고당한 사용자의 신고 누적 횟수 증가
+      await incrementComplainCount(userId);
+
+      // processYn을 'Y'로 업데이트
+      await updateComplaintProcess(complainId);
+
+      return { userId, complainId };
+    } catch (error) {
+      console.log(`승인 중 오류:`, error);
     }
   }
 );

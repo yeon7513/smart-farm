@@ -34,7 +34,7 @@ function CpProfile({ item }) {
     <>
       <div className={styles.flex_box}>
         <div className={styles.profile}>
-          <img src={item.profileUrl} alt="" />
+          <img src={item.photoUrl} alt="" />
           <h3>{item.defendant}</h3>
         </div>
         <div className={styles.care}>
@@ -50,7 +50,6 @@ function CpProfile({ item }) {
               btnHandler={goProcessed}
             >
               <form onSubmit={handleSubmit}>
-                {/* <span>[FM{createdAt}]</span> */}
                 <FileInput
                   setFile={handleChange}
                   name="photoUrl"

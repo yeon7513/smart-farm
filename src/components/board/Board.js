@@ -1,15 +1,15 @@
-import React, { useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import React, { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 // import { getBoardDatas } from "../../api/board";
-import { useDispatch, useSelector } from 'react-redux';
-import { fetchBoardDatas } from '../../store/board/boardSlice';
-import styles from './Board.module.scss';
-import Post from './post/Post';
+import { useDispatch, useSelector } from "react-redux";
+import { fetchBoardDatas } from "../../store/board/boardSlice";
+import styles from "./Board.module.scss";
+import Post from "./post/Post";
 
 const PAGE_SIZE = 10;
 
 function Board({ nopost, category, complain, myPosts }) {
-  const loginUser = JSON.parse(localStorage.getItem('user'));
+  const loginUser = JSON.parse(localStorage.getItem("user"));
   const navigate = useNavigate();
   const [currentPage, setCurrentPage] = useState(1);
   const [isWriting, setIsWriting] = useState(false); // 글쓰기 모드 상태
@@ -63,7 +63,7 @@ function Board({ nopost, category, complain, myPosts }) {
   // 글쓰기 버튼
   const handleWriteClick = () => {
     if (!isAuthenticated) {
-      navigate('/login');
+      navigate("/login");
       return setIsWriting(false);
     } else {
       setIsWriting(true); // 로그인된 경우에만 글쓰기 모드로 전환
@@ -132,7 +132,7 @@ function Board({ nopost, category, complain, myPosts }) {
             </button>
           </div>
           {nopost === false ? (
-            loginUser?.nick === '관리자' && (
+            loginUser?.nickname === "관리자" && (
               <div className={styles.upload}>
                 {<button onClick={handleWriteClick}>글쓰기</button>}
               </div>
