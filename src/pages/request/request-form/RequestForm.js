@@ -227,6 +227,8 @@ function RequestForm({ user }) {
       updatedAt: `${new Date().getTime()}`,
       useYn: "N",
       userId: user.email,
+      imp_uid: imp_uid,
+      merchant_uid: merchant_uid,
     };
 
     try {

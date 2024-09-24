@@ -63,9 +63,6 @@ const Payment = () => {
                 </thead>
                 <tbody>
                   {filteredData.map((item) => {
-                    // createdAt에서 앞의 8자리 제거
-                    const createdAtShort = item.createdAt.slice(-13);
-
                     return (
                       <tr key={item.id}>
                         <td>{item.crop}</td>
@@ -73,7 +70,7 @@ const Payment = () => {
                         <td>{item.createdAt}</td>
                         <td>{item.useYn}</td>
                         <td>
-                          <Link to={`/mypage/${createdAtShort}`}>
+                          <Link to={`/mypage/${item.imp_uid}`}>
                             <button className={styles.button}>
                               자세히 보기
                             </button>

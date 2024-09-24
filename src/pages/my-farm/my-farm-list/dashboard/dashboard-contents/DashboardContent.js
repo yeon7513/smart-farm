@@ -9,13 +9,15 @@ import styles from "./DashboardContent.module.scss";
 function DashboardContent({ docId }) {
   const { sectorInfo } = useSelector((state) => state.dashboardSlice);
   const { currComp } = useComponentContext();
-  // const { setSector } = useSectorContext();
 
   const dispatch = useDispatch();
+
   useEffect(() => {
     const collectionName = `dashboard/${docId}/sector`;
+
     dispatch(fetchSectorInfo(collectionName));
   }, [dispatch, docId]);
+
   return (
     <div className={styles.content}>
       <ul className={styles.sectorMenu}>

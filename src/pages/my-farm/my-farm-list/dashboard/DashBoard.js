@@ -17,6 +17,7 @@ function DashBoard() {
   const dispatch = useDispatch();
 
   const { setSector } = useSectorContext();
+  console.log(state.docId);
 
   useEffect(() => {
     const collectionName = `dashboard/${state.docId}/sector`;
