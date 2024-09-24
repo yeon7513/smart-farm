@@ -13,6 +13,7 @@ function CustomModal({
   className,
   isDisabled = false,
   onApprove,
+  onReject,
 }) {
   return (
     <Modal className={styles.Modal} open={isOpen} onClose={handleClose}>
@@ -22,6 +23,11 @@ function CustomModal({
           {onApprove && (
             <button className={styles.outBtn} onClick={onApprove}>
               승인
+            </button>
+          )}
+          {onReject && (
+            <button className={styles.outBtn} onClick={onReject}>
+              거절
             </button>
           )}
           {!btnHandler && (

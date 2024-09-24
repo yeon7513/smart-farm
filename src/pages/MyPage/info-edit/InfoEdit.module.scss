@@ -5,10 +5,35 @@
   width: 70%;
   outline: 1px dotted red;
 
+  /* 작은 모니터 */
+  @media (max-width: 1200px) {
+    margin: 0;
+    width: 100%;
+  }
+  /* 태블릿 */
+  @media (max-width: 992px) {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  /* 모바일 */
+  @media (max-width: 768px) {
+  }
+
+  /* 작은모바일 */
+  @media (max-width: 576px) {
+  }
+
   .imgUpload {
     flex: none;
     width: 300px;
     height: 300px;
+
+    /* 작은 모니터 */
+    @media (max-width: 1200px) {
+      width: 240px;
+      height: 240px;
+    }
   }
 
   .content {
@@ -16,17 +41,84 @@
     display: flex;
     flex-direction: column;
     gap: 24px;
+    padding-top: 20px;
 
-    > label {
-      display: flex;
-      gap: 16px;
-      > span {
-        display: inline-block;
-        width: 20%;
-      }
+    /* 작은 모니터 */
+    @media (max-width: 992px) {
+      gap: 30px;
+    }
+
+    .inputContainer {
+      position: relative;
 
       > input {
-        border: 1px solid #eee;
+        display: block;
+        width: 60%;
+        padding: 10px;
+        font-size: 16px;
+        border-bottom: 2px solid #ccc;
+        background-color: transparent;
+
+        /* 태블릿 */
+        @media (max-width: 992px) {
+          width: 100%;
+        }
+
+        &:disabled {
+          background-color: #eee;
+          color: #bbb;
+        }
+      }
+
+      &.enable {
+        > input {
+          &:focus {
+            + label {
+              opacity: 1;
+              top: -15px;
+              font-size: 12px;
+              color: var(--hover-color);
+              + .highlight {
+                width: 60%;
+                /* 태블릿 */
+                @media (max-width: 992px) {
+                  width: 100%;
+                }
+              }
+            }
+          }
+        }
+
+        > label {
+          position: absolute;
+          top: 0;
+          left: 0;
+          font-size: 16px;
+          color: var(--common-color);
+          pointer-events: none;
+          opacity: 0;
+          transition: 0.3s;
+        }
+
+        .highlight {
+          position: absolute;
+          bottom: 0;
+          left: 0;
+          height: 2px;
+          width: 0;
+          background-color: var(--hover-color);
+          transition: 0.3s;
+        }
+      }
+
+      &.disable {
+        > label {
+          position: absolute;
+          top: -15px;
+          left: 0;
+          font-size: 12px;
+          color: #ccc;
+        }
       }
     }
   }
