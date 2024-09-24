@@ -2,18 +2,18 @@ import React from 'react'
 import styles from "./ChatRoomFooter.module.scss";
 import FooterChattingForm from './footer-chatting-form/FooterChattingForm';
 
-function ChatRoomFooter({openChatLived, isTransitioningToLiveChat, auth, onSendMessage }) {
+function ChatRoomFooter({isLiveChatOpend, isTransitioningToLiveChat, auth, onSendMessage }) {
   return (
     <div
     className={`${styles.footer} 
-    ${ openChatLived ? styles.footerDetailOption : ""  }
+    ${ isLiveChatOpend ? styles.footerDetailOption : ""  }
     ${ isTransitioningToLiveChat ? styles.FooterChattingForm: "" }`}
   >
     { isTransitioningToLiveChat ? (    
     <FooterChattingForm
     onSendMessage={onSendMessage}
     />
-  ) : openChatLived ? (
+  ) : isLiveChatOpend ? (
       <>
         버튼 클릭 시 상담이 신속히 연결되며, 상담 대기자가 많을 경우 시간이
         다소 소요될 수 있습니다.

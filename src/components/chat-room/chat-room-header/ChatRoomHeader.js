@@ -4,11 +4,11 @@ import closeIcon from "../../../assets/main/closeImg.svg";
 import styles from "./ChatRoomHeader.module.scss";
 
 
-function ChatRoomHeader({ openChatLived,handleBackButtonClick,handleClose, isTransitioningToLiveChat }) {
+function ChatRoomHeader({ isLiveChatOpend,handleBackButtonClick,handleClose, isTransitioningToLiveChat }) {
   return (
     <div
     className={`${styles.header} 
-    ${openChatLived ? styles.headerDetailOption : ""}  
+    ${isLiveChatOpend ? styles.headerDetailOption : ""}  
     ${isTransitioningToLiveChat ? styles.headerLiveChatting : "" }`}
   >
     {isTransitioningToLiveChat ? (
@@ -25,7 +25,7 @@ function ChatRoomHeader({ openChatLived,handleBackButtonClick,handleClose, isTra
     <img src={closeIcon} alt="닫기" style={{ width: "16px", height: "16px" }} />
   </button>
 </>
-) : openChatLived ? (
+) : isLiveChatOpend ? (
       <>
         <button className={styles.backBtn} onClick={handleBackButtonClick}>
           <img
