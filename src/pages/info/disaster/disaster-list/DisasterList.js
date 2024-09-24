@@ -1,38 +1,51 @@
-import React, { useEffect, useState } from "react";
+import React, { useDeferredValue, useEffect, useState } from "react";
 import { CiSearch } from "react-icons/ci";
 import SearchBox from "../../../../components/search_box/SearchBox";
 import styles from "./DisasterList.module.scss";
 import { Link } from "react-router-dom";
-import Writing from "../writing/Writing";
-import { getDatas, incrementViewCount } from "../../../../api/firebase";
+// import { getDatas, incrementViewCount } from "../../../../api/firebase";
+// import { incrementPostCount } from "../../../../api/board";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  fetchDisasterDatas,
+  incrementViewCount,
+} from "../../../../store/disaster/disasterSlice";
 
 function DisasterList(props) {
-  const [posts, setPosts] = useState([]); //상태관리
+  const dispatch = useDispatch();
+  const { posts } = useSelector((state) => state.disasterSlice);
+  // const [posts, setPosts] = useState([]); //상태관리
 
   //컴포넌트가 마운트되었을때 Firestore에서 데이터 가져오기
+  // useEffect(() => {
+  //   const fetchPosts = async () => {
+  //     try {
+  //       const data = await getDatas("disasters");
+  //       setPosts(data);
+  //     } catch (error) {
+  //       console.error("Error fetching data: ", error);
+  //     }
+  //   };
+  //   fetchPosts();
+  // }, []);
   useEffect(() => {
-    const fetchPosts = async () => {
-      try {
-        const data = await getDatas("disasters");
-        setPosts(data);
-      } catch (error) {
-        console.error("Error fetching data: ", error);
-      }
-    };
-    fetchPosts();
-  }, []);
-  // const handlePostClick = async (post) => {
-  //   console.log("Post clicked:", post); // 확인용 로그 추가
-  //   if (!post || !post.id) {
-  //     console.error("Invalid post:", post);
-  //     return; // 잘못된 포스트 처리
-  //   }
-  //   try {
-  //     await incrementViewCount(post.id);
-  //     // ...
-  //   } catch (error) {
-  //     console.error("Error updating view count: ", error);
-  //   }
+    dispatch(fetchDisasterDatas("disasters"));
+  }, [dispatch]);
+
+  const handlePostClick = (post) => {
+    if (!post || !post.id) {
+      console.log("Invalid post:", post);
+      return;
+    }
+    try {
+      dispatch(incrementViewCount(post.id));
+    } catch (error) {
+      console.error("조회수 에러: ", error);
+    }
+  };
+
+  // const handleDelete = (postId) => {
+  //   setPosts((prevPosts) => prevPosts.filter((post) => post.id !== postId));
   // };
 
   return (
@@ -73,7 +86,7 @@ function DisasterList(props) {
               <Link
                 to={`/info/disaster/${item.id}`}
                 state={{ post: item }}
-                // onClick={() => handlePostClick(item)}
+                onClick={() => handlePostClick(item)}
               >
                 <div className={styles.menu_list}>
                   <div className={styles.menu_number}>

@@ -1,47 +1,22 @@
-import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import FileInput from '../../../components/form/file-input/FileInput';
+import React, { useEffect, useRef, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import TextInput from '../../../components/form/text-input/TextInput';
+import SearchAddr from '../../../components/search-addr/SearchAddr';
 import { useComponentContext } from '../../../context/ComponentContext';
-import { updateUserInfo } from '../../../store/user/UserSlice';
+import { fetchItems, updateUserInfo } from '../../../store/user/UserSlice';
+import FileInput from './../../../components/form/file-input/FileInput';
 import styles from './InfoEdit.module.scss';
 
 function InfoEdit() {
   const { setCurrComp } = useComponentContext();
   const userInfo = JSON.parse(localStorage.getItem('user'));
+  const { items } = useSelector((state) => state.userSlice);
 
-  const initialData = [
-    {
-      label: '이메일',
-      name: 'email',
-      value: userInfo.email,
-      isDisabled: true,
-    },
-    {
-      label: '이름',
-      name: 'name',
-      value: userInfo.name,
-      isDisabled: true,
-    },
-    {
-      label: '닉네임',
-      name: 'nickname',
-      value: userInfo.nick,
-      isDisabled: false,
-    },
-    {
-      label: '연락처',
-      name: 'number',
-      value: userInfo.number,
-      isDisabled: false,
-    },
-  ];
-
-  const [values, setValues] = useState(userInfo);
+  const [values, setValues] = useState({ ...userInfo });
+  const [homeAddr, setHomeAddr] = useState(userInfo.address);
+  const nickRef = useRef();
 
   const dispatch = useDispatch();
-
-  console.log('values: ', values);
 
   const handleChange = (name, value) => {
     setValues((prev) => ({ ...prev, [name]: value }));
@@ -53,18 +28,40 @@ function InfoEdit() {
     handleChange(name, value);
   };
 
+  const handleNickNameCheckDuplication = () => {
+    const { name, value } = nickRef.current;
+
+    const checkNickName = items.some((item) => item.nickname === value);
+
+    if (checkNickName) {
+      alert('중복된 닉네임');
+    } else {
+      handleChange(name, value);
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     const params = {
       collectionName: 'users',
-      docId: userInfo.docId,
-      updateObj: { ...values },
+      docId: values.docId,
+      updateObj: { address: homeAddr, ...values },
       photoUrl: values.photoUrl,
     };
 
+    console.log(params);
+
     dispatch(updateUserInfo(params));
   };
+
+  useEffect(() => {
+    dispatch(fetchItems({ collectionName: 'users' }));
+  }, [dispatch]);
+
+  useEffect(() => {
+    return () => setHomeAddr('');
+  }, []);
 
   return (
     <form className={styles.myEdit} onSubmit={handleSubmit}>
@@ -79,16 +76,66 @@ function InfoEdit() {
         />
       </div>
       <div className={styles.content}>
-        {initialData.map((data, idx) => (
+        <label>
+          <span>이메일</span>
           <TextInput
-            key={idx}
-            name={data.name}
-            value={data.value}
-            label={data.label}
-            isDisabled={data.isDisabled}
+            type="text"
+            name="email"
+            value={values.email}
+            isDisabled={true}
+          />
+        </label>
+        <label>
+          <span>이름</span>
+          <TextInput
+            type="text"
+            name="name"
+            value={values.name}
+            isDisabled={true}
+          />
+        </label>
+        <label>
+          <span>닉네임</span>
+          <TextInput
+            type="text"
+            name="nickname"
+            ref={nickRef}
+            defaultValue={values.nickname}
+            placeholder="새로운 닉네임"
+          />
+          <button type="button" onClick={handleNickNameCheckDuplication}>
+            중복확인
+          </button>
+        </label>
+        <label>
+          <span>연락처</span>
+          <TextInput
+            type="text"
+            name="number"
+            value={values.number}
+            placeholder="000-0000-0000"
             onChange={handleChangeValues}
           />
-        ))}
+        </label>
+        <label>
+          <span>비밀번호</span>
+          <TextInput
+            type="password"
+            name="pw"
+            placeholder="새로운 비밀번호"
+            onChange={handleChangeValues}
+          />
+        </label>
+        <label>
+          <span>비밀번호 확인</span>
+          <TextInput
+            type="password"
+            name="pwck"
+            placeholder="비밀번호 확인"
+            onChange={handleChangeValues}
+          />
+        </label>
+        <SearchAddr getAddr={setHomeAddr} className={styles.homeAddrSearch} />
       </div>
       <button type="submit">수정</button>
       <button type="button" onClick={() => setCurrComp('IntroMyPage')}>

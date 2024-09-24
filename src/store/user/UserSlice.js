@@ -8,12 +8,13 @@ const initialState = localStorage.getItem('user')
       email: '',
       token: '',
       uid: '',
-      nick: '',
+      docId: '',
+      nickname: '',
       name: '',
       number: '',
       address: '',
       farmAddress: '',
-      photoUrl: '',
+      photoUrl: [],
       complaneNum: 0,
       isAuthenticated: false,
       items: [],
@@ -34,12 +35,13 @@ const userSlice = createSlice({
       state.email = '';
       state.token = '';
       state.uid = '';
+      state.docId = '';
       state.name = '';
-      state.nick = '';
+      state.nickname = '';
       state.number = '';
       state.address = '';
       state.farmAddress = '';
-      state.photoUrl = '';
+      state.photoUrl = [];
       state.complaneNum = 0;
       state.isAuthenticated = false;
       localStorage.removeItem('user');
