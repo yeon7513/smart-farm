@@ -11,7 +11,7 @@ import styles from './IntroMyPage.module.scss';
 function IntroMyPage() {
   const {
     email,
-    nick,
+    nickname,
     name,
     address,
     number,
@@ -34,7 +34,7 @@ function IntroMyPage() {
         </span>
       </button>
       <h3 className={styles.title}>
-        {nick}
+        {nickname}
         <span>{email}</span>
       </h3>
       <Card className={styles.content}>

@@ -43,7 +43,6 @@ export function getUserAuth() {
   return auth;
 }
 
-// 랜덤 파일 이름 생성
 export function createPath(path) {
   const uuid = crypto.randomUUID();
   return path + uuid;
@@ -202,8 +201,8 @@ export const addSetDocDatas = async (collectionName, complainData) => {
 export const pointTableCancel = async (imp_uid) => {
   try {
     const paymentsQuery = query(
-      collection(db, "payments"),
-      where("imp_uid", "==", imp_uid)
+      collection(db, 'payments'),
+      where('imp_uid', '==', imp_uid)
     );
     const paymentsSnapshot = await getDocs(paymentsQuery);
 
@@ -211,11 +210,11 @@ export const pointTableCancel = async (imp_uid) => {
     if (!paymentsSnapshot.empty) {
       const docRef = paymentsSnapshot.docs[0].ref;
       await deleteDoc(docRef);
-      console.log("결제 정보가 삭제되었습니다.");
+      console.log('결제 정보가 삭제되었습니다.');
     } else {
-      console.log("결제 정보를 찾을 수 없습니다.");
+      console.log('결제 정보를 찾을 수 없습니다.');
     }
   } catch (error) {
-    console.error("결제 정보 삭제 실패: ", error);
+    console.error('결제 정보 삭제 실패: ', error);
   }
 };

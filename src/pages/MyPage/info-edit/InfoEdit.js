@@ -53,6 +53,7 @@ function InfoEdit() {
     console.log(params);
 
     dispatch(updateUserInfo(params));
+    localStorage.setItem('user', JSON.stringify(params.updateObj));
   };
 
   useEffect(() => {
