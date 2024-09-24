@@ -46,8 +46,7 @@ function Form({
     const findUser = items.find((item) => {
       return item.email == name;
     });
-    console.log(findUser.deleteYn);
-    if (findUser.deleteYn == "Y") {
+    if (findUser?.deleteYn == "Y") {
       alert("탈퇴된 회원입니다.");
       return false;
     }
