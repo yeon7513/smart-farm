@@ -35,7 +35,7 @@ function Comment({ item }) {
     if (selectedReason) {
       const complainData = {
         defendant: comment.nick,
-        complainant: loginUser.nick,
+        complainant: loginUser.nickname,
         reasonCode: selectedReason.code, // 'pf_01' 등의 코드 사용
         reasonName: selectedReason.name,
         createdAt: new Date().toISOString().split("T")[0],
@@ -70,7 +70,7 @@ function Comment({ item }) {
 
     const commentObj = {
       text: newComment,
-      nick: loginUser.nick,
+      nick: loginUser.nickname,
       email: loginUser.email,
     };
 
@@ -165,7 +165,7 @@ function Comment({ item }) {
                     </p>
                   </div>
                   <div>
-                    {comment.nick === loginUser?.nick ? (
+                    {comment.nick === loginUser?.nickname ? (
                       <div>
                         <button onClick={() => handleEditClick(comment)}>
                           수정

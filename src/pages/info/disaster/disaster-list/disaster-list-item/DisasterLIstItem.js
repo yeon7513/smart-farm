@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./DisasterListItem.module.scss";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
@@ -10,8 +10,11 @@ function DisasterLIstItem() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { post: locationPost } = location.state || {}; // onDelete를 props로 받음
-  const post = locationPost;
-
+  // const post = locationPost;
+  const [post, setPost] = useState(locationPost); // 초기 게시글 데이터 설정
+  const [isEditing, setIsEditing] = useState(false);
+  const [updatedPost, setUpdatedPost] = useState(post);
+  console.log(post);
   //  게시글 삭제처리
   const handleDelete = () => {
     dispatch(deleteDisasterDatas(post.docId))
@@ -25,8 +28,9 @@ function DisasterLIstItem() {
   };
   // 수정버튼
   const handleEdit = () => {
+    console.log("Edit button clicked");
     if (post) {
-      navigate(`/info/disaster/edit/${post.docId}`);
+      navigate(`/info/disaster/edit/${post.docId}`, { state: { post } });
     } else {
       console.error("Post data is not available.");
     }
@@ -43,12 +47,21 @@ function DisasterLIstItem() {
   useEffect(() => {
     handlePostClick();
   }, []);
+  useEffect(() => {
+    const updatedPost = location.state?.post;
+    if (updatedPost) {
+      setPost(updatedPost);
+    }
+  }, [location.state]);
 
   if (!post) {
     return <p>Post data not available</p>;
   }
   return (
     <div className={styles.main}>
+      <div>
+        <h2>{post.title}</h2>
+      </div>
       <div className={styles.written}>
         <div className={styles.written_name}>
           <p>작성자:관리자</p>

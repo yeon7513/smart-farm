@@ -77,7 +77,7 @@ export const fetchCompleting = createAsyncThunk(
   async () => {
     try {
       const data = await getDatas("as"); // Firestore에서 모든 데이터를 불러옴
-      const resultData = data.filter((item) => item.completedYn === "n"); // processYn 필드로 필터링
+      const resultData = data.filter((item) => item.completedYn === "N"); // processYn 필드로 필터링
       return resultData;
     } catch (error) {
       console.log("답변 중 데이터 불러오기 중 에러: ", error);

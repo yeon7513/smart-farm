@@ -19,18 +19,6 @@ function DisasterList(props) {
     dispatch(fetchDisasterDatas("disasters"));
   }, [dispatch]);
 
-  const handlePostClick = (post) => {
-    if (!post || !post.id) {
-      console.log("Invalid post:", post);
-      return;
-    }
-    try {
-      dispatch(incrementViewCount(post.id));
-    } catch (error) {
-      console.error("조회수 에러: ", error);
-    }
-  };
-
   return (
     <>
       {/* <div> */}

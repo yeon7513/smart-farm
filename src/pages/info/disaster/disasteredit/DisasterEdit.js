@@ -4,7 +4,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { updateDisasterDatas } from "../../../../store/disaster/disasterSlice";
 
-function DisasterEdit(props) {
+function DisasterEdit() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const location = useLocation();
@@ -31,13 +31,14 @@ function DisasterEdit(props) {
   };
   // 수정 제출
   const handleSubmit = async (e) => {
+    // debugger;
     e.preventDefault();
     const updateObj = {
       title,
       summary,
     };
     try {
-      await dispatch(
+      dispatch(
         updateDisasterDatas({
           category: "disasters",
           docId: post.docId,
@@ -79,7 +80,7 @@ function DisasterEdit(props) {
 
       <div className={styles.btn}>
         <div>
-          <button type="submit" className={styles.sub}>
+          <button type="submit" className={styles.sub} onClick={handleSubmit}>
             수정 완료
           </button>
           <button type="button" onClick={() => navigate(-1)}>

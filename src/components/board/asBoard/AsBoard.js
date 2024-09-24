@@ -77,7 +77,7 @@ function AsBoard({ nopost }) {
     setSelectedPost(post);
     setErrorMessage("");
 
-    if (loginUser?.nick === "관리자") {
+    if (loginUser?.nickname === "관리자") {
       // 관리자 모드일 경우 비밀번호 없이 바로 이동
       navigate(`/community/as/${post.id}`, { state: post });
     } else {
@@ -151,7 +151,7 @@ function AsBoard({ nopost }) {
 
           {nopost === false
             ? ""
-            : loginUser?.nick !== "관리자" && (
+            : loginUser?.nickname !== "관리자" && (
                 <div className={styles.upload}>
                   {<button onClick={handleWriteClick}>글쓰기</button>}
                 </div>

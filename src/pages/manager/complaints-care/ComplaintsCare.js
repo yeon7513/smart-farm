@@ -67,25 +67,25 @@ function ComplaintsCare() {
         <div className={styles.category}>
           <div>
             <button
-              className={sort === "" ? styles.active : ""}
+              className={sort === "all" ? styles.active : ""}
               onClick={() => handleSortClick("all")}
             >
               전체
             </button>
             <button
-              className={sort === "" ? styles.active : ""}
+              className={sort === "profile" ? styles.active : ""}
               onClick={() => handleSortClick("profile")}
             >
               프로필
             </button>
             <button
-              className={sort === "" ? styles.active : ""}
+              className={sort === "post" ? styles.active : ""}
               onClick={() => handleSortClick("post")}
             >
               게시글
             </button>
             <button
-              className={sort === "" ? styles.active : ""}
+              className={sort === "comment" ? styles.active : ""}
               onClick={() => handleSortClick("comment")}
             >
               댓글
@@ -95,32 +95,46 @@ function ComplaintsCare() {
       </div>
 
       <div className={styles.content}>
-        <p>프로필</p>
-        <section>
-          {filteredData().map((items, idx) => {
-            if (items.reasonCode.startsWith("pf")) {
-              return <CpProfile key={items.id || idx} item={items} />;
-            }
-          })}
-        </section>
+        <div
+          className={sort === "post" || sort === "comment" ? styles.hide : ""}
+        >
+          <b>프로필</b>
+          <section>
+            {filteredData().map((items, idx) => {
+              if (items.reasonCode.startsWith("pf")) {
+                return <CpProfile key={idx} item={items} />;
+              }
+            })}
+          </section>
+        </div>
 
-        <p>게시글</p>
-        <section>
-          {filteredData().map((items, idx) => {
-            if (items.reasonCode.startsWith("ps")) {
-              return <CpPost key={items.id || idx} item={items} />;
-            }
-          })}
-        </section>
+        <div
+          className={
+            sort === "profile" || sort === "comment" ? styles.hide : ""
+          }
+        >
+          <b>게시글</b>
+          <section>
+            {filteredData().map((items, idx) => {
+              if (items.reasonCode.startsWith("ps")) {
+                return <CpPost key={idx} item={items} />;
+              }
+            })}
+          </section>
+        </div>
 
-        <p>댓글</p>
-        <section>
-          {filteredData().map((items, idx) => {
-            if (items.reasonCode.startsWith("cm")) {
-              return <CpComment key={items.id || idx} item={items} />;
-            }
-          })}
-        </section>
+        <div
+          className={sort === "profile" || sort === "post" ? styles.hide : ""}
+        >
+          <b>댓글</b>
+          <section>
+            {filteredData().map((items, idx) => {
+              if (items.reasonCode.startsWith("cm")) {
+                return <CpComment key={idx} item={items} />;
+              }
+            })}
+          </section>
+        </div>
       </div>
     </div>
   );

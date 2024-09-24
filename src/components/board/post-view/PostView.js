@@ -14,6 +14,7 @@ import Comment from "../../comment/Comment";
 import { useDispatch, useSelector } from "react-redux";
 import EditPost from "../edit/EditPost";
 import { addComplain } from "../../../store/complain/complainSlice";
+import { GridLoader } from "react-spinners";
 
 function PostView() {
   const loginUser = JSON.parse(localStorage.getItem("user"));
@@ -38,7 +39,8 @@ function PostView() {
     if (selectedReason) {
       const complainData = {
         defendant: post.nick,
-        complainant: loginUser.nick,
+        photoUrl: post.photoUrl,
+        complainant: loginUser.nickname,
         reasonCode: selectedReason.code, // 'pf_01' 등의 코드 사용
         reasonName: selectedReason.name,
         // reason: selectedReason,
@@ -50,6 +52,7 @@ function PostView() {
         // profileUrl: post.photoUrl,
         title: post.title,
         summary: post.summary,
+        imgUrl: post.imgUrl,
       };
 
       dispatch(addComplain({ collectionName: "complain", complainData }))
@@ -95,7 +98,7 @@ function PostView() {
 
   useEffect(() => {
     updatePostCount();
-  }, [post.docId]);
+  }, []);
 
   useEffect(() => {
     if (!isAuthenticated) {
@@ -104,7 +107,11 @@ function PostView() {
   }, [isAuthenticated, navigate]);
 
   if (!state) {
-    return <div>게시글을 불러오는 중입니다...</div>;
+    return (
+      <div className={styles.loading}>
+        <GridLoader color="#a2ca71" margin={5} size={20} />
+      </div>
+    );
   }
 
   return (
@@ -131,7 +138,7 @@ function PostView() {
                   <p>작성일: {post.createdAt}</p>
                   <p>조회수: {count}</p>
                 </div>
-                {post.nick === loginUser?.nick ? (
+                {post.nick === loginUser?.nickname ? (
                   <div className={styles.test}>
                     <button onClick={() => setIsEditing(true)}>수정</button>
                     <p>/</p>

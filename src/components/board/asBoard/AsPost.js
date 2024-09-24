@@ -45,7 +45,7 @@ function AsPost({ onClick, onSubmit, initialValue = INITIAL_VALUE }) {
     const addObj = {
       ...values,
       imgUrl: file || "",
-      nick: loginUser?.nick,
+      nick: loginUser?.nickname,
       email: loginUser?.email,
       password: postPassword,
     };
