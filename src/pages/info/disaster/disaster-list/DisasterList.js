@@ -14,20 +14,7 @@ import {
 function DisasterList(props) {
   const dispatch = useDispatch();
   const { posts } = useSelector((state) => state.disasterSlice);
-  // const [posts, setPosts] = useState([]); //상태관리
 
-  //컴포넌트가 마운트되었을때 Firestore에서 데이터 가져오기
-  // useEffect(() => {
-  //   const fetchPosts = async () => {
-  //     try {
-  //       const data = await getDatas("disasters");
-  //       setPosts(data);
-  //     } catch (error) {
-  //       console.error("Error fetching data: ", error);
-  //     }
-  //   };
-  //   fetchPosts();
-  // }, []);
   useEffect(() => {
     dispatch(fetchDisasterDatas("disasters"));
   }, [dispatch]);
@@ -43,10 +30,6 @@ function DisasterList(props) {
       console.error("조회수 에러: ", error);
     }
   };
-
-  // const handleDelete = (postId) => {
-  //   setPosts((prevPosts) => prevPosts.filter((post) => post.id !== postId));
-  // };
 
   return (
     <>
@@ -83,11 +66,7 @@ function DisasterList(props) {
         <div>
           {posts.map((item, idx) => (
             <li key={idx} item={item}>
-              <Link
-                to={`/info/disaster/${item.id}`}
-                state={{ post: item }}
-                onClick={() => handlePostClick(item)}
-              >
+              <Link to={`/info/disaster/${item.docId}`} state={{ post: item }}>
                 <div className={styles.menu_list}>
                   <div className={styles.menu_number}>
                     <p>{item.id}</p>
@@ -102,7 +81,7 @@ function DisasterList(props) {
                     <p>{item.createdAt}</p>
                   </div>
                   <div className={styles.check}>
-                    <p>{item.views || 0}</p>
+                    <p>{item.view || 0}</p>
                   </div>
                 </div>
               </Link>
