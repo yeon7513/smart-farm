@@ -59,7 +59,7 @@ function App() {
               <Route path="diseases/:path" element={<DiseasesItem />} />
               <Route path="disaster/:id" element={<DisasterLIstItem />} />
               <Route path="disaster/write" element={<DisasterPost />} />
-              <Route path="disaster/edit:docId" element={<DisasterEdit />} />
+              <Route path="disaster/edit/:docId" element={<DisasterEdit />} />
             </Route>
             {/* 로그인 */}
             <Route path="login" element={<LoginPage />} />
