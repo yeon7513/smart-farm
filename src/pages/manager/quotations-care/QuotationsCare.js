@@ -178,6 +178,7 @@ function QuotationsCare() {
             onChange={handleKeywordChange}
             onClick={handleSearch}
           />
+          <button onClick={exportToExcel}>견적 내역 다운로드</button>
           <select onChange={(e) => filterData(e.target.value)}>
             <option value="pending">대기 중인 내역</option>
             <option value="all">전체 내역</option>
