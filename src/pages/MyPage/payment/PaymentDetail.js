@@ -17,7 +17,7 @@ import axios from "axios";
 function PaymentDetail() {
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState(null);
-  const { createdAt } = useParams();
+  const { imp_uid } = useParams();
 
   // 액세스 토큰을 받아오는 함수입니다.
   const getAccessToken = async () => {
@@ -100,13 +100,13 @@ function PaymentDetail() {
 
   useEffect(() => {
     const fetchData = async () => {
-      if (!createdAt) return;
+      if (!imp_uid) return;
       setLoading(true);
       try {
-        // "dashboard" 컬렉션에서 createdAt 가져오기
+        // "dashboard" 컬렉션에서 imp_uid 가져오기
         const dashboardQuery = query(
           collection(db, "dashboard"),
-          where("createdAt", "==", createdAt)
+          where("imp_uid", "==", imp_uid)
         );
         const dashboardSnapshot = await getDocs(dashboardQuery);
 
@@ -116,10 +116,10 @@ function PaymentDetail() {
           return;
         }
 
-        // "payments" 컬렉션에서 createdAt 가져오기
+        // "payments" 컬렉션에서 imp_uid 가져오기
         const paymentsQuery = query(
           collection(db, "payments"),
-          where("createdAt", "==", createdAt)
+          where("imp_uid", "==", imp_uid)
         );
         const paymentsSnapshot = await getDocs(paymentsQuery);
 
@@ -143,7 +143,7 @@ function PaymentDetail() {
     };
 
     fetchData();
-  }, [createdAt]);
+  }, [imp_uid]);
 
   return (
     <div>
