@@ -43,7 +43,6 @@ function Alert() {
 
   function formatData(timestamp) {
     const date = new Date(timestamp);
-
     const year = date.getFullYear();
     const month = (date.getMonth() + 1).toString().padStart(2, "0");
     const day = date.getDate().toString().padStart(2, "0");
@@ -51,13 +50,8 @@ function Alert() {
     return `${year}.${month}.${day}`;
   }
 
-  useEffect(() => {
-    const now = new Date();
-    const currentHours = now.getMinutes();
-    if (currentHours == 30) {
-      setValue((prevValue) => prevValue + 1);
-    }
-  }, []);
+  const now = new Date();
+  const currentHours = now.getMinutes();
 
   useEffect(() => {
     dispatch(getItems({ collectionName: "alert" }));
@@ -67,15 +61,23 @@ function Alert() {
   }, []);
 
   useEffect(() => {
-    if (value === 3) {
-      setRealState(true);
-      handleAddAlert();
-    } else if (value === 2) {
-      setRealState(false);
-      handleAddAlert();
-    }
+    const interval = setInterval(() => {
+      setCount((prevCount) => {
+        if (prevCount >= 200) {
+          return 0; // 3000에 도달하면 0으로 리셋
+        }
+        return prevCount + 1; // 그렇지 않으면 1 증가
+      });
+    }, 1000); // 1초마다 증가
+
+    return () => clearInterval(interval); // 컴포넌트 언마운트 시 interval 해제
   }, []);
-  console.log(value);
+
+  if (count === Math.round(fruitNum)) {
+    handleAddAlert();
+    setRealState(true);
+  }
+
   return (
     <div className={styles.alert}>
       {items.map((item) => {
