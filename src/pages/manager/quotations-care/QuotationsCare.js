@@ -13,7 +13,7 @@ import {
   updateCommonInfo,
 } from "../../../store/dashboard/dashboardSlice";
 import CustomModal from "../../../components/modal/CustomModal";
-import { doc, getDoc, updateDoc } from "firebase/firestore";
+import { collection, doc, getDoc, updateDoc } from "firebase/firestore";
 import { db } from "../../../api/firebase";
 
 // listItems 변수는 firebase에서 데이터를 가져와서 메모리에 저장합니다.
@@ -28,8 +28,26 @@ function QuotationsCare() {
   const [keyword, setKeyword] = useState("");
   const [selectedItem, setSelectedItem] = useState(null);
   const [modalOpen, setModalOpen] = useState(false);
+  const [filteredInfo, setFilteredInfo] = useState(commonInfo);
 
   const dispatch = useDispatch();
+
+  // 각 버튼 클릭 시 호출될 함수
+  const filterData = (status) => {
+    if (status === "pending") {
+      setFilteredInfo(
+        commonInfo.filter((item) => item.useYn === "N" && item.deleteYn === "N")
+      );
+    } else if (status === "approved") {
+      setFilteredInfo(
+        commonInfo.filter((item) => item.useYn === "Y" && item.deleteYn === "N")
+      );
+    } else if (status === "rejected") {
+      setFilteredInfo(commonInfo.filter((item) => item.deleteYn === "Y"));
+    } else {
+      setFilteredInfo(commonInfo); // 전체 내역
+    }
+  };
 
   // listItems에 데이터를 저장하는 함수 (QuotationsCare에서 호출)
   const setListItems = (data) => {
@@ -103,14 +121,12 @@ function QuotationsCare() {
   const handleApproval = async () => {
     // 승인 처리 로직 구현
     if (selectedItem && selectedItem.useYn === "N") {
-      console.log(selectedItem);
-      console.log(selectedItem.docId);
       try {
         const result = await dispatch(
           updateCommonInfo({
             collectionName: "dashboard",
             docId: selectedItem.docId,
-            updateObj: { ...selectedItem, useYn: "Y" },
+            updateObj: { ...selectedItem, useYn: "Y", deleteYn: "N" },
           })
         ).unwrap();
 
@@ -126,6 +142,30 @@ function QuotationsCare() {
     }
   };
 
+  const handleRejection = async () => {
+    // 거절 처리 로직 구현
+    if (selectedItem && selectedItem.deleteYn === "N") {
+      try {
+        const result = await dispatch(
+          updateCommonInfo({
+            collectionName: "dashboard",
+            docId: selectedItem.docId,
+            updateObj: { ...selectedItem, deleteYn: "Y", useYn: "N" },
+          })
+        ).unwrap();
+
+        console.log(`문서 ${selectedItem}가 거절되었습니다!`, result);
+
+        dispatch(fetchCommonInfo("dashboard"));
+        setModalOpen(false);
+      } catch (error) {
+        console.error("거절 처리 중 오류 발생: ", error);
+      }
+    } else {
+      console.error("거절할 수 없는 항목입니다.");
+    }
+  };
+
   return (
     <div className={styles.quotations}>
       {isLoading ? (
@@ -138,7 +178,12 @@ function QuotationsCare() {
             onChange={handleKeywordChange}
             onClick={handleSearch}
           />
-          <button onClick={exportToExcel}>견적 내역 다운로드</button>
+          <select onChange={(e) => filterData(e.target.value)}>
+            <option value="pending">대기 중인 내역</option>
+            <option value="all">전체 내역</option>
+            <option value="approved">승인 된 내역</option>
+            <option value="rejected">거절 된 내역</option>
+          </select>
           <div>
             {commonInfo.length > 0 ? (
               <table>
@@ -153,23 +198,34 @@ function QuotationsCare() {
                   </tr>
                 </thead>
                 <tbody>
-                  {commonInfo.map((item) => (
-                    <tr key={item.id}>
-                      <td>{item.name}</td>
-                      <td>{item.crop}</td>
-                      <td>{item.type}</td>
-                      <td>{item.createdAt}</td>
-                      <td>{item.useYn}</td>
-                      <td>
-                        <button
-                          className={styles.button}
-                          onClick={() => openModal(item)}
-                        >
-                          자세히 보기
-                        </button>
-                      </td>
-                    </tr>
-                  ))}
+                  {filteredInfo.map((item) => {
+                    let approvalStatus;
+                    if (item.useYn === "Y" && item.deleteYn === "N") {
+                      approvalStatus = "승인";
+                    } else if (item.deleteYn === "Y" && item.useYn === "N") {
+                      approvalStatus = "거절";
+                    } else {
+                      approvalStatus = "대기";
+                    }
+
+                    return (
+                      <tr key={item.id}>
+                        <td>{item.name}</td>
+                        <td>{item.crop}</td>
+                        <td>{item.type}</td>
+                        <td>{item.createdAt}</td>
+                        <td>{approvalStatus}</td>
+                        <td>
+                          <button
+                            className={styles.button}
+                            onClick={() => openModal(item)}
+                          >
+                            자세히 보기
+                          </button>
+                        </td>
+                      </tr>
+                    );
+                  })}
                 </tbody>
               </table>
             ) : (
@@ -182,6 +238,7 @@ function QuotationsCare() {
             isOpen={modalOpen}
             handleClose={() => setModalOpen(false)}
             onApprove={handleApproval}
+            onReject={handleRejection}
           >
             {selectedItem && (
               <div>
