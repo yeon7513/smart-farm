@@ -46,8 +46,9 @@ function CpPost({ item }) {
                 <h4>{item.defendant}</h4>
               </div>
             </div>
-            <div>
+            <div className={styles.summary}>
               <h3>{item.summary}</h3>
+              {item.imgUrl ? <img src={item.imgUrl} alt="첨부 이미지" /> : ""}
             </div>
           </Link>
         </div>

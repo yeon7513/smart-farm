@@ -93,6 +93,15 @@
     margin-right: 5px;
     margin-bottom: 5px;
   }
+  .summary {
+    display: flex;
+    flex-direction: column;
+
+    img {
+      width: 200px;
+      border-radius: 8px;
+    }
+  }
 
   .title {
     justify-content: space-between;

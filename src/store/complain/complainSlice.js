@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { addSetDocDatas, getDatas } from "../../api/firebase";
+import { getDatas } from "../../api/firebase";
 import {
+  addSetDocDatas,
   incrementComplainCount,
   updateComplaintProcess,
 } from "../../api/complaint";
