@@ -399,6 +399,7 @@ function RequestForm({ user }) {
             cashReceipt: cashReceipt,
             imp_uid: imp_uid,
             merchant_uid: merchant_uid,
+            sector: `${index + 1}동`,
           };
 
           // dashboard로 넘겨서 승인여부(useYn)를 검사합니다. (기본값: n)
@@ -412,11 +413,15 @@ function RequestForm({ user }) {
             latitude: lat,
             longitude: lng,
             type: facilityType,
+            additionalOptions: Object.keys(selectedOptions[index]).filter(
+              (key) => selectedOptions[index][key]
+            ),
             updatedAt: `${new Date().getTime()}`,
             useYn: "N",
             userId: user.email,
             imp_uid: imp_uid,
             merchant_uid: merchant_uid,
+            sector: `${index + 1}동`,
           };
 
           const paymentCollectionRef = collection(db, "payments");
