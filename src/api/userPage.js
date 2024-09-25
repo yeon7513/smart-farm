@@ -42,7 +42,10 @@ export async function LoginGetDatas(collectionName) {
 // 로컬스토리지 저장용 함수
 const saveToLocalStorage = (data) => {
   const { pwck, password, ...rest } = data;
-  localStorage.setItem("user", JSON.stringify(rest));
+  const isAdmin = JSON.parse(localStorage.getItem("user")).email;
+  if (!isAdmin.includes("admin")) {
+    localStorage.setItem("user", JSON.stringify(rest));
+  }
 };
 
 export async function updateDatasWithImage(

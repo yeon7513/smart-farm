@@ -86,34 +86,37 @@
 .post {
   flex-direction: column;
   padding: 10px;
+}
 
+.title {
+  justify-content: space-between;
+  border-bottom: 1px solid #ddd;
+  margin-bottom: 15px;
+
+  div {
+    align-items: center;
+  }
   img {
-    width: 30px;
+    width: 35px;
+    height: 35px;
     border-radius: 50%;
     margin-right: 5px;
     margin-bottom: 5px;
   }
-  .summary {
-    display: flex;
-    flex-direction: column;
+}
 
-    img {
-      width: 200px;
-      border-radius: 8px;
-    }
-  }
+.summary {
+  display: flex;
+  flex-direction: column;
+  min-height: 80px;
 
-  .title {
-    justify-content: space-between;
-    border-bottom: 1px solid #ddd;
-    margin-bottom: 10px;
-
-    div {
-      align-items: center;
-    }
-  }
   h3 {
+    margin-bottom: 10px;
     padding-left: 7px;
+  }
+  img {
+    width: 220px;
+    border-radius: 4px;
   }
 }
 
@@ -174,8 +177,12 @@
 }
 
 .profile {
+  h3 {
+    margin-top: 5px;
+  }
   img {
-    width: 70px;
+    width: 200px;
+    height: 200px;
     border-radius: 50%;
   }
 }
@@ -202,5 +209,39 @@
       max-width: 60%;
       height: auto;
     }
+  }
+}
+
+// 프로필 승인 모달
+.form {
+  padding: 20px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.modalImg {
+  width: 350px;
+  height: 350px;
+}
+
+.nickname {
+  margin-top: 15px;
+  text-align: center;
+  padding: 5px;
+
+  input {
+    font-size: 18px;
+    padding: 5px;
+    text-align: center;
+  }
+}
+
+.btns {
+  button {
+    padding: 5px 20px;
+    border: 1px solid var(--common-color);
+    margin: 20px 3px;
   }
 }

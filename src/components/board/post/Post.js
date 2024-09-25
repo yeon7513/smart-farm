@@ -43,6 +43,7 @@ function Post({ onClick, onSubmit, category, initialValue = INITIAL_VALUE }) {
       // profileImg: loginUser?.photoUrl,
       category: category,
       photoUrl: loginUser?.photoUrl,
+      userDocId: loginUser?.docId,
     };
 
     try {

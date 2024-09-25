@@ -90,7 +90,7 @@ function PaymentDetail() {
     try {
       const response = await axios.post(
         process.env.REACT_APP_API_URL ||
-          "http://localhost:3000/api/cancelPayment",
+          "http://api.iamport.kr/payments/cancel",
         { imp_uid },
         { headers: { Authorization: `Bearer ${accessToken}` } }
       );
@@ -98,6 +98,8 @@ function PaymentDetail() {
       if (response.status !== 200 || response.data.code !== 0) {
         throw new Error("결제 취소 요청 실패");
       }
+
+      return response.data;
     } catch (error) {
       console.error("결제 취소 에러 발생: ", error);
     }
