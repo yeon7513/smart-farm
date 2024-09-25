@@ -1,9 +1,10 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { addDatas, getOrder } from "../../api/firebase";
-import { LoginGetDatas } from "../../api/userPage";
 
 const initialState = {
   item: [],
+  count: "",
+  randomCount: "",
   dashboardAlertContent: [],
 };
 
@@ -16,6 +17,12 @@ const controlSlice = createSlice({
     },
     alertData: (state, action) => {
       state.item.push(action.payload);
+    },
+    countData: (state, action) => {
+      state.count = action.payload;
+    },
+    randomCountData: (state, action) => {
+      state.randomCount = action.payload;
     },
   },
 
@@ -59,4 +66,5 @@ const adddashboardAlertContent = createAsyncThunk(
 );
 export default controlSlice.reducer;
 export { getdashboardAlertContent };
-export const { setData, alertData } = controlSlice.actions;
+export const { setData, alertData, countData, randomCountData } =
+  controlSlice.actions;
