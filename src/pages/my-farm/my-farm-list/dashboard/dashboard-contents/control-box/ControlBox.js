@@ -2,9 +2,9 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useSectorContext } from "../../../../../../context/SectorContext";
 import { setData } from "../../../../../../store/controlData/controlSlice";
-import { renameOptionsKor } from "../../../../../../utils/renameOptions";
 import ControlItem from "./control-item/ControlItem";
 import { useLocation } from "react-router-dom";
+import { renameOptionsKor } from "../../../../../../utils/renameOptions";
 
 function ControlBox() {
   const { sector } = useSectorContext();
