@@ -2,10 +2,19 @@
   padding: 20px;
   width: 340px;
 
-  > input {
+  input {
     padding: 10px;
     border-radius: 8px;
     border: 1px solid #eee;
+
+    &.firstAddr {
+      flex: 1 1;
+    }
+
+    &.secondAddr {
+      margin-top: 8px;
+      width: 100%;
+    }
 
     &::placeholder {
       color: #ccc;
@@ -18,15 +27,6 @@
       &::placeholder {
         color: #ededed;
       }
-    }
-
-    &.firstAddr {
-      flex: 1;
-    }
-
-    &.secondAddr {
-      margin-top: 8px;
-      width: 100%;
     }
   }
 
@@ -44,6 +44,7 @@
 
   .search {
     display: flex;
+    justify-content: space-between;
     gap: 8px;
   }
 }
