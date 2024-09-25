@@ -8,22 +8,26 @@ import {
 import styles from "./Alert.module.scss";
 import { addDatas } from "../../../../../../api/firebase";
 import controlSlice, {
-  getItems,
+  getdashboardAlertContent,
 } from "../../../../../../store/controlData/controlSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchGrowthData } from "../../../../../../store/bestfarm/bestfarmSlice";
-import { dashboardAlert } from "../../../../../../utils/dashboardAlert";
+import {
+  dashboardAlert,
+  dashboardAlertIcon,
+} from "../../../../../../utils/dashboardAlert";
+import AlertContent from "./AlertComponent/AlertContent";
+import { orderBy } from "firebase/firestore";
 
 function Alert() {
   const [count, setCount] = useState(1);
   const dispatch = useDispatch();
-  const { items } = useSelector((state) => state.controlSlice);
+  const { dashboardAlertContent } = useSelector((state) => state.controlSlice);
   const { growthData } = useSelector((state) => state.bestfarmSlice);
   const [hasExecuted, setHasExecuted] = useState(false);
   const [realState, setRealState] = useState(false);
   const [fruitNum, setFruitNum] = useState("");
   const [farmCode, setFarmCode] = useState("349");
-  const [value, setValue] = useState(0); // 초기 값 설정
 
   const handleAddAlert = async (option) => {
     const addObj = {
@@ -31,26 +35,28 @@ function Alert() {
       content: dashboardAlert(option.content),
       createdAt: new Date().getTime(),
       ct: "dashboard",
-      gb: option.gb,
+      gb: dashboardAlertIcon(option.gb),
       title: "",
     };
     await addDatas("alert", addObj);
   };
 
-  function formatData(timestamp) {
-    const date = new Date(timestamp);
-    const year = date.getFullYear();
-    const month = (date.getMonth() + 1).toString().padStart(2, "0");
-    const day = date.getDate().toString().padStart(2, "0");
+  // function formatData(timestamp) {
+  //   const date = new Date(timestamp);
+  //   const year = date.getFullYear();
+  //   const month = (date.getMonth() + 1).toString().padStart(2, "0");
+  //   const day = date.getDate().toString().padStart(2, "0");
 
-    return `${year}.${month}.${day}`;
-  }
-
-  const now = new Date();
-  const currentHours = now.getMinutes();
-
+  //   return `${year}.${month}.${day}`;
+  // }
+  console.log(count);
   useEffect(() => {
-    dispatch(getItems({ collectionName: "alert" }));
+    dispatch(
+      getdashboardAlertContent({
+        collectionName: "alert",
+        orderByField: "createdAt",
+      })
+    );
     dispatch(fetchGrowthData(`searchFrmhsCode=${farmCode}`));
     const firstThing = growthData?.filter((data) => data.frtstCo > 16);
     firstThing?.map((data) => setFruitNum(data.frtstCo));
@@ -81,26 +87,23 @@ function Alert() {
   console.log(count);
   return (
     <div className={styles.alert}>
-      {items.map((item) => {
-        if (
-          item.ct === "dashboard" &&
-          item.gb === "IoLeaf" &&
-          item.chechYn === "N"
-        ) {
-          return (
-            <div key={item.docId} className={styles.content}>
-              <h2>{formatData(item.createdAt)}</h2>
-              <div className={styles.harvest}>
-                <span>
-                  <IoLeaf />
-                </span>
-                {item.content}
-              </div>
-            </div>
-          );
+      {dashboardAlertContent.map((item) => {
+        if (item.ct === "dashboard" && item.chechYn === "N") {
+          return <AlertContent item={item} key={item.docId} />;
+          // (
+          // <div key={item.docId} className={styles.content}>
+          //   <h2>{formatData(item.createdAt)}</h2>
+          //   <div className={styles.harvest}>
+          //     <span>
+          //       <IoLeaf />
+          //     </span>
+          //     {item.content}
+          //   </div>
+          // </div>
+          // );
         }
       })}
-      {items.map((item) => {
+      {/* {dashboardAlertContent.map((item) => {
         if (
           item.ct === "dashboard" &&
           item.gb === "IoWarning" &&
@@ -120,7 +123,7 @@ function Alert() {
         }
       })}
 
-      {items.map((item) => {
+      {dashboardAlertContent.map((item) => {
         if (
           item.ct === "dashboard" &&
           item.gb === "IoLeafOutline" &&
@@ -139,7 +142,7 @@ function Alert() {
           );
         }
       })}
-      {items.map((item) => {
+      {dashboardAlertContent.map((item) => {
         if (
           item.ct === "dashboard" &&
           item.gb === "IoWarningOutline " &&
@@ -158,7 +161,7 @@ function Alert() {
           );
         }
       })}
-      {items.map((item) => {
+      {dashboardAlertContent.map((item) => {
         if (
           item.ct === "dashboard" &&
           item.gb === "IoWarning" &&
@@ -176,7 +179,7 @@ function Alert() {
             </div>
           );
         }
-      })}
+      })} */}
     </div>
   );
 }

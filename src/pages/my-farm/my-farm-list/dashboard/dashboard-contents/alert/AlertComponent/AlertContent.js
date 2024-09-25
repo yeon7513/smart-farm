@@ -1,0 +1,28 @@
+import React from "react";
+import { IoLeaf } from "react-icons/io5";
+import styles from "../Alert.module.scss";
+
+function AlertContent({ item }) {
+  function formatData(timestamp) {
+    const date = new Date(timestamp);
+    const year = date.getFullYear();
+    const month = (date.getMonth() + 1).toString().padStart(2, "0");
+    const day = date.getDate().toString().padStart(2, "0");
+
+    return `${year}.${month}.${day}`;
+  }
+
+  return (
+    <div className={styles.content}>
+      <h2>{formatData(item.createdAt)}</h2>
+      <div className={styles.harvest}>
+        <span>
+          <IoLeaf />
+        </span>
+        {item.content}
+      </div>
+    </div>
+  );
+}
+
+export default AlertContent;

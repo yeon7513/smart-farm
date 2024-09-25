@@ -1,12 +1,20 @@
-import { doc, getDoc, updateDoc } from 'firebase/firestore';
-import { db } from './firebase';
+import {
+  doc,
+  getDoc,
+  limit,
+  orderBy,
+  query,
+  updateDoc,
+  where,
+} from "firebase/firestore";
+import { db, getCollection } from "./firebase";
 
 // 비활성화
 export async function deactivationData(collectionName, docId, fieldName) {
   try {
     const itemDoc = await doc(db, collectionName, docId);
     await updateDoc(itemDoc, {
-      [fieldName]: 'Y',
+      [fieldName]: "Y",
     });
 
     const snapshot = await getDoc(itemDoc);
@@ -14,7 +22,7 @@ export async function deactivationData(collectionName, docId, fieldName) {
 
     return result;
   } catch (error) {
-    console.error('Fail to Deactivation: ', error);
+    console.error("Fail to Deactivation: ", error);
     throw error;
   }
 }
