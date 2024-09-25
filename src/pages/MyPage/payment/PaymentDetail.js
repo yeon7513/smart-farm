@@ -140,7 +140,6 @@ function PaymentDetail() {
           id: doc.id,
           ...doc.data(),
         }));
-        console.log(resultData);
 
         setData(resultData.length > 0 ? resultData[0] : null);
       } catch (error) {

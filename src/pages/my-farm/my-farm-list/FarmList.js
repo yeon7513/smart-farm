@@ -11,8 +11,6 @@ function FarmList() {
   const [listData, setListData] = useState([]);
   const [owner, setOwner] = useState("");
 
-  console.log(commonInfo);
-
   const dispatch = useDispatch();
 
   useEffect(() => {

@@ -3,14 +3,14 @@ import styles from "./ChatRoom.module.scss";
 import closeIcon from "../../assets/main/closeImg.svg";
 import backIcon from "../../assets/main/backImg.svg";
 import { useSelector } from "react-redux";
-import { db, getOrder } from "../../api/firebase";
+import { auth, db, getOrder } from "../../api/firebase";
 import ChatRoomHeader from "./chat-room-header/ChatRoomHeader";
 import ChatRoomFooter from "./chat-room-footer/ChatRoomFooter";
 import ChatOptions from "./chat-options/ChatOptions";
 import FaqQuestions from "./faq-questions/FaqQuestions";
 import LiveChatting from "./chat-options/live-chatting/LiveChatting";
 import { BeatLoader } from "react-spinners";
-import { collection, onSnapshot, orderBy, query } from "firebase/firestore";
+import { addDoc, collection, doc, onSnapshot, orderBy, query, serverTimestamp, setDoc } from "firebase/firestore";
 
 function ChatRoom({chatroomId}) {
   const [selectedAnswer, setSelectedAnswer] = useState(''); 
@@ -74,24 +74,24 @@ const [messages, setMessages] = useState([]);
   console.log('Is transitioning to LiveChat:', isTransitioningToLiveChat); // 상태 변화 확인 로그 추가
   
   useEffect(() => {
-    // chatroomId가 있을 때만 Firestore 쿼리 실행
     if (!chatroomId) return;
-
+  
     const q = query(
-      collection(db, 'chatroom', chatroomId, 'message'), // 실제 채팅방 ID로 교체
+      collection(db, 'chatbot', auth.currentUser.email, 'chatroom', chatroomId, 'message'),
       orderBy('createdAt', 'asc')
     );
-
+  
     const unsubscribe = onSnapshot(q, (snapshot) => {
       const fetchedMessages = snapshot.docs.map((doc) => ({
         id: doc.id,
         ...doc.data(),
       }));
       setMessages(fetchedMessages); // 메시지 상태 업데이트
+      console.log('Fetched Messages:', fetchedMessages); // 메시지 확인용 로그 추가
     });
-
+  
     return () => unsubscribe(); // 컴포넌트 언마운트 시 구독 해제
-  }, [chatroomId]); // chatroomId가 상태나 props에서 변화할 때만 실행
+  }, [chatroomId]);
   
 
   //  chatOptionsData 화면에서 사용할 추가 질문과 답변
@@ -161,15 +161,52 @@ const [messages, setMessages] = useState([]);
    // 챗룸이 보이지 않도록 설정
 
 
-  // 메시지 전송 함수
-  const handleSendMessage = (message) => {
-    const newMessage = {
-      content: message,
-      createdAt: new Date(),
-      uid: 'localUser', // 임의의 사용자 ID
-    };
+  // 메시지 전송 함수 (백업용)
+  // const handleSendMessage = (message) => {
+  //   const newMessage = {
+  //     content: message,
+  //     createdAt: new Date(),
+  //     uid: 'localUser', // 임의의 사용자 ID
+  //   };
   
-    setMessages((prevMessages) => [...prevMessages, newMessage]); // 새로운 메시지를 추가하여 상태 업데이트
+  //   setMessages((prevMessages) => [...prevMessages, newMessage]); // 새로운 메시지를 추가하여 상태 업데이트
+  // };
+
+  const handleSendMessage = async (message) => {
+    // auth.currentUser가 있는지 확인
+    if (!auth.currentUser) {
+      console.error('사용자가 로그인되어 있지 않습니다.');
+      return;
+    }
+    const userEmail = auth.currentUser.email;
+    const userId = auth.currentUser.uid;
+  
+    try {
+      // 1. 'chatbot' 컬렉션에서 로그인한 사용자 이메일 문서가 있는지 확인하고 없으면 생성
+      const userDocRef = doc(db, "chatbot", userEmail);
+      await setDoc(userDocRef, {}, { merge: true });
+  
+      // chatroomId가 props로 전달된 것이면 그대로 사용하고, 없으면 새로 생성
+      const chatroomRef = collection(userDocRef, "chatroom");
+      const newChatRoom = await addDoc(chatroomRef, {
+        chatTheme: "상담 카테고리", // 이 필드는 필요에 따라 수정 가능
+        activeYn: "N", // 채팅 상태 (사용자나 상담원이 이 값을 변경 가능)
+        chatEnd: "N", // 채팅 종료 여부
+        createdAt: serverTimestamp(), // Firestore 서버 타임스탬프
+      });
+  
+      // 3. 새로 생성된 chatroom 문서 안에 'message' 컬렉션에 메시지 추가
+      const messageRef = collection(db, "chatbot", userEmail, "chatroom", newChatRoom.id, "message");
+      await addDoc(messageRef, {
+        content: message, // 메시지 내용
+        createdAt: serverTimestamp(), // 메시지 전송 시간
+        uid: userId, // 사용자 고유 ID
+      });
+  
+      console.log("메시지가 성공적으로 Firestore에 저장되었습니다.");
+    } catch (error) {
+      console.error("메시지 전송 중 오류 발생:", error.message);
+    }
   };
 
    // renderContent 내에서만 상태 관리
