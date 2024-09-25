@@ -74,7 +74,6 @@ const options = {
 
 function FacilitiesHorticulture({
   additionalOptions = {},
-  selectedOption,
   handleAdditionalOptionsChange,
   options = {},
 }) {
@@ -89,10 +88,10 @@ function FacilitiesHorticulture({
                 type="checkbox"
                 id={option.id}
                 value={option.value}
-                checked={selectedOption === option.value}
-                onChange={() =>
-                  handleAdditionalOptionsChange(category, option.value)
-                }
+                checked={additionalOptions[category]?.[option.value] || false}
+                onChange={() => {
+                  handleAdditionalOptionsChange(category, option.value);
+                }}
                 className={styles.input}
               />
               <label htmlFor={option.id}>{option.label}</label>

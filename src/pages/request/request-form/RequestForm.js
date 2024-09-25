@@ -24,7 +24,9 @@ function RequestForm({ user }) {
   const [lng, setLng] = useState(null);
   const [isIamportLoaded, setIsIamportLoaded] = useState(false);
   const { uid } = useSelector((state) => state.userSlice);
-  const [selectedOptions, setSelectedOptions] = useState({});
+  const [selectedOptions, setSelectedOptions] = useState(
+    Array.from({ length: 8 }, () => ({})) // 8개의 농장에 대해 초기화
+  );
   const navigate = useNavigate();
 
   const facilitiesHorticultureOptions = {
@@ -84,6 +86,99 @@ function RequestForm({ user }) {
         value: "양액측정센서",
         label: "양액측정센서",
       },
+      {
+        id: "insectRepellect",
+        value: "해충 퇴치기",
+        label: "해충 퇴치기",
+      },
+      {
+        id: "pestDigitalTrap",
+        value: "해충 디지털 트랩",
+        label: "해충 디지털 트랩",
+      },
+      { id: "birdRepellent", value: "조류 퇴치기", label: "조류 퇴치기" },
+    ],
+  };
+
+  const openGroundOptions = {
+    "관수 시스템": [
+      {
+        id: "dripIrrigationSystem",
+        value: "드립 관수 시스템",
+        label: "드립 관수 시스템",
+      },
+      {
+        id: "sprinklerSystem",
+        value: "스프링클러 시스템",
+        label: "스프링클러 시스템",
+      },
+    ],
+    "토양 관리": [
+      {
+        id: "soilPhMeter",
+        value: "토양 ph 측정기",
+        label: "토양 ph 측정기",
+      },
+      {
+        id: "soilHumiditySensor",
+        value: "토양 습도 센서",
+        label: "토양 습도 센서",
+      },
+    ],
+    "비료 및 농약 관리": [
+      {
+        id: "fertilizerApplicationMachine",
+        value: "비료 살포기",
+        label: "비료 살포기",
+      },
+      {
+        id: "pesticideSprayer",
+        value: "농약 살포기",
+        label: "농약 살포기",
+      },
+    ],
+    모니터링: [
+      {
+        id: "weatherStation",
+        value: "기상 스테이션",
+        label: "기상 스테이션",
+      },
+      {
+        id: "CCTV",
+        value: "CCTV",
+        label: "CCTV",
+      },
+    ],
+    "지상용 드론": [
+      {
+        id: "quadcopter",
+        value: "쿼드콥터",
+        label: "쿼드콥터",
+      },
+      {
+        id: "hexacopter",
+        value: "헥사콥터",
+        label: "헥사콥터",
+      },
+    ],
+    트랙터: [
+      {
+        id: "MT7",
+        value: "MT7",
+        label: "MT7",
+      },
+      {
+        id: "MT5",
+        value: "MT5",
+        label: "MT5",
+      },
+      {
+        id: "MT4",
+        value: "MT4",
+        label: "MT4",
+      },
+    ],
+    "기타 장비": [
       {
         id: "insectRepellect",
         value: "해충 퇴치기",
@@ -211,33 +306,41 @@ function RequestForm({ user }) {
 
     try {
       // 주소의 위도, 경도 값을 가져옵니다.
-      const { lat = null, lng = null } =
-        (await convertingAddressToGeoCode(addr)) || {};
-      setLat(lat);
-      setLng(lng);
+      const { lat, lng } = (await convertingAddressToGeoCode(addr)) || {};
+      if (lat && lng) {
+        setLat(lat);
+        setLng(lng);
+      } else {
+        console.error("위도 또는 경도 값이 유효하지 않습니다.");
+      }
     } catch (error) {
       console.error("주소 변환 중 오류 발생: ", error.message);
     }
+    console.log(lat, lng);
   };
 
   // 농장 종류를 변경합니다.
   const handleFacilityTypeChange = (e) => {
     setFacilityType(e.target.value);
-    setAdditionalOptions({});
+    setSelectedOptions(Array.from({ length: 8 }, () => ({})));
   };
 
   // 부가 옵션을 변경합니다.
-  const handleAdditionalOptionsChange = (index, value) => {
-    setAdditionalOptions((prev) => {
-      const updatedOptions = { ...prev };
-
-      // 옵션이 이미 존재하는 경우 제거하고, 그렇지 않으면 추가합니다.
-      if (updatedOptions[index] === value) {
-        delete updatedOptions[index];
-      } else {
-        updatedOptions[index] = value;
-      }
-      console.log(value);
+  const handleAdditionalOptionsChange = (index, category, value) => {
+    setSelectedOptions((prevOptions) => {
+      // prevOptions가 배열인지 확인
+      const updatedOptions = prevOptions.map((option, idx) => {
+        if (idx === index) {
+          return {
+            ...option,
+            [category]: {
+              ...option[category],
+              [value]: !option[category]?.[value],
+            },
+          };
+        }
+        return option;
+      });
       return updatedOptions;
     });
   };
@@ -270,52 +373,57 @@ function RequestForm({ user }) {
     // 주문번호입니다.
     const createdAt = `${year}${month}${day}${new Date().getTime()}`;
 
-    const dataObj = {
-      uid: user.uid,
-      email: user.email,
-      name: user.name,
-      nick: user.nickname,
-      number: user.number,
-      address: user.address,
-      farmAddress: farmAddress,
-      lat: parseFloat(lat),
-      lng: parseFloat(lng),
-      cropType: cropType,
-      facilityType: facilityType,
-      additionalOptions: Object.keys(additionalOptions).filter(
-        (key) => additionalOptions[key]
-      ),
-      farmArea: Number(farmArea),
-      farmName: farmName,
-      farmEquivalent: Number(farmEquivalent),
-      createdAt: createdAt,
-      paymentMethod: paymentMethod,
-      cashReceipt: cashReceipt,
-      imp_uid: imp_uid,
-      merchant_uid: merchant_uid,
-    };
-
-    // dashboard로 넘겨서 승인여부(useYn)를 검사합니다. (기본값: n)
-    const dashboardObj = {
-      name: user.name,
-      createdAt: `${new Date().getTime()}`,
-      crop: cropType,
-      deleteYn: "N",
-      userDocId: user.uid,
-      farmName: farmName,
-      latitude: lat,
-      longitude: lng,
-      type: facilityType,
-      updatedAt: `${new Date().getTime()}`,
-      useYn: "N",
-      userId: user.email,
-      imp_uid: imp_uid,
-      merchant_uid: merchant_uid,
-    };
-
     try {
       await Promise.all(
-        Array.from({ length: farmEquivalent }, async () => {
+        Array.from({ length: farmEquivalent }, async (_, index) => {
+          const dataObj = {
+            uid: user.uid,
+            email: user.email,
+            name: user.name,
+            nick: user.nickname,
+            number: user.number,
+            address: user.address,
+            farmAddress: farmAddress,
+            lat: parseFloat(lat),
+            lng: parseFloat(lng),
+            cropType: cropType,
+            facilityType: facilityType,
+            additionalOptions: Object.keys(selectedOptions[index]).filter(
+              (key) => selectedOptions[index][key]
+            ),
+            farmArea: Number(farmArea),
+            farmName: farmName,
+            farmEquivalent: Number(farmEquivalent),
+            createdAt: createdAt,
+            paymentMethod: paymentMethod,
+            cashReceipt: cashReceipt,
+            imp_uid: imp_uid,
+            merchant_uid: merchant_uid,
+            sector: `${index + 1}동`,
+          };
+
+          // dashboard로 넘겨서 승인여부(useYn)를 검사합니다. (기본값: n)
+          const dashboardObj = {
+            name: user.name,
+            createdAt: `${new Date().getTime()}`,
+            crop: cropType,
+            deleteYn: "N",
+            userDocId: user.uid,
+            farmName: farmName,
+            latitude: lat,
+            longitude: lng,
+            type: facilityType,
+            additionalOptions: Object.keys(selectedOptions[index]).filter(
+              (key) => selectedOptions[index][key]
+            ),
+            updatedAt: `${new Date().getTime()}`,
+            useYn: "N",
+            userId: user.email,
+            imp_uid: imp_uid,
+            merchant_uid: merchant_uid,
+            sector: `${index + 1}동`,
+          };
+
           const paymentCollectionRef = collection(db, "payments");
           const dashboardObjCollectionRef = collection(db, "dashboard");
 
@@ -427,21 +535,20 @@ function RequestForm({ user }) {
               <h3>{index + 1}번째 농장 부가 옵션 선택: </h3>
               {facilityType === "시설원예" ? (
                 <FacilitiesHorticulture
-                  additionalOptions={additionalOptions}
-                  selectedOption={selectedOptions[index] || null}
-                  handleAdditionalOptionsChange={(value) =>
-                    handleAdditionalOptionsChange(index, value)
+                  additionalOptions={selectedOptions[index] || []}
+                  handleAdditionalOptionsChange={(category, value) =>
+                    handleAdditionalOptionsChange(index, category, value)
                   }
                   options={facilitiesHorticultureOptions}
                 />
               ) : (
                 <OpenGround
-                  additionalOptions={additionalOptions}
-                  selectedOption={selectedOptions[index] || null}
-                  handleAdditionalOptionsChange={(value) =>
-                    handleAdditionalOptionsChange(index, value)
+                  // additionalOptions={additionalOptions}
+                  additionalOptions={selectedOptions[index] || []}
+                  handleAdditionalOptionsChange={(category, value) =>
+                    handleAdditionalOptionsChange(index, category, value)
                   }
-                  // options={options}
+                  options={openGroundOptions}
                 />
               )}
             </div>
