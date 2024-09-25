@@ -1,14 +1,14 @@
-import { createUserWithEmailAndPassword } from 'firebase/auth';
-import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
-import { getUserAuth } from '../../../api/firebase';
-import { joinUser } from '../../../api/userPage';
-import Forms from '../../../components/form/Forms';
-import { setUser } from '../../../store/user/UserSlice';
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { getUserAuth } from "../../../api/firebase";
+import { joinUser } from "../../../api/userPage";
+import Forms from "../../../components/form/Forms";
+import { setUser } from "../../../store/user/UserSlice";
 
 function SingUp(props) {
-  const [firebaseError, setFirebaseError] = useState('');
+  const [firebaseError, setFirebaseError] = useState("");
   const dispatch = useDispatch();
   const auth = getUserAuth();
   const navigate = useNavigate();
@@ -31,18 +31,18 @@ function SingUp(props) {
           name: userInfo.name,
           nickname: userInfo.nickname,
           address: userInfo.address,
-          docId: userInfo.docId,
+          docId: user.uid,
         })
       );
-      navigate('/');
+      navigate("/");
     } catch (error) {
       console.log(error);
-      setFirebaseError('이메일 또는 비밀번호가 틀렸습니다.');
+      setFirebaseError("이메일 또는 비밀번호가 틀렸습니다.");
     }
   };
   return (
     <Forms
-      title={'회원가입'}
+      title={"회원가입"}
       getDataForm={handleSignupAndLogin}
       firebaseError={firebaseError}
     />

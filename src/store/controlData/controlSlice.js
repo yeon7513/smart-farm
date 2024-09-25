@@ -1,10 +1,11 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { addDatas } from "../../api/firebase";
-import { LoginGetDatas } from "../../api/userPage";
+import { addDatas, getOrder } from "../../api/firebase";
 
 const initialState = {
   item: [],
-  items: [],
+  count: "",
+  randomCount: "",
+  dashboardAlertContent: [],
 };
 
 const controlSlice = createSlice({
@@ -17,28 +18,34 @@ const controlSlice = createSlice({
     alertData: (state, action) => {
       state.item.push(action.payload);
     },
+    countData: (state, action) => {
+      state.count = action.payload;
+    },
+    randomCountData: (state, action) => {
+      state.randomCount = action.payload;
+    },
   },
 
   extraReducers: (builder) => {
     builder
-      .addCase(getItems.pending, (state) => {
+      .addCase(getdashboardAlertContent.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(getItems.fulfilled, (state, action) => {
+      .addCase(getdashboardAlertContent.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.items = action.payload;
+        state.dashboardAlertContent = action.payload;
       })
-      .addCase(getItems.rejected, (state) => {
+      .addCase(getdashboardAlertContent.rejected, (state) => {
         state.isLoading = false;
       });
   },
 });
 
-const getItems = createAsyncThunk(
-  "items/fetchAllItems",
-  async ({ collectionName }) => {
+const getdashboardAlertContent = createAsyncThunk(
+  "dashboardAlertContent/fetchAlldashboardAlertContent",
+  async ({ collectionName, orderByField }) => {
     try {
-      const resultData = await LoginGetDatas(collectionName);
+      const resultData = await getOrder(collectionName, orderByField);
       return resultData;
     } catch (error) {
       return "Error" + error;
@@ -46,8 +53,8 @@ const getItems = createAsyncThunk(
   }
 );
 
-const addItems = createAsyncThunk(
-  "items/fetchAllItems",
+const adddashboardAlertContent = createAsyncThunk(
+  "dashboardAlertContent/fetchAlldashboardAlertContent",
   async ({ collectionName, addObj }) => {
     try {
       const resultData = await addDatas(collectionName, addObj);
@@ -58,5 +65,6 @@ const addItems = createAsyncThunk(
   }
 );
 export default controlSlice.reducer;
-export { getItems };
-export const { setData, alertData } = controlSlice.actions;
+export { getdashboardAlertContent };
+export const { setData, alertData, countData, randomCountData } =
+  controlSlice.actions;
