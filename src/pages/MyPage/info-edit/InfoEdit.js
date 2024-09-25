@@ -118,7 +118,7 @@ function InfoEdit() {
     };
 
     try {
-      await dispatch(updateUserInfo(params));
+      dispatch(updateUserInfo(params));
 
       // 비밀번호가 변경되었을때만 실행
       if (values.password !== '' && values.pwck !== '') {

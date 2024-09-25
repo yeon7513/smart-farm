@@ -3,6 +3,7 @@ import { addDatas, getOrder } from "../../api/firebase";
 
 const initialState = {
   item: [],
+  postsLength: "",
   count: "",
   randomCount: "",
   dashboardAlertContent: [],
@@ -23,6 +24,9 @@ const controlSlice = createSlice({
     },
     randomCountData: (state, action) => {
       state.randomCount = action.payload;
+    },
+    postsLengthData: (state, action) => {
+      state.postsLength = action.payload;
     },
   },
 
@@ -66,5 +70,10 @@ const adddashboardAlertContent = createAsyncThunk(
 );
 export default controlSlice.reducer;
 export { getdashboardAlertContent };
-export const { setData, alertData, countData, randomCountData } =
-  controlSlice.actions;
+export const {
+  setData,
+  alertData,
+  countData,
+  randomCountData,
+  postsLengthData,
+} = controlSlice.actions;

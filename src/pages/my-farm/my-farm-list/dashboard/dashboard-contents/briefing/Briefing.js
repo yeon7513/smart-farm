@@ -71,7 +71,7 @@ function Briefing() {
         );
         if (!isDuplicate) {
           // 중복이 아닐 경우 데이터 추가
-          store.add(item);
+          // store.add(item);
           console.log(`데이터 추가 성공: ${JSON.stringify(item)}`);
         } else {
           console.log(`중복된 데이터: ${item.option}은 이미 존재합니다.`);

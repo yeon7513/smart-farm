@@ -5,6 +5,7 @@ import { setData } from "../../../../../../store/controlData/controlSlice";
 import ControlItem from "./control-item/ControlItem";
 import { useLocation } from "react-router-dom";
 import { renameOptionsKor } from "../../../../../../utils/renameOptions";
+import { DBdeleteData } from "../../../../../../api/indexedDB";
 
 function ControlBox() {
   const { sector } = useSectorContext();
@@ -39,7 +40,7 @@ function ControlBox() {
       db = event.target.result;
       if (!db.objectStoreNames.contains("myStore")) {
         db.createObjectStore("myStore", {
-          keyPath: "boxId",
+          keyPath: "docId",
           autoIncrement: true,
         });
         console.log("Object Store 생성 완료");

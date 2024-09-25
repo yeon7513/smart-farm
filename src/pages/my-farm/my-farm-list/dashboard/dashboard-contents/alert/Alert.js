@@ -1,10 +1,4 @@
 import React, { useEffect, useState } from "react";
-import {
-  IoLeaf,
-  IoLeafOutline,
-  IoWarning,
-  IoWarningOutline,
-} from "react-icons/io5";
 import styles from "./Alert.module.scss";
 import { addDatas } from "../../../../../../api/firebase";
 import controlSlice, {
@@ -12,22 +6,23 @@ import controlSlice, {
 } from "../../../../../../store/controlData/controlSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchGrowthData } from "../../../../../../store/bestfarm/bestfarmSlice";
-import {
-  dashboardAlert,
-  dashboardAlertIcon,
-} from "../../../../../../utils/dashboardAlert";
+import { dashboardAlert } from "../../../../../../utils/dashboardAlert";
 import AlertContent from "./AlertComponent/AlertContent";
-import { orderBy } from "firebase/firestore";
+import { fetchDisasterDatas } from "../../../../../../store/disaster/disasterSlice";
 
 function Alert() {
-  // const [count, setCount] = useState(1);
-  // const [randomCount, setRandomCount] = useState(1);
-  const { count, randomCount } = useSelector((state) => state.controlSlice);
+  const { count, randomCount, dashboardAlertContent } = useSelector(
+    (state) => state.controlSlice
+  );
+  const { isLoading } = useSelector((state) => state.dashboardSlice);
   const dispatch = useDispatch();
-  const { dashboardAlertContent } = useSelector((state) => state.controlSlice);
+  const { posts } = useSelector((state) => state.disasterSlice);
   const { growthData } = useSelector((state) => state.bestfarmSlice);
+  const [postCount, setPostCount] = useState(posts.length);
   const [hasExecuted, setHasExecuted] = useState(false);
-  const [realState, setRealState] = useState(false);
+  const [isPestAlerted, setIsPestAlerted] = useState(false);
+  const [isAlmostHarvest, setIsAlmostHarvest] = useState(false);
+  const [isDiseaster, setIsDiseaster] = useState(false);
   const [fruitNum, setFruitNum] = useState("");
   const [farmCode, setFarmCode] = useState("349");
 
@@ -53,18 +48,31 @@ function Alert() {
     dispatch(fetchGrowthData(`searchFrmhsCode=${farmCode}`));
     const firstThing = growthData?.filter((data) => data.frtstCo > 16);
     firstThing?.map((data) => setFruitNum(data.frtstCo));
+
+    dispatch(fetchDisasterDatas("disasters"));
   }, []);
 
-  if (count === Math.round(fruitNum) && !hasExecuted) {
-    handleAddAlert({ content: "complete", gb: "IoLeaf" });
-    setHasExecuted(true); //함수 한 번만 실행하고 종료.
-  } else if (count === Math.round(fruitNum * 0.9) && !realState) {
-    handleAddAlert({ content: "almost", gb: "IoLeafOutline" });
-    setRealState(true);
-  }
-  if (Math.round(randomCount + 500) > 2400) {
-    handleAddAlert({ content: "disease", gb: "IoWarning" });
-  }
+  useEffect(() => {
+    if (count === Math.round(fruitNum) && !hasExecuted) {
+      alert("수확");
+      handleAddAlert({ content: "complete", gb: "IoLeaf" });
+      setHasExecuted(true); //함수 한 번만 실행하고 종료.
+    } else if (count === Math.round(fruitNum * 0.9) && !isAlmostHarvest) {
+      alert("수확예정");
+      handleAddAlert({ content: "almost", gb: "IoLeafOutline" });
+      setIsAlmostHarvest(true);
+    }
+    if (Math.round(randomCount) === 1000 && !isPestAlerted) {
+      alert("병해충");
+      handleAddAlert({ content: "disease", gb: "IoWarning" });
+      setIsPestAlerted(true);
+    }
+  }, [count, fruitNum, hasExecuted, isAlmostHarvest]);
+  // useEffect(() => {
+  //   handleAddAlert({ content: "weather", gb: "IoWarning" });
+  // }, [posts.length]);
+  console.log(count);
+  console.log(Math.round(randomCount));
   return (
     <div className={styles.alert}>
       {dashboardAlertContent.map((item) => {

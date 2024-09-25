@@ -13,7 +13,7 @@ import { WiDayRainMix } from "react-icons/wi";
 import PulseLoader from "react-spinners/PulseLoader";
 
 import styles from "./Weather.module.scss";
-function Weather() {
+function Weather({ latitude, longitude }) {
   const [forecastData, setForecastData] = useState([]); //5일치 데이터저장!
   const [todayData, setTodayData] = useState([]); //8개데이터
   const [avgForecastData, setAvgForecastData] = useState([]); //4일치 데이터
@@ -148,11 +148,13 @@ function Weather() {
   };
 
   useEffect(() => {
+    if (latitude && longitude) {
+      handleWeather(latitude, longitude);
+    }
     //   대전 선화동 위도 경도
-    const latitude = 36.328799;
-    const longitude = 127.4230707;
-    handleWeather(latitude, longitude);
-  }, []);
+    // const latitude = 36.328799;
+    // const longitude = 127.4230707;
+  }, [latitude, longitude]);
 
   //요일변환
   const getDayOfWeek = (dateString) => {

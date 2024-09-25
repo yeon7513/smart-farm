@@ -93,8 +93,11 @@ const options = {
   ],
 };
 
-function OpenGround({ additionalOptions = {}, handleAdditionalOptionsChange }) {
-  const checkedOptions = additionalOptions || [];
+function OpenGround({
+  additionalOptions = {},
+  handleAdditionalOptionsChange,
+  options,
+}) {
   return (
     <>
       {Object.keys(options).map((category) => (
@@ -106,8 +109,10 @@ function OpenGround({ additionalOptions = {}, handleAdditionalOptionsChange }) {
                 type="checkbox"
                 id={option.id}
                 value={option.value}
-                checked={checkedOptions[option.value] || false}
-                onChange={handleAdditionalOptionsChange}
+                checked={additionalOptions[category]?.[option.value] || false}
+                onChange={() => {
+                  handleAdditionalOptionsChange(category, option.value);
+                }}
               />
               <label htmlFor={option.id}>{option.label}</label>
             </div>

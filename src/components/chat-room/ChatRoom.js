@@ -10,7 +10,7 @@ import ChatOptions from "./chat-options/ChatOptions";
 import FaqQuestions from "./faq-questions/FaqQuestions";
 import LiveChatting from "./chat-options/live-chatting/LiveChatting";
 import { BeatLoader } from "react-spinners";
-import { addDoc, collection, doc, onSnapshot, orderBy, query, serverTimestamp, setDoc } from "firebase/firestore";
+import { addDoc, collection, doc, getDocs, onSnapshot, orderBy, query, serverTimestamp, setDoc, where } from "firebase/firestore";
 
 function ChatRoom({chatroomId}) {
   const [selectedAnswer, setSelectedAnswer] = useState(''); 
@@ -77,7 +77,7 @@ const [messages, setMessages] = useState([]);
     if (!chatroomId) return;
   
     const q = query(
-      collection(db, 'chatbot', auth.currentUser.email, 'chatroom', chatroomId, 'message'),
+      collection(db, 'chatRoom', auth.currentUser.email, 'chatroom', chatroomId, 'message'),
       orderBy('createdAt', 'asc')
     );
   
@@ -92,6 +92,19 @@ const [messages, setMessages] = useState([]);
   
     return () => unsubscribe(); // 컴포넌트 언마운트 시 구독 해제
   }, [chatroomId]);
+
+
+  // useEffect(() => {
+  //   const unsubscribe = auth.onAuthStateChanged((user) => {
+  //     if (user) {
+  //       console.log("User is logged in:", user);
+  //     } else {
+  //       console.error("No user is logged in");
+  //     }
+  //   });
+  
+  //   return () => unsubscribe(); // 컴포넌트 언마운트 시 구독 해제
+  // }, []);
   
 
   //  chatOptionsData 화면에서 사용할 추가 질문과 답변
@@ -173,39 +186,66 @@ const [messages, setMessages] = useState([]);
   // };
 
   const handleSendMessage = async (message) => {
-    // auth.currentUser가 있는지 확인
-    if (!auth.currentUser) {
-      console.error('사용자가 로그인되어 있지 않습니다.');
+    const currentUser = auth.currentUser;
+  
+    if (!currentUser) {
+      console.error("사용자가 로그인되지 않았습니다.");
       return;
     }
-    const userEmail = auth.currentUser.email;
-    const userId = auth.currentUser.uid;
+  
+    const userEmail = currentUser.email; // 로그인한 사용자 이메일 가져오기
   
     try {
-      // 1. 'chatbot' 컬렉션에서 로그인한 사용자 이메일 문서가 있는지 확인하고 없으면 생성
-      const userDocRef = doc(db, "chatbot", userEmail);
-      await setDoc(userDocRef, {}, { merge: true });
+      // 1. 'chatRoom' 컬렉션에서 로그인한 사용자 이메일 문서가 있는지 확인하고 없으면 생성
+      const userDocRef = doc(db, "chatRoom", userEmail);
+      await setDoc(userDocRef, {}, { merge: true }); // 문서가 없으면 생성, 있으면 병합
   
-      // chatroomId가 props로 전달된 것이면 그대로 사용하고, 없으면 새로 생성
-      const chatroomRef = collection(userDocRef, "chatroom");
-      const newChatRoom = await addDoc(chatroomRef, {
-        chatTheme: "상담 카테고리", // 이 필드는 필요에 따라 수정 가능
-        activeYn: "N", // 채팅 상태 (사용자나 상담원이 이 값을 변경 가능)
-        chatEnd: "N", // 채팅 종료 여부
-        createdAt: serverTimestamp(), // Firestore 서버 타임스탬프
-      });
+      // 2. 해당 이메일 문서 아래 'chatContent' 컬렉션에서 활성화된 상담이 있는지 확인
+      const chatContentRef = collection(userDocRef, "chatContent");
+      const q = query(chatContentRef, where("activeYn", "==", "Y")); // 활성화된 상담 찾기
+      const querySnapshot = await getDocs(q);
   
-      // 3. 새로 생성된 chatroom 문서 안에 'message' 컬렉션에 메시지 추가
-      const messageRef = collection(db, "chatbot", userEmail, "chatroom", newChatRoom.id, "message");
-      await addDoc(messageRef, {
+      let chatRoomId;
+  
+      if (!querySnapshot.empty) {
+        // 3. 활성화된 상담이 있으면 해당 상담 방에 메시지 추가
+        const chatRoomDoc = querySnapshot.docs[0]; // 첫 번째 활성화된 상담 선택
+        chatRoomId = chatRoomDoc.id;
+      } else {
+        // 4. 활성화된 상담이 없으면 새 상담 방 생성
+        const newChatRoom = await addDoc(chatContentRef, {
+          chatTheme: "상담 카테고리", // 이 필드는 필요에 따라 수정 가능
+          activeYn: "Y", // 새로운 채팅 상담 시작
+          chatEnd: "N", // 채팅 종료 여부
+          createdAt: serverTimestamp(), // Firestore 서버 타임스탬프
+        });
+        chatRoomId = newChatRoom.id;
+      }
+  
+      // 5. chatRoomId 하위 'message' 컬렉션에 메시지 추가
+      const messageRef = collection(db, "chatRoom", userEmail, "chatContent", chatRoomId, "message");
+      
+      // Firestore에 메시지 추가 (서버 타임스탬프 사용)
+      const messageDoc = await addDoc(messageRef, {
         content: message, // 메시지 내용
         createdAt: serverTimestamp(), // 메시지 전송 시간
-        uid: userId, // 사용자 고유 ID
+        uid: currentUser.uid, // 사용자 고유 ID
       });
+  
+      // Firestore에 저장된 메시지 객체를 가져와서 임시로 로컬 메시지 배열에 추가
+      setMessages((prevMessages) => [
+        ...prevMessages,
+        {
+          id: messageDoc.id,
+          content: message,
+          createdAt: new Date(), // 임시로 현재 시간 추가
+          uid: currentUser.uid, // 사용자 고유 ID
+        },
+      ]);
   
       console.log("메시지가 성공적으로 Firestore에 저장되었습니다.");
     } catch (error) {
-      console.error("메시지 전송 중 오류 발생:", error.message);
+      console.error("메시지 전송 중 오류 발생:", error.message); // 오류 메시지를 명확하게 출력
     }
   };
 
