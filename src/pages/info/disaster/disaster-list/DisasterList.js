@@ -38,10 +38,6 @@ function DisasterList(props) {
   useEffect(() => {
     dispatch(fetchDisasterDatas("disasters"));
   }, [dispatch]);
-
-  useEffect(() => {
-    setFilteredPosts(posts);
-  }, [posts]);
   return (
     <>
       {/* 검색창 */}

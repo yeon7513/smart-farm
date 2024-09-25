@@ -8,11 +8,13 @@ export const convertingAddressToGeoCode = async (addr) => {
 
   try {
     const response = await axios.get(URL);
+    console.log(response.data);
     if (response.data.status === "OK") {
       const location = response.data.results[0].geometry.location;
       return { lat: location.lat, lng: location.lng };
     }
   } catch (error) {
     console.error("Geocoding API 호출 실패: ", error);
+    return { lat: null, lng: null };
   }
 };

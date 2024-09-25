@@ -17,6 +17,7 @@ function PaginationButton({ totalPage, currentPage, onPageChange, className }) {
       buttons.push(
         <button
           key={i}
+          className={i === currentPage ? styles.active : ''}
           onClick={() => onPageChange(i)}
           disabled={i === currentPage}
         >
@@ -28,24 +29,31 @@ function PaginationButton({ totalPage, currentPage, onPageChange, className }) {
   };
 
   return (
-    <div className={cn(styles.pageNumber, className)}>
-      <button onClick={() => onPageChange(1)} disabled={currentPage === 1}>
+    <div className={cn(styles.pagination, className)}>
+      <button
+        className={styles.start}
+        onClick={() => onPageChange(1)}
+        disabled={currentPage === 1}
+      >
         <RiArrowLeftDoubleLine />
       </button>
       <button
+        className={styles.before}
         onClick={() => onPageChange(currentPage - 1)}
         disabled={currentPage <= 1}
       >
         <RiArrowLeftSLine />
       </button>
-      {renderBtns()}
+      <div className={styles.pageNumber}>{renderBtns()}</div>
       <button
+        className={styles.after}
         onClick={() => onPageChange(currentPage + 1)}
         disabled={currentPage >= totalPage}
       >
         <RiArrowRightSLine />
       </button>
       <button
+        className={styles.end}
         onClick={() => onPageChange(totalPage)}
         disabled={currentPage === totalPage}
       >

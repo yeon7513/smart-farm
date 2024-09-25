@@ -160,7 +160,6 @@ function PaymentDetail() {
             <GridLoader color="#a2ca71" margin={5} size={20} />
           ) : data ? (
             <>
-              {/* 관리자의 경우 견적 내역이 마이페이지가 아닌 새로운 팝업으로 뜰 것 */}
               <h2>견적 내역</h2>
               <p>이름: {data.name}</p>
               <p>아이디: {data.email}</p>
@@ -172,7 +171,16 @@ function PaymentDetail() {
               <p>농장 종류: {data.facilityType}</p>
               <p>농장 면적: {data.farmArea}</p>
               <p>농장 동 수: {data.farmEquivalent}</p>
-              <p>부가 옵션: {data.additionalOptions.join(", ")}</p>
+              <p>부가 옵션: </p>
+              <ul>
+                {data.additionalOptions.length > 0 ? (
+                  data.additionalOptions.map((option, index) => (
+                    <li key={index}>{option}</li>
+                  ))
+                ) : (
+                  <li>부가 옵션이 없습니다.</li>
+                )}
+              </ul>
               <p>주문번호: {data.createdAt}</p>
               <p>결제 방식: {data.paymentMethod}</p>
               <p>현금영수증: {data.cashReceipt}</p>
