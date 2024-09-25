@@ -1,5 +1,11 @@
 import cn from 'classnames';
 import React from 'react';
+import {
+  RiArrowLeftDoubleLine,
+  RiArrowLeftSLine,
+  RiArrowRightDoubleLine,
+  RiArrowRightSLine,
+} from 'react-icons/ri';
 import styles from './PaginationButton.module.scss';
 
 function PaginationButton({ totalPage, currentPage, onPageChange, className }) {
@@ -24,14 +30,26 @@ function PaginationButton({ totalPage, currentPage, onPageChange, className }) {
   return (
     <div className={cn(styles.pageNumber, className)}>
       <button onClick={() => onPageChange(1)} disabled={currentPage === 1}>
-        처음
+        <RiArrowLeftDoubleLine />
+      </button>
+      <button
+        onClick={() => onPageChange(currentPage - 1)}
+        disabled={currentPage <= 1}
+      >
+        <RiArrowLeftSLine />
       </button>
       {renderBtns()}
+      <button
+        onClick={() => onPageChange(currentPage + 1)}
+        disabled={currentPage >= totalPage}
+      >
+        <RiArrowRightSLine />
+      </button>
       <button
         onClick={() => onPageChange(totalPage)}
         disabled={currentPage === totalPage}
       >
-        끝
+        <RiArrowRightDoubleLine />
       </button>
     </div>
   );
