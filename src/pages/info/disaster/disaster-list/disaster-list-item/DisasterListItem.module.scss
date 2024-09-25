@@ -1,20 +1,41 @@
 .main {
   //   display: flex;
+  .main_title {
+    margin-bottom: 30px;
+  }
 
   .written {
     display: flex;
     width: 100%;
+    align-items: center;
     justify-content: space-between;
     border-bottom: 1px solid var(--hover-color);
 
     .btn {
       display: flex;
       gap: 8px;
+      margin-bottom: 8px;
+      align-items: center;
       .written_btn {
         display: flex;
-        border: 1px solid bisque;
+        border: 2px solid var(--common-color);
         padding: 10px;
+        border-radius: 8px;
       }
+    }
+  }
+  .bottom {
+    display: flex;
+    justify-content: center;
+    margin-top: 30px;
+    .bottom_title {
+      border: 2px solid var(--common-color);
+      border-radius: 8px;
+      width: 900px;
+      height: 400px;
+      overflow: hidden;
+      white-space: normal;
+      word-wrap: break-word;
     }
   }
 }

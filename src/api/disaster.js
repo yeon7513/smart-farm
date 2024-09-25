@@ -33,7 +33,9 @@ export async function updateDisaster(category, docId, updatedId) {
   try {
     const postRef = doc(db, category, docId);
     await updateDoc(postRef, updatedId);
-    return true;
+    const docSnap = await getDoc(postRef);
+    const resultData = { ...docSnap.data(), docId: docSnap.id };
+    return resultData;
   } catch (error) {
     console.error("게시글 수정 중 오류 발생: ", error);
     return false;
