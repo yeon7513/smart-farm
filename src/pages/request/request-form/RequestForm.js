@@ -57,7 +57,7 @@ function RequestForm({ user }) {
     return () => {
       document.body.removeChild(script);
     };
-  }, []);
+  }, [farmEquivalent]);
 
   function onClickPayment() {
     const merchant_uid = `order_${new Date().getTime()}`;
@@ -349,18 +349,24 @@ function RequestForm({ user }) {
         </div>
 
         <div className={styles.option}>
-          <h3>부가 옵션 선택: </h3>
-          {facilityType === "시설원예" ? (
-            <FacilitiesHorticulture
-              additionalOptions={additionalOptions}
-              handleAdditionalOptionsChange={handleAdditionalOptionsChange}
-            />
-          ) : (
-            <OpenGround
-              additionalOptions={additionalOptions}
-              handleAdditionalOptionsChange={handleAdditionalOptionsChange}
-            />
-          )}
+          {Array.from({ length: farmEquivalent }).map((_, index) => (
+            <div key={index}>
+              <h3>{index + 1}번째 농장 부가 옵션 선택: </h3>
+              {facilityType === "시설원예" ? (
+                <FacilitiesHorticulture
+                  key={index}
+                  additionalOptions={additionalOptions}
+                  handleAdditionalOptionsChange={handleAdditionalOptionsChange}
+                />
+              ) : (
+                <OpenGround
+                  key={index}
+                  additionalOptions={additionalOptions}
+                  handleAdditionalOptionsChange={handleAdditionalOptionsChange}
+                />
+              )}
+            </div>
+          ))}
         </div>
         <div className={styles.paymentMethod}>
           <h3>결제 방식: </h3>
