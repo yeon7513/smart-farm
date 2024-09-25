@@ -64,6 +64,8 @@ function PaymentDetail() {
         const accessToken = await getAccessToken();
         await cancelPayment(accessToken, data.imp_uid);
 
+        console.log(accessToken);
+
         // Firebase에서 데이터 삭제
         await deletePaymentData(data.imp_uid);
       } catch (error) {
