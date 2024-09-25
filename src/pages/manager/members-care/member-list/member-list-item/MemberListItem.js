@@ -1,59 +1,52 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import ImageBox from '../../../../../components/image-box/ImageBox';
 import styles from './MemberListItem.module.scss';
 
-function MemberListItem({ detail, handleEdit }) {
-  const {
-    address,
-    complaneNum,
-    email,
-    farmAddress,
-    name,
-    nickname,
-    number,
-    photoUrl,
-    createdAt,
-  } = detail;
+function MemberListItem({ docId, handleEdit }) {
+  const { items } = useSelector((state) => state.userSlice);
+
+  const member = items.find((item) => item.docId === docId);
 
   const navigate = useNavigate();
 
   return (
     <div className={styles.detailInfo}>
-      <ImageBox imgUrl={photoUrl} />
+      <ImageBox imgUrl={member.photoUrl} />
       <div className={styles.content}>
         <ul className={styles.info}>
           <li>
-            <span className={styles.memberId}>[FM{createdAt}]</span>
+            <span className={styles.memberId}>[FM{member.createdAt}]</span>
           </li>
           <li>
             <span className={styles.label}>이메일</span>
-            <span className={styles.data}>{email}</span>
+            <span className={styles.data}>{member.email}</span>
           </li>
           <li>
             <span className={styles.label}>이름</span>
-            <span className={styles.data}>{name}</span>
+            <span className={styles.data}>{member.name}</span>
           </li>
           <li>
             <span className={styles.label}>전화번호</span>
-            <span className={styles.data}>{number}</span>
+            <span className={styles.data}>{member.number}</span>
           </li>
           <li>
             <span className={styles.label}>주소</span>
-            <span className={styles.data}>{address}</span>
+            <span className={styles.data}>{member.address}</span>
           </li>
           <li>
             <span className={styles.label}>닉네임</span>
-            <span className={styles.data}>{nickname}</span>
+            <span className={styles.data}>{member.nickname}</span>
           </li>
           <li>
             <span className={styles.label}>소유한 농장</span>
             <div className={styles.farmList}>
-              {farmAddress.length === 0 ? (
+              {member.farmAddress.length === 0 ? (
                 <span className={styles.data}>소유한 농장이 없습니다.</span>
               ) : (
                 <>
-                  {farmAddress.map((addr, idx) => (
+                  {member.farmAddress.map((addr, idx) => (
                     <p key={idx}>{addr}</p>
                   ))}
                 </>
@@ -62,7 +55,7 @@ function MemberListItem({ detail, handleEdit }) {
           </li>
           <li>
             <span className={styles.label}>신고 누적 횟수</span>
-            <span className={styles.data}>{complaneNum || 0} 회</span>
+            <span className={styles.data}>{member.complaneNum || 0} 회</span>
           </li>
         </ul>
         <div className={styles.btns}>
@@ -71,8 +64,8 @@ function MemberListItem({ detail, handleEdit }) {
             onClick={() =>
               navigate('/my-farm', {
                 state: {
-                  email: email,
-                  name: name,
+                  email: member.email,
+                  name: member.name,
                 },
               })
             }
