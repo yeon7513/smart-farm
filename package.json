@@ -66,6 +66,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
+  "proxy": "https://api.iamport.kr",
   "eslintConfig": {
     "extends": [
       "react-app",
