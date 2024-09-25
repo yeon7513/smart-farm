@@ -52,6 +52,8 @@ function PaymentDetail() {
 
   // 결제 취소 함수
   const onPayCancel = async () => {
+    console.log(data.id);
+    console.log(data.additionalOptions);
     if (!data || !data.imp_uid) return;
 
     const confirm = window.confirm(
@@ -172,15 +174,31 @@ function PaymentDetail() {
               <p>농장 면적: {data.farmArea}</p>
               <p>농장 동 수: {data.farmEquivalent}</p>
               <p>부가 옵션: </p>
-              <ul>
-                {data.additionalOptions.length > 0 ? (
-                  data.additionalOptions.map((option, index) => (
-                    <li key={index}>{option}</li>
-                  ))
-                ) : (
-                  <li>부가 옵션이 없습니다.</li>
-                )}
-              </ul>
+              {data.additionalOptions &&
+              Object.keys(data.additionalOptions).length > 0 ? (
+                Object.entries(data.additionalOptions).map(
+                  ([createdAt, options]) => {
+                    const selectedOptions = Object.entries(options)
+                      .filter(([_, selected]) => selected)
+                      .map(([optionName]) => optionName);
+                    return (
+                      <div key={createdAt}>
+                        {selectedOptions.length > 0 ? (
+                          <ul>
+                            {selectedOptions.map((option) => (
+                              <li key={option}>{option}</li>
+                            ))}
+                          </ul>
+                        ) : (
+                          ""
+                        )}
+                      </div>
+                    );
+                  }
+                )
+              ) : (
+                <p>부가 옵션이 없습니다.</p>
+              )}
               <p>주문번호: {data.createdAt}</p>
               <p>결제 방식: {data.paymentMethod}</p>
               <p>현금영수증: {data.cashReceipt}</p>
