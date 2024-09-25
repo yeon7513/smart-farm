@@ -1,6 +1,7 @@
 import React from "react";
 import { IoLeaf } from "react-icons/io5";
 import styles from "../Alert.module.scss";
+import { dashboardAlertIcon } from "../../../../../../../utils/dashboardAlert";
 
 function AlertContent({ item }) {
   function formatData(timestamp) {
@@ -8,7 +9,6 @@ function AlertContent({ item }) {
     const year = date.getFullYear();
     const month = (date.getMonth() + 1).toString().padStart(2, "0");
     const day = date.getDate().toString().padStart(2, "0");
-
     return `${year}.${month}.${day}`;
   }
 
@@ -16,9 +16,7 @@ function AlertContent({ item }) {
     <div className={styles.content}>
       <h2>{formatData(item.createdAt)}</h2>
       <div className={styles.harvest}>
-        <span>
-          <IoLeaf />
-        </span>
+        <span>{dashboardAlertIcon(item.gb)}</span>
         {item.content}
       </div>
     </div>
