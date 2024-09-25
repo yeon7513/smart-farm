@@ -8,7 +8,7 @@ import { deleteDisasterDatas } from "../../../../../store/disaster/disasterSlice
 function DisasterLIstItem() {
   const location = useLocation();
   const docId = useParams().id;
-  console.log(docId);
+  // console.log(docId);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   // const { docId } = location.state || {}; // onDelete를 props로 받음
@@ -49,10 +49,10 @@ function DisasterLIstItem() {
     if (post.length > 0) {
       handlePostClick();
     }
-
     const selected = posts.find((item) => item.docId === docId);
     setPost(selected);
   }, [posts]);
+
   useEffect(() => {
     const updatedPost = location.state?.post;
     if (updatedPost) {
@@ -60,14 +60,18 @@ function DisasterLIstItem() {
     }
   }, [location.state]);
 
+  // 조회수
+  useEffect(() => {
+    if (post.docId) {
+      handlePostClick();
+    }
+  }, [post]);
+
   if (!post) {
     return <p>Post data not available</p>;
   }
   return (
     <div className={styles.main}>
-      <div className={styles.main_title}>
-        <h2>{post.title}</h2>
-      </div>
       <div className={styles.written}>
         <div className={styles.written_name}>
           <p>작성자:관리자</p>
@@ -86,6 +90,9 @@ function DisasterLIstItem() {
             <button onClick={handleDelete}>삭제</button>
           </div>
         </div>
+      </div>
+      <div className={styles.main_title}>
+        <h2>{post.title}</h2>
       </div>
       <div className={styles.bottom}>
         <div className={styles.bottom_title}>{post.summary}</div>

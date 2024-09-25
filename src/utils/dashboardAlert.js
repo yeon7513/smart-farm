@@ -1,3 +1,10 @@
+import {
+  IoLeaf,
+  IoLeafOutline,
+  IoWarning,
+  IoWarningOutline,
+} from "react-icons/io5";
+
 export function dashboardAlert(option) {
   switch (option) {
     case "complete":
@@ -10,6 +17,23 @@ export function dashboardAlert(option) {
       return "시스템이 오작동 중입니다.";
     case "weather":
       return "해당 지역에 자연재해가 발생했습니다.!!";
+
+    default:
+      return null;
+  }
+}
+export function dashboardAlertIcon(option) {
+  switch (option) {
+    case "IoLeaf":
+      return <IoLeaf />;
+    case "IoLeafOutline":
+      return <IoLeafOutline />;
+    case "IoWarning":
+      return <IoWarning />;
+    case "IoWarningOutline":
+      return <IoWarningOutline />;
+    case "IoWarning":
+      return <IoWarning />;
 
     default:
       return null;

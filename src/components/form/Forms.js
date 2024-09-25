@@ -31,7 +31,6 @@ function Forms({ title, getDataForm, firebaseError }) {
   // }
 
   const onSubmit = ({ email, password, number, name, nickname }) => {
-    console.log(password);
     // encryptPassword(password);
     getDataForm(email, password, {
       number: number,
