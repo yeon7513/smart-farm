@@ -5,14 +5,12 @@ import { setData } from "../../../../../../store/controlData/controlSlice";
 import ControlItem from "./control-item/ControlItem";
 import { useLocation } from "react-router-dom";
 import { renameOptionsKor } from "../../../../../../utils/renameOptions";
-import { DBdeleteData } from "../../../../../../api/indexedDB";
-
+import styles from "./ControlBox.module.scss";
 function ControlBox() {
   const { sector } = useSectorContext();
   const { state } = useLocation();
   const [movedData, setMovedData] = useState([]);
   const dispatch = useDispatch();
-  console.log(state.docId);
   const filteredOptions = Object.entries(sector?.control || {})
     .filter(([key, value]) => value === "Y")
     .map(([key, vlaue]) => renameOptionsKor(key));
@@ -24,7 +22,6 @@ function ControlBox() {
       })
     );
   }, [movedData]);
-  console.log(movedData);
   // ControlItem 클릭시 해당 Item의 정보를 받는 함수
   const handleMoveComponent = (data) => {
     setMovedData((prevData) => [...prevData, data]);
@@ -61,13 +58,11 @@ function ControlBox() {
   }
 
   async function addUniqueData(movedData) {
-    // 데이터베이스가 열려 있지 않은 경우 오류 처리
     if (!db) {
       console.error("데이터베이스가 열리지 않았습니다.");
       return;
     }
 
-    // 트랜잭션 생성
     let transaction = db.transaction(["myStore"], "readwrite");
     let store = transaction.objectStore("myStore");
 
@@ -104,7 +99,7 @@ function ControlBox() {
 
   return (
     <>
-      <div>
+      <div className={styles.container}>
         {filteredOptions.map((option, idx) => (
           <ControlItem
             key={idx}
