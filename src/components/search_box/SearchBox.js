@@ -9,10 +9,16 @@ function SearchBox({
   // handleSearch = () => {}
   onChange,
   onClick,
+  onKeyDown,
 }) {
   return (
     <div className={cn(styles.search, className)}>
-      <input type="text" placeholder={placeholder} onChange={onChange} />
+      <input
+        type="text"
+        placeholder={placeholder}
+        onChange={onChange}
+        onKeyDown={onKeyDown}
+      />
       <button onClick={onClick}>
         <span>{name}</span>
       </button>
