@@ -45,33 +45,40 @@ export async function updateDatasWithImage(
   updateObj, // 업데이트할 객체들 (기존 정보)
   photoUrl // 기존 이미지 경로
 ) {
-  const docRef = await doc(db, collectionName, docId);
+  try {
+    const docRef = await doc(db, collectionName, docId);
 
-  const time = new Date().getTime();
+    const time = new Date().getTime();
 
-  updateObj.updatedAt = time;
+    updateObj.updatedAt = time;
 
-  // 업데이트 객체의 photoUrl이 파일 객체일 경우
-  if (updateObj.photoUrl instanceof File) {
-    // 기존 이미지가 있을 경우
-    if (photoUrl !== '') {
-      const storage = getStorage();
-      const deleteRef = ref(storage, photoUrl);
-      await deleteObject(deleteRef);
+    // 업데이트 객체의 photoUrl이 파일 객체일 경우
+    if (updateObj.photoUrl instanceof File) {
+      // 기존 이미지가 있을 경우
+      if (photoUrl !== '') {
+        const storage = getStorage();
+        const deleteRef = ref(storage, photoUrl);
+        await deleteObject(deleteRef);
+      }
+
+      // 새 이미지를 업로드하고 새로운 url로 저장
+      const url = await uploadImage(
+        createPath('profiles/'),
+        updateObj.photoUrl
+      );
+      updateObj.photoUrl = url;
+
+      console.log('updateObj: ', updateObj);
     }
 
-    // 새 이미지를 업로드하고 새로운 url로 저장
-    const url = await uploadImage(createPath('profiles/'), updateObj.photoUrl);
-    updateObj.photoUrl = url;
+    await updateDoc(docRef, updateObj);
+    const updatedData = await getDoc(docRef);
+    const resultData = { docId: updatedData.id, ...updatedData.data() };
 
-    localStorage.setItem('user', JSON.stringify(updateObj));
+    await localStorage.setItem('user', JSON.stringify(updateObj));
 
-    console.log('updateObj: ', updateObj);
+    return resultData;
+  } catch (error) {
+    console.error(error);
   }
-
-  await updateDoc(docRef, updateObj);
-  const updatedData = await getDoc(docRef);
-  const resultData = { docId: updatedData.id, ...updatedData.data() };
-
-  return resultData;
 }

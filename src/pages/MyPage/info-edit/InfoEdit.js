@@ -21,17 +21,20 @@ function InfoEdit() {
 
   const dispatch = useDispatch();
 
+  // 업데이트용 객체 생성
   const handleChange = (name, value) => {
     console.log('handleChange: ', value);
     setValues((prev) => ({ ...prev, [name]: value }));
   };
 
+  // 텍스트용 핸들러
   const handleChangeValues = (e) => {
     let { name, value } = e.target;
 
     handleChange(name, value);
   };
 
+  // 닉네임 중복 확인
   const handleNickNameCheckDuplication = (e) => {
     const { name, value } = e.target;
 
@@ -48,6 +51,25 @@ function InfoEdit() {
     }
   };
 
+  // 기존 비밀번호 체크
+  const handleCheckPw = (e) => {
+    const pw = e.target.value;
+
+    const pwCheck = items.some((item) => item.password === pw);
+    // 일치하면 true, 불일치하면 false 나온다.
+
+    if (pw === '' || !pwCheck) {
+      // 비밀번호가 일치하지 않을 경우
+      setCheckPw(true);
+      console.log('비밀번호 불일치');
+    } else if (pw !== '' && pwCheck) {
+      // 비밀번호가 일치할 경우
+      setCheckPw(false);
+      console.log('비밀번호 일치');
+    }
+  };
+
+  // 파이어베이스 전송
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -147,7 +169,7 @@ function InfoEdit() {
             type="password"
             name="pw"
             placeholder="기존 비밀번호"
-            onChange={handleChangeValues}
+            onChange={handleCheckPw}
           />
           <label>기존 비밀번호</label>
           <span className={styles.highlight}></span>
@@ -157,6 +179,7 @@ function InfoEdit() {
             type="password"
             name="pwck"
             placeholder="새로운 비밀번호"
+            isDisable={checkPw}
             onChange={handleChangeValues}
           />
           <label>새로운 비밀번호</label>
