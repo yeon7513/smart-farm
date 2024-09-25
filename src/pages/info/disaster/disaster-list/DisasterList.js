@@ -18,7 +18,6 @@ function DisasterList(props) {
   useEffect(() => {
     dispatch(fetchDisasterDatas("disasters"));
   }, [dispatch]);
-
   return (
     <>
       {/* <div> */}
