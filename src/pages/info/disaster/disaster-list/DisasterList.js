@@ -20,8 +20,19 @@ function DisasterList(props) {
     setSearchTerm(e.target.value);
   };
 
-  // 검색버튼 클릭 핸들러
+  // 검색 버튼 클릭 핸들러
   const onClick = () => {
+    filterPosts();
+  };
+  // enter키 입력 핸들러
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") {
+      filterPosts();
+    }
+  };
+
+  // 검색버튼 클릭 핸들러
+  const filterPosts = () => {
     const search = searchTerm.trim().replace(/\s+/g, "").toLowerCase();
     if (search) {
       const filtered = posts.filter((post) => {
@@ -38,11 +49,12 @@ function DisasterList(props) {
 
   // 데이터 가져오기
   useEffect(() => {
-    const loadData = async () => {
+    const loadData = () => {
       setIsLoading(true);
-      await dispatch(fetchDisasterDatas("disasters"));
-      setIsLoading(false);
+      dispatch(fetchDisasterDatas("disasters"));
+      setIsLoading(false); // 데이터 로딩 후 로딩 종료
     };
+    loadData();
   }, [dispatch]);
 
   // posts가 변경될 때마다 filteredPosts도 갱신
@@ -69,6 +81,7 @@ function DisasterList(props) {
             value={searchTerm}
             onChange={handleSearchChange}
             onClick={onClick}
+            onKeyDown={handleKeyDown}
           />
           {/* 게시글 목록 */}
           <div className={styles.menu_bar}>
