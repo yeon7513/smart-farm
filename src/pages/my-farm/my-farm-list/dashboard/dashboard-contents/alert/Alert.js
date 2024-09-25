@@ -14,13 +14,15 @@ function Alert() {
   const { count, randomCount, dashboardAlertContent } = useSelector(
     (state) => state.controlSlice
   );
+  const { isLoading } = useSelector((state) => state.dashboardSlice);
   const dispatch = useDispatch();
   const { posts } = useSelector((state) => state.disasterSlice);
   const { growthData } = useSelector((state) => state.bestfarmSlice);
   const [postCount, setPostCount] = useState(posts.length);
   const [hasExecuted, setHasExecuted] = useState(false);
-  const [realState, setcountState] = useState(false);
-  const [countState, setRealState] = useState(false);
+  const [isPestAlerted, setIsPestAlerted] = useState(false);
+  const [isAlmostHarvest, setIsAlmostHarvest] = useState(false);
+  const [isDiseaster, setIsDiseaster] = useState(false);
   const [fruitNum, setFruitNum] = useState("");
   const [farmCode, setFarmCode] = useState("349");
 
@@ -50,29 +52,27 @@ function Alert() {
     dispatch(fetchDisasterDatas("disasters"));
   }, []);
 
-  if (count === Math.round(fruitNum) && !hasExecuted) {
-    alert("수확");
-    // handleAddAlert({ content: "complete", gb: "IoLeaf" });
-    setHasExecuted(true); //함수 한 번만 실행하고 종료.
-  } else if (count === Math.round(fruitNum * 0.9) && !realState) {
-    alert("수확예정");
-    // handleAddAlert({ content: "almost", gb: "IoLeafOutline" });
-    setRealState(true);
-  }
-  if (Math.round(randomCount) === 1000 && !countState) {
-    alert("병해충");
-    // handleAddAlert({ content: "disease", gb: "IoWarning" });
-    setcountState(true);
-  }
   useEffect(() => {
-    if (posts.length > postCount) {
-      alert("자연재해");
-      // handleAddAlert({ content: "weather", gb: "IoWarning" });
+    if (count === Math.round(fruitNum) && !hasExecuted) {
+      alert("수확");
+      handleAddAlert({ content: "complete", gb: "IoLeaf" });
+      setHasExecuted(true); //함수 한 번만 실행하고 종료.
+    } else if (count === Math.round(fruitNum * 0.9) && !isAlmostHarvest) {
+      alert("수확예정");
+      handleAddAlert({ content: "almost", gb: "IoLeafOutline" });
+      setIsAlmostHarvest(true);
     }
-    setPostCount(posts.length);
-  }, [posts.length]);
-  console.log(posts.length);
-  console.log(postCount);
+    if (Math.round(randomCount) === 1000 && !isPestAlerted) {
+      alert("병해충");
+      handleAddAlert({ content: "disease", gb: "IoWarning" });
+      setIsPestAlerted(true);
+    }
+  }, [count, fruitNum, hasExecuted, isAlmostHarvest]);
+  // useEffect(() => {
+  //   handleAddAlert({ content: "weather", gb: "IoWarning" });
+  // }, [posts.length]);
+  console.log(count);
+  console.log(Math.round(randomCount));
   return (
     <div className={styles.alert}>
       {dashboardAlertContent.map((item) => {

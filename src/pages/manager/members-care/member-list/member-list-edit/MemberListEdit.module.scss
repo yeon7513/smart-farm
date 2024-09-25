@@ -1,7 +1,17 @@
 .memberEdit {
-  padding: 20px;
+  display: flex;
+  gap: 48px;
+  padding: 24px;
+
   .memberProfile {
     width: 320px;
     height: 320px;
+  }
+
+  .content {
+    .memberId {
+      opacity: 0.5;
+      font-size: 14px;
+    }
   }
 }

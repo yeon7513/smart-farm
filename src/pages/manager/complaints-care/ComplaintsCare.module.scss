@@ -75,11 +75,12 @@
   align-items: center;
   justify-content: center;
   padding: 10px;
+  font-weight: 500;
 
   img {
-    width: 150px;
+    width: 200px;
     border-radius: 50%;
-    margin-bottom: 10px;
+    margin-bottom: 15px;
   }
 }
 
@@ -176,13 +177,14 @@
   }
 }
 
-.profile {
-  h3 {
-    margin-top: 5px;
-  }
+.modalProfile {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+
   img {
-    width: 200px;
-    height: 200px;
+    width: 40px;
+    height: 40px;
     border-radius: 50%;
   }
 }
@@ -196,7 +198,7 @@
 
 .modlaContent {
   min-height: 300px;
-  padding: 30px 50px 40px;
+  padding: 30px 20px 40px;
   border-bottom: 1px solid #ddd;
   letter-spacing: 0.5px;
   white-space: pre-line;
@@ -244,4 +246,9 @@
     border: 1px solid var(--common-color);
     margin: 20px 3px;
   }
+}
+
+.processed {
+  display: flex;
+  flex-direction: column;
 }

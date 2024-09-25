@@ -6,7 +6,7 @@ import { LoginGetDatas } from "../../../../../api/userPage";
 
 function DashboardNav() {
   const { currComp, setCurrComp } = useComponentContext();
-  const [lenghtData, setLenghtData] = useState();
+  const [state, setState] = useState();
   const { dashboardAlertContent } = useSelector((state) => state.controlSlice);
   return (
     <ul className={styles.nav}>

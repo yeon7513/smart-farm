@@ -12,8 +12,11 @@ function DisasterListItem() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { posts } = useSelector((state) => state.disasterSlice);
-  const [post, setPost] = useState(null); // 초기 상태를 null로 설정
-
+  const [post, setPost] = useState(() => {
+    const savedPost = sessionStorage.getItem("post");
+    return savedPost ? JSON.parse(savedPost) : null; // 세션 스토리지에서 데이터 로드
+  });
+  const [isEditing, setIsEditing] = useState(false); //수정 모드 상태 추가
   const loginUser = JSON.parse(localStorage.getItem("user"));
 
   // 게시글 삭제 처리
@@ -22,6 +25,7 @@ function DisasterListItem() {
       dispatch(deleteDisasterDatas(post.docId))
         .unwrap()
         .then(() => {
+          sessionStorage.removeItem("post"); // 삭제 후 세션 스토리지에서 데이터 제거
           navigate("/info/");
         })
         .catch((error) => {
@@ -33,6 +37,7 @@ function DisasterListItem() {
   // 수정 버튼
   const handleEdit = () => {
     if (post) {
+      setIsEditing(true);
       navigate(`/info/disaster/edit/${post.docId}`, { state: { post } });
     } else {
       console.error("Post data is not available.");
@@ -41,7 +46,7 @@ function DisasterListItem() {
 
   // 조회수 증가
   const handlePostClick = async () => {
-    if (post) {
+    if (post && !isEditing) {
       try {
         await incrementViewCount("disasters", post.docId);
       } catch (error) {
@@ -52,28 +57,33 @@ function DisasterListItem() {
 
   // 목록
   const handleBackClick = () => {
-    navigate("/info/");
+    navigate(-1);
   };
 
   useEffect(() => {
     const selected = posts.find((item) => item.docId === docId);
-    setPost(selected);
-  }, [posts, docId]);
+    if (selected) {
+      setPost(selected);
+      sessionStorage.setItem("post", JSON.stringify(selected)); // 데이터 저장
+      if (!isEditing) {
+        handlePostClick();
+      } else {
+        setIsEditing(false);
+      }
+    }
+  }, [posts, docId, isEditing]);
 
   useEffect(() => {
     const updatedPost = location.state?.post;
     if (updatedPost) {
       setPost(updatedPost);
+      sessionStorage.setItem("post", JSON.stringify(updatedPost)); // 업데이트된 데이터 저장
+      handlePostClick();
     }
   }, [location.state]);
 
-  // 조회수 증가
-  useEffect(() => {
-    handlePostClick();
-  }, [post]);
-
   if (!post) {
-    return <p>Post data not available</p>;
+    return <p>게시글 데이터가 없습니다.</p>; // 데이터가 없을 때 표시
   }
 
   return (
@@ -101,16 +111,18 @@ function DisasterListItem() {
           )}
         </div>
       </div>
-      <div className={styles.main_title}>
-        <h2>{post.title}</h2>
-      </div>
-      <div className={styles.bottom}>
-        <div
-          className={styles.bottom_title}
-          dangerouslySetInnerHTML={{
-            __html: post.summary.replace(/\n/g, "<br />"), // 줄바꿈을 <br />로 변환
-          }}
-        />
+      <div className={styles.main_text}>
+        <div className={styles.main_title}>
+          <h2>{post.title}</h2>
+        </div>
+        <div className={styles.bottom}>
+          <div
+            className={styles.bottom_title}
+            dangerouslySetInnerHTML={{
+              __html: post.summary.replace(/\n/g, "<br />"),
+            }}
+          />
+        </div>
       </div>
       <div className={styles.inventory}>
         <button onClick={handleBackClick}>

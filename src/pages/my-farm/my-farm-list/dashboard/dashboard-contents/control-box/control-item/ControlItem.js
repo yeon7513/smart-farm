@@ -5,10 +5,10 @@ import { useSectorContext } from "../../../../../../../context/SectorContext";
 function ControlItem({
   option,
   idx,
-  onMoveComponent,
   state,
   handleDeleteItem,
   docId,
+  onMoveComponent,
 }) {
   const { sector } = useSectorContext();
   const handleControlContent = () => {
@@ -16,8 +16,6 @@ function ControlItem({
       option,
       idx,
       id: sector.id,
-      // docId: sector.docId,
-      boxId: 0,
     });
   };
   return (
@@ -26,7 +24,10 @@ function ControlItem({
         <div>{option}</div>
       </div>
       <div>
-        <div>제어 버튼들....</div>
+        <div>
+          <button>ON</button>
+          <button>OFF</button>
+        </div>
       </div>
       <div className={styles.buttons}>
         {!state == true ? (
@@ -34,10 +35,11 @@ function ControlItem({
             <span>+</span>
           </button>
         ) : null}
-
-        <button onClick={() => handleDeleteItem(docId)}>
-          <span>-</span>
-        </button>
+        {state == false ? null : (
+          <button onClick={() => handleDeleteItem(docId)}>
+            <span>-</span>
+          </button>
+        )}
       </div>
     </div>
   );

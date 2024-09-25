@@ -28,12 +28,31 @@ export const incrementComplainCount = async (userId) => {
 // 신고 상태 업데이트 함수
 export const updateComplaintProcess = async (complainId) => {
   try {
+    const processedDate = new Date().toISOString().split("T")[0];
+
     const complaintRef = doc(db, "complain", complainId);
     await updateDoc(complaintRef, {
       processYn: "Y",
+      processedAt: processedDate,
     });
   } catch (error) {
     console.log("신고 상태 변경 중 오류 발생:", error);
+  }
+};
+
+export const updateCompleteProcess = async (postId) => {
+  try {
+    console.log("Post ID:", postId);
+    if (!postId) {
+      throw new Error("postId가 정의되지 않았습니다.");
+    }
+
+    const completeRef = doc(db, "as", postId);
+    await updateDoc(completeRef, {
+      completedYn: "Y",
+    });
+  } catch (error) {
+    console.log("답변 상태 변경 중 오류 발생:", error);
   }
 };
 
