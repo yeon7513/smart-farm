@@ -7,35 +7,31 @@ import {
 } from "react-icons/io5";
 import styles from "./Alert.module.scss";
 import { addDatas } from "../../../../../../api/firebase";
-import { getItems } from "../../../../../../store/controlData/controlSlice";
+import controlSlice, {
+  getItems,
+} from "../../../../../../store/controlData/controlSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchGrowthData } from "../../../../../../store/bestfarm/bestfarmSlice";
+import { dashboardAlert } from "../../../../../../utils/dashboardAlert";
 
 function Alert() {
   const [count, setCount] = useState(1);
   const dispatch = useDispatch();
   const { items } = useSelector((state) => state.controlSlice);
   const { growthData } = useSelector((state) => state.bestfarmSlice);
+  const [hasExecuted, setHasExecuted] = useState(false);
   const [realState, setRealState] = useState(false);
   const [fruitNum, setFruitNum] = useState("");
   const [farmCode, setFarmCode] = useState("349");
   const [value, setValue] = useState(0); // 초기 값 설정
 
-  const handleAddAlert = async () => {
-    let content;
-    if (realState == true) {
-      content = "수확 시기가 됏습니다.";
-    }
-    if (realState == false) {
-      content =
-        " 예상 수확 시기가 다가오고 있습니다. 예상 수확량은 00kg입니다.";
-    }
+  const handleAddAlert = async (option) => {
     const addObj = {
       chechYn: "N",
-      content: content,
+      content: dashboardAlert(option.content),
       createdAt: new Date().getTime(),
       ct: "dashboard",
-      gb: "IoLeaf",
+      gb: option.gb,
       title: "",
     };
     await addDatas("alert", addObj);
@@ -63,7 +59,9 @@ function Alert() {
   useEffect(() => {
     const interval = setInterval(() => {
       setCount((prevCount) => {
-        if (prevCount >= 200) {
+        if (prevCount >= 3000) {
+          setHasExecuted(false);
+          setRealState(false);
           return 0; // 3000에 도달하면 0으로 리셋
         }
         return prevCount + 1; // 그렇지 않으면 1 증가
@@ -73,11 +71,14 @@ function Alert() {
     return () => clearInterval(interval); // 컴포넌트 언마운트 시 interval 해제
   }, []);
 
-  if (count === Math.round(fruitNum)) {
-    handleAddAlert();
+  if (count === Math.round(fruitNum) && !hasExecuted) {
+    handleAddAlert({ content: "complete", gb: "IoLeaf" });
+    setHasExecuted(true); //함수 한 번만 실행하고 종료.
+  } else if (count === Math.round(fruitNum * 0.9) && !realState) {
+    handleAddAlert({ content: "almost", gb: "IoLeafOutline" });
     setRealState(true);
   }
-
+  console.log(count);
   return (
     <div className={styles.alert}>
       {items.map((item) => {
@@ -132,7 +133,7 @@ function Alert() {
                 <span>
                   <IoLeafOutline />
                 </span>
-                예상 수확 시기가 다가오고 있습니다. 예상 수확량은 00kg입니다.
+                {item.content}
               </div>
             </div>
           );
