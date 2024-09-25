@@ -37,7 +37,7 @@ function ChattingMessage({ messages }) {
               {/* 본인의 메시지와 다른 사람의 메시지를 구분 */}
               <div
                 className={`${styles.messageContent} ${
-                  msg.uid === 'localUser' ? styles.myMessage : styles.otherMessage
+                  msg.uid === 'auth.currentUser.uid' ? styles.otherMessage : styles.myMessage
                 }`}
               >
                 <p>{msg.content}</p> {/* 메시지 내용 */}
