@@ -26,6 +26,7 @@ function PostView() {
   // console.log(isAuthenticated);
   const [isEditing, setIsEditing] = useState(false);
   const [post, setPost] = useState(state); // 게시글 상태 추가
+  console.log(post);
   const [errorMessage, setErrorMessage] = useState("");
 
   const dispatch = useDispatch();
@@ -46,6 +47,7 @@ function PostView() {
         // reason: selectedReason,
         category: post.category,
         postId: post.id,
+        userDocId: post.userDocId,
         createdAt: new Date().toISOString().split("T")[0],
         processedAt: "",
         processYn: "n",
@@ -132,8 +134,8 @@ function PostView() {
               <div>
                 <div className={styles.titleBar}>
                   <div className={styles.profile}>
-                    <img src={post.profileImg} />
-                    <p>작성자: {post.nick}</p>
+                    <img src={post.photoUrl} alt="" />
+                    <p>{post.nick}</p>
                   </div>
                   <p>작성일: {post.createdAt}</p>
                   <p>조회수: {count}</p>
