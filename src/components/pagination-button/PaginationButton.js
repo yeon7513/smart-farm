@@ -1,7 +1,8 @@
+import cn from 'classnames';
 import React from 'react';
 import styles from './PaginationButton.module.scss';
 
-function PaginationButton({ totalPage, currentPage, onPageChange }) {
+function PaginationButton({ totalPage, currentPage, onPageChange, className }) {
   // 전체 페이지만큼 버튼 렌더링
   const renderBtns = () => {
     const buttons = [];
@@ -20,7 +21,20 @@ function PaginationButton({ totalPage, currentPage, onPageChange }) {
     return buttons;
   };
 
-  return <div className={styles.pageNumber}>{renderBtns()}</div>;
+  return (
+    <div className={cn(styles.pageNumber, className)}>
+      <button onClick={() => onPageChange(1)} disabled={currentPage === 1}>
+        처음
+      </button>
+      {renderBtns()}
+      <button
+        onClick={() => onPageChange(totalPage)}
+        disabled={currentPage === totalPage}
+      >
+        끝
+      </button>
+    </div>
+  );
 }
 
 export default PaginationButton;

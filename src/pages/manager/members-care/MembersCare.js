@@ -100,25 +100,12 @@ function MembersCare() {
             />
           ))}
       </ul>
-      <div className={styles.pagination}>
-        <button
-          onClick={() => handlePageChange(1)}
-          disabled={currentPage === 1}
-        >
-          처음
-        </button>
-        <PaginationButton
-          currentPage={currentPage}
-          totalPage={totalPage}
-          onPageChange={handlePageChange}
-        />
-        <button
-          onClick={() => handlePageChange(totalPage)}
-          disabled={currentPage === totalPage}
-        >
-          끝
-        </button>
-      </div>
+      <PaginationButton
+        className={styles.pagination}
+        currentPage={currentPage}
+        totalPage={totalPage}
+        onPageChange={handlePageChange}
+      />
       {isOpen && (
         <CustomModal
           isOpen={isOpen}
