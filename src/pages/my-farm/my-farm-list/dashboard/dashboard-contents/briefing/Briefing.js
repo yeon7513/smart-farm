@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useSectorContext } from "../../../../../../context/SectorContext";
-import { renameOptions } from "../../../../../../utils/renameOptions";
 import ControlItem from "../control-box/control-item/ControlItem";
 import { DBdeleteData } from "../../../../../../api/indexedDB";
 import { useLocation } from "react-router-dom";
-import { LoginGetDatas } from "../../../../../../api/userPage";
+import {
+  renameOptions,
+  renameOptionsKor,
+} from "../../../../../../utils/renameOptions";
 
 function Briefing() {
   const { state } = useLocation();
@@ -18,7 +20,7 @@ function Briefing() {
 
   const filteredOptions = Object.entries(sector?.control || {})
     .filter(([key, value]) => value === "Y")
-    .map(([key, value]) => renameOptions(key));
+    .map(([key, value]) => renameOptionsKor(key));
 
   let db;
   // 데이터베이스를 여는 함수

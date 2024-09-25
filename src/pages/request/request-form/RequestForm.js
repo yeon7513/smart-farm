@@ -97,7 +97,7 @@ function RequestForm({ user }) {
       // pg의 값은 PG Provider.MID 의 값입니다.
       pg: "html5_inicis.INIpayTest",
       pay_method: "card",
-      merchant_uid: `order_${new Date().getTime()}`,
+      merchant_uid: merchant_uid,
       amount: 10,
       name: "아이팜 결제",
       buyer_name: user.name,

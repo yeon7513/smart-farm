@@ -1,20 +1,21 @@
 import React, { useEffect, useState } from "react";
 import styles from "./DisasterListItem.module.scss";
-import { useLocation, useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import { incrementViewCount } from "../../../../../api/disaster";
 import { deleteDisasterDatas } from "../../../../../store/disaster/disasterSlice";
 
 function DisasterLIstItem() {
   const location = useLocation();
+  const docId = useParams().id;
+  console.log(docId);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { post: locationPost } = location.state || {}; // onDelete를 props로 받음
+  // const { docId } = location.state || {}; // onDelete를 props로 받음
   // const post = locationPost;
-  const [post, setPost] = useState(locationPost); // 초기 게시글 데이터 설정
-  const [isEditing, setIsEditing] = useState(false);
-  const [updatedPost, setUpdatedPost] = useState(post);
-  console.log(post);
+  const { posts } = useSelector((state) => state.disasterSlice);
+  const [post, setPost] = useState({}); // 초기 게시글 데이터 설정
+
   //  게시글 삭제처리
   const handleDelete = () => {
     dispatch(deleteDisasterDatas(post.docId))
@@ -45,8 +46,13 @@ function DisasterLIstItem() {
     }
   };
   useEffect(() => {
-    handlePostClick();
-  }, []);
+    if (post.length > 0) {
+      handlePostClick();
+    }
+
+    const selected = posts.find((item) => item.docId === docId);
+    setPost(selected);
+  }, [posts]);
   useEffect(() => {
     const updatedPost = location.state?.post;
     if (updatedPost) {
@@ -59,7 +65,7 @@ function DisasterLIstItem() {
   }
   return (
     <div className={styles.main}>
-      <div>
+      <div className={styles.main_title}>
         <h2>{post.title}</h2>
       </div>
       <div className={styles.written}>
@@ -81,7 +87,9 @@ function DisasterLIstItem() {
           </div>
         </div>
       </div>
-      <div>{post.summary}</div>
+      <div className={styles.bottom}>
+        <div className={styles.bottom_title}>{post.summary}</div>
+      </div>
     </div>
   );
 }
