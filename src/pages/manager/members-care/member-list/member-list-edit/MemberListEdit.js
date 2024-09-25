@@ -2,24 +2,28 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import FileInput from '../../../../../components/form/file-input/FileInput';
 import { updateUserInfo } from '../../../../../store/user/UserSlice';
+import { changingNickName } from '../../../../../utils/transformNick';
 import styles from './MemberListEdit.module.scss';
 
-function MemberListEdit({ detail, cancelEdit }) {
+function MemberListEdit({ detail, cancelEdit, setUserDetail }) {
   const { email, name, nickname, photoUrl, createdAt, docId } = detail;
-  const [values, setValues] = useState(detail);
+  const [newNickName, setNewNickName] = useState(nickname);
+  const [values, setValues] = useState({
+    ...detail,
+    nickname: newNickName || detail.nickname,
+  });
 
   const { isLoading } = useSelector((state) => state.userSlice);
   const dispatch = useDispatch();
-  console.log(detail);
 
   const handleChange = (name, value) => {
     setValues((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleInputChange = (e) => {
-    let { name, value } = e.target;
-
-    handleChange(name, value);
+  const handleRandomNickName = () => {
+    const newRandomNickName = changingNickName();
+    setNewNickName(newRandomNickName);
+    handleChange('nickname', newRandomNickName);
   };
 
   const handleSubmit = async (e) => {
@@ -28,15 +32,18 @@ function MemberListEdit({ detail, cancelEdit }) {
     const params = {
       collectionName: 'users',
       docId: docId,
-      updateObj: values,
+      updateObj: { nickname: values.nickname, photoUrl: values.photoUrl },
       photoUrl: photoUrl,
     };
+
+    console.log(params);
 
     try {
       await dispatch(updateUserInfo(params));
 
       if (isLoading === false) {
         cancelEdit(false);
+        setUserDetail(values);
       }
     } catch (error) {
       console.error(error);
@@ -58,18 +65,14 @@ function MemberListEdit({ detail, cancelEdit }) {
         <li>이름: {name}</li>
         <li>
           <span>닉네임: </span>
-          <input
-            type="text"
-            name="nickname"
-            value={nickname}
-            onChange={handleInputChange}
-          />
+          <input type="text" name="nickname" value={newNickName} readOnly />
+          <button type="button" onClick={handleRandomNickName}>
+            랜덤
+          </button>
         </li>
       </ul>
       <div className={styles.btns}>
-        <button type="submit" onClick={handleSubmit}>
-          수정완료
-        </button>
+        <button type="submit">수정완료</button>
         <button type="button" onClick={() => cancelEdit(false)}>
           취소
         </button>
