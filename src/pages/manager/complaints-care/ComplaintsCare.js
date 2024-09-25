@@ -102,7 +102,7 @@ function ComplaintsCare() {
           <section>
             {filteredData().map((items, idx) => {
               if (items.reasonCode.startsWith("pf")) {
-                return <CpProfile key={idx} item={items} />;
+                return <CpProfile key={idx} item={items} process={process} />;
               }
             })}
           </section>
@@ -117,7 +117,7 @@ function ComplaintsCare() {
           <section>
             {filteredData().map((items, idx) => {
               if (items.reasonCode.startsWith("ps")) {
-                return <CpPost key={idx} item={items} />;
+                return <CpPost key={idx} item={items} process={process} />;
               }
             })}
           </section>
@@ -130,7 +130,7 @@ function ComplaintsCare() {
           <section>
             {filteredData().map((items, idx) => {
               if (items.reasonCode.startsWith("cm")) {
-                return <CpComment key={idx} item={items} />;
+                return <CpComment key={idx} item={items} process={process} />;
               }
             })}
           </section>

@@ -1,0 +1,101 @@
+// 게시글 승인 모달
+.container {
+  margin: 30px;
+  padding: 10px;
+}
+
+.modlaTitle {
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 8px;
+  margin: 10px;
+
+  div {
+    display: flex;
+    align-items: center;
+  }
+
+  h2 {
+    margin-bottom: 25px;
+  }
+
+  p {
+    font-size: 14px;
+    color: gray;
+  }
+}
+
+.modalProfile {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+
+  img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+  }
+}
+
+.titleBar {
+  width: 70%;
+  display: flex;
+  // justify-content: space-between;
+  gap: 80px;
+}
+
+.modlaContent {
+  min-height: 300px;
+  padding: 30px 50px 40px;
+  border-bottom: 1px solid #ddd;
+  letter-spacing: 0.5px;
+  white-space: pre-line;
+
+  div {
+    width: 100%;
+
+    img {
+      margin-top: 30px;
+      max-width: 60%;
+      height: auto;
+    }
+  }
+}
+
+// 프로필 승인 모달
+.form {
+  padding: 20px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.modalImg {
+  width: 350px;
+  height: 350px;
+}
+
+.nickname {
+  margin-top: 15px;
+  text-align: center;
+  padding: 5px;
+
+  input {
+    font-size: 18px;
+    padding: 5px;
+    text-align: center;
+  }
+}
+
+.btns {
+  button {
+    padding: 5px 20px;
+    border: 1px solid var(--common-color);
+    margin: 20px 3px;
+  }
+}
+
+.processed {
+  display: flex;
+  flex-direction: column;
+}

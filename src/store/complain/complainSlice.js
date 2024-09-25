@@ -68,12 +68,15 @@ const complainSlice = createSlice({
       })
       .addCase(approveComplaint.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.processing = state.processing.map((complain) =>
-          complain.id === action.payload.complainId
-            ? { ...complain, processYn: "Y" }
-            : complain
+        const { complaintId } = action.payload;
+        // 처리 중인 신고 목록에서 해당 신고를 '처리 완료'로 변경
+        state.processing = state.processing.filter(
+          (complain) => complain.id !== complaintId
         );
-        state.error = null;
+        state.processed.push({
+          ...state.processing.find((complain) => complain.id === complaintId),
+          processYn: "Y",
+        });
       })
       .addCase(approveComplaint.rejected, (state, action) => {
         state.isLoading = false;

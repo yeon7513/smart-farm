@@ -1,19 +1,20 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { LoginGetDatas, updateDatasWithImage } from '../../api/userPage';
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { LoginGetDatas, updateDatasWithImage } from "../../api/userPage";
+import { getDocDatas } from "../../api/firebase";
 
-const initialState = localStorage.getItem('user')
-  ? { ...JSON.parse(localStorage.getItem('user')), items: [] }
+const initialState = localStorage.getItem("user")
+  ? { ...JSON.parse(localStorage.getItem("user")), items: [] }
   : {
-      email: '',
-      token: '',
-      uid: '',
-      docId: '',
-      nickname: '',
-      name: '',
-      number: '',
-      address: '',
-      farmAddress: '',
-      photoUrl: '',
+      email: "",
+      token: "",
+      uid: "",
+      docId: "",
+      nickname: "",
+      name: "",
+      number: "",
+      address: "",
+      farmAddress: "",
+      photoUrl: "",
       complaneNum: 0,
       isAuthenticated: false,
       items: [],
@@ -21,7 +22,7 @@ const initialState = localStorage.getItem('user')
     };
 
 const userSlice = createSlice({
-  name: 'user',
+  name: "user",
   initialState,
   reducers: {
     setUser: (state, action) => {
@@ -29,22 +30,22 @@ const userSlice = createSlice({
 
       const { items, isLoading, nick, ...restState } = state;
 
-      localStorage.setItem('user', JSON.stringify(restState));
+      localStorage.setItem("user", JSON.stringify(restState));
     },
     removeUser: (state) => {
-      state.email = '';
-      state.token = '';
-      state.uid = '';
-      state.docId = '';
-      state.name = '';
-      state.nickname = '';
-      state.number = '';
-      state.address = '';
-      state.farmAddress = '';
-      state.photoUrl = '';
+      state.email = "";
+      state.token = "";
+      state.uid = "";
+      state.docId = "";
+      state.name = "";
+      state.nickname = "";
+      state.number = "";
+      state.address = "";
+      state.farmAddress = "";
+      state.photoUrl = "";
       state.complaneNum = 0;
       state.isAuthenticated = false;
-      localStorage.removeItem('user');
+      localStorage.removeItem("user");
     },
   },
   extraReducers: (builder) => {
@@ -72,23 +73,49 @@ const userSlice = createSlice({
 
         state.isLoading = false;
       });
+
+    // docId 로 불러오기
+    // .addCase(getUserById.pending, (state) => {
+    //   state.isLoading = true;
+    //   state.error = null;
+    // })
+    // .addCase(getUserById.fulfilled, (state, action) => {
+    //   state.isLoading = false;
+    //   state.userData = action.payload; // 성공적으로 불러온 사용자 데이터 저장
+    // })
+    // .addCase(getUserById.rejected, (state, action) => {
+    //   state.isLoading = false;
+    //   state.error = action.payload;
+    // });
   },
 });
 
 const fetchItems = createAsyncThunk(
-  'items/fetchAllItems',
+  "items/fetchAllItems",
   async ({ collectionName }) => {
     try {
       const resultData = await LoginGetDatas(collectionName);
       return resultData;
     } catch (error) {
-      return 'Error' + error;
+      return "Error" + error;
     }
   }
 );
 
+// export const getUserById = createAsyncThunk(
+//   "items/getUserById",
+//   async ({ complainant }) => {
+//     try {
+//       const resultData = await getDocDatas("users", complainant);
+//       return resultData;
+//     } catch (error) {
+//       console.log(`docId 로 데이터 불러오기 오류:`, error);
+//     }
+//   }
+// );
+
 const updateUserInfo = createAsyncThunk(
-  'user/updateUserInfo',
+  "user/updateUserInfo",
   async ({ collectionName, docId, updateObj, photoUrl }) => {
     try {
       const result = await updateDatasWithImage(
