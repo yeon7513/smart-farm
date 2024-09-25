@@ -52,7 +52,7 @@ function PaymentDetail() {
 
   // 결제 취소 함수
   const onPayCancel = async () => {
-    console.log(data.id);
+    console.log(data.docId);
     console.log(data.additionalOptions);
     if (!data || !data.imp_uid) return;
 
@@ -176,26 +176,24 @@ function PaymentDetail() {
               <p>부가 옵션: </p>
               {data.additionalOptions &&
               Object.keys(data.additionalOptions).length > 0 ? (
-                Object.entries(data.additionalOptions).map(
-                  ([createdAt, options]) => {
-                    const selectedOptions = Object.entries(options)
-                      .filter(([_, selected]) => selected)
-                      .map(([optionName]) => optionName);
-                    return (
-                      <div key={createdAt}>
-                        {selectedOptions.length > 0 ? (
-                          <ul>
-                            {selectedOptions.map((option) => (
-                              <li key={option}>{option}</li>
-                            ))}
-                          </ul>
-                        ) : (
-                          ""
-                        )}
-                      </div>
-                    );
-                  }
-                )
+                Object.entries(data.additionalOptions).map(([id, options]) => {
+                  const selectedOptions = Object.entries(options)
+                    .filter(([_, selected]) => selected)
+                    .map(([optionName]) => optionName);
+                  return (
+                    <div key={id}>
+                      {selectedOptions.length > 0 ? (
+                        <ul>
+                          {selectedOptions.map((option) => (
+                            <li key={option}>{option}</li>
+                          ))}
+                        </ul>
+                      ) : (
+                        ""
+                      )}
+                    </div>
+                  );
+                })
               ) : (
                 <p>부가 옵션이 없습니다.</p>
               )}
