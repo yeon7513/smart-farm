@@ -37,6 +37,7 @@ function PaymentDetail() {
           },
         }
       );
+      console.log(response);
 
       if (response.data.code !== 0) {
         throw new Error("토큰을 가져오는 데 실패했습니다.");
@@ -51,7 +52,7 @@ function PaymentDetail() {
 
   // 결제 취소 함수
   const onPayCancel = async () => {
-    if (!data) return;
+    if (!data || !data.imp_uid) return;
 
     const confirm = window.confirm(
       `결제번호: ${data.imp_uid} / 결제를 취소하시겠습니까?`
@@ -76,8 +77,12 @@ function PaymentDetail() {
 
   // Firebase에서 결제 데이터 삭제
   const deletePaymentData = async (imp_uid) => {
-    const paymentDocRef = doc(db, "payments", imp_uid); // pointCertify를 문서 ID로 사용
-    await deleteDoc(paymentDocRef);
+    try {
+      const paymentDocRef = doc(db, "payments", imp_uid);
+      await deleteDoc(paymentDocRef);
+    } catch (error) {
+      console.error("Firebase 데이터 삭제 에러: ", error);
+    }
   };
 
   // 결제 취소 요청 함수
@@ -85,14 +90,16 @@ function PaymentDetail() {
     try {
       const response = await axios.post(
         process.env.REACT_APP_API_URL ||
-          "http://localhost:3000/api/cancelPayment",
+          "http://api.iamport.kr/payments/cancel",
         { imp_uid },
         { headers: { Authorization: `Bearer ${accessToken}` } }
       );
 
-      if (response.status !== 200) {
+      if (response.status !== 200 || response.data.code !== 0) {
         throw new Error("결제 취소 요청 실패");
       }
+
+      return response.data;
     } catch (error) {
       console.error("결제 취소 에러 발생: ", error);
     }
@@ -133,6 +140,7 @@ function PaymentDetail() {
           id: doc.id,
           ...doc.data(),
         }));
+        console.log(resultData);
 
         setData(resultData.length > 0 ? resultData[0] : null);
       } catch (error) {

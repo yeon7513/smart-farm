@@ -1,11 +1,15 @@
 import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import FileInput from '../../../../../components/form/file-input/FileInput';
+import { updateUserInfo } from '../../../../../store/user/UserSlice';
 import styles from './MemberListEdit.module.scss';
 
 function MemberListEdit({ detail, cancelEdit }) {
   const { email, name, nickname, photoUrl, createdAt, docId } = detail;
   const [values, setValues] = useState(detail);
 
+  const { isLoading } = useSelector((state) => state.userSlice);
+  const dispatch = useDispatch();
   console.log(detail);
 
   const handleChange = (name, value) => {
@@ -18,14 +22,32 @@ function MemberListEdit({ detail, cancelEdit }) {
     handleChange(name, value);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+
+    const params = {
+      collectionName: 'users',
+      docId: docId,
+      updateObj: values,
+      photoUrl: photoUrl,
+    };
+
+    try {
+      await dispatch(updateUserInfo(params));
+
+      if (isLoading === false) {
+        cancelEdit(false);
+      }
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form className={styles.memberEdit} onSubmit={handleSubmit}>
       <span>[FM{createdAt}]</span>
       <FileInput
+        className={styles.memberProfile}
         setFile={handleChange}
         name="photoUrl"
         value={photoUrl}
