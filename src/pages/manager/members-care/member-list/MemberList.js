@@ -14,7 +14,9 @@ function MemberList({ data, setIsOpen, setUserDetail }) {
       <Card className={styles.card}>
         <h3 className={styles.id}>[FM{data.createdAt}]</h3>
         <div className={styles.content}>
-          <ImageBox imgUrl={data.photoUrl} />
+          <div className={styles.profile}>
+            <ImageBox imgUrl={data.photoUrl} />
+          </div>
           <ul className={styles.info}>
             <li>
               <span className={styles.label}>이름</span>

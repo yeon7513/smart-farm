@@ -54,7 +54,10 @@ function DisasterList(props) {
         <div>
           {posts.map((item, idx) => (
             <li key={idx} item={item}>
-              <Link to={`/info/disaster/${item.docId}`} state={{ post: item }}>
+              <Link
+                to={`/info/disaster/${item.docId}`}
+                // state={{ docId: item.docId }}
+              >
                 <div className={styles.menu_list}>
                   <div className={styles.menu_number}>
                     <p>{item.id}</p>
