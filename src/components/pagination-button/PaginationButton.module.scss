@@ -1,0 +1,39 @@
+@import '/src/scss/mixins.scss';
+
+.pagination {
+  @include flexCenter();
+  gap: 8px;
+  margin-top: 20px;
+  width: 100%;
+  // outline: 1px dotted blue;
+
+  button {
+    @include flexCenter();
+
+    overflow: hidden;
+    width: 30px;
+    height: 30px;
+    font-size: 16px;
+    border-radius: 50%;
+
+    &:not(:disabled):hover {
+      background-color: var(--hover-color);
+      color: var(--main-color);
+    }
+
+    &:disabled {
+      cursor: default;
+    }
+  }
+
+  .pageNumber {
+    @include flexCenter();
+    gap: 8px;
+    margin: 0 8px;
+
+    .active {
+      background-color: var(--common-color);
+      color: var(--main-color);
+    }
+  }
+}

@@ -124,7 +124,11 @@ function MembersCare() {
                 <MemberListItem detail={userDetail} handleEdit={handleEdit} />
               </>
             ) : (
-              <MemberListEdit detail={userDetail} cancelEdit={setIsEdit} />
+              <MemberListEdit
+                detail={userDetail}
+                setUserDetail={setUserDetail}
+                cancelEdit={setIsEdit}
+              />
             )}
           </>
         </CustomModal>
