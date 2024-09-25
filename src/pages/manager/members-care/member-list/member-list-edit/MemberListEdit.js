@@ -23,9 +23,10 @@ function MemberListEdit({ detail, cancelEdit }) {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form className={styles.memberEdit} onSubmit={handleSubmit}>
       <span>[FM{createdAt}]</span>
       <FileInput
+        className={styles.memberProfile}
         setFile={handleChange}
         name="photoUrl"
         value={photoUrl}
