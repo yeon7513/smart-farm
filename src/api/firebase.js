@@ -140,6 +140,22 @@ export async function getDatas(collectionName) {
   }
 }
 
+// export async function getDocDatas(collectionName, docId) {
+//   try {
+//     const collect = getCollection(collectionName, docId);
+//     const snapshot = await getDoc(collect);
+//     if (snapshot.exists()) {
+//       const resultData = { id: snapshot.id, ...snapshot.data() };
+//       return resultData;
+//     } else {
+//       console.log("해당 문서가 존재하지 않습니다.");
+//       return null;
+//     }
+//   } catch (error) {
+//     console.log("문서 불러오기 에러: ", error);
+//   }
+// }
+
 export const getOrder = async (collectionName, orderByField) => {
   const q = query(
     collection(db, collectionName),
@@ -200,8 +216,8 @@ export const pointTableCancel = async (imp_uid) => {
 export const fetchChatroomId = async (email) => {
   try {
     const q = query(
-      collection(db, 'chatbot', email, 'chatroom1'), // 경로에 맞는 컬렉션
-      where('activeYn', '==', 'N') // 승인되지 않은 방만 가져옴
+      collection(db, "chatbot", email, "chatroom1"), // 경로에 맞는 컬렉션
+      where("activeYn", "==", "N") // 승인되지 않은 방만 가져옴
     );
     const querySnapshot = await getDocs(q);
 
@@ -209,23 +225,29 @@ export const fetchChatroomId = async (email) => {
       const chatroomId = querySnapshot.docs[0].id; // 첫 번째 문서의 ID를 chatroomId로 사용
       return chatroomId; // chatroomId를 반환
     } else {
-      console.log('No chatroom found.');
+      console.log("No chatroom found.");
       return null;
     }
   } catch (error) {
-    console.error('Error fetching chatroomId: ', error);
+    console.error("Error fetching chatroomId: ", error);
     throw error;
   }
 };
 
 async function onApproveChat(chatId) {
   try {
-    const chatRoomRef = doc(db, 'chatbot', 'admin@gmail.com', 'chatroom1', chatId);
+    const chatRoomRef = doc(
+      db,
+      "chatbot",
+      "admin@gmail.com",
+      "chatroom1",
+      chatId
+    );
     await updateDoc(chatRoomRef, {
-      activeYn: 'Y', // 승인 상태로 변경
+      activeYn: "Y", // 승인 상태로 변경
     });
     console.log(`Chatroom ${chatId} 승인 완료`);
   } catch (error) {
-    console.error('승인 처리 중 오류가 발생했습니다:', error);
+    console.error("승인 처리 중 오류가 발생했습니다:", error);
   }
 }

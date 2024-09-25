@@ -1,23 +1,41 @@
 import React, { useEffect, useState } from "react";
 import styles from "./AsCareItem.module.scss";
-import { getBoardDatas } from "../../../../api/board";
 import { Link } from "react-router-dom";
 import CustomModal from "../../../../components/modal/CustomModal";
-import Comment from "./../../../../components/comment/Comment";
+import { useDispatch } from "react-redux";
+import { approveComplete } from "../../../../store/as-service/AsServiceSlide";
 
 const PAGE_SIZE = 20;
 
-function AsCareItem({ items }) {
+function AsCareItem({ items = [] }) {
+  console.log(items);
   const [currentPage, setCurrentPage] = useState(1);
-
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const openModal = () => setIsModalOpen(true);
+  const [currentDocId, setCurrentDocId] = useState(null); // 현재 선택된 아이템의 docId 저장
+
+  const openModal = (docId) => {
+    setIsModalOpen(true);
+    setCurrentDocId(docId); // 모달 열면서 해당 아이템의 docId 설정
+  };
   const closeModal = () => setIsModalOpen(false);
 
+  const dispatch = useDispatch();
+
   const goCompleted = () => {
-    setIsModalOpen(false);
+    if (currentDocId) {
+      dispatch(approveComplete({ postId: currentDocId }))
+        .then(() => {
+          alert("답변 완료 되었습니다.");
+          setIsModalOpen(false); // 모달 닫기
+        })
+        .catch((error) => {
+          console.error(error);
+          alert("오류가 발생했습니다.");
+        });
+    }
   };
 
+  // 페이지 계산을 위한 로직
   const totalPages = Math.ceil(items.length / PAGE_SIZE);
   const currentItem = items.slice(
     (currentPage - 1) * PAGE_SIZE,
@@ -34,6 +52,7 @@ function AsCareItem({ items }) {
       setCurrentPage((prevPage) => prevPage + 1);
     }
   };
+
   return (
     <div>
       <div className={styles.col}>
@@ -46,60 +65,68 @@ function AsCareItem({ items }) {
 
       <div className={styles.board}>
         <ul>
-          {currentItem.map((item, idx) => (
-            // <Link to={`/community/as/${item.id}`}>
-            <li
-              key={idx}
-              id={item.length - ((currentPage - 1) * PAGE_SIZE + idx)}
-            >
-              <div>{item.id}</div>
-              <div>{item.summary}</div>
-              <div>{item.nick}</div>
-              <div>{item.createdAt}</div>
+          {currentItem.length > 0 ? (
+            currentItem.map((item, idx) => (
+              <li
+                key={idx}
+                id={items.length - ((currentPage - 1) * PAGE_SIZE + idx)}
+              >
+                <div>{item.id}</div>
+                <div>
+                  {item.summary.length > 30
+                    ? `${item.summary.slice(0, 30)}...`
+                    : item.summary}
+                </div>
+                <div>{item.nick}</div>
+                <div>{item.createdAt}</div>
 
-              <div>
-                <button onClick={openModal}>{item.completedYn}</button>
-                <CustomModal
-                  title={"A/S 답변"}
-                  btnName={"완료"}
-                  handleClose={closeModal}
-                  isOpen={isModalOpen}
-                  btnHandler={goCompleted}
-                >
-                  <div className={styles.ModalContainer}>
-                    <div className={styles.modlaTitle}>
-                      <div>
-                        <h2>{item.title}</h2>
-                      </div>
-                      <div>
-                        <div className={styles.titleBar}>
-                          <div className={styles.ModalProfile}>
-                            {/* <img src={post.profileImg} /> */}
-                            <p>작성자: {item.defendant}</p>
+                <div>
+                  <button onClick={() => openModal(item.docId)}>
+                    {item.completedYn}
+                  </button>
+                  {/* 모달 열 때 해당 아이템의 docId 전달 */}
+                  <CustomModal
+                    title={"A/S 답변"}
+                    btnName={"완료"}
+                    handleClose={closeModal}
+                    isOpen={isModalOpen}
+                    btnHandler={goCompleted}
+                  >
+                    <div className={styles.ModalContainer}>
+                      <div className={styles.modlaTitle}>
+                        <div>
+                          <h2>{item.title}</h2>
+                        </div>
+                        <div>
+                          <div className={styles.titleBar}>
+                            <div className={styles.ModalProfile}>
+                              <p>작성자: {item.defendant}</p>
+                            </div>
+                            <p>작성일: {item.createdAt}</p>
                           </div>
-                          <p>작성일: {item.createdAt}</p>
-                          {/* <p>조회수: {count}</p> */}
+                        </div>
+                      </div>
+                      <div className={styles.modlaContent}>
+                        <div>{item.summary}</div>
+                        <div>
+                          {item.imgUrl ? (
+                            <img src={item.imgUrl} alt="첨부 이미지" />
+                          ) : (
+                            ""
+                          )}
                         </div>
                       </div>
                     </div>
-                    <div className={styles.modlaContent}>
-                      <div>{item.summary}</div>
-                      <div>
-                        {item.imgUrl ? (
-                          <img src={item.imgUrl} alt="첨부 이미지" />
-                        ) : (
-                          ""
-                        )}
-                      </div>
-                    </div>
-                  </div>
-                </CustomModal>
-              </div>
-            </li>
-            // </Link>
-          ))}
+                  </CustomModal>
+                </div>
+              </li>
+            ))
+          ) : (
+            <li>데이터가 없습니다.</li>
+          )}
         </ul>
       </div>
+
       <div className={styles.pagination}>
         <button
           onClick={PreviousPage}

@@ -10,28 +10,24 @@ import { ScaleLoader } from "react-spinners";
 function DisasterList(props) {
   const dispatch = useDispatch();
   const { posts } = useSelector((state) => state.disasterSlice);
-  //검색어 입력상태와 검색 결과 상태 분리
   const [searchTerm, setSearchTerm] = useState(""); // 검색어 상태 관리
   const [filteredPosts, setFilteredPosts] = useState(posts);
-  const [isLoading, setIsLoading] = useState(true); //로딩
+  const [isLoading, setIsLoading] = useState(true); // 로딩
 
-  // 검색어 입력 핸들러
   const handleSearchChange = (e) => {
     setSearchTerm(e.target.value);
   };
 
-  // 검색 버튼 클릭 핸들러
   const onClick = () => {
     filterPosts();
   };
-  // enter키 입력 핸들러
+
   const handleKeyDown = (e) => {
     if (e.key === "Enter") {
       filterPosts();
     }
   };
 
-  // 검색버튼 클릭 핸들러
   const filterPosts = () => {
     const search = searchTerm.trim().replace(/\s+/g, "").toLowerCase();
     if (search) {
@@ -47,30 +43,30 @@ function DisasterList(props) {
     }
   };
 
-  // 데이터 가져오기
   useEffect(() => {
-    const loadData = () => {
+    const loadData = async () => {
       setIsLoading(true);
-      dispatch(fetchDisasterDatas("disasters"));
+      await dispatch(fetchDisasterDatas("disasters"));
       setIsLoading(false); // 데이터 로딩 후 로딩 종료
     };
     loadData();
   }, [dispatch]);
 
-  // posts가 변경될 때마다 filteredPosts도 갱신
   useEffect(() => {
-    setFilteredPosts(posts); // 초기 게시글 세팅
-  }, [posts]); // posts 변경 시 실행
+    const sortedPosts = [...posts].sort(
+      (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+    );
+    setFilteredPosts(sortedPosts); // 초기 게시글 세팅 (작성일 기준으로 정렬)
+  }, [posts]);
+
   return (
     <>
-      {/* 로딩 중일 때 전체 게시판 UI */}
       {isLoading ? (
         <div className={styles.loader}>
           <ScaleLoader color="#36D7B7" />
         </div>
       ) : (
         <div className={styles.menu}>
-          {/* 검색창 */}
           <SearchBox
             placeholder={"검색어를 입력해주세요."}
             name={
@@ -83,7 +79,6 @@ function DisasterList(props) {
             onClick={onClick}
             onKeyDown={handleKeyDown}
           />
-          {/* 게시글 목록 */}
           <div className={styles.menu_bar}>
             <div className={styles.menu_number}>
               <p>NO.</p>
@@ -104,11 +99,11 @@ function DisasterList(props) {
           <div>
             {filteredPosts.length > 0 ? (
               filteredPosts.map((item, idx) => (
-                <li key={idx} item={item}>
+                <li key={item.docId} item={item}>
                   <Link to={`/info/disaster/${item.docId}`}>
                     <div className={styles.menu_list}>
                       <div className={styles.menu_number}>
-                        <p>{item.id}</p>
+                        <p>{filteredPosts.length - idx}</p> {/* 번호 매기기 */}
                       </div>
                       <div className={styles.title}>
                         <p>{item.title}</p>
