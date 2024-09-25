@@ -5,15 +5,17 @@ import { updateUserInfo } from '../../../../../store/user/UserSlice';
 import { changingNickName } from '../../../../../utils/transformNick';
 import styles from './MemberListEdit.module.scss';
 
-function MemberListEdit({ detail, cancelEdit, setUserDetail }) {
-  const { email, name, nickname, photoUrl, createdAt, docId } = detail;
-  const [newNickName, setNewNickName] = useState(nickname);
-  const [values, setValues] = useState({
-    ...detail,
-    nickname: newNickName || detail.nickname,
-  });
+function MemberListEdit({ docId, cancelEdit }) {
+  const { items, isLoading } = useSelector((state) => state.userSlice);
 
-  const { isLoading } = useSelector((state) => state.userSlice);
+  const member = items.find((item) => item.docId === docId);
+
+  const [values, setValues] = useState({
+    nickname: member.nickname,
+    photoUrl: member.photoUrl,
+  });
+  const [newNickName, setNewNickName] = useState(member.nickname);
+
   const dispatch = useDispatch();
 
   const handleChange = (name, value) => {
@@ -32,18 +34,15 @@ function MemberListEdit({ detail, cancelEdit, setUserDetail }) {
     const params = {
       collectionName: 'users',
       docId: docId,
-      updateObj: { nickname: values.nickname, photoUrl: values.photoUrl },
-      photoUrl: photoUrl,
+      updateObj: values,
+      photoUrl: member.photoUrl,
     };
 
-    console.log(params);
-
     try {
-      await dispatch(updateUserInfo(params));
+      dispatch(updateUserInfo(params));
 
       if (isLoading === false) {
-        cancelEdit(false);
-        setUserDetail(values);
+        await cancelEdit();
       }
     } catch (error) {
       console.error(error);
@@ -52,30 +51,43 @@ function MemberListEdit({ detail, cancelEdit, setUserDetail }) {
 
   return (
     <form className={styles.memberEdit} onSubmit={handleSubmit}>
-      <span>[FM{createdAt}]</span>
       <FileInput
         className={styles.memberProfile}
         setFile={handleChange}
         name="photoUrl"
-        value={photoUrl}
-        initialPreview={photoUrl}
+        value={values.photoUrl}
+        initialPreview={member.photoUrl}
+        selected={true}
       />
-      <ul>
-        <li>이메일: {email}</li>
-        <li>이름: {name}</li>
-        <li>
-          <span>닉네임: </span>
-          <input type="text" name="nickname" value={newNickName} readOnly />
-          <button type="button" onClick={handleRandomNickName}>
-            랜덤
+      <div className={styles.content}>
+        <span className={styles.memberId}>[FM{member.createdAt}]</span>
+        <ul className={styles.info}>
+          <li>
+            <span className={styles.label}>이메일</span>
+            <span>{member.email}</span>
+          </li>
+          <li>
+            <span className={styles.label}>이름</span>
+            <span>{member.name}</span>
+          </li>
+          <li>
+            <span className={styles.label}>닉네임</span>
+            <input type="text" name="nickname" value={newNickName} readOnly />
+            <button
+              type="button"
+              className={styles.randomBtn}
+              onClick={handleRandomNickName}
+            >
+              랜덤
+            </button>
+          </li>
+        </ul>
+        <div className={styles.btns}>
+          <button type="submit">수정완료</button>
+          <button type="button" onClick={cancelEdit}>
+            취소
           </button>
-        </li>
-      </ul>
-      <div className={styles.btns}>
-        <button type="submit">수정완료</button>
-        <button type="button" onClick={() => cancelEdit(false)}>
-          취소
-        </button>
+        </div>
       </div>
     </form>
   );

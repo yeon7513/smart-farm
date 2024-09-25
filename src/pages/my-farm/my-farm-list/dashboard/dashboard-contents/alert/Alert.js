@@ -67,10 +67,12 @@ function Alert() {
       handleAddAlert({ content: "disease", gb: "IoWarning" });
       setIsPestAlerted(true);
     }
-  }, [fruitNum, hasExecuted, isAlmostHarvest]);
-  useEffect(() => {
-    handleAddAlert({ content: "weather", gb: "IoWarning" });
-  }, [posts.length]);
+  }, [count, fruitNum, hasExecuted, isAlmostHarvest]);
+  // useEffect(() => {
+  //   handleAddAlert({ content: "weather", gb: "IoWarning" });
+  // }, [posts.length]);
+  console.log(count);
+  console.log(Math.round(randomCount));
   return (
     <div className={styles.alert}>
       {dashboardAlertContent.map((item) => {
