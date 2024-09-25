@@ -1,13 +1,29 @@
 import { AdvancedMarker, APIProvider, Map } from '@vis.gl/react-google-maps';
 import React from 'react';
 
-function CustomMaps({ lat = 36.3287, lng = 127.4229 }) {
-  const position = { lat: Number(lat), lng: Number(lng) };
+function CustomMaps({ geoCode }) {
+  const position = geoCode[0];
+
+  console.log(position);
 
   return (
     <APIProvider apiKey={process.env.REACT_APP_GOOGLE_MAP_API_KEY}>
-      <Map defaultCenter={position} defaultZoom={10} mapId="DEMO_MAP_ID">
-        <AdvancedMarker position={position} />
+      <Map
+        defaultCenter={position}
+        defaultZoom={8}
+        mapId="DEMO_MAP_ID"
+        disableDefaultUI={true}
+        style={{ visibility: 'off' }}
+      >
+        {geoCode.map((code, idx) => (
+          <AdvancedMarker
+            key={idx}
+            position={{
+              lat: Number(code.lat),
+              lng: Number(code.lng),
+            }}
+          />
+        ))}
       </Map>
     </APIProvider>
   );

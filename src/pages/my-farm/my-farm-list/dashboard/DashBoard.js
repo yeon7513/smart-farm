@@ -1,14 +1,14 @@
-import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useLocation } from "react-router-dom";
-import Container from "../../../../components/layout/container/Container";
-import { useComponentContext } from "../../../../context/ComponentContext";
-import { useSectorContext } from "../../../../context/SectorContext";
-import { resetSectorData } from "../../../../store/dashboard/dashboardSlice";
-import DashboardContent from "./dashboard-contents/DashboardContent";
-import DashboardHeader from "./dashboard-header/DashboardHeader";
-import DashboardNav from "./dashboard-nav/DashboardNav";
-import styles from "./DashBoard.module.scss";
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useLocation } from 'react-router-dom';
+import Container from '../../../../components/layout/container/Container';
+import { useComponentContext } from '../../../../context/ComponentContext';
+import { useSectorContext } from '../../../../context/SectorContext';
+import { resetSectorData } from '../../../../store/dashboard/dashboardSlice';
+import DashboardContent from './dashboard-contents/DashboardContent';
+import DashboardHeader from './dashboard-header/DashboardHeader';
+import DashboardNav from './dashboard-nav/DashboardNav';
+import styles from './DashBoard.module.scss';
 
 function DashBoard() {
   const { state } = useLocation();
@@ -24,24 +24,24 @@ function DashBoard() {
 
   useEffect(() => {
     setSector(resetSector);
-    setCurrComp("Briefing");
+    setCurrComp('Briefing');
 
     return () => {
       setSector(resetSector);
-      setCurrComp("Briefing");
+      setCurrComp('Briefing');
     };
   }, [resetSector, setSector, setCurrComp]);
 
   return (
-    <Container className={styles.wrapper}>
-      <div className={styles.dashBoard}>
+    <div className={styles.wrapper}>
+      <Container className={styles.dashBoard}>
         <DashboardHeader info={state} />
         <div className={styles.content}>
           <DashboardNav />
           <DashboardContent docId={state.docId} />
         </div>
-      </div>
-    </Container>
+      </Container>
+    </div>
   );
 }
 

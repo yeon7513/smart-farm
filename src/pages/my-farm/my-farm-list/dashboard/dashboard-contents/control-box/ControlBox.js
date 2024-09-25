@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useSectorContext } from "../../../../../../context/SectorContext";
-import { setData } from "../../../../../../store/controlData/controlSlice";
-import ControlItem from "./control-item/ControlItem";
-import { useLocation } from "react-router-dom";
-import { renameOptionsKor } from "../../../../../../utils/renameOptions";
+import React, { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { useLocation } from 'react-router-dom';
+import { useSectorContext } from '../../../../../../context/SectorContext';
+import { setData } from '../../../../../../store/controlData/controlSlice';
+import { renameOptionsKor } from '../../../../../../utils/renameOptions';
+import ControlItem from './control-item/ControlItem';
 
 function ControlBox() {
   const { sector } = useSectorContext();
@@ -13,7 +13,7 @@ function ControlBox() {
   const dispatch = useDispatch();
   console.log(state.docId);
   const filteredOptions = Object.entries(sector?.control || {})
-    .filter(([key, value]) => value === "Y")
+    .filter(([key, value]) => value === 'Y')
     .map(([key, vlaue]) => renameOptionsKor(key));
 
   useEffect(() => {
@@ -32,43 +32,43 @@ function ControlBox() {
   let db;
   // 데이터베이스를 여는 함수
   function openDatabase() {
-    let request = indexedDB.open("MyDatabase", 1);
+    let request = indexedDB.open('MyDatabase', 2);
 
     // Object Store 생성
     request.onupgradeneeded = function (event) {
       db = event.target.result;
-      if (!db.objectStoreNames.contains("myStore")) {
-        db.createObjectStore("myStore", {
-          keyPath: "boxId",
+      if (!db.objectStoreNames.contains('myStore')) {
+        db.createObjectStore('myStore', {
+          keyPath: 'boxId',
           autoIncrement: true,
         });
-        console.log("Object Store 생성 완료");
+        console.log('Object Store 생성 완료');
       }
     };
 
     request.onsuccess = function (event) {
       db = event.target.result;
-      console.log("데이터베이스 열기 성공");
+      console.log('데이터베이스 열기 성공');
 
       // 데이터베이스가 열린 후, addUniqueData 함수를 호출
       addUniqueData(movedData);
     };
 
     request.onerror = function (event) {
-      console.error("IndexedDB 열기 실패", event);
+      console.error('IndexedDB 열기 실패', event);
     };
   }
 
   async function addUniqueData(movedData) {
     // 데이터베이스가 열려 있지 않은 경우 오류 처리
     if (!db) {
-      console.error("데이터베이스가 열리지 않았습니다.");
+      console.error('데이터베이스가 열리지 않았습니다.');
       return;
     }
 
     // 트랜잭션 생성
-    let transaction = db.transaction(["myStore"], "readwrite");
-    let store = transaction.objectStore("myStore");
+    let transaction = db.transaction(['myStore'], 'readwrite');
+    let store = transaction.objectStore('myStore');
 
     // 모든 데이터를 조회
     let getAllRequest = store.getAll();
@@ -93,7 +93,7 @@ function ControlBox() {
     };
 
     getAllRequest.onerror = function () {
-      console.error("데이터 조회 실패");
+      console.error('데이터 조회 실패');
     };
   }
 

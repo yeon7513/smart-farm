@@ -24,8 +24,6 @@ function FarmList() {
     currentPage * PAGE_SIZE
   );
 
-  console.log(listData);
-
   // 페이지 변경 핸들러
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
@@ -85,7 +83,8 @@ function FarmList() {
       setOwner(`${state.name} 님`);
     } else if (userEmail === 'admin@gmail.com' && state === null) {
       // 관리자가 전체 회원 정보를 조회하는 경우
-      setListData(commonInfo);
+      const filteredData = commonInfo.filter((list) => list.useYn === 'Y');
+      setListData(filteredData);
       setOwner('전체');
     } else if (!userEmail.includes('admin') && state === null) {
       // 일반 회원이 자신의 정보를 조회하는 경우
