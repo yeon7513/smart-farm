@@ -1,16 +1,27 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "../ComplaintsCare.module.scss";
 import ex from "../../../../assets/main/logo2.png";
 import CustomModal from "../../../../components/modal/CustomModal";
 import FileInput from "../../../../components/form/file-input/FileInput";
 import CpModal from "./CpModal";
+import TextInput from "../../../../components/form/text-input/TextInput";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchItems, updateUserInfo } from "../../../../store/user/UserSlice";
+// import { useComponentContext } from "../../../../context/ComponentContext";
+import placehorderImg from "../../../../assets/member/basic_profile.png";
 
 function CpProfile({ item }) {
+  // console.log(item.userDocId);
+  const dispatch = useDispatch();
+  // const { setCurrComp } = useComponentContext();
+  const { items, isLoading } = useSelector((state) => state.userSlice);
+
   const [values, setValues] = useState();
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
+  const [checkNickName, setCheckNickName] = useState(false);
 
   const goProcessed = () => {
     setIsModalOpen(false);
@@ -20,22 +31,62 @@ function CpProfile({ item }) {
     setValues((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleInputChange = (e) => {
-    let { name, value } = e.target;
+  // 닉네임 중복 확인
+  const handleNickNameCheckDuplication = (e) => {
+    const { name, value } = e.target;
 
-    handleChange(name, value);
+    const nickNameCheck = items.some((item) => item.nickname === value);
+
+    if (value !== "" && !nickNameCheck) {
+      // 중복이 없을 경우
+      setCheckNickName(false);
+      handleChange(name, value);
+    } else if (value === "" || nickNameCheck) {
+      // 중복이 있을 경우
+      setCheckNickName(true);
+      handleChange(name, value);
+    }
   };
 
-  const handleSubmit = (e) => {
+  // 파이어베이스 전송
+  const handleSubmit = async (e) => {
     e.preventDefault();
+
+    const updateNickname = checkNickName ? values.nickname : item.defendant;
+
+    const params = {
+      collectionName: "users",
+      docId: item?.userDocId,
+      updateObj: {
+        ...values,
+        nickname: updateNickname,
+      },
+      photoUrl: values.photoUrl || placehorderImg, // 기본 이미지로 설정
+    };
+
+    try {
+      await dispatch(updateUserInfo(params)); // 비동기 처리
+      // setIsModalOpen(false); // 성공 시 모달 닫기
+    } catch (error) {
+      console.error("신고 프로필 수정 중 오류 : ", error);
+    }
   };
+
+  useEffect(() => {
+    if (item) {
+      setValues({
+        nickname: item.defendant,
+        photoUrl: item.photoUrl || placehorderImg,
+      });
+    }
+  }, [item]);
 
   return (
     <>
       <div className={styles.flex_box}>
         <div className={styles.profile}>
-          <img src={item.photoUrl} alt="" />
-          <h3>{item.defendant}</h3>
+          <img src={values?.photoUrl || item.photoUrl} alt="" />
+          <h3>{values?.nickname || item.defendant}</h3>
         </div>
         <div className={styles.care}>
           <p>신고사유: {item.reasonName}</p>
@@ -49,32 +100,35 @@ function CpProfile({ item }) {
               isOpen={isModalOpen}
               btnHandler={goProcessed}
             >
-              <form onSubmit={handleSubmit}>
-                <FileInput
-                  setFile={handleChange}
-                  name="photoUrl"
-                  // value={photoUrl}
-                  // initialPreview={photoUrl}
-                />
-                <ul>
-                  <li>
-                    <span>닉네임: {item.defendant} </span>
-                    <input
-                      type="text"
-                      name="nickname"
-                      value={item.defendant}
-                      onChange={handleInputChange}
-                    />
-                  </li>
-                </ul>
+              <form onSubmit={handleSubmit} className={styles.form}>
+                <div>
+                  <FileInput
+                    setFile={handleChange}
+                    name="photoUrl"
+                    value={values?.photoUrl || item.photoUrl}
+                    initialPreview={item.photoUrl}
+                    className={styles.modalImg}
+                  />
+                </div>
+                <div className={styles.nickname}>
+                  <TextInput
+                    type="text"
+                    name="nickname"
+                    value={values?.nickname || item.defendant}
+                    placeholder={item.defendant}
+                    onChange={handleNickNameCheckDuplication}
+                  />
+                  <p>신고 누적 횟수: 3회</p>
+                </div>
                 <div className={styles.btns}>
                   <button type="submit" onClick={handleSubmit}>
-                    수정완료
+                    수정 완료
                   </button>
                   <button type="button">활동 정지</button>
                 </div>
               </form>
             </CustomModal>
+
             <CpModal />
           </div>
         </div>
