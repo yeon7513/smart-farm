@@ -29,7 +29,7 @@ function DashboardContent({ docId }) {
         if (prevCount >= 100) {
           return 0;
         }
-        return prevCount + 1;
+        return prevCount + 0.1;
       });
     }, 1000);
     return () => clearInterval(interval);
