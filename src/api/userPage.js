@@ -39,6 +39,12 @@ export async function LoginGetDatas(collectionName) {
   return resultData;
 }
 
+// 로컬스토리지 저장용 함수
+const saveToLocalStorage = (data) => {
+  const { pwck, password, ...rest } = data;
+  localStorage.setItem('user', JSON.stringify(rest));
+};
+
 export async function updateDatasWithImage(
   collectionName,
   docId,
@@ -75,7 +81,7 @@ export async function updateDatasWithImage(
     const updatedData = await getDoc(docRef);
     const resultData = { docId: updatedData.id, ...updatedData.data() };
 
-    await localStorage.setItem('user', JSON.stringify(updateObj));
+    await saveToLocalStorage(updateObj);
 
     return resultData;
   } catch (error) {
