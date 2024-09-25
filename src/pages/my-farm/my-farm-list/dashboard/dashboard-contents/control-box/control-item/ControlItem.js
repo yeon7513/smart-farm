@@ -16,7 +16,6 @@ function ControlItem({
       option,
       idx,
       id: sector.id,
-      // docId: 1,
     });
   };
   return (
@@ -33,10 +32,11 @@ function ControlItem({
             <span>+</span>
           </button>
         ) : null}
-
-        <button onClick={() => handleDeleteItem(docId)}>
-          <span>-</span>
-        </button>
+        {state == false ? null : (
+          <button onClick={() => handleDeleteItem(docId)}>
+            <span>-</span>
+          </button>
+        )}
       </div>
     </div>
   );

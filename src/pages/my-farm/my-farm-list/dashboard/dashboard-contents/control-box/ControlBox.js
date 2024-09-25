@@ -5,6 +5,7 @@ import { setData } from "../../../../../../store/controlData/controlSlice";
 import ControlItem from "./control-item/ControlItem";
 import { useLocation } from "react-router-dom";
 import { renameOptionsKor } from "../../../../../../utils/renameOptions";
+import { DBdeleteData } from "../../../../../../api/indexedDB";
 
 function ControlBox() {
   const { sector } = useSectorContext();
@@ -100,26 +101,6 @@ function ControlBox() {
   // 데이터베이스 열기 호출
 
   openDatabase();
-
-  // 삭제할 데이터베이스 이름
-  // const dbName = "MyDatabase";
-
-  // // 데이터베이스 삭제
-  // const request = indexedDB.deleteDatabase(dbName);
-
-  // request.onsuccess = function (event) {
-  //   console.log(`데이터베이스 "${dbName}"가 성공적으로 삭제되었습니다.`);
-  // };
-
-  // request.onerror = function (event) {
-  //   console.error(`데이터베이스 "${dbName}" 삭제 중 오류 발생:`, event);
-  // };
-
-  // request.onblocked = function (event) {
-  //   console.warn(
-  //     `데이터베이스 "${dbName}"가 차단되었습니다. 다른 탭에서 사용 중일 수 있습니다.`
-  //   );
-  // };
 
   return (
     <>
