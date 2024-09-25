@@ -108,6 +108,7 @@ function CpProfile({ item }) {
                     value={values?.photoUrl || item.photoUrl}
                     initialPreview={item.photoUrl}
                     className={styles.modalImg}
+                    selected={true}
                   />
                 </div>
                 <div className={styles.nickname}>
