@@ -24,7 +24,79 @@ function RequestForm({ user }) {
   const [lng, setLng] = useState(null);
   const [isIamportLoaded, setIsIamportLoaded] = useState(false);
   const { uid } = useSelector((state) => state.userSlice);
+  const [selectedOptions, setSelectedOptions] = useState({});
   const navigate = useNavigate();
+
+  const facilitiesHorticultureOptions = {
+    "환경 제어": [
+      {
+        id: "thermostat",
+        value: "온도 조절기",
+        label: "온도 조절기",
+      },
+      {
+        id: "ventilationSystem",
+        value: "환기 장치",
+        label: "환기 장치",
+      },
+      { id: "shadingFilm", value: "차광막", label: "차광막" },
+    ],
+    "조명 시스템": [
+      {
+        id: "LEDGrowLights",
+        value: "인공 조명",
+        label: "인공 조명",
+      },
+      {
+        id: "automaticLightingRegulator",
+        value: "자동 조명 조절기",
+        label: "자동 조명 조절기",
+      },
+    ],
+    "관수 시스템": [
+      {
+        id: "automaticIrrigationSystem",
+        value: "자동 관수 시스템",
+        label: "자동 관수 시스템",
+      },
+      {
+        id: "positiveLiquidMachine",
+        value: "양액기",
+        label: "양액기",
+      },
+    ],
+    "센서 및 모니터링": [
+      {
+        id: "temperatureHumiditySensor",
+        value: "온도 및 습도 센서",
+        label: "온도 및 습도 센서",
+      },
+      {
+        id: "CO2Sensor",
+        value: "CO2 센서",
+        label: "CO2 센서",
+      },
+      { id: "CCTV", value: "CCTV", label: "CCTV" },
+    ],
+    "기타 장비": [
+      {
+        id: "positiveSolutionMeasurementSensor",
+        value: "양액측정센서",
+        label: "양액측정센서",
+      },
+      {
+        id: "insectRepellect",
+        value: "해충 퇴치기",
+        label: "해충 퇴치기",
+      },
+      {
+        id: "pestDigitalTrap",
+        value: "해충 디지털 트랩",
+        label: "해충 디지털 트랩",
+      },
+      { id: "birdRepellent", value: "조류 퇴치기", label: "조류 퇴치기" },
+    ],
+  };
 
   // 농장 동 수 선택 핸들러 수정
   const handleFarmEquivalentChange = (e) => {
@@ -155,16 +227,17 @@ function RequestForm({ user }) {
   };
 
   // 부가 옵션을 변경합니다.
-  const handleAdditionalOptionsChange = (e) => {
-    const value = e.target.value;
-    setAdditionalOptions((prevOptions) => {
+  const handleAdditionalOptionsChange = (index, value) => {
+    setAdditionalOptions((prev) => {
+      const updatedOptions = { ...prev };
+
       // 옵션이 이미 존재하는 경우 제거하고, 그렇지 않으면 추가합니다.
-      const updatedOptions = { ...prevOptions };
-      if (updatedOptions[value]) {
-        delete updatedOptions[value];
+      if (updatedOptions[index] === value) {
+        delete updatedOptions[index];
       } else {
-        updatedOptions[value] = value;
+        updatedOptions[index] = value;
       }
+      console.log(value);
       return updatedOptions;
     });
   };
@@ -354,15 +427,21 @@ function RequestForm({ user }) {
               <h3>{index + 1}번째 농장 부가 옵션 선택: </h3>
               {facilityType === "시설원예" ? (
                 <FacilitiesHorticulture
-                  key={index}
                   additionalOptions={additionalOptions}
-                  handleAdditionalOptionsChange={handleAdditionalOptionsChange}
+                  selectedOption={selectedOptions[index] || null}
+                  handleAdditionalOptionsChange={(value) =>
+                    handleAdditionalOptionsChange(index, value)
+                  }
+                  options={facilitiesHorticultureOptions}
                 />
               ) : (
                 <OpenGround
-                  key={index}
                   additionalOptions={additionalOptions}
-                  handleAdditionalOptionsChange={handleAdditionalOptionsChange}
+                  selectedOption={selectedOptions[index] || null}
+                  handleAdditionalOptionsChange={(value) =>
+                    handleAdditionalOptionsChange(index, value)
+                  }
+                  // options={options}
                 />
               )}
             </div>
