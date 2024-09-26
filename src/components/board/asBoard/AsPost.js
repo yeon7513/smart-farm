@@ -1,11 +1,8 @@
 import React, { useRef, useState } from "react";
 import styles from "./AsPost.module.scss";
-import { addBoardDatas, uploadImage } from "../../../api/board";
-// import { getUserAuth } from "../../../api/firebase";
-// import { ref } from "firebase/storage";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { addComplete } from "../../../store/as-service/AsServiceSlide";
+import { addComplete } from "../../../store/as-service/asSlice";
 
 const INITIAL_VALUE = {
   title: "🔒 문의합니다.",

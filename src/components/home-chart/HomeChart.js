@@ -1,5 +1,4 @@
 import React, { useEffect, useRef, useState } from "react";
-import { GrPowerReset } from "react-icons/gr";
 import styles from "./HomeChart.module.scss";
 import RenderingChart from "../chart/RenderingChart";
 import { GridLoader } from "react-spinners";
@@ -8,7 +7,6 @@ import {
   fetchLocalRegion,
 } from "../../store/usage-status/usageStatusSlice";
 import { useDispatch, useSelector } from "react-redux";
-import { chartTypes } from "../chart/Charts";
 import Maps from "../map/Maps";
 import { HiMiniCheck } from "react-icons/hi2";
 import * as d3 from "d3";

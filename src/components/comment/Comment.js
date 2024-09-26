@@ -1,4 +1,3 @@
-// components/comment/Comment.js
 import React, { useEffect, useState } from "react";
 import styles from "./Comment.module.scss";
 import {
@@ -10,9 +9,7 @@ import {
 import CustomModal from "../modal/CustomModal";
 import { useDispatch, useSelector } from "react-redux";
 import CmRadio from "../complain/CmRadio.js";
-import { addDatas } from "../../api/firebase.js";
 import { addComplain } from "../../store/complain/complainSlice.js";
-import { fetchComments } from "../../store/comment/commentSlice.js";
 
 function Comment({ item }) {
   // console.log(item);

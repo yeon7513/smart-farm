@@ -2,10 +2,6 @@ import React from "react";
 import styles from "./Radio.module.scss";
 
 function CmRadio({ selectedRadio, errorMessage }) {
-  // const handleChange = (e) => {
-  //   selectedRadio(e.target.value);
-  // };
-
   const categoryMap = {
     cm_01: "광고성 댓글",
     cm_02: "부적절한 댓글",
