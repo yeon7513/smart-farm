@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { deleteComment, getComment } from "../../api/board";
+import { addComment, deleteComment, getComment } from "../../api/board";
 
 const initialState = {
   comments: [], // 전체 게시글
@@ -8,7 +8,7 @@ const initialState = {
 };
 
 const commentSlice = createSlice({
-  name: "comment",
+  name: "comments",
   initialState,
   reducers: {},
   extraReducers: (builder) => {
@@ -30,13 +30,25 @@ const commentSlice = createSlice({
 });
 
 export const fetchComments = createAsyncThunk(
-  "comment/fetchComments",
+  "comments/fetchComments",
   async (collectionName, docId) => {
     try {
       const data = await getComment(collectionName, docId);
       return data;
     } catch (error) {
       return error;
+    }
+  }
+);
+
+export const addComments = createAsyncThunk(
+  "comments/addComments",
+  async ({ collectionName, docId, commentObj }) => {
+    try {
+      const data = await addComment(collectionName, docId, commentObj);
+      return data;
+    } catch (error) {
+      console.log(`댓글 추가 중 에러: `, error);
     }
   }
 );

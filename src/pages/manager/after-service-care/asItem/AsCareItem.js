@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
 import styles from "./AsCareItem.module.scss";
-import { Link } from "react-router-dom";
 import CustomModal from "../../../../components/modal/CustomModal";
 import { useDispatch } from "react-redux";
-import { approveComplete } from "../../../../store/as-service/AsServiceSlide";
+import { approveComplete } from "../../../../store/as-service/asSlice";
 import Comment from "../../../../components/comment/Comment";
 
 const PAGE_SIZE = 20;

@@ -2,9 +2,6 @@ import React from "react";
 import styles from "./Radio.module.scss";
 
 function Radio({ selectedRadio, errorMessage }) {
-  // const handleChange = (e) => {
-  //   selectedRadio(e.target.value);
-  // };
   const categoryMap = {
     ps_01: "광고성 게시글",
     ps_02: "부적절한 게시글",

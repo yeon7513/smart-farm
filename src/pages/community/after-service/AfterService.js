@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
-import styles from "../community.module.scss";
-import { Outlet } from "react-router-dom";
-import AsBoard from "../../../components/board/asBoard/AsBoard";
+import React from 'react';
+import { Outlet } from 'react-router-dom';
+import AsBoard from '../../../components/board/asBoard/AsBoard';
+import styles from '../community.module.scss';
 
 function AfterService(props) {
   return (

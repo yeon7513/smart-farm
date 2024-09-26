@@ -102,8 +102,8 @@ function ComplaintsCare() {
           <section>
             {filteredData().map((items, idx) => {
               if (items.reasonCode.startsWith("pf")) {
-                return <CpProfile key={idx} item={items} process={process} />;
               }
+              return <CpProfile key={idx} item={items} process={process} />;
             })}
           </section>
         </div>

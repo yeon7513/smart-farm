@@ -5,7 +5,6 @@ import CpModal from "./CpModal";
 import { Link } from "react-router-dom";
 import { deleteComment } from "../../../../api/board";
 import { useDispatch } from "react-redux";
-import { deleteCommentDatas } from "../../../../store/board/boardSlice";
 import { approveComplaint } from "../../../../store/complain/complainSlice";
 
 function CpComment({ item, process }) {
@@ -33,21 +32,37 @@ function CpComment({ item, process }) {
 
   const dispatch = useDispatch();
 
+  // const handleDeleteCm = async () => {
+  //   dispatch(
+  //     deleteCommentDatas({
+  //       collectionName: item.category,
+  //       docId: item.postDocId,
+  //       commentId: item.commentDocId,
+  //     })
+  //   )
+  //     .then(() => {
+  //       alert("댓글이 성공적으로 삭제되었습니다.");
+  //     })
+  //     .catch((error) => {
+  //       alert("댓글 삭제 중 오류가 발생했습니다.");
+  //       console.error(error);
+  //     });
+  // };
   const handleDeleteCm = async () => {
-    dispatch(
-      deleteCommentDatas({
-        collectionName: item.category,
-        docId: item.postDocId,
-        commentId: item.commentDocId,
-      })
-    )
-      .then(() => {
-        alert("댓글이 성공적으로 삭제되었습니다.");
-      })
-      .catch((error) => {
-        alert("댓글 삭제 중 오류가 발생했습니다.");
-        console.error(error);
-      });
+    const params = {
+      collectionName: item.category,
+      docId: item.postDocId,
+      commentId: item.commentDocId,
+    };
+
+    try {
+      const deletedata = await deleteComment(params);
+      alert("댓글이 성공적으로 삭제되었습니다.");
+      return deletedata;
+    } catch (error) {
+      alert("댓글 삭제 중 오류가 발생했습니다.");
+      console.error("Error details: ", error);
+    }
   };
 
   return (

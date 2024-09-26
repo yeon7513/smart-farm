@@ -10,7 +10,6 @@ import {
   orderBy,
   query,
   runTransaction,
-  setDoc,
   updateDoc,
 } from "firebase/firestore";
 import { db, getCollection } from "./firebase";
@@ -183,7 +182,9 @@ export async function addComment(collectionName, docId, commentObj) {
 export async function deleteComment(collectionName, docId, commentId) {
   try {
     const commentRef = doc(db, collectionName, docId, "comment", commentId);
-    await deleteDoc(commentRef);
+    await deleteDoc(commentRef, {
+      collection: collectionName,
+    });
     return true;
   } catch (error) {
     console.error("댓글 삭제 중 오류 발생: ", error);

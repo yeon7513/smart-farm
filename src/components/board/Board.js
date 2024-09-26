@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-// import { getBoardDatas } from "../../api/board";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchBoardDatas } from "../../store/board/boardSlice";
 import styles from "./Board.module.scss";

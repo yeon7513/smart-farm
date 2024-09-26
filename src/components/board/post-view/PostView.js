@@ -3,10 +3,8 @@ import { useLocation, useNavigate, useParams } from "react-router-dom";
 import styles from "./PostView.module.scss";
 import {
   deletePost,
-  getBoardDatas,
   getPostById,
   incrementPostCount,
-  updatePost,
 } from "../../../api/board";
 import CustomModal from "../../modal/CustomModal";
 import Radio from "../../complain/Radio";
