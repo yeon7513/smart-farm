@@ -1,36 +1,4 @@
-[[redirects]]
-    from = "/*"
-    to = "/index.html"
-    status = 200
+[build]
+command = "CI= npm run build"
+publish = "build"
 
-[[redirects]]
-from = "/weather/*"
-  to = "https://api.openweathermap.org/:splat"  
-  status = 200
-  force = true
-
-
-  [[redirects]]
-from = "/desease/*"
-  to = "http://ncpms.rda.go.kr/npmsAPI/service/:splat"  
-  status = 200
-  force = true
-
-
-[[redirects]]
-from = "/bestfarm/*"
-  to = "https://apis.data.go.kr/1390000/SmartFarmdata/:splat"  
-  status = 200
-  force = true
-
-[[redirects]]
-from = "/smart/*"
-  to = "https://www.smartfarmkorea.net/:splat"  
-  status = 200
-  force = true
-
-[[redirects]]
-from = "/desaster/*"
-  to = "https://www.safetydata.go.kr/:splat"  
-  status = 200
-  force = true

@@ -120,7 +120,7 @@ const Payment = () => {
                         <td>{item.createdAt}</td>
                         <td>{approvalStatus}</td>
                         <td>
-                          <Link to={`/mypage/${item.imp_uid}`}>
+                          <Link to={`/mypage/${item.paymentsDocId}`}>
                             <button className={styles.button}>
                               자세히 보기
                             </button>

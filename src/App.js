@@ -86,7 +86,7 @@ function App() {
             {/* 마이페이지 */}
             <Route path="/Mypage" element={<MyPage />}>
               <Route index element={<MyPageMenu />} />
-              <Route path=":imp_uid" element={<PaymentDetail />} />
+              <Route path=":paymentsDocId" element={<PaymentDetail />} />
             </Route>
           </Route>
           {/* 대시보드 */}

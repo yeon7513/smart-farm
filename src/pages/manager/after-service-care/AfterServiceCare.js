@@ -22,23 +22,25 @@ function AfterServiceCare(props) {
     setComplete(selectedComplete);
   };
 
-  // useEffect(() => {
-  //   dispatch(fetchCompleting(complete));
-  // }, [dispatch, complete]);
-
-  // useEffect(() => {
-  //   dispatch(fetchCompleted(complete));
-  // }, [dispatch, complete]);
   useEffect(() => {
-    if (complete === "completing") {
-      dispatch(fetchCompleting());
-    } else if (complete === "completed") {
-      dispatch(fetchCompleted());
-    }
+    dispatch(fetchCompleting(complete));
   }, [dispatch, complete]);
 
+  useEffect(() => {
+    dispatch(fetchCompleted(complete));
+  }, [dispatch, complete]);
+
+  // useEffect(() => {
+  //   if (complete === "completing") {
+  //     dispatch(fetchCompleting());
+  //   } else if (complete === "completed") {
+  //     dispatch(fetchCompleted());
+  //   }
+  // }, [dispatch, complete]);
+
   const filteredData = () => {
-    return complete === "completing" ? completing : completed;
+    const data = complete === "completing" ? completing : completed;
+    return data;
   };
 
   return (
