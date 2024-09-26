@@ -36,12 +36,6 @@ function InfoInput({ onSearch, resetSearch }) {
     setInputValue(value);
     setIsSelectDisabled(value.length > 0);
     checkSearchButtonState(value, lastSelectRef.current?.value);
-    // if (value.length > 0) {
-    //   setIsSelectDisabled(true);
-    // } else {
-    //   setIsSelectDisabled(false);
-    // }
-    // setIsSearching(value.length > 0);
   };
   // 입력창에서 Enter 키를 눌렀을 때 검색 실행
   const handleKeyDown = (e) => {
@@ -88,7 +82,6 @@ function InfoInput({ onSearch, resetSearch }) {
       const result = await response.json();
       // 중분류 셀렉트 박스의 옵션을 저장
       setMiddleOptions(result.service.srchKncrList2);
-      // onFilterChange({ selectedBig: value, selectedMiddle: "", cropCode: "" });
       setIsInputDisabled(true);
       checkSearchButtonState(inputValue, lastSelectRef.current?.value);
     } catch (error) {
@@ -134,13 +127,6 @@ function InfoInput({ onSearch, resetSearch }) {
     const value = e.target.value;
     console.log(value); // 선택된 대분류 값을 콘솔에 출력
     const apiKey = "2024570e96d7a69a9e49dfeb7fdc9739177c";
-
-    // const handleInputChange = (e) => {
-    //   setInputValue(e.target.value);
-    // };
-    // const handleSearch = () => {
-    //   onSearch(inputValue); // Pass the search term back to the parent (DiseasesList)
-    // };
 
     try {
       // 선택된 작물 코드를 기반으로 작물 정보를 가져오는 API 호출
