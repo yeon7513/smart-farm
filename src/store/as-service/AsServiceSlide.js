@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { getBoardDatas } from "../../api/board";
+import { addBoardDatas, getBoardDatas } from "../../api/board";
 import { getDatas } from "../../api/firebase";
 import {
   updateComplaintProcess,
@@ -81,6 +81,20 @@ const asSlice = createSlice({
       .addCase(approveComplete.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload;
+      })
+
+      // a/s 데이터 추가
+      .addCase(addComplete.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(addComplete.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.completing.push(action.payload); // 성공 시 데이터 추가
+      })
+      .addCase(addComplete.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload;
       });
   },
 });
@@ -101,9 +115,8 @@ export const fetchCompleting = createAsyncThunk(
   "as/fetchCompleting",
   async () => {
     try {
-      const data = await getDatas("as");
-      const resultData = data.filter((item) => item.completedYn === "N");
-      console.log("Completing Data:", resultData); // 로그 추가
+      const data = await getBoardDatas("as");
+      const resultData = data.filter((item) => item.completeYn === "N");
       return resultData;
     } catch (error) {
       console.log("답변 중 데이터 불러오기 중 에러: ", error);
@@ -116,12 +129,27 @@ export const fetchCompleted = createAsyncThunk(
   "as/fetchCompleted",
   async () => {
     try {
-      const data = await getDatas("as");
-      const resultData = data.filter((item) => item.completedYn === "Y");
-      console.log("Completed Data:", resultData); // 로그 추가
+      const data = await getBoardDatas("as");
+      const resultData = data.filter((item) => item.completeYn === "Y");
       return resultData;
     } catch (error) {
       console.log("답변 완료 데이터 불러오기 중 에러: ", error);
+    }
+  }
+);
+
+// a/s 문의 추가
+export const addComplete = createAsyncThunk(
+  "complain/addComplete",
+  async ({ collectionName, addObj }) => {
+    try {
+      // Firestore에 수동으로 문서 ID 설정
+      await addBoardDatas(collectionName, addObj);
+
+      return addObj; // 추가한 데이터를 리턴
+    } catch (error) {
+      console.log(`신고하기 에러 발생`);
+      return false;
     }
   }
 );

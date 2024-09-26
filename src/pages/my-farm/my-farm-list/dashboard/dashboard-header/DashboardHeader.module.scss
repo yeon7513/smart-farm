@@ -1,7 +1,8 @@
 @import '/src/scss/mixins.scss';
 
 .header {
-  height: 45%;
+  flex: none;
+  height: max-content;
   .info {
     display: flex;
     align-items: center;
@@ -28,7 +29,7 @@
       h1 {
         font-family: var(--title-font);
         font-size: 24px;
-        font-weight: 200;
+        font-weight: 400;
       }
     }
     .icons {
@@ -63,9 +64,5 @@
         }
       }
     }
-  }
-
-  > div {
-    outline: 1px dotted red;
   }
 }

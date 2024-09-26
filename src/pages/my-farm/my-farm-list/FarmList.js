@@ -74,11 +74,12 @@ function FarmList() {
         ? userData.email
         : 'admin@gmail.com';
 
-    if (state !== null && userEmail.includes('admin')) {
+    if (state !== null && userData.email.includes('admin')) {
       // 관리자가 특정 회원을 조회하는 경우
       const filteredData = commonInfo.filter(
         (list) => list.userId === state.email && list.useYn === 'Y'
       );
+
       setListData(filteredData);
       setOwner(`${state.name} 님`);
     } else if (userEmail === 'admin@gmail.com' && state === null) {

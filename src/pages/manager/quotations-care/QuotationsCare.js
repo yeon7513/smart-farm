@@ -7,14 +7,11 @@ import * as XLSX from "xlsx";
 import SearchBox from "../../../components/search_box/SearchBox";
 import { fetchPayments } from "../../../store/payment/paymentsSlice";
 import styles from "./QuotationsCare.module.scss";
-import { Link } from "react-router-dom";
 import {
   fetchCommonInfo,
   updateCommonInfo,
 } from "../../../store/dashboard/dashboardSlice";
 import CustomModal from "../../../components/modal/CustomModal";
-import { collection, doc, getDoc, updateDoc } from "firebase/firestore";
-import { db } from "../../../api/firebase";
 
 // listItems 변수는 firebase에서 데이터를 가져와서 메모리에 저장합니다.
 // 이를 기반으로 검색 기능 구현 및 초기 데이터를 렌더링 합니다.
@@ -23,7 +20,6 @@ let listItems;
 function QuotationsCare() {
   const { payments, isLoading } = useSelector((state) => state.paymentsSlice);
   const { commonInfo } = useSelector((state) => state.dashboardSlice);
-  const { user } = useSelector((state) => state.userSlice);
   const [items, setItems] = useState([]);
   const [keyword, setKeyword] = useState("");
   const [selectedItem, setSelectedItem] = useState(null);
@@ -31,6 +27,11 @@ function QuotationsCare() {
   const [filteredInfo, setFilteredInfo] = useState(commonInfo);
 
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchPayments("payments"));
+    dispatch(fetchCommonInfo("dashboard"));
+  }, [dispatch]);
 
   // 각 버튼 클릭 시 호출될 함수
   const filterData = (status) => {
@@ -45,7 +46,7 @@ function QuotationsCare() {
     } else if (status === "rejected") {
       setFilteredInfo(commonInfo.filter((item) => item.deleteYn === "Y"));
     } else {
-      setFilteredInfo(commonInfo); // 전체 내역
+      setFilteredInfo(commonInfo);
     }
   };
 
@@ -54,14 +55,15 @@ function QuotationsCare() {
     listItems = data; // 데이터 저장
   };
 
-  useEffect(() => {
-    dispatch(fetchPayments("payments"));
-    dispatch(fetchCommonInfo("dashboard"));
-  }, [dispatch]);
-
   // payments를 listItems에 저장
   useEffect(() => {
     setListItems(payments);
+    const processedData = payments.map((payment) => ({
+      ...payment,
+      additionalOptions: Object.values(payment.additionalOptions).join(", "),
+    }));
+    console.log(processedData);
+    console.log(commonInfo);
   }, [payments]);
 
   // firebase의 데이터를 excel로 불러옵니다.
@@ -70,9 +72,13 @@ function QuotationsCare() {
     // "payments" 컬렉션에 배열로 저장되어 있는 additionalOptions의 내용들을 문자열로 변환합니다.
     const processedData = payments.map((payment) => ({
       ...payment,
-      additionalOptions: payment.additionalOptions
-        ? payment.additionalOptions.join(", ")
-        : "",
+      additionalOptions: Object.entries(payment.additionalOptions).map(
+        ([optionCategory, options]) => {
+          const selectedOptions = Object.entries(options)
+            .filter(([_, selected]) => selected)
+            .map(([optionName]) => optionName);
+        }
+      ),
     }));
     const worksheet = XLSX.utils.json_to_sheet(processedData);
     const workbook = XLSX.utils.book_new();

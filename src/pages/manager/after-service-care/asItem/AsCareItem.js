@@ -4,22 +4,24 @@ import { Link } from "react-router-dom";
 import CustomModal from "../../../../components/modal/CustomModal";
 import { useDispatch } from "react-redux";
 import { approveComplete } from "../../../../store/as-service/AsServiceSlide";
+import Comment from "../../../../components/comment/Comment";
 
 const PAGE_SIZE = 20;
 
 function AsCareItem({ items = [] }) {
-  console.log(items);
+  // console.log(items);
   const [currentPage, setCurrentPage] = useState(1);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentDocId, setCurrentDocId] = useState(null); // 현재 선택된 아이템의 docId 저장
 
+  const dispatch = useDispatch();
+
+  // 모달
   const openModal = (docId) => {
     setIsModalOpen(true);
     setCurrentDocId(docId); // 모달 열면서 해당 아이템의 docId 설정
   };
   const closeModal = () => setIsModalOpen(false);
-
-  const dispatch = useDispatch();
 
   const goCompleted = () => {
     if (currentDocId) {
@@ -35,13 +37,12 @@ function AsCareItem({ items = [] }) {
     }
   };
 
-  // 페이지 계산을 위한 로직
+  // 페이지네이션
   const totalPages = Math.ceil(items.length / PAGE_SIZE);
   const currentItem = items.slice(
     (currentPage - 1) * PAGE_SIZE,
     currentPage * PAGE_SIZE
   );
-
   const PreviousPage = () => {
     if (currentPage > 1) {
       setCurrentPage((prevPage) => prevPage - 1);
@@ -82,24 +83,25 @@ function AsCareItem({ items = [] }) {
 
                 <div>
                   <button onClick={() => openModal(item.docId)}>
-                    {item.completedYn}
+                    {item.completeYn}
                   </button>
-                  {/* 모달 열 때 해당 아이템의 docId 전달 */}
+
                   <CustomModal
                     title={"A/S 답변"}
                     btnName={"완료"}
                     handleClose={closeModal}
                     isOpen={isModalOpen}
                     btnHandler={goCompleted}
+                    className={styles.modal}
                   >
-                    <div className={styles.ModalContainer}>
+                    <div className={styles.modalContainer}>
                       <div className={styles.modlaTitle}>
                         <div>
                           <h2>{item.title}</h2>
                         </div>
                         <div>
                           <div className={styles.titleBar}>
-                            <div className={styles.ModalProfile}>
+                            <div className={styles.modalProfile}>
                               <p>작성자: {item.defendant}</p>
                             </div>
                             <p>작성일: {item.createdAt}</p>
@@ -116,13 +118,16 @@ function AsCareItem({ items = [] }) {
                           )}
                         </div>
                       </div>
+                      <div className={styles.comment}>
+                        <Comment item={item} />
+                      </div>
                     </div>
                   </CustomModal>
                 </div>
               </li>
             ))
           ) : (
-            <li>데이터가 없습니다.</li>
+            <div className={styles.noPost}>문의내역이 없습니다.</div>
           )}
         </ul>
       </div>
