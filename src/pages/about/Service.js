@@ -1,7 +1,6 @@
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/all";
 import React, { useEffect, useRef } from "react";
-import { Link } from "react-router-dom";
 import hum1 from "../../assets/abou/사람1.png";
 import hum2 from "../../assets/abou/사람2.png";
 import hum3 from "../../assets/abou/사람3.png";

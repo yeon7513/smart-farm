@@ -1,0 +1,50 @@
+.quotations {
+  .exp_btn {
+    border-bottom: 2px solid var(--common-color);
+    margin-bottom: 30px;
+    padding: 16px 0;
+    margin-right: 10px;
+    &:hover {
+      color: var(--hover-color);
+      //   background-color: var(--hover-color);
+      font-size: 14px;
+    }
+  }
+  .select {
+    padding: 16px 0;
+    border: none;
+    border-bottom: 2px solid var(--common-color);
+  }
+  .table_main {
+    width: 100%;
+    thead {
+      tr {
+        th {
+          padding-bottom: 20px;
+          font-size: 20px;
+        }
+      }
+    }
+    .main {
+      box-shadow: var(--box-shadow);
+      border-radius: 8px;
+
+      .button {
+        border: 2px solid var(--common-color);
+        padding: 10px 3px;
+        border-radius: 8px;
+        &:hover {
+          background-color: var(--hover-color);
+          color: #fff;
+        }
+      }
+    }
+    td {
+      padding: 20px 0;
+    }
+  }
+
+  .selected_main {
+    width: 100%;
+  }
+}

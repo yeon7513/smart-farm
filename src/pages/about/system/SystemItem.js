@@ -1,7 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import styles from "./SystemItem.module.scss";
 import gsap from "gsap";
-import { systems } from "../system";
 import { ScrollTrigger } from "gsap/all";
 
 gsap.registerPlugin(ScrollTrigger);
