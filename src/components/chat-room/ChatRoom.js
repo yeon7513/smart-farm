@@ -107,6 +107,20 @@ function ChatRoom({ chatroomId }) {
     return () => unsubscribe(); // 컴포넌트 언마운트 시 구독 해제
   }, [chatroomId]);
 
+
+  // useEffect(() => {
+  //   const unsubscribe = auth.onAuthStateChanged((user) => {
+  //     if (user) {
+  //       console.log("User is logged in:", user);
+  //     } else {
+  //       console.error("No user is logged in");
+  //     }
+  //   });
+  
+  //   return () => unsubscribe(); // 컴포넌트 언마운트 시 구독 해제
+  // }, []);
+  
+
   //  chatOptionsData 화면에서 사용할 추가 질문과 답변
   const chatOptionsData = [
     {
@@ -218,6 +232,7 @@ function ChatRoom({ chatroomId }) {
 
   //   setMessages((prevMessages) => [...prevMessages, newMessage]); // 새로운 메시지를 추가하여 상태 업데이트
   // };
+<<<<<<< Updated upstream
 
   const handleSendMessage = async (message) => {
     const currentUser = auth.currentUser;
@@ -312,6 +327,94 @@ function ChatRoom({ chatroomId }) {
         />
       );
     }
+=======
+  const startNewChat = async (userEmail, selectedOptionId) => {
+    try {
+      // 1. 'chatRoom' 컬렉션에서 로그인한 사용자 이메일 문서가 있는지 확인하고 없으면 생성
+      const userDocRef = doc(db, "chatRoom", userEmail);
+      await setDoc(userDocRef, {}, { merge: true });
+  
+      // 2. chatOptionsData에서 선택한 옵션의 question만 찾음
+      const selectedOption = chatOptionsData.find(option => option.id === selectedOptionId);
+      
+      if (!selectedOption) {
+        throw new Error("선택한 옵션을 찾을 수 없습니다.");
+      }
+  
+      // 3. 새로운 상담 문서를 'chatContent' 컬렉션에 생성
+      const chatContentRef = collection(userDocRef, "chatContent");
+      const newChatRoom = await addDoc(chatContentRef, {
+        chatTheme: selectedOption.question, // 상담 카테고리 저장 (question만)
+        activeYn: "Y", // 상담 시작
+        chatEnd: "N", // 상담 종료 여부
+        createdAt: serverTimestamp(), // Firestore 서버 타임스탬프
+      });
+  
+      // 4. 생성된 상담 문서 ID 반환 (상담 횟수를 나타냄)
+      return newChatRoom.id;
+    } catch (error) {
+      console.error("새로운 상담 시작 중 오류 발생:", error.message);
+    }
+  };
+
+
+  const endChat = async (userEmail, chatRoomId) => {
+    try {
+      const chatRoomDocRef = doc(db, "chatRoom", userEmail, "chatContent", chatRoomId);
+  
+      // 1. 상담 종료 시 activeYn: "N", chatEnd: "Y"로 업데이트
+      await setDoc(chatRoomDocRef, {
+        activeYn: "N",
+        chatEnd: "Y",
+      }, { merge: true });
+  
+      console.log("상담이 성공적으로 종료되었습니다.");
+    } catch (error) {
+      console.error("상담 종료 중 오류 발생:", error.message);
+    }
+  };
+
+
+const handleSendMessage = async (message, selectedOption) => {
+  const currentUser = auth.currentUser;
+
+  if (!currentUser) {
+    console.error("사용자가 로그인되지 않았습니다.");
+    return;
+  }
+
+  const userEmail = currentUser.email;
+
+  try {
+    // 1. 활성화된 상담을 찾거나 새로운 상담을 시작
+    // selectedOption 객체에서 id를 추출하여 전달
+    const chatRoomId = await startNewChat(userEmail, selectedOption.id);
+
+    // 2. 해당 상담 방의 message 컬렉션에 메시지 추가
+    const messageRef = collection(db, "chatRoom", userEmail, "chatContent", chatRoomId, "message");
+    
+    await addDoc(messageRef, {
+      content: message, // 메시지 내용
+      createdAt: serverTimestamp(), // 전송 시간
+      uid: currentUser.uid, // 유저 고유 ID
+    });
+
+    console.log("메시지가 성공적으로 Firestore에 저장되었습니다.");
+  } catch (error) {
+    console.error("메시지 전송 중 오류 발생:", error.message);
+  }
+};
+  
+
+   // renderContent 내에서만 상태 관리
+const renderContent = () => {
+if (isTransitioningToLiveChat) {
+    return <LiveChatting // 1초 후 live-chatting 컴포넌트로 전환  
+    messages={messages} 
+    onSendMessage={handleSendMessage} 
+    />; 
+  }
+>>>>>>> Stashed changes
 
     return (
       <FaqQuestions
@@ -325,6 +428,7 @@ function ChatRoom({ chatroomId }) {
 
   return (
     <div className={styles.wrapper}>
+<<<<<<< Updated upstream
       <ChatRoomHeader
         isLiveChatOpend={isLiveChatOpend}
         //   5번째 추가버튼(채팅상담원) 선택지 이동
@@ -334,6 +438,19 @@ function ChatRoom({ chatroomId }) {
         //  닫기 버튼
         isTransitioningToLiveChat={isTransitioningToLiveChat}
       />
+=======
+   <ChatRoomHeader
+   isLiveChatOpend={isLiveChatOpend}
+  //   5번째 추가버튼(채팅상담원) 선택지 이동 
+   handleBackButtonClick={handleBackButtonClick}
+  //  뒤로가기 버튼
+   handleClose={handleClose}
+  //  닫기 버튼 
+  isTransitioningToLiveChat={isTransitioningToLiveChat}
+  endChat={endChat}
+  // 파이어베이스 chatContent 컬렉션 종료
+   />
+>>>>>>> Stashed changes
       {/* 여기까지 헤더의 영역 */}
 
       <div className={styles.content}>{renderContent()}</div>
