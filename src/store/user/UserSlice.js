@@ -1,20 +1,20 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { getDocDatas } from '../../api/firebase';
-import { LoginGetDatas, updateDatasWithImage } from '../../api/userPage';
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { getDocDatas } from "../../api/firebase";
+import { LoginGetDatas, updateDatasWithImage } from "../../api/userPage";
 
-const initialState = localStorage.getItem('user')
-  ? { ...JSON.parse(localStorage.getItem('user')), items: [] }
+const initialState = localStorage.getItem("user")
+  ? { ...JSON.parse(localStorage.getItem("user")), items: [] }
   : {
-      email: '',
-      token: '',
-      uid: '',
-      docId: '',
-      nickname: '',
-      name: '',
-      number: '',
-      address: '',
-      farmAddress: '',
-      photoUrl: '',
+      email: "",
+      token: "",
+      uid: "",
+      docId: "",
+      nickname: "",
+      name: "",
+      number: "",
+      address: "",
+      farmAddress: "",
+      photoUrl: "",
       complaneNum: 0,
       isAuthenticated: false,
       items: [],
@@ -22,7 +22,7 @@ const initialState = localStorage.getItem('user')
     };
 
 const userSlice = createSlice({
-  name: 'user',
+  name: "user",
   initialState,
   reducers: {
     setUser: (state, action) => {
@@ -30,22 +30,22 @@ const userSlice = createSlice({
 
       const { items, isLoading, nick, ...restState } = state;
 
-      localStorage.setItem('user', JSON.stringify(restState));
+      localStorage.setItem("user", JSON.stringify(restState));
     },
     removeUser: (state) => {
-      state.email = '';
-      state.token = '';
-      state.uid = '';
-      state.docId = '';
-      state.name = '';
-      state.nickname = '';
-      state.number = '';
-      state.address = '';
-      state.farmAddress = '';
-      state.photoUrl = '';
+      state.email = "";
+      state.token = "";
+      state.uid = "";
+      state.docId = "";
+      state.name = "";
+      state.nickname = "";
+      state.number = "";
+      state.address = "";
+      state.farmAddress = "";
+      state.photoUrl = "";
       state.complaneNum = 0;
       state.isAuthenticated = false;
-      localStorage.removeItem('user');
+      localStorage.removeItem("user");
     },
   },
   extraReducers: (builder) => {
@@ -91,13 +91,13 @@ const userSlice = createSlice({
 });
 
 const fetchItems = createAsyncThunk(
-  'items/fetchAllItems',
+  "items/fetchAllItems",
   async ({ collectionName }) => {
     try {
       const resultData = await LoginGetDatas(collectionName);
       return resultData;
     } catch (error) {
-      return 'Error' + error;
+      return "Error" + error;
     }
   }
 );
@@ -115,7 +115,7 @@ const fetchItems = createAsyncThunk(
 //   }
 // );
 export const getUserById = createAsyncThunk(
-  'user/getUserById',
+  "user/getUserById",
   async ({ collectionName, docId }) => {
     try {
       const resultData = await getDocDatas(collectionName, docId);
@@ -129,7 +129,7 @@ export const getUserById = createAsyncThunk(
 );
 
 const updateUserInfo = createAsyncThunk(
-  'user/updateUserInfo',
+  "user/updateUserInfo",
   async ({ collectionName, docId, updateObj, photoUrl }) => {
     try {
       const result = await updateDatasWithImage(
