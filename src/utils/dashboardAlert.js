@@ -32,9 +32,6 @@ export function dashboardAlertIcon(option) {
       return <IoWarning />;
     case "IoWarningOutline":
       return <IoWarningOutline />;
-    case "IoWarning":
-      return <IoWarning />;
-
     default:
       return null;
   }

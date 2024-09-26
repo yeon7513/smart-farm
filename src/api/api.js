@@ -1,18 +1,16 @@
-import axios from "axios";
+import axios from 'axios';
 import {
   parseFirestoreFields,
   toFirestoreFields,
-} from "../utils/firebaseTranslate";
-
-const API_KEY = "AIzaSyBz9TEYoPHVv_Lz28BzcTa1DrLMI7wnBWc";
+} from '../utils/firebaseTranslate';
 
 const BASE_URL =
-  "https://firestore/googleapis.com/v1/projects/ifarm-dd7b6/databases/(default)/documents";
+  'https://firestore/googleapis.com/v1/projects/ifarm-dd7b6/databases/(default)/documents';
 
 const api = axios.create({
   baseURL: BASE_URL,
   timeout: 5000,
-  headers: { "Content-Type": "appication/json" },
+  headers: { 'Content-Type': 'appication/json' },
 });
 
 function getResultData(response) {
@@ -20,28 +18,28 @@ function getResultData(response) {
     const result = response.data.map((data) => {
       return {
         ...parseFirestoreFields(data.document.fields),
-        docId: data.document.name.split("/").pop(),
+        docId: data.document.name.split('/').pop(),
       };
     });
     return result;
   } else {
     return {
       ...parseFirestoreFields(response.data.fields),
-      docId: response.data.name.split("/").pop(),
+      docId: response.data.name.split('/').pop(),
     };
   }
 }
 
 export async function getDatasRest(collectionName) {
   try {
-    const response = await api.post(":runQuery", {
+    const response = await api.post(':runQuery', {
       structuredQuery: {
         from: [{ collectionId: collectionName }],
       },
     });
     return getResultData(response);
   } catch (error) {
-    console.error("데이터 가져오기 오류: ", error);
+    console.error('데이터 가져오기 오류: ', error);
   }
 }
 

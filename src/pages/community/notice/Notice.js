@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import Board from "../../../components/board/Board";
 import styles from "../community.module.scss";
 import { Outlet } from "react-router-dom";

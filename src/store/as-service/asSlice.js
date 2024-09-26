@@ -1,10 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { addBoardDatas, getBoardDatas } from "../../api/board";
-import { getDatas } from "../../api/firebase";
-import {
-  updateComplaintProcess,
-  updateCompleteProcess,
-} from "../../api/complaint";
+import { updateCompleteProcess } from "../../api/complaint";
 
 const initialState = {
   completing: [],
