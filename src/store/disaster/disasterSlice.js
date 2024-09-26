@@ -1,5 +1,4 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { deletePost, getBoardDatas, updatePost } from "../../api/board";
 import {
   deleteDisaster,
   getDisasterDatas,

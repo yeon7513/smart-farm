@@ -12,6 +12,7 @@ import {
   updateCommonInfo,
 } from "../../../store/dashboard/dashboardSlice";
 import CustomModal from "../../../components/modal/CustomModal";
+import PaginationButton from "../../../components/pagination-button/PaginationButton";
 
 // listItems 변수는 firebase에서 데이터를 가져와서 메모리에 저장합니다.
 // 이를 기반으로 검색 기능 구현 및 초기 데이터를 렌더링 합니다.
@@ -25,6 +26,9 @@ function QuotationsCare() {
   const [selectedItem, setSelectedItem] = useState(null);
   const [modalOpen, setModalOpen] = useState(false);
   const [filteredInfo, setFilteredInfo] = useState(commonInfo);
+
+  const [currentPage, setCurrentPage] = useState(1); // 현재 페이지
+  const itemsPerPage = 10; //페이지당 항목 수
 
   const dispatch = useDispatch();
 
@@ -48,6 +52,7 @@ function QuotationsCare() {
     } else {
       setFilteredInfo(commonInfo);
     }
+    setCurrentPage(1);
   };
 
   // listItems에 데이터를 저장하는 함수 (QuotationsCare에서 호출)
@@ -178,6 +183,12 @@ function QuotationsCare() {
       console.error("거절할 수 없는 항목입니다.");
     }
   };
+  // 현재 페이지에 맞는 데이터 추출
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = filteredInfo.slice(indexOfFirstItem, indexOfLastItem);
+
+  // const totalPates=Math.ceil(filteredInfo.length)
 
   return (
     <div className={styles.quotations}>
@@ -191,8 +202,13 @@ function QuotationsCare() {
             onChange={handleKeywordChange}
             onClick={handleSearch}
           />
-          <button onClick={exportToExcel}>견적 내역 다운로드</button>
-          <select onChange={(e) => filterData(e.target.value)}>
+          <button onClick={exportToExcel} className={styles.exp_btn}>
+            견적 내역 다운로드
+          </button>
+          <select
+            onChange={(e) => filterData(e.target.value)}
+            className={styles.select}
+          >
             <option value="pending">대기 중인 내역</option>
             <option value="all">전체 내역</option>
             <option value="approved">승인 된 내역</option>
@@ -200,7 +216,7 @@ function QuotationsCare() {
           </select>
           <div>
             {commonInfo.length > 0 ? (
-              <table>
+              <table className={styles.table_main}>
                 <thead>
                   <tr>
                     <th>이름</th>
@@ -208,7 +224,7 @@ function QuotationsCare() {
                     <th>농장 종류</th>
                     <th>주문번호</th>
                     <th>승인여부</th>
-                    <th></th>
+                    <th>상세정보</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -223,7 +239,7 @@ function QuotationsCare() {
                     }
 
                     return (
-                      <tr key={item.id}>
+                      <tr key={item.id} className={styles.main}>
                         <td>{item.name}</td>
                         <td>{item.crop}</td>
                         <td>{item.type}</td>
@@ -255,7 +271,7 @@ function QuotationsCare() {
             onReject={handleRejection}
           >
             {selectedItem && (
-              <div>
+              <div className={styles.selected_main}>
                 <p>이름: {selectedItem.name}</p>
                 <p>작물 종류: {selectedItem.crop}</p>
                 <p>농장 종류: {selectedItem.type}</p>
@@ -264,6 +280,13 @@ function QuotationsCare() {
               </div>
             )}
           </CustomModal>
+          <div className={styles.pagination}>
+            <PaginationButton
+            // currentPage={currentPage}
+            // totalPage={totalPages}
+            // onPageChange={(page) => setCurrentPage(page)} // 페이지 변경
+            />
+          </div>
         </>
       )}
     </div>

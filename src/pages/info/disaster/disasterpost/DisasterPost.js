@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styles from "./DisasterPost.module.scss";
 import { useNavigate } from "react-router-dom"; // For navigation after submission
-import { addDatas, deleteDatas, getDatas } from "../../../../api/firebase";
+import { addDatas } from "../../../../api/firebase";
 import { useDispatch } from "react-redux";
 import { fetchDisasterDatas } from "../../../../store/disaster/disasterSlice";
 
