@@ -1,7 +1,7 @@
 .content {
   display: flex;
   flex-direction: column;
-  overflow-y: auto;
+
   width: 100%;
   // max-height: 100%;
   outline: 1px dotted red;
@@ -13,7 +13,7 @@
 
   > div {
     flex: 1;
-    background-color: #ccc;
+    overflow-y: auto;
     &::-webkit-scrollbar {
       background-color: blue;
     }
