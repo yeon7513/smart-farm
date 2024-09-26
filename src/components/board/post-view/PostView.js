@@ -51,6 +51,7 @@ function PostView() {
         processYn: "n",
         category: post.category,
         postId: post.id,
+        postDocId: post.docId,
         // profileUrl: post.photoUrl,
         title: post.title,
         summary: post.summary,

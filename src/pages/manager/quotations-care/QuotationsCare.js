@@ -58,12 +58,18 @@ function QuotationsCare() {
   // payments를 listItems에 저장
   useEffect(() => {
     setListItems(payments);
-    const processedData = payments.map((payment) => ({
+    const testPayments = payments.map((payment) => ({
       ...payment,
-      additionalOptions: Object.values(payment.additionalOptions).join(", "),
+      additionalOptions: Object.entries(payment.additionalOptions).map(
+        ([optionCategory, options]) => {
+          const selectedOptions = Object.entries(options)
+            .filter(([_, selected]) => selected)
+            .map(([optionName]) => optionName);
+          return `${optionCategory}: ${selectedOptions.join(", ")}`;
+        }
+      ),
     }));
-    console.log(processedData);
-    console.log(commonInfo);
+    console.log(testPayments);
   }, [payments]);
 
   // firebase의 데이터를 excel로 불러옵니다.
@@ -77,6 +83,7 @@ function QuotationsCare() {
           const selectedOptions = Object.entries(options)
             .filter(([_, selected]) => selected)
             .map(([optionName]) => optionName);
+          return `${optionCategory}: ${selectedOptions.join(", ")}`;
         }
       ),
     }));

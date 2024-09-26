@@ -14,6 +14,7 @@ const INITIAL_VALUE = {
   createdAt: new Date().toISOString().split("T")[0],
   imgUrl: null,
   completeYn: "N",
+  photoUrl: "",
 };
 
 function AsPost({ onClick, onSubmit, initialValue = INITIAL_VALUE }) {
@@ -52,6 +53,7 @@ function AsPost({ onClick, onSubmit, initialValue = INITIAL_VALUE }) {
       nick: loginUser?.nickname,
       email: loginUser?.email,
       password: postPassword,
+      photoUrl: loginUser?.photoUrl,
     };
 
     dispatch(addComplete({ collectionName: "as", addObj }))
