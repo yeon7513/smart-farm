@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchDisasterDatas } from "../../../../store/disaster/disasterSlice";
 import { ScaleLoader } from "react-spinners";
 
-function DisasterList(props) {
+function DisasterList({ currentPage, itemsPerPage }) {
   const dispatch = useDispatch();
   const { posts } = useSelector((state) => state.disasterSlice);
   const [searchTerm, setSearchTerm] = useState(""); // 검색어 상태 관리
@@ -44,9 +44,9 @@ function DisasterList(props) {
   };
 
   useEffect(() => {
-    const loadData = async () => {
+    const loadData = () => {
       setIsLoading(true);
-      await dispatch(fetchDisasterDatas("disasters"));
+      dispatch(fetchDisasterDatas("disasters"));
       setIsLoading(false); // 데이터 로딩 후 로딩 종료
     };
     loadData();
@@ -58,6 +58,11 @@ function DisasterList(props) {
     );
     setFilteredPosts(sortedPosts); // 초기 게시글 세팅 (작성일 기준으로 정렬)
   }, [posts]);
+
+  // 페이지 네이션을 위한 현재 페이지에 맞는 게시글만 필터링
+  const indexOfLastPost = currentPage * itemsPerPage;
+  const indexOfFirstPost = indexOfLastPost - itemsPerPage;
+  const currentPosts = filteredPosts.slice(indexOfFirstPost, indexOfLastPost);
 
   return (
     <>
@@ -97,13 +102,14 @@ function DisasterList(props) {
             </div>
           </div>
           <div>
-            {filteredPosts.length > 0 ? (
-              filteredPosts.map((item, idx) => (
+            {currentPosts.length > 0 ? (
+              currentPosts.map((item, idx) => (
                 <li key={item.docId} item={item}>
                   <Link to={`/info/disaster/${item.docId}`}>
                     <div className={styles.menu_list}>
                       <div className={styles.menu_number}>
-                        <p>{filteredPosts.length - idx}</p> {/* 번호 매기기 */}
+                        <p>{filteredPosts.length - (indexOfFirstPost + idx)}</p>{" "}
+                        {/* 번호 매기기 */}
                       </div>
                       <div className={styles.title}>
                         <p>{item.title}</p>

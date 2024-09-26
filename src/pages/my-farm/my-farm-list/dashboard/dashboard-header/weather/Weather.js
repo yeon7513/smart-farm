@@ -149,7 +149,8 @@ function Weather({ latitude, longitude }) {
 
   useEffect(() => {
     if (latitude && longitude) {
-      handleWeather(latitude, longitude);
+      handleWeather(latitude, longitude); //위도,경도
+      console.log(latitude, longitude);
     }
     //   대전 선화동 위도 경도
     // const latitude = 36.328799;
@@ -291,12 +292,14 @@ function Weather({ latitude, longitude }) {
         <div className={styles.weather}>
           <>
             <div className={styles.today} onClick={() => handleClick(0)}>
-              <h2>대전</h2>
+              <div>
+                <h2>대전</h2>
 
-              <div className={styles.weather_icon}>
-                {getWeatherIcon(weatherData.icon, 110)}
+                <div className={styles.weather_icon}>
+                  {getWeatherIcon(weatherData.icon, 110)}
+                </div>
+                <div className={styles.title}>{weatherData.description}</div>
               </div>
-              <div className={styles.title}>{weatherData.description}</div>
               <div className={styles.weather_bundle}>
                 <div className={styles.weather_main}>
                   <div className={styles.temperature}>
@@ -378,7 +381,10 @@ function Weather({ latitude, longitude }) {
                       onClick={() => handleClick(index + 1)}
                     >
                       {" "}
-                      <div>{day.dayOfWeek}</div> {/* 요일 표시 */}
+                      <div className={styles.dayOfWeek}>
+                        {day.dayOfWeek}
+                      </div>{" "}
+                      {/* 요일 표시 */}
                       <div>
                         {getWeatherIcon(
                           day.weatherIcon,
