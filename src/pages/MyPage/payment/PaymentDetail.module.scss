@@ -22,6 +22,7 @@
   .option {
     font-size: 20px;
   }
+<<<<<<< Updated upstream
   .farm_main {
     ul {
       display: flex;
@@ -34,6 +35,25 @@
         width: 150px;
         text-align: center;
         margin: 10px;
+=======
+  .additionalOptions {
+    display: flex;
+    flex-direction: row;
+    // justify-content: flex-start;
+    // align-items: flex-start;
+    .farm_main {
+      ul {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: flex-start;
+        align-items: flex-start;
+        li {
+          box-shadow: var(--down-shadow);
+          padding: 8px 0;
+          width: 150px;
+          text-align: center;
+        }
+>>>>>>> Stashed changes
       }
     }
   }

@@ -66,7 +66,7 @@ function QuotationsCare() {
           const selectedOptions = Object.entries(options)
             .filter(([_, selected]) => selected)
             .map(([optionName]) => optionName);
-          return `${optionCategory}: ${selectedOptions.join(", ")}`;
+          return `${selectedOptions.join(", ")}`;
         }
       ),
     }));

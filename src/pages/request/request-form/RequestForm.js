@@ -3,7 +3,6 @@ import SearchAddr from "../../../components/search-addr/SearchAddr";
 import styles from "./RequestForm.module.scss";
 import FacilitiesHorticulture from "../FacilitiesHorticulture";
 import OpenGround from "../OpenGround";
-import { useSelector } from "react-redux";
 import { addDoc, collection } from "firebase/firestore";
 import { db } from "../../../api/firebase";
 import { useNavigate } from "react-router-dom";
@@ -23,7 +22,6 @@ function RequestForm({ user }) {
   const [lat, setLat] = useState(null);
   const [lng, setLng] = useState(null);
   const [isIamportLoaded, setIsIamportLoaded] = useState(false);
-  const { uid } = useSelector((state) => state.userSlice);
   const [selectedOptions, setSelectedOptions] = useState(
     Array.from({ length: 8 }, () => ({})) // 8개의 농장에 대해 초기화
   );
