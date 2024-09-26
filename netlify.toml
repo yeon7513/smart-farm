@@ -7,11 +7,6 @@
   REACT_APP_TOML_ENV_VAR = "From netlify.toml (REACT_APP_)"
 
 [[redirects]]
-  from = "/*"
-  to = "/index.html"
-  status = 200
-
-[[redirects]]
   from = "/weather/*"
   to = "https://api.openweathermap.org/:splat"  
   status = 200
@@ -46,3 +41,8 @@
   to = "https://api.portone.io/v1/payments/cancel/:splat"  
   status = 200
   force = true
+
+  [[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
