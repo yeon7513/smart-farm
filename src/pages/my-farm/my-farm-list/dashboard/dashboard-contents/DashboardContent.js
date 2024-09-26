@@ -1,14 +1,14 @@
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { Outlet } from "react-router-dom";
-import { useComponentContext } from "../../../../../context/ComponentContext";
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Outlet } from 'react-router-dom';
+import { useComponentContext } from '../../../../../context/ComponentContext';
 import {
   countData,
   randomCountData,
-} from "../../../../../store/controlData/controlSlice";
-import DashboardSector from "../dashboard-nav/dashboard-sector/DashboardSector";
-import { fetchSectorInfo } from "./../../../../../store/dashboard/dashboardSlice";
-import styles from "./DashboardContent.module.scss";
+} from '../../../../../store/controlData/controlSlice';
+import DashboardSector from '../dashboard-nav/dashboard-sector/DashboardSector';
+import { fetchSectorInfo } from './../../../../../store/dashboard/dashboardSlice';
+import styles from './DashboardContent.module.scss';
 
 function DashboardContent({ docId }) {
   const { sectorInfo, isLoading } = useSelector(
@@ -26,7 +26,7 @@ function DashboardContent({ docId }) {
   useEffect(() => {
     const interval = setInterval(() => {
       setCount((prevCount) => {
-        if (prevCount >= 100) {
+        if (prevCount >= 5000) {
           return 0;
         }
         return prevCount + 1;
@@ -69,7 +69,7 @@ function DashboardContent({ docId }) {
   return (
     <div className={styles.content}>
       <ul className={styles.sectorMenu}>
-        {currComp !== "Alert" &&
+        {currComp !== 'Alert' &&
           [...sectorInfo]
             .sort((a, b) => a.id - b.id)
             .map((sector) => (
@@ -81,7 +81,9 @@ function DashboardContent({ docId }) {
               />
             ))}
       </ul>
-      <Outlet />
+      <div className={styles.screen}>
+        <Outlet />
+      </div>
     </div>
   );
 }
