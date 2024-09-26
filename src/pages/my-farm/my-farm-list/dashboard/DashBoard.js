@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
-import Container from '../../../../components/layout/container/Container';
 import { useComponentContext } from '../../../../context/ComponentContext';
 import { useSectorContext } from '../../../../context/SectorContext';
 import { resetSectorData } from '../../../../store/dashboard/dashboardSlice';
@@ -34,13 +33,13 @@ function DashBoard() {
 
   return (
     <div className={styles.wrapper}>
-      <Container className={styles.dashBoard}>
+      <div className={styles.dashBoard}>
         <DashboardHeader info={state} />
         <div className={styles.content}>
           <DashboardNav />
           <DashboardContent docId={state.docId} />
         </div>
-      </Container>
+      </div>
     </div>
   );
 }

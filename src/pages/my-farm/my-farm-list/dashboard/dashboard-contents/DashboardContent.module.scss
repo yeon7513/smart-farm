@@ -1,15 +1,19 @@
 .content {
   display: flex;
-  flex-direction: column;
+  flex: 1;
+  overflow: hidden;
   width: 100%;
 
   .sectorMenu {
+    flex: none;
     display: grid;
     grid-template-columns: repeat(8, minmax(calc(100% / 8), 1fr));
   }
 
-  > div {
+  .screen {
     flex: 1;
+    padding: 20px;
+    background-color: #ccc;
     overflow-y: auto;
     &::-webkit-scrollbar {
       width: 8px;
