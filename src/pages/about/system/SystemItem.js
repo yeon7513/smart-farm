@@ -1,7 +1,7 @@
-import React, { useEffect, useRef } from "react";
-import styles from "./SystemItem.module.scss";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/all";
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/all';
+import React, { useEffect, useRef } from 'react';
+import styles from './SystemItem.module.scss';
 
 gsap.registerPlugin(ScrollTrigger);
 function SystemItem({ items }) {
@@ -14,10 +14,10 @@ function SystemItem({ items }) {
         duration: 1,
         scrollTrigger: {
           trigger: system,
-          start: "top 100%", // 스크롤 위치 설정
-          end: "top 100%",
+          start: 'top 100%', // 스크롤 위치 설정
+          end: 'top 100%',
           // markers: true, // 스크롤 위치 화면에서 확인 가능. 사용 후 꼭 주석처리 해주세요.
-          toggleActions: "restart none none none",
+          toggleActions: 'restart none none none',
         },
       });
     });
@@ -26,7 +26,7 @@ function SystemItem({ items }) {
   return (
     <div className={styles.system} ref={(el) => (imgRef.current[0] = el)}>
       <div>
-        <img src={images} className={styles.slideIn} />
+        <img src={images} className={styles.slideIn} alt="" />
       </div>
       <div>
         <h3>{name}</h3>

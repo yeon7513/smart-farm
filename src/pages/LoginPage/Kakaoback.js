@@ -1,19 +1,18 @@
-import { useEffect, useState } from "react";
-import KakaoLogin from "react-kakao-login";
-import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import { RiKakaoTalkFill } from "react-icons/ri";
-import { setUser } from "../../store/user/UserSlice";
-import CustomModal from "../../components/modal/CustomModal";
-import { TextField } from "@mui/material";
-import { useForm } from "react-hook-form";
-import SearchAddr from "../../components/search-addr/SearchAddr";
-import styles from "./Kakaoback.module.scss";
-import { joinUser, LoginGetDatas } from "../../api/userPage";
+import { TextField } from '@mui/material';
+import { useEffect, useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { RiKakaoTalkFill } from 'react-icons/ri';
+import KakaoLogin from 'react-kakao-login';
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { joinUser, LoginGetDatas } from '../../api/userPage';
+import CustomModal from '../../components/modal/CustomModal';
+import SearchAddr from '../../components/search-addr/SearchAddr';
+import { setUser } from '../../store/user/UserSlice';
+import styles from './Kakaoback.module.scss';
 
 const Kakaoback = () => {
   const [inputValue, setInputValue] = useState(true);
-  const { isAuthenticated } = useSelector((state) => state.userSlice);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const openModal = () => setIsModalOpen(true);
@@ -24,7 +23,7 @@ const Kakaoback = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { register, handleSubmit, watch } = useForm({
-    mode: "onChange",
+    mode: 'onChange',
   });
 
   const [state, setState] = useState({});
@@ -51,17 +50,17 @@ const Kakaoback = () => {
   }, [inputValue, allValues]);
 
   const kakaoOnSuccess = async (data) => {
-    console.log("카카오 로그인 성공:", data);
+    console.log('카카오 로그인 성공:', data);
     setState(data);
-    const userInfo = await LoginGetDatas("users");
+    const userInfo = await LoginGetDatas('users');
     const Point = userInfo?.filter(
-      (item) => item.nickname == data.profile.properties.nickname
+      (item) => item.nickname === data.profile.properties.nickname
     );
     if (Point.length === 0) {
       setModalOpen(true);
       openModal();
       if (modalOpen) {
-        navigate("/");
+        navigate('/');
       }
     } else {
       Point.forEach((item) => {
@@ -77,25 +76,25 @@ const Kakaoback = () => {
           })
         );
       });
-      navigate("/");
+      navigate('/');
     }
     const idToken = data.response.access_token;
-    console.log("엑세스 토큰:", idToken);
+    console.log('엑세스 토큰:', idToken);
   };
 
   const kakaoOnFailure = (error) => {
-    console.error("카카오 로그인 실패:", error);
+    console.error('카카오 로그인 실패:', error);
   };
 
-  const password = "";
+  const password = '';
   const onSubmit = ({ email, name, number }) => {
     joinUser(state?.response.id_token, email, password, {
       number: number,
       address: myAddress,
-      farmAddress: "",
+      farmAddress: '',
       name: name,
       nickname: state.profile.properties.nickname,
-      deleteYn: "N",
+      deleteYn: 'N',
     });
     dispatch(
       setUser({
@@ -108,7 +107,7 @@ const Kakaoback = () => {
       })
     );
     closeModal();
-    navigate("/");
+    navigate('/');
   };
   return (
     <>
@@ -121,25 +120,25 @@ const Kakaoback = () => {
           <button
             onClick={onClick}
             style={{
-              width: "40%",
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              gap: "10px",
-              backgroundColor: "#F7E700", // 버튼 배경색
-              color: "#3E0C02", // 버튼 텍스트 색상
-              border: "none", // 버튼 테두리
-              borderRadius: "5px", // 버튼 모서리 둥글기
-              cursor: "pointer", // 커서 모양
-              fontSize: "15px", // 텍스트 크기
-              fontWeight: "bold", // 텍스트 두께
-              padding: "0.6% 0 0.6% 0",
-              transition: "background-color 0.3s", // 호버 시 색상 변경을 부드럽게
+              width: '40%',
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              gap: '10px',
+              backgroundColor: '#F7E700', // 버튼 배경색
+              color: '#3E0C02', // 버튼 텍스트 색상
+              border: 'none', // 버튼 테두리
+              borderRadius: '5px', // 버튼 모서리 둥글기
+              cursor: 'pointer', // 커서 모양
+              fontSize: '15px', // 텍스트 크기
+              fontWeight: 'bold', // 텍스트 두께
+              padding: '0.6% 0 0.6% 0',
+              transition: 'background-color 0.3s', // 호버 시 색상 변경을 부드럽게
 
               // boxShadow: "0 0 8px 0 rgba(0, 0, 0, 0.15);",
             }}
-            onMouseOver={(e) => (e.currentTarget.style.opacity = "0.6")}
-            onMouseOut={(e) => (e.currentTarget.style.opacity = "1.0")}
+            onMouseOver={(e) => (e.currentTarget.style.opacity = '0.6')}
+            onMouseOut={(e) => (e.currentTarget.style.opacity = '1.0')}
           >
             <RiKakaoTalkFill style={{ width: 32, height: 32 }} />
             카카오 로그인
@@ -147,8 +146,8 @@ const Kakaoback = () => {
         )}
       />
       <CustomModal
-        title={"추가 정보"}
-        btnName={"확인"}
+        title={'추가 정보'}
+        btnName={'확인'}
         isOpen={isModalOpen}
         handleClose={closeModal}
         btnHandler={handleSubmit(onSubmit)}
@@ -166,9 +165,9 @@ const Kakaoback = () => {
                   },
                 }}
                 type="text"
-                label={"이름"}
+                label={'이름'}
                 autoComplete="off"
-                {...register("name")}
+                {...register('name')}
               />
             </div>
             <div>
@@ -180,9 +179,9 @@ const Kakaoback = () => {
                   },
                 }}
                 type="email"
-                label={"이메일"}
+                label={'이메일'}
                 autoComplete="off"
-                {...register("email")}
+                {...register('email')}
               />
             </div>
             <div>
@@ -194,9 +193,9 @@ const Kakaoback = () => {
                   },
                 }}
                 type="text"
-                label={"전화번호"}
+                label={'전화번호'}
                 autoComplete="off"
-                {...register("number")}
+                {...register('number')}
               />
             </div>
 

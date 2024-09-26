@@ -1,6 +1,6 @@
-import React from 'react';
-import styles from './ChatRequestList.module.scss';
-import ChatRequestItem from './chat-request-item/ChatRequestItem';
+import React from "react";
+import styles from "./ChatRequestList.module.scss";
+import ChatRequestItem from "./chat-request-item/ChatRequestItem";
 
 function ChatRequestList({ chatRequests, onApproveChat }) {
   return (

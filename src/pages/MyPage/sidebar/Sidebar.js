@@ -27,8 +27,8 @@ function Sidebar(props) {
   }, [navigate]);
   useEffect(() => {
     dispatch(fetchItems({ collectionName: 'users' }));
-  }, []);
-  const { currComp, setCurrComp } = useComponentContext();
+  }, [dispatch]);
+  const { setCurrComp } = useComponentContext();
   const localInfo = localStorage.getItem('user');
   if (!localInfo == null) {
     navigate('/');

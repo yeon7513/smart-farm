@@ -1,15 +1,15 @@
-import React, { useRef, useState } from "react";
+import React from 'react';
 // Import Swiper React components
-import { Swiper, SwiperSlide } from "swiper/react";
+import { Swiper, SwiperSlide } from 'swiper/react';
 
 // Import Swiper styles
-import "swiper/css";
-import "swiper/css/scrollbar";
+import 'swiper/css';
+import 'swiper/css/scrollbar';
 
-import "./CaseSlide.scss";
+import './CaseSlide.scss';
 
 // import required modules
-import CaseItem from "./caseItem/CaseItem";
+import CaseItem from './caseItem/CaseItem';
 
 export default function App({ items }) {
   return (

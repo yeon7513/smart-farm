@@ -1,4 +1,4 @@
-@import '/src/scss/mixins.scss';
+@import "/src/scss/mixins.scss";
 
 .Modal {
   @include flexCenter();
@@ -34,19 +34,6 @@
   }
 }
 
-// h2 {
-//     font-size: 20px;
-//     // display: flex;
-//     // justify-content: right;
-//     background-color: red;
-//     }
-
-//     button {
-//         // display: flex;
-//         // justify-content: right;
-//         width: 20px;
-//         height: 30px;
-//     }
 .header {
   display: flex;
   justify-content: space-between;

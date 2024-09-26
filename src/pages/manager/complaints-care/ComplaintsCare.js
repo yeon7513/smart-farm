@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { TbReportSearch } from "react-icons/tb";
-import SearchBox from "../../../components/search_box/SearchBox";
-import styles from "./ComplaintsCare.module.scss";
 import { useDispatch, useSelector } from "react-redux";
+import SearchBox from "../../../components/search_box/SearchBox";
 import {
   fetchProcessed,
   fetchProcessing,
 } from "../../../store/complain/complainSlice";
-import CpProfile from "./part/CpProfile";
-import CpPost from "./part/CpPost";
+import styles from "./ComplaintsCare.module.scss";
 import CpComment from "./part/CpComment";
+import CpPost from "./part/CpPost";
+import CpProfile from "./part/CpProfile";
 
 function ComplaintsCare() {
   const [sort, setSort] = useState("all");
@@ -66,7 +66,6 @@ function ComplaintsCare() {
       );
       return commentData;
     }
-    return data; // 전체
   };
 
   return (

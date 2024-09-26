@@ -1,25 +1,23 @@
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/all";
-import React, { useEffect, useRef, useState } from "react";
-import { RiScrollToBottomLine } from "react-icons/ri";
-import styles from "./Home.module.scss";
-import MainSlide from "../../components/slide/main/MainSlide";
-import phoneImg from "../../assets/main/phone.png";
-import { Link } from "react-router-dom";
-import CaseSlide from "../../components/slide/case/CaseSlide";
-import { cases } from "../../lib/case";
-import backImg from "../../assets/main/content2.jpg";
-import HomeChart from "../../components/home-chart/HomeChart";
-import { useComponentContext } from "../../context/ComponentContext";
-import { useDispatch, useSelector } from "react-redux";
-import { fetchBoardDatas } from "./../../store/board/boardSlice";
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/all';
+import React, { useEffect, useRef, useState } from 'react';
+import { RiScrollToBottomLine } from 'react-icons/ri';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
+import backImg from '../../assets/main/content2.jpg';
+import phoneImg from '../../assets/main/phone.png';
+import HomeChart from '../../components/home-chart/HomeChart';
+import CaseSlide from '../../components/slide/case/CaseSlide';
+import MainSlide from '../../components/slide/main/MainSlide';
+import { useComponentContext } from '../../context/ComponentContext';
+import { cases } from '../../lib/case';
+import { fetchBoardDatas } from './../../store/board/boardSlice';
+import styles from './Home.module.scss';
 
 gsap.registerPlugin(ScrollTrigger);
 
 function Home() {
-  const { currComp, setCurrComp } = useComponentContext();
-  const [localName, setLocalName] = useState("");
-  const mapRef = useRef(null);
+  const { setCurrComp } = useComponentContext();
 
   const twoText = useRef();
   const imgRef = useRef([]);
@@ -34,8 +32,8 @@ function Home() {
     const fetchCategories = async () => {
       try {
         const [noticePosts, sharingPosts] = await Promise.all([
-          dispatch(fetchBoardDatas("notice")).unwrap(),
-          dispatch(fetchBoardDatas("sharing")).unwrap(),
+          dispatch(fetchBoardDatas('notice')).unwrap(),
+          dispatch(fetchBoardDatas('sharing')).unwrap(),
         ]);
 
         // 3개씩만, 최신순
@@ -50,7 +48,7 @@ function Home() {
             .sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt)),
         ]);
       } catch (error) {
-        console.error("데이터 불러오기 실패:", error);
+        console.error('데이터 불러오기 실패:', error);
       }
     };
 
@@ -66,24 +64,24 @@ function Home() {
   }, [posts, isLoading]);
 
   useEffect(() => {
-    gsap.to(".mainText", {
+    gsap.to('.mainText', {
       opacity: 0,
       duration: 0.5,
       scrollTrigger: {
-        trigger: ".mainText",
-        start: "top 100px",
-        end: "top 100%",
+        trigger: '.mainText',
+        start: 'top 100px',
+        end: 'top 100%',
         scrub: 1,
         // markers: true,
       },
     });
-    gsap.to(".scroll", {
+    gsap.to('.scroll', {
       opacity: 0,
       duration: 1,
       scrollTrigger: {
-        trigger: ".scroll",
-        start: "top 90%",
-        end: "top 100%",
+        trigger: '.scroll',
+        start: 'top 90%',
+        end: 'top 100%',
         scrub: 1,
       },
     });
@@ -96,9 +94,9 @@ function Home() {
         duration: 4,
         scrollTrigger: {
           trigger: twoText.current,
-          start: "top 100%",
-          end: "top 100%",
-          toggleActions: "play none none reverse",
+          start: 'top 100%',
+          end: 'top 100%',
+          toggleActions: 'play none none reverse',
           scrub: 2,
           // once: true,
         },
@@ -114,19 +112,19 @@ function Home() {
           duration: 1,
           scrollTrigger: {
             trigger: img,
-            start: "top 100%",
-            end: "top 90%",
-            toggleActions: "play none none reverse",
+            start: 'top 100%',
+            end: 'top 90%',
+            toggleActions: 'play none none reverse',
             // scrub: 1,
             // once: true,
           },
         }
       );
-      img.addEventListener("mouseenter", () => {
+      img.addEventListener('mouseenter', () => {
         gsap.to(img, { scale: 1.04, duration: 0.3 });
       });
 
-      img.addEventListener("mouseleave", () => {
+      img.addEventListener('mouseleave', () => {
         gsap.to(img, { scale: 1, duration: 0.3 });
       });
     });
@@ -196,7 +194,7 @@ function Home() {
           <div className={styles.commu}>
             <div>
               <ul>
-                <Link to={"/community"} onClick={() => setCurrComp("notice")}>
+                <Link to={'/community'} onClick={() => setCurrComp('notice')}>
                   <h2>공지사항</h2>
                 </Link>
                 {notice &&
@@ -212,7 +210,7 @@ function Home() {
             </div>
             <div>
               <ul>
-                <Link to={"/community"} onClick={() => setCurrComp("sharing")}>
+                <Link to={'/community'} onClick={() => setCurrComp('sharing')}>
                   <h2>정보 공유 게시판</h2>
                 </Link>
                 {sharing &&
@@ -235,7 +233,7 @@ function Home() {
               <HomeChart />
             </div>
             <div className={styles.status}>
-              <Link to={"/info"} onClick={() => setCurrComp("usageStatus")}>
+              <Link to={'/info'} onClick={() => setCurrComp('usageStatus')}>
                 자세히 보기
               </Link>
             </div>
@@ -252,13 +250,13 @@ function Home() {
       </div>
 
       <div className={styles.service}>
-        <Link to={"/info"} onClick={() => setCurrComp("simulation")}>
+        <Link to={'/info'} onClick={() => setCurrComp('simulation')}>
           <button>스마트팜 체험해보기</button>
         </Link>
-        <Link to={"/request"}>
+        <Link to={'/request'}>
           <button>스마트팜 견적 요청하기</button>
         </Link>
-        <Link to={"/community"} onClick={() => setCurrComp("faq")}>
+        <Link to={'/community'} onClick={() => setCurrComp('faq')}>
           <button>자주 묻는 질문</button>
         </Link>
       </div>

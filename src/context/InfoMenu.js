@@ -1,23 +1,22 @@
-import React from "react";
-import Disaster from "../pages/info/disaster/Disaster";
-import Diseases from "../pages/info/diseases/Diseases";
-import Simulation from "../pages/info/simulation/Simulation";
-import UsageStatus from "../pages/info/usage-status/UsageStatus";
-import { useComponentContext } from "./ComponentContext";
-import DisasterList from "../pages/info/disaster/disaster-list/DisasterList";
+import React from 'react';
+import Disaster from '../pages/info/disaster/Disaster';
+import Diseases from '../pages/info/diseases/Diseases';
+import Simulation from '../pages/info/simulation/Simulation';
+import UsageStatus from '../pages/info/usage-status/UsageStatus';
+import { useComponentContext } from './ComponentContext';
 
 function InfoMenu() {
   // 정보 메뉴
   const { currComp } = useComponentContext();
 
   switch (currComp) {
-    case "UsageStatus":
+    case 'UsageStatus':
       return <UsageStatus />;
-    case "Simulation":
+    case 'Simulation':
       return <Simulation />;
-    case "Diseases":
+    case 'Diseases':
       return <Diseases />;
-    case "Disaster":
+    case 'Disaster':
       return <Disaster />;
 
     default:

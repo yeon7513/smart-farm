@@ -1,16 +1,16 @@
-import React, { useEffect, useRef, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import styles from "./AsBoard.module.scss";
-import { useSelector } from "react-redux";
-import { getBoardDatas } from "../../../api/board";
-import AsPost from "./AsPost";
-import CustomModal from "../../modal/CustomModal";
-import PasswordModal from "../../modal/PasswordModal";
+import React, { useEffect, useRef, useState } from 'react';
+import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { getBoardDatas } from '../../../api/board';
+import CustomModal from '../../modal/CustomModal';
+import PasswordModal from '../../modal/PasswordModal';
+import styles from './AsBoard.module.scss';
+import AsPost from './AsPost';
 
 const PAGE_SIZE = 10;
 
 function AsBoard({ nopost }) {
-  const loginUser = JSON.parse(localStorage.getItem("user"));
+  const loginUser = JSON.parse(localStorage.getItem('user'));
   const { isAuthenticated } = useSelector((state) => state.userSlice);
   const navigate = useNavigate();
 
@@ -20,13 +20,13 @@ function AsBoard({ nopost }) {
   const inputRef = useRef(null);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [errorMessage, setErrorMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState('');
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
   const goView = () => setIsModalOpen(false);
 
   const [selectedPost, setSelectedPost] = useState(null);
-  const [inputPassword, setInputPassword] = useState("");
+  const [inputPassword, setInputPassword] = useState('');
 
   const totalPages = Math.ceil(view.length / PAGE_SIZE);
   const currentItem = view.slice(
@@ -56,7 +56,7 @@ function AsBoard({ nopost }) {
   };
 
   const handleLoad = async () => {
-    const data = await getBoardDatas("as");
+    const data = await getBoardDatas('as');
     setView(data);
   };
 
@@ -66,7 +66,7 @@ function AsBoard({ nopost }) {
 
   const handleWriteClick = () => {
     if (!isAuthenticated) {
-      navigate("/login");
+      navigate('/login');
       return setIsWriting(false);
     } else {
       setIsWriting(true); // 로그인된 경우에만 글쓰기 모드로 전환
@@ -75,9 +75,9 @@ function AsBoard({ nopost }) {
 
   const handlePostClick = (post) => {
     setSelectedPost(post);
-    setErrorMessage("");
+    setErrorMessage('');
 
-    if (loginUser?.nickname === "관리자") {
+    if (loginUser?.nickname === '관리자') {
       // 관리자 모드일 경우 비밀번호 없이 바로 이동
       navigate(`/community/as/${post.id}`, { state: post });
     } else {
@@ -91,10 +91,10 @@ function AsBoard({ nopost }) {
       setIsModalOpen(false);
       navigate(`/community/as/${selectedPost.id}`, { state: selectedPost });
     } else {
-      setErrorMessage("⁎ 설정하신 암호가 틀립니다.");
+      setErrorMessage('⁎ 설정하신 암호가 틀립니다.');
       if (inputRef.current) {
         inputRef.current.focus();
-        setInputPassword(""); // 틀린 비밀번호 입력 초기화
+        setInputPassword(''); // 틀린 비밀번호 입력 초기화
       }
     }
   };
@@ -150,16 +150,16 @@ function AsBoard({ nopost }) {
           </div>
 
           {nopost === false
-            ? ""
-            : loginUser?.nickname !== "관리자" && (
+            ? ''
+            : loginUser?.nickname !== '관리자' && (
                 <div className={styles.upload}>
                   {<button onClick={handleWriteClick}>글쓰기</button>}
                 </div>
               )}
 
           <CustomModal
-            title={"게시글 열기"}
-            btnName={"확인"}
+            title={'게시글 열기'}
+            btnName={'확인'}
             handleClose={closeModal}
             isOpen={isModalOpen}
             btnHandler={handlePasswordConfirm}

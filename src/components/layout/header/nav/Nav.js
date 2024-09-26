@@ -1,16 +1,16 @@
-import cn from "classnames";
-import React, { useEffect, useState } from "react";
-import { IoMdLogOut } from "react-icons/io";
-import { LiaUserCogSolid } from "react-icons/lia";
-import { PiFarmBold } from "react-icons/pi";
-import { useDispatch, useSelector } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
-import { getUserAuth } from "../../../../api/firebase";
-import { useComponentContext } from "../../../../context/ComponentContext";
-import { paths } from "../../../../lib/menu";
-import { removeUser } from "../../../../store/user/UserSlice";
-import Contact from "./../../../contact/Contact";
-import styles from "./Nav.module.scss";
+import cn from 'classnames';
+import React, { useEffect, useState } from 'react';
+import { IoMdLogOut } from 'react-icons/io';
+import { LiaUserCogSolid } from 'react-icons/lia';
+import { PiFarmBold } from 'react-icons/pi';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link, useNavigate } from 'react-router-dom';
+import { getUserAuth } from '../../../../api/firebase';
+import { useComponentContext } from '../../../../context/ComponentContext';
+import { paths } from '../../../../lib/menu';
+import { removeUser } from '../../../../store/user/UserSlice';
+import Contact from './../../../contact/Contact';
+import styles from './Nav.module.scss';
 
 function NavLink({ className, path, depth, children, setMenuOpen }) {
   const { setCurrComp } = useComponentContext();
@@ -61,17 +61,17 @@ function Nav({ menuOpen, setMenuOpen }) {
       await auth.signOut();
       dispatch(removeUser());
       if (window.Kakao.Auth.getAccessToken()) {
-        console.log("로그아웃 중입니다.");
+        console.log('로그아웃 중입니다.');
         await new Promise((resolve) => {
           window.Kakao.Auth.logout(function () {
-            console.log("로그아웃 성공");
+            console.log('로그아웃 성공');
             resolve();
           });
         });
       } else {
-        console.log("로그인 상태가 아닙니다.");
+        console.log('로그인 상태가 아닙니다.');
       }
-      navigate("/");
+      navigate('/');
     } catch (error) {
       console.error(error);
     }
@@ -92,19 +92,19 @@ function Nav({ menuOpen, setMenuOpen }) {
           (error) => {
             switch (error.code) {
               case error.PERMISSION_DENIED:
-                setError("사용자가 위치 권한을 거부했습니다.");
+                setError('사용자가 위치 권한을 거부했습니다.');
                 break;
               case error.POSITION_UNAVAILABLE:
-                setError("위치 정보를 사용할 수 없습니다.");
+                setError('위치 정보를 사용할 수 없습니다.');
                 break;
               case error.TIMEOUT:
-                setError("위치 정보 요청 시간이 초과되었습니다.");
+                setError('위치 정보 요청 시간이 초과되었습니다.');
                 break;
               case error.UNKNOWN_ERROR:
-                setError("알 수 없는 오류가 발생했습니다.");
+                setError('알 수 없는 오류가 발생했습니다.');
                 break;
               default:
-                setError("알 수 없는 오류가 발생했습니다.");
+                setError('알 수 없는 오류가 발생했습니다.');
                 break;
             }
           }
@@ -114,14 +114,14 @@ function Nav({ menuOpen, setMenuOpen }) {
           navigator.geolocation.clearWatch(watchId);
         };
       } else {
-        setError("Geolocation API를 지원하지 않는 브라우저입니다.");
+        setError('Geolocation API를 지원하지 않는 브라우저입니다.');
       }
     };
 
     fetchLocation();
   }, []);
 
-  const loginUser = JSON.parse(localStorage.getItem("user"));
+  const loginUser = JSON.parse(localStorage.getItem('user'));
 
   return (
     <>
@@ -139,8 +139,8 @@ function Nav({ menuOpen, setMenuOpen }) {
                   {position.lon.toFixed(0)}
                 </li>
                 {error && <p style={{ color: "red" }}>{error}</p>} */}
-                {loginUser.email.includes("admin") ? (
-                  <NavLink path={"/manager"} setMenuOpen={setMenuOpen}>
+                {loginUser.email.includes('admin') ? (
+                  <NavLink path={'/manager'} setMenuOpen={setMenuOpen}>
                     관리자
                   </NavLink>
                 ) : (
@@ -149,24 +149,24 @@ function Nav({ menuOpen, setMenuOpen }) {
                       {loginUser.nickname}님, 환영합니다.
                     </li>
                     <NavLink
-                      path={"/my-farm"}
+                      path={'/my-farm'}
                       className={cn(styles.gotoMyfarm, styles.loggingIn)}
                       setMenuOpen={setMenuOpen}
                     >
-                      {menuOpen ? <PiFarmBold /> : "내 농장"}
+                      {menuOpen ? <PiFarmBold /> : '내 농장'}
                     </NavLink>
                     <NavLink
-                      path={"/mypage"}
+                      path={'/mypage'}
                       className={cn(styles.gotoMypage, styles.loggingIn)}
                       setMenuOpen={setMenuOpen}
                     >
-                      {menuOpen ? <LiaUserCogSolid /> : "마이페이지"}
+                      {menuOpen ? <LiaUserCogSolid /> : '마이페이지'}
                     </NavLink>
                   </>
                 )}
                 <li className={cn(styles.logout, styles.loggingIn)}>
                   <Link onClick={handleLogout}>
-                    {menuOpen ? <IoMdLogOut /> : "로그아웃"}
+                    {menuOpen ? <IoMdLogOut /> : '로그아웃'}
                   </Link>
                 </li>
               </>

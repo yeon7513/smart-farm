@@ -1,18 +1,18 @@
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/all";
-import React, { useEffect, useRef } from "react";
-import hum1 from "../../assets/abou/사람1.png";
-import hum2 from "../../assets/abou/사람2.png";
-import hum3 from "../../assets/abou/사람3.png";
-import hum4 from "../../assets/abou/사람4.png";
-import smtImg from "../../assets/abou/스마트팜.png";
-import technology from "../../assets/abou/식4.jpg";
-import Container from "../../components/layout/container/Container";
-import UpButton from "../../components/up-button/UpButton";
-import { core } from "../../lib/core";
-import styles from "./Service.module.scss";
-import { systems } from "./system";
-import SystemItem from "./system/SystemItem";
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/all';
+import React, { useEffect, useRef } from 'react';
+import hum1 from '../../assets/abou/사람1.png';
+import hum2 from '../../assets/abou/사람2.png';
+import hum3 from '../../assets/abou/사람3.png';
+import hum4 from '../../assets/abou/사람4.png';
+import smtImg from '../../assets/abou/스마트팜.png';
+import technology from '../../assets/abou/식4.jpg';
+import Container from '../../components/layout/container/Container';
+import UpButton from '../../components/up-button/UpButton';
+import { core } from '../../lib/core';
+import styles from './Service.module.scss';
+import { systems } from './system';
+import SystemItem from './system/SystemItem';
 // import DashBoard from "../dashboard/DashBoard";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -28,10 +28,10 @@ function Service(props) {
         duration: 1,
         scrollTrigger: {
           trigger: technology_img,
-          start: "top 100%", // 스크롤 위치 설정
-          end: "top 100%",
+          start: 'top 100%', // 스크롤 위치 설정
+          end: 'top 100%',
           markers: true,
-          toggleActions: "restart none none none",
+          toggleActions: 'restart none none none',
         },
       });
     });
@@ -41,7 +41,7 @@ function Service(props) {
     <div>
       <div className={styles.farm} ref={(el) => (imgRef.current[0] = el)}>
         <div className={styles.farm_img}>
-          <img src={smtImg} />
+          <img src={smtImg} alt="" />
         </div>
         <div className={styles.farm_title}>
           <h2>
@@ -56,7 +56,9 @@ function Service(props) {
         </div>
       </div>
       <div className={styles.core} ref={(el) => (imgRef.current[1] = el)}>
-        <div className={styles.technology_img}>{<img src={technology} />}</div>
+        <div className={styles.technology_img}>
+          {<img src={technology} alt="" />}
+        </div>
         <div>
           <h1>아이팜의 핵심가치</h1>
         </div>
@@ -69,7 +71,7 @@ function Service(props) {
           ref={(el) => (imgRef.current[idx + 2] = el)}
         >
           <Container className={styles.core_item}>
-            <img src={item.image} />
+            <img src={item.image} alt="" />
             <div>
               <h2>{item.name}</h2>
               <p>{item.title}</p>
@@ -91,19 +93,19 @@ function Service(props) {
         <div className={styles.people}>
           <div>
             <span>귀농희망자</span>
-            <img src={hum1} />
+            <img src={hum1} alt="" />
           </div>
           <div>
             <span>농업종사자</span>
-            <img src={hum2} />
+            <img src={hum2} alt="" />
           </div>
           <div>
             <span>정년은퇴자</span>
-            <img src={hum3} />
+            <img src={hum3} alt="" />
           </div>
           <div>
             <span>부수입 희망자</span>
-            <img src={hum4} />
+            <img src={hum4} alt="" />
           </div>
         </div>
       </div>

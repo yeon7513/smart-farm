@@ -1,8 +1,7 @@
 import React from 'react';
-import { useSectorContext } from '../../../../../../context/SectorContext';
 
 function Report() {
-  const { sector } = useSectorContext();
+  // const { sector } = useSectorContext();
 
   return <div>Report</div>;
 }
