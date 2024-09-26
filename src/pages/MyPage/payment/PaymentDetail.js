@@ -12,7 +12,7 @@ import { useParams } from "react-router-dom";
 import { GridLoader } from "react-spinners";
 import { db } from "../../../api/firebase";
 import Container from "../../../components/layout/container/Container";
-import styles from "./PaymentDetail.scss";
+import styles from "./PaymentDetail.module.scss";
 import axios from "axios";
 import { useSelector } from "react-redux";
 
@@ -156,17 +156,37 @@ function PaymentDetail() {
           ) : data && dashboardData ? (
             <>
               <h2>견적 내역</h2>
-              <p>이름: {data.name}</p>
-              <p>아이디: {data.email}</p>
-              <p>연락처: {data.number}</p>
-              <p>주소: {data.address}</p>
-              <p>농장 이름: {data.farmName}</p>
-              <p>농장 주소: {data.farmAddress}</p>
-              <p>작물 종류: {data.cropType}</p>
-              <p>농장 종류: {data.facilityType}</p>
-              <p>농장 면적: {data.farmArea}</p>
-              <p>농장 동 수: {data.farmEquivalent}</p>
-              <p>부가 옵션: </p>
+              <div className={styles.main}>
+                <div>
+                  <div>
+                    <p>이름: {data.name}</p>
+                  </div>
+                  <div>
+                    <p>아이디: {data.email}</p>
+                  </div>
+                  <div>
+                    <p>연락처: {data.number}</p>
+                  </div>
+                  <div>
+                    <p>주소: {data.address}</p>
+                  </div>
+                  <div>
+                    <p>주문번호: {data.createdAt}</p>
+                  </div>
+                </div>
+
+                <div className={styles.farm}>
+                  <p>농장 이름: {data.farmName}</p>
+                  <p>농장 주소: {data.farmAddress}</p>
+                  <p>작물 종류: {data.cropType}</p>
+                  <p>농장 종류: {data.facilityType}</p>
+                  <p>농장 면적: {data.farmArea}</p>
+                  <p>농장 동 수: {data.farmEquivalent}</p>
+                </div>
+              </div>
+              <div className={styles.option}>
+                <p>내가 선택한 옵션 </p>
+              </div>
               {data.farmEquivalent &&
               data.additionalOptions &&
               Object.keys(data.additionalOptions).length > 0 ? (
@@ -175,7 +195,7 @@ function PaymentDetail() {
                     .filter(([_, selected]) => selected)
                     .map(([optionName]) => optionName);
                   return (
-                    <div key={id}>
+                    <div key={id} className={styles.farm_main}>
                       {selectedOptions.length > 0 ? (
                         <ul>
                           {selectedOptions.map((option) => (
@@ -189,9 +209,9 @@ function PaymentDetail() {
                   );
                 })
               ) : (
-                <p>부가 옵션이 없습니다.</p>
+                <p>선택한 옵션이 없습니다.</p>
               )}
-              <p>주문번호: {data.createdAt}</p>
+
               <p>결제 방식: {data.paymentMethod}</p>
               <p>현금영수증: {data.cashReceipt}</p>
               <button type="button" onClick={onPayCancel}>
