@@ -4,7 +4,8 @@
     border: 2px solid var(--common-color);
     border-radius: 8px;
     padding: 10px 0;
-    width: 100%;
+    width: 900px;
+    margin: 10px 0;
     // flex-direction: column;
     div {
       p {
@@ -25,11 +26,14 @@
     ul {
       display: flex;
       flex-wrap: wrap;
+      gap: 20px;
+
       li {
         box-shadow: var(--down-shadow);
         padding: 8px 0;
         width: 150px;
         text-align: center;
+        margin: 10px;
       }
     }
   }

@@ -265,7 +265,7 @@ function RequestForm({ user }) {
       pg: "html5_inicis.INIpayTest",
       pay_method: "card",
       merchant_uid: merchant_uid,
-      amount: 10,
+      amount: 100,
       name: "아이팜 결제",
       buyer_name: user.name,
       buyer_number: user.number,

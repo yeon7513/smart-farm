@@ -52,11 +52,8 @@ function DiseasesList() {
         // 응답을 JSON으로 파싱한다.
         const result = await response.json();
 
-        // console.log(result);
         setData(result.service);
-        // setData({ list: filteredList, totalCount: result.service.totalCount });
         setTotalPages(Math.ceil(result.service.totalCount / DISPLAY_COUNT));
-        // setTotalPages(totalCount);
         console.log(result.service);
       } catch (error) {
         console.error("There was a problem with the fetch operation:", error);

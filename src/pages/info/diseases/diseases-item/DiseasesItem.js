@@ -4,7 +4,6 @@ import BarLoader from "react-spinners/BarLoader";
 import BackButton from "../../../../components/back-button/BackButton";
 import styles from "./DiseasesItem.module.scss";
 
-// const apiKey = '2024570e96d7a69a9e49dfeb7fdc9739177c';
 const apiKey = process.env.REACT_APP_DISEASESLIST_API_KEY;
 
 function DiseasesItem() {
@@ -22,7 +21,6 @@ function DiseasesItem() {
     setIsLoading(true);
     const fetchData = async () => {
       try {
-        // let serviceType = "AA003";
         let serviceCode = "";
         let detailKeyName = "";
         let detailKey = "";
@@ -45,15 +43,8 @@ function DiseasesItem() {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
         const result = await response.json();
-        // console.log(result.service.list[0].sickKey);
-        // console.log(result.service.list[0].insectKey);
 
         // 병/해충에 따라 키 값을 다르게 가져오기
-        // if (selectedType === "NP01") {
-        //   detailKey = result.serviceCode[detailKeyName]; // 병해의 상세 키 추출
-        // } else if (selectedType === "NP03") {
-        //   detailKey = result.serviceCode[detailKeyName]; // 해충의 상세 키 추출
-        // }
         const detailKeyValue = result.service.list[0][detailKey];
 
         // 두번째 api 호출-상세정보조회
@@ -73,9 +64,7 @@ function DiseasesItem() {
         console.log("api", detailResult);
 
         setData(detailResult.service);
-      } catch (error) {
-        // console.error("Error fetching data:", error);
-      }
+      } catch (error) {}
       setIsLoading(false);
     };
     fetchData();

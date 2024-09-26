@@ -6,7 +6,6 @@ import {
   BsFillCloudsFill,
   BsFillSunriseFill,
   BsSunsetFill,
-  BsFillMoonStarsFill,
 } from "react-icons/bs";
 import { IoCloudSharp, IoSunny } from "react-icons/io5";
 import { IoMdRainy, IoIosThunderstorm } from "react-icons/io";
