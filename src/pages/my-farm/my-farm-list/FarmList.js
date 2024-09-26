@@ -15,13 +15,9 @@ function FarmList() {
   const [owner, setOwner] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
 
-  console.log(state);
-
   const dispatch = useDispatch();
 
   const totalPages = Math.ceil(listData.length / PAGE_SIZE);
-
-  console.log(listData);
 
   const currentData = listData.slice(
     (currentPage - 1) * PAGE_SIZE,
@@ -84,9 +80,6 @@ function FarmList() {
         (list) => list.userId === state.email && list.useYn === 'Y'
       );
 
-      console.log(commonInfo);
-      console.log(filteredData);
-
       setListData(filteredData);
       setOwner(`${state.name} 님`);
     } else if (userEmail === 'admin@gmail.com' && state === null) {
@@ -106,8 +99,6 @@ function FarmList() {
       setOwner('내');
     }
   }, [commonInfo, state]);
-
-  console.log(currentData);
 
   return (
     <>
