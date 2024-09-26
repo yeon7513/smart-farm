@@ -1,21 +1,21 @@
-import React, { useRef, useState } from "react";
-import styles from "./AsPost.module.scss";
-import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { addComplete } from "../../../store/as-service/asSlice";
+import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { addComplete } from '../../../store/as-service/asSlice';
+import styles from './AsPost.module.scss';
 
 const INITIAL_VALUE = {
-  title: "🔒 문의합니다.",
+  title: '🔒 문의합니다.',
   count: 0,
-  summary: "",
-  createdAt: new Date().toISOString().split("T")[0],
+  summary: '',
+  createdAt: new Date().toISOString().split('T')[0],
   imgUrl: null,
-  completeYn: "N",
-  photoUrl: "",
+  completeYn: 'N',
+  photoUrl: '',
 };
 
 function AsPost({ onClick, onSubmit, initialValue = INITIAL_VALUE }) {
-  const loginUser = JSON.parse(localStorage.getItem("user"));
+  const loginUser = JSON.parse(localStorage.getItem('user'));
   const [values, setValues] = useState(initialValue);
   const [file, setFile] = useState(null);
   const [postPassword, setPostPassword] = useState(null);
@@ -46,14 +46,14 @@ function AsPost({ onClick, onSubmit, initialValue = INITIAL_VALUE }) {
 
     const addObj = {
       ...values,
-      imgUrl: file || "",
+      imgUrl: file || '',
       nick: loginUser?.nickname,
       email: loginUser?.email,
       password: postPassword,
       photoUrl: loginUser?.photoUrl,
     };
 
-    dispatch(addComplete({ collectionName: "as", addObj }))
+    dispatch(addComplete({ collectionName: 'as', addObj }))
       .then((result) => {
         setValues(INITIAL_VALUE);
         setFile(null);
@@ -85,7 +85,7 @@ function AsPost({ onClick, onSubmit, initialValue = INITIAL_VALUE }) {
           <textarea
             name="summary"
             placeholder="내용을 입력해주세요."
-            value={values.summary || ""}
+            value={values.summary || ''}
             onChange={handleChange}
           />
         </div>
@@ -101,7 +101,7 @@ function AsPost({ onClick, onSubmit, initialValue = INITIAL_VALUE }) {
           <p>암호:</p>
           <input
             type="number"
-            value={postPassword || ""}
+            value={postPassword || ''}
             onChange={handlePassword}
           />
         </div>

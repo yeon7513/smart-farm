@@ -1,15 +1,15 @@
-import React, { useRef, useState } from "react";
+import React from 'react';
 // Import Swiper React components
-import { Swiper, SwiperSlide } from "swiper/react";
+import { Swiper, SwiperSlide } from 'swiper/react';
 // import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 // import { Navigation, Pagination, Mousewheel, Keyboard } from "swiper/modules";
-import { Autoplay, Pagination, Navigation } from "swiper/modules";
+import { Autoplay, Navigation, Pagination } from 'swiper/modules';
 
-import "swiper/css";
-import "swiper/css/pagination";
-import "swiper/css/navigation";
+import 'swiper/css';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
 
-import "./MainSlide.scss";
+import './MainSlide.scss';
 
 function MainSlide() {
   return (

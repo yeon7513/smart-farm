@@ -1,9 +1,9 @@
-import React, { useEffect } from "react";
-import styles from "./Form.module.scss";
-import { useForm } from "react-hook-form";
-import { TextField } from "@mui/material";
-import { useDispatch, useSelector } from "react-redux";
-import { fetchItems } from "../../store/user/UserSlice";
+import { TextField } from '@mui/material';
+import React, { useEffect } from 'react';
+import { useForm } from 'react-hook-form';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchItems } from '../../store/user/UserSlice';
+import styles from './Form.module.scss';
 
 function Form({
   title,
@@ -20,20 +20,20 @@ function Form({
     formState: { errors },
     reset,
   } = useForm({
-    mode: "onChange",
+    mode: 'onChange',
   });
 
   const { items } = useSelector((state) => state.userSlice);
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(fetchItems({ collectionName: "users" }));
+    dispatch(fetchItems({ collectionName: 'users' }));
   });
   const onSubmit = ({ name, password, email }) => {
     const findUser = items.find((item) => {
-      return item.email == name;
+      return item.email === name;
     });
-    if (findUser?.deleteYn == "Y") {
-      alert("탈퇴된 회원입니다.");
+    if (findUser?.deleteYn === 'Y') {
+      alert('탈퇴된 회원입니다.');
       return false;
     }
 
@@ -41,7 +41,7 @@ function Form({
     reset();
   };
   const userEmail = {
-    required: "필수 필드입니다.",
+    required: '필수 필드입니다.',
   };
 
   return (
@@ -56,7 +56,7 @@ function Form({
         type={type}
         label={inputName1}
         autoComplete="off"
-        {...register("name", userEmail)}
+        {...register('name', userEmail)}
       />
 
       {errors?.email && (

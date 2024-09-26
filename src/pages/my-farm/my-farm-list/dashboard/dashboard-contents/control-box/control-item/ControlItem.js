@@ -1,6 +1,6 @@
-import React from "react";
-import styles from "./ControlItem.module.scss";
-import { useSectorContext } from "../../../../../../../context/SectorContext";
+import React from 'react';
+import { useSectorContext } from '../../../../../../../context/SectorContext';
+import styles from './ControlItem.module.scss';
 
 function ControlItem({
   option,
@@ -30,12 +30,12 @@ function ControlItem({
         </div>
       </div>
       <div className={styles.buttons}>
-        {!state == true ? (
+        {!state === true ? (
           <button onClick={handleControlContent}>
             <span>+</span>
           </button>
         ) : null}
-        {state == false ? null : (
+        {state === false ? null : (
           <button onClick={() => handleDeleteItem(docId)}>
             <span>-</span>
           </button>

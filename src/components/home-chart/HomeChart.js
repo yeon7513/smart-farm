@@ -1,15 +1,15 @@
-import React, { useEffect, useRef, useState } from "react";
-import styles from "./HomeChart.module.scss";
-import RenderingChart from "../chart/RenderingChart";
-import { GridLoader } from "react-spinners";
+import * as d3 from 'd3';
+import React, { useEffect, useState } from 'react';
+import { HiMiniCheck } from 'react-icons/hi2';
+import { useDispatch, useSelector } from 'react-redux';
+import { GridLoader } from 'react-spinners';
 import {
   fetchEntireRegion,
   fetchLocalRegion,
-} from "../../store/usage-status/usageStatusSlice";
-import { useDispatch, useSelector } from "react-redux";
-import Maps from "../map/Maps";
-import { HiMiniCheck } from "react-icons/hi2";
-import * as d3 from "d3";
+} from '../../store/usage-status/usageStatusSlice';
+import RenderingChart from '../chart/RenderingChart';
+import Maps from '../map/Maps';
+import styles from './HomeChart.module.scss';
 
 function HomeChart() {
   const { entireRegion, localRegion, isLoading } = useSelector(
@@ -17,9 +17,9 @@ function HomeChart() {
   );
   const dispatch = useDispatch();
 
-  const [chartType, setChartType] = useState("bar");
-  const [sort, setSort] = useState("local");
-  const [localName, setLocalName] = useState("");
+  const [chartType, setChartType] = useState('bar');
+  const [sort, setSort] = useState('local');
+  const [localName, setLocalName] = useState('');
   const [localFarm, setLocalFarm] = useState(null);
   const [userLocation, setUserLocation] = useState(null);
   const [showUserLocation, setShowUserLocation] = useState(true); // 사용자 위치 표시 여부
@@ -51,7 +51,7 @@ function HomeChart() {
 
   useEffect(() => {
     if (localFarm) {
-      setChartType("bar");
+      setChartType('bar');
     }
   }, [localFarm]);
 
@@ -98,15 +98,15 @@ function HomeChart() {
       <div>
         <div className={styles.sortBtns}>
           <button
-            className={sort === "local" ? styles.active : ""}
-            onClick={() => handleSortClick("local")}
+            className={sort === 'local' ? styles.active : ''}
+            onClick={() => handleSortClick('local')}
           >
             <HiMiniCheck />
             지역별
           </button>
           <button
-            className={sort === "crop" ? styles.active : ""}
-            onClick={() => handleSortClick("crop")}
+            className={sort === 'crop' ? styles.active : ''}
+            onClick={() => handleSortClick('crop')}
           >
             <HiMiniCheck />
             작물별
@@ -120,7 +120,7 @@ function HomeChart() {
               ) : (
                 <>
                   <h2>
-                    {sort === "local" ? "스마트팜" : "작물별"} 전체 이용 현황
+                    {sort === 'local' ? '스마트팜' : '작물별'} 전체 이용 현황
                   </h2>
                   <div className={styles.chart}>
                     <RenderingChart chartType={chartType} data={entireRegion} />
@@ -135,7 +135,7 @@ function HomeChart() {
               ) : (
                 <>
                   <h2>
-                    {sort === "local" ? "스마트팜" : "작물별"} 상세 이용 현황
+                    {sort === 'local' ? '스마트팜' : '작물별'} 상세 이용 현황
                   </h2>
                   <div className={styles.chart}>
                     <RenderingChart chartType={chartType} data={localFarm} />

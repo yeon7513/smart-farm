@@ -9,6 +9,11 @@ import {
 import styles from './PaginationButton.module.scss';
 
 function PaginationButton({ totalPage, currentPage, onPageChange, className }) {
+  // totalPage : 전체 페이지 길이 (페이지 사이즈)
+  // currentPage : 현재 페이지
+  // onPageChange : 페이지 넘기는 핸들러
+  // className : 클래스 이름
+
   // 전체 페이지만큼 버튼 렌더링
   const renderBtns = () => {
     const buttons = [];
@@ -30,6 +35,7 @@ function PaginationButton({ totalPage, currentPage, onPageChange, className }) {
 
   return (
     <div className={cn(styles.pagination, className)}>
+      {/* 처음으로 */}
       <button
         className={styles.start}
         onClick={() => onPageChange(1)}
@@ -37,6 +43,7 @@ function PaginationButton({ totalPage, currentPage, onPageChange, className }) {
       >
         <RiArrowLeftDoubleLine />
       </button>
+      {/* 이전 페이지 */}
       <button
         className={styles.before}
         onClick={() => onPageChange(currentPage - 1)}
@@ -44,7 +51,9 @@ function PaginationButton({ totalPage, currentPage, onPageChange, className }) {
       >
         <RiArrowLeftSLine />
       </button>
+      {/* 페이지 나눈 숫자들 */}
       <div className={styles.pageNumber}>{renderBtns()}</div>
+      {/* 다음 페이지 */}
       <button
         className={styles.after}
         onClick={() => onPageChange(currentPage + 1)}
@@ -52,6 +61,7 @@ function PaginationButton({ totalPage, currentPage, onPageChange, className }) {
       >
         <RiArrowRightSLine />
       </button>
+      {/* 마지막으로 */}
       <button
         className={styles.end}
         onClick={() => onPageChange(totalPage)}

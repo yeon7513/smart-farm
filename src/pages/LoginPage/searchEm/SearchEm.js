@@ -1,18 +1,18 @@
-import React, { useEffect, useState } from "react";
-import Form from "../../../components/form/Form";
-import Container from "../../../components/layout/container/Container";
-import styles from "./SearchEm.module.scss";
-import { TextField } from "@mui/material";
-import { fetchItems } from "../../../store/user/UserSlice";
-import { useDispatch, useSelector } from "react-redux";
+import { TextField } from '@mui/material';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import Form from '../../../components/form/Form';
+import Container from '../../../components/layout/container/Container';
+import { fetchItems } from '../../../store/user/UserSlice';
+import styles from './SearchEm.module.scss';
 
 function SearchEm(props) {
   const [state, setState] = useState([new Set()]);
   const dispatch = useDispatch();
   const { items } = useSelector((state) => state.userSlice);
   useEffect(() => {
-    dispatch(fetchItems({ collectionName: "users" }));
-  }, []);
+    dispatch(fetchItems({ collectionName: 'users' }));
+  }, [dispatch]);
 
   const handleInputNum = async (name, password) => {
     const resultData = items.filter((item) => {
@@ -32,17 +32,17 @@ function SearchEm(props) {
       </div>
       <Form
         getDataForm={handleInputNum}
-        title={"이메일 찾기"}
-        inputName1={"이름"}
-        inputName2={"비밀번호 입력"}
-        type={"text"}
-        type2={"password"}
+        title={'이메일 찾기'}
+        inputName1={'이름'}
+        inputName2={'비밀번호 입력'}
+        type={'text'}
+        type2={'password'}
       />
       <TextField
         className={styles.answer}
         disabled
         label={`회원님의 email은 : ${
-          state.email === undefined ? "email" : state.email
+          state.email === undefined ? 'email' : state.email
         } 입니다.`}
       />
     </Container>

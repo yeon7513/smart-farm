@@ -1,12 +1,11 @@
-import React, { useState } from "react";
-import styles from "./EditPost.module.scss";
-import { useNavigate } from "react-router-dom";
-import { updatePost } from "../../../api/board";
+import React, { useState } from 'react';
+import { updatePost } from '../../../api/board';
+import styles from './EditPost.module.scss';
 
 function EditPost({ post, setIsEditing, onPostUpdate }) {
   // const navigate = useNavigate();
-  const [title, setTitle] = useState(post?.title || "");
-  const [summary, setSummary] = useState(post?.summary || "");
+  const [title, setTitle] = useState(post?.title || '');
+  const [summary, setSummary] = useState(post?.summary || '');
   //   const [file, setfile] = useState(post?.file || "");
 
   const handleUpdatePost = async () => {
@@ -24,7 +23,7 @@ function EditPost({ post, setIsEditing, onPostUpdate }) {
         await onPostUpdate();
       }
     } catch (error) {
-      console.error("Error updating post: ", error);
+      console.error('Error updating post: ', error);
     }
   };
 

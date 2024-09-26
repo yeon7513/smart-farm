@@ -56,7 +56,9 @@ function Service(props) {
         </div>
       </div>
       <div className={styles.core} ref={(el) => (imgRef.current[1] = el)}>
-        <div className={styles.technology_img}>{<img src={technology} />}</div>
+        <div className={styles.technology_img}>
+          {<img src={technology} alt="" />}
+        </div>
         <div>
           <h1>아이팜의 핵심가치</h1>
         </div>
@@ -69,7 +71,7 @@ function Service(props) {
           ref={(el) => (imgRef.current[idx + 2] = el)}
         >
           <Container className={styles.core_item}>
-            <img src={item.image} />
+            <img src={item.image} alt="" />
             <div>
               <h2>{item.name}</h2>
               <p>{item.title}</p>
@@ -91,19 +93,19 @@ function Service(props) {
         <div className={styles.people}>
           <div>
             <span>귀농희망자</span>
-            <img src={hum1} />
+            <img src={hum1} alt="" />
           </div>
           <div>
             <span>농업종사자</span>
-            <img src={hum2} />
+            <img src={hum2} alt="" />
           </div>
           <div>
             <span>정년은퇴자</span>
-            <img src={hum3} />
+            <img src={hum3} alt="" />
           </div>
           <div>
             <span>부수입 희망자</span>
-            <img src={hum4} />
+            <img src={hum4} alt="" />
           </div>
         </div>
       </div>

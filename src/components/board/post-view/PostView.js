@@ -1,21 +1,21 @@
-import React, { useEffect, useState } from "react";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
-import styles from "./PostView.module.scss";
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { GridLoader } from 'react-spinners';
 import {
   deletePost,
   getPostById,
   incrementPostCount,
-} from "../../../api/board";
-import CustomModal from "../../modal/CustomModal";
-import Radio from "../../complain/Radio";
-import Comment from "../../comment/Comment";
-import { useDispatch, useSelector } from "react-redux";
-import EditPost from "../edit/EditPost";
-import { addComplain } from "../../../store/complain/complainSlice";
-import { GridLoader } from "react-spinners";
+} from '../../../api/board';
+import { addComplain } from '../../../store/complain/complainSlice';
+import Comment from '../../comment/Comment';
+import Radio from '../../complain/Radio';
+import CustomModal from '../../modal/CustomModal';
+import EditPost from '../edit/EditPost';
+import styles from './PostView.module.scss';
 
 function PostView() {
-  const loginUser = JSON.parse(localStorage.getItem("user"));
+  const loginUser = JSON.parse(localStorage.getItem('user'));
   const navigate = useNavigate();
   const { state } = useLocation();
   const [count, setCount] = useState(state?.count);
@@ -25,11 +25,11 @@ function PostView() {
   const [isEditing, setIsEditing] = useState(false);
   const [post, setPost] = useState(state); // 게시글 상태 추가
   // console.log(post);
-  const [errorMessage, setErrorMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState('');
 
   const dispatch = useDispatch();
 
-  const [selectedReason, setSelectedReason] = useState("");
+  const [selectedReason, setSelectedReason] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
@@ -44,9 +44,9 @@ function PostView() {
         complainantDocId: loginUser.docId,
         reasonCode: selectedReason.code, // 'pf_01' 등의 코드 사용
         reasonName: selectedReason.name,
-        createdAt: new Date().toISOString().split("T")[0],
-        processedAt: "",
-        processYn: "n",
+        createdAt: new Date().toISOString().split('T')[0],
+        processedAt: '',
+        processYn: 'n',
         category: post.category,
         postId: post.id,
         postDocId: post.docId,
@@ -56,15 +56,15 @@ function PostView() {
         imgUrl: post.imgUrl,
       };
 
-      dispatch(addComplain({ collectionName: "complain", complainData }))
+      dispatch(addComplain({ collectionName: 'complain', complainData }))
         .then(() => {
           closeModal(); // 성공 시 모달 닫기
         })
         .catch((error) => {
-          console.log("신고 접수 중 오류 발생:", error);
+          console.log('신고 접수 중 오류 발생:', error);
         });
     } else {
-      setErrorMessage("신고 사유를 선택해주세요.");
+      setErrorMessage('신고 사유를 선택해주세요.');
     }
   };
 
@@ -74,7 +74,7 @@ function PostView() {
         await incrementPostCount(state.collection, state.docId);
         setCount((prevCount) => prevCount + 1);
       } catch (error) {
-        console.error("Error incrementing post count: ", error);
+        console.error('Error incrementing post count: ', error);
       }
     }
   };
@@ -93,7 +93,7 @@ function PostView() {
       setPost(updatedPost); // 수정된 데이터로 상태 업데이트
       setIsEditing(false); // 수정 모드 종료
     } catch (error) {
-      console.error("게시글 업데이트 중 오류 발생: ", error);
+      console.error('게시글 업데이트 중 오류 발생: ', error);
     }
   };
 
@@ -103,7 +103,7 @@ function PostView() {
 
   useEffect(() => {
     if (!isAuthenticated) {
-      navigate("/login");
+      navigate('/login');
     }
   }, [isAuthenticated, navigate]);
 
@@ -150,8 +150,8 @@ function PostView() {
                     <div className={styles.complain}>
                       <button onClick={openModal}>🚨 신고하기</button>
                       <CustomModal
-                        title={"신고하기"}
-                        btnName={"접수"}
+                        title={'신고하기'}
+                        btnName={'접수'}
                         handleClose={closeModal}
                         isOpen={isModalOpen}
                         btnHandler={goComplain}
@@ -174,7 +174,7 @@ function PostView() {
                 {state.imgUrl ? (
                   <img src={post.imgUrl} alt="첨부 이미지" />
                 ) : (
-                  ""
+                  ''
                 )}
               </div>
             </div>

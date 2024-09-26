@@ -1,13 +1,9 @@
-import React, { useEffect, useState } from "react";
-import styles from "./Disaster.module.scss";
-import DisasterList from "./disaster-list/DisasterList";
-import { GrFormPrevious } from "react-icons/gr";
-import { MdOutlineNavigateNext } from "react-icons/md";
-import DisasterButton from "./disaster-button/DisasterButton";
-import DisasterItem from "./disasteritem/DisasterItem";
-import { Outlet } from "react-router-dom";
-import Writing from "./writing/Writing";
-import PaginationButton from "../../../components/pagination-button/PaginationButton";
+import React, { useState } from 'react';
+import PaginationButton from '../../../components/pagination-button/PaginationButton';
+import styles from './Disaster.module.scss';
+import DisasterList from './disaster-list/DisasterList';
+import DisasterItem from './disasteritem/DisasterItem';
+import Writing from './writing/Writing';
 
 function Disaster(props) {
   const [currentPage, setCurrentPage] = useState(1); //현재 페이지

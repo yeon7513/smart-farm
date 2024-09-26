@@ -1,6 +1,6 @@
-import React, { useState } from "react";
-import styles from "./Diseases.module.scss";
-import DiseasesList from "./diseases-list/DiseasesList";
+import React from 'react';
+import styles from './Diseases.module.scss';
+import DiseasesList from './diseases-list/DiseasesList';
 
 function Diseases(props) {
   return (

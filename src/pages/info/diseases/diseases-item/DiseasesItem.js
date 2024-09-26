@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
-import BarLoader from "react-spinners/BarLoader";
-import BackButton from "../../../../components/back-button/BackButton";
-import styles from "./DiseasesItem.module.scss";
+import React, { useEffect, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
+import BarLoader from 'react-spinners/BarLoader';
+import BackButton from '../../../../components/back-button/BackButton';
+import styles from './DiseasesItem.module.scss';
 
 const apiKey = process.env.REACT_APP_DISEASESLIST_API_KEY;
 
@@ -15,25 +15,25 @@ function DiseasesItem() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    console.log("selected type:", selectedType);
-    console.log("korName:", korName);
-    console.log("selectedType:", selectedType);
+    console.log('selected type:', selectedType);
+    console.log('korName:', korName);
+    console.log('selectedType:', selectedType);
     setIsLoading(true);
     const fetchData = async () => {
       try {
-        let serviceCode = "";
-        let detailKeyName = "";
-        let detailKey = "";
+        let serviceCode = '';
+        let detailKeyName = '';
+        let detailKey = '';
 
         // 첫 번째 api호출-기본정보조회
-        if (selectedType === "NP01") {
-          serviceCode = "SVC01";
-          detailKeyName = "sickNameKor";
-          detailKey = "sickKey";
-        } else if (selectedType === "NP03") {
-          serviceCode = "SVC03";
-          detailKeyName = "insectKorName";
-          detailKey = "insectKey";
+        if (selectedType === 'NP01') {
+          serviceCode = 'SVC01';
+          detailKeyName = 'sickNameKor';
+          detailKey = 'sickKey';
+        } else if (selectedType === 'NP03') {
+          serviceCode = 'SVC03';
+          detailKeyName = 'insectKorName';
+          detailKey = 'insectKey';
         }
         const response = await fetch(
           `/desease/?apiKey=${apiKey}&serviceCode=${serviceCode}&serviceType=AA003&cropName=${cropName}&${detailKeyName}=${korName}`
@@ -48,10 +48,10 @@ function DiseasesItem() {
         const detailKeyValue = result.service.list[0][detailKey];
 
         // 두번째 api 호출-상세정보조회
-        if (selectedType === "NP01") {
-          serviceCode = "SVC05";
-        } else if (selectedType === "NP03") {
-          serviceCode = "SVC07";
+        if (selectedType === 'NP01') {
+          serviceCode = 'SVC05';
+        } else if (selectedType === 'NP03') {
+          serviceCode = 'SVC07';
         }
 
         const detailResponse = await fetch(
@@ -61,7 +61,7 @@ function DiseasesItem() {
           throw new Error(`HTTP error! status: ${detailResponse.status}`);
         }
         const detailResult = await detailResponse.json();
-        console.log("api", detailResult);
+        console.log('api', detailResult);
 
         setData(detailResult.service);
       } catch (error) {}
@@ -71,15 +71,15 @@ function DiseasesItem() {
   }, [korName, selectedType, cropName]);
 
   const formatHtml = (html) => {
-    if (!html) return "";
-    return html.replaceAll(" <br />", ""); // Replace <br/> tags with space
+    if (!html) return '';
+    return html.replaceAll(' <br />', ''); // Replace <br/> tags with space
   };
 
   useEffect(() => {
     const { korName, cropName, selectedType, thumbImg } = state || {};
 
     if (!korName || !cropName || !selectedType || !thumbImg) {
-      navigate("/404", { replace: true });
+      navigate('/404', { replace: true });
     }
   }, [navigate]);
 
@@ -88,13 +88,13 @@ function DiseasesItem() {
       <BackButton />
       {isLoading ? (
         <div className={styles.loader}>
-          <BarLoader size={15} color={"#669900"} loading={isLoading} />
+          <BarLoader size={15} color={'#669900'} loading={isLoading} />
         </div>
       ) : (
         <>
           <div className={styles.main}>
             {/* <div> */}
-            <img src={thumbImg} />
+            <img src={thumbImg} alt="" />
             {/* </div> */}
             <div className={styles.title}>
               <div>
@@ -102,14 +102,14 @@ function DiseasesItem() {
                 <p>{korName}</p>
               </div>
               <div>
-                <span>{selectedType === "NP01" ? "영문명" : "목/과명"}</span>
+                <span>{selectedType === 'NP01' ? '영문명' : '목/과명'}</span>
                 <p>
-                  {" "}
+                  {' '}
                   {data && data.insectOrder && data.insectFamily
                     ? `${data.insectOrder}/${data.insectFamily}`
                     : data
                     ? data.sickNameEng
-                    : "Loading..."}
+                    : 'Loading...'}
                 </p>
               </div>
               <div>
@@ -122,7 +122,7 @@ function DiseasesItem() {
             <div>
               <h1>일반정보</h1>
             </div>
-            {selectedType === "NP01" ? (
+            {selectedType === 'NP01' ? (
               // 병해의 경우
               <div className={styles.text_item}>
                 <h4>발생환경</h4>
@@ -151,7 +151,7 @@ function DiseasesItem() {
                 )}
               </div>
             )}
-            {selectedType === "NP01" ? (
+            {selectedType === 'NP01' ? (
               // 병해의 경우
               <div className={styles.text_item}>
                 <h4>증상설명</h4>
@@ -187,7 +187,7 @@ function DiseasesItem() {
                 <p
                   dangerouslySetInnerHTML={{
                     __html: formatHtml(
-                      data.preventionMethod || data.preventMethod || ""
+                      data.preventionMethod || data.preventMethod || ''
                     ),
                   }}
                 />
