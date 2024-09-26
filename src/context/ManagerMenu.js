@@ -22,7 +22,7 @@ function ManagerMenu() {
       return <ComplaintsCare />;
     case 'AfterServiceCare':
       return <AfterServiceCare />;
-    case 'ChatbotCare':
+    case 'ChatRoomCare':
       return <ChatRoomCare />;
 
     default:

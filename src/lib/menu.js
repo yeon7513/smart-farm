@@ -90,5 +90,5 @@ export const managerSideMenu = [
   { comp: 'QuotationsCare', name: '견적 관리' },
   { comp: 'ComplaintsCare', name: '신고 관리' },
   { comp: 'AfterServiceCare', name: 'A/S 관리' },
-  { comp: 'ChatbotCare', name: '챗봇 관리' },
+  { comp: 'ChatRoomCare', name: '채팅상담 관리' },
 ];

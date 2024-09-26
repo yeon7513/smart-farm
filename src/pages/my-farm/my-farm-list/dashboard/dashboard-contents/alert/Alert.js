@@ -73,6 +73,7 @@ function Alert() {
   // }, [posts.length]);
   console.log(count);
   console.log(Math.round(randomCount));
+
   return (
     <div className={styles.alert}>
       {dashboardAlertContent.map((item) => {

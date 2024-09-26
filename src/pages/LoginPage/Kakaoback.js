@@ -29,8 +29,7 @@ const Kakaoback = () => {
 
   const [state, setState] = useState({});
   const [myAddress, SetmyAddress] = useState();
-  const kakaoClientId = "ab4d55383cde6894b80a6f361124e20b";
-
+  const kakaoClientId = process.env.REACT_APP_KAKAO_LOGIN_CLIENT_ID_KEY;
   const allValues = watch(); // input에 들어가는 내용을 실시간 확인 가능
   useEffect(() => {
     if (isModalOpen === true) {
