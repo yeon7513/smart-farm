@@ -1,13 +1,8 @@
 import {
   doc,
   getDoc,
-  limit,
-  orderBy,
-  query,
   updateDoc,
-  where,
-} from "firebase/firestore";
-import { db, getCollection } from "./firebase";
+import { db } from "./firebase";
 
 // 비활성화
 export async function deactivationData(collectionName, docId, fieldName) {

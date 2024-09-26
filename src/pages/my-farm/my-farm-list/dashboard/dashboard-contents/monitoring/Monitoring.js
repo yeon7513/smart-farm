@@ -1,17 +1,10 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
-import { Outlet } from 'react-router-dom';
-import { useSectorContext } from '../../../../../../context/SectorContext';
+import React from "react";
+import { Outlet } from "react-router-dom";
 
 function Monitoring() {
-  const { growthData } = useSelector((state) => state.bestfarmSlice);
-
-  console.log(growthData);
-  const { sector } = useSectorContext();
   return (
     <div>
       <span>Monitoring</span>
-      {/* <SimpleLineChart /> */}
       <Outlet />
       <div>
         Lorem ipsum dolor sit amet consectetur adipisicing elit. Aut vitae

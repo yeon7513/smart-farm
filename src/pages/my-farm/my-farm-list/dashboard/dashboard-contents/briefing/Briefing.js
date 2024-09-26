@@ -1,19 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { useLocation } from "react-router-dom";
 import { DBdeleteData } from "../../../../../../api/indexedDB";
 import { useSectorContext } from "../../../../../../context/SectorContext";
 import { renameOptionsKor } from "../../../../../../utils/renameOptions";
 import ControlItem from "../control-box/control-item/ControlItem";
 
 function Briefing() {
-  const { state } = useLocation();
   const { sector } = useSectorContext();
   const { item } = useSelector((state) => state.controlSlice);
   const [someState, setSomeState] = useState([]);
-  const [docIdInfo, setDocIdInfo] = useState("");
   const [openDB, setOpenDB] = useState(null);
-  const [count, setCount] = useState(0);
 
   const filteredOptions = Object.entries(sector?.control || {})
     .filter(([key, value]) => value === "Y")
@@ -69,7 +65,6 @@ function Briefing() {
   const correctValue = someState.filter((data) => {
     return filteredOptions.includes(data.option) && data.id === sector.id;
   });
-
   const handleDeleteItem = (docId) => {
     if (openDB) {
       DBdeleteData(openDB, "myStore", docId);

@@ -1,11 +1,10 @@
 import { Avatar, Container, TextField } from "@mui/material";
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import React, { useEffect, useState } from "react";
-import { useAuthState } from "react-firebase-hooks/auth";
 import { useForm } from "react-hook-form";
 import * as FcIcons from "react-icons/fc";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, Navigate, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { joinUser, LoginGetDatas } from "../../api/userPage";
 import CustomModal from "../../components/modal/CustomModal";
 import { setUser } from "../../store/user/UserSlice";
@@ -13,7 +12,6 @@ import Kakaoback from "./Kakaoback";
 import styles from "./LoginPage.module.scss";
 import SignIn from "./sign-in/SignIn";
 import SearchAddr from "../../components/search-addr/SearchAddr";
-import axios from "axios";
 import { getUserAuth } from "./../../api/firebase";
 
 function LoginPage() {
@@ -23,7 +21,6 @@ function LoginPage() {
     const localInfoNum = async () => {
       const localInfo = localStorage.getItem("user");
       if (localInfo && localInfo.includes("email")) {
-        // if(dashboard)
         navigate("/");
       }
     };
@@ -34,7 +31,6 @@ function LoginPage() {
     mode: "onChange",
   });
   const [inputValue, setInputValue] = useState(true);
-  const { isAuthenticated } = useSelector((state) => state.userSlice);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const openModal = () => setIsModalOpen(true);
@@ -65,7 +61,6 @@ function LoginPage() {
   }, [inputValue, allValues]);
 
   const SignInWithGoogle = async () => {
-    const provider = new GoogleAuthProvider();
     await signInWithPopup(auth, provider).then(async (result) => {
       const userInfo = await LoginGetDatas("users");
       const Point = userInfo.filter((item) => item.email == result.user.email);

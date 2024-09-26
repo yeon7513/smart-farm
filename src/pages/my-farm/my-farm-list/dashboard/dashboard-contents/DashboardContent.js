@@ -11,7 +11,6 @@ import { fetchSectorInfo } from './../../../../../store/dashboard/dashboardSlice
 import styles from './DashboardContent.module.scss';
 
 function DashboardContent({ docId }) {
-  const { sectorInfo, isLoading } = useSelector(
     (state) => state.dashboardSlice
   );
   const { currComp } = useComponentContext();

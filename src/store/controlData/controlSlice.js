@@ -8,7 +8,6 @@ const initialState = {
   randomCount: "",
   dashboardAlertContent: [],
 };
-
 const controlSlice = createSlice({
   name: "controlStatus",
   initialState,

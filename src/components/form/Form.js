@@ -28,18 +28,16 @@ function Form({
   useEffect(() => {
     dispatch(fetchItems({ collectionName: "users" }));
   });
-  const onSubmit = ({ name, password, email }) => {
-    const findUser = items.find((item) => {
-      return item.email == name;
-    });
-    if (findUser?.deleteYn == "Y") {
-      alert("탈퇴된 회원입니다.");
-      return false;
-    }
+  const findUser = items.find((item) => {
+    return item.email == name;
+  });
+  if (findUser?.deleteYn == "Y") {
+    alert("탈퇴된 회원입니다.");
+    return false;
+  }
 
-    getDataForm(name, password, email);
-    reset();
-  };
+  getDataForm(name, password, email);
+  reset();
   const userEmail = {
     required: "필수 필드입니다.",
   };

@@ -10,7 +10,6 @@ function Forms({ title, getDataForm, firebaseError }) {
     register,
     handleSubmit,
     formState: { errors },
-    reset,
   } = useForm({
     mode: "onChange",
   });
@@ -35,9 +34,6 @@ function Forms({ title, getDataForm, firebaseError }) {
     required: "필수 필드입니다.",
   };
 
-  const address = {
-    required: "필수 필드입니다.",
-  };
   const userPassword = {
     required: "필수 필드입니다.",
     minLength: {

@@ -1,12 +1,10 @@
 import React, { useEffect, useState } from "react";
 import Form from "../../../components/form/Form";
 import Container from "../../../components/layout/container/Container";
-import { TextField } from "@mui/material";
 import styles from "./SearchPw.module.scss";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchItems } from "../../../store/user/UserSlice";
 import EmailButton from "./EmailButton";
-import CryptoJS from "crypto-js";
 
 function SearchPw(props) {
   const [state, setState] = useState([]);
@@ -28,19 +26,7 @@ function SearchPw(props) {
     });
     setRendering(true);
   };
-  console.log(state);
-  // const CryptoJS = require("crypto-js");
-  // const encryptionKey = "mySecretKey123";
-  // const iv = CryptoJS.lib.WordArray.random(128 / 8); // 초기화 벡터 (IV) 생성
-  // const encryptedPassword = state.password;
 
-  // // 암호화된 비밀번호를 복호화합니다.
-  // function decryptPassword(encryptedPassword) {
-  //   const decrypted = CryptoJS.AES.decrypt(encryptedPassword, encryptionKey, {
-  //     iv: iv,
-  //   });
-  //   return decrypted.toString(CryptoJS.enc.Utf8);
-  // }
   return (
     <Container className={styles.container}>
       <div className={styles.title}>
