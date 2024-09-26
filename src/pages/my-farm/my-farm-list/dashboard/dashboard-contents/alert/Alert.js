@@ -14,17 +14,13 @@ function Alert() {
   const { count, randomCount, dashboardAlertContent } = useSelector(
     (state) => state.controlSlice
   );
-  const { isLoading } = useSelector((state) => state.dashboardSlice);
   const dispatch = useDispatch();
-  const { posts } = useSelector((state) => state.disasterSlice);
   const { growthData } = useSelector((state) => state.bestfarmSlice);
-  const [postCount, setPostCount] = useState(posts.length);
   const [hasExecuted, setHasExecuted] = useState(false);
   const [isPestAlerted, setIsPestAlerted] = useState(false);
   const [isAlmostHarvest, setIsAlmostHarvest] = useState(false);
-  const [isDiseaster, setIsDiseaster] = useState(false);
   const [fruitNum, setFruitNum] = useState("");
-  const [farmCode, setFarmCode] = useState("349");
+  const [farmCode, setFarmCode] = useState("");
 
   const handleAddAlert = async (option) => {
     const addObj = {
@@ -46,9 +42,9 @@ function Alert() {
       })
     );
     dispatch(fetchGrowthData(`searchFrmhsCode=${farmCode}`));
+    setFarmCode("349");
     const firstThing = growthData?.filter((data) => data.frtstCo > 16);
     firstThing?.map((data) => setFruitNum(data.frtstCo));
-
     dispatch(fetchDisasterDatas("disasters"));
   }, []);
 
@@ -68,17 +64,12 @@ function Alert() {
       setIsPestAlerted(true);
     }
   }, [count, fruitNum, hasExecuted, isAlmostHarvest]);
-  // useEffect(() => {
-  //   handleAddAlert({ content: "weather", gb: "IoWarning" });
-  // }, [posts.length]);
-  console.log(count);
-  console.log(Math.round(randomCount));
 
   return (
     <div className={styles.alert}>
       {dashboardAlertContent.map((item) => {
         if (item.ct === "dashboard" && item.chechYn === "N") {
-          return <AlertContent item={item} key={item.docId} />;
+          return <AlertContent item={item} key={item.id} />;
         }
       })}
     </div>

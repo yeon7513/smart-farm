@@ -1,5 +1,4 @@
 import React from "react";
-import { IoLeaf } from "react-icons/io5";
 import styles from "../Alert.module.scss";
 import { dashboardAlertIcon } from "../../../../../../../utils/dashboardAlert";
 
