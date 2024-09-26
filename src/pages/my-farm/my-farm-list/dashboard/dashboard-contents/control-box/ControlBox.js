@@ -5,6 +5,7 @@ import { setData } from "../../../../../../store/controlData/controlSlice";
 import { renameOptionsKor } from "../../../../../../utils/renameOptions";
 import ControlItem from "./control-item/ControlItem";
 import styles from "./ControlBox.module.scss";
+function ControlBox() {
   const { sector } = useSectorContext();
   const [movedData, setMovedData] = useState([]);
   const dispatch = useDispatch();

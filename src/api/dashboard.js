@@ -1,7 +1,4 @@
-import {
-  doc,
-  getDoc,
-  updateDoc,
+import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { db } from "./firebase";
 
 // 비활성화
