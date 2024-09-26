@@ -203,8 +203,8 @@ function QuotationsCare() {
             onChange={(e) => filterData(e.target.value)}
             className={styles.select}
           >
-            <option value="pending">대기 중인 내역</option>
             <option value="all">전체 내역</option>
+            <option value="pending">대기 중인 내역</option>
             <option value="approved">승인 된 내역</option>
             <option value="rejected">거절 된 내역</option>
           </select>
