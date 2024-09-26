@@ -6,7 +6,7 @@
   align-items: center;
   width: 100%;
   gap: 60px;
-
+  flex-direction: column;
   .main {
     display: flex;
     justify-content: center;
@@ -17,8 +17,35 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    width: 500px;
+    width: 900px;
     padding: 10px;
+
+    select {
+      padding: 10px;
+      border: none;
+      border-bottom: 2px solid var(--common-color);
+      margin-bottom: 30px;
+      font-size: 20px;
+      width: 300px;
+    }
+
+    .thead {
+      font-size: 23px;
+      color: var(--accent-color);
+      tr {
+        th {
+          padding: 20px;
+        }
+      }
+    }
+
+    .item {
+      box-shadow: var(--box-shadow);
+      td {
+        padding: 20px 0;
+        margin-top: 10px;
+      }
+    }
   }
   .mainBox {
     display: flex;
@@ -29,17 +56,17 @@
 
 td {
   text-align: center;
-  border-bottom: 1px dotted #000;
 }
 
 .button {
-  border: 1px solid #000;
-  background-color: #eee;
-  padding: 4px 8px;
+  border: 2px solid var(--common-color);
+  padding: 10px 8px;
   margin: 8px;
   margin-left: 12px;
+  border-radius: 8px;
 
   &:hover {
-    background-color: #ccc;
+    background-color: var(--hover-color);
+    color: #fff;
   }
 }
