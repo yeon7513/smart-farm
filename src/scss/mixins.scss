@@ -144,6 +144,7 @@
 ) {
   position: relative;
   padding: $padding;
+  z-index: 10;
 
   &:hover {
     color: $mainColor;
@@ -184,6 +185,7 @@
 
   &.active {
     color: $mainColor;
+    background-color: $hoverColor;
     &::before {
       width: 100%;
     }
