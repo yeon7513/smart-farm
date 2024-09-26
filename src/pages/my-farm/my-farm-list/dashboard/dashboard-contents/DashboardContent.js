@@ -26,7 +26,7 @@ function DashboardContent({ docId }) {
   useEffect(() => {
     const interval = setInterval(() => {
       setCount((prevCount) => {
-        if (prevCount >= 100) {
+        if (prevCount >= 5000) {
           return 0;
         }
         return prevCount + 1;
