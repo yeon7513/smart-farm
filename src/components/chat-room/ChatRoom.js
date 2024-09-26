@@ -93,20 +93,6 @@ const [messages, setMessages] = useState([]);
     return () => unsubscribe(); // 컴포넌트 언마운트 시 구독 해제
   }, [chatroomId]);
 
-
-  // useEffect(() => {
-  //   const unsubscribe = auth.onAuthStateChanged((user) => {
-  //     if (user) {
-  //       console.log("User is logged in:", user);
-  //     } else {
-  //       console.error("No user is logged in");
-  //     }
-  //   });
-  
-  //   return () => unsubscribe(); // 컴포넌트 언마운트 시 구독 해제
-  // }, []);
-  
-
   //  chatOptionsData 화면에서 사용할 추가 질문과 답변
   const chatOptionsData = [
     { id: "option1", question: "회원 정보", answer: "요청하신 회원 정보 상담을 위해 채팅 상담원과 연결 중입니다. 잠시만 기다려 주세요..." },
