@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchDisasterDatas } from "../../../../store/disaster/disasterSlice";
 import { ScaleLoader } from "react-spinners";
 
-function DisasterList({ currentPage, itemsPerPage }) {
+function DisasterList({ currentPage, itemsPerPage, updateTotalPages }) {
   const dispatch = useDispatch();
   const { posts } = useSelector((state) => state.disasterSlice);
   const [searchTerm, setSearchTerm] = useState(""); // 검색어 상태 관리
@@ -42,6 +42,14 @@ function DisasterList({ currentPage, itemsPerPage }) {
       setFilteredPosts(posts);
     }
   };
+  useEffect(() => {
+    const loadData = () => {
+      setIsLoading(true);
+      dispatch(fetchDisasterDatas("disasters"));
+      setIsLoading(false);
+    };
+    loadData();
+  }, [dispatch]);
 
   useEffect(() => {
     const loadData = () => {
@@ -59,6 +67,16 @@ function DisasterList({ currentPage, itemsPerPage }) {
     setFilteredPosts(sortedPosts); // 초기 게시글 세팅 (작성일 기준으로 정렬)
   }, [posts]);
 
+  // 게시글이 변경될 때마다 필터링된 게시글 목록을 설정하고 페이지 수를 업데이트
+  useEffect(() => {
+    const sortedPosts = [...posts].sort(
+      (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+    );
+    setFilteredPosts(sortedPosts);
+
+    // 전체 게시글 수를 기반으로 페이지 수를 계산하고 부모 컴포넌트에 전달
+    updateTotalPages(sortedPosts.length);
+  }, [posts, updateTotalPages]);
   // 페이지 네이션을 위한 현재 페이지에 맞는 게시글만 필터링
   const indexOfLastPost = currentPage * itemsPerPage;
   const indexOfFirstPost = indexOfLastPost - itemsPerPage;

@@ -11,26 +11,28 @@ import PaginationButton from "../../../components/pagination-button/PaginationBu
 
 function Disaster(props) {
   const [currentPage, setCurrentPage] = useState(1); //현재 페이지
-  const [totalPages, setTotalPages] = useState(3); //전체페이지수
+  const [totalPages, setTotalPages] = useState(1); //전체페이지수
   const [itemsPerPage] = useState(5); //페이지당 게시글 수
 
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
 
-  useEffect(() => {
-    const fetchDataForPage = async () => {
-      console.log(`Fetching data for page: ${currentPage}`);
-    };
-    fetchDataForPage();
-  }, [currentPage]);
+  const updateTotalPages = (totalPosts) => {
+    // 총 게시글 수를 기반으로 페이지 수 계산
+    setTotalPages(Math.ceil(totalPosts / itemsPerPage));
+  };
   return (
     <div className={styles.main}>
       <div className={styles.list}>
         <DisasterItem />
         {/* <Outlet /> */}
         <ul>
-          <DisasterList currentPage={currentPage} itemsPerPage={itemsPerPage} />
+          <DisasterList
+            currentPage={currentPage}
+            itemsPerPage={itemsPerPage}
+            updateTotalPages={updateTotalPages}
+          />
         </ul>
         <Writing />
       </div>

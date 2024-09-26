@@ -2,6 +2,7 @@ import {
   collection,
   deleteDoc,
   doc,
+  getDoc,
   getDocs,
   query,
   where,
@@ -11,13 +12,16 @@ import { useParams } from "react-router-dom";
 import { GridLoader } from "react-spinners";
 import { db } from "../../../api/firebase";
 import Container from "../../../components/layout/container/Container";
-import styles from "./PaymentDetail.scss";
+import styles from "./PaymentDetail.module.scss";
 import axios from "axios";
+import { useSelector } from "react-redux";
 
 function PaymentDetail() {
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState(null);
-  const { imp_uid } = useParams();
+  const [dashboardData, setDashboardData] = useState(null);
+  const { paymentsDocId } = useParams();
+  const { commonInfo } = useSelector((state) => state.dashboardSlice);
 
   // 액세스 토큰을 받아오는 함수입니다.
   const getAccessToken = async () => {
@@ -52,12 +56,11 @@ function PaymentDetail() {
 
   // 결제 취소 함수
   const onPayCancel = async () => {
-    console.log(data.docId);
-    console.log(data.additionalOptions);
-    if (!data || !data.imp_uid) return;
+    console.log(data.paymentsDocId);
+    if (!data || !data.createdAt) return;
 
     const confirm = window.confirm(
-      `결제번호: ${data.imp_uid} / 결제를 취소하시겠습니까?`
+      `결제번호: ${data.createdAt} / 결제를 취소하시겠습니까?`
     );
 
     if (confirm) {
@@ -78,9 +81,9 @@ function PaymentDetail() {
   };
 
   // Firebase에서 결제 데이터 삭제
-  const deletePaymentData = async (imp_uid) => {
+  const deletePaymentData = async (docId) => {
     try {
-      const paymentDocRef = doc(db, "payments", imp_uid);
+      const paymentDocRef = doc(db, "payments", docId);
       await deleteDoc(paymentDocRef);
     } catch (error) {
       console.error("Firebase 데이터 삭제 에러: ", error);
@@ -109,41 +112,31 @@ function PaymentDetail() {
 
   useEffect(() => {
     const fetchData = async () => {
-      if (!imp_uid) return;
       setLoading(true);
       try {
-        // "dashboard" 컬렉션에서 imp_uid 가져오기
-        const dashboardQuery = query(
-          collection(db, "dashboard"),
-          where("imp_uid", "==", imp_uid)
-        );
+        // payments 컬렉션에서 데이터 가져오기
+        const paymentDocRef = doc(db, "payments", paymentsDocId);
+        const paymentSnapshot = await getDoc(paymentDocRef);
+
+        if (paymentSnapshot.exists()) {
+          const paymentData = paymentSnapshot.data();
+          setData(paymentData);
+        } else {
+          console.log("Payment data not found");
+          setData(null);
+        }
+
+        // dashboard 컬렉션에서 데이터 가져오기
+        const dashboardQuery = query(collection(db, "dashboard"));
         const dashboardSnapshot = await getDocs(dashboardQuery);
 
-        if (dashboardSnapshot.empty) {
+        if (!dashboardSnapshot.empty) {
+          const dashboardData = dashboardSnapshot.docs.map((doc) => doc.data());
+          setDashboardData(dashboardData[0]); // 첫 번째 문서 데이터 설정
+        } else {
           console.log("Dashboard data not found");
-          setData(null);
-          return;
+          setDashboardData(null);
         }
-
-        // "payments" 컬렉션에서 imp_uid 가져오기
-        const paymentsQuery = query(
-          collection(db, "payments"),
-          where("imp_uid", "==", imp_uid)
-        );
-        const paymentsSnapshot = await getDocs(paymentsQuery);
-
-        if (paymentsSnapshot.empty) {
-          console.log("Payments data not found");
-          setData(null);
-          return;
-        }
-
-        const resultData = paymentsSnapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
-
-        setData(resultData.length > 0 ? resultData[0] : null);
       } catch (error) {
         console.error("Error fetching data:", error);
       } finally {
@@ -152,7 +145,7 @@ function PaymentDetail() {
     };
 
     fetchData();
-  }, [imp_uid]);
+  }, [paymentsDocId]);
 
   return (
     <div>
@@ -160,28 +153,49 @@ function PaymentDetail() {
         <div className={styles.payment}>
           {loading ? (
             <GridLoader color="#a2ca71" margin={5} size={20} />
-          ) : data ? (
+          ) : data && dashboardData ? (
             <>
               <h2>견적 내역</h2>
-              <p>이름: {data.name}</p>
-              <p>아이디: {data.email}</p>
-              <p>연락처: {data.number}</p>
-              <p>주소: {data.address}</p>
-              <p>농장 이름: {data.farmName}</p>
-              <p>농장 주소: {data.farmAddress}</p>
-              <p>작물 종류: {data.cropType}</p>
-              <p>농장 종류: {data.facilityType}</p>
-              <p>농장 면적: {data.farmArea}</p>
-              <p>농장 동 수: {data.farmEquivalent}</p>
-              <p>부가 옵션: </p>
-              {data.additionalOptions &&
+              <div className={styles.main}>
+                <div>
+                  <div>
+                    <p>이름: {data.name}</p>
+                  </div>
+                  <div>
+                    <p>아이디: {data.email}</p>
+                  </div>
+                  <div>
+                    <p>연락처: {data.number}</p>
+                  </div>
+                  <div>
+                    <p>주소: {data.address}</p>
+                  </div>
+                  <div>
+                    <p>주문번호: {data.createdAt}</p>
+                  </div>
+                </div>
+
+                <div className={styles.farm}>
+                  <p>농장 이름: {data.farmName}</p>
+                  <p>농장 주소: {data.farmAddress}</p>
+                  <p>작물 종류: {data.cropType}</p>
+                  <p>농장 종류: {data.facilityType}</p>
+                  <p>농장 면적: {data.farmArea}</p>
+                  <p>농장 동 수: {data.farmEquivalent}</p>
+                </div>
+              </div>
+              <div className={styles.option}>
+                <p>내가 선택한 옵션 </p>
+              </div>
+              {data.farmEquivalent &&
+              data.additionalOptions &&
               Object.keys(data.additionalOptions).length > 0 ? (
                 Object.entries(data.additionalOptions).map(([id, options]) => {
                   const selectedOptions = Object.entries(options)
                     .filter(([_, selected]) => selected)
                     .map(([optionName]) => optionName);
                   return (
-                    <div key={id}>
+                    <div key={id} className={styles.farm_main}>
                       {selectedOptions.length > 0 ? (
                         <ul>
                           {selectedOptions.map((option) => (
@@ -195,9 +209,9 @@ function PaymentDetail() {
                   );
                 })
               ) : (
-                <p>부가 옵션이 없습니다.</p>
+                <p>선택한 옵션이 없습니다.</p>
               )}
-              <p>주문번호: {data.createdAt}</p>
+
               <p>결제 방식: {data.paymentMethod}</p>
               <p>현금영수증: {data.cashReceipt}</p>
               <button type="button" onClick={onPayCancel}>
