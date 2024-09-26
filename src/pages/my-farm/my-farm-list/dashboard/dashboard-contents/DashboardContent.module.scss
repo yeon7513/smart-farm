@@ -1,4 +1,18 @@
 .content {
+  flex: 1;
+  overflow-y: auto;
+  max-height: 100%;
+  outline: 1px dotted red;
+
+  &::-webkit-scrollbar {
+    background-color: blue;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: green;
+  }
+  &::-webkit-scrollbar-track {
+    background-color: yellow;
+  }
   .sectorMenu {
     display: grid;
     grid-template-columns: repeat(8, minmax(calc(100% / 8), 1fr));

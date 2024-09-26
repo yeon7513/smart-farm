@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 
 const KaKaoLogin = () => {
-  const Rest_api_key = "1354a30277487708a84242c8a1004646"; //REST API KEY
+  const Rest_api_key = process.env.REACT_APP_KAKAO_LOGIN_REST_API_KEY; //REST API KEY
   const redirect_uri = "http://localhost:3000/oauth/kakao"; //Redirect URI
   const code = new URL(window.location.href).searchParams.get("code");
   // oauth 요청 URL
