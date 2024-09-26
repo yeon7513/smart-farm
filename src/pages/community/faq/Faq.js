@@ -5,10 +5,11 @@ import up from "../../../../src/assets/arrow/up.png";
 import styles from "./Faq.module.scss";
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { db } from "../../../api/firebase";
 import {
   collection,
+  deleteDoc,
   doc,
   getDoc,
   getDocs,
@@ -18,15 +19,20 @@ import {
 } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
 import { setFaqData } from "../../../store/faq-data/faqDataSlice";
+import FaqModify from "./FaqModify";
 
 function Faq() {
   const auth = getAuth();
+  const { state } = useLocation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [openId, setOpenId] = useState(null);
   const [sortOrder, setSortOrder] = useState("views");
   const faqData = useSelector((state) => state.faqDataSlice);
   const { isAuthenticated } = useSelector((state) => state.userSlice);
+  const [isEditing, setIsEditing] = useState(false);
+  const [faqIdToEdit, setFaqIdToEdit] = useState(null);
+  const [faq, setFaq] = useState(state);
 
   const fetchfaqData = async ({ collectionName, orderByField }) => {
     const collectionRef = collection(db, collectionName);
@@ -153,6 +159,56 @@ function Faq() {
   // 수정, 삭제 권한 여부(관리자 로그인)를 파악하기 위한 관리자의 uid를 가져옵니다.
   const adminUid = "SHGFkaurCeNMoBaeBMcKvc6XrX03";
 
+  // FAQ를 삭제하는 함수입니다.
+  async function handleDelete(collectionName, id) {
+    try {
+      const faqRef = doc(db, collectionName, id.toString());
+      await deleteDoc(faqRef);
+      dispatch(setFaqData(faqData.filter((item) => item.id !== id)));
+      console.log(`FAQ ${id} 삭제 성공`);
+      return true;
+    } catch (error) {
+      console.error("FAQ 삭제 중 오류 발생: ", error);
+      return false;
+    }
+  }
+
+  const handleEditClick = (id) => {
+    setFaqIdToEdit(id);
+    setIsEditing(true);
+  };
+
+  const getFaqById = async (collection, docId) => {
+    try {
+      // Firestore에서 특정 문서 참조를 생성
+      const docRef = doc(db, collection, docId);
+
+      // 문서 데이터를 가져오기
+      const docSnap = await getDoc(docRef);
+
+      if (docSnap.exists()) {
+        // 문서가 존재할 경우 데이터를 반환합니다.
+        return { id: docSnap.id, ...docSnap.data() };
+      } else {
+        console.log("No such document!");
+        return null;
+      }
+    } catch (error) {
+      console.error("Error fetching FAQ: ", error);
+      throw error;
+    }
+  };
+
+  const handleFaqUpdate = async (id) => {
+    try {
+      const updateFaq = await getFaqById("faq", id);
+      setFaq(updateFaq);
+      setIsEditing(false);
+    } catch (error) {
+      console.error("FAQ 업데이트 중 오류 발생: ", error);
+    }
+  };
+
   return (
     <div className={styles.page}>
       <div className={styles.faqIntro}>
@@ -178,70 +234,87 @@ function Faq() {
       </div>
 
       <Container className={styles.container}>
-        {sortedFaqData.map(({ id, question, answer, likes, views, liked }) => (
-          <div key={id} className={styles.faq}>
-            <div className={styles.title}>
-              <h3>{`Q. ${question}`}</h3>
-              <button
-                className={
-                  auth.currentUser?.uid === adminUid
-                    ? styles.abled
-                    : styles.disabled
-                }
-              >
-                수정
-              </button>
-              <button
-                className={
-                  auth.currentUser?.uid === adminUid
-                    ? styles.abled
-                    : styles.disabled
-                }
-              >
-                삭제
-              </button>
-              {openId === id ? (
-                <button
-                  onClick={() => {
-                    incrementViews(id);
-                    toggleVisibility(id);
-                  }}
-                >
-                  <img src={up} alt="자세히 보기" />
-                </button>
-              ) : (
-                <button onClick={() => toggleVisibility(id)}>
-                  <img src={down} alt="간략히 보기" />
-                </button>
-              )}
-            </div>
-            {openId === id && (
-              <div className={styles.description}>
-                <h4>{`A. ${answer}`}</h4>
-                <div className={styles.likes}>
-                  {isAuthenticated ? (
-                    <button onClick={() => toggleLike(id)}>
-                      {liked ? (
-                        <AiFillHeart
-                          style={{ color: "red", fontSize: "30px" }}
-                        />
-                      ) : (
-                        <AiOutlineHeart style={{ fontSize: "30px" }} />
-                      )}
-                      좋아요: {likes}
+        {isEditing ? (
+          <FaqModify
+            setIsEditing={setIsEditing}
+            onFaqUpdate={handleFaqUpdate}
+            faqId={faqIdToEdit}
+          />
+        ) : (
+          <>
+            {sortedFaqData.map(
+              ({ id, question, answer, likes, views, liked }) => (
+                <div key={id} className={styles.faq}>
+                  {isEditing}
+                  <div className={styles.title}>
+                    <h3>{`Q. ${question}`}</h3>
+                    <Link to={`/community/faq/${id}`}>
+                      <button
+                        onClick={() => handleEditClick(id)}
+                        className={
+                          auth.currentUser?.uid === adminUid
+                            ? styles.abled
+                            : styles.disabled
+                        }
+                      >
+                        수정
+                      </button>
+                    </Link>
+                    <button
+                      className={
+                        auth.currentUser?.uid === adminUid
+                          ? styles.abled
+                          : styles.disabled
+                      }
+                      onClick={() => handleDelete("faq", id)}
+                    >
+                      삭제
                     </button>
-                  ) : (
-                    <button onClick={() => toggleLike(id)}>
-                      <AiOutlineHeart style={{ fontSize: "30px" }} />
-                      좋아요: {likes}
-                    </button>
+                    {openId === id ? (
+                      <button
+                        onClick={() => {
+                          incrementViews(id);
+                          toggleVisibility(id);
+                        }}
+                      >
+                        <img src={up} alt="자세히 보기" />
+                      </button>
+                    ) : (
+                      <button onClick={() => toggleVisibility(id)}>
+                        <img src={down} alt="간략히 보기" />
+                      </button>
+                    )}
+                  </div>
+                  {openId === id && (
+                    <div className={styles.description}>
+                      <h4>{`A. ${answer}`}</h4>
+                      <div className={styles.likes}>
+                        {isAuthenticated ? (
+                          <button onClick={() => toggleLike(id)}>
+                            {liked ? (
+                              <AiFillHeart
+                                style={{ color: "red", fontSize: "30px" }}
+                              />
+                            ) : (
+                              <AiOutlineHeart style={{ fontSize: "30px" }} />
+                            )}
+                            좋아요: {likes}
+                          </button>
+                        ) : (
+                          <button onClick={() => toggleLike(id)}>
+                            <AiOutlineHeart style={{ fontSize: "30px" }} />
+                            좋아요: {likes}
+                          </button>
+                        )}
+                        <h5>조회수: {views}</h5>
+                      </div>
+                    </div>
                   )}
-                  <h5>조회수: {views}</h5>
                 </div>
-              </div>
+              )
             )}
-          </div>
-        ))}
+          </>
+        )}
       </Container>
     </div>
   );

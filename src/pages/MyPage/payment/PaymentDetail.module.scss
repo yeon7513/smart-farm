@@ -6,7 +6,6 @@
     padding: 10px 0;
     width: 900px;
     margin: 10px 0;
-    // flex-direction: column;
     div {
       p {
         margin: 20px;
@@ -14,9 +13,6 @@
     }
   }
   .farm {
-    // border: 2px solid var(--common-color);
-    // display: grid;
-    // grid-template-columns: repeat(3, 1fr);
     padding: 10px 0;
   }
   .option {
@@ -25,8 +21,6 @@
   .additionalOptions {
     display: flex;
     flex-direction: row;
-    // justify-content: flex-start;
-    // align-items: flex-start;
     .farm_main {
       ul {
         display: flex;

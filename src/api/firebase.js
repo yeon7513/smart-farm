@@ -12,9 +12,13 @@ import {
   query,
   updateDoc,
   where,
+<<<<<<< Updated upstream
   writeBatch,
 } from 'firebase/firestore';
 
+=======
+} from "firebase/firestore";
+>>>>>>> Stashed changes
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
   authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
@@ -55,6 +59,7 @@ export async function addDatas(collectionName, addObj) {
   return resultData;
 }
 
+<<<<<<< Updated upstream
 export async function syncOrder(uid, orderArr) {
   const orderRef = getCollection('user', uid, 'order');
   const batch = writeBatch(db);
@@ -105,6 +110,8 @@ export async function createPayment(uid, paymentObj) {
   }
 }
 
+=======
+>>>>>>> Stashed changes
 export async function getQuery(collectionName, queryOption) {
   const { conditions = [], orderBys = [] } = queryOption;
   const collect = getCollection(collectionName);
@@ -192,6 +199,7 @@ export async function deleteDatas(collectionName, docId) {
   }
 }
 
+<<<<<<< Updated upstream
 // 결제를 취소하는 함수입니다.
 export const pointTableCancel = async (imp_uid) => {
   try {
@@ -214,6 +222,8 @@ export const pointTableCancel = async (imp_uid) => {
   }
 };
 
+=======
+>>>>>>> Stashed changes
 // chatroomId를 가져오는 함수 추가
 export const fetchChatroomId = async (email) => {
   try {

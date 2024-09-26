@@ -17,6 +17,7 @@ import Info from './pages/info/Info';
 
 import DiseasesItem from './pages/info/diseases/diseases-item/DiseasesItem';
 
+<<<<<<< Updated upstream
 import PostView from './components/board/post-view/PostView';
 import CommunityMenu from './context/CommunityMenu';
 import DashboardMenu from './context/DashboardMenu';
@@ -36,6 +37,29 @@ import DashBoard from './pages/my-farm/my-farm-list/dashboard/DashBoard';
 import NotFound from './pages/notFound/NotFound';
 import RequestForQuote from './pages/request/RequestForQuote';
 import './scss/global.scss';
+=======
+import PostView from "./components/board/post-view/PostView";
+import CommunityMenu from "./context/CommunityMenu";
+import DashboardMenu from "./context/DashboardMenu";
+import InfoMenu from "./context/InfoMenu";
+import ManagerMenu from "./context/ManagerMenu";
+import MyPageMenu from "./context/MyPageMenu";
+import { SectorProvider } from "./context/SectorContext";
+import KaKaoLogin from "./pages/LoginPage/KaKaoLogin";
+import PaymentDetail from "./pages/MyPage/payment/PaymentDetail";
+import DisasterLIstItem from "./pages/info/disaster/disaster-list/disaster-list-item/DisasterLIstItem";
+import DisasterPost from "./pages/info/disaster/disasterpost/DisasterPost";
+import Manager from "./pages/manager/Manager";
+import MyFarm from "./pages/my-farm/MyFarm";
+import FarmList from "./pages/my-farm/my-farm-list/FarmList";
+import DashBoard from "./pages/my-farm/my-farm-list/dashboard/DashBoard";
+import NotFound from "./pages/notFound/NotFound";
+import RequestForQuote from "./pages/request/RequestForQuote";
+import "./scss/global.scss";
+import DisasterEdit from "./pages/info/disaster/disasteredit/DisasterEdit";
+import Faq from "./pages/community/faq/Faq";
+import FaqModify from "./pages/community/faq/FaqModify";
+>>>>>>> Stashed changes
 
 function App() {
   return (
@@ -74,6 +98,9 @@ function App() {
             <Route path="community" element={<Community />}>
               <Route index element={<CommunityMenu />} />
               <Route path=":collection/:id" element={<PostView />} />
+              <Route path="faq" element={<Faq />}>
+                <Route path=":id" element={<FaqModify />} />
+              </Route>
             </Route>
             {/* 내 농장 관리 */}
             <Route path="my-farm" element={<MyFarm />}>
