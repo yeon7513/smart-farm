@@ -1,13 +1,24 @@
+@import '/src/scss/mixins.scss';
+
 .content {
-  display: flex;
-  flex: 1;
-  overflow: hidden;
   width: 100%;
+  height: 100%;
 
   .sectorMenu {
-    flex: none;
     display: grid;
-    grid-template-columns: repeat(8, minmax(calc(100% / 8), 1fr));
+    grid-template-columns: repeat(8, 1fr);
+    gap: 10px;
+    padding: 10px;
+
+    li {
+      text-align: center;
+
+      > button {
+        @include linearBtn();
+        width: 100%;
+        font-size: 16px;
+      }
+    }
   }
 
   .screen {

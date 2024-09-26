@@ -8,16 +8,22 @@
     transition: 0.3s;
 
     > button {
+      position: relative;
       width: 100%;
       font-size: 20px;
       @include filledBtn($padding: 20px);
-      position: relative;
-      .length {
+
+      .count {
+        @include flexCenter();
         position: absolute;
-        color: var(--danger-color);
-        font-size: 14px;
         top: 8px;
-        right: 30px;
+        right: 50px;
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+        font-size: 12px;
+        background-color: var(--notice-color);
+        color: #fff;
       }
     }
   }

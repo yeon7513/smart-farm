@@ -1,11 +1,10 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
 import { useComponentContext } from '../../../../../context/ComponentContext';
 import styles from './DashboardNav.module.scss';
 
 function DashboardNav() {
   const { currComp, setCurrComp } = useComponentContext();
-  const { dashboardAlertContent } = useSelector((state) => state.controlSlice);
+  // const { dashboardAlertContent } = useSelector((state) => state.controlSlice);
 
   return (
     <ul className={styles.nav}>
@@ -47,9 +46,13 @@ function DashboardNav() {
           onClick={() => setCurrComp('Alert')}
         >
           <span>알림 내역</span>
-          <span className={styles.length}>
-            [{dashboardAlertContent?.length}]
-          </span>
+          {/* <span className={styles.count}>
+            {dashboardAlertContent?.length !== 0 ? (
+              <>{dashboardAlertContent?.length}</>
+            ) : (
+              <></>
+            )}
+          </span> */}
         </button>
       </li>
       <li>

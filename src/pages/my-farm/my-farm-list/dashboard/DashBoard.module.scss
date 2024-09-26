@@ -23,6 +23,7 @@
   flex: 1;
   display: grid;
   grid-template-columns: 1fr 4fr;
+  height: calc(100% - 64px);
   outline: 1px dotted blue;
 }
 

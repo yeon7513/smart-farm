@@ -13,8 +13,9 @@ function DashBoard() {
   const { state } = useLocation();
   const { resetSector } = useSelector((state) => state.dashboardSlice);
   const { setCurrComp } = useComponentContext();
-  const dispatch = useDispatch();
   const { setSector } = useSectorContext();
+
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const collectionName = `dashboard/${state.docId}/sector`;
