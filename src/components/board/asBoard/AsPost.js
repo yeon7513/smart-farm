@@ -4,6 +4,8 @@ import { addBoardDatas, uploadImage } from "../../../api/board";
 // import { getUserAuth } from "../../../api/firebase";
 // import { ref } from "firebase/storage";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { addComplete } from "../../../store/as-service/AsServiceSlide";
 
 const INITIAL_VALUE = {
   title: "🔒 문의합니다.",
@@ -11,7 +13,7 @@ const INITIAL_VALUE = {
   summary: "",
   createdAt: new Date().toISOString().split("T")[0],
   imgUrl: null,
-  completedYn: "n",
+  completeYn: "N",
 };
 
 function AsPost({ onClick, onSubmit, initialValue = INITIAL_VALUE }) {
@@ -21,6 +23,8 @@ function AsPost({ onClick, onSubmit, initialValue = INITIAL_VALUE }) {
   const [postPassword, setPostPassword] = useState(null);
   const navigate = useNavigate();
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const dispatch = useDispatch();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -50,21 +54,15 @@ function AsPost({ onClick, onSubmit, initialValue = INITIAL_VALUE }) {
       password: postPassword,
     };
 
-    try {
-      // 게시글 데이터베이스에 추가
-      const result = await addBoardDatas("as", addObj);
-      if (result) {
-        onSubmit(result);
+    dispatch(addComplete({ collectionName: "as", addObj }))
+      .then((result) => {
         setValues(INITIAL_VALUE);
         setFile(null);
-
         navigate(`/community/as/${result.id}`, { state: result });
-      } else {
-        alert("게시글 등록에 실패했습니다.");
-      }
-    } catch (error) {
-      console.error("전송 에러", error);
-    }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   return (
