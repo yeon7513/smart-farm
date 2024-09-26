@@ -116,11 +116,8 @@ function LoginPage() {
       })
     );
     closeModal();
-    // if(dashboard){} else{}
     navigate("/");
   };
-
-  // navigator.geolocation.getCurrentPosition((position) => {});
 
   return (
     <Container className={styles.container}>
