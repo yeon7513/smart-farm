@@ -150,6 +150,9 @@ function Faq() {
     navigate("/community");
   };
 
+  // 수정, 삭제 권한 여부(관리자 로그인)를 파악하기 위한 관리자의 uid를 가져옵니다.
+  const adminUid = "SHGFkaurCeNMoBaeBMcKvc6XrX03";
+
   return (
     <div className={styles.page}>
       <div className={styles.faqIntro}>
@@ -159,7 +162,6 @@ function Faq() {
         </div>
         <div>
           <button
-            // selected={sortOrder === "views"}
             onClick={() => handleSortClick("views")}
             className={sortOrder === "views" ? styles.active : ""}
           >
@@ -167,7 +169,6 @@ function Faq() {
           </button>{" "}
           |{" "}
           <button
-            // selected={sortOrder === "likes"}
             onClick={() => handleSortClick("likes")}
             className={sortOrder === "likes" ? styles.active : ""}
           >
@@ -181,6 +182,24 @@ function Faq() {
           <div key={id} className={styles.faq}>
             <div className={styles.title}>
               <h3>{`Q. ${question}`}</h3>
+              <button
+                className={
+                  auth.currentUser?.uid === adminUid
+                    ? styles.abled
+                    : styles.disabled
+                }
+              >
+                수정
+              </button>
+              <button
+                className={
+                  auth.currentUser?.uid === adminUid
+                    ? styles.abled
+                    : styles.disabled
+                }
+              >
+                삭제
+              </button>
               {openId === id ? (
                 <button
                   onClick={() => {

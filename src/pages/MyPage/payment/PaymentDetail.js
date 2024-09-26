@@ -13,14 +13,12 @@ import { db } from "../../../api/firebase";
 import Container from "../../../components/layout/container/Container";
 import styles from "./PaymentDetail.module.scss";
 import axios from "axios";
-import { useSelector } from "react-redux";
 
 function PaymentDetail() {
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState(null);
   const [dashboardData, setDashboardData] = useState(null);
   const { paymentsDocId } = useParams();
-  const { commonInfo } = useSelector((state) => state.dashboardSlice);
 
   // 액세스 토큰을 받아오는 함수입니다.
   const getAccessToken = async () => {
@@ -188,28 +186,26 @@ function PaymentDetail() {
               </div>
               {data.farmEquivalent &&
               data.additionalOptions &&
-              Object.keys(data.additionalOptions).length > 0 ? (
-                Object.entries(data.additionalOptions).map(([id, options]) => {
-                  const selectedOptions = Object.entries(options)
-                    .filter(([_, selected]) => selected)
-                    .map(([optionName]) => optionName);
-                  return (
-                    <div key={id} className={styles.farm_main}>
-                      {selectedOptions.length > 0 ? (
-                        <ul>
-                          {selectedOptions.map((option) => (
-                            <li key={option}>{option}</li>
-                          ))}
-                        </ul>
-                      ) : (
-                        ""
-                      )}
-                    </div>
-                  );
-                })
-              ) : (
-                <p>선택한 옵션이 없습니다.</p>
-              )}
+              Object.keys(data.additionalOptions).length > 0
+                ? Object.entries(data.additionalOptions).map(
+                    ([id, options]) => {
+                      const selectedOptions = Object.entries(options)
+                        .filter(([_, selected]) => selected)
+                        .map(([optionName]) => optionName);
+                      return (
+                        <div className={styles.additionalOptions}>
+                          <li key={id} className={styles.farm_main}>
+                            <ul>
+                              {selectedOptions.map((option) => (
+                                <li>{option}</li>
+                              ))}
+                            </ul>
+                          </li>
+                        </div>
+                      );
+                    }
+                  )
+                : ""}
 
               <p>결제 방식: {data.paymentMethod}</p>
               <p>현금영수증: {data.cashReceipt}</p>

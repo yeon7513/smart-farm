@@ -3,28 +3,18 @@ import {
   Box,
   Button,
   createTheme,
-  FormControl,
-  Grid,
-  TextField,
   ThemeProvider,
   Typography,
 } from "@mui/material";
-import React, { useEffect } from "react";
+import React from "react";
 import Container from "../../layout/container/Container";
 import { teal } from "@mui/material/colors";
-import { Navigate, useNavigate } from "react-router-dom";
-import { doc, getDoc } from "firebase/firestore";
-import { db } from "../../../api/firebase";
-import { setUser } from "../../../store/user/UserSlice";
+
 import { useComponentContext } from "../../../context/ComponentContext";
 
 function Mymain(props) {
   const user = JSON.parse(localStorage.getItem("user")) || "";
   const { currComp, setCurrComp } = useComponentContext();
-  const Navigate = useNavigate();
-  const ButtonClick = () => {
-    Navigate("/mypage/Myinfo");
-  };
   const theme = createTheme({
     palette: {
       primary: {

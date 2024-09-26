@@ -1,10 +1,5 @@
 import React from "react";
-import Button from "@mui/material/Button";
-
-import { Link, Navigate, useNavigate } from "react-router-dom";
-import { getUserAuth, joinUser } from "../../api/firebase";
-import { useDispatch } from "react-redux";
-import { setUser } from "../../store/user/UserSlice";
+import { Link } from "react-router-dom";
 import SignUp from "./sign-up/SignUp";
 import style from "./RegisterPage.module.scss";
 import Container from "./../../components/layout/container/Container";

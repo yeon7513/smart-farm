@@ -1,36 +1,33 @@
-import { Avatar } from '@mui/material';
-import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
-import { updateDatas } from '../../../api/firebase';
-import Container from '../../../components/layout/container/Container';
-import SearchAddr from '../../../components/search-addr/SearchAddr';
-import { fetchItems } from '../../../store/user/UserSlice';
-import style from './Myinfo.module.scss';
+import { Avatar } from "@mui/material";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { updateDatas } from "../../../api/firebase";
+import Container from "../../../components/layout/container/Container";
+import SearchAddr from "../../../components/search-addr/SearchAddr";
+import { fetchItems } from "../../../store/user/UserSlice";
+import style from "./Myinfo.module.scss";
 
 function Myinfo(props) {
   const [NicknameState, SetnicknameState] = useState(false);
   const [nameState, SetnameState] = useState(false);
-  const [inputValue, setInputValue] = useState('');
-  const [inputValueSub, setInputValueSub] = useState('');
-  const [inputValueThird, setInputValueThird] = useState('');
-  const [passwordState, setPasswordState] = useState('');
-  const [passwordInfo, setPasswordInfoState] = useState('');
+  const [inputValue, setInputValue] = useState("");
+  const [inputValueSub, setInputValueSub] = useState("");
+  const [inputValueThird, setInputValueThird] = useState("");
+  const [passwordState, setPasswordState] = useState("");
+  const [passwordInfo, setPasswordInfoState] = useState("");
   const [addressState, SetaddressState] = useState(false);
-  const [farmAddressState, SetFarmAddressState] = useState([]);
   const [sameAlert, SetsameAlert] = useState(false);
-  const [toManyState, SetToManyState] = useState('');
-  const [farmAddress, setFarmAddress] = useState([]);
+  const [toManyState, SetToManyState] = useState("");
   const [localChange, setUser] = useState(
-    JSON.parse(localStorage.getItem('user'))
+    JSON.parse(localStorage.getItem("user"))
   );
-  const navigate = useNavigate();
   const { items } = useSelector((state) => state.userSlice);
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(fetchItems({ collectionName: 'users' }));
+    dispatch(fetchItems({ collectionName: "users" }));
     const passwordSameThing = items.find((item) => {
-      return item.email == localChange.email;
+      return item.email === localChange.email;
     });
     setPasswordInfoState(passwordSameThing?.password);
   }, [nameState, NicknameState, items]);
@@ -47,31 +44,31 @@ function Myinfo(props) {
 
   const handleSameNamethingConfirm = async () => {
     const SameName = items.filter((item) => {
-      return item.name == inputValue;
+      return item.name === inputValue;
     });
     if (SameName.length === 0) {
       SetsameAlert(false);
-      alert('중복된게 없습니다.  테스트로 alert좀 썼어요!');
+      alert("중복된게 없습니다.  테스트로 alert좀 썼어요!");
     } else {
       SetsameAlert(true);
-      alert('중복된 이름입니다. 다시 입력해주세요. 테스트로 alert좀 썼어요!');
+      alert("중복된 이름입니다. 다시 입력해주세요. 테스트로 alert좀 썼어요!");
     }
   };
   const handleNameChange = async () => {
     if (nameState === true) {
       SetnameState(false);
       const SameNameChange = items.find((item) => {
-        return item.name == localChange.name;
+        return item.name === localChange.name;
       });
       const updateObj = {
         name: inputValue,
       };
       const { docId } = SameNameChange;
       if (updateObj.name.length !== 0) {
-        await updateDatas('users', docId, updateObj);
+        await updateDatas("users", docId, updateObj);
         const updatedUser = { ...localChange, name: inputValue };
         setUser(updatedUser);
-        localStorage.setItem('user', JSON.stringify(updatedUser));
+        localStorage.setItem("user", JSON.stringify(updatedUser));
       } else {
         return false;
       }
@@ -81,32 +78,32 @@ function Myinfo(props) {
   };
   const handleSameNickNamethingConfirm = async () => {
     const SameName = items.filter((item) => {
-      return item.nickname == inputValueSub;
+      return item.nickname === inputValueSub;
     });
     console.log(SameName);
     if (SameName.length === 0) {
       SetsameAlert(false);
-      alert('중복된게 없습니다.  테스트로 alert좀 썼어요!');
+      alert("중복된게 없습니다.  테스트로 alert좀 썼어요!");
     } else {
       SetsameAlert(true);
-      alert('중복된 이름입니다. 다시 입력해주세요. 테스트로 alert좀 썼어요!');
+      alert("중복된 이름입니다. 다시 입력해주세요. 테스트로 alert좀 썼어요!");
     }
   };
   const handleNickNameChange = async () => {
     if (NicknameState === true) {
       SetnicknameState(false);
       const SameNickNameChange = items.find((item) => {
-        return item.nickname == localChange.nick;
+        return item.nickname === localChange.nick;
       });
       const updateObj = {
         nickname: inputValueSub,
       };
       const { docId } = SameNickNameChange;
       if (updateObj.nickname.length !== 0) {
-        await updateDatas('users', docId, updateObj);
+        await updateDatas("users", docId, updateObj);
         const updatedUser = { ...localChange, nick: inputValueSub };
         setUser(updatedUser);
-        localStorage.setItem('user', JSON.stringify(updatedUser));
+        localStorage.setItem("user", JSON.stringify(updatedUser));
       } else {
         return false;
       }
@@ -119,7 +116,7 @@ function Myinfo(props) {
     if (passwordState === true) {
       setPasswordState(false);
       const passwordChange = items.find((item) => {
-        return item.name == localChange.name;
+        return item.name === localChange.name;
       });
       const updateObj = {
         ...passwordChange,
@@ -127,8 +124,8 @@ function Myinfo(props) {
       };
       const { docId } = passwordChange;
       if (updateObj.password.length !== 0) {
-        if (inputValueThird != passwordChange.password) {
-          await updateDatas('users', docId, updateObj);
+        if (inputValueThird !== passwordChange.password) {
+          await updateDatas("users", docId, updateObj);
         } else {
           return false;
         }
@@ -140,19 +137,19 @@ function Myinfo(props) {
   };
   const handlePasswordConfirm = async () => {
     const passwordSameThing = items.find((item) => {
-      return item.name == localChange.name;
+      return item.name === localChange.name;
     });
-    if (passwordSameThing.password == inputValueSub) {
+    if (passwordSameThing.password === inputValueSub) {
       SetsameAlert(true);
     } else {
-      alert('비밀번호가 틀립니다.');
+      alert("비밀번호가 틀립니다.");
     }
   };
   const handleAddressChange = async () => {
     if (addressState === true) {
       SetaddressState(false);
       const addressSameThing = items.find((item) => {
-        return item.name == localChange.name;
+        return item.name === localChange.name;
       });
       const updateObj = {
         ...addressSameThing,
@@ -161,11 +158,11 @@ function Myinfo(props) {
 
       const { docId } = addressSameThing;
       if (toManyState.length > 1) {
-        if (addressSameThing.address != toManyState) {
-          await updateDatas('users', docId, updateObj);
+        if (addressSameThing.address !== toManyState) {
+          await updateDatas("users", docId, updateObj);
           const updatedUser = { ...localChange, address: toManyState };
           setUser(updatedUser);
-          localStorage.setItem('user', JSON.stringify(updatedUser));
+          localStorage.setItem("user", JSON.stringify(updatedUser));
         }
       } else if (toManyState.length <= 1) {
         return false;
@@ -183,10 +180,10 @@ function Myinfo(props) {
           <Avatar
             sx={{
               m: 3,
-              backgroundColor: 'secondary.main',
-              width: '120px',
-              height: '120px',
-              type: 'file',
+              backgroundColor: "secondary.main",
+              width: "120px",
+              height: "120px",
+              type: "file",
             }}
           />
           <button type="file" className={style.photo}>
@@ -220,7 +217,7 @@ function Myinfo(props) {
             <button onClick={handleSameNamethingConfirm}>중복 확인</button>
           </div>
         ) : (
-          ''
+          ""
         )}
         <div className={style.name}>
           <div className={style.titleName}>
@@ -249,7 +246,7 @@ function Myinfo(props) {
             <button onClick={handleSameNickNamethingConfirm}>중복 확인</button>
           </div>
         ) : (
-          ''
+          ""
         )}
 
         <div>
@@ -289,7 +286,7 @@ function Myinfo(props) {
               </div>
             </div>
           ) : (
-            ''
+            ""
           )}
         </div>
         <div className={style.name}>
@@ -305,7 +302,7 @@ function Myinfo(props) {
             <button onClick={handleAddressChange}>변경</button>
           )}
         </div>
-        {addressState === true ? <SearchAddr getAddr={SetToManyState} /> : ''}
+        {addressState === true ? <SearchAddr getAddr={SetToManyState} /> : ""}
       </div>
     </Container>
   );
