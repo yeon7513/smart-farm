@@ -33,13 +33,16 @@ function CpComment({ item, process }) {
 
   const dispatch = useDispatch();
 
-  const handleDeleteCm = async (commentId) => {
+  const handleDeleteCm = async () => {
     dispatch(
-      deleteCommentDatas({ category: item.category, docId: item.postId })
+      deleteCommentDatas({
+        collectionName: item.category,
+        docId: item.postDocId,
+        commentId: item.commentDocId,
+      })
     )
       .then(() => {
-        // alert("게시글이 성공적으로 삭제되었습니다.");
-        setIsModalOpen(false);
+        alert("댓글이 성공적으로 삭제되었습니다.");
       })
       .catch((error) => {
         alert("댓글 삭제 중 오류가 발생했습니다.");
