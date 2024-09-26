@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styles from "./Alert.module.scss";
 import { addDatas } from "../../../../../../api/firebase";
-import controlSlice, {
-  getdashboardAlertContent,
-} from "../../../../../../store/controlData/controlSlice";
+import { getdashboardAlertContent } from "../../../../../../store/controlData/controlSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchGrowthData } from "../../../../../../store/bestfarm/bestfarmSlice";
 import { dashboardAlert } from "../../../../../../utils/dashboardAlert";

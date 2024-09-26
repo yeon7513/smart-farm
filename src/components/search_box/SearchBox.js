@@ -1,12 +1,10 @@
 import cn from "classnames";
-import React, { useState } from "react";
 import styles from "./SearchBox.module.scss";
 
 function SearchBox({
   className,
   placeholder,
   name,
-  // handleSearch = () => {}
   onChange,
   onClick,
   onKeyDown,
