@@ -6,15 +6,6 @@ import styles from "../community.module.scss";
 function SharingInformation(props) {
   // const [sharingPost, setSharingPost] = useState([]);
 
-  // const handleLoad = async () => {
-  //   const data = await getBoardDatas();
-  //   setSharingPost(data);
-  // };
-
-  // useEffect(() => {
-  //   handleLoad();
-  // }, []);
-
   return (
     <div>
       <h2 className={styles.community}>정보 공유 게시판</h2>

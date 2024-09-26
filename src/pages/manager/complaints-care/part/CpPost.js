@@ -9,6 +9,7 @@ import { deleteBoardDatas } from "../../../../store/board/boardSlice";
 import { approveComplaint } from "../../../../store/complain/complainSlice";
 
 function CpPost({ item, process }) {
+  // console.log(item);
   const processYy = {
     y: "거부",
     Y: "승인",
@@ -37,10 +38,12 @@ function CpPost({ item, process }) {
   };
 
   const handleDeletePost = () => {
-    dispatch(deleteBoardDatas({ category: item.category, docId: item.postId }))
+    dispatch(
+      deleteBoardDatas({ category: item.category, docId: item.postDocId })
+    )
       .then(() => {
         // alert("게시글이 성공적으로 삭제되었습니다.");
-        setIsModalOpen(false);
+        // setIsModalOpen(false);
       })
       .catch((error) => {
         alert("게시글 삭제 중 오류가 발생했습니다.");

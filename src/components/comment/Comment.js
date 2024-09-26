@@ -12,8 +12,10 @@ import { useDispatch, useSelector } from "react-redux";
 import CmRadio from "../complain/CmRadio.js";
 import { addDatas } from "../../api/firebase.js";
 import { addComplain } from "../../store/complain/complainSlice.js";
+import { fetchComments } from "../../store/comment/commentSlice.js";
 
 function Comment({ item }) {
+  // console.log(item);
   const loginUser = JSON.parse(localStorage.getItem("user"));
   const [comments, setComments] = useState("");
   const [newComment, setNewComment] = useState("");
@@ -21,8 +23,10 @@ function Comment({ item }) {
   const [editCommentId, setEditCommentId] = useState(null);
   const docId = item.docId;
   const collectionName = item.collection;
-  const { isAuthenticated } = useSelector((state) => state.userSlice);
+  // const { isAuthenticated } = useSelector((state) => state.userSlice);
+
   const dispatch = useDispatch();
+  // const { comments } = useSelector((state) => state.commentSlice);
 
   const [errorMessage, setErrorMessage] = useState("");
   const [selectedReason, setSelectedReason] = useState("");
@@ -32,6 +36,7 @@ function Comment({ item }) {
   const closeModal = () => setIsModalOpen(false);
 
   const goComplain = async (comment) => {
+    console.log(comment);
     if (selectedReason) {
       const complainData = {
         defendant: comment.nick,
@@ -43,6 +48,8 @@ function Comment({ item }) {
         processYn: "n",
         category: item.category,
         postId: item.id,
+        postDocId: docId,
+        commentDocId: comment.id,
         defendantDocId: comment.userDocId,
         text: comment.text,
       };
@@ -65,6 +72,12 @@ function Comment({ item }) {
       setComments(fetchComment);
     }
   };
+  // useEffect(() => {
+  //   dispatch(fetchComments({ collectionName, docId }));
+  // }, [collectionName, docId, dispatch]);
+  useEffect(() => {
+    getComments();
+  }, []);
 
   const handleAddComment = async () => {
     if (newComment.trim() === "") return;
@@ -124,15 +137,11 @@ function Comment({ item }) {
     }
   };
 
-  useEffect(() => {
-    getComments();
-  }, []);
-
-  useEffect(() => {
-    if (isAuthenticated) {
-      getComments();
-    }
-  }, [isAuthenticated]);
+  // useEffect(() => {
+  //   if (isAuthenticated) {
+  //     getComments();
+  //   }
+  // }, [isAuthenticated]);
 
   return (
     <div className={styles.container}>

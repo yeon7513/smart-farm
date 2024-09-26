@@ -60,9 +60,17 @@ const boardSlice = createSlice({
 
       // 댓글 삭제
       .addCase(deleteCommentDatas.fulfilled, (state, action) => {
-        state.posts = state.posts.filter(
-          (post) => post.docId !== action.payload.docId
-        );
+        const { postDocId, commentId } = action.payload;
+        state.posts = state.posts.map((post) => {
+          if (post.docId === postDocId) {
+            // 해당 게시글의 댓글 리스트에서 댓글 삭제
+            post.comments = post.comments.filter(
+              (comment) => comment.commentId !== commentId
+            );
+          }
+          return post;
+        });
+
         state.isLoading = false;
         state.error = null;
       });
@@ -107,9 +115,14 @@ export const deleteBoardDatas = createAsyncThunk(
 
 export const deleteCommentDatas = createAsyncThunk(
   "board/deleteCommentDatas",
-  async ({ category, docId }) => {
+  async ({ collectionName, docId, commentId }) => {
     try {
-      const result = await deleteComment(category, docId);
+      const result = await deleteComment(
+        collectionName,
+        docId,
+        "comment",
+        commentId
+      );
       return result;
     } catch (error) {
       return error;
