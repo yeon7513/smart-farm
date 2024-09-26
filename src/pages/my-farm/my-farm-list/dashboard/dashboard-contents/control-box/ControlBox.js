@@ -1,16 +1,18 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import { useSectorContext } from "../../../../../../context/SectorContext";
 import { setData } from "../../../../../../store/controlData/controlSlice";
 import { renameOptionsKor } from "../../../../../../utils/renameOptions";
 import ControlItem from "./control-item/ControlItem";
 import styles from "./ControlBox.module.scss";
+import { fetchCommonInfo } from "../../../../../../store/dashboard/dashboardSlice";
 function ControlBox() {
   const { sector } = useSectorContext();
   const { state } = useLocation();
   const [movedData, setMovedData] = useState([]);
   const dispatch = useDispatch();
+  const { commonInfo } = useSelector((state) => state.dashboardSlice);
   const filteredOptions = Object.entries(sector?.control || {})
     .filter(([key, value]) => value === "Y")
     .map(([key, vlaue]) => renameOptionsKor(key));
@@ -22,6 +24,10 @@ function ControlBox() {
       })
     );
   }, [movedData]);
+
+  // useEffect(() => {
+
+  // }, []);
   // ControlItem 클릭시 해당 Item의 정보를 받는 함수
   const handleMoveComponent = (data) => {
     setMovedData((prevData) => [...prevData, data]);

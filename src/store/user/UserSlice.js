@@ -1,6 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { LoginGetDatas, updateDatasWithImage } from "../../api/userPage";
-import { getDocDatas } from "../../api/firebase";
 
 const initialState = localStorage.getItem("user")
   ? { ...JSON.parse(localStorage.getItem("user")), items: [] }

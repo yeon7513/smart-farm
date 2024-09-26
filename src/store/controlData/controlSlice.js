@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { addDatas, getOrder } from "../../api/firebase";
+import { getOrder } from "../../api/firebase";
 
 const initialState = {
   item: [],
@@ -57,17 +57,6 @@ const getdashboardAlertContent = createAsyncThunk(
   }
 );
 
-const adddashboardAlertContent = createAsyncThunk(
-  "dashboardAlertContent/fetchAlldashboardAlertContent",
-  async ({ collectionName, addObj }) => {
-    try {
-      const resultData = await addDatas(collectionName, addObj);
-      return resultData;
-    } catch (error) {
-      return "Error" + error;
-    }
-  }
-);
 export default controlSlice.reducer;
 export { getdashboardAlertContent };
 export const {
