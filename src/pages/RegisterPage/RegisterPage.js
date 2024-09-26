@@ -5,7 +5,7 @@ import Container from './../../components/layout/container/Container';
 import style from './RegisterPage.module.scss';
 import SignUp from './sign-up/SignUp';
 
-function RegisterPage(props) {
+function RegisterPage() {
   return (
     <Container className={style.container}>
       <div>

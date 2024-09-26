@@ -1,10 +1,10 @@
-import React from "react";
-import plant1 from "../../assets/abou/식2.png";
-import plant2 from "../../assets/abou/식3.jpg";
-import Title from "../../components/layout/title/Title";
-import { company } from "../../lib/intro";
-import styles from "./About.module.scss";
-import UpButton from "../../components/up-button/UpButton";
+import React from 'react';
+import plant1 from '../../assets/abou/식2.png';
+import plant2 from '../../assets/abou/식3.jpg';
+import Title from '../../components/layout/title/Title';
+import UpButton from '../../components/up-button/UpButton';
+import { company } from '../../lib/intro';
+import styles from './About.module.scss';
 
 function About() {
   return (
@@ -22,12 +22,12 @@ function About() {
             </div>
           </div>
           <div className={styles.img}>
-            <img src={plant1} />
+            <img src={plant1} alt="" />
           </div>
         </div>
         <div className={styles.mission}>
           <div className={styles.img}>
-            <img src={plant2} />
+            <img src={plant2} alt="" />
           </div>
           <div className={styles.mission_title}>
             <h2>미션</h2>
