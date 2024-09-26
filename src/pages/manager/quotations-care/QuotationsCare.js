@@ -21,20 +21,22 @@ let listItems;
 function QuotationsCare() {
   const { payments, isLoading } = useSelector((state) => state.paymentsSlice);
   const { commonInfo } = useSelector((state) => state.dashboardSlice);
-  const [items, setItems] = useState([]);
-  const [keyword, setKeyword] = useState("");
-  const [selectedItem, setSelectedItem] = useState(null);
-  const [modalOpen, setModalOpen] = useState(false);
-  const [filteredInfo, setFilteredInfo] = useState(commonInfo);
+  const [items, setItems] = useState([]); // 검색 결과용 상태
+  const [keyword, setKeyword] = useState(""); // 검색어 상태
+  const [selectedItem, setSelectedItem] = useState(null); // 모달용 선택된 아이템
+  const [modalOpen, setModalOpen] = useState(false); // 모달 열기/닫기 상태
+  const [filteredInfo, setFilteredInfo] = useState(commonInfo); // 필터링된 정보 상태
+  const [currentPage, setCurrentPage] = useState(1); // 현재 페이지 상태
+  const itemsPerPage = 10; // 페이지당 항목 수
 
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(fetchPayments("payments"));
-    dispatch(fetchCommonInfo("dashboard"));
+    dispatch(fetchPayments("payments")); // 결제 데이터 가져오기
+    dispatch(fetchCommonInfo("dashboard")); // 공통 정보 가져오기
   }, [dispatch]);
 
-  // 각 버튼 클릭 시 호출될 함수
+  // 필터링된 데이터 처리
   const filterData = (status) => {
     if (status === "pending") {
       setFilteredInfo(
@@ -49,6 +51,7 @@ function QuotationsCare() {
     } else {
       setFilteredInfo(commonInfo);
     }
+    setCurrentPage(1); // 필터 변경 시 첫 페이지로 초기화
   };
 
   // listItems에 데이터를 저장하는 함수 (QuotationsCare에서 호출)
@@ -66,7 +69,7 @@ function QuotationsCare() {
           const selectedOptions = Object.entries(options)
             .filter(([_, selected]) => selected)
             .map(([optionName]) => optionName);
-          return `${selectedOptions.join(", ")}`;
+          return `${optionCategory}: ${selectedOptions.join(", ")}`;
         }
       ),
     }));
@@ -75,8 +78,6 @@ function QuotationsCare() {
 
   // firebase의 데이터를 excel로 불러옵니다.
   const exportToExcel = () => {
-    // 데이터 변환
-    // "payments" 컬렉션에 배열로 저장되어 있는 additionalOptions의 내용들을 문자열로 변환합니다.
     const processedData = payments.map((payment) => ({
       ...payment,
       additionalOptions: Object.entries(payment.additionalOptions).map(
@@ -92,7 +93,6 @@ function QuotationsCare() {
     const workbook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(workbook, worksheet, "결제 내역");
 
-    // 엑셀 파일 생성
     const excelBuffer = XLSX.write(workbook, {
       bookType: "xlsx",
       type: "array",
@@ -101,19 +101,17 @@ function QuotationsCare() {
       type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
     });
 
-    // 파일 다운로드
     saveAs(file, "결제 내역.xlsx");
   };
 
+  // 검색어 변경 핸들러
   const handleKeywordChange = (e) => {
     setKeyword(e.target.value);
   };
 
+  // 검색 실행 핸들러
   const handleSearch = (e) => {
     e.preventDefault();
-    //   // 전체 데이터를 가지고 있는 listItems를 활용해
-    //   // 사용자가 입력한 키워드를 데이터에 포함하고 있는 객체를 원소로 가지는 배열을 만든다.
-    //   // 만들어진 배열을 items state에 set 합니다.
     setItems(listItems.filter(({ name }) => name.includes(keyword)));
   };
 
@@ -133,7 +131,6 @@ function QuotationsCare() {
   };
 
   const handleApproval = async () => {
-    // 승인 처리 로직 구현
     if (selectedItem && selectedItem.useYn === "N") {
       try {
         const result = await dispatch(
@@ -144,7 +141,7 @@ function QuotationsCare() {
           })
         ).unwrap();
 
-        console.log(`문서 ${selectedItem}가 승인되었습니다!`, result);
+        console.log(`문서 ${selectedItem.name}가 승인되었습니다!`, result);
 
         dispatch(fetchCommonInfo("dashboard"));
         setModalOpen(false); // 모달 닫기
@@ -157,7 +154,6 @@ function QuotationsCare() {
   };
 
   const handleRejection = async () => {
-    // 거절 처리 로직 구현
     if (selectedItem && selectedItem.deleteYn === "N") {
       try {
         const result = await dispatch(
@@ -168,7 +164,7 @@ function QuotationsCare() {
           })
         ).unwrap();
 
-        console.log(`문서 ${selectedItem}가 거절되었습니다!`, result);
+        console.log(`문서 ${selectedItem.name}가 거절되었습니다!`, result);
 
         dispatch(fetchCommonInfo("dashboard"));
         setModalOpen(false);
@@ -179,6 +175,14 @@ function QuotationsCare() {
       console.error("거절할 수 없는 항목입니다.");
     }
   };
+
+  // 현재 페이지에 맞는 데이터 추출
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = filteredInfo.slice(indexOfFirstItem, indexOfLastItem);
+
+  // 총 페이지 수 계산
+  const totalPages = Math.ceil(filteredInfo.length / itemsPerPage);
 
   return (
     <div className={styles.quotations}>
@@ -218,7 +222,7 @@ function QuotationsCare() {
                   </tr>
                 </thead>
                 <tbody>
-                  {filteredInfo.map((item) => {
+                  {currentItems.map((item) => {
                     let approvalStatus;
                     if (item.useYn === "Y" && item.deleteYn === "N") {
                       approvalStatus = "승인";
@@ -272,9 +276,9 @@ function QuotationsCare() {
           </CustomModal>
           <div className={styles.pagination}>
             <PaginationButton
-            // currentPage={currentPage}
-            // totalPage={totalPages}
-            // onPageChange={(page) => setCurrentPage(page)} // 페이지 변경
+              currentPage={currentPage}
+              totalPage={totalPages}
+              onPageChange={(page) => setCurrentPage(page)}
             />
           </div>
         </>
