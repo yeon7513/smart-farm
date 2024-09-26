@@ -25,7 +25,7 @@ function Briefing() {
   let db;
   // 데이터베이스를 여는 함수
   function openDatabase() {
-    let request = indexedDB.open("MyDatabase", 1);
+    let request = indexedDB.open("MyDatabase", 2);
     // Object Store 생성
     request.onupgradeneeded = function (event) {
       db = event.target.result;
