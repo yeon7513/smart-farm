@@ -1,40 +1,48 @@
 [build]
-command = "npm run build"
-publish = "build"
+  command = "npm run build"
+  publish = "build"
+
+[context.production.environment]
+  TOML_ENV_VAR = "From netlify.toml"
+  REACT_APP_TOML_ENV_VAR = "From netlify.toml (REACT_APP_)"
 
 [[redirects]]
-    from = "/*"
-    to = "/index.html"
-    status = 200
+  from = "/*"
+  to = "/index.html"
+  status = 200
 
 [[redirects]]
-from = "/weather/*"
+  from = "/weather/*"
   to = "https://api.openweathermap.org/:splat"  
   status = 200
   force = true
 
-
-  [[redirects]]
-from = "/desease/*"
+[[redirects]]
+  from = "/desease/*"
   to = "http://ncpms.rda.go.kr/npmsAPI/service/:splat"  
   status = 200
   force = true
 
-
 [[redirects]]
-from = "/bestfarm/*"
+  from = "/bestfarm/*"
   to = "https://apis.data.go.kr/1390000/SmartFarmdata/:splat"  
   status = 200
   force = true
 
 [[redirects]]
-from = "/smart/*"
+  from = "/smart/*"
   to = "https://www.smartfarmkorea.net/:splat"  
   status = 200
   force = true
 
 [[redirects]]
-from = "/desaster/*"
+  from = "/desaster/*"
   to = "https://www.safetydata.go.kr/:splat"  
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/payment/*"
+  to = "https://api.portone.io/v1/payments/cancel/:splat"  
   status = 200
   force = true
