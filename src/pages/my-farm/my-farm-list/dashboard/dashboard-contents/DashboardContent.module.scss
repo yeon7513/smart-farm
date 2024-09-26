@@ -1,6 +1,27 @@
 .content {
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  width: 100%;
+  // max-height: 100%;
+  outline: 1px dotted red;
+
   .sectorMenu {
     display: grid;
     grid-template-columns: repeat(8, minmax(calc(100% / 8), 1fr));
+  }
+
+  > div {
+    flex: 1;
+    background-color: #ccc;
+    &::-webkit-scrollbar {
+      background-color: blue;
+    }
+    &::-webkit-scrollbar-thumb {
+      background-color: green;
+    }
+    &::-webkit-scrollbar-track {
+      background-color: yellow;
+    }
   }
 }

@@ -1,8 +1,8 @@
-@import "/src/scss/mixins.scss";
+@import '/src/scss/mixins.scss';
 
 .nav {
   width: 16%;
-  outline: 1px dotted orange;
+  height: 100%;
   li {
     width: 100%;
     transition: 0.3s;

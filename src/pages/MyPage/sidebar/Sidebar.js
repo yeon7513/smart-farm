@@ -94,7 +94,7 @@ function Sidebar(props) {
       <ul className={styles.items}>
         문의 내역
         <li className={styles.item}>
-          <button onClick={() => setCurrComp('Chatbotinfo')}>챗봇 상담</button>
+          <button onClick={() => setCurrComp('Chatroominfo')}>채팅 상담</button>
         </li>
         <li className={styles.item}>
           <button onClick={() => setCurrComp('Asinfo')}>A/S 문의</button>
