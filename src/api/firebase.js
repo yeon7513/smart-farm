@@ -238,7 +238,7 @@ async function onApproveChat(chatId) {
   try {
     const chatRoomRef = doc(
       db,
-      "chatbot",
+      "chatRoom",
       "admin@gmail.com",
       "chatroom1",
       chatId

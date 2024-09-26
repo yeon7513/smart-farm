@@ -65,8 +65,8 @@ export const myPageSideMenu = [
     menu: [{ comp: 'Payment', name: '결제 내역' }],
   },
   {
-    label: '챗봇',
-    menu: [{ comp: 'MyChatbot', name: '챗봇 문의 내역' }],
+    label: '채팅상담',
+    menu: [{ comp: 'MyChatRoom', name: '채팅상담 문의 내역' }],
   },
 ];
 
