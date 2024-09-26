@@ -8,7 +8,7 @@ function ChatRequestItem({ chat, onApprove }) {
     <li className={styles.item}>
       <div className={styles.category}>{chatTheme}</div>
       <div className={styles.info}>
-        <span className={styles.date}>{createdAt}</span>
+        <span className={styles.date}>{new Date(createdAt.seconds * 1000).toLocaleString()}</span> {/* Firestore의 타임스탬프 변환 */}
         <span className={styles.nickname}>{nickname}</span>
       </div>
       <div className={styles.status}>
