@@ -1,4 +1,4 @@
 firestore Database 구조 
- chatbot 컬렉션 ->  yjw1732@gmail.com 문서 -> chatroom1 컬렉션 -> xe0SB~  문서 ->
+ chatroom 컬렉션 ->  yjw1732@gmail.com 문서 -> chatContent 컬렉션 -> xe0SB~  문서 ->
  message 컬렉션| activeYn: "N" chatEnd: "채팅 종료 여부"  chatTheme: "상담 카테고리" createdAt: "채팅방 생성일" 필드 -> 
 Lfb~ 문서 -> content: "채팅 내용" createdAt: "전송시간" uid: "유저 고유 아이디" 구조
