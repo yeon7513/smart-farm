@@ -63,7 +63,7 @@ function LoginPage() {
   const SignInWithGoogle = async () => {
     await signInWithPopup(auth).then(async (result) => {
       const userInfo = await LoginGetDatas('users');
-      const Point = userInfo.filter((item) => item.email == result.user.email);
+      const Point = userInfo.filter((item) => item.email === result.user.email);
       if (Point.length === 0) {
         setModalOpen(true);
         openModal();

@@ -40,7 +40,7 @@ function EmailButton({
     sendVerificationEmail();
   };
   const handleConfirmButton = () => {
-    if (state == getDataForm) {
+    if (state === getDataForm) {
       setIsDisabled(true);
     }
   };
