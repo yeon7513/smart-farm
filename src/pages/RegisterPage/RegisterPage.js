@@ -1,10 +1,10 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import SignUp from "./sign-up/SignUp";
-import style from "./RegisterPage.module.scss";
 import Container from "./../../components/layout/container/Container";
+import style from "./RegisterPage.module.scss";
+import SignUp from "./sign-up/SignUp";
 
-function RegisterPage(props) {
+function RegisterPage() {
   return (
     <Container className={style.container}>
       <div>

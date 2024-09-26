@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { updatePost } from "../../../api/board";
 
 function EditPost({ post, setIsEditing, onPostUpdate }) {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const [title, setTitle] = useState(post?.title || "");
   const [summary, setSummary] = useState(post?.summary || "");
   //   const [file, setfile] = useState(post?.file || "");

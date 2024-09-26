@@ -1,6 +1,5 @@
 import { doc, increment, setDoc, updateDoc } from "firebase/firestore";
-import { db, getCollection } from "./firebase";
-import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
+import { db } from "./firebase";
 import { getLastNum } from "./board";
 
 // 신고 누적 횟수 증가 함수

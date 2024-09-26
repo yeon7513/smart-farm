@@ -1,11 +1,11 @@
-import React, { useState } from "react";
-import Container from "../../components/layout/container/Container";
-import RequestForm from "./request-form/RequestForm";
-import styles from "./RequestForQuote.module.scss";
+import React, { useState } from 'react';
+import Container from '../../components/layout/container/Container';
+import RequestForm from './request-form/RequestForm';
+import styles from './RequestForQuote.module.scss';
 
 function RequestForQuote() {
   // 유저 정보 불러오기
-  const user = JSON.parse(localStorage.getItem("user")) || {};
+  const user = JSON.parse(localStorage.getItem('user')) || {};
 
   // 결제정보 저장 state
   const [requestData, setRequestData] = useState([]);

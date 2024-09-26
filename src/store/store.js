@@ -10,9 +10,9 @@ import userSlice from "./user/UserSlice";
 import controlSlice from "./controlData/controlSlice";
 import boardSlice from "./board/boardSlice";
 import complainSlice from "./complain/complainSlice";
-import AsServiceSlide from "./as-service/AsServiceSlide";
 import disasterSlice from "./disaster/disasterSlice";
 import commentSlice from "./comment/commentSlice";
+import asSlice from "./as-service/asSlice";
 
 export const store = configureStore({
   reducer: {
@@ -27,8 +27,8 @@ export const store = configureStore({
     controlSlice,
     boardSlice,
     complainSlice,
-    AsServiceSlide,
     disasterSlice,
     commentSlice,
+    asSlice,
   },
 });

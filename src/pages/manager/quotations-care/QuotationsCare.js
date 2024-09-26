@@ -27,9 +27,6 @@ function QuotationsCare() {
   const [modalOpen, setModalOpen] = useState(false);
   const [filteredInfo, setFilteredInfo] = useState(commonInfo);
 
-  const [currentPage, setCurrentPage] = useState(1); // 현재 페이지
-  const itemsPerPage = 10; //페이지당 항목 수
-
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -52,7 +49,6 @@ function QuotationsCare() {
     } else {
       setFilteredInfo(commonInfo);
     }
-    setCurrentPage(1);
   };
 
   // listItems에 데이터를 저장하는 함수 (QuotationsCare에서 호출)
@@ -183,12 +179,6 @@ function QuotationsCare() {
       console.error("거절할 수 없는 항목입니다.");
     }
   };
-  // 현재 페이지에 맞는 데이터 추출
-  const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = filteredInfo.slice(indexOfFirstItem, indexOfLastItem);
-
-  // const totalPates=Math.ceil(filteredInfo.length)
 
   return (
     <div className={styles.quotations}>

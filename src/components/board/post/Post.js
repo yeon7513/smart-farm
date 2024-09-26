@@ -1,8 +1,6 @@
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import styles from "./Post.module.scss";
-import { addBoardDatas, uploadImage } from "../../../api/board";
-// import { getUserAuth } from "../../../api/firebase";
-// import { ref } from "firebase/storage";
+import { addBoardDatas } from "../../../api/board";
 import { useNavigate } from "react-router-dom";
 
 const INITIAL_VALUE = {

@@ -8,7 +8,7 @@ import {
 
 const initialState = {
   processing: [], // 처리 중
-  processed: [], // 처리 완료
+  processed: [], // 처리 완료z
   isLoading: false,
   error: null,
 };
@@ -156,6 +156,23 @@ export const approveComplaint = createAsyncThunk(
       return { userId, complainId };
     } catch (error) {
       console.log(`승인 중 오류:`, error);
+    }
+  }
+);
+// 신고자 제재
+export const approveComplainant = createAsyncThunk(
+  "complain/approveComplainant",
+  async ({ userId, complainId }) => {
+    try {
+      // 신고당한 사용자의 신고 누적 횟수 증가
+      await incrementComplainCount(userId);
+
+      // processYn을 'Y'로 업데이트
+      await updateComplaintProcess(complainId);
+
+      return { userId, complainId };
+    } catch (error) {
+      console.log(`거부 승인 중 오류:`, error);
     }
   }
 );
