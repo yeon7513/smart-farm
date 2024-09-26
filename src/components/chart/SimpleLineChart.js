@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {
   CartesianGrid,
   Legend,
@@ -8,11 +8,10 @@ import {
   Tooltip,
   XAxis,
   YAxis,
-} from 'recharts';
+} from "recharts";
 
 function SimpleLineChart({ data }) {
-  const hasAllData = data.some((item) => item.hasOwnProperty('user'));
-
+  const hasAllData = data.some((item) => item.hasOwnProperty("user"));
   return (
     <ResponsiveContainer
       width="100%"

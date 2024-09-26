@@ -326,24 +326,47 @@ function RequestForm({ user }) {
   };
 
   // 부가 옵션을 변경합니다.
+  // const handleAdditionalOptionsChange = (index, category, value) => {
+  //   setSelectedOptions((prevOptions) => {
+  //     // prevOptions가 배열인지 확인
+  //     const updatedOptions = prevOptions.map((option, idx) => {
+  //       if (idx === index) {
+  //         return {
+  //           ...option,
+  //           [category]: {
+  //             ...option[category],
+  //             [value]: !option[category]?.[value],
+  //           },
+  //         };
+  //       }
+  //       return option;
+  //     });
+  //     return updatedOptions;
+  //   });
+  // };
   const handleAdditionalOptionsChange = (index, category, value) => {
     setSelectedOptions((prevOptions) => {
-      // prevOptions가 배열인지 확인
-      const updatedOptions = prevOptions.map((option, idx) => {
-        if (idx === index) {
-          return {
-            ...option,
-            [category]: {
-              ...option[category],
-              [value]: !option[category]?.[value],
-            },
-          };
-        }
-        return option;
-      });
+      const updatedOptions = [...prevOptions];
+      if (!updatedOptions[index][category]) {
+        updatedOptions[index][category] = {};
+      }
+      updatedOptions[index][category][value] =
+        !updatedOptions[index][category][value];
       return updatedOptions;
     });
   };
+
+  // dataObj와 dashboardObj에서 additionalOptions 필드를 설정
+  const additionalOptionsArray = selectedOptions.reduce((acc, option) => {
+    Object.keys(option).forEach((category) => {
+      const checkedOptions = Object.entries(option[category] || {})
+        .filter(([_, checked]) => checked)
+        .map(([value]) => ({ value }));
+
+      acc.push(...checkedOptions);
+    });
+    return acc;
+  }, []);
 
   // 현금영수증 발행 여부를 결정하는 함수입니다.
   const handleCashReceipt = (e) => {
@@ -388,9 +411,8 @@ function RequestForm({ user }) {
             lng: parseFloat(lng),
             cropType: cropType,
             facilityType: facilityType,
-            additionalOptions: Object.keys(selectedOptions[index]).filter(
-              (key) => selectedOptions[index][key]
-            ),
+            // additionalOptions: additionalOptionsArray,
+            additionalOptions: selectedOptions[index],
             farmArea: Number(farmArea),
             farmName: farmName,
             farmEquivalent: Number(farmEquivalent),
@@ -413,9 +435,7 @@ function RequestForm({ user }) {
             latitude: lat,
             longitude: lng,
             type: facilityType,
-            additionalOptions: Object.keys(selectedOptions[index]).filter(
-              (key) => selectedOptions[index][key]
-            ),
+            additionalOptions: additionalOptionsArray,
             updatedAt: `${new Date().getTime()}`,
             useYn: "N",
             userId: user.email,

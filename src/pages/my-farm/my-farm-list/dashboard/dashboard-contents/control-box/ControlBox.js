@@ -5,13 +5,12 @@ import { useSectorContext } from '../../../../../../context/SectorContext';
 import { setData } from '../../../../../../store/controlData/controlSlice';
 import { renameOptionsKor } from '../../../../../../utils/renameOptions';
 import ControlItem from './control-item/ControlItem';
-
+import styles from './ControlBox.module.scss';
 function ControlBox() {
   const { sector } = useSectorContext();
   const { state } = useLocation();
   const [movedData, setMovedData] = useState([]);
   const dispatch = useDispatch();
-  console.log(state.docId);
   const filteredOptions = Object.entries(sector?.control || {})
     .filter(([key, value]) => value === 'Y')
     .map(([key, vlaue]) => renameOptionsKor(key));
@@ -23,7 +22,6 @@ function ControlBox() {
       })
     );
   }, [movedData]);
-  console.log(movedData);
   // ControlItem 클릭시 해당 Item의 정보를 받는 함수
   const handleMoveComponent = (data) => {
     setMovedData((prevData) => [...prevData, data]);
@@ -39,7 +37,7 @@ function ControlBox() {
       db = event.target.result;
       if (!db.objectStoreNames.contains('myStore')) {
         db.createObjectStore('myStore', {
-          keyPath: 'boxId',
+          keyPath: 'docId',
           autoIncrement: true,
         });
         console.log('Object Store 생성 완료');
@@ -60,7 +58,6 @@ function ControlBox() {
   }
 
   async function addUniqueData(movedData) {
-    // 데이터베이스가 열려 있지 않은 경우 오류 처리
     if (!db) {
       console.error('데이터베이스가 열리지 않았습니다.');
       return;
@@ -103,7 +100,7 @@ function ControlBox() {
 
   return (
     <>
-      <div>
+      <div className={styles.container}>
         {filteredOptions.map((option, idx) => (
           <ControlItem
             key={idx}

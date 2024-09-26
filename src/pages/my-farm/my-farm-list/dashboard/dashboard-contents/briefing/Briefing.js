@@ -60,20 +60,6 @@ function Briefing() {
     getAllRequest.onsuccess = function () {
       const existingData = getAllRequest.result; // 현재 저장된 데이터
       setSomeState(existingData);
-      // item의 각 item에 대해 중복 검사 후 추가
-      item.forEach((item) => {
-        // existingData에서 option 값이 같은 객체가 있는지 확인
-        const isDuplicate = existingData.some(
-          (existingItem) => existingItem.option === item.option
-        );
-        if (!isDuplicate) {
-          // 중복이 아닐 경우 데이터 추가
-          store.add(item);
-          console.log(`데이터 추가 성공: ${JSON.stringify(item)}`);
-        } else {
-          console.log(`중복된 데이터: ${item.option}은 이미 존재합니다.`);
-        }
-      });
     };
     getAllRequest.onerror = function () {
       console.error('데이터 조회 실패');

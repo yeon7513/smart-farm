@@ -9,9 +9,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchItems, updateUserInfo } from "../../../../store/user/UserSlice";
 // import { useComponentContext } from "../../../../context/ComponentContext";
 import placehorderImg from "../../../../assets/member/basic_profile.png";
+import { approveComplaint } from "../../../../store/complain/complainSlice";
 
-function CpProfile({ item }) {
-  // console.log(item.userDocId);
+function CpProfile({ item, process }) {
+  const processYy = {
+    y: "거부",
+    Y: "승인",
+  };
   const dispatch = useDispatch();
   // const { setCurrComp } = useComponentContext();
   const { items, isLoading } = useSelector((state) => state.userSlice);
@@ -24,7 +28,17 @@ function CpProfile({ item }) {
   const [checkNickName, setCheckNickName] = useState(false);
 
   const goProcessed = () => {
-    setIsModalOpen(false);
+    dispatch(
+      approveComplaint({ userId: item.defendantDocId, complainId: item.docId })
+    )
+      .then(() => {
+        alert("신고가 승인되었습니다.");
+        setIsModalOpen(false); // 모달 닫기
+      })
+      .catch((error) => {
+        console.error(error);
+        alert("오류가 발생했습니다.");
+      });
   };
 
   const handleChange = (name, value) => {
@@ -56,7 +70,7 @@ function CpProfile({ item }) {
 
     const params = {
       collectionName: "users",
-      docId: item?.userDocId,
+      docId: item?.defendantDocId,
       updateObj: {
         ...values,
         nickname: updateNickname,
@@ -92,45 +106,54 @@ function CpProfile({ item }) {
           <p>신고사유: {item.reasonName}</p>
           <p>신고자: {item.complainant} </p>
           <div>
-            <button onClick={openModal}>승인</button>
-            <CustomModal
-              title={"댓글 신고 승인"}
-              btnName={"승인"}
-              handleClose={closeModal}
-              isOpen={isModalOpen}
-              btnHandler={goProcessed}
-            >
-              <form onSubmit={handleSubmit} className={styles.form}>
-                <div>
-                  <FileInput
-                    setFile={handleChange}
-                    name="photoUrl"
-                    value={values?.photoUrl || item.photoUrl}
-                    initialPreview={item.photoUrl}
-                    className={styles.modalImg}
-                    selected={true}
-                  />
-                </div>
-                <div className={styles.nickname}>
-                  <TextInput
-                    type="text"
-                    name="nickname"
-                    value={values?.nickname || item.defendant}
-                    placeholder={item.defendant}
-                    onChange={handleNickNameCheckDuplication}
-                  />
-                  <p>신고 누적 횟수: 3회</p>
-                </div>
-                <div className={styles.btns}>
-                  <button type="submit" onClick={handleSubmit}>
-                    수정 완료
-                  </button>
-                  <button type="button">활동 정지</button>
-                </div>
-              </form>
-            </CustomModal>
+            {process === "processing" ? (
+              <>
+                <button onClick={openModal}>승인</button>
+                <CustomModal
+                  title={"댓글 신고 승인"}
+                  btnName={"승인"}
+                  handleClose={closeModal}
+                  isOpen={isModalOpen}
+                  btnHandler={goProcessed}
+                >
+                  <form onSubmit={handleSubmit} className={styles.form}>
+                    <div>
+                      <FileInput
+                        setFile={handleChange}
+                        name="photoUrl"
+                        value={values?.photoUrl || item.photoUrl}
+                        initialPreview={item.photoUrl}
+                        className={styles.modalImg}
+                        selected={true}
+                      />
+                    </div>
+                    <div className={styles.nickname}>
+                      <TextInput
+                        type="text"
+                        name="nickname"
+                        value={values?.nickname || item.defendant}
+                        placeholder={item.defendant}
+                        onChange={handleNickNameCheckDuplication}
+                      />
+                      <p>신고 누적 횟수: 3회</p>
+                    </div>
+                    <div className={styles.btns}>
+                      <button type="submit" onClick={handleSubmit}>
+                        수정 완료
+                      </button>
+                      <button type="button">활동 정지</button>
+                    </div>
+                  </form>
+                </CustomModal>
 
-            <CpModal />
+                <CpModal />
+              </>
+            ) : (
+              <div className={styles.processed}>
+                <div>처리일: {item.processedAt}</div>
+                <div>처리 결과: {processYy[item.processYn]}</div>
+              </div>
+            )}
           </div>
         </div>
       </div>

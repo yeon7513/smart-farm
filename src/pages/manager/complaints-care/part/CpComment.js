@@ -3,14 +3,48 @@ import styles from "../ComplaintsCare.module.scss";
 import CustomModal from "../../../../components/modal/CustomModal";
 import CpModal from "./CpModal";
 import { Link } from "react-router-dom";
+import { deleteComment } from "../../../../api/board";
+import { useDispatch } from "react-redux";
+import { deleteCommentDatas } from "../../../../store/board/boardSlice";
+import { approveComplaint } from "../../../../store/complain/complainSlice";
 
-function CpComment({ item }) {
+function CpComment({ item, process }) {
+  const processYy = {
+    y: "거부",
+    Y: "승인",
+  };
   const [isModalOpen, setIsModalOpen] = useState(false);
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
 
   const goProcessed = () => {
-    setIsModalOpen(false);
+    dispatch(
+      approveComplaint({ userId: item.defendantDocId, complainId: item.docId })
+    )
+      .then(() => {
+        alert("신고가 승인되었습니다.");
+        setIsModalOpen(false); // 모달 닫기
+      })
+      .catch((error) => {
+        console.error(error);
+        alert("오류가 발생했습니다.");
+      });
+  };
+
+  const dispatch = useDispatch();
+
+  const handleDeleteCm = async (commentId) => {
+    dispatch(
+      deleteCommentDatas({ category: item.category, docId: item.postId })
+    )
+      .then(() => {
+        // alert("게시글이 성공적으로 삭제되었습니다.");
+        setIsModalOpen(false);
+      })
+      .catch((error) => {
+        alert("댓글 삭제 중 오류가 발생했습니다.");
+        console.error(error);
+      });
   };
 
   return (
@@ -26,24 +60,33 @@ function CpComment({ item }) {
           <p>신고사유: {item.reasonName}</p>
           <p>신고자: {item.complainant}</p>
           <div>
-            <button onClick={openModal}>승인</button>
-            <CustomModal
-              title={"댓글 신고 승인"}
-              btnName={"승인"}
-              handleClose={closeModal}
-              isOpen={isModalOpen}
-              btnHandler={goProcessed}
-            >
-              <div>
-                <p>{item.text}</p>
-                <p>{item.defendant}</p>
+            {process === "processing" ? (
+              <>
+                <button onClick={openModal}>승인</button>
+                <CustomModal
+                  title={"댓글 신고 승인"}
+                  btnName={"승인"}
+                  handleClose={closeModal}
+                  isOpen={isModalOpen}
+                  btnHandler={goProcessed}
+                >
+                  <div>
+                    <p>{item.text}</p>
+                    <p>{item.defendant}</p>
+                  </div>
+                  <div>
+                    <button onClick={() => handleDeleteCm()}>댓글 삭제</button>
+                    <button>활동 정지</button>
+                  </div>
+                </CustomModal>
+                <CpModal />
+              </>
+            ) : (
+              <div className={styles.processed}>
+                <div>처리일: {item.processedAt}</div>
+                <div>처리 결과: {processYy[item.processYn]}</div>
               </div>
-              <div>
-                <button>댓글 삭제</button>
-                <button>활동 정지</button>
-              </div>
-            </CustomModal>
-            <CpModal />
+            )}
           </div>
         </div>
       </div>

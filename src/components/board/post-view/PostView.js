@@ -26,7 +26,7 @@ function PostView() {
   // console.log(isAuthenticated);
   const [isEditing, setIsEditing] = useState(false);
   const [post, setPost] = useState(state); // 게시글 상태 추가
-  console.log(post);
+  // console.log(post);
   const [errorMessage, setErrorMessage] = useState("");
 
   const dispatch = useDispatch();
@@ -41,16 +41,16 @@ function PostView() {
       const complainData = {
         defendant: post.nick,
         photoUrl: post.photoUrl,
+        defendantDocId: post.userDocId,
         complainant: loginUser.nickname,
+        complainantDocId: loginUser.docId,
         reasonCode: selectedReason.code, // 'pf_01' 등의 코드 사용
         reasonName: selectedReason.name,
-        // reason: selectedReason,
-        category: post.category,
-        postId: post.id,
-        userDocId: post.userDocId,
         createdAt: new Date().toISOString().split("T")[0],
         processedAt: "",
         processYn: "n",
+        category: post.category,
+        postId: post.id,
         // profileUrl: post.photoUrl,
         title: post.title,
         summary: post.summary,

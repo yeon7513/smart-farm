@@ -41,9 +41,10 @@ function Comment({ item }) {
         createdAt: new Date().toISOString().split("T")[0],
         processedAt: "",
         processYn: "n",
-        text: comment.text,
         category: item.category,
         postId: item.id,
+        defendantDocId: comment.userDocId,
+        text: comment.text,
       };
 
       dispatch(addComplain({ collectionName: "complain", complainData }))
@@ -72,6 +73,7 @@ function Comment({ item }) {
       text: newComment,
       nick: loginUser.nickname,
       email: loginUser.email,
+      userDocId: loginUser.docId,
     };
 
     const success = await addComment(collectionName, docId, commentObj);
