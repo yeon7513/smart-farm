@@ -19,7 +19,6 @@ function PaymentDetail() {
   const [data, setData] = useState(null);
   const [dashboardData, setDashboardData] = useState(null);
   const { paymentsDocId } = useParams();
-  const { commonInfo } = useSelector((state) => state.dashboardSlice);
 
   // 액세스 토큰을 받아오는 함수입니다.
   const getAccessToken = async () => {
