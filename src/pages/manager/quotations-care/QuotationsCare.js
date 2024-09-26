@@ -62,6 +62,12 @@ function QuotationsCare() {
   // payments를 listItems에 저장
   useEffect(() => {
     setListItems(payments);
+    const processedData = payments.map((payment) => ({
+      ...payment,
+      additionalOptions: Object.values(payment.additionalOptions).join(", "),
+    }));
+    console.log(processedData);
+    console.log(commonInfo);
   }, [payments]);
 
   // firebase의 데이터를 excel로 불러옵니다.
@@ -70,9 +76,13 @@ function QuotationsCare() {
     // "payments" 컬렉션에 배열로 저장되어 있는 additionalOptions의 내용들을 문자열로 변환합니다.
     const processedData = payments.map((payment) => ({
       ...payment,
-      additionalOptions: payment.additionalOptions
-        ? payment.additionalOptions.join(", ")
-        : "",
+      additionalOptions: Object.entries(payment.additionalOptions).map(
+        ([optionCategory, options]) => {
+          const selectedOptions = Object.entries(options)
+            .filter(([_, selected]) => selected)
+            .map(([optionName]) => optionName);
+        }
+      ),
     }));
     const worksheet = XLSX.utils.json_to_sheet(processedData);
     const workbook = XLSX.utils.book_new();

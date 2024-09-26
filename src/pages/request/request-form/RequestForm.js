@@ -281,7 +281,7 @@ function RequestForm({ user }) {
     if (success && imp_uid) {
       try {
         await handleSubmit(imp_uid, merchant_uid); // handleSubmit에 merchant_uid 전달
-        navigate(-1);
+        navigate("/mypage");
       } catch (error) {
         console.error("데이터 저장 중 오류 발생: ", error.message);
       }
@@ -326,24 +326,6 @@ function RequestForm({ user }) {
   };
 
   // 부가 옵션을 변경합니다.
-  // const handleAdditionalOptionsChange = (index, category, value) => {
-  //   setSelectedOptions((prevOptions) => {
-  //     // prevOptions가 배열인지 확인
-  //     const updatedOptions = prevOptions.map((option, idx) => {
-  //       if (idx === index) {
-  //         return {
-  //           ...option,
-  //           [category]: {
-  //             ...option[category],
-  //             [value]: !option[category]?.[value],
-  //           },
-  //         };
-  //       }
-  //       return option;
-  //     });
-  //     return updatedOptions;
-  //   });
-  // };
   const handleAdditionalOptionsChange = (index, category, value) => {
     setSelectedOptions((prevOptions) => {
       const updatedOptions = [...prevOptions];
@@ -424,6 +406,9 @@ function RequestForm({ user }) {
             sector: `${index + 1}동`,
           };
 
+          const paymentCollectionRef = collection(db, "payments");
+          const paymentDocRef = await addDoc(paymentCollectionRef, dataObj);
+
           // dashboard로 넘겨서 승인여부(useYn)를 검사합니다. (기본값: n)
           const dashboardObj = {
             name: user.name,
@@ -442,12 +427,11 @@ function RequestForm({ user }) {
             imp_uid: imp_uid,
             merchant_uid: merchant_uid,
             sector: `${index + 1}동`,
+            paymentsDocId: paymentDocRef.id,
           };
 
-          const paymentCollectionRef = collection(db, "payments");
           const dashboardObjCollectionRef = collection(db, "dashboard");
 
-          await addDoc(paymentCollectionRef, dataObj);
           await addDoc(dashboardObjCollectionRef, dashboardObj);
         })
       );
