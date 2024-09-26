@@ -1,0 +1,36 @@
+.payment {
+  .main {
+    display: flex;
+    border: 2px solid var(--common-color);
+    border-radius: 8px;
+    padding: 10px 0;
+    width: 100%;
+    // flex-direction: column;
+    div {
+      p {
+        margin: 20px;
+      }
+    }
+  }
+  .farm {
+    // border: 2px solid var(--common-color);
+    // display: grid;
+    // grid-template-columns: repeat(3, 1fr);
+    padding: 10px 0;
+  }
+  .option {
+    font-size: 20px;
+  }
+  .farm_main {
+    ul {
+      display: flex;
+      flex-wrap: wrap;
+      li {
+        box-shadow: var(--down-shadow);
+        padding: 8px 0;
+        width: 150px;
+        text-align: center;
+      }
+    }
+  }
+}
