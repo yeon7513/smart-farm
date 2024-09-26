@@ -9,7 +9,6 @@ import PaginationButton from "../../../components/pagination-button/PaginationBu
 
 const Payment = () => {
   const [loading, setLoading] = useState(false);
-  const { commonInfo } = useSelector((state) => state.dashboardSlice);
   const [data, setData] = useState([]);
   const { uid } = useSelector((state) => state.userSlice);
   const [filteredData, setFilteredData] = useState([]);

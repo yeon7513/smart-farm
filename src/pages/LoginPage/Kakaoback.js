@@ -13,7 +13,6 @@ import { joinUser, LoginGetDatas } from "../../api/userPage";
 
 const Kakaoback = () => {
   const [inputValue, setInputValue] = useState(true);
-  const { isAuthenticated } = useSelector((state) => state.userSlice);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const openModal = () => setIsModalOpen(true);

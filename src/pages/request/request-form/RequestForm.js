@@ -1,6 +1,5 @@
 import { addDoc, collection } from 'firebase/firestore';
 import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { db } from '../../../api/firebase';
 import SearchAddr from '../../../components/search-addr/SearchAddr';
@@ -23,7 +22,6 @@ function RequestForm({ user }) {
   const [lat, setLat] = useState(null);
   const [lng, setLng] = useState(null);
   const [isIamportLoaded, setIsIamportLoaded] = useState(false);
-  const { uid } = useSelector((state) => state.userSlice);
   const [selectedOptions, setSelectedOptions] = useState(
     Array.from({ length: 8 }, () => ({})) // 8개의 농장에 대해 초기화
   );

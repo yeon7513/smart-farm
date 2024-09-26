@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from "react";
 import Container from "../../layout/container/Container";
 import style from "./Userout.module.scss";
-import { Link, useNavigate } from "react-router-dom";
-import { deleteDatas, getUserAuth, updateDatas } from "../../../api/firebase";
+import { useNavigate } from "react-router-dom";
+import { getUserAuth, updateDatas } from "../../../api/firebase";
 import CustomModal from "../../modal/CustomModal";
-import Maps from "./../../map/Maps";
-import { Box } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchItems, removeUser } from "../../../store/user/UserSlice";
 
