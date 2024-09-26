@@ -37,15 +37,34 @@ function ComplaintsCare() {
   }, [dispatch, process]);
 
   // 카테고리별 필터링된 데이터 가져오기
-  const filteredData = () => {
+  // const filteredData = () => {
+  //   const data = process === "processing" ? processing : processed;
+
+  //   if (sort === "profile") {
+  //     return data.filter((item) => item.reasonCode.startsWith("pf"));
+  //   } else if (sort === "post") {
+  //     return data.filter((item) => item.reasonCode.startsWith("ps"));
+  //   } else if (sort === "comment") {
+  //     return data.filter((item) => item.reasonCode.startsWith("cm"));
+  //   }
+  //   return data; // 전체
+  // };
+  const filteredData = (sort) => {
     const data = process === "processing" ? processing : processed;
 
     if (sort === "profile") {
-      return data.filter((item) => item.reasonCode.startsWith("pf"));
+      const profileData = data.filter((item) =>
+        item.reasonCode.startsWith("pf")
+      );
+      return profileData;
     } else if (sort === "post") {
-      return data.filter((item) => item.reasonCode.startsWith("ps"));
+      const postData = data.filter((item) => item.reasonCode.startsWith("ps"));
+      return postData;
     } else if (sort === "comment") {
-      return data.filter((item) => item.reasonCode.startsWith("cm"));
+      const commentData = data.filter((item) =>
+        item.reasonCode.startsWith("cm")
+      );
+      return commentData;
     }
     return data; // 전체
   };
@@ -100,9 +119,7 @@ function ComplaintsCare() {
         >
           <b>프로필</b>
           <section>
-            {filteredData().map((items, idx) => {
-              if (items.reasonCode.startsWith("pf")) {
-              }
+            {filteredData("profile").map((items, idx) => {
               return <CpProfile key={idx} item={items} process={process} />;
             })}
           </section>
@@ -115,10 +132,8 @@ function ComplaintsCare() {
         >
           <b>게시글</b>
           <section>
-            {filteredData().map((items, idx) => {
-              if (items.reasonCode.startsWith("ps")) {
-                return <CpPost key={idx} item={items} process={process} />;
-              }
+            {filteredData("post").map((items, idx) => {
+              return <CpPost key={idx} item={items} process={process} />;
             })}
           </section>
         </div>
@@ -128,10 +143,8 @@ function ComplaintsCare() {
         >
           <b>댓글</b>
           <section>
-            {filteredData().map((items, idx) => {
-              if (items.reasonCode.startsWith("cm")) {
-                return <CpComment key={idx} item={items} process={process} />;
-              }
+            {filteredData("comment").map((items, idx) => {
+              return <CpComment key={idx} item={items} process={process} />;
             })}
           </section>
         </div>
