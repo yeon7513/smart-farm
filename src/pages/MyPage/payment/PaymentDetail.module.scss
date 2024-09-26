@@ -22,20 +22,6 @@
   .option {
     font-size: 20px;
   }
-<<<<<<< Updated upstream
-  .farm_main {
-    ul {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 20px;
-
-      li {
-        box-shadow: var(--down-shadow);
-        padding: 8px 0;
-        width: 150px;
-        text-align: center;
-        margin: 10px;
-=======
   .additionalOptions {
     display: flex;
     flex-direction: row;
@@ -53,7 +39,6 @@
           width: 150px;
           text-align: center;
         }
->>>>>>> Stashed changes
       }
     }
   }
