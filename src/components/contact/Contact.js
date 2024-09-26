@@ -48,7 +48,7 @@ function Contact({ className, isResponsive = false }) {
         >
           <IoIosCreate />
         </button>
-        {/* 1:1 문의 챗봇 버튼 */}
+        {/* 1:1 문의 채팅방 버튼 */}
         <button onClick={handleClickShow}>
           <IoChatbubbles />
         </button>
