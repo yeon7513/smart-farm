@@ -140,21 +140,24 @@ export async function getDatas(collectionName) {
   }
 }
 
-// export async function getDocDatas(collectionName, docId) {
-//   try {
-//     const collect = getCollection(collectionName, docId);
-//     const snapshot = await getDoc(collect);
-//     if (snapshot.exists()) {
-//       const resultData = { id: snapshot.id, ...snapshot.data() };
-//       return resultData;
-//     } else {
-//       console.log("해당 문서가 존재하지 않습니다.");
-//       return null;
-//     }
-//   } catch (error) {
-//     console.log("문서 불러오기 에러: ", error);
-//   }
-// }
+export async function getDocDatas(collectionName, docId) {
+  try {
+    // Firestore의 컬렉션과 문서 참조를 가져옴
+    const docRef = doc(db, collectionName, docId);
+    const snapshot = await getDoc(docRef);
+
+    if (snapshot.exists()) {
+      const resultData = { id: snapshot.id, ...snapshot.data() };
+      return resultData;
+    } else {
+      console.log("해당 문서가 존재하지 않습니다.");
+      return null;
+    }
+  } catch (error) {
+    console.log("문서 불러오기 에러: ", error);
+    throw new Error(`문서 불러오기 실패: ${error.message}`); // 오류를 상위로 던짐
+  }
+}
 
 export const getOrder = async (collectionName, orderByField) => {
   const q = query(

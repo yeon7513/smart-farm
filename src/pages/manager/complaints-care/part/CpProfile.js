@@ -1,13 +1,11 @@
 import React, { useEffect, useState } from "react";
 import styles from "../ComplaintsCare.module.scss";
-import ex from "../../../../assets/main/logo2.png";
 import CustomModal from "../../../../components/modal/CustomModal";
 import FileInput from "../../../../components/form/file-input/FileInput";
 import CpModal from "./CpModal";
 import TextInput from "../../../../components/form/text-input/TextInput";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchItems, updateUserInfo } from "../../../../store/user/UserSlice";
-// import { useComponentContext } from "../../../../context/ComponentContext";
 import placehorderImg from "../../../../assets/member/basic_profile.png";
 import { approveComplaint } from "../../../../store/complain/complainSlice";
 

@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import styles from "../ComplaintsCare.module.scss";
-import ex from "../../../../assets/main/logo2.png";
 import { Link } from "react-router-dom";
 import CustomModal from "../../../../components/modal/CustomModal";
 import CpModal from "./CpModal";
@@ -118,7 +117,10 @@ function CpPost({ item, process }) {
                   </div>
                 </CustomModal>
 
-                <CpModal complainant={item.complainantDocId} />
+                <CpModal
+                  complainant={item.complainantDocId}
+                  complainId={item.docId}
+                />
               </>
             ) : (
               <div className={styles.processed}>

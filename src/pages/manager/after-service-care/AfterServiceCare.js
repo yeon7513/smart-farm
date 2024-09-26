@@ -2,20 +2,17 @@ import React, { useEffect, useState } from "react";
 import { TbSettingsSearch } from "react-icons/tb";
 import SearchBox from "../../../components/search_box/SearchBox";
 import styles from "./AfterServiceCare.module.scss";
-import AsBoard from "../../../components/board/asBoard/AsBoard";
 import {
   fetchCompleted,
   fetchCompleting,
-} from "../../../store/as-service/AsServiceSlide";
+} from "../../../store/as-service/asSlice";
 import { useDispatch, useSelector } from "react-redux";
 import AsCareItem from "./asItem/AsCareItem";
 
 function AfterServiceCare(props) {
   const [complete, setComplete] = useState("completing");
   const dispatch = useDispatch();
-  const { completing, completed } = useSelector(
-    (state) => state.AsServiceSlide
-  );
+  const { completing, completed } = useSelector((state) => state.asSlice);
 
   // 처리별 렌더링
   const handleProcessClick = (selectedComplete) => {

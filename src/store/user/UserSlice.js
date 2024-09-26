@@ -72,21 +72,21 @@ const userSlice = createSlice({
         }
 
         state.isLoading = false;
-      });
+      })
 
-    // docId 로 불러오기
-    // .addCase(getUserById.pending, (state) => {
-    //   state.isLoading = true;
-    //   state.error = null;
-    // })
-    // .addCase(getUserById.fulfilled, (state, action) => {
-    //   state.isLoading = false;
-    //   state.userData = action.payload; // 성공적으로 불러온 사용자 데이터 저장
-    // })
-    // .addCase(getUserById.rejected, (state, action) => {
-    //   state.isLoading = false;
-    //   state.error = action.payload;
-    // });
+      // docId 로 불러오기
+      .addCase(getUserById.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(getUserById.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.items = action.payload; // 성공적으로 불러온 사용자 데이터 저장
+      })
+      .addCase(getUserById.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload;
+      });
   },
 });
 
@@ -102,6 +102,7 @@ const fetchItems = createAsyncThunk(
   }
 );
 
+// 신고자 불러오기
 // export const getUserById = createAsyncThunk(
 //   "items/getUserById",
 //   async ({ complainant }) => {
@@ -113,6 +114,19 @@ const fetchItems = createAsyncThunk(
 //     }
 //   }
 // );
+export const getUserById = createAsyncThunk(
+  "user/getUserById",
+  async ({ collectionName, docId }) => {
+    try {
+      const resultData = await getDocDatas(collectionName, docId);
+      return resultData;
+    } catch (error) {
+      throw new Error(
+        `신고자 데이터를 불러오는 중 오류가 발생했습니다: ${error.message}`
+      );
+    }
+  }
+);
 
 const updateUserInfo = createAsyncThunk(
   "user/updateUserInfo",

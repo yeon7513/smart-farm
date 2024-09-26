@@ -1,4 +1,3 @@
-// import { Container } from "@mui/material";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/all";
 import React, { useEffect, useRef, useState } from "react";
@@ -6,11 +5,9 @@ import { RiScrollToBottomLine } from "react-icons/ri";
 import styles from "./Home.module.scss";
 import MainSlide from "../../components/slide/main/MainSlide";
 import phoneImg from "../../assets/main/phone.png";
-// import Map from "../../components/map/Map";
 import { Link } from "react-router-dom";
 import CaseSlide from "../../components/slide/case/CaseSlide";
 import { cases } from "../../lib/case";
-// import Charts from "../../components/chart/Charts";
 import backImg from "../../assets/main/content2.jpg";
 import HomeChart from "../../components/home-chart/HomeChart";
 import { useComponentContext } from "../../context/ComponentContext";
