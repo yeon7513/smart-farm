@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { useLocation } from "react-router-dom";
 import { useSectorContext } from "../../../../../../context/SectorContext";
 import { setData } from "../../../../../../store/controlData/controlSlice";
-import ControlItem from "./control-item/ControlItem";
-import { useLocation } from "react-router-dom";
 import { renameOptionsKor } from "../../../../../../utils/renameOptions";
+import ControlItem from "./control-item/ControlItem";
 import styles from "./ControlBox.module.scss";
 function ControlBox() {
   const { sector } = useSectorContext();
@@ -63,6 +63,7 @@ function ControlBox() {
       return;
     }
 
+    // 트랜잭션 생성
     let transaction = db.transaction(["myStore"], "readwrite");
     let store = transaction.objectStore("myStore");
 

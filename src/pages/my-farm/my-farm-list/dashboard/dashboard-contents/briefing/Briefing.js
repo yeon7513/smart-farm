@@ -1,13 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { useSectorContext } from "../../../../../../context/SectorContext";
-import ControlItem from "../control-box/control-item/ControlItem";
-import { DBdeleteData } from "../../../../../../api/indexedDB";
 import { useLocation } from "react-router-dom";
-import {
-  renameOptions,
-  renameOptionsKor,
-} from "../../../../../../utils/renameOptions";
+import { DBdeleteData } from "../../../../../../api/indexedDB";
+import { useSectorContext } from "../../../../../../context/SectorContext";
+import { renameOptionsKor } from "../../../../../../utils/renameOptions";
+import ControlItem from "../control-box/control-item/ControlItem";
 
 function Briefing() {
   const { state } = useLocation();

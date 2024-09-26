@@ -49,10 +49,22 @@ function MyFarm() {
     // fetchDashboardData();
   }, [dispatch]);
 
+  const geoCode = commonInfo
+    .map((item) => {
+      const latitude = item.latitude || null;
+      const longitude = item.longitude || null;
+
+      return {
+        lat: latitude,
+        lng: longitude,
+      };
+    })
+    .filter((farm) => farm.lat !== null && farm.lng !== null);
+
   return (
     <Container className={styles.myFarm}>
       <div className={styles.map}>
-        <CustomMaps lat={commonInfo.latitude} lng={commonInfo.longitude} />
+        <CustomMaps geoCode={geoCode} />
       </div>
       <div className={styles.content}>
         <Outlet />
