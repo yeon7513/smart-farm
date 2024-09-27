@@ -13,6 +13,7 @@ import SimulationResult from './simulation-result/SimulationResult';
 
 function Simulation() {
   const [farmCode, setFarmCode] = useState('S47');
+  const [bestProdValue, setBestProdValue] = useState(23);
 
   const { environmentData } = useSelector((state) => state.bestfarmSlice);
   const dispatch = useDispatch();
@@ -20,6 +21,7 @@ function Simulation() {
   const bestEnvData = formatData(environmentData, evnironmentFields);
 
   console.log(bestEnvData);
+  console.log('bestProdValue: ', bestProdValue);
 
   useEffect(() => {
     dispatch(fetchEnvironmentData(`pageSize=5&searchFrmhsCode=${farmCode}`));
@@ -52,6 +54,7 @@ function Simulation() {
             selectCrop={crop}
             farmCode={farmCode}
             setFarmCode={setFarmCode}
+            setBestProdValue={setBestProdValue}
           />
         ))}
       </div>
