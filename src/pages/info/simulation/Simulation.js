@@ -1,10 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  evnironmentFields,
-  formatData,
-  selectCrop,
-} from '../../../lib/simulationFunc';
+import { formatData } from '../../../api/simulationData';
+import { evnironmentFields, selectCrop } from '../../../lib/simulationLib';
 import {
   fetchEnvironmentData,
   fetchGrowthData,
@@ -17,18 +14,12 @@ import SimulationResult from './simulation-result/SimulationResult';
 function Simulation() {
   const [farmCode, setFarmCode] = useState('S47');
 
-  const { environmentData, growthData, productionData } = useSelector(
-    (state) => state.bestfarmSlice
-  );
+  const { environmentData } = useSelector((state) => state.bestfarmSlice);
   const dispatch = useDispatch();
 
-  console.log('environmentData: ', environmentData);
-  // console.log('growthData: ', growthData);
-  // console.log('productionData: ', productionData);
+  const bestEnvData = formatData(environmentData, evnironmentFields);
 
-  const { averages } = formatData(environmentData, evnironmentFields);
-
-  console.log('averages: ', averages);
+  console.log(bestEnvData);
 
   useEffect(() => {
     dispatch(fetchEnvironmentData(`pageSize=5&searchFrmhsCode=${farmCode}`));
