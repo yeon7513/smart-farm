@@ -5,9 +5,10 @@ import up from "../../../../src/assets/arrow/up.png";
 import styles from "./Faq.module.scss";
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { db } from "../../../api/firebase";
 import {
+  addDoc,
   collection,
   deleteDoc,
   doc,
@@ -20,19 +21,21 @@ import {
 import { getAuth } from "firebase/auth";
 import { setFaqData } from "../../../store/faq-data/faqDataSlice";
 import FaqModify from "./FaqModify";
+import FaqAdd from "./FaqAdd";
 
 function Faq() {
   const auth = getAuth();
-  const { state } = useLocation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [openId, setOpenId] = useState(null);
   const [sortOrder, setSortOrder] = useState("views");
   const faqData = useSelector((state) => state.faqDataSlice);
   const { isAuthenticated } = useSelector((state) => state.userSlice);
+  const [isWriting, setIsWriting] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [faqIdToEdit, setFaqIdToEdit] = useState(null);
-  const [faq, setFaq] = useState(state);
+  const [question, setQuestion] = useState("");
+  const [answer, setAnswer] = useState("");
 
   const fetchfaqData = async ({ collectionName, orderByField }) => {
     const collectionRef = collection(db, collectionName);
@@ -159,9 +162,40 @@ function Faq() {
   // 수정, 삭제 권한 여부(관리자 로그인)를 파악하기 위한 관리자의 uid를 가져옵니다.
   const adminUid = "SHGFkaurCeNMoBaeBMcKvc6XrX03";
 
+  // 작성한 FAQ를 저장하는 함수입니다.
+  const handleAdd = async () => {
+    if (question.trim() && answer.trim()) {
+      try {
+        const newFaq = {
+          question,
+          answer,
+          likes: 0,
+          views: 0,
+          liked: false,
+        };
+
+        // Firebase에 새로운 FAQ를 추가합니다.
+        const docRef = await addDoc(collection(db, "faq"), newFaq);
+        dispatch(setFaqData([...faqData, { id: docRef.id, ...newFaq }]));
+
+        // 입력 필드 초기화
+        setQuestion("");
+        setAnswer("");
+        setIsWriting(false);
+      } catch (error) {
+        console.error("FAQ 추가 중 오류가 발생했습니다. ", error);
+      }
+    } else {
+      console.log("질문과 답변은 빈 칸으로 두실 수 없습니다.");
+    }
+  };
+
   // FAQ를 삭제하는 함수입니다.
   async function handleDelete(collectionName, id) {
-    window.confirm("정말로 삭제하시겠습니까?");
+    const confirmed = window.confirm("정말로 삭제하시겠습니까?");
+    if (!confirmed) {
+      return;
+    }
     try {
       const faqRef = doc(db, collectionName, id.toString());
       await deleteDoc(faqRef);
@@ -174,6 +208,7 @@ function Faq() {
     }
   }
 
+  // FAQ를 수정하는 페이지로 이동합니다.
   const handleEditClick = (id) => {
     setFaqIdToEdit(id);
     setIsEditing(true);
@@ -200,10 +235,13 @@ function Faq() {
     }
   };
 
+  // 수정한 FAQ를 적용하는 함수입니다.
   const handleFaqUpdate = async (id) => {
     try {
       const updateFaq = await getFaqById("faq", id);
-      setFaq(updateFaq);
+      dispatch(
+        setFaqData(faqData.map((item) => (item.id === id ? updateFaq : item)))
+      );
       setIsEditing(false);
     } catch (error) {
       console.error("FAQ 업데이트 중 오류 발생: ", error);
@@ -217,6 +255,14 @@ function Faq() {
           <h1>FAQ</h1>
           <p>- 자주 묻는 질문을 확인해보세요 !</p>
         </div>
+        <button
+          className={
+            auth.currentUser?.uid === adminUid ? styles.abled : styles.disabled
+          }
+          onClick={() => setIsWriting(true)}
+        >
+          FAQ 추가하기
+        </button>
         <div>
           <button
             onClick={() => handleSortClick("views")}
@@ -241,6 +287,8 @@ function Faq() {
             onFaqUpdate={handleFaqUpdate}
             faqId={faqIdToEdit}
           />
+        ) : isWriting ? (
+          <FaqAdd setIsWriting={setIsWriting} onFaqAdd={handleAdd} />
         ) : (
           <>
             {sortedFaqData.map(

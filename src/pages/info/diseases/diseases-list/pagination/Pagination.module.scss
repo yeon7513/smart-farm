@@ -116,9 +116,9 @@
 
       &.active {
         button {
-          font-size: 16px;
-          display: flex;
-          justify-content: center;
+          font-size: 14px;
+          display: block;
+          justify-content: none;
           cursor: default;
           padding: 0;
         }
@@ -129,8 +129,9 @@
       background: none;
       border: none;
       color: #333;
-      padding: 5px;
+      padding: 0;
       cursor: pointer;
+      width: 100%;
       transition: background-color 0.3s, color 0.3s;
 
       &:hover {

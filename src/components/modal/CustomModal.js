@@ -12,29 +12,12 @@ function CustomModal({
   handleClose,
   className,
   isDisabled = false,
-  onApprove,
-  onReject,
 }) {
   return (
     <Modal className={styles.Modal} open={isOpen} onClose={handleClose}>
       <div className={cn(styles.customModal, className)}>
         <div className={styles.header}>
           <h2 className={styles.customTitle}>{title}</h2>
-          {onApprove && (
-            <button className={styles.outBtn} onClick={onApprove}>
-              승인
-            </button>
-          )}
-          {onReject && (
-            <button className={styles.outBtn} onClick={onReject}>
-              거절
-            </button>
-          )}
-          {!btnHandler && (
-            <button className={styles.closeBtn} onClick={handleClose}>
-              닫기
-            </button>
-          )}
         </div>
         <div className={styles.content}>{children}</div>
         {btnHandler && (

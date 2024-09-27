@@ -91,6 +91,92 @@
   align-items: center;
   padding: 200px;
 }
+/* 작은 모니터 */
+@media (max-width: 1200px) {
+  .more {
+    margin-top: 30px;
+  }
+  .pest_search {
+    display: flex;
+    gap: 30px;
+    margin-bottom: 10px;
+    justify-content: center;
+  }
+  .party,
+  .pest {
+    button {
+      padding: 10px 120px;
+      border: 1px solid #ccc;
+      background-color: #f9f9f9;
+      font-size: 20px;
+      color: #333;
+      cursor: pointer;
+      border-radius: 5px;
+      transition: background-color 0.3s, color 0.3s;
+
+      &.active {
+        background-color: var(--hover-color);
+        color: white;
+        border-color: var(--hover-color);
+      }
+
+      &:hover {
+        background-color: var(--hover-color);
+        color: #fff;
+      }
+    }
+  }
+
+  .item {
+    .title {
+      width: 250px;
+    }
+
+    .item_img {
+      img {
+        width: 230px;
+        height: 200px;
+      }
+    }
+    .item_name {
+      p {
+        margin: 0;
+      }
+    }
+
+    .item_list {
+      display: flex;
+      justify-content: space-around;
+    }
+    .name {
+      &:hover {
+        color: var(--hover-color);
+        border-bottom: 1px solid var(--hover-color);
+      }
+    }
+  }
+  .items {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+  .no_results {
+    margin-top: 100px;
+    font-size: 25px;
+    color: #6b6868;
+  }
+
+  .loader {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 200px;
+  }
+}
+/* 태블릿 */
+@media (max-width: 992px) {
+}
+
 // 작은모바일
 @media (max-width: 768px) {
   .pest_search {
