@@ -27,7 +27,7 @@ function Form({
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(fetchItems({ collectionName: 'users' }));
-  });
+  }, [dispatch]);
   const onSubmit = ({ name, password, email }) => {
     const findUser = items.find((item) => {
       return item.email === name;
