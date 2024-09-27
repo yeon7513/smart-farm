@@ -20,7 +20,7 @@
       left: 0;
       width: 100%;
       height: 100vh;
-      background-color: red;
+      background-color: #fff;
       color: #333;
     }
 
@@ -55,6 +55,15 @@
       padding: 16px;
       width: 100%;
       height: 100%;
+      /* 모바일 */
+      @media (max-width: 768px) {
+        height: auto;
+      }
+
+      /* 작은모바일 */
+      @media (max-width: 576px) {
+        height: auto;
+      }
     }
 
     &:last-child > a {
@@ -84,6 +93,16 @@
       background-color: var(--main-color);
       box-shadow: var(--down-shadow);
       transition: 0.3s;
+
+      /* 모바일 */
+      @media (max-width: 768px) {
+        background-color: #fff;
+      }
+
+      /* 작은모바일 */
+      @media (max-width: 576px) {
+        background-color: #fff;
+      }
 
       .depth {
         display: flex;
@@ -220,6 +239,16 @@
         &.welcome {
           width: 100%;
           text-align: center;
+
+          /* 모바일 */
+          @media (max-width: 768px) {
+            font-size: 18px;
+          }
+
+          /* 작은모바일 */
+          @media (max-width: 576px) {
+            font-size: 16px;
+          }
         }
 
         &:not(.welcome):hover {
