@@ -81,7 +81,7 @@ function Faq() {
     };
 
     fetchData();
-  }, [sortOrder, isAuthenticated, dispatch, auth.currentUser?.uid]);
+  }, [sortOrder, isAuthenticated, dispatch, auth.currentUser?.uid, faqData]);
 
   const sortedFaqData = Array.isArray(faqData)
     ? [...faqData].sort((a, b) => {
@@ -185,8 +185,6 @@ function Faq() {
       } catch (error) {
         console.error("FAQ 추가 중 오류가 발생했습니다. ", error);
       }
-    } else {
-      console.log("질문과 답변은 빈 칸으로 두실 수 없습니다.");
     }
   };
 

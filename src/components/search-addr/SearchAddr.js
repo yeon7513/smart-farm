@@ -1,15 +1,15 @@
-import cn from 'classnames';
-import React, { useEffect, useRef, useState } from 'react';
-import DaumPostcodeEmbed from 'react-daum-postcode';
-import CustomModal from '../modal/CustomModal';
-import styles from './SearchAddr.module.scss';
+import cn from "classnames";
+import React, { useEffect, useRef, useState } from "react";
+import DaumPostcodeEmbed from "react-daum-postcode";
+import CustomModal from "../modal/CustomModal";
+import styles from "./SearchAddr.module.scss";
 
 function SearchAddr({ getAddr, className }) {
   // getAddr : 주소를 사용할 함수
 
   const [isOpen, setIsOpen] = useState(false);
-  const [firstAddr, setFirstAddr] = useState('');
-  const [secondAddr, setSecondAddr] = useState('');
+  const [firstAddr, setFirstAddr] = useState("");
+  const [secondAddr, setSecondAddr] = useState("");
   const focusRef = useRef();
 
   // 주소 검색 팝업 열기
@@ -35,13 +35,13 @@ function SearchAddr({ getAddr, className }) {
 
   // 주소 검색 완료 후 상세 주소 입력 포커싱
   useEffect(() => {
-    if (!isOpen && focusRef.current && firstAddr !== '') {
+    if (!isOpen && focusRef.current && firstAddr !== "") {
       focusRef.current.focus();
     }
   }, [isOpen, firstAddr]);
 
   useEffect(() => {
-    const mergeAddr = firstAddr + ' ' + secondAddr;
+    const mergeAddr = firstAddr + " " + secondAddr;
     getAddr(() => mergeAddr);
   }, [firstAddr, getAddr, secondAddr]);
 
@@ -75,10 +75,10 @@ function SearchAddr({ getAddr, className }) {
           onChange={handleChange}
         />
       </div>
-      {/* 주소 검색 모달 띄움 */}
+      {/* 주소  모달 띄움 */}
       <CustomModal
-        title={'주소 검색'}
-        btnName={'확인'}
+        title={"주소 검색"}
+        btnName={"확인"}
         isOpen={isOpen}
         handleClose={handleClose}
         className={styles.modal}
