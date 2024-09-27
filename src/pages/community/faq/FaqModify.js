@@ -27,6 +27,7 @@ function FaqModify({ setIsEditing, onFaqUpdate }) {
     fetchFaq();
   }, [id]);
 
+  // 수정한 내용을 적용하는 함수입니다.
   const handleUpdate = async () => {
     const faqRef = doc(db, "faq", id);
     console.log(faqRef);
@@ -40,6 +41,7 @@ function FaqModify({ setIsEditing, onFaqUpdate }) {
     }
   };
 
+  // FAQ 수정을 취소하는 함수입니다.
   const handleCancel = async () => {
     navigate(-1);
   };
