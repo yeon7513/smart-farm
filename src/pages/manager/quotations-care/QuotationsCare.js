@@ -273,23 +273,28 @@ function QuotationsCare() {
           >
             {selectedItem && (
               <div className={styles.selected_main}>
-                <p>이름: {selectedItem.name}</p>
-                <p>작물 종류: {selectedItem.crop}</p>
+                <div>
+                  <p>이름: {selectedItem.name}</p>
+                </div>
+                <div>
+                  <p>작물 종류: {selectedItem.crop}</p>
+                </div>
                 <p>농장 종류: {selectedItem.type}</p>
                 <p>주문번호: {selectedItem.createdAt}</p>
                 <p>승인여부: {selectedItem.useYn}</p>
-                <button className={styles.outBtn} onClick={handleApproval}>
-                  승인
-                </button>
-                <button className={styles.outBtn} onClick={handleRejection}>
-                  거절
-                </button>
-                <button
-                  className={styles.closeBtn}
-                  onClick={() => setModalOpen(false)}
-                >
-                  닫기
-                </button>
+                <div className={styles.btn}>
+                  <div className={styles.ok_btn}>
+                    <button className={styles.outBtn} onClick={handleApproval}>
+                      승인
+                    </button>
+                    <button className={styles.outBtn} onClick={handleRejection}>
+                      거절
+                    </button>
+                  </div>
+                  <div className={styles.closeBtn}>
+                    <button onClick={() => setModalOpen(false)}>닫기</button>
+                  </div>
+                </div>
               </div>
             )}
           </CustomModal>
