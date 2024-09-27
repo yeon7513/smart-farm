@@ -23,7 +23,7 @@ function Simulation() {
   // console.log('productionData: ', productionData);
 
   useEffect(() => {
-    dispatch(fetchEnvironmentData(`pageSize=50&searchFrmhsCode=${farmCode}`));
+    dispatch(fetchEnvironmentData(`pageSize=5&searchFrmhsCode=${farmCode}`));
   }, [dispatch, farmCode]);
 
   useEffect(() => {

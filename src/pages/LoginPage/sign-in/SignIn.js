@@ -44,7 +44,7 @@ function SignIn(props) {
       });
       navigate('/');
     } catch (error) {
-      console.log(error);
+      console.log('로그인 실패: ', error);
       setFirebaseError('이메일 또는 비밀번호가 틀렸습니다.');
     }
   };
