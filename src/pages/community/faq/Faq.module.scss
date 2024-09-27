@@ -10,6 +10,13 @@
   }
 }
 
+.editButtons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: 8px;
+}
+
 .faq {
   border: 1px solid #ccc;
   max-width: 960px;

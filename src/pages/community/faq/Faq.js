@@ -245,45 +245,46 @@ function Faq() {
             {sortedFaqData.map(
               ({ id, question, answer, likes, views, liked }) => (
                 <div key={id} className={styles.faq}>
-                  {isEditing}
                   <div className={styles.title}>
                     <h3>{`Q. ${question}`}</h3>
-                    <Link to={`/community/faq/${id}`}>
+                    <div className={styles.editButtons}>
+                      <Link to={`/community/faq/${id}`}>
+                        <button
+                          onClick={() => handleEditClick(id)}
+                          className={
+                            auth.currentUser?.uid === adminUid
+                              ? styles.abled
+                              : styles.disabled
+                          }
+                        >
+                          수정
+                        </button>
+                      </Link>
                       <button
-                        onClick={() => handleEditClick(id)}
                         className={
                           auth.currentUser?.uid === adminUid
                             ? styles.abled
                             : styles.disabled
                         }
+                        onClick={() => handleDelete("faq", id)}
                       >
-                        수정
+                        삭제
                       </button>
-                    </Link>
-                    <button
-                      className={
-                        auth.currentUser?.uid === adminUid
-                          ? styles.abled
-                          : styles.disabled
-                      }
-                      onClick={() => handleDelete("faq", id)}
-                    >
-                      삭제
-                    </button>
-                    {openId === id ? (
-                      <button
-                        onClick={() => {
-                          incrementViews(id);
-                          toggleVisibility(id);
-                        }}
-                      >
-                        <img src={up} alt="자세히 보기" />
-                      </button>
-                    ) : (
-                      <button onClick={() => toggleVisibility(id)}>
-                        <img src={down} alt="간략히 보기" />
-                      </button>
-                    )}
+                      {openId === id ? (
+                        <button
+                          onClick={() => {
+                            incrementViews(id);
+                            toggleVisibility(id);
+                          }}
+                        >
+                          <img src={up} alt="자세히 보기" />
+                        </button>
+                      ) : (
+                        <button onClick={() => toggleVisibility(id)}>
+                          <img src={down} alt="간략히 보기" />
+                        </button>
+                      )}
+                    </div>
                   </div>
                   {openId === id && (
                     <div className={styles.description}>
