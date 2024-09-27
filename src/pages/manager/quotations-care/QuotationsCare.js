@@ -82,6 +82,8 @@ function QuotationsCare() {
   const exportToExcel = () => {
     const processedData = payments.map((payment) => ({
       ...payment,
+      // additionalOptions 객체의 키(옵션 카테고리)-값(옵션) 쌍을 배열로 변환
+      // 이 때, 키(옵션 카테고리) 값은 출력하지 않습니다.
       additionalOptions: Object.entries(payment.additionalOptions)
         .map(([optionCategory, options]) => {
           const selectedOptions = Object.entries(options)
