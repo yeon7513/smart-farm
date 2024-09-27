@@ -305,6 +305,8 @@ function RequestForm({ user }) {
   const handleGetAddr = async (addr) => {
     setFarmAddress(addr);
 
+    console.log('addr: ', addr);
+
     try {
       // 주소의 위도, 경도 값을 가져옵니다.
       const { lat, lng } = (await convertingAddressToGeoCode(addr)) || {};
