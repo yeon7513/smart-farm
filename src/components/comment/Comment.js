@@ -33,11 +33,12 @@ function Comment({ item }) {
   const closeModal = () => setIsModalOpen(false);
 
   const goComplain = async (comment) => {
-    console.log(comment);
     if (selectedReason) {
       const complainData = {
         defendant: comment.nick,
+        defendantDocId: comment.userDocId,
         complainant: loginUser.nickname,
+        complainantDocId: loginUser.docId,
         reasonCode: selectedReason.code, // 'pf_01' 등의 코드 사용
         reasonName: selectedReason.name,
         createdAt: new Date().toISOString().split("T")[0],
@@ -47,7 +48,6 @@ function Comment({ item }) {
         postId: item.id,
         postDocId: docId,
         commentDocId: comment.id,
-        defendantDocId: comment.userDocId,
         text: comment.text,
       };
 
@@ -150,91 +150,105 @@ function Comment({ item }) {
   // }, [isAuthenticated]);
 
   return (
-    <div className={styles.container}>
-      <h2>댓글({comments.length}개)</h2>
-
-      {comments.length === 0 ? (
-        <div className={styles.noComments}>
-          <p>댓글이 없습니다.</p>
+    <>
+      {loginUser?.complaneNum >= 5 ? (
+        <div className={styles.container}>
+          <h2>댓글({comments.length}개)</h2>
+          <div className={styles.complainUser}>
+            회원님의 신고 접수가 5건이 넘어 활동이 제한되었습니다.
+          </div>
         </div>
       ) : (
-        comments.map((comment) => (
-          <div className={styles.comment} key={comment.id}>
-            {editCommentId === comment.id ? (
-              <div className={styles.editMode}>
-                <input
-                  type="text"
-                  value={editComment}
-                  onChange={(e) => setEditComment(e.target.value)}
-                />
-                <div>
-                  <button onClick={handleUpdateComment}>확인</button>
-                  <button onClick={handleCancelEdit}>취소</button>
-                </div>
-              </div>
-            ) : (
-              <div>
-                <h4>{comment.text}</h4>
-                <div className={styles.user}>
-                  <div>
-                    <p>
-                      {comment.nick} <span>{comment.createdAt}</span>
-                    </p>
+        <div className={styles.container}>
+          <h2>댓글({comments.length}개)</h2>
+
+          {comments.length === 0 ? (
+            <div className={styles.noComments}>
+              <p>댓글이 없습니다.</p>
+            </div>
+          ) : (
+            comments.map((comment) => (
+              <div className={styles.comment} key={comment.id}>
+                {editCommentId === comment.id ? (
+                  <div className={styles.editMode}>
+                    <input
+                      type="text"
+                      value={editComment}
+                      onChange={(e) => setEditComment(e.target.value)}
+                    />
+                    <div>
+                      <button onClick={handleUpdateComment}>확인</button>
+                      <button onClick={handleCancelEdit}>취소</button>
+                    </div>
                   </div>
+                ) : (
                   <div>
-                    {comment.nick === loginUser?.nickname ? (
+                    <h4>{comment.text}</h4>
+                    <div className={styles.user}>
                       <div>
-                        <button onClick={() => handleEditClick(comment)}>
-                          수정
-                        </button>
-                        <p>/</p>
-                        <button onClick={() => handleDeleteComment(comment.id)}>
-                          삭제
-                        </button>
+                        <p>
+                          {comment.nick} <span>{comment.createdAt}</span>
+                        </p>
                       </div>
-                    ) : (
-                      comment.nick !== "관리자" && (
-                        <div>
-                          <button
-                            className={styles.complain}
-                            onClick={() => openModal(comment)}
-                          >
-                            🚨신고하기
-                          </button>
-                          <CustomModal
-                            title={"신고하기"}
-                            btnName={"접수"}
-                            handleClose={closeModal}
-                            isOpen={isModalOpen}
-                            btnHandler={() => goComplain(comment)}
-                            className={styles.modal}
-                          >
-                            <CmRadio
-                              selectedRadio={setSelectedReason}
-                              errorMessage={errorMessage}
-                            />
-                          </CustomModal>
-                        </div>
-                      )
-                    )}
+                      <div>
+                        {comment.nick === loginUser?.nickname ? (
+                          <div>
+                            <button onClick={() => handleEditClick(comment)}>
+                              수정
+                            </button>
+                            <p>/</p>
+                            <button
+                              onClick={() => handleDeleteComment(comment.id)}
+                            >
+                              삭제
+                            </button>
+                          </div>
+                        ) : (
+                          comment.nick !== "관리자" && (
+                            <div>
+                              <button
+                                className={styles.complain}
+                                onClick={() => openModal(comment)}
+                              >
+                                🚨신고하기
+                              </button>
+                              <CustomModal
+                                title={"신고하기"}
+                                btnName={"접수"}
+                                handleClose={closeModal}
+                                isOpen={isModalOpen}
+                                btnHandler={() => goComplain(comment)}
+                                className={styles.modal}
+                              >
+                                <CmRadio
+                                  selectedRadio={setSelectedReason}
+                                  errorMessage={errorMessage}
+                                />
+                              </CustomModal>
+                            </div>
+                          )
+                        )}
+                      </div>
+                    </div>
                   </div>
-                </div>
+                )}
               </div>
-            )}
-          </div>
-        ))
+            ))
+          )}
+
+          <form className={styles.input} onSubmit={handleAddComment}>
+            <input
+              type="text"
+              placeholder="댓글을 입력하세요."
+              value={newComment}
+              onChange={(e) => setNewComment(e.target.value)}
+              onKeyDown={(e) => handleEnterSubmit(e)}
+            />
+            <button type="submit">댓글달기</button>
+          </form>
+        </div>
       )}
-      <form className={styles.input} onSubmit={handleAddComment}>
-        <input
-          type="text"
-          placeholder="댓글을 입력하세요."
-          value={newComment}
-          onChange={(e) => setNewComment(e.target.value)}
-          onKeyDown={(e) => handleEnterSubmit(e)}
-        />
-        <button type="submit">댓글달기</button>
-      </form>
-    </div>
+    </>
   );
 }
 
