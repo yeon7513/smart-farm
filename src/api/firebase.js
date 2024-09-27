@@ -1,5 +1,5 @@
-import { initializeApp } from 'firebase/app';
-import { getAuth } from 'firebase/auth';
+import { initializeApp } from "firebase/app";
+import { getAuth } from "firebase/auth";
 import {
   addDoc,
   collection,
@@ -12,13 +12,7 @@ import {
   query,
   updateDoc,
   where,
-<<<<<<< Updated upstream
-  writeBatch,
-} from 'firebase/firestore';
-
-=======
 } from "firebase/firestore";
->>>>>>> Stashed changes
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
   authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
@@ -36,7 +30,7 @@ export const auth = getAuth(app);
 
 export function getCollection(...path) {
   let newPath = path;
-  if (typeof path[0] !== 'string') {
+  if (typeof path[0] !== "string") {
     newPath = path.flat();
   }
   return collection(db, ...newPath);
@@ -59,59 +53,6 @@ export async function addDatas(collectionName, addObj) {
   return resultData;
 }
 
-<<<<<<< Updated upstream
-export async function syncOrder(uid, orderArr) {
-  const orderRef = getCollection('user', uid, 'order');
-  const batch = writeBatch(db);
-  for (const item of orderArr) {
-    const result = await updateOrder(uid, item);
-    if (!result) {
-      const itemRef = doc(orderRef, item.id.toString());
-      batch.set(itemRef, item);
-    }
-  }
-  await batch.commit();
-  const resultData = await getDatas(['user', uid, 'order'], {});
-  return resultData;
-}
-
-export async function updateOrder(uid, orderItem) {
-  const orderRef = getCollection('user', uid, 'order');
-  const itemRef = doc(orderRef, orderItem.id.toString());
-
-  const itemDoc = await getDoc(itemRef);
-  if (itemDoc.exists()) {
-    return true;
-  } else {
-    return false;
-  }
-}
-
-export async function createPayment(uid, paymentObj) {
-  try {
-    const paymentsRef = collection('users', uid, 'payments');
-    const createObj = {
-      createdAt: new Date().getTime(),
-      updatedAt: new Date().getTime(),
-      ...paymentObj,
-    };
-    const batch = writeBatch(db);
-    const docRef = await addDoc(paymentsRef, createObj);
-    batch.delete(paymentsRef);
-    const paymentRef = getCollection('users', uid, 'payment');
-    paymentObj.products.forEach((product) => {
-      const itemRef = doc(paymentRef, product.id.toString());
-      batch.delete(itemRef);
-    });
-    await batch.commit();
-    return docRef.id;
-  } catch (error) {
-    console.error(error);
-  }
-}
-
-=======
->>>>>>> Stashed changes
 export async function getQuery(collectionName, queryOption) {
   const { conditions = [], orderBys = [] } = queryOption;
   const collect = getCollection(collectionName);
@@ -124,7 +65,7 @@ export async function getQuery(collectionName, queryOption) {
 
   // orderBy 조건
   orderBys.forEach((order) => {
-    q = query(q, orderBy(order.field, order.direction || 'asc'));
+    q = query(q, orderBy(order.field, order.direction || "asc"));
   });
 
   return q;
@@ -141,7 +82,7 @@ export async function getDatas(collectionName) {
 
     return returnData;
   } catch (error) {
-    console.error('Error getting documents: ', error);
+    console.error("Error getting documents: ", error);
     throw error;
   }
 }
@@ -156,11 +97,11 @@ export async function getDocDatas(collectionName, docId) {
       const resultData = { id: snapshot.id, ...snapshot.data() };
       return resultData;
     } else {
-      console.log('해당 문서가 존재하지 않습니다.');
+      console.log("해당 문서가 존재하지 않습니다.");
       return null;
     }
   } catch (error) {
-    console.log('문서 불러오기 에러: ', error);
+    console.log("문서 불러오기 에러: ", error);
     throw new Error(`문서 불러오기 실패: ${error.message}`); // 오류를 상위로 던짐
   }
 }
@@ -168,7 +109,7 @@ export async function getDocDatas(collectionName, docId) {
 export const getOrder = async (collectionName, orderByField) => {
   const q = query(
     collection(db, collectionName),
-    orderBy(orderByField, 'desc')
+    orderBy(orderByField, "desc")
   );
   const querySnapshot = await getDocs(q);
   return querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
@@ -183,7 +124,7 @@ export async function updateDatas(collectionName, docId, updateObj) {
 
     return resultData;
   } catch (error) {
-    console.error('Error updating document: ', error);
+    console.error("Error updating document: ", error);
     throw error;
   }
 }
@@ -194,42 +135,17 @@ export async function deleteDatas(collectionName, docId) {
     await deleteDoc(docRef);
     return true;
   } catch (error) {
-    console.error('Error deleting document: ', error);
+    console.error("Error deleting document: ", error);
     return false;
   }
 }
 
-<<<<<<< Updated upstream
-// 결제를 취소하는 함수입니다.
-export const pointTableCancel = async (imp_uid) => {
-  try {
-    const paymentsQuery = query(
-      collection(db, 'payments'),
-      where('imp_uid', '==', imp_uid)
-    );
-    const paymentsSnapshot = await getDocs(paymentsQuery);
-
-    // 결제 문서가 있으면 삭제합니다.
-    if (!paymentsSnapshot.empty) {
-      const docRef = paymentsSnapshot.docs[0].ref;
-      await deleteDoc(docRef);
-      console.log('결제 정보가 삭제되었습니다.');
-    } else {
-      console.log('결제 정보를 찾을 수 없습니다.');
-    }
-  } catch (error) {
-    console.error('결제 정보 삭제 실패: ', error);
-  }
-};
-
-=======
->>>>>>> Stashed changes
 // chatroomId를 가져오는 함수 추가
 export const fetchChatroomId = async (email) => {
   try {
     const q = query(
-      collection(db, 'chatbot', email, 'chatroom1'), // 경로에 맞는 컬렉션
-      where('activeYn', '==', 'N') // 승인되지 않은 방만 가져옴
+      collection(db, "chatbot", email, "chatroom1"), // 경로에 맞는 컬렉션
+      where("activeYn", "==", "N") // 승인되지 않은 방만 가져옴
     );
     const querySnapshot = await getDocs(q);
 
@@ -237,11 +153,11 @@ export const fetchChatroomId = async (email) => {
       const chatroomId = querySnapshot.docs[0].id; // 첫 번째 문서의 ID를 chatroomId로 사용
       return chatroomId; // chatroomId를 반환
     } else {
-      console.log('No chatroom found.');
+      console.log("No chatroom found.");
       return null;
     }
   } catch (error) {
-    console.error('Error fetching chatroomId: ', error);
+    console.error("Error fetching chatroomId: ", error);
     throw error;
   }
 };
@@ -250,16 +166,16 @@ async function onApproveChat(chatId) {
   try {
     const chatRoomRef = doc(
       db,
-      'chatRoom',
-      'admin@gmail.com',
-      'chatroom1',
+      "chatRoom",
+      "admin@gmail.com",
+      "chatroom1",
       chatId
     );
     await updateDoc(chatRoomRef, {
-      activeYn: 'Y', // 승인 상태로 변경
+      activeYn: "Y", // 승인 상태로 변경
     });
     console.log(`Chatroom ${chatId} 승인 완료`);
   } catch (error) {
-    console.error('승인 처리 중 오류가 발생했습니다:', error);
+    console.error("승인 처리 중 오류가 발생했습니다:", error);
   }
 }
