@@ -232,6 +232,7 @@ function RequestForm({ user }) {
       return;
     }
 
+    // 문자열로 되어있는 농장 면적과 농장 동 수를 숫자로 변환합니다.
     const farmAreaNum = Number(farmArea);
     const farmEquivalentNum = Number(farmEquivalent);
 
@@ -274,6 +275,7 @@ function RequestForm({ user }) {
     IMP.request_pay(data, (response) => callback(response, merchant_uid));
   }
 
+  // 결제하고 결제 결과를 표시합니다.
   const callback = async (response, merchant_uid) => {
     const { success, error_msg, imp_uid } = response;
     if (success && imp_uid) {
@@ -288,6 +290,7 @@ function RequestForm({ user }) {
     }
   };
 
+  // 농장 주소의 값을 변경하는 함수입니다.
   const handleChange = (e) => {
     const value = e.target.value;
 
