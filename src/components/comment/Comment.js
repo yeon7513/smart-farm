@@ -1,22 +1,22 @@
-import React, { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import React, { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 import {
   addComment,
   deleteComment,
   getComment,
   updateComment, // 댓글 수정 함수 추가
-} from '../../api/board';
-import { addComplain } from '../../store/complain/complainSlice.js';
-import CmRadio from '../complain/CmRadio.js';
-import CustomModal from '../modal/CustomModal';
-import styles from './Comment.module.scss';
+} from "../../api/board";
+import { addComplain } from "../../store/complain/complainSlice.js";
+import CmRadio from "../complain/CmRadio.js";
+import CustomModal from "../modal/CustomModal";
+import styles from "./Comment.module.scss";
 
 function Comment({ item }) {
   // console.log(item);
-  const loginUser = JSON.parse(localStorage.getItem('user'));
-  const [comments, setComments] = useState('');
-  const [newComment, setNewComment] = useState('');
-  const [editComment, setEditComment] = useState('');
+  const loginUser = JSON.parse(localStorage.getItem("user"));
+  const [comments, setComments] = useState("");
+  const [newComment, setNewComment] = useState("");
+  const [editComment, setEditComment] = useState("");
   const [editCommentId, setEditCommentId] = useState(null);
   const docId = item.docId;
   const collectionName = item.collection;
@@ -25,8 +25,8 @@ function Comment({ item }) {
   const dispatch = useDispatch();
   // const { comments } = useSelector((state) => state.commentSlice);
 
-  const [errorMessage, setErrorMessage] = useState('');
-  const [selectedReason, setSelectedReason] = useState('');
+  const [errorMessage, setErrorMessage] = useState("");
+  const [selectedReason, setSelectedReason] = useState("");
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const openModal = () => setIsModalOpen(true);
@@ -40,9 +40,9 @@ function Comment({ item }) {
         complainant: loginUser.nickname,
         reasonCode: selectedReason.code, // 'pf_01' 등의 코드 사용
         reasonName: selectedReason.name,
-        createdAt: new Date().toISOString().split('T')[0],
-        processedAt: '',
-        processYn: 'n',
+        createdAt: new Date().toISOString().split("T")[0],
+        processedAt: "",
+        processYn: "n",
         category: item.category,
         postId: item.id,
         postDocId: docId,
@@ -51,15 +51,15 @@ function Comment({ item }) {
         text: comment.text,
       };
 
-      dispatch(addComplain({ collectionName: 'complain', complainData }))
+      dispatch(addComplain({ collectionName: "complain", complainData }))
         .then(() => {
           closeModal(); // 성공 시 모달 닫기
         })
         .catch((error) => {
-          console.log('신고 접수 중 오류 발생:', error);
+          console.log("신고 접수 중 오류 발생:", error);
         });
     } else {
-      setErrorMessage('신고 사유를 선택해주세요.');
+      setErrorMessage("신고 사유를 선택해주세요.");
     }
   };
 
@@ -76,8 +76,10 @@ function Comment({ item }) {
     getComments();
   }, []);
 
-  const handleAddComment = async () => {
-    if (newComment.trim() === '') return;
+  const handleAddComment = async (e) => {
+    e.preventDefault();
+
+    if (newComment.trim() === "") return;
 
     const commentObj = {
       text: newComment,
@@ -88,10 +90,17 @@ function Comment({ item }) {
 
     const success = await addComment(collectionName, docId, commentObj);
     if (success) {
-      setNewComment(''); // 입력 필드 초기화
+      setNewComment(""); // 입력 필드 초기화
       getComments();
     }
     // console.log(commentObj);
+  };
+
+  const handleEnterSubmit = (e) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      handleAddComment(e);
+    }
   };
 
   // 댓글 수정 모드로 전환하는 함수
@@ -102,7 +111,7 @@ function Comment({ item }) {
 
   // 댓글 수정 취소
   const handleCancelEdit = () => {
-    setEditComment('');
+    setEditComment("");
     setEditCommentId(null);
   };
 
@@ -184,7 +193,7 @@ function Comment({ item }) {
                         </button>
                       </div>
                     ) : (
-                      comment.nick !== '관리자' && (
+                      comment.nick !== "관리자" && (
                         <div>
                           <button
                             className={styles.complain}
@@ -193,8 +202,8 @@ function Comment({ item }) {
                             🚨신고하기
                           </button>
                           <CustomModal
-                            title={'신고하기'}
-                            btnName={'접수'}
+                            title={"신고하기"}
+                            btnName={"접수"}
                             handleClose={closeModal}
                             isOpen={isModalOpen}
                             btnHandler={() => goComplain(comment)}
@@ -215,15 +224,16 @@ function Comment({ item }) {
           </div>
         ))
       )}
-      <div className={styles.input}>
+      <form className={styles.input} onSubmit={handleAddComment}>
         <input
           type="text"
           placeholder="댓글을 입력하세요."
           value={newComment}
           onChange={(e) => setNewComment(e.target.value)}
+          onKeyDown={(e) => handleEnterSubmit(e)}
         />
-        <button onClick={handleAddComment}>댓글달기</button>
-      </div>
+        <button type="submit">댓글달기</button>
+      </form>
     </div>
   );
 }

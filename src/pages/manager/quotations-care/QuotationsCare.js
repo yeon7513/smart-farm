@@ -69,26 +69,33 @@ function QuotationsCare() {
           const selectedOptions = Object.entries(options)
             .filter(([_, selected]) => selected)
             .map(([optionName]) => optionName);
-          return `${optionCategory}: ${selectedOptions.join(", ")}`;
+          return `${selectedOptions.join(", ")}`;
         }
       ),
     }));
-    console.log(testPayments);
+    testPayments.forEach((payment) => {
+      console.log(payment.additionalOptions);
+    });
   }, [payments]);
 
   // firebase의 데이터를 excel로 불러옵니다.
   const exportToExcel = () => {
     const processedData = payments.map((payment) => ({
       ...payment,
-      additionalOptions: Object.entries(payment.additionalOptions).map(
-        ([optionCategory, options]) => {
+      // additionalOptions 객체의 키(옵션 카테고리)-값(옵션) 쌍을 배열로 변환
+      // 이 때, 키(옵션 카테고리) 값은 출력하지 않습니다.
+      additionalOptions: Object.entries(payment.additionalOptions)
+        .map(([optionCategory, options]) => {
           const selectedOptions = Object.entries(options)
             .filter(([_, selected]) => selected)
             .map(([optionName]) => optionName);
-          return `${optionCategory}: ${selectedOptions.join(", ")}`;
-        }
-      ),
+          return `${selectedOptions.join(", ")}`;
+        })
+        .join(", "),
     }));
+    processedData.forEach((payment) => {
+      console.log(payment.additionalOptions);
+    });
     const worksheet = XLSX.utils.json_to_sheet(processedData);
     const workbook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(workbook, worksheet, "결제 내역");
