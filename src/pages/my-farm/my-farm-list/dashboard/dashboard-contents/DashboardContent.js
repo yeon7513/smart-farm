@@ -66,7 +66,7 @@ function DashboardContent({ docId }) {
   return (
     <div className={styles.content}>
       {currComp === "Briefing" && (
-        <Weather latitude={state.latitude} longitude={state.longitude} />
+        <Weather latitude={state.lat} longitude={state.lng} />
       )}
       <ul className={styles.sectorMenu}>
         {currComp !== "Alert" &&
