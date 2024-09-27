@@ -51,28 +51,37 @@ export function formatData(data, fields) {
 }
 
 // 구간 설정
-const createRange = (data) => {
+export const createRange = (data) => {
   const ranges = [];
 
   for (const [key, value] of Object.entries(data)) {
-    const min = Math.min(...value);
-    const max = Math.max(...value);
-    const step = (max - min) / 5; // 5개의 구간으로 나누기
-    ranges[key] = [];
+    const rangeSize = (value / 5) * 0.1;
+    const min = value - rangeSize;
+    const max = value + rangeSize;
+    const step = (max - min) / 5;
+
+    const changeKey = (() => {
+      switch (key) {
+        case 'acSlrdQy':
+          return '누적 일사량';
+        case 'inCo2':
+          return '주간 평균 잔존 CO2';
+        case 'inHd':
+          return '주간 평균 내부 습도';
+        case 'inTp':
+          return '주간 평균 내부 온도';
+        default:
+          return key;
+      }
+    })();
+
+    const values = [];
 
     for (let i = 0; i < 5; i++) {
       const rangeMin = (min + step * i).toFixed(2);
       const rangeMax = (min + step * (i + 1)).toFixed(2);
-      let count;
 
-      // count 값 설정
-      if (i === 0 || i === 4) {
-        count = -3; // 첫 번째와 마지막 구간
-      } else if (i === 1 || i === 3) {
-        count = -2; // 두 번째와 네 번째 구간
-      } else if (i === 2) {
-        count = -1; // 세 번째 구간
-      }
+      const count = i === 0 || i === 4 ? -3 : i === 1 || i === 3 ? -2 : -1;
 
       const rangeLabel =
         i === 0
@@ -81,14 +90,16 @@ const createRange = (data) => {
           ? `${rangeMax} 이상`
           : `${rangeMin} ~ ${rangeMax}`;
 
-      ranges[key].push({ range: rangeLabel, count });
+      values.push({ range: rangeLabel, count: count });
     }
+
+    ranges.push({ name: changeKey, values: values });
   }
 
   return ranges;
 };
 
-// 결과 출력
-export function calcResult(prodPerArea, selectObj) {
-  const { count, area } = selectObj;
-}
+// // 결과 출력
+// export function calcResult(prodPerArea, selectObj) {
+//   const { count, area } = selectObj;
+// }

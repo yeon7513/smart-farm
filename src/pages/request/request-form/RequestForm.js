@@ -392,7 +392,6 @@ function RequestForm({ user }) {
             lng: parseFloat(lng),
             cropType: cropType,
             facilityType: facilityType,
-            // additionalOptions: additionalOptionsArray,
             additionalOptions: selectedOptions[index],
             farmArea: Number(farmArea),
             farmName: farmName,
@@ -546,7 +545,6 @@ function RequestForm({ user }) {
                 />
               ) : (
                 <OpenGround
-                  // additionalOptions={additionalOptions}
                   additionalOptions={selectedOptions[index] || []}
                   handleAdditionalOptionsChange={(category, value) =>
                     handleAdditionalOptionsChange(index, category, value)

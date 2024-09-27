@@ -1,20 +1,34 @@
-import React from 'react';
+import React from "react";
 // Import Swiper React components
-import { Swiper, SwiperSlide } from 'swiper/react';
+import { Swiper, SwiperSlide } from "swiper/react";
 
 // Import Swiper styles
-import 'swiper/css';
-import 'swiper/css/scrollbar';
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
 
-import './CaseSlide.scss';
+import "./CaseSlide.scss";
 
 // import required modules
-import CaseItem from './caseItem/CaseItem';
+import CaseItem from "./caseItem/CaseItem";
+import { Autoplay, FreeMode, Scrollbar } from "swiper/modules";
 
 export default function App({ items }) {
   return (
     <>
-      <Swiper slidesPerView={3} spaceBetween={30}>
+      <Swiper
+        slidesPerView={3}
+        spaceBetween={30}
+        freeMode={true}
+        // autoplay={{
+        //   delay: 5000,
+        //   disableOnInteraction: false,
+        // }}
+        scrollbar={{
+          hide: false,
+        }}
+        modules={[Autoplay, FreeMode, Scrollbar]}
+      >
         {items.map((item) => (
           <SwiperSlide key={item.id}>
             <CaseItem

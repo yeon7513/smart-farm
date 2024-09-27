@@ -31,12 +31,13 @@ function QuotationsCare() {
 
   const dispatch = useDispatch();
 
+  // 페이지가 렌더링 될 때마다 최신화된 "payments"와 "dashboard"의 내용을 화면에 표시합니다.
   useEffect(() => {
     dispatch(fetchPayments("payments")); // 결제 데이터 가져오기
     dispatch(fetchCommonInfo("dashboard")); // 공통 정보 가져오기
   }, [dispatch]);
 
-  // 필터링된 데이터 처리
+  // 필터링된 데이터 처리(대기 및 승인여부)
   const filterData = (status) => {
     if (status === "pending") {
       setFilteredInfo(
@@ -62,20 +63,6 @@ function QuotationsCare() {
   // payments를 listItems에 저장
   useEffect(() => {
     setListItems(payments);
-    const testPayments = payments.map((payment) => ({
-      ...payment,
-      additionalOptions: Object.entries(payment.additionalOptions).map(
-        ([optionCategory, options]) => {
-          const selectedOptions = Object.entries(options)
-            .filter(([_, selected]) => selected)
-            .map(([optionName]) => optionName);
-          return `${selectedOptions.join(", ")}`;
-        }
-      ),
-    }));
-    testPayments.forEach((payment) => {
-      console.log(payment.additionalOptions);
-    });
   }, [payments]);
 
   // firebase의 데이터를 excel로 불러옵니다.
@@ -100,6 +87,7 @@ function QuotationsCare() {
     const workbook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(workbook, worksheet, "결제 내역");
 
+    // excel 파일을 생성하고 다운로드하는 함수입니다.
     const excelBuffer = XLSX.write(workbook, {
       bookType: "xlsx",
       type: "array",
@@ -122,21 +110,13 @@ function QuotationsCare() {
     setItems(listItems.filter(({ name }) => name.includes(keyword)));
   };
 
-  // 일반 사용자와 관리자의 기능을 다르게 부여하기 위한 함수입니다.
-  const userData = JSON.parse(localStorage.getItem("user"));
-  const userUid = userData.uid;
-  const isAdmin = userData.email === "admin@gmail.com";
-
-  // 관리자가 아닌 경우 자신의 데이터만 보이게 합니다.
-  const filteredCommonInfo = isAdmin
-    ? commonInfo
-    : commonInfo.filter((item) => item.docId === userUid);
-
+  // 모달을 여는 함수
   const openModal = (item) => {
     setSelectedItem(item);
     setModalOpen(true);
   };
 
+  // 요청을 승인하는 함수입니다.
   const handleApproval = async () => {
     if (selectedItem && selectedItem.useYn === "N") {
       try {
@@ -160,6 +140,7 @@ function QuotationsCare() {
     }
   };
 
+  // 요청을 거절하는 함수입니다.
   const handleRejection = async () => {
     if (selectedItem && selectedItem.deleteYn === "N") {
       try {

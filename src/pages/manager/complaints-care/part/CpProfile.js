@@ -5,7 +5,7 @@ import FileInput from "../../../../components/form/file-input/FileInput";
 import CpModal from "./CpModal";
 import TextInput from "../../../../components/form/text-input/TextInput";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchItems, updateUserInfo } from "../../../../store/user/UserSlice";
+import { updateUserInfo } from "../../../../store/user/UserSlice";
 import placehorderImg from "../../../../assets/member/basic_profile.png";
 import { approveComplaint } from "../../../../store/complain/complainSlice";
 
