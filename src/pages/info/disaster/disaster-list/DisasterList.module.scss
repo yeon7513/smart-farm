@@ -58,13 +58,16 @@
 @media (max-width: 576px) {
   .menu {
     .menu_bar {
-      width: 500px;
-      padding: 20px;
+      width: 100%;
+      padding: 10px;
       border: 1px solid #e2e2e2;
       border-radius: 10px;
       background-color: var(--board-color);
-      font-size: 16px;
+      font-size: 14px;
       margin-bottom: 5px;
     }
+  }
+  .posts_main {
+    font-size: 14px;
   }
 }
