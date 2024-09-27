@@ -623,8 +623,8 @@ function RequestForm({ user }) {
         <div className={styles.btns}>
           <button
             className={styles.submit}
-            type="submit"
-            // onClick={onClickPayment}
+            type="button"
+            onClick={onClickPayment}
           >
             결제
           </button>
