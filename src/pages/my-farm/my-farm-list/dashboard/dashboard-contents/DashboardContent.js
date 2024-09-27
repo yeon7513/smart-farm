@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Outlet, useLocation } from 'react-router-dom';
 import { useComponentContext } from '../../../../../context/ComponentContext';
@@ -10,8 +10,8 @@ import Weather from './weather/Weather';
 function DashboardContent({ docId }) {
   const { sectorInfo } = useSelector((state) => state.dashboardSlice);
   const { currComp } = useComponentContext();
-  const [count, setCount] = useState(1);
-  const [randomCount, setRandomCount] = useState(1);
+  // const [count, setCount] = useState(1);
+  // const [randomCount, setRandomCount] = useState(1);
   const dispatch = useDispatch();
   const { state } = useLocation();
 
