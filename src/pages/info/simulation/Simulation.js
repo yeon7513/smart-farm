@@ -2,11 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { formatData } from '../../../api/simulationData';
 import { evnironmentFields, selectCrop } from '../../../lib/simulationLib';
-import {
-  fetchEnvironmentData,
-  fetchGrowthData,
-  fetchProductionData,
-} from '../../../store/bestfarm/bestfarmSlice';
+import { fetchEnvironmentData } from '../../../store/bestfarm/bestfarmSlice';
 import styles from './Simulation.module.scss';
 import SelectCrops from './select-crops/SelectCrops';
 import SimulationResult from './simulation-result/SimulationResult';
@@ -27,13 +23,13 @@ function Simulation() {
     dispatch(fetchEnvironmentData(`pageSize=5&searchFrmhsCode=${farmCode}`));
   }, [dispatch, farmCode]);
 
-  useEffect(() => {
-    dispatch(fetchGrowthData(`pageSize=5&searchFrmhsCode=${farmCode}`));
-  }, [dispatch, farmCode]);
+  // useEffect(() => {
+  //   dispatch(fetchGrowthData(`pageSize=5&searchFrmhsCode=${farmCode}`));
+  // }, [dispatch, farmCode]);
 
-  useEffect(() => {
-    dispatch(fetchProductionData(`pageSize=5&searchFrmhsCode=${farmCode}`));
-  }, [dispatch, farmCode]);
+  // useEffect(() => {
+  //   dispatch(fetchProductionData(`pageSize=5&searchFrmhsCode=${farmCode}`));
+  // }, [dispatch, farmCode]);
 
   return (
     <div className={styles.simulation}>
@@ -80,38 +76,11 @@ function Simulation() {
       </div>
       <div>
         <h3>3. 환경을 선택해주세요.</h3>
-        <ul>
-          <li>
-            <h4>누적 일사량</h4>
-            <div>
-              <button>일사량1</button>
-              <button>일사량2</button>
-              <button>일사량3</button>
-              <button>일사량4</button>
-              <button>일사량5</button>
-            </div>
-          </li>
-          <li>
-            <h4>주간 평균 습도</h4>
-            <div>
-              <button>평균습도1</button>
-              <button>평균습도2</button>
-              <button>평균습도3</button>
-              <button>평균습도4</button>
-              <button>평균습도5</button>
-            </div>
-          </li>
-          <li>
-            <h4>주간평균잔존CO2</h4>
-            <div>
-              <button>평균잔존CO2 1</button>
-              <button>평균잔존CO2 2</button>
-              <button>평균잔존CO2 3</button>
-              <button>평균잔존CO2 4</button>
-              <button>평균잔존CO2 5</button>
-            </div>
-          </li>
-        </ul>
+        <div>
+          {/* <SimulationSelectData
+            selectDatas={createRange(bestEnvData.averages)}
+          /> */}
+        </div>
       </div>
       <SimulationResult />
     </div>

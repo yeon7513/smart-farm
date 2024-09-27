@@ -122,16 +122,6 @@ function QuotationsCare() {
     setItems(listItems.filter(({ name }) => name.includes(keyword)));
   };
 
-  // 일반 사용자와 관리자의 기능을 다르게 부여하기 위한 함수입니다.
-  const userData = JSON.parse(localStorage.getItem("user"));
-  const userUid = userData.uid;
-  const isAdmin = userData.email === "admin@gmail.com";
-
-  // 관리자가 아닌 경우 자신의 데이터만 보이게 합니다.
-  const filteredCommonInfo = isAdmin
-    ? commonInfo
-    : commonInfo.filter((item) => item.docId === userUid);
-
   const openModal = (item) => {
     setSelectedItem(item);
     setModalOpen(true);
@@ -278,6 +268,18 @@ function QuotationsCare() {
                 <p>농장 종류: {selectedItem.type}</p>
                 <p>주문번호: {selectedItem.createdAt}</p>
                 <p>승인여부: {selectedItem.useYn}</p>
+                <button className={styles.outBtn} onClick={handleApproval}>
+                  승인
+                </button>
+                <button className={styles.outBtn} onClick={handleRejection}>
+                  거절
+                </button>
+                <button
+                  className={styles.closeBtn}
+                  onClick={() => setModalOpen(false)}
+                >
+                  닫기
+                </button>
               </div>
             )}
           </CustomModal>

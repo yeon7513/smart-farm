@@ -1,18 +1,16 @@
-import { doc, increment, setDoc, updateDoc } from "firebase/firestore";
+import {
+  collection,
+  doc,
+  getDocs,
+  increment,
+  query,
+  setDoc,
+  updateDoc,
+  where,
+} from "firebase/firestore";
 import { db } from "./firebase";
 import { getLastNum } from "./board";
 
-// 신고 누적 횟수 증가 함수
-// export const incrementComplainCount = async (userId) => {
-//   try {
-//     const userRef = db.collection("users").doc(userId);
-//     await updateDoc(userRef, {
-//       complaneNum: firebase.firestore.FieldValue.increment(1),
-//     });
-//   } catch (error) {
-//     console.error("신고 누적 횟수 증가 중 오류 발생:", error); // 오류 로그
-//   }
-// };
 export const incrementComplainCount = async (userId) => {
   try {
     const userRef = doc(db, "users", userId); // doc() 사용
@@ -61,13 +59,9 @@ export const addSetDocDatas = async (collectionName, complainData) => {
     const lastNum = await getLastNum(collectionName, "docIdNum");
     const newIdNumber = lastNum + 1; // 마지막 번호에서 1 증가
 
+    // const reasonPrefix = complainData.selectedReason.value.slice(0, 2); // reasonCode의 앞 두 글자
+    // const docId = `${reasonPrefix}_${newIdNumber}`; // 예: "Ps_1", "Pf_1" 등으로 생성
     let docId = `Cp_${newIdNumber}`;
-
-    // if (complainData.selectedReason.value === "ps") {
-    //   docId = `Ps_${newIdNumber}`; // 게시글 신고 ID
-    // } else if (complainData.selectedReason.value === "pf") {
-    //   docId = `Pf_${newIdNumber}`; // 프로필 신고 ID
-    // }
 
     const complainWithId = { ...complainData, docIdNum: newIdNumber };
     const docRef = doc(db, collectionName, docId);
@@ -76,5 +70,23 @@ export const addSetDocDatas = async (collectionName, complainData) => {
     return true;
   } catch (error) {
     console.error("setDoc 에러 발생: ", error);
+  }
+};
+
+export const duplicateComplaint = async (userId, postDocId) => {
+  try {
+    const complaintsRef = collection(db, "complain");
+    const q = query(
+      complaintsRef,
+      where("complainantDocId", "==", userId),
+      where("postDocId", "==", postDocId)
+    );
+
+    const querySnapshot = await getDocs(q);
+
+    return querySnapshot.docs.length > 0;
+  } catch (error) {
+    console.log("중복 신고 확인 중 오류 발생:", error);
+    return false;
   }
 };
