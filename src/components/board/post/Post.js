@@ -18,7 +18,7 @@ function Post({ onClick, onSubmit, category, initialValue = INITIAL_VALUE }) {
   const [values, setValues] = useState(initialValue);
   const [file, setFile] = useState(null);
   const navigate = useNavigate();
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSubmitting] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;

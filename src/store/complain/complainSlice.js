@@ -2,13 +2,14 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { getDatas } from "../../api/firebase";
 import {
   addSetDocDatas,
+  duplicateComplaint,
   incrementComplainCount,
   updateComplaintProcess,
 } from "../../api/complaint";
 
 const initialState = {
   processing: [], // 처리 중
-  processed: [], // 처리 완료z
+  processed: [], // 처리 완료
   isLoading: false,
   error: null,
 };
@@ -54,7 +55,11 @@ const complainSlice = createSlice({
       })
       .addCase(addComplain.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.processing.push(action.payload); // 성공 시 데이터 추가
+        if (action.payload.success === true) {
+          state.processing.push(action.payload.data); // 성공 시 데이터 추가
+        } else {
+          state.error = action.payload.message; // 중복으로 실패 시 메세지
+        }
       })
       .addCase(addComplain.rejected, (state, action) => {
         state.isLoading = false;
@@ -131,13 +136,23 @@ export const addComplain = createAsyncThunk(
   "complain/addComplain",
   async ({ collectionName, complainData }) => {
     try {
-      // Firestore에 수동으로 문서 ID 설정
+      const isDuplicate = await duplicateComplaint(
+        complainData.complainantDocId,
+        complainData.postDocId
+      );
+
+      if (isDuplicate) {
+        alert("이미 신고되어 처리 중입니다.");
+        return { success: false, message: "이미 신고되어 처리 중입니다." };
+      } else {
+      }
+
       await addSetDocDatas(collectionName, complainData);
 
-      return complainData; // 추가한 데이터를 리턴
+      return { success: true, data: complainData }; // 성공 시 추가한 데이터를 리턴
     } catch (error) {
-      console.log(`신고하기 에러 발생`);
-      return false;
+      console.log(`신고하기 에러 발생: ${error.message}`);
+      return { success: false, message: error.message }; // 에러 발생 시 메시지 리턴
     }
   }
 );
