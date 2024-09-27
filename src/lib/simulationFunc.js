@@ -2,17 +2,17 @@ export const selectCrop = [
   {
     id: 'strbr',
     name: '딸기',
-    value: 'S23',
+    value: 'S47',
   },
   {
     id: 'tmt',
     name: '토마토',
-    value: '349',
+    value: '43',
   },
   {
     id: 'pprk',
     name: '파프리카',
-    value: 'SP205',
+    value: 'SP11',
   },
 ];
 
@@ -72,5 +72,5 @@ export function formatData(data, fields) {
     averages[field] = totals[field] / length;
   });
 
-  return { totals, averages };
+  return { averages };
 }
