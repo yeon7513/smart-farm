@@ -51,6 +51,17 @@
     .menu_bar {
       width: 700px;
     }
+    .title {
+      width: 70%;
+      text-align: center;
+
+      p {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 300px;
+      }
+    }
   }
 }
 
@@ -66,8 +77,19 @@
       font-size: 14px;
       margin-bottom: 5px;
     }
+    .title {
+      width: 70%;
+      text-align: center;
+
+      p {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 200px;
+      }
+    }
   }
-  .posts_main {
-    font-size: 14px;
-  }
+  // .posts_main {
+  //   font-size: 14px;
+  // }
 }
