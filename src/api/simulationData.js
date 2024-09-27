@@ -52,7 +52,7 @@ export function formatData(data, fields) {
 
 // 구간 설정
 const createRange = (data) => {
-  const ranges = {};
+  const ranges = [];
 
   for (const [key, value] of Object.entries(data)) {
     const min = Math.min(...value);
