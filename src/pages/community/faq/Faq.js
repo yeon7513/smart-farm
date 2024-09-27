@@ -161,6 +161,7 @@ function Faq() {
 
   // FAQ를 삭제하는 함수입니다.
   async function handleDelete(collectionName, id) {
+    window.confirm("정말로 삭제하시겠습니까?");
     try {
       const faqRef = doc(db, collectionName, id.toString());
       await deleteDoc(faqRef);
@@ -245,7 +246,6 @@ function Faq() {
             {sortedFaqData.map(
               ({ id, question, answer, likes, views, liked }) => (
                 <div key={id} className={styles.faq}>
-                  {isEditing}
                   <div className={styles.title}>
                     <h3>{`Q. ${question}`}</h3>
                     <div className={styles.editButtons}>

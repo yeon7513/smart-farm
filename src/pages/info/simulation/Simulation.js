@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectCrop } from '../../../lib/simulationFunc';
+import {
+  evnironmentFields,
+  formatData,
+  selectCrop,
+} from '../../../lib/simulationFunc';
 import {
   fetchEnvironmentData,
   fetchGrowthData,
@@ -11,7 +15,7 @@ import SelectCrops from './select-crops/SelectCrops';
 import SimulationResult from './simulation-result/SimulationResult';
 
 function Simulation() {
-  const [farmCode, setFarmCode] = useState('S23');
+  const [farmCode, setFarmCode] = useState('S47');
 
   const { environmentData, growthData, productionData } = useSelector(
     (state) => state.bestfarmSlice
@@ -22,16 +26,20 @@ function Simulation() {
   // console.log('growthData: ', growthData);
   // console.log('productionData: ', productionData);
 
+  const { averages } = formatData(environmentData, evnironmentFields);
+
+  console.log('averages: ', averages);
+
   useEffect(() => {
     dispatch(fetchEnvironmentData(`pageSize=5&searchFrmhsCode=${farmCode}`));
   }, [dispatch, farmCode]);
 
   useEffect(() => {
-    dispatch(fetchGrowthData(`pageSize=1&searchFrmhsCode=${farmCode}`));
+    dispatch(fetchGrowthData(`pageSize=5&searchFrmhsCode=${farmCode}`));
   }, [dispatch, farmCode]);
 
   useEffect(() => {
-    dispatch(fetchProductionData(`pageSize=1&searchFrmhsCode=${farmCode}`));
+    dispatch(fetchProductionData(`pageSize=5&searchFrmhsCode=${farmCode}`));
   }, [dispatch, farmCode]);
 
   return (
