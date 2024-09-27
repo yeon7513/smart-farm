@@ -1,34 +1,34 @@
-import { Avatar, Container, TextField } from '@mui/material';
-import { signInWithPopup } from 'firebase/auth';
-import React, { useEffect, useState } from 'react';
-import { useForm } from 'react-hook-form';
-import * as FcIcons from 'react-icons/fc';
-import { useDispatch } from 'react-redux';
-import { Link, useNavigate } from 'react-router-dom';
-import { joinUser, LoginGetDatas } from '../../api/userPage';
-import CustomModal from '../../components/modal/CustomModal';
-import SearchAddr from '../../components/search-addr/SearchAddr';
-import { setUser } from '../../store/user/UserSlice';
-import { getUserAuth } from './../../api/firebase';
-import Kakaoback from './Kakaoback';
-import styles from './LoginPage.module.scss';
-import SignIn from './sign-in/SignIn';
+import { Avatar, Container, TextField } from "@mui/material";
+import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import React, { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import * as FcIcons from "react-icons/fc";
+import { useDispatch } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
+import { joinUser, LoginGetDatas } from "../../api/userPage";
+import CustomModal from "../../components/modal/CustomModal";
+import SearchAddr from "../../components/search-addr/SearchAddr";
+import { setUser } from "../../store/user/UserSlice";
+import { getUserAuth } from "./../../api/firebase";
+import Kakaoback from "./Kakaoback";
+import styles from "./LoginPage.module.scss";
+import SignIn from "./sign-in/SignIn";
 
 function LoginPage() {
   const navigate = useNavigate();
 
   useEffect(() => {
     const localInfoNum = async () => {
-      const localInfo = localStorage.getItem('user');
-      if (localInfo && localInfo.includes('email')) {
-        navigate('/');
+      const localInfo = localStorage.getItem("user");
+      if (localInfo && localInfo.includes("email")) {
+        navigate("/");
       }
     };
     localInfoNum();
   }, [navigate]);
 
   const { register, handleSubmit, watch } = useForm({
-    mode: 'onChange',
+    mode: "onChange",
   });
   const [inputValue, setInputValue] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -61,15 +61,16 @@ function LoginPage() {
   }, [inputValue, allValues]);
 
   const SignInWithGoogle = async () => {
-    await signInWithPopup(auth).then(async (result) => {
-      const userInfo = await LoginGetDatas('users');
+    const provider = new GoogleAuthProvider();
+    await signInWithPopup(auth, provider).then(async (result) => {
+      const userInfo = await LoginGetDatas("users");
       const Point = userInfo.filter((item) => item.email === result.user.email);
       if (Point.length === 0) {
         setModalOpen(true);
         openModal();
 
         if (modalOpen) {
-          navigate('/');
+          navigate("/");
         }
       } else {
         Point.forEach((item) => {
@@ -85,20 +86,20 @@ function LoginPage() {
             })
           );
         });
-        navigate('/');
+        navigate("/");
       }
     });
   };
-  const password = '';
+  const password = "";
   const onSubmit = ({ name, number }) => {
-    console.log({ ...register('number') });
+    console.log({ ...register("number") });
     joinUser(Info.uid, Info.email, password, {
       number: number,
       address: myAddress,
-      farmAddress: '',
+      farmAddress: "",
       name: name,
       nickname: Info.displayName,
-      deleteYn: 'N',
+      deleteYn: "N",
     });
     dispatch(
       setUser({
@@ -111,7 +112,7 @@ function LoginPage() {
       })
     );
     closeModal();
-    navigate('/');
+    navigate("/");
   };
 
   return (
@@ -121,7 +122,7 @@ function LoginPage() {
       </div>
       <div className={styles.avatar}>
         <Avatar
-          sx={{ m: 0, background: 'var(--common-color)' }}
+          sx={{ m: 0, background: "var(--common-color)" }}
           style={{
             width: 80,
             height: 80,
@@ -157,12 +158,12 @@ function LoginPage() {
       <div className={styles.searchText}>
         <div>아직 회원이 아니신가요?</div>
         <div>
-          <Link to={'/register'}>회원가입</Link>
+          <Link to={"/register"}>회원가입</Link>
         </div>
       </div>
       <CustomModal
-        title={'추가 정보'}
-        btnName={'확인'}
+        title={"추가 정보"}
+        btnName={"확인"}
         isOpen={isModalOpen}
         handleClose={closeModal}
         btnHandler={handleSubmit(onSubmit)}
@@ -180,9 +181,9 @@ function LoginPage() {
                   },
                 }}
                 type="text"
-                label={'이름'}
+                label={"이름"}
                 autoComplete="off"
-                {...register('name')}
+                {...register("name")}
               />
             </div>
             <div>
@@ -194,9 +195,9 @@ function LoginPage() {
                   },
                 }}
                 type="text"
-                label={'전화번호(- 포함한 13자리)'}
+                label={"전화번호(- 포함한 13자리)"}
                 autoComplete="off"
-                {...register('number')}
+                {...register("number")}
               />
             </div>
             <div>

@@ -232,6 +232,7 @@ function RequestForm({ user }) {
       return;
     }
 
+    // 문자열로 되어있는 농장 면적과 농장 동 수를 숫자로 변환합니다.
     const farmAreaNum = Number(farmArea);
     const farmEquivalentNum = Number(farmEquivalent);
 
@@ -274,6 +275,7 @@ function RequestForm({ user }) {
     IMP.request_pay(data, (response) => callback(response, merchant_uid));
   }
 
+  // 결제하고 결제 결과를 표시합니다.
   const callback = async (response, merchant_uid) => {
     const { success, error_msg, imp_uid } = response;
     if (success && imp_uid) {
@@ -288,6 +290,7 @@ function RequestForm({ user }) {
     }
   };
 
+  // 농장 주소의 값을 변경하는 함수입니다.
   const handleChange = (e) => {
     const value = e.target.value;
 
@@ -302,6 +305,8 @@ function RequestForm({ user }) {
   const handleGetAddr = async (addr) => {
     setFarmAddress(addr);
 
+    console.log("addr: ", addr);
+
     try {
       // 주소의 위도, 경도 값을 가져옵니다.
       const { lat, lng } = (await convertingAddressToGeoCode(addr)) || {};
@@ -309,7 +314,8 @@ function RequestForm({ user }) {
         setLat(lat);
         setLng(lng);
       } else {
-        console.error("위도 또는 경도 값이 유효하지 않습니다.");
+        // console.error('위도 또는 경도 값이 유효하지 않습니다.');
+        console.log("위도:", lat, "경도:", lng);
       }
     } catch (error) {
       console.error("주소 변환 중 오류 발생: ", error.message);
@@ -368,13 +374,7 @@ function RequestForm({ user }) {
       return;
     }
 
-    const today = new Date();
-    const year = today.getFullYear();
-    const month = String(today.getMonth() + 1).padStart(2, "0");
-    const day = String(today.getDate()).padStart(2, "0");
-
-    // 주문번호입니다.
-    const createdAt = `${year}${month}${day}${new Date().getTime()}`;
+    const { lat, lng } = await convertingAddressToGeoCode(farmAddress);
 
     try {
       await Promise.all(
@@ -387,20 +387,20 @@ function RequestForm({ user }) {
             number: user.number,
             address: user.address,
             farmAddress: farmAddress,
-            lat: parseFloat(lat),
-            lng: parseFloat(lng),
+            lat: lat,
+            lng: lng,
             cropType: cropType,
             facilityType: facilityType,
             additionalOptions: selectedOptions[index],
             farmArea: Number(farmArea),
             farmName: farmName,
             farmEquivalent: Number(farmEquivalent),
-            createdAt: createdAt,
+            createdAt: new Date().getTime(),
             paymentMethod: paymentMethod,
             cashReceipt: cashReceipt,
             imp_uid: imp_uid,
             merchant_uid: merchant_uid,
-            sector: `${index + 1}동`,
+            sector: index + 1,
           };
 
           const paymentCollectionRef = collection(db, "payments");
@@ -409,27 +409,28 @@ function RequestForm({ user }) {
           // dashboard로 넘겨서 승인여부(useYn)를 검사합니다. (기본값: n)
           const dashboardObj = {
             name: user.name,
-            createdAt: `${new Date().getTime()}`,
+            createdAt: new Date().getTime(),
             crop: cropType,
             deleteYn: "N",
             userDocId: user.uid,
             farmName: farmName,
-            latitude: lat,
-            longitude: lng,
+            lat: lat,
+            lng: lng,
             type: facilityType,
             additionalOptions: additionalOptionsArray,
-            updatedAt: `${new Date().getTime()}`,
+            updatedAt: new Date().getTime(),
             useYn: "N",
             userId: user.email,
             imp_uid: imp_uid,
             merchant_uid: merchant_uid,
-            sector: `${index + 1}동`,
+            sector: index + 1,
             paymentsDocId: paymentDocRef.id,
           };
 
           const dashboardObjCollectionRef = collection(db, "dashboard");
 
           await addDoc(dashboardObjCollectionRef, dashboardObj);
+          console.log("dashboardObj", dashboardObj);
         })
       );
       console.log("데이터가 성공적으로 추가되었습니다.");
@@ -468,7 +469,7 @@ function RequestForm({ user }) {
         </div>
         <div className={styles.farmAddress}>
           <h3>농장 주소: </h3>
-          <SearchAddr getAddr={handleGetAddr} className={styles.addr} />
+          <SearchAddr getAddr={setFarmAddress} className={styles.addr} />
         </div>
         <div className={styles.farmName}>
           <h3>농장 이름: </h3>

@@ -2,8 +2,8 @@ import React from 'react';
 import SimulationBtn from './simulation-btns/SimulationBtn';
 import styles from './SimulationSelectData.module.scss';
 
-function SimulationSelectData({ selectDatas }) {
-  console.log(selectDatas);
+function SimulationSelectData({ selectDatas, onClick }) {
+  console.log('selectDatas: ', selectDatas);
 
   return (
     <div>
@@ -12,7 +12,12 @@ function SimulationSelectData({ selectDatas }) {
           <h4>{data.name}</h4>
           <div className={styles.btns}>
             {data.values.map((value, idx) => (
-              <SimulationBtn key={idx} count={value.count}>
+              <SimulationBtn
+                key={idx}
+                name={data.name}
+                count={value.count}
+                onClick={onClick}
+              >
                 {value.range}
               </SimulationBtn>
             ))}

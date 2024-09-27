@@ -15,6 +15,5 @@ export const convertingAddressToGeoCode = async (addr) => {
     }
   } catch (error) {
     console.error("Geocoding API 호출 실패: ", error);
-    return { lat: null, lng: null };
   }
 };
