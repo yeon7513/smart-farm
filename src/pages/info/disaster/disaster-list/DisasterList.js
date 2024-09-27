@@ -119,7 +119,7 @@ function DisasterList({ currentPage, itemsPerPage, updateTotalPages }) {
               <p>조회수</p>
             </div>
           </div>
-          <div>
+          <div className={styles.posts_main}>
             {currentPosts.length > 0 ? (
               currentPosts.map((item, idx) => (
                 <li key={item.docId} item={item}>
@@ -130,7 +130,11 @@ function DisasterList({ currentPage, itemsPerPage, updateTotalPages }) {
                         {/* 번호 매기기 */}
                       </div>
                       <div className={styles.title}>
-                        <p>{item.title}</p>
+                        <p>
+                          {item.title.length > 15
+                            ? `${item.title.substring(0, 15)}...`
+                            : item.title}
+                        </p>
                       </div>
                       <div className={styles.name}>관리자</div>
                       <div className={styles.date}>
