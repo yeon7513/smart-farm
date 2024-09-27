@@ -368,22 +368,13 @@ function RequestForm({ user }) {
   };
 
   // 견적 내용을 저장합니다.
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    // if (!imp_uid) {
-    //   console.error("imp_uid가 필요합니다.");
-    //   return;
-    // }
+  const handleSubmit = async (imp_uid, merchant_uid) => {
+    if (!imp_uid) {
+      console.error('imp_uid가 필요합니다.');
+      return;
+    }
 
     const { lat, lng } = await convertingAddressToGeoCode(farmAddress);
-
-    const today = new Date();
-    const year = today.getFullYear();
-    const month = String(today.getMonth() + 1).padStart(2, '0');
-    const day = String(today.getDate()).padStart(2, '0');
-
-    // 주문번호입니다.
-    const createdAt = `${year}${month}${day}${new Date().getTime()}`;
 
     try {
       await Promise.all(
@@ -404,12 +395,12 @@ function RequestForm({ user }) {
             farmArea: Number(farmArea),
             farmName: farmName,
             farmEquivalent: Number(farmEquivalent),
-            createdAt: createdAt,
+            createdAt: new Date().getTime(),
             paymentMethod: paymentMethod,
             cashReceipt: cashReceipt,
-            // imp_uid: imp_uid,
-            // merchant_uid: merchant_uid,
-            sector: `${index + 1}동`,
+            imp_uid: imp_uid,
+            merchant_uid: merchant_uid,
+            sector: index + 1,
           };
 
           const paymentCollectionRef = collection(db, 'payments');
@@ -430,41 +421,41 @@ function RequestForm({ user }) {
             updatedAt: new Date().getTime(),
             useYn: 'N',
             userId: user.email,
-            // imp_uid: imp_uid,
-            // merchant_uid: merchant_uid,
-            sector: `${index + 1}동`,
+            imp_uid: imp_uid,
+            merchant_uid: merchant_uid,
+            sector: index + 1,
             paymentsDocId: paymentDocRef.id,
           };
 
-          // const dashboardObjCollectionRef = collection(db, "dashboard");
+          const dashboardObjCollectionRef = collection(db, 'dashboard');
 
-          // await addDoc(dashboardObjCollectionRef, dashboardObj);
+          await addDoc(dashboardObjCollectionRef, dashboardObj);
           console.log('dashboardObj', dashboardObj);
         })
       );
       console.log('데이터가 성공적으로 추가되었습니다.');
-      // resetForm();
+      resetForm();
     } catch (error) {
       console.error('에러가 발생하였습니다: ', error.message);
     }
   };
 
   // 폼 데이터 초기화하는 함수입니다.
-  // const resetForm = () => {
-  //   setFarmAddress('');
-  //   setFarmName('');
-  //   setFarmArea('');
-  //   setFarmEquivalent('');
-  //   setAdditionalOptions({});
-  //   setPaymentMethod('');
-  //   setAccountHolder('');
-  //   setCashReceipt('현금영수증 ×');
-  //   setLat(null);
-  //   setLng(null);
-  // };
+  const resetForm = () => {
+    setFarmAddress('');
+    setFarmName('');
+    setFarmArea('');
+    setFarmEquivalent('');
+    setAdditionalOptions({});
+    setPaymentMethod('');
+    setAccountHolder('');
+    setCashReceipt('현금영수증 ×');
+    setLat(null);
+    setLng(null);
+  };
 
   return (
-    <form className={styles.requestForm} onSubmit={handleSubmit}>
+    <form className={styles.requestForm} onSubmit={(e) => e.preventDefault()}>
       <div className={styles.userContainer}>
         <div className={styles.user}>
           <div>
@@ -626,8 +617,8 @@ function RequestForm({ user }) {
         <div className={styles.btns}>
           <button
             className={styles.submit}
-            type="submit"
-            // onClick={onClickPayment}
+            type="button"
+            onClick={onClickPayment}
           >
             결제
           </button>

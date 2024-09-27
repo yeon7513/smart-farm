@@ -20,10 +20,10 @@ export default function App({ items }) {
         slidesPerView={3}
         spaceBetween={30}
         freeMode={true}
-        // autoplay={{
-        //   delay: 5000,
-        //   disableOnInteraction: false,
-        // }}
+        autoplay={{
+          delay: 5000,
+          disableOnInteraction: false,
+        }}
         scrollbar={{
           hide: false,
         }}
