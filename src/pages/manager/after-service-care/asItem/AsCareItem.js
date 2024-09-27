@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import Comment from '../../../../components/comment/Comment';
-import CustomModal from '../../../../components/modal/CustomModal';
-import { approveComplete } from '../../../../store/as-service/asSlice';
-import styles from './AsCareItem.module.scss';
+import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import Comment from "../../../../components/comment/Comment";
+import CustomModal from "../../../../components/modal/CustomModal";
+import { approveComplete } from "../../../../store/as-service/asSlice";
+import styles from "./AsCareItem.module.scss";
 
 const PAGE_SIZE = 20;
 
@@ -26,12 +26,12 @@ function AsCareItem({ items = [] }) {
     if (currentDocId) {
       dispatch(approveComplete({ postId: currentDocId }))
         .then(() => {
-          alert('답변 완료 되었습니다.');
-          setIsModalOpen(false); // 모달 닫기
+          alert("답변 완료 되었습니다.");
+          setIsModalOpen(false);
         })
         .catch((error) => {
           console.error(error);
-          alert('오류가 발생했습니다.');
+          alert("오류가 발생했습니다.");
         });
     }
   };
@@ -86,8 +86,8 @@ function AsCareItem({ items = [] }) {
                   </button>
 
                   <CustomModal
-                    title={'A/S 답변'}
-                    btnName={'완료'}
+                    title={"A/S 답변"}
+                    btnName={"완료"}
                     handleClose={closeModal}
                     isOpen={isModalOpen}
                     btnHandler={goCompleted}
@@ -113,7 +113,7 @@ function AsCareItem({ items = [] }) {
                           {item.imgUrl ? (
                             <img src={item.imgUrl} alt="첨부 이미지" />
                           ) : (
-                            ''
+                            ""
                           )}
                         </div>
                       </div>

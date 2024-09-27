@@ -3,7 +3,7 @@ import styles from "../ComplaintsCare.module.scss";
 import { Link } from "react-router-dom";
 import CustomModal from "../../../../components/modal/CustomModal";
 import CpModal from "./CpModal";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { deleteBoardDatas } from "../../../../store/board/boardSlice";
 import { approveComplaint } from "../../../../store/complain/complainSlice";
 
