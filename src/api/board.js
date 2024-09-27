@@ -170,7 +170,7 @@ export async function addComment(collectionName, docId, commentObj) {
     const commentRef = collection(db, collectionName, docId, "comment");
     await addDoc(commentRef, {
       ...commentObj,
-      createdAt: new Date().toISOString().slice(0, 10),
+      createdAt: new Date().toLocaleString(),
     });
     return true;
   } catch (error) {

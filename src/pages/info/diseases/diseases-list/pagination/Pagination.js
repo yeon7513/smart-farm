@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import styles from "./Pagination.module.scss"; // module.scss로 import
 import { GrFormPrevious } from "react-icons/gr";
 import { MdOutlineNavigateNext } from "react-icons/md";
+import { RiArrowLeftDoubleLine, RiArrowRightDoubleLine } from "react-icons/ri";
 
 const Pagination = ({ currentPage, totalPages, onPageChange }) => {
   const [startPage, setStartPage] = useState(1);
@@ -46,7 +47,7 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
             disabled={currentPage === 1}
             className={styles.pageButton}
           >
-            First
+            <RiArrowLeftDoubleLine />
           </button>
         </li>
 
@@ -94,7 +95,7 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
             disabled={currentPage === totalPages}
             className={styles.pageButton}
           >
-            Last
+            <RiArrowRightDoubleLine />
           </button>
         </li>
       </ul>

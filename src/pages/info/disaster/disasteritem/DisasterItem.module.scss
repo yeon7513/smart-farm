@@ -97,7 +97,7 @@
 /* 작은 모니터 */
 @media (max-width: 1200px) {
   .main {
-    width: 800px;
+    width: 100%;
     align-items: center;
 
     .button_items {
@@ -146,6 +146,7 @@
 /* 태블릿 */
 @media (max-width: 992px) {
   .main {
+    width: 100%;
     align-items: center;
 
     .button_items {
@@ -195,6 +196,7 @@
 // 모바일
 @media (max-width: 768px) {
   .main {
+    width: 100%;
     align-items: center;
 
     .button_items {
