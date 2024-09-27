@@ -75,18 +75,13 @@ export const createRange = (data) => {
       }
     })();
 
+    const values = [];
+
     for (let i = 0; i < 5; i++) {
       const rangeMin = (min + step * i).toFixed(2);
       const rangeMax = (min + step * (i + 1)).toFixed(2);
-      let count;
 
-      if (i === 0 || i === 4) {
-        count = -3; // 첫 번째와 마지막 구간
-      } else if (i === 1 || i === 3) {
-        count = -2; // 두 번째와 네 번째 구간
-      } else if (i === 2) {
-        count = -1; // 세 번째 구간
-      }
+      const count = i === 0 || i === 4 ? -3 : i === 1 || i === 3 ? -2 : -1;
 
       const rangeLabel =
         i === 0
@@ -95,8 +90,10 @@ export const createRange = (data) => {
           ? `${rangeMax} 이상`
           : `${rangeMin} ~ ${rangeMax}`;
 
-      ranges.push({ [changeKey]: [{ range: rangeLabel, count: count }] });
+      values.push({ range: rangeLabel, count: count });
     }
+
+    ranges.push({ name: changeKey, values: values });
   }
 
   return ranges;
