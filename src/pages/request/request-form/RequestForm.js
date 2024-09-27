@@ -305,6 +305,8 @@ function RequestForm({ user }) {
   const handleGetAddr = async (addr) => {
     setFarmAddress(addr);
 
+    console.log("addr: ", addr);
+
     try {
       // 주소의 위도, 경도 값을 가져옵니다.
       const { lat, lng } = (await convertingAddressToGeoCode(addr)) || {};
@@ -366,11 +368,12 @@ function RequestForm({ user }) {
   };
 
   // 견적 내용을 저장합니다.
-  const handleSubmit = async (imp_uid, merchant_uid) => {
-    if (!imp_uid) {
-      console.error("imp_uid가 필요합니다.");
-      return;
-    }
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    // if (!imp_uid) {
+    //   console.error("imp_uid가 필요합니다.");
+    //   return;
+    // }
 
     const today = new Date();
     const year = today.getFullYear();
@@ -402,8 +405,8 @@ function RequestForm({ user }) {
             createdAt: createdAt,
             paymentMethod: paymentMethod,
             cashReceipt: cashReceipt,
-            imp_uid: imp_uid,
-            merchant_uid: merchant_uid,
+            // imp_uid: imp_uid,
+            // merchant_uid: merchant_uid,
             sector: `${index + 1}동`,
           };
 
@@ -425,19 +428,19 @@ function RequestForm({ user }) {
             updatedAt: `${new Date().getTime()}`,
             useYn: "N",
             userId: user.email,
-            imp_uid: imp_uid,
-            merchant_uid: merchant_uid,
+            // imp_uid: imp_uid,
+            // merchant_uid: merchant_uid,
             sector: `${index + 1}동`,
             paymentsDocId: paymentDocRef.id,
           };
 
           const dashboardObjCollectionRef = collection(db, "dashboard");
-
-          await addDoc(dashboardObjCollectionRef, dashboardObj);
+          console.log(`dashboardObj: `, dashboardObj);
+          // await addDoc(dashboardObjCollectionRef, dashboardObj);
         })
       );
       console.log("데이터가 성공적으로 추가되었습니다.");
-      resetForm();
+      // resetForm();
     } catch (error) {
       console.error("에러가 발생하였습니다: ", error.message);
     }
@@ -458,7 +461,7 @@ function RequestForm({ user }) {
   };
 
   return (
-    <form className={styles.requestForm} onSubmit={(e) => e.preventDefault()}>
+    <form className={styles.requestForm} onSubmit={handleSubmit}>
       <div className={styles.userContainer}>
         <div className={styles.user}>
           <div>
@@ -620,8 +623,8 @@ function RequestForm({ user }) {
         <div className={styles.btns}>
           <button
             className={styles.submit}
-            type="button"
-            onClick={onClickPayment}
+            type="submit"
+            // onClick={onClickPayment}
           >
             결제
           </button>
