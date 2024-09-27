@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from "react";
 import styles from "./Weather.module.scss";
-// import { FaCircle } from "react-icons/fa";
 import {
   BsCloudSun,
   BsFillCloudsFill,
   BsFillSunriseFill,
   BsSunsetFill,
 } from "react-icons/bs";
-import { IoCloudSharp, IoSunny } from "react-icons/io5";
+import { IoCloudSharp } from "react-icons/io5";
 import { IoMdRainy, IoIosThunderstorm } from "react-icons/io";
 import { WiDayRainMix } from "react-icons/wi";
 import { TbMist } from "react-icons/tb";

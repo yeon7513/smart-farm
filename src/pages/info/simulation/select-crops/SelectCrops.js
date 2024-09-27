@@ -1,7 +1,12 @@
 import React from 'react';
 
-function SelectCrops({ selectCrop, farmCode, setFarmCode }) {
-  const { id, name, value } = selectCrop;
+function SelectCrops({ selectCrop, farmCode, setFarmCode, setBestProdValue }) {
+  const { id, name, value, prodPerArea } = selectCrop;
+
+  const handleSelectCrops = (e) => {
+    setFarmCode(e.target.value);
+    setBestProdValue(prodPerArea);
+  };
 
   return (
     <label htmlFor={id}>
@@ -11,7 +16,7 @@ function SelectCrops({ selectCrop, farmCode, setFarmCode }) {
         name="crops"
         value={value}
         checked={farmCode === value}
-        onChange={(e) => setFarmCode(e.target.value)}
+        onChange={handleSelectCrops}
       />
       <span>{name}</span>
     </label>

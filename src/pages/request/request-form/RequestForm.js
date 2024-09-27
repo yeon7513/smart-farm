@@ -1,24 +1,24 @@
-import { addDoc, collection } from 'firebase/firestore';
-import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { db } from '../../../api/firebase';
-import SearchAddr from '../../../components/search-addr/SearchAddr';
-import FacilitiesHorticulture from '../FacilitiesHorticulture';
-import OpenGround from '../OpenGround';
-import { convertingAddressToGeoCode } from './../../../api/geoCode';
-import styles from './RequestForm.module.scss';
+import { addDoc, collection } from "firebase/firestore";
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { db } from "../../../api/firebase";
+import SearchAddr from "../../../components/search-addr/SearchAddr";
+import FacilitiesHorticulture from "../FacilitiesHorticulture";
+import OpenGround from "../OpenGround";
+import { convertingAddressToGeoCode } from "./../../../api/geoCode";
+import styles from "./RequestForm.module.scss";
 
 function RequestForm({ user }) {
-  const [cropType, setCropType] = useState('딸기');
-  const [farmAddress, setFarmAddress] = useState('');
-  const [facilityType, setFacilityType] = useState('시설원예');
-  const [farmName, setFarmName] = useState('');
-  const [farmArea, setFarmArea] = useState('');
+  const [cropType, setCropType] = useState("딸기");
+  const [farmAddress, setFarmAddress] = useState("");
+  const [facilityType, setFacilityType] = useState("시설원예");
+  const [farmName, setFarmName] = useState("");
+  const [farmArea, setFarmArea] = useState("");
   const [farmEquivalent, setFarmEquivalent] = useState(0);
   const [additionalOptions, setAdditionalOptions] = useState({});
-  const [paymentMethod, setPaymentMethod] = useState('');
-  const [accountHolder, setAccountHolder] = useState('');
-  const [cashReceipt, setCashReceipt] = useState('현금영수증 ×');
+  const [paymentMethod, setPaymentMethod] = useState("");
+  const [accountHolder, setAccountHolder] = useState("");
+  const [cashReceipt, setCashReceipt] = useState("현금영수증 ×");
   const [lat, setLat] = useState(null);
   const [lng, setLng] = useState(null);
   const [isIamportLoaded, setIsIamportLoaded] = useState(false);
@@ -28,166 +28,166 @@ function RequestForm({ user }) {
   const navigate = useNavigate();
 
   const facilitiesHorticultureOptions = {
-    '환경 제어': [
+    "환경 제어": [
       {
-        id: 'thermostat',
-        value: '온도 조절기',
-        label: '온도 조절기',
+        id: "thermostat",
+        value: "온도 조절기",
+        label: "온도 조절기",
       },
       {
-        id: 'ventilationSystem',
-        value: '환기 장치',
-        label: '환기 장치',
+        id: "ventilationSystem",
+        value: "환기 장치",
+        label: "환기 장치",
       },
-      { id: 'shadingFilm', value: '차광막', label: '차광막' },
+      { id: "shadingFilm", value: "차광막", label: "차광막" },
     ],
-    '조명 시스템': [
+    "조명 시스템": [
       {
-        id: 'LEDGrowLights',
-        value: '인공 조명',
-        label: '인공 조명',
+        id: "LEDGrowLights",
+        value: "인공 조명",
+        label: "인공 조명",
       },
       {
-        id: 'automaticLightingRegulator',
-        value: '자동 조명 조절기',
-        label: '자동 조명 조절기',
-      },
-    ],
-    '관수 시스템': [
-      {
-        id: 'automaticIrrigationSystem',
-        value: '자동 관수 시스템',
-        label: '자동 관수 시스템',
-      },
-      {
-        id: 'positiveLiquidMachine',
-        value: '양액기',
-        label: '양액기',
+        id: "automaticLightingRegulator",
+        value: "자동 조명 조절기",
+        label: "자동 조명 조절기",
       },
     ],
-    '센서 및 모니터링': [
+    "관수 시스템": [
       {
-        id: 'temperatureHumiditySensor',
-        value: '온도 및 습도 센서',
-        label: '온도 및 습도 센서',
+        id: "automaticIrrigationSystem",
+        value: "자동 관수 시스템",
+        label: "자동 관수 시스템",
       },
       {
-        id: 'CO2Sensor',
-        value: 'CO2 센서',
-        label: 'CO2 센서',
+        id: "positiveLiquidMachine",
+        value: "양액기",
+        label: "양액기",
       },
-      { id: 'CCTV', value: 'CCTV', label: 'CCTV' },
     ],
-    '기타 장비': [
+    "센서 및 모니터링": [
       {
-        id: 'positiveSolutionMeasurementSensor',
-        value: '양액측정센서',
-        label: '양액측정센서',
+        id: "temperatureHumiditySensor",
+        value: "온도 및 습도 센서",
+        label: "온도 및 습도 센서",
       },
       {
-        id: 'insectRepellect',
-        value: '해충 퇴치기',
-        label: '해충 퇴치기',
+        id: "CO2Sensor",
+        value: "CO2 센서",
+        label: "CO2 센서",
+      },
+      { id: "CCTV", value: "CCTV", label: "CCTV" },
+    ],
+    "기타 장비": [
+      {
+        id: "positiveSolutionMeasurementSensor",
+        value: "양액측정센서",
+        label: "양액측정센서",
       },
       {
-        id: 'pestDigitalTrap',
-        value: '해충 디지털 트랩',
-        label: '해충 디지털 트랩',
+        id: "insectRepellect",
+        value: "해충 퇴치기",
+        label: "해충 퇴치기",
       },
-      { id: 'birdRepellent', value: '조류 퇴치기', label: '조류 퇴치기' },
+      {
+        id: "pestDigitalTrap",
+        value: "해충 디지털 트랩",
+        label: "해충 디지털 트랩",
+      },
+      { id: "birdRepellent", value: "조류 퇴치기", label: "조류 퇴치기" },
     ],
   };
 
   const openGroundOptions = {
-    '관수 시스템': [
+    "관수 시스템": [
       {
-        id: 'dripIrrigationSystem',
-        value: '드립 관수 시스템',
-        label: '드립 관수 시스템',
+        id: "dripIrrigationSystem",
+        value: "드립 관수 시스템",
+        label: "드립 관수 시스템",
       },
       {
-        id: 'sprinklerSystem',
-        value: '스프링클러 시스템',
-        label: '스프링클러 시스템',
-      },
-    ],
-    '토양 관리': [
-      {
-        id: 'soilPhMeter',
-        value: '토양 ph 측정기',
-        label: '토양 ph 측정기',
-      },
-      {
-        id: 'soilHumiditySensor',
-        value: '토양 습도 센서',
-        label: '토양 습도 센서',
+        id: "sprinklerSystem",
+        value: "스프링클러 시스템",
+        label: "스프링클러 시스템",
       },
     ],
-    '비료 및 농약 관리': [
+    "토양 관리": [
       {
-        id: 'fertilizerApplicationMachine',
-        value: '비료 살포기',
-        label: '비료 살포기',
+        id: "soilPhMeter",
+        value: "토양 ph 측정기",
+        label: "토양 ph 측정기",
       },
       {
-        id: 'pesticideSprayer',
-        value: '농약 살포기',
-        label: '농약 살포기',
+        id: "soilHumiditySensor",
+        value: "토양 습도 센서",
+        label: "토양 습도 센서",
+      },
+    ],
+    "비료 및 농약 관리": [
+      {
+        id: "fertilizerApplicationMachine",
+        value: "비료 살포기",
+        label: "비료 살포기",
+      },
+      {
+        id: "pesticideSprayer",
+        value: "농약 살포기",
+        label: "농약 살포기",
       },
     ],
     모니터링: [
       {
-        id: 'weatherStation',
-        value: '기상 스테이션',
-        label: '기상 스테이션',
+        id: "weatherStation",
+        value: "기상 스테이션",
+        label: "기상 스테이션",
       },
       {
-        id: 'CCTV',
-        value: 'CCTV',
-        label: 'CCTV',
+        id: "CCTV",
+        value: "CCTV",
+        label: "CCTV",
       },
     ],
-    '지상용 드론': [
+    "지상용 드론": [
       {
-        id: 'quadcopter',
-        value: '쿼드콥터',
-        label: '쿼드콥터',
+        id: "quadcopter",
+        value: "쿼드콥터",
+        label: "쿼드콥터",
       },
       {
-        id: 'hexacopter',
-        value: '헥사콥터',
-        label: '헥사콥터',
+        id: "hexacopter",
+        value: "헥사콥터",
+        label: "헥사콥터",
       },
     ],
     트랙터: [
       {
-        id: 'MT7',
-        value: 'MT7',
-        label: 'MT7',
+        id: "MT7",
+        value: "MT7",
+        label: "MT7",
       },
       {
-        id: 'MT5',
-        value: 'MT5',
-        label: 'MT5',
+        id: "MT5",
+        value: "MT5",
+        label: "MT5",
       },
       {
-        id: 'MT4',
-        value: 'MT4',
-        label: 'MT4',
+        id: "MT4",
+        value: "MT4",
+        label: "MT4",
       },
     ],
-    '기타 장비': [
+    "기타 장비": [
       {
-        id: 'insectRepellect',
-        value: '해충 퇴치기',
-        label: '해충 퇴치기',
+        id: "insectRepellect",
+        value: "해충 퇴치기",
+        label: "해충 퇴치기",
       },
       {
-        id: 'pestDigitalTrap',
-        value: '해충 디지털 트랩',
-        label: '해충 디지털 트랩',
+        id: "pestDigitalTrap",
+        value: "해충 디지털 트랩",
+        label: "해충 디지털 트랩",
       },
-      { id: 'birdRepellent', value: '조류 퇴치기', label: '조류 퇴치기' },
+      { id: "birdRepellent", value: "조류 퇴치기", label: "조류 퇴치기" },
     ],
   };
 
@@ -199,24 +199,24 @@ function RequestForm({ user }) {
   // 회원가입이 되어있지 않은 경우 농장 주소는 공백이 됩니다.
   useEffect(() => {
     if (user) {
-      setFarmAddress(user.farmAddress || '');
+      setFarmAddress(user.farmAddress || "");
     }
   }, [user]);
 
   useEffect(() => {
-    const script = document.createElement('script');
-    script.src = 'https://cdn.iamport.kr/v1/iamport.js';
+    const script = document.createElement("script");
+    script.src = "https://cdn.iamport.kr/v1/iamport.js";
     script.async = true;
     document.body.appendChild(script);
 
     script.onload = () => {
       // 스크립트가 로드된 후의 동작을 여기에 작성할 수 있습니다.
-      console.log('IAMPORT 라이브러리가 로드되었습니다.');
+      console.log("IAMPORT 라이브러리가 로드되었습니다.");
       setIsIamportLoaded(true);
     };
 
     script.onerror = () => {
-      console.error('IAMPORT 라이브러리 로드 실패');
+      console.error("IAMPORT 라이브러리 로드 실패");
     };
 
     return () => {
@@ -228,7 +228,7 @@ function RequestForm({ user }) {
     const merchant_uid = `order_${new Date().getTime()}`;
 
     if (!isIamportLoaded) {
-      console.error('IAMPORT 라이브러리가 로드되지 않았습니다.');
+      console.error("IAMPORT 라이브러리가 로드되지 않았습니다.");
       return;
     }
 
@@ -241,30 +241,30 @@ function RequestForm({ user }) {
       farmAreaNum <= 0 ||
       isNaN(farmEquivalentNum) ||
       farmEquivalentNum <= 0 ||
-      farmAddress.trim() === '' ||
-      farmName.trim() === '' ||
-      paymentMethod === ''
+      farmAddress.trim() === "" ||
+      farmName.trim() === "" ||
+      paymentMethod === ""
     ) {
-      console.log('필수 항목을 모두 입력하여 주시기 바랍니다.');
+      console.log("필수 항목을 모두 입력하여 주시기 바랍니다.");
       return;
     }
 
-    if (typeof window.IMP === 'undefined') {
-      console.error('결제 라이브러리가 로드되지 않았습니다.');
+    if (typeof window.IMP === "undefined") {
+      console.error("결제 라이브러리가 로드되지 않았습니다.");
       return;
     }
 
     const { IMP } = window;
     // 가맹점 식별코드를 이용하여 IMP 객체를 초기화합니다.
-    IMP.init('imp68411640');
+    IMP.init("imp68411640");
 
     const data = {
       // pg의 값은 PG Provider.MID 의 값입니다.
-      pg: 'html5_inicis.INIpayTest',
-      pay_method: 'card',
+      pg: "html5_inicis.INIpayTest",
+      pay_method: "card",
       merchant_uid: merchant_uid,
       amount: 100,
-      name: '아이팜 결제',
+      name: "아이팜 결제",
       buyer_name: user.name,
       buyer_number: user.number,
       buyer_email: user.email,
@@ -279,9 +279,9 @@ function RequestForm({ user }) {
     if (success && imp_uid) {
       try {
         await handleSubmit(imp_uid, merchant_uid); // handleSubmit에 merchant_uid 전달
-        navigate('/mypage');
+        navigate("/mypage");
       } catch (error) {
-        console.error('데이터 저장 중 오류 발생: ', error.message);
+        console.error("데이터 저장 중 오류 발생: ", error.message);
       }
     } else {
       console.log(`결제 실패: ${error_msg}`);
@@ -309,10 +309,10 @@ function RequestForm({ user }) {
         setLat(lat);
         setLng(lng);
       } else {
-        console.error('위도 또는 경도 값이 유효하지 않습니다.');
+        console.error("위도 또는 경도 값이 유효하지 않습니다.");
       }
     } catch (error) {
-      console.error('주소 변환 중 오류 발생: ', error.message);
+      console.error("주소 변환 중 오류 발생: ", error.message);
     }
     console.log(lat, lng);
   };
@@ -350,28 +350,28 @@ function RequestForm({ user }) {
 
   // 현금영수증 발행 여부를 결정하는 함수입니다.
   const handleCashReceipt = (e) => {
-    setCashReceipt(e.target.checked ? '현금영수증 ○' : '현금영수증 ×');
+    setCashReceipt(e.target.checked ? "현금영수증 ○" : "현금영수증 ×");
   };
 
   // 결제 방식을 변경합니다.
   const handlePaymentMethodChange = (e) => {
     setPaymentMethod(e.target.value);
-    if (e.target.value === '신용카드') {
-      setCashReceipt('현금영수증 ×');
+    if (e.target.value === "신용카드") {
+      setCashReceipt("현금영수증 ×");
     }
   };
 
   // 견적 내용을 저장합니다.
   const handleSubmit = async (imp_uid, merchant_uid) => {
     if (!imp_uid) {
-      console.error('imp_uid가 필요합니다.');
+      console.error("imp_uid가 필요합니다.");
       return;
     }
 
     const today = new Date();
     const year = today.getFullYear();
-    const month = String(today.getMonth() + 1).padStart(2, '0');
-    const day = String(today.getDate()).padStart(2, '0');
+    const month = String(today.getMonth() + 1).padStart(2, "0");
+    const day = String(today.getDate()).padStart(2, "0");
 
     // 주문번호입니다.
     const createdAt = `${year}${month}${day}${new Date().getTime()}`;
@@ -391,7 +391,6 @@ function RequestForm({ user }) {
             lng: parseFloat(lng),
             cropType: cropType,
             facilityType: facilityType,
-            // additionalOptions: additionalOptionsArray,
             additionalOptions: selectedOptions[index],
             farmArea: Number(farmArea),
             farmName: farmName,
@@ -404,7 +403,7 @@ function RequestForm({ user }) {
             sector: `${index + 1}동`,
           };
 
-          const paymentCollectionRef = collection(db, 'payments');
+          const paymentCollectionRef = collection(db, "payments");
           const paymentDocRef = await addDoc(paymentCollectionRef, dataObj);
 
           // dashboard로 넘겨서 승인여부(useYn)를 검사합니다. (기본값: n)
@@ -412,7 +411,7 @@ function RequestForm({ user }) {
             name: user.name,
             createdAt: `${new Date().getTime()}`,
             crop: cropType,
-            deleteYn: 'N',
+            deleteYn: "N",
             userDocId: user.uid,
             farmName: farmName,
             latitude: lat,
@@ -420,7 +419,7 @@ function RequestForm({ user }) {
             type: facilityType,
             additionalOptions: additionalOptionsArray,
             updatedAt: `${new Date().getTime()}`,
-            useYn: 'N',
+            useYn: "N",
             userId: user.email,
             imp_uid: imp_uid,
             merchant_uid: merchant_uid,
@@ -428,28 +427,28 @@ function RequestForm({ user }) {
             paymentsDocId: paymentDocRef.id,
           };
 
-          const dashboardObjCollectionRef = collection(db, 'dashboard');
+          const dashboardObjCollectionRef = collection(db, "dashboard");
 
           await addDoc(dashboardObjCollectionRef, dashboardObj);
         })
       );
-      console.log('데이터가 성공적으로 추가되었습니다.');
+      console.log("데이터가 성공적으로 추가되었습니다.");
       resetForm();
     } catch (error) {
-      console.error('에러가 발생하였습니다: ', error.message);
+      console.error("에러가 발생하였습니다: ", error.message);
     }
   };
 
   // 폼 데이터 초기화하는 함수입니다.
   const resetForm = () => {
-    setFarmAddress('');
-    setFarmName('');
-    setFarmArea('');
-    setFarmEquivalent('');
+    setFarmAddress("");
+    setFarmName("");
+    setFarmArea("");
+    setFarmEquivalent("");
     setAdditionalOptions({});
-    setPaymentMethod('');
-    setAccountHolder('');
-    setCashReceipt('현금영수증 ×');
+    setPaymentMethod("");
+    setAccountHolder("");
+    setCashReceipt("현금영수증 ×");
     setLat(null);
     setLng(null);
   };
@@ -475,7 +474,7 @@ function RequestForm({ user }) {
           <h3>농장 이름: </h3>
           <input
             type="text"
-            placeholder={'최대 8자 입력 가능합니다.'}
+            placeholder={"최대 8자 입력 가능합니다."}
             onChange={handleChange}
             value={farmName}
           />
@@ -535,7 +534,7 @@ function RequestForm({ user }) {
           {Array.from({ length: farmEquivalent }).map((_, index) => (
             <div key={index}>
               <h3>{index + 1}번째 농장 부가 옵션 선택: </h3>
-              {facilityType === '시설원예' ? (
+              {facilityType === "시설원예" ? (
                 <FacilitiesHorticulture
                   additionalOptions={selectedOptions[index] || []}
                   handleAdditionalOptionsChange={(category, value) =>
@@ -545,7 +544,6 @@ function RequestForm({ user }) {
                 />
               ) : (
                 <OpenGround
-                  // additionalOptions={additionalOptions}
                   additionalOptions={selectedOptions[index] || []}
                   handleAdditionalOptionsChange={(category, value) =>
                     handleAdditionalOptionsChange(index, category, value)
@@ -577,9 +575,9 @@ function RequestForm({ user }) {
             무통장 입금
           </label>
           <div>
-            {paymentMethod === '' ? (
-              '결제 방식을 선택하여 주시기 바랍니다.'
-            ) : paymentMethod === '신용카드' ? (
+            {paymentMethod === "" ? (
+              "결제 방식을 선택하여 주시기 바랍니다."
+            ) : paymentMethod === "신용카드" ? (
               <>
                 <div>결제 버튼을 누르시면 결제 창으로 이동합니다.</div>
               </>
@@ -593,7 +591,7 @@ function RequestForm({ user }) {
                 {/* 비회원의 경우 예금주명을 따로 적어주어야 합니다. */}
                 <div>
                   {user ? (
-                    ''
+                    ""
                   ) : (
                     <input
                       type="text"

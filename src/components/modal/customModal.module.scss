@@ -2,103 +2,118 @@
 
 .Modal {
   @include flexCenter();
-}
 
-.customModal {
-  background-color: white;
-  width: 50%;
-  // height: 600px;
-  display: flex;
-  flex-direction: column;
-  // border: 10px solid red;
-  border-radius: 16px;
-  overflow: hidden;
-  box-shadow: var(--box-shadow);
+  .customModal {
+    background-color: white;
+    width: 50%;
+    height: 300px;
+    display: flex;
+    flex-direction: column;
+    // border: 10px solid red;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: var(--box-shadow);
 
-  /* 작은 모니터 */
-  @media (max-width: 1200px) {
-    width: 60%;
-  }
-  /* 태블릿 */
-  @media (max-width: 992px) {
-    width: 60%;
-  }
-
-  /* 모바일 */
-  @media (max-width: 768px) {
-  }
-
-  /* 작은모바일 */
-  @media (max-width: 576px) {
-    width: 75%;
-  }
-}
-
-.header {
-  display: flex;
-  justify-content: space-between;
-  background-color: var(--main-color);
-  padding: 20px;
-}
-
-.customTitle {
-  font-size: 20px;
-  // border: 2px solid black;
-}
-
-.closeBtn {
-  font-size: 14px;
-  background-color: #efefef;
-  color: #333;
-
-  padding: 2px 14px;
-  border-radius: 12px;
-  &:hover {
-    background-color: #ddd;
-  }
-}
-
-.content {
-  flex: 1;
-}
-
-.footer {
-  display: flex;
-  justify-content: right;
-  align-items: center;
-  padding: 20px;
-  gap: 10px;
-  // outline: 1px dotted red;
-  .outBtn,
-  .cancelBtn {
-    // outline: 1px solid black;
-    padding: 11px 14px;
-
-    border-radius: 12px;
-  }
-
-  .outBtn {
-    background-color: var(--common-color);
-    color: #fff;
-
-    &:hover {
-      background-color: var(--hover-color);
+    /* 작은 모니터 */
+    @media (max-width: 1200px) {
+      width: 60%;
+    }
+    /* 태블릿 */
+    @media (max-width: 992px) {
+      width: 60%;
     }
 
-    &:disabled {
-      cursor: default;
-      opacity: 0.5;
+    /* 모바일 */
+    @media (max-width: 768px) {
+    }
+
+    /* 작은모바일 */
+    @media (max-width: 576px) {
+      width: 75%;
+    }
+  }
+
+  .header {
+    display: flex;
+    justify-content: space-between;
+    background-color: var(--main-color);
+    padding: 20px;
+
+    .outBtn {
+      color: var(--common-color);
+      font-size: 18px;
       &:hover {
-        background-color: var(--common-color);
+        // background-color: var(--hover-color);
+        color: var(--hover-color);
+      }
+    }
+    .closeBtn {
+      font-size: 18px;
+      color: var(--danger-color);
+      &:hover {
+        color: var(--danger-hover-color);
       }
     }
   }
-  .cancelBtn {
-    background-color: #efefef;
-    color: #333;
 
-    &:hover {
-      background-color: #ddd;
-    }
-  }
+  //   .customTitle {
+  //     font-size: 20px;
+  //     // border: 2px solid black;
+  //   }
+
+  //   .closeBtn {
+  //     font-size: 14px;
+  //     background-color: #efefef;
+  //     color: #333;
+
+  //     padding: 2px 14px;
+  //     border-radius: 12px;
+  //     &:hover {
+  //       background-color: #ddd;
+  //     }
+  //   }
+
+  //   .content {
+  //     flex: 1;
+  //   }
+
+  //   .footer {
+  //     display: flex;
+  //     justify-content: right;
+  //     align-items: center;
+  //     padding: 20px;
+  //     gap: 10px;
+  //     // outline: 1px dotted red;
+  //     .outBtn,
+  //     .cancelBtn {
+  //       // outline: 1px solid black;
+  //       padding: 11px 14px;
+  //       border-radius: 12px;
+  //     }
+
+  //     .outBtn {
+  //       background-color: var(--common-color);
+  //       color: #fff;
+
+  //       &:hover {
+  //         background-color: var(--hover-color);
+  //       }
+
+  //       &:disabled {
+  //         cursor: default;
+  //         opacity: 0.5;
+  //         &:hover {
+  //           background-color: var(--common-color);
+  //         }
+  //       }
+  //     }
+  //     .cancelBtn {
+  //       background-color: #efefef;
+  //       color: #333;
+
+  //       &:hover {
+  //         background-color: #ddd;
+  //       }
+  //     }
+  //   }
 }

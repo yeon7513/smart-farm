@@ -25,3 +25,81 @@ export const bestFarmInfo = async (type, query) => {
     }
   }
 };
+
+// 우수농가 데이터 평균값
+export function formatData(data, fields) {
+  const totals = {};
+
+  fields.forEach((field) => {
+    totals[field] = 0;
+  });
+
+  data.forEach((item) => {
+    fields.forEach((field) => {
+      totals[field] += item[field] || 0;
+    });
+  });
+
+  const averages = {};
+  const length = data.length || 1;
+
+  fields.forEach((field) => {
+    averages[field] = Math.ceil(totals[field]) / length;
+  });
+
+  return { averages };
+}
+
+// 구간 설정
+export const createRange = (data) => {
+  const ranges = [];
+
+  for (const [key, value] of Object.entries(data)) {
+    const rangeSize = (value / 5) * 0.1;
+    const min = value - rangeSize;
+    const max = value + rangeSize;
+    const step = (max - min) / 5;
+
+    const changeKey = (() => {
+      switch (key) {
+        case 'acSlrdQy':
+          return '누적 일사량';
+        case 'inCo2':
+          return '주간 평균 잔존 CO2';
+        case 'inHd':
+          return '주간 평균 내부 습도';
+        case 'inTp':
+          return '주간 평균 내부 온도';
+        default:
+          return key;
+      }
+    })();
+
+    const values = [];
+
+    for (let i = 0; i < 5; i++) {
+      const rangeMin = (min + step * i).toFixed(2);
+      const rangeMax = (min + step * (i + 1)).toFixed(2);
+
+      const count = i === 0 || i === 4 ? -3 : i === 1 || i === 3 ? -2 : -1;
+
+      const rangeLabel =
+        i === 0
+          ? `${rangeMin} 이하`
+          : i === 4
+          ? `${rangeMax} 이상`
+          : `${rangeMin} ~ ${rangeMax}`;
+
+      values.push({ range: rangeLabel, count: count });
+    }
+
+    ranges.push({ name: changeKey, values: values });
+  }
+
+  return ranges;
+};
+
+// // 결과 출력
+// export function calcResult(prodPerArea, selectObj) {
+//   const { count, area } = selectObj;
+// }
