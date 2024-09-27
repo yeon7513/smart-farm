@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { formatData } from '../../../api/simulationData';
+import { createRange, formatData } from '../../../api/simulationData';
 import { evnironmentFields, selectCrop } from '../../../lib/simulationLib';
 import { fetchEnvironmentData } from '../../../store/bestfarm/bestfarmSlice';
 import styles from './Simulation.module.scss';
@@ -18,6 +18,10 @@ function Simulation() {
 
   console.log(bestEnvData);
   console.log('bestProdValue: ', bestProdValue);
+
+  const test = createRange(bestEnvData.averages);
+
+  console.log('test: ', test);
 
   useEffect(() => {
     dispatch(fetchEnvironmentData(`pageSize=5&searchFrmhsCode=${farmCode}`));
