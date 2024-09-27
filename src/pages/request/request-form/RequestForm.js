@@ -418,7 +418,7 @@ function RequestForm({ user }) {
           // dashboard로 넘겨서 승인여부(useYn)를 검사합니다. (기본값: n)
           const dashboardObj = {
             name: user.name,
-            createdAt: `${new Date().getTime()}`,
+            createdAt: new Date().getTime(),
             crop: cropType,
             deleteYn: 'N',
             userDocId: user.uid,
@@ -427,7 +427,7 @@ function RequestForm({ user }) {
             lng: lng,
             type: facilityType,
             additionalOptions: additionalOptionsArray,
-            updatedAt: `${new Date().getTime()}`,
+            updatedAt: new Date().getTime(),
             useYn: 'N',
             userId: user.email,
             // imp_uid: imp_uid,
