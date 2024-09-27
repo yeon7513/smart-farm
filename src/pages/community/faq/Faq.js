@@ -245,7 +245,6 @@ function Faq() {
             {sortedFaqData.map(
               ({ id, question, answer, likes, views, liked }) => (
                 <div key={id} className={styles.faq}>
-                  {isEditing}
                   <div className={styles.title}>
                     <h3>{`Q. ${question}`}</h3>
                     <div className={styles.editButtons}>
