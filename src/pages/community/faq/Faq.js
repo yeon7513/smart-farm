@@ -5,7 +5,7 @@ import up from "../../../../src/assets/arrow/up.png";
 import styles from "./Faq.module.scss";
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { db } from "../../../api/firebase";
 import {
   addDoc,
@@ -25,7 +25,6 @@ import FaqAdd from "./FaqAdd";
 
 function Faq() {
   const auth = getAuth();
-  const { state } = useLocation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [openId, setOpenId] = useState(null);
