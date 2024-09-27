@@ -24,6 +24,9 @@ function UsageStatus() {
   const [localFarm, setLocalFarm] = useState(null);
   const mapRef = useRef(null);
 
+  console.log('전체 데이터: ', entireRegion);
+  console.log('상세 필터링: ', localRegion);
+
   // 차트 타입 변경
   const handleChangeChartType = (type) => {
     setChartType(type);

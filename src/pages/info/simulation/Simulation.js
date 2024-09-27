@@ -32,8 +32,8 @@ function Simulation() {
     handleSaveResult(range);
   };
 
-  // console.log(bestEnvData);
-  console.log('bestProdValue: ', bestProdValue);
+  console.log(bestEnvData);
+  // console.log('bestProdValue: ', bestProdValue);
   console.log('resultData: ', resultData);
 
   useEffect(() => {
