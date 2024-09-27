@@ -3,25 +3,41 @@ import { useDispatch, useSelector } from 'react-redux';
 import { createRange, formatData } from '../../../api/simulationData';
 import { evnironmentFields, selectCrop } from '../../../lib/simulationLib';
 import { fetchEnvironmentData } from '../../../store/bestfarm/bestfarmSlice';
+import TextInput from './../../../components/form/text-input/TextInput';
 import styles from './Simulation.module.scss';
 import SelectCrops from './select-crops/SelectCrops';
 import SimulationResult from './simulation-result/SimulationResult';
+import SimulationSelectData from './simulation-select-data/SimulationSelectData';
 
 function Simulation() {
   const [farmCode, setFarmCode] = useState('S47');
   const [bestProdValue, setBestProdValue] = useState(23);
+  const [resultData, setResultData] = useState();
 
   const { environmentData } = useSelector((state) => state.bestfarmSlice);
   const dispatch = useDispatch();
 
   const bestEnvData = formatData(environmentData, evnironmentFields);
 
+  const handleSaveResult = (name, value) => {
+    setResultData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleChangeData = (e) => {
+    const { name, value } = e.target;
+    handleSaveResult(name, value);
+  };
+
+  const handleClickData = (count) => {
+    handleSaveResult('score', count);
+  };
+
   console.log(bestEnvData);
   console.log('bestProdValue: ', bestProdValue);
 
-  const test = createRange(bestEnvData.averages);
+  // const test = createRange(bestEnvData.averages);
 
-  console.log('test: ', test);
+  // console.log('test: ', test);
 
   useEffect(() => {
     dispatch(fetchEnvironmentData(`pageSize=5&searchFrmhsCode=${farmCode}`));
@@ -74,19 +90,20 @@ function Simulation() {
           </li>
           <li>
             <h4>생산량 (kg)</h4>
-            <input type="text" placeholder="생산량을 입력하세요." />
+            <TextInput name="area" onChange={handleChangeData} />
           </li>
         </ul>
       </div>
       <div>
         <h3>3. 환경을 선택해주세요.</h3>
         <div>
-          {/* <SimulationSelectData
+          <SimulationSelectData
             selectDatas={createRange(bestEnvData.averages)}
-          /> */}
+            onClick={handleClickData}
+          />
         </div>
       </div>
-      <SimulationResult />
+      <SimulationResult data={resultData} />
     </div>
   );
 }

@@ -1,9 +1,9 @@
 import React from 'react';
 
-function SimulationBtn({ children }) {
+function SimulationBtn({ children, count }) {
   return (
     <div>
-      <button>{children}</button>
+      <button onClick={() => console.log(count)}>{children}</button>
     </div>
   );
 }
