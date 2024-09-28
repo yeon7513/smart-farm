@@ -29,15 +29,15 @@ function ChatRoom({ chatroomId }) {
   // '무엇을 도와드릴까요?' 화면에서 채팅상담 시작하기 버튼 클릭했을 때 '세부 선택' 화면으로 전환 여부 관리
   const [rankedFaqData, setRankedFaqData] = useState([]);
   // 추천수 순위가 정렬된 FAQ 데이터를 관리
-  const [isLiveChatOpend, setIsLiveChatOpend] = useState(false);
-  // '세부 선택' 화면에서 '채팅상담원 연결하기' 질문 선택 여부 관리
-  const [isChatRoomOpened, setIsChatRoomOpened] = useState(true);
-  // 챗룸의 가시성 상태(챗룸을 닫을 수 있는{숨길 수 있는} 기능) 관리
-  const [isTransitioningToLiveChat, setIsTransitioningToLiveChat] =
-    useState(false);
-  const [isLoading, setIsLoading] = useState(false); // 로딩 상태 추가
-  const [messages, setMessages] = useState([]);
-  const [chatRoomId, setChatRoomId] = useState(null); 
+ const [isLiveChatOpend, setIsLiveChatOpend] = useState(false); 
+ // '세부 선택' 화면에서 '채팅상담원 연결하기' 질문 선택 여부 관리
+ const [isChatRoomOpened, setIsChatRoomOpened] = useState(true);
+  // 챗룸의 가시성 상태(챗룸을 닫을 수 있는{숨길 수 있는} 기능) 관리 
+const [isTransitioningToLiveChat, setIsTransitioningToLiveChat] = useState(false);
+const [isLoading, setIsLoading] = useState(false); // 로딩 상태 추가
+const [messages, setMessages] = useState([]);
+const [chatRoomId, setChatRoomId] = useState(null);  //
+
 
   // const faqData = useSelector((state) => state.faqData);
 
@@ -243,20 +243,17 @@ function ChatRoom({ chatroomId }) {
     }
   };
 
-  const handleOptionClick = async (id) => {
-    // 두번째 화면에서 카테고리 버튼 클릭시 답변 연결 후 세번째 채팅방으로 연결
+  const handleOptionClick = (id) => {
+    // 두번째 화면에서 카테고리 버튼 클릭시 답변 연결 후 세번째 채팅방으로 연결 
     const selectedOption = chatOptionsData.find((option) => option.id === id);
     if (selectedOption) {
       // showAnswer 함수에 answer을 전달
-      setSelectedAnswer(selectedOption.answer);  // 선택된 질문에 대한 답변 설정
-      setIsLoading(true);
-      await startNewChat(selectedOption.question);  // 새로운 채팅 시작 (Firestore에 저장)
-      setIsLoading(false);
-      setIsLiveChatOpend(true);  // 채팅 화면으로 전환
+      setSelectedAnswer(selectedOption.answer);
     } else {
       console.warn("선택한 옵션에 답변이 없습니다.", selectedOption);
     }
   };
+
 
   const handleClose = () => {
     setIsChatRoomOpened(false);
@@ -279,51 +276,33 @@ function ChatRoom({ chatroomId }) {
   //   setMessages((prevMessages) => [...prevMessages, newMessage]); // 새로운 메시지를 추가하여 상태 업데이트
   // };
 
-  
-  const endChat = async (chatRoomId) => {
+  const startNewChat = async (question) => {
     const currentUser = auth.currentUser;
     if (!currentUser) {
-      console.error('사용자가 로그인되지 않았습니다.');
+      console.error("사용자가 로그인되지 않았습니다.");
       return;
     }
-  
+    
     const userEmail = currentUser.email;
+    
     try {
-      const chatContentRef = doc(db, 'chatRoom', userEmail, 'chatContent', chatRoomId);
-      await setDoc(
-        chatContentRef,
-        {
-          activeYn: 'Y',
-          chatEnd: 'Y',  // 상담 종료 처리
-        },
-        { merge: true }
-      );
-      console.log('상담이 종료되었습니다:', chatRoomId);
+      const chatContentRef = collection(db, "chatRoom", userEmail, "chatContent");
+      const newChatRoom = await addDoc(chatContentRef, {
+        chatTheme: question, // 선택된 질문 저장
+        activeYn: "Y",
+        chatEnd: "N",
+        createdAt: serverTimestamp(),
+      });
+  
+      const chatRoomId = newChatRoom.id;
+      console.log("새로운 상담이 시작되었습니다:", chatRoomId);
+  
     } catch (error) {
-      console.error('상담 종료 중 오류가 발생했습니다:', error.message);
+      console.error("상담 시작 중 오류가 발생했습니다:", error.message);
     }
   };
-
-  // // 사용자가 선택한 옵션을 기반으로 질문을 찾는 함수
-  // const getQuestionById = (optionId) => {
-  //   console.log('받은 optionId:', optionId); // 전달된 optionId 확인
-  //   const option = chatOptionsData.find((opt) => {
-  //     console.log('비교 중인 opt.id:', opt.id); // chatOptionsData의 id와 비교 로그
-  //     return opt.id === optionId;
-  //   });
-
-  //   if (option) {
-  //     console.log('찾은 옵션:', option); // 찾은 옵션이 있는지 확인
-  //     return option.question;
-  //   } else {
-  //     console.log("옵션을 찾지 못했습니다. 기본값 '기타'를 반환합니다.");
-  //     return '기타'; // 기본적으로 "기타"로 설정
-  //   }
-  // };
-
-  const handleSendMessage = async (message) => {
-    // 메시지 파라미터를 받아서 처리하는 함수
   
+  const endChat = async (chatRoomId) => {
     const currentUser = auth.currentUser;
     // 현재 로그인된 사용자 정보 가져옴 (Firebase 인증 사용)
   
@@ -337,66 +316,130 @@ function ChatRoom({ chatroomId }) {
     // 유저의 이메일 정보를 추출하여 Firebase의 컬렉션 경로로 사용
   
     try {
-      const messageRef = collection(db, "chatRoom", userEmail, "chatContent", chatRoomId, "message");
-      // Firestore에서 chatRoom → 유저 이메일 → chatContent → chatRoomId → message 경로로 메시지 저장
+      const chatContentRef = doc(db, "chatRoom", userEmail, "chatContent", chatRoomId);
+      await setDoc(chatContentRef, {
+        activeYn: "Y",
+        chatEnd: "Y",
+      }, { merge: true });
   
-      const messageDoc = await addDoc(messageRef, {
-        // Firestore에 메시지 문서를 content, createdAt, uid 필드와 함께 추가
-        content: message,
-        createdAt: serverTimestamp(),
-        uid: currentUser.uid,
-      });
-  
-      setMessages((prevMessages) => [
-        // 로컬 상태에 새로 보낸 메시지를 추가
-        ...prevMessages,
-        {
-          id: messageDoc.id, // Firestore에서 생성된 메시지 ID
-          content: message,  // 전송한 메시지 내용
-          createdAt: new Date(), // 현재 시간 (서버 타임스탬프와 동기화 필요)
-          uid: currentUser.uid,  // 유저 고유 ID
-        },
-      ]);
-  
-      console.log("메시지가 성공적으로 Firestore에 저장되었습니다.");
+      console.log("상담이 종료되었습니다:", chatRoomId);
     } catch (error) {
-      // 메시지 전송 중 오류가 발생할 경우 오류 메시지 출력
-      console.error("메시지 전송 중 오류 발생:", error.message);
+      console.error("상담 종료 중 오류가 발생했습니다:", error.message);
     }
   };
 
-  // renderContent 내에서만 상태 관리
-  const renderContent = () => {
-    if (isTransitioningToLiveChat) {
-      return (
-        <LiveChatting // 1초 후 live-chatting 컴포넌트로 전환
-          messages={messages}
-          onSendMessage={handleSendMessage}
-        />
-      );
+// 사용자가 선택한 옵션을 기반으로 질문을 찾는 함수
+const getQuestionById = (optionId) => {
+  console.log("받은 optionId:", optionId); // 전달된 optionId 확인
+  const option = chatOptionsData.find((opt) => {
+    console.log("비교 중인 opt.id:", opt.id); // chatOptionsData의 id와 비교 로그
+    return opt.id === optionId;
+  });
+  
+  if (option) {
+    console.log("찾은 옵션:", option); // 찾은 옵션이 있는지 확인
+    return option.question;
+  } else {
+    console.log("옵션을 찾지 못했습니다. 기본값 '기타'를 반환합니다.");
+    return "기타"; // 기본적으로 "기타"로 설정
+  }
+};
+
+const handleSendMessage = async (message, selectedOptionId) => {
+  console.log("선택된 Option ID:", selectedOptionId); // selectedOptionId가 올바르게 전달되는지 확인
+
+  const currentUser = auth.currentUser;
+
+  if (!currentUser) {
+    console.error("사용자가 로그인되지 않았습니다.");
+    return;
+  }
+
+  const userEmail = currentUser.email;
+  const selectedQuestion = getQuestionById(selectedOptionId); // 선택된 질문을 찾습니다.
+  
+  console.log("선택된 Question:", selectedQuestion); // 선택된 질문 확인
+
+  try {
+    const userDocRef = doc(db, "chatRoom", userEmail);
+    await setDoc(userDocRef, {}, { merge: true });
+
+    const chatContentRef = collection(userDocRef, "chatContent");
+    const q = query(chatContentRef, where("activeYn", "==", "Y"));
+    const querySnapshot = await getDocs(q);
+
+    let chatRoomId;
+
+    if (!querySnapshot.empty) {
+      const chatRoomDoc = querySnapshot.docs[0];
+      chatRoomId = chatRoomDoc.id;
+    } else {
+      const newChatRoom = await addDoc(chatContentRef, {
+        chatTheme: selectedQuestion, // 선택된 질문을 chatTheme으로 설정
+        activeYn: "Y",
+        chatEnd: "N",
+        createdAt: serverTimestamp(),
+      });
+      chatRoomId = newChatRoom.id;
     }
 
-    if (isLiveChatOpend) {
-      return (
-        <ChatOptions
-          chatOptionsData={chatOptionsData}
-          handleOptionClick={handleOptionClick}
-          selectedAnswer={selectedAnswer}
-          isLoading={isLoading}
-          onSendMessage={handleSendMessage}
-        />
-      );
-    }
+    const messageRef = collection(db, "chatRoom", userEmail, "chatContent", chatRoomId, "message");
 
+    const messageDoc = await addDoc(messageRef, {
+      content: message,
+      createdAt: serverTimestamp(),
+      uid: currentUser.uid,
+    });
+
+    setMessages((prevMessages) => [
+      ...prevMessages,
+      {
+        id: messageDoc.id,
+        content: message,
+        createdAt: new Date(),
+        uid: currentUser.uid,
+      },
+    ]);
+
+    console.log("메시지가 성공적으로 Firestore에 저장되었습니다.");
+  } catch (error) {
+    console.error("메시지 전송 중 오류 발생:", error.message);
+  }
+};
+  
+   // renderContent 내에서만 상태 관리
+const renderContent = () => {
+if (isTransitioningToLiveChat) {
+    return <LiveChatting // 1초 후 live-chatting 컴포넌트로 전환  
+    messages={messages} 
+    onSendMessage={handleSendMessage} 
+    />; 
+  }
+
+  if (isLiveChatOpend) {
     return (
-      <FaqQuestions
-        rankedFaqData={rankedFaqData}
-        openChat={openChat}
-        handleFaqClick={handleFaqClick}
+      <ChatOptions 
+        chatOptionsData={chatOptionsData}
+        handleOptionClick={handleOptionClick}
         selectedAnswer={selectedAnswer}
+        isLoading={isLoading} 
+        onSendMessage={handleSendMessage}
       />
     );
-  };
+  }
+
+  return (
+    <FaqQuestions
+      rankedFaqData={rankedFaqData}
+      openChat={openChat}
+      handleFaqClick={handleFaqClick}
+      selectedAnswer={selectedAnswer}
+    />
+  );
+};
+
+
+
 
   return (
     <div className={styles.wrapper}>
