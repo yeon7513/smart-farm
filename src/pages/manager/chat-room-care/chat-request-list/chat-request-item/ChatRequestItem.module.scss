@@ -1,0 +1,43 @@
+.item {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #ddd;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+}
+
+.container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.category {
+  flex: 1;
+  text-align: left;
+}
+
+.nickname {
+  flex: 1;
+  text-align: center;
+}
+
+.date {
+  flex: 1;
+  text-align: center;
+}
+
+.status {
+  flex: 1;
+  text-align: right;
+}
+
+.statusLabel {
+  padding: 5px 10px;
+  border-radius: 5px;
+}
+
+.statusLabel.new {
+  background-color: #ffcc00;
+  color: white;
+}

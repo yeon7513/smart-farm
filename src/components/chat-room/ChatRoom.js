@@ -70,7 +70,7 @@ function ChatRoom({ chatroomId }) {
 
   useEffect(() => {
     if (!chatroomId) return;
-    
+  
     // Firestore에서 activeYn 상태를 실시간으로 감시
     const chatRoomRef = doc(
       db,
@@ -79,49 +79,57 @@ function ChatRoom({ chatroomId }) {
       'chatContent',
       chatroomId
     );
-    
+  
     const unsubscribe = onSnapshot(chatRoomRef, (doc) => {
-      const chatRoomData = doc.data();
-    
-      if (chatRoomData?.activeYn === 'Y') {
-        // activeYn이 "Y"로 변경되면
-        setIsLoading(false); // 로딩 종료
-        setIsTransitioningToLiveChat(true); // LiveChatting 화면으로 전환
+      if (doc.exists()) {
+        const chatRoomData = doc.data();
+        console.log("Firestore에서 받아온 데이터:", chatRoomData);
+        
+        if (chatRoomData?.activeYn === 'Y') {
+          // activeYn이 "Y"로 변경되면
+          setIsLoading(false); // 로딩 종료
+          setIsTransitioningToLiveChat(true); // LiveChatting 화면으로 전환
+        }
+      } else {
+        console.log("해당 문서가 존재하지 않습니다.");
       }
     });
-    
+  
     return () => unsubscribe(); // 컴포넌트 언마운트 시 구독 해제
-  }, [chatroomId]);
-
-  console.log('Is transitioning to LiveChat:', isTransitioningToLiveChat); // 상태 변화 확인 로그 추가
-
+  }, [chatroomId]); 
+  
   useEffect(() => {
     if (!chatroomId) return;
-
-    const q = query(
-      collection(
-        db,
-        'chatRoom',
-        auth.currentUser.email,
-        'chatroom',
-        chatroomId,
-        'message'
-      ),
-      orderBy('createdAt', 'asc')
+  
+    const chatRoomRef = doc(
+      db,
+      'chatRoom',
+      auth.currentUser.email,
+      'chatContent',
+      chatroomId
     );
-
-    const unsubscribe = onSnapshot(q, (snapshot) => {
-      const fetchedMessages = snapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-      }));
-      setMessages(fetchedMessages); // 메시지 상태 업데이트
-      console.log('Fetched Messages:', fetchedMessages); // 메시지 확인용 로그 추가
+  
+    const unsubscribe = onSnapshot(chatRoomRef, (doc) => {
+      if (doc.exists()) {
+        const chatRoomData = doc.data();
+  
+        if (chatRoomData?.activeYn === 'Y') {
+          setIsLoading(false); // 로딩 종료
+          setIsTransitioningToLiveChat(true); // LiveChatting 화면으로 전환
+        }
+      }
     });
-
+  
     return () => unsubscribe(); // 컴포넌트 언마운트 시 구독 해제
   }, [chatroomId]);
 
+  useEffect(() => {
+    if (isTransitioningToLiveChat) {
+      // 상태가 변경되었을 때 페이지가 다시 그려지도록
+      setIsLiveChatOpend(true);
+    }
+  }, [isTransitioningToLiveChat]);
+  
   // useEffect(() => {
   //   const unsubscribe = auth.onAuthStateChanged((user) => {
   //     if (user) {
@@ -195,22 +203,18 @@ function ChatRoom({ chatroomId }) {
   };
 
   const handleFaqClick = (id) => {
-    // 첫번째 화면에서 FAQ 버튼 클릭 시의 동작 정의 -> 클릭 시 FaqQuestions 화면으로 이동
     if (id === 'chattingCounselor') {
-      // '채팅 상담사 연결하기' 질문을 선택한 경우 (올바른 ID로 수정)
-      setIsLiveChatOpend(true); // 추가 질문 화면으로 전환
+      // '채팅 상담사 연결하기' 질문 선택 시만 LiveChat으로 전환
+      setIsLiveChatOpend(true);
       setIsStartChatSelected(true);
+      setIsTransitioningToLiveChat(false); // 여기는 초기화
       setSelectedAnswer('');
     } else {
-      const selectedFaq = [...rankedFaqData, openChat].find(
-        (faq) => faq.id === id
-      ); // 클릭된 FAQ를 찾음
-
+      // 일반 FAQ 선택 시
+      const selectedFaq = [...rankedFaqData, openChat].find((faq) => faq.id === id);
+  
       if (selectedFaq && selectedFaq.answer) {
-        // FAQ와 answer 필드가 존재하는지 확인
-        setSelectedAnswer(selectedFaq.answer); // 해당 FAQ의 답변을 설정
-      } else {
-        console.warn('선택한 FAQ에 답변이 없습니다:', selectedFaq);
+        setSelectedAnswer(selectedFaq.answer);
       }
     }
   };
@@ -244,57 +248,55 @@ function ChatRoom({ chatroomId }) {
   
 
   const startNewChat = async (question) => {
+    // 질문 버튼을 누를 때 fb chatRoom- chatContent collecion 생성 
     const currentUser = auth.currentUser;
-    // 현재 로그인된 사용자 정보를 가져옴 (Firebase 인증 사용)
   
     if (!currentUser) {
-      // 사용자가 로그인되어 있지 않은 경우
       console.error("사용자가 로그인되지 않았습니다.");
-      // 에러 메시지를 콘솔에 출력
       return;
-      // 함수 종료
     }
   
     const userEmail = currentUser.email;
-    // 사용자의 이메일 정보를 추출하여 Firebase의 경로로 사용
     const userNickname = await fetchUserNickname(userEmail); 
-    // Firestore에서 닉네임 가져오기
   
     try {
       const chatContentRef = collection(db, "chatRoom", userEmail, "chatContent");
-      // Firestore의 chatRoom → 사용자 이메일 → chatContent 컬렉션에 접근하여 새 문서를 추가할 준비
-  
+    
       const newChatRoom = await addDoc(chatContentRef, {
-        // Firestore에 새 문서를 추가, 필드는 아래와 같음
-        chatTheme: question,  // 질문(상담 주제)을 chatTheme에 저장
-        nickname: userNickname,  // 닉네임을 Firestore에 저장
-        activeYn: "N",  // 새로 생성된 상담 요청은 "N"(비활성화)으로 설정
-        chatEnd: "N",  // 상담이 종료되지 않았음을 표시
-        createdAt: serverTimestamp(),  // 서버 타임스탬프를 생성 시간으로 사용
+        chatTheme: question,  
+        nickname: userNickname,  
+        activeYn: "N",  
+        chatEnd: "N",  
+        createdAt: serverTimestamp(),
       });
   
       const chatRoomId = newChatRoom.id;
-      // 새로 생성된 상담방 ID를 chatRoomId 변수에 저장
       setChatRoomId(chatRoomId);
-      // chatRoomId 상태 업데이트
+  
+      // Firestore 실시간 리스너 추가 - activeYn 필드 변화 감지
+      const chatRoomDocRef = doc(db, "chatRoom", userEmail, "chatContent", chatRoomId);
+      //  chatRoom doc 접근 
+      onSnapshot(chatRoomDocRef, (docSnapshot) => {
+        const data = docSnapshot.data();
+        if (data && data.activeYn === "Y") {
+          // activeYn이 "Y"로 변경되면 LiveChat으로 접속
+          setIsLiveChatOpend(true);  
+          console.log("activeYn이 Y로 변경되어 LiveChatting에 접속합니다:", chatRoomId);
+        }
+      });
+  
       console.log("새로운 상담이 시작되었습니다:", chatRoomId);
-      // 콘솔에 상담 시작 메시지와 함께 chatRoomId 출력
     } catch (error) {
-      // 오류 발생 시
       console.error("상담 시작 중 오류가 발생했습니다:", error.message);
-      // 콘솔에 오류 메시지 출력
     }
   };
-
+  
   const handleOptionClick = async (id) => {
-    // 두번째 화면에서 카테고리 버튼 클릭시 답변 연결 후 세번째 채팅방으로 연결
     const selectedOption = chatOptionsData.find((option) => option.id === id);
     if (selectedOption) {
-      // showAnswer 함수에 answer을 전달
-      setSelectedAnswer(selectedOption.answer);  // 선택된 질문에 대한 답변 설정
-      setIsLoading(true); // Firestore에서 activeYn이 "Y"로 바뀔 때까지 로딩 상태 유지
-      await startNewChat(selectedOption.question);  // 새로운 채팅 시작 (Firestore에 저장)
-      setIsLiveChatOpend(true);  // 채팅 화면으로 전환
+      setSelectedAnswer(selectedOption.answer);
+      setIsLoading(true);
+      await startNewChat(selectedOption.question);  
     } else {
       console.warn("선택한 옵션에 답변이 없습니다.", selectedOption);
     }
@@ -407,17 +409,16 @@ function ChatRoom({ chatroomId }) {
     }
   };
 
-  // renderContent 내에서만 상태 관리
   const renderContent = () => {
     if (isTransitioningToLiveChat) {
       return (
-        <LiveChatting // 1초 후 live-chatting 컴포넌트로 전환
+        <LiveChatting
           messages={messages}
           onSendMessage={handleSendMessage}
         />
       );
     }
-
+  
     if (isLiveChatOpend) {
       return (
         <ChatOptions
@@ -425,11 +426,10 @@ function ChatRoom({ chatroomId }) {
           handleOptionClick={handleOptionClick}
           selectedAnswer={selectedAnswer}
           isLoading={isLoading}
-          onSendMessage={handleSendMessage}
         />
       );
     }
-
+  
     return (
       <FaqQuestions
         rankedFaqData={rankedFaqData}

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { db } from "../../../api/firebase";
+import { auth, db } from "../../../api/firebase";
 import { collection, getDocs, onSnapshot, query, orderBy, doc, updateDoc } from "firebase/firestore";
 import styles from "./ChatRoomCare.module.scss";
 import ChatRequestList from "./chat-request-list/ChatRequestList";
@@ -13,52 +13,73 @@ function ChatRoomCare() {
     
     // Firestore에서 'chatRoom' 컬렉션 실시간 감시
     const unsubscribe = onSnapshot(chatRoomRef, async (snapshot) => {
-      const chatRequestsPromises = snapshot.docs.map(async (chatRoomDoc) => {
-        const userEmail = chatRoomDoc.id;
-        // 사용자 이메일 추출 (컬렉션의 문서 ID가 이메일이라고 가정)
-        
-        const chatContentRef = collection(db, "chatRoom", userEmail, "chatContent");
-        const chatContentSnapshot = await getDocs(chatContentRef);
-        
-        const chatRequestPromises = chatContentSnapshot.docs.map(async (chatContentDoc) => {
-          const chatRoomId = chatContentDoc.id;
-          const chatData = chatContentDoc.data();
+      try {
+        const chatRequestsPromises = snapshot.docs.map(async (chatRoomDoc) => {
+          const userEmail = chatRoomDoc.id;
           
-          // 'message' 컬렉션에서 메시지 가져오기
-          const messagesRef = collection(db, "chatRoom", userEmail, "chatContent", chatRoomId, "message");
-          const messageQuery = query(messagesRef, orderBy("createdAt", "asc"));
-          const messageSnapshot = await getDocs(messageQuery);
+          const chatContentRef = collection(db, "chatRoom", userEmail, "chatContent");
+          const chatContentSnapshot = await getDocs(chatContentRef);
           
-          const messages = messageSnapshot.docs.map((messageDoc) => ({
-            id: messageDoc.id,
-            ...messageDoc.data(),
-          }));
+          const chatRequestPromises = chatContentSnapshot.docs.map(async (chatContentDoc) => {
+            const chatRoomId = chatContentDoc.id;
+            const chatData = chatContentDoc.data();
+            
+            const messagesRef = collection(db, "chatRoom", userEmail, "chatContent", chatRoomId, "message");
+            const messageQuery = query(messagesRef, orderBy("createdAt", "asc"));
+            const messageSnapshot = await getDocs(messageQuery);
+            
+            const messages = messageSnapshot.docs.map((messageDoc) => ({
+              id: messageDoc.id,
+              ...messageDoc.data(),
+            }));
+            
+            // 콘솔 로그로 데이터 확인
+            console.log("채팅 데이터: ", {
+              id: chatRoomId,
+              userEmail,
+              chatTheme: chatData.chatTheme,
+              activeYn: chatData.activeYn,
+              chatEnd: chatData.chatEnd,
+              createdAt: chatData.createdAt,
+              nickname: chatData.nickname,
+              messages,
+            });
+            
+            return {
+              id: chatRoomId,
+              userEmail,
+              chatTheme: chatData.chatTheme,
+              activeYn: chatData.activeYn,
+              chatEnd: chatData.chatEnd,
+              createdAt: chatData.createdAt,
+              nickname: chatData.nickname,
+              messages,
+            };
+          });
           
-          return {
-            id: chatRoomId,
-            userEmail,
-            chatTheme: chatData.chatTheme,
-            activeYn: chatData.activeYn,
-            chatEnd: chatData.chatEnd,
-            createdAt: chatData.createdAt,
-            nickname: chatData.nickname,
-            messages,
-          };
+          return await Promise.all(chatRequestPromises);
         });
         
-        return await Promise.all(chatRequestPromises);
-      });
-      
-      const chatRequests = await Promise.all(chatRequestsPromises);
-      setChatRequests(chatRequests);
-      setLoading(false); // 로딩 완료
+        let chatRequests = await Promise.all(chatRequestsPromises);
+        
+        // createdAt을 기준으로 최신 순으로 정렬
+        chatRequests = chatRequests.flat().sort((a, b) => b.createdAt.seconds - a.createdAt.seconds);
+        
+        setChatRequests(chatRequests);
+        setLoading(false); // 로딩 완료
+      } catch (error) {
+        console.error("실시간 데이터 수신 중 오류 발생:", error);
+      }
     });
-
+  
     return () => unsubscribe(); // 컴포넌트 언마운트 시 구독 해제
   }, []);
-
+  
   const handleApproveChat = async (chatId, userEmail) => {
+    // active Yn을 n에서 y로 바꿔주는 함수 
     try {
+      console.log("Approving chat for user:", userEmail, "with chat ID:", chatId);
+      
       const chatRoomRef = doc(db, "chatRoom", userEmail, "chatContent", chatId);
       await updateDoc(chatRoomRef, {
         activeYn: "Y",
@@ -69,7 +90,7 @@ function ChatRoomCare() {
       console.error("채팅 승인 중 오류 발생:", error);
     }
   };
-
+  
   if (loading) {
     return <p>로딩 중...</p>;
   }
