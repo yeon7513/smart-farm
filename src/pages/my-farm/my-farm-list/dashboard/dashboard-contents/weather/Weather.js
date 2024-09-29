@@ -34,8 +34,9 @@ function Weather({ latitude, longitude }) {
   const [selectedDay, setSelectedDay] = useState(null); //선택한 날짜를 추적하기위한
   const [groupedForecastData, setGroupedForecastData] = useState();
   const [isLoading, setIsLoading] = useState(true); // 로딩 상태 추가
-  const [isHovered, setIsHovered] = useState(false);
-  const [localName, setLocalName] = useState("");
+
+  const [isHovered, setIsHovered] = useState(false); //호버상태
+  const [localName, setLocalName] = useState(""); //지역이름
 
   const getWindDirection = (degrees) => {
     const directions = [
@@ -300,6 +301,14 @@ function Weather({ latitude, longitude }) {
 
   // 주소에서 마우스를 떼면 주소가 간략하게 표시됩니다.
   const handleUnHover = () => setIsHovered(false);
+  // useEffect로 주소 정보 가져오는 로직을 추가
+  useEffect(() => {
+    async function fetchAddress() {
+      const address = await convertingGeocodeToAddress(latitude, longitude);
+      setLocalName(address);
+    }
+    fetchAddress();
+  }, [latitude, longitude]);
 
   return (
     <>
@@ -313,16 +322,19 @@ function Weather({ latitude, longitude }) {
             <div className={styles.today} onClick={() => handleClick(0)}>
               <div>
                 <h2
-                  className={
-                    isHovered ? styles.localFullName : styles.localName
-                  }
+                  className={styles.localName}
                   onMouseEnter={handleHover}
                   onMouseLeave={handleUnHover}
                 >
-                  {isHovered
-                    ? localName
-                    : localName.split(" ").slice(0, 3).join(" ")}
+                  {/* 간략한 주소만 표시 */}
+                  {localName.split(" ").slice(0, 3).join(" ")}
                 </h2>
+                {/* 호버 시 툴팁 표시 */}
+                {isHovered && (
+                  <div className={styles.tooltip}>
+                    {localName} {/* 툴팁에 전체 주소 표시 */}
+                  </div>
+                )}
                 <div className={styles.weather_icon}>
                   {getWeatherIcon(weatherData.icon, 110)}
                 </div>
