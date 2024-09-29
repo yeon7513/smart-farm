@@ -79,7 +79,7 @@ function LoginPage() {
               email: result.user.email,
               token: result.user.refreshToken,
               uid: result.user.uid,
-              nick: result.user.displayName,
+              nickname: result.user.displayName,
               number: item.number,
               name: item.name,
               address: item.address,
@@ -106,7 +106,7 @@ function LoginPage() {
         email: Info.email,
         token: Info.refreshToken,
         uid: Info.uid,
-        nick: Info.displayName,
+        nickname: Info.displayName,
         number: number,
         name: name,
       })

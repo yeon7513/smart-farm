@@ -9,7 +9,7 @@ function ChatRequestList({ chatRequests, onApproveChat }) {
         <ChatRequestItem
           key={chat.id}
           chat={chat}
-          onApprove={() => onApproveChat(chat.id)} // 채팅 승인 함수 호출
+          onApprove={() => onApproveChat(chat.id, chat.userEmail)}
         />
       ))}
     </ul>
