@@ -1,13 +1,13 @@
-import { useEffect, useState } from 'react';
-import styles from './ChatRoom.module.scss';
+import { useEffect, useState } from "react";
+import styles from "./ChatRoom.module.scss";
 // import closeIcon from "../../assets/main/closeImg.svg";
 // import backIcon from "../../assets/main/backImg.svg";
-import { auth, db, getOrder } from '../../api/firebase';
-import ChatOptions from './chat-options/ChatOptions';
-import LiveChatting from './chat-options/live-chatting/LiveChatting';
-import ChatRoomFooter from './chat-room-footer/ChatRoomFooter';
-import ChatRoomHeader from './chat-room-header/ChatRoomHeader';
-import FaqQuestions from './faq-questions/FaqQuestions';
+import { auth, db, getOrder } from "../../api/firebase";
+import ChatOptions from "./chat-options/ChatOptions";
+import LiveChatting from "./chat-options/live-chatting/LiveChatting";
+import ChatRoomFooter from "./chat-room-footer/ChatRoomFooter";
+import ChatRoomHeader from "./chat-room-header/ChatRoomHeader";
+import FaqQuestions from "./faq-questions/FaqQuestions";
 // import { BeatLoader } from "react-spinners";
 import {
   addDoc,
@@ -20,10 +20,10 @@ import {
   query,
   setDoc,
   where,
-} from 'firebase/firestore';
+} from "firebase/firestore";
 
 function ChatRoom({ chatroomId }) {
-  const [selectedAnswer, setSelectedAnswer] = useState('');
+  const [selectedAnswer, setSelectedAnswer] = useState("");
   // 질문 선택 여부 관리
   const [isStartChatSelected, setIsStartChatSelected] = useState(false);
   // '무엇을 도와드릴까요?' 화면에서 채팅상담 시작하기 버튼 클릭했을 때 '세부 선택' 화면으로 전환 여부 관리
@@ -36,7 +36,7 @@ function ChatRoom({ chatroomId }) {
   const [isTransitioningToLiveChat, setIsTransitioningToLiveChat] = useState(false);
   const [isLoading, setIsLoading] = useState(false); // 로딩 상태 추가
   const [messages, setMessages] = useState([]);
-  const [chatRoomId, setChatRoomId] = useState(null); 
+  const [chatRoomId, setChatRoomId] = useState(null); //
 
   // const faqData = useSelector((state) => state.faqData);
 
@@ -44,14 +44,14 @@ function ChatRoom({ chatroomId }) {
   useEffect(() => {
     const fetchRankedFaqData = async () => {
       try {
-        const rankedData = await getOrder('faq', 'likes');
+        const rankedData = await getOrder("faq", "likes");
         // 'likes' 필드를 기준으로 FAQ 데이터를 가져옴
-        console.log('Fetched FAQ Data: ', rankedData);
+        console.log("Fetched FAQ Data: ", rankedData);
         // 가져온 데이터를 콘솔에 출력
         setRankedFaqData(rankedData);
         // 정렬된 데이터를 상태에 설정
       } catch (error) {
-        console.error('Error fetching ranked FAQs:', error);
+        console.error("Error fetching ranked FAQs:", error);
       }
     };
     fetchRankedFaqData();
@@ -61,9 +61,9 @@ function ChatRoom({ chatroomId }) {
 
   //  추가할 5번째 질문과 답변
   const openChat = {
-    id: 'chattingCounselor', // 고유 ID 생성
-    question: ' 채팅 상담 시작하기',
-    answer: '',
+    id: "chattingCounselor", // 고유 ID 생성
+    question: " 채팅 상담 시작하기",
+    answer: "",
   };
 
 
@@ -117,103 +117,81 @@ function ChatRoom({ chatroomId }) {
 
   const chatOptionsData = [
     {
-      id: 'option1',
-      question: '회원 정보',
+      id: "option1",
+      question: "회원 정보",
       answer:
-        '요청하신 회원 정보 상담을 위해 채팅 상담원과 연결 중입니다. 잠시만 기다려 주세요...',
+        "요청하신 회원 정보 상담을 위해 채팅 상담원과 연결 중입니다. 잠시만 기다려 주세요...",
     },
     {
-      id: 'option2',
-      question: '결제/환불',
+      id: "option2",
+      question: "결제/환불",
       answer:
-        '요청하신 결제/환불 상담을 위해  채팅 상담원과 연결 중입니다. 잠시만 기다려 주세요...',
+        "요청하신 결제/환불 상담을 위해  채팅 상담원과 연결 중입니다. 잠시만 기다려 주세요...",
     },
     {
-      id: 'option3',
-      question: '출장 서비스',
+      id: "option3",
+      question: "출장 서비스",
       answer:
-        '요청하신 출장 서비스 상담을 위해  채팅 상담원과 연결 중입니다. 잠시만 기다려 주세요...',
+        "요청하신 출장 서비스 상담을 위해  채팅 상담원과 연결 중입니다. 잠시만 기다려 주세요...",
     },
     {
-      id: 'option4',
-      question: '견적서',
+      id: "option4",
+      question: "견적서",
       answer:
-        '요청하신 견적서 상담을 위해  채팅 상담원과 연결 중입니다. 잠시만 기다려 주세요...',
+        "요청하신 견적서 상담을 위해  채팅 상담원과 연결 중입니다. 잠시만 기다려 주세요...",
     },
     {
-      id: 'option5',
-      question: '스마트팜 시스템',
+      id: "option5",
+      question: "스마트팜 시스템",
       answer:
-        '요청하신 스마트팜 시스템 상담을 위해  채팅 상담원과 연결 중입니다. 잠시만 기다려 주세요...',
+        "요청하신 스마트팜 시스템 상담을 위해  채팅 상담원과 연결 중입니다. 잠시만 기다려 주세요...",
     },
     {
-      id: 'option6',
-      question: 'A/S',
+      id: "option6",
+      question: "A/S",
       answer:
-        '요청하신 A/S 상담을 위해  채팅 상담원과 연결 중입니다. 잠시만 기다려 주세요...',
+        "요청하신 A/S 상담을 위해  채팅 상담원과 연결 중입니다. 잠시만 기다려 주세요...",
     },
     {
-      id: 'option7',
-      question: '기타',
+      id: "option7",
+      question: "기타",
       answer:
-        '요청하신 기타 사항 상담을 위해  채팅 상담원과 연결 중입니다. 잠시만 기다려 주세요...',
+        "요청하신 기타 사항 상담을 위해  채팅 상담원과 연결 중입니다. 잠시만 기다려 주세요...",
     },
   ];
 
   const handleChatButtonClick = (id) => {
     setIsStartChatSelected(true);
     // 첫번째 화면에서 "채팅 상담원 연결하기" 버튼 클릭 시 선택지 화면으로 전환
-    setSelectedAnswer(''); // 선택된 답변 초기화
+    setSelectedAnswer(""); // 선택된 답변 초기화
   };
 
   const handleBackButtonClick = () => {
     setIsStartChatSelected(false); // "뒤로 가기" 버튼 클릭 시 이전 화면으로 전환
     setIsLiveChatOpend(false); // 추가 질문 선택 상태 초기화
-    setSelectedAnswer(''); // 선택된 답변 초기화
+    setSelectedAnswer(""); // 선택된 답변 초기화
     setIsTransitioningToLiveChat(false); // 뒤로 가기 시 전환 초기화
   };
 
   const handleFaqClick = (id) => {
-    if (id === 'chattingCounselor') {
-      // '채팅 상담사 연결하기' 질문 선택 시만 LiveChat으로 전환
-      setIsLiveChatOpend(true);
+    // 첫번째 화면에서 FAQ 버튼 클릭 시의 동작 정의 -> 클릭 시 FaqQuestions 화면으로 이동
+    if (id === "chattingCounselor") {
+      // '채팅 상담사 연결하기' 질문을 선택한 경우 (올바른 ID로 수정)
+      setIsLiveChatOpend(true); // 추가 질문 화면으로 전환
       setIsStartChatSelected(true);
-      setIsTransitioningToLiveChat(false); // 여기는 초기화
-      setSelectedAnswer('');
+      setSelectedAnswer("");
     } else {
       // 일반 FAQ 선택 시
-      const selectedFaq = [...rankedFaqData, openChat].find((faq) => faq.id === id);
-  
-      if (selectedFaq && selectedFaq.answer) {
-        setSelectedAnswer(selectedFaq.answer);
-      }
-    }
-  };
+      const selectedFaq = [...rankedFaqData, openChat].find(
+        (faq) => faq.id === id
+      );
 
-  const fetchUserNickname = async () => {
-    const currentUser = auth.currentUser;
-  
-    if (!currentUser) {
-      console.error("사용자가 로그인되지 않았습니다.");
-      return null;
-    }
-  
-    const userEmail = currentUser.email;
-  
-    try {
-      const userDocRef = doc(db, "users", currentUser.uid);  // 유저의 이메일을 문서 ID로 사용
-      const userDoc = await getDoc(userDocRef);
-  
-      if (userDoc.exists()) {
-        const nickname = userDoc.data().nickname;  // nickname 필드 가져오기
-        return nickname;
+      if (selectedFaq && selectedFaq.answer) {
+        // FAQ와 answer 필드가 존재하는지 확인
+        setSelectedAnswer(selectedFaq.answer); // 해당 FAQ의 답변을 설정
       } else {
-        console.error("유저 문서를 찾을 수 없습니다.");
-        return null;
+        console.warn("선택한 FAQ에 답변이 없습니다:", selectedFaq);
       }
-    } catch (error) {
-      console.error("닉네임을 가져오는 중 오류 발생:", error.message);
-      return null;
     }
   };
   
@@ -257,7 +235,7 @@ const startNewChat = async (question) => {
     if (selectedOption) {
       setSelectedAnswer(selectedOption.answer);
       setIsLoading(true);
-      await startNewChat(selectedOption.question);  
+      // await startNewChat(selectedOption.question);
     } else {
       console.warn("선택한 옵션에 답변이 없습니다.", selectedOption);
     }
@@ -269,7 +247,6 @@ const startNewChat = async (question) => {
   };
 
   if (!isChatRoomOpened) return null;
-
 
   // 챗룸이 보이지 않도록 설정
 
@@ -284,17 +261,52 @@ const startNewChat = async (question) => {
   //   setMessages((prevMessages) => [...prevMessages, newMessage]); // 새로운 메시지를 추가하여 상태 업데이트
   // };
 
-  
+  const startNewChat = async (question) => {
+    const currentUser = auth.currentUser;
+    if (!currentUser) {
+      console.error("사용자가 로그인되지 않았습니다.");
+      return;
+    }
+
+    const userEmail = currentUser.email;
+
+    try {
+      const chatContentRef = collection(
+        db,
+        "chatRoom",
+        userEmail,
+        "chatContent"
+      );
+      const newChatRoom = await addDoc(chatContentRef, {
+        chatTheme: question, // 선택된 질문 저장
+        activeYn: "Y",
+        chatEnd: "N",
+        createdAt: serverTimestamp(),
+      });
+
+      const chatRoomId = newChatRoom.id;
+      console.log("새로운 상담이 시작되었습니다:", chatRoomId);
+    } catch (error) {
+      console.error("상담 시작 중 오류가 발생했습니다:", error.message);
+    }
+  };
+
   const endChat = async (chatRoomId) => {
     const currentUser = auth.currentUser;
     if (!currentUser) {
-      console.error('사용자가 로그인되지 않았습니다.');
+      console.error("사용자가 로그인되지 않았습니다.");
       return;
     }
-  
+
     const userEmail = currentUser.email;
     try {
-      const chatContentRef = doc(db, 'chatRoom', userEmail, 'chatContent', chatRoomId);
+      const chatContentRef = doc(
+        db,
+        "chatRoom",
+        userEmail,
+        "chatContent",
+        chatRoomId
+      );
       await setDoc(
         chatContentRef,
         {
@@ -304,9 +316,9 @@ const startNewChat = async (question) => {
         },
         { merge: true }
       );
-      console.log('상담이 종료되었습니다:', chatRoomId);
+      console.log("상담이 종료되었습니다:", chatRoomId);
     } catch (error) {
-      console.error('상담 종료 중 오류가 발생했습니다:', error.message);
+      console.error("상담 종료 중 오류가 발생했습니다:", error.message);
     }
   };
   
@@ -335,7 +347,7 @@ const startNewChat = async (question) => {
       console.error("사용자가 로그인되지 않았거나 chatRoomId가 없습니다.");
       return;
     }
-  
+
     const userEmail = currentUser.email;
   
     try {
@@ -346,7 +358,7 @@ const startNewChat = async (question) => {
         createdAt: Date.now(), // 밀리세컨즈 단위로 시간을 저장
         uid: currentUser.uid,
       });
-  
+
       setMessages((prevMessages) => [
         ...prevMessages,
         {
@@ -356,7 +368,7 @@ const startNewChat = async (question) => {
           uid: currentUser.uid,
         },
       ]);
-  
+
       console.log("메시지가 성공적으로 Firestore에 저장되었습니다.");
     } catch (error) {
       console.error("메시지 전송 중 오류 발생:", error.message);
@@ -365,30 +377,28 @@ const startNewChat = async (question) => {
   
 
 
+  // renderContent 내에서만 상태 관리
   const renderContent = () => {
     // isLiveChatOpend 또는 isTransitioningToLiveChat 중 하나라도 true이면 LiveChatting 컴포넌트 렌더링
     if (isLiveChatOpend && isTransitioningToLiveChat) {
       return (
-        <LiveChatting
+        <LiveChatting // 1초 후 live-chatting 컴포넌트로 전환
           messages={messages}
           onSendMessage={handleSendMessage}
         />
       );
     }
-  
-    // 그 외의 경우 ChatOptions를 렌더링
-    if (isStartChatSelected) {
+    if (isLiveChatOpend) {
       return (
         <ChatOptions
           chatOptionsData={chatOptionsData}
           handleOptionClick={handleOptionClick}
           selectedAnswer={selectedAnswer}
           isLoading={isLoading}
+          onSendMessage={handleSendMessage}
         />
       );
     }
-  
-    // 기본적으로 FaqQuestions를 렌더링
     return (
       <FaqQuestions
         rankedFaqData={rankedFaqData}
@@ -426,4 +436,4 @@ const startNewChat = async (question) => {
   );
 }
 
-export default ChatRoom; 
+export default ChatRoom;
