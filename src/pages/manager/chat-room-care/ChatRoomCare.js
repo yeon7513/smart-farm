@@ -1,76 +1,87 @@
-import React, { useEffect, useState } from "react";
-import { TbMessageSearch } from "react-icons/tb";
-import SearchBox from "../../../components/search_box/SearchBox";
+import React, { useState, useEffect } from "react";
+import { db } from "../../../api/firebase";
+import { collection, getDocs, onSnapshot, query, orderBy, doc, updateDoc } from "firebase/firestore";
 import styles from "./ChatRoomCare.module.scss";
-import {
-  collection,
-  doc,
-  onSnapshot,
-  query,
-  updateDoc,
-  where,
-  orderBy,
-} from "firebase/firestore";
-import { db, auth } from "../../../api/firebase";
 import ChatRequestList from "./chat-request-list/ChatRequestList";
 
 function ChatRoomCare() {
   const [chatRequests, setChatRequests] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-  //  유스 이펙트를 만들어서 할당을 함 
-    const q = query(
-    // q 함수를 만들어 쿼리에 할당함 
-      collection(db, "chatRequests"),
-      where("activeYn", "in", ["N", "Y"]),
-      orderBy("createdAt", "desc")
-    );
-  
-    const unsubscribe = onSnapshot(q, (snapshot) => {
-      // 구독해제 함수를 만들어 온스냅샷에 할당하고 q와 스냅샷을 파라미터로 사용한다. 
-      const requests = snapshot.docs.map((doc) => ({
-        // 요청함수를 만들어 맵함수를 파라미터로 사용해 할당한다. 
-        id: doc.id,
-        ...doc.data(),
-      }));
-      console.log('채팅 요청 목록:', requests); // 로그 추가
-      setChatRequests(requests);
+    const chatRoomRef = collection(db, "chatRoom");
+    
+    // Firestore에서 'chatRoom' 컬렉션 실시간 감시
+    const unsubscribe = onSnapshot(chatRoomRef, async (snapshot) => {
+      const chatRequestsPromises = snapshot.docs.map(async (chatRoomDoc) => {
+        const userEmail = chatRoomDoc.id;
+        // 사용자 이메일 추출 (컬렉션의 문서 ID가 이메일이라고 가정)
+        
+        const chatContentRef = collection(db, "chatRoom", userEmail, "chatContent");
+        const chatContentSnapshot = await getDocs(chatContentRef);
+        
+        const chatRequestPromises = chatContentSnapshot.docs.map(async (chatContentDoc) => {
+          const chatRoomId = chatContentDoc.id;
+          const chatData = chatContentDoc.data();
+          
+          // 'message' 컬렉션에서 메시지 가져오기
+          const messagesRef = collection(db, "chatRoom", userEmail, "chatContent", chatRoomId, "message");
+          const messageQuery = query(messagesRef, orderBy("createdAt", "asc"));
+          const messageSnapshot = await getDocs(messageQuery);
+          
+          const messages = messageSnapshot.docs.map((messageDoc) => ({
+            id: messageDoc.id,
+            ...messageDoc.data(),
+          }));
+          
+          return {
+            id: chatRoomId,
+            userEmail,
+            chatTheme: chatData.chatTheme,
+            activeYn: chatData.activeYn,
+            chatEnd: chatData.chatEnd,
+            createdAt: chatData.createdAt,
+            nickname: chatData.nickname,
+            messages,
+          };
+        });
+        
+        return await Promise.all(chatRequestPromises);
+      });
+      
+      const chatRequests = await Promise.all(chatRequestsPromises);
+      setChatRequests(chatRequests);
+      setLoading(false); // 로딩 완료
     });
-  
-    return () => unsubscribe();
+
+    return () => unsubscribe(); // 컴포넌트 언마운트 시 구독 해제
   }, []);
 
-  const handleApproveChat = async (chatRoomId) => {
-    // 챗룸아이디를 파이어베이스에서 파라미터로 가져와 함수를 만든다.
-    const currentUser = auth.currentUser;
-    // 계정을 가져온다.
-    const userEmail = currentUser.email;
-    // 유저이메일을 가져온다. 
-
+  const handleApproveChat = async (chatId, userEmail) => {
     try {
-      // 트라이 캐치문법을 사용한다. 
-      const chatDocRef = doc(db, "chatRoom", userEmail, "chatContent", chatRoomId);
-      // 대화접근함수를 만들어 대화내용을 가져온다.
-      // 승인 후 activeYn 필드 업데이트
-      await updateDoc(chatDocRef, {
-        // 업데이트함수를 파이어베이스에서 가져와서 접근함수를 파라미터로 사용해서 
-        activeYn: "Y"
-        // activeYn을 N에서 Y로 가져온다. 
+      const chatRoomRef = doc(db, "chatRoom", userEmail, "chatContent", chatId);
+      await updateDoc(chatRoomRef, {
+        activeYn: "Y",
+        chatEnd: "N",
       });
-  
-      console.log("채팅이 승인되었습니다:", chatRoomId);
+      console.log(`채팅(${chatId}) 승인됨`);
     } catch (error) {
-      console.error("채팅 승인 중 오류 발생:", error.message);
+      console.error("채팅 승인 중 오류 발생:", error);
     }
   };
 
+  if (loading) {
+    return <p>로딩 중...</p>;
+  }
+
   return (
-    <div className={styles.chatRoom}>
-      <SearchBox name={<TbMessageSearch />} placeholder={"채팅방 검색"} />
-      <ChatRequestList
-        chatRequests={chatRequests}
-        onApproveChat={handleApproveChat}
-      />
+    <div className={styles.wrapper}>
+      <h2>채팅 요청 관리</h2>
+      {chatRequests.length > 0 ? (
+        <ChatRequestList chatRequests={chatRequests} onApproveChat={handleApproveChat} />
+      ) : (
+        <p>채팅 요청이 없습니다.</p>
+      )}
     </div>
   );
 }
