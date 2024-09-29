@@ -18,6 +18,8 @@ function MembersCare() {
   const [userDetail, setUserDetail] = useState();
   const [isEdit, setIsEdit] = useState(false);
 
+  const [searchValue, setSearchValue] = useState('');
+
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPage, setTotalPage] = useState(1);
   const [pageSize, setPageSize] = useState(getPageSize());
@@ -41,6 +43,13 @@ function MembersCare() {
 
   const filteredUsers = items
     .filter((user) => !user.email.includes('admin'))
+    .filter(
+      (user) =>
+        searchValue === '' || // 검색어가 빈 문자열인 경우 모든 사용자 포함
+        user.name.toLowerCase().includes(searchValue.toLowerCase()) ||
+        user.email.toLowerCase().includes(searchValue.toLowerCase()) ||
+        user.nickname.toLowerCase().includes(searchValue.toLowerCase())
+    )
     .sort((a, b) => b.createdAt - a.createdAt);
 
   // 관리자를 제외한 회원 목록
@@ -61,6 +70,10 @@ function MembersCare() {
       setPageSize(newSize);
       setCurrentPage(1);
     }
+  };
+
+  const handleChangeSearchUsers = (e) => {
+    setSearchValue(e.target.value);
   };
 
   // users 컬렉션 전체 불러오기
@@ -87,6 +100,8 @@ function MembersCare() {
       <SearchBox
         className={styles.memberSearch}
         name={<TbUserSearch />}
+        value={searchValue}
+        onChange={handleChangeSearchUsers}
         placeholder={'회원 검색'}
       />
       <ul className={styles.members}>

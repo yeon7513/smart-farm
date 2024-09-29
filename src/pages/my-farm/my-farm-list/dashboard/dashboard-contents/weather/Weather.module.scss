@@ -13,10 +13,31 @@
     width: 25%;
     border-right: 3px solid var(--accent-color);
     border-top: 3px solid var(--accent-color);
+    .tooltip {
+      position: absolute; /* 부모 요소 기준으로 절대 위치 */
+      background-color: rgba(0, 0, 0, 0.8); /* 반투명한 배경 */
+      color: #fff;
+      padding: 8px;
+      border-radius: 5px;
+      font-size: 16px;
+      top: 60px;
+      left: 30%;
+      transform: translateX(-50%);
+      white-space: nowrap;
+      z-index: 100;
+    }
+
+    /* 주소 부분 */
+    .localName {
+      position: relative; /* 툴팁이 relative 부모에 맞춰서 배치되도록 설정 */
+      cursor: pointer; /* 마우스 커서를 포인터로 변경 */
+    }
     h2 {
       padding: 12px 0px 0px 12px;
       font-weight: 600;
+      font-size: 18px;
     }
+
     .title {
       display: flex;
       justify-content: center;
