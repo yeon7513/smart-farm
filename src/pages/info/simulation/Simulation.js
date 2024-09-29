@@ -25,16 +25,16 @@ function Simulation() {
 
   const handleChangeData = (e) => {
     const { name, value } = e.target;
-    handleSaveResult(name, value);
+    handleSaveResult(name, Number(value));
   };
 
-  const handleClickData = (range) => {
-    handleSaveResult(range);
+  const handleClickData = (week) => {
+    handleSaveResult('week', week);
   };
 
-  console.log(bestEnvData);
-  // console.log('bestProdValue: ', bestProdValue);
-  console.log('resultData: ', resultData);
+  const handleResetData = () => {
+    setResultData();
+  };
 
   useEffect(() => {
     dispatch(fetchEnvironmentData(`pageSize=5&searchFrmhsCode=${farmCode}`));
@@ -70,8 +70,8 @@ function Simulation() {
         <ul>
           <li>
             <h4>주차</h4>
-            <button>51주차</button>
-            <button>52주차</button>
+            <button onClick={() => handleClickData(51)}>51주차</button>
+            <button onClick={() => handleClickData(52)}>52주차</button>
           </li>
           <li>
             <h4>면적 (평)</h4>
@@ -88,11 +88,15 @@ function Simulation() {
         <div>
           <SimulationSelectData
             selectDatas={createRange(bestEnvData.averages)}
-            onClick={handleClickData}
+            onClick={handleSaveResult}
           />
         </div>
       </div>
-      <SimulationResult data={resultData} />
+      <SimulationResult
+        data={resultData}
+        bestProd={bestProdValue}
+        handleReset={handleResetData}
+      />
     </div>
   );
 }

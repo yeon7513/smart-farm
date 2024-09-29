@@ -99,7 +99,30 @@ export const createRange = (data) => {
   return ranges;
 };
 
-// // 결과 출력
-// export function calcResult(prodPerArea, selectObj) {
-//   const { count, area } = selectObj;
-// }
+// 결과 출력
+export function calcResult(bestProd, selectObj) {
+  // const { area, week } = selectObj;
+  if (!selectObj) {
+    return;
+  }
+
+  const negativeValues = Object.values(selectObj).filter((value) => value < 0);
+  const counts = negativeValues.reduce((total, value) => total + value * 10, 0);
+
+  // 우수농가 기본 생산량
+  const bestProduction = bestProd * selectObj.area;
+  // 우수농가의 주간 평균 생산량
+  const weeklyAverageBestProduction = bestProduction / selectObj.week;
+
+  // 사용자가 입력한 옵션에 따른 생산량
+  const usersProduction = bestProduction + counts;
+  // 사용자의 주간 평균 예상 생산량
+  const weeklyAverageUsersProduction = usersProduction / selectObj.week;
+
+  return {
+    bestProduction,
+    weeklyAverageBestProduction,
+    usersProduction,
+    weeklyAverageUsersProduction,
+  };
+}
