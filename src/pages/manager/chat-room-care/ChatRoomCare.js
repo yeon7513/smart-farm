@@ -3,21 +3,22 @@ import { auth, db } from "../../../api/firebase";
 import { collection, getDocs, onSnapshot, query, orderBy, doc, updateDoc } from "firebase/firestore";
 import styles from "./ChatRoomCare.module.scss";
 import ChatRequestList from "./chat-request-list/ChatRequestList";
+import ManagerChatRoom from "./chat-request-list/chat-request-item/manager-chat-room/ManagerChatRoom"; // 채팅방 컴포넌트 임포트
+import { TbMessageSearch } from 'react-icons/tb';
+import SearchBox from '../../../components/search_box/SearchBox';
 
 function ChatRoomCare() {
   const [chatRequests, setChatRequests] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [activeChat, setActiveChat] = useState(null); // 활성화된 채팅 정보 저장
 
   useEffect(() => {
-    // "chatRoom" 컬렉션을 참조
     const chatRoomRef = collection(db, "chatRoom");
   
     const unsubscribe = onSnapshot(chatRoomRef, async (snapshot) => {
       try {
-        // 각 chatRoom 문서(사용자 이메일에 해당)를 순회
         const chatRequestsPromises = snapshot.docs.map(async (chatRoomDoc) => {
           const userEmail = chatRoomDoc.id;
-          // 해당 사용자의 "chatContent" 컬렉션을 참조
           const chatContentRef = collection(db, "chatRoom", userEmail, "chatContent");
   
           const chatContentSnapshot = await getDocs(chatContentRef);
@@ -26,7 +27,6 @@ function ChatRoomCare() {
             const chatRoomId = chatContentDoc.id;
             const chatData = chatContentDoc.data();
   
-            // 각 chatRoomId에 해당하는 "message" 컬렉션을 참조
             const messagesRef = collection(db, "chatRoom", userEmail, "chatContent", chatRoomId, "message");
             const messageQuery = query(messagesRef, orderBy("createdAt", "asc"));
             const messageSnapshot = await getDocs(messageQuery);
@@ -57,7 +57,6 @@ function ChatRoomCare() {
   
         let chatRequests = await Promise.all(chatRequestsPromises);
   
-        // 최신순으로 정렬
         chatRequests = chatRequests.flat().sort((a, b) => b.createdAt - a.createdAt);
   
         setChatRequests(chatRequests);
@@ -78,6 +77,9 @@ function ChatRoomCare() {
         chatEnd: "N",
       });
       console.log(`채팅(${chatId}) 승인됨`);
+      
+      // 승인 후 해당 채팅을 활성화하여 열림
+      setActiveChat({ chatId, userEmail });
     } catch (error) {
       console.error("채팅 승인 중 오류 발생:", error);
     }
@@ -90,8 +92,17 @@ function ChatRoomCare() {
   return (
     <div className={styles.wrapper}>
       <h2>채팅 요청 관리</h2>
+      <SearchBox name={<TbMessageSearch />} placeholder={'채팅 요청 검색'} />
       {chatRequests.length > 0 ? (
-        <ChatRequestList chatRequests={chatRequests} onApproveChat={handleApproveChat} />
+        <>
+          <ChatRequestList chatRequests={chatRequests} onApproveChat={handleApproveChat} />
+          {activeChat && (
+            <ManagerChatRoom
+              chatRoomId={activeChat.chatId}
+              userEmail={activeChat.userEmail}
+            />
+          )}
+        </>
       ) : (
         <p>채팅 요청이 없습니다.</p>
       )}
