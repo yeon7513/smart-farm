@@ -6,26 +6,21 @@ function ChatRequestList({ chatRequests, onApproveChat }) {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
 
-  // 총 페이지 수 계산
   const totalPages = Math.ceil(chatRequests.length / itemsPerPage);
 
-  // 현재 페이지의 아이템 목록을 계산
   const currentItems = chatRequests.slice(
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
   );
 
-  // 페이지 변경 핸들러
   const handlePageChange = (pageNumber) => {
     if (pageNumber < 1 || pageNumber > totalPages) return;
     setCurrentPage(pageNumber);
   };
 
-  // 페이지 버튼 목록 생성
   const renderPagination = () => {
     let paginationItems = [];
 
-    // 처음 버튼
     paginationItems.push(
       <button
         key="1"
@@ -36,7 +31,6 @@ function ChatRequestList({ chatRequests, onApproveChat }) {
       </button>
     );
 
-    // "..." 버튼 (중간에 건너뛸 수 있는 페이지)
     if (currentPage > 5) {
       paginationItems.push(
         <button key={`dot-prev`} className={styles.dotButton} disabled>
@@ -45,7 +39,6 @@ function ChatRequestList({ chatRequests, onApproveChat }) {
       );
     }
 
-    // 중간 페이지 버튼 (현재 페이지 기준 +-2로 제한)
     const startPage = Math.max(2, currentPage - 2);
     const endPage = Math.min(totalPages - 1, currentPage + 2);
     for (let i = startPage; i <= endPage; i++) {
@@ -60,7 +53,6 @@ function ChatRequestList({ chatRequests, onApproveChat }) {
       );
     }
 
-    // "..." 버튼 (끝으로 건너뛸 수 있는 페이지)
     if (currentPage < totalPages - 4) {
       paginationItems.push(
         <button key={`dot-next`} className={styles.dotButton} disabled>
@@ -69,7 +61,6 @@ function ChatRequestList({ chatRequests, onApproveChat }) {
       );
     }
 
-    // 마지막 페이지 버튼
     paginationItems.push(
       <button
         key={totalPages}
@@ -95,7 +86,6 @@ function ChatRequestList({ chatRequests, onApproveChat }) {
         ))}
       </ul>
 
-      {/* 페이지네이션 버튼 */}
       <div className={styles.pagination}>{renderPagination()}</div>
     </div>
   );

@@ -9,77 +9,69 @@ function ChatRoomCare() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    // "chatRoom" 컬렉션을 참조
     const chatRoomRef = collection(db, "chatRoom");
-    
-    // Firestore에서 'chatRoom' 컬렉션 실시간 감시
+  
     const unsubscribe = onSnapshot(chatRoomRef, async (snapshot) => {
       try {
+        // 각 chatRoom 문서(사용자 이메일에 해당)를 순회
         const chatRequestsPromises = snapshot.docs.map(async (chatRoomDoc) => {
           const userEmail = chatRoomDoc.id;
-          
+          // 해당 사용자의 "chatContent" 컬렉션을 참조
           const chatContentRef = collection(db, "chatRoom", userEmail, "chatContent");
+  
           const chatContentSnapshot = await getDocs(chatContentRef);
-          
+  
           const chatRequestPromises = chatContentSnapshot.docs.map(async (chatContentDoc) => {
             const chatRoomId = chatContentDoc.id;
             const chatData = chatContentDoc.data();
-            
+  
+            // 각 chatRoomId에 해당하는 "message" 컬렉션을 참조
             const messagesRef = collection(db, "chatRoom", userEmail, "chatContent", chatRoomId, "message");
             const messageQuery = query(messagesRef, orderBy("createdAt", "asc"));
             const messageSnapshot = await getDocs(messageQuery);
-            
-            const messages = messageSnapshot.docs.map((messageDoc) => ({
-              id: messageDoc.id,
-              ...messageDoc.data(),
-            }));
-            
-            // 콘솔 로그로 데이터 확인
-            console.log("채팅 데이터: ", {
-              id: chatRoomId,
-              userEmail,
-              chatTheme: chatData.chatTheme,
-              activeYn: chatData.activeYn,
-              chatEnd: chatData.chatEnd,
-              createdAt: chatData.createdAt,
-              nickname: chatData.nickname,
-              messages,
+  
+            const messages = messageSnapshot.docs.map((messageDoc) => {
+              const messageData = messageDoc.data();
+              return {
+                id: messageDoc.id,
+                ...messageData,
+                createdAt: messageData.createdAt instanceof Object ? messageData.createdAt.toMillis() : messageData.createdAt,
+              };
             });
-            
+  
             return {
               id: chatRoomId,
               userEmail,
               chatTheme: chatData.chatTheme,
               activeYn: chatData.activeYn,
               chatEnd: chatData.chatEnd,
-              createdAt: chatData.createdAt,
+              createdAt: chatData.createdAt instanceof Object ? chatData.createdAt.toMillis() : chatData.createdAt,
               nickname: chatData.nickname,
               messages,
             };
           });
-          
+  
           return await Promise.all(chatRequestPromises);
         });
-        
+  
         let chatRequests = await Promise.all(chatRequestsPromises);
-        
-        // createdAt을 기준으로 최신 순으로 정렬
-        chatRequests = chatRequests.flat().sort((a, b) => b.createdAt.seconds - a.createdAt.seconds);
-        
+  
+        // 최신순으로 정렬
+        chatRequests = chatRequests.flat().sort((a, b) => b.createdAt - a.createdAt);
+  
         setChatRequests(chatRequests);
-        setLoading(false); // 로딩 완료
+        setLoading(false);
       } catch (error) {
         console.error("실시간 데이터 수신 중 오류 발생:", error);
       }
     });
   
-    return () => unsubscribe(); // 컴포넌트 언마운트 시 구독 해제
+    return () => unsubscribe();
   }, []);
-  
+
   const handleApproveChat = async (chatId, userEmail) => {
-    // active Yn을 n에서 y로 바꿔주는 함수 
     try {
-      console.log("Approving chat for user:", userEmail, "with chat ID:", chatId);
-      
       const chatRoomRef = doc(db, "chatRoom", userEmail, "chatContent", chatId);
       await updateDoc(chatRoomRef, {
         activeYn: "Y",
@@ -90,7 +82,7 @@ function ChatRoomCare() {
       console.error("채팅 승인 중 오류 발생:", error);
     }
   };
-  
+
   if (loading) {
     return <p>로딩 중...</p>;
   }
