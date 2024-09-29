@@ -15,6 +15,39 @@
     height: 600px;
     transform: scale(120%);
   }
+
+  @media (max-width: 1200px) {
+    width: 280px;
+    height: 380px;
+    > svg {
+      width: 385px;
+      height: 580px;
+    }
+  }
+  @media (max-width: 980px) {
+    margin: 40px 40px 0 30px;
+    width: 300px;
+    height: 400px;
+    > svg {
+      width: 350px;
+      height: 600px;
+    }
+  }
+  @media (max-width: 768px) {
+    margin: 40px 10px 0;
+  }
+  @media (max-width: 576px) {
+    margin: 40px 0;
+    width: 280px;
+    height: 380px;
+    > svg {
+      width: 350px;
+      height: 480px;
+    }
+  }
+  @media (max-width: 524px) {
+    display: none;
+  }
 }
 
 .sortBtns {
@@ -38,4 +71,20 @@
 .chart {
   width: 300px;
   font-size: 14px;
+
+  @media (max-width: 1200px) {
+    width: 260px;
+  }
+  @media (max-width: 768px) {
+  }
+  @media (max-width: 576px) {
+    width: 240px;
+  }
+
+  @media (max-width: 524px) {
+    width: 350px;
+  }
+  @media (max-width: 355px) {
+    width: 300px;
+  }
 }

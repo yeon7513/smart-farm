@@ -65,7 +65,7 @@ function InfoInput({ onSearch, resetSearch }) {
   const handleBigChang = async (e) => {
     const value = e.target.value; //사용자가 선택한 대분류값
     console.log(value); // 선택된 대분류 값을 콘솔에 출력
-    const apiKey = "2024570e96d7a69a9e49dfeb7fdc9739177c";
+    const apiKey = process.env.REACT_APP_DISEASESLIST_API_KEY;
 
     try {
       // 선택된 대분류 값을 기반으로 중분류 데이터를 가져오는 api호출
@@ -94,7 +94,7 @@ function InfoInput({ onSearch, resetSearch }) {
   const handleMiddleChang = async (e) => {
     const value = e.target.value; //사용자가 선택한 중분류 값
     console.log(value); // 선택된 대분류 값을 콘솔에 출력
-    const apiKey = "2024570e96d7a69a9e49dfeb7fdc9739177c";
+    const apiKey = process.env.REACT_APP_DISEASESLIST_API_KEY;
     try {
       const response = await fetch(
         `/desease/?apiKey=${apiKey}&serviceCode=SVC01&serviceType=AA003&dtlSrchFlag=kncr3&sKncrCode1=${value}&sKncrCode2=${value}`
@@ -126,7 +126,7 @@ function InfoInput({ onSearch, resetSearch }) {
   const handleFullClick = async (e) => {
     const value = e.target.value;
     console.log(value); // 선택된 대분류 값을 콘솔에 출력
-    const apiKey = "2024570e96d7a69a9e49dfeb7fdc9739177c";
+    const apiKey = process.env.REACT_APP_DISEASESLIST_API_KEY;
 
     try {
       // 선택된 작물 코드를 기반으로 작물 정보를 가져오는 API 호출
@@ -150,7 +150,7 @@ function InfoInput({ onSearch, resetSearch }) {
   // 셀렉트 박스
   // 컴포넌트가 처음 렌더링될 때 실행되는 useEffect
   useEffect(() => {
-    const apiKey = "2024570e96d7a69a9e49dfeb7fdc9739177c";
+    const apiKey = process.env.REACT_APP_DISEASESLIST_API_KEY;
 
     const fetchData = async () => {
       try {

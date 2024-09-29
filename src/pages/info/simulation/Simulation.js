@@ -28,28 +28,17 @@ function Simulation() {
     handleSaveResult(name, value);
   };
 
-  const handleClickData = (count) => {
-    handleSaveResult('score', count);
+  const handleClickData = (range) => {
+    handleSaveResult(range);
   };
 
   console.log(bestEnvData);
-  console.log('bestProdValue: ', bestProdValue);
-
-  // const test = createRange(bestEnvData.averages);
-
-  // console.log('test: ', test);
+  // console.log('bestProdValue: ', bestProdValue);
+  console.log('resultData: ', resultData);
 
   useEffect(() => {
     dispatch(fetchEnvironmentData(`pageSize=5&searchFrmhsCode=${farmCode}`));
   }, [dispatch, farmCode]);
-
-  // useEffect(() => {
-  //   dispatch(fetchGrowthData(`pageSize=5&searchFrmhsCode=${farmCode}`));
-  // }, [dispatch, farmCode]);
-
-  // useEffect(() => {
-  //   dispatch(fetchProductionData(`pageSize=5&searchFrmhsCode=${farmCode}`));
-  // }, [dispatch, farmCode]);
 
   return (
     <div className={styles.simulation}>
@@ -86,11 +75,11 @@ function Simulation() {
           </li>
           <li>
             <h4>면적 (평)</h4>
-            <input type="text" placeholder="면적을 입력하세요." />
-          </li>
-          <li>
-            <h4>생산량 (kg)</h4>
-            <TextInput name="area" onChange={handleChangeData} />
+            <TextInput
+              name="area"
+              onChange={handleChangeData}
+              placeholder="면적을 입력하세요."
+            />
           </li>
         </ul>
       </div>

@@ -6,8 +6,8 @@ import {
   increment,
   query,
   updateDoc,
-} from "firebase/firestore";
-import { db, getCollection } from "./firebase";
+} from 'firebase/firestore';
+import { db, getCollection } from './firebase';
 
 // 화면에 보여줄 데이터
 export async function getDisasterDatas(collectionName) {
@@ -30,7 +30,7 @@ export async function updateDisaster(category, docId, updatedId) {
     const resultData = { ...docSnap.data(), docId: docSnap.id };
     return resultData;
   } catch (error) {
-    console.error("게시글 수정 중 오류 발생: ", error);
+    console.error('게시글 수정 중 오류 발생: ', error);
     return false;
   }
 }
@@ -42,7 +42,7 @@ export async function deleteDisaster(category, docId) {
     await deleteDoc(commentRef);
     return true;
   } catch (error) {
-    console.error("게시글 삭제 중 오류 발생: ", error);
+    console.error('게시글 삭제 중 오류 발생: ', error);
     return false;
   }
 }
@@ -54,8 +54,8 @@ export async function incrementViewCount(category, docId) {
     await updateDoc(postRef, {
       view: increment(1), // 1씩 증가
     });
-    console.log("조회수가 증가했습니다.");
+    console.log('조회수가 증가했습니다.');
   } catch (error) {
-    console.error("조회수 증가 중 오류 발생: ", error);
+    console.error('조회수 증가 중 오류 발생: ', error);
   }
 }
