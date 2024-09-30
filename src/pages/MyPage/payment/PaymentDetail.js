@@ -54,7 +54,7 @@ function PaymentDetail() {
 
   // 결제 취소 함수
   const onPayCancel = async () => {
-    console.log(data.createdAt);
+    console.log(data);
     if (!data || !data.createdAt) return;
 
     const confirm = window.confirm(

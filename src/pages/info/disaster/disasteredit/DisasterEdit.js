@@ -31,7 +31,6 @@ function DisasterEdit() {
   };
   // 수정 제출
   const handleSubmit = async (e) => {
-    // debugger;
     e.preventDefault();
     const updateObj = {
       title,

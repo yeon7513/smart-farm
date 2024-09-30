@@ -377,9 +377,24 @@ function RequestForm({ user }) {
     const { lat, lng } = await convertingAddressToGeoCode(farmAddress);
 
     try {
+      // "estimate" 컬렉션에 새로운 문서 추가
+      const estimateCollectionRef = collection(db, "estimate");
+      await addDoc(estimateCollectionRef, {
+        amount: 100,
+        userId: user.uid,
+        address: user.address,
+        phoneNumber: user.number,
+        facilityType: facilityType,
+        farmArea: Number(farmArea),
+        crop: cropType,
+        createdAt: new Date().getTime(),
+        updatedAt: new Date().getTime(),
+      });
+
       // "payments" 컬렉션에 새로운 문서 추가
       const paymentCollectionRef = collection(db, "payments");
       const paymentDocRef = await addDoc(paymentCollectionRef, {
+        amount: 100,
         uid: user.uid,
         email: user.email,
         name: user.name,
@@ -391,7 +406,6 @@ function RequestForm({ user }) {
         lng: lng,
         cropType: cropType,
         facilityType: facilityType,
-        // additionalOptions: selectedOptions[index],
         farmArea: Number(farmArea),
         farmName: farmName,
         farmEquivalent: Number(farmEquivalent),
@@ -418,11 +432,10 @@ function RequestForm({ user }) {
                   .map((option) => option)
               )
               .join(", "),
+            id: index + 1,
           };
 
-          // setDoc을 사용하여 고유 ID를 설정합니다.
-          const sectorDocRef = doc(sectorCollectionRef, String(index + 1));
-          await setDoc(sectorDocRef, sectorData);
+          await addDoc(sectorCollectionRef, sectorData);
           console.log(`${index + 1}동에 대한 부가 옵션이 저장되었습니다.`);
         })
       );
@@ -438,13 +451,11 @@ function RequestForm({ user }) {
         lat: lat,
         lng: lng,
         type: facilityType,
-        // additionalOptions: additionalOptionsArray,
         updatedAt: new Date().getTime(),
         useYn: "N",
         userId: user.email,
         imp_uid: imp_uid,
         merchant_uid: merchant_uid,
-        // sector: index + 1,
         paymentsDocId: paymentDocRef.id,
       };
 
@@ -463,22 +474,43 @@ function RequestForm({ user }) {
       await Promise.all(
         Array.from({ length: farmEquivalent }, async (_, index) => {
           const additionalOptionsForCurrentSector = selectedOptions[index];
+          Object.entries(additionalOptionsForCurrentSector).forEach(
+            ([category, options]) => {
+              const control = {};
+              Object.keys(options).forEach((option) => {
+                if (options[option] === "Y") {
+                  control[option] = "Y";
+                }
+              });
+            }
+          );
+
           const sectorData = {
             동수: index + 1,
-            부가옵션: Object.entries(additionalOptionsForCurrentSector)
+            control: Object.entries(additionalOptionsForCurrentSector)
               .flatMap(([category, options]) =>
                 Object.keys(options)
                   .filter((option) => options[option])
                   .map((option) => option)
               )
               .join(", "),
+            createdAt: new Date().getTime(),
+            deleteYn: "N",
+            growthInfo: {
+              flwrCo: 0,
+              frmhsld: 0,
+              grwLt: 0,
+              hvstCo: 0,
+            },
+            humidity: 0,
+            id: index + 1,
+            sunlight: 0,
+            temperature: 0,
+            updatedAt: new Date().getTime(),
+            wind: 0,
           };
 
-          const sectorDocRef = doc(
-            dashboardSectorCollectionRef,
-            String(index + 1)
-          );
-          await setDoc(sectorDocRef, sectorData);
+          await addDoc(dashboardSectorCollectionRef, sectorData);
           console.log(
             `${index + 1}동에 대한 대시보드 섹터 옵션이 저장되었습니다.`
           );
