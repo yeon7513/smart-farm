@@ -68,6 +68,10 @@ export const myPageSideMenu = [
     label: '채팅상담',
     menu: [{ comp: 'MyChatRoom', name: '채팅상담 문의 내역' }],
   },
+  {
+    label: '회원탈퇴',
+    menu: [{ comp: 'Userout', name: '회원 탈퇴 하기' }],
+  },
 ];
 
 export const infoSideMenu = [

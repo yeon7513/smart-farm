@@ -9,13 +9,18 @@ import styles from './sidebar.module.scss';
 
 function Sidebar(props) {
   const [isModalOpen, setIsModalOpen] = useState(false);
+
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
+
   const auth = getUserAuth();
   const dispatch = useDispatch();
-  const { items } = useSelector((state) => state.userSlice);
-  const user = JSON.parse(localStorage.getItem('user'));
   const navigate = useNavigate();
+
+  const { items } = useSelector((state) => state.userSlice);
+
+  const user = JSON.parse(localStorage.getItem('user'));
+
   useEffect(() => {
     const localInfoNum = async () => {
       const localInfo = localStorage.getItem('user');
@@ -25,10 +30,13 @@ function Sidebar(props) {
     };
     localInfoNum();
   }, [navigate]);
+
   useEffect(() => {
     dispatch(fetchItems({ collectionName: 'users' }));
   }, [dispatch]);
+
   const { setCurrComp } = useComponentContext();
+
   const localInfo = localStorage.getItem('user');
   if (!localInfo == null) {
     navigate('/');
@@ -118,16 +126,20 @@ function Sidebar(props) {
         btnHandler={deleteUserInfo}
       >
         <div className={styles.modalContent}>
-          <p>
-            회원 탈퇴 시 <span>30일</span> 간 회원 가입이 <span>불가능</span>
-            합니다.
-          </p>
-          <p>
-            회원 탈퇴 시 회원님의 정보가 <span>삭제</span>됩니다.
-          </p>
-          <p>
+          <div>
+            <p>
+              회원 탈퇴 시 <span>30일</span> 간 회원 가입이 <span>불가능</span>
+              합니다.
+            </p>
+          </div>
+          <div>
+            <p>
+              회원 탈퇴 시 회원님의 정보가 <span>삭제</span>됩니다.
+            </p>
+          </div>
+          <div>
             <span>탈퇴</span>하시겠습니까?
-          </p>
+          </div>
         </div>
       </CustomModal>
     </div>
