@@ -1,26 +1,36 @@
-import React from 'react';
-import SimulationBtn from './simulation-btns/SimulationBtn';
-import styles from './SimulationSelectData.module.scss';
+import React, { useState } from "react";
+import SimulationBtn from "./simulation-btns/SimulationBtn";
+import styles from "./SimulationSelectData.module.scss";
 
 function SimulationSelectData({ selectDatas, onClick }) {
-  console.log('selectDatas: ', selectDatas);
+  const [selectedIndexes, setSelectedIndexes] = useState({});
+
+  const handleClick = (dataName, count, index) => {
+    setSelectedIndexes((prev) => ({ ...prev, [dataName]: index }));
+    onClick(dataName, count);
+  };
 
   return (
-    <div>
+    <div className={styles.selectBox}>
       {selectDatas.map((data, idx) => (
-        <div key={idx}>
-          <h4>{data.name}</h4>
+        <div key={idx} className={styles.content}>
+          <h4 className={styles.label}>{data.name}</h4>
           <div className={styles.btns}>
-            {data.values.map((value, idx) => (
-              <SimulationBtn
-                key={idx}
-                name={data.name}
-                count={value.count}
-                onClick={onClick}
-              >
-                {value.range}
-              </SimulationBtn>
-            ))}
+            {data.values.map((value, valIdx) => {
+              const isSelected = selectedIndexes[data.name] === valIdx;
+
+              return (
+                <SimulationBtn
+                  key={valIdx}
+                  name={data.name}
+                  count={value.count}
+                  onClick={() => handleClick(data.name, value.count, valIdx)}
+                  className={isSelected ? styles.selected : ""}
+                >
+                  {value.range}
+                </SimulationBtn>
+              );
+            })}
           </div>
         </div>
       ))}

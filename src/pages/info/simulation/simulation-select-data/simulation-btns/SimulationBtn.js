@@ -1,15 +1,14 @@
 import React from 'react';
 
-function SimulationBtn({ children, name, count, onClick }) {
+function SimulationBtn({ children, name, count, onClick, className }) {
   const handleClick = () => {
     onClick(name, count);
-    console.log('count: ', count);
   };
 
   return (
-    <div>
-      <button onClick={handleClick}>{children}</button>
-    </div>
+    <button className={className} onClick={handleClick}>
+      {children}
+    </button>
   );
 }
 

@@ -1,0 +1,25 @@
+.selectBox {
+  .content {
+    margin-bottom: 24px;
+
+    .label {
+      margin-bottom: 8px;
+    }
+
+    .btns {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 20px;
+
+      > button {
+        padding: 8px;
+        font-size: 14px;
+        border: 1px solid #ccc;
+
+        &.selected {
+          background-color: var(--accent-color);
+        }
+      }
+    }
+  }
+}

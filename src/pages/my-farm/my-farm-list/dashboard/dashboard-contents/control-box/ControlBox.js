@@ -99,7 +99,7 @@ function ControlBox() {
 
   return (
     <>
-      <div className={styles.container}>
+      <div className={styles.control}>
         {filteredOptions.map((option, idx) => (
           <ControlItem
             key={idx}

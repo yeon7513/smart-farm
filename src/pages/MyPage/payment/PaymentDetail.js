@@ -54,7 +54,7 @@ function PaymentDetail() {
 
   // 결제 취소 함수
   const onPayCancel = async () => {
-    console.log(data.paymentsDocId);
+    console.log(data);
     if (!data || !data.createdAt) return;
 
     const confirm = window.confirm(
@@ -67,6 +67,7 @@ function PaymentDetail() {
         // 결제 취소 API 호출
         const accessToken = await getAccessToken();
         await cancelPayment(accessToken, data.imp_uid);
+        console.log(accessToken);
 
         // Firebase에서 데이터 삭제
         await deletePaymentData(data.imp_uid);

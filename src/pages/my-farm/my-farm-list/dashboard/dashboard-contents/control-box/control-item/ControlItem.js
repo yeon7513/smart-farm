@@ -1,6 +1,7 @@
 import React from 'react';
 import { useSectorContext } from '../../../../../../../context/SectorContext';
 import styles from './ControlItem.module.scss';
+import ControlSwitch from './control-switch/ControlSwitch';
 
 function ControlItem({
   option,
@@ -11,6 +12,7 @@ function ControlItem({
   onMoveComponent,
 }) {
   const { sector } = useSectorContext();
+
   const handleControlContent = () => {
     onMoveComponent({
       option,
@@ -18,17 +20,15 @@ function ControlItem({
       id: sector.id,
     });
   };
+
+  console.log('state: ', state);
+
   return (
     <div className={styles.control}>
       <div className={styles.name}>
         <div>{option}</div>
       </div>
-      <div>
-        <div>
-          <button>ON</button>
-          <button>OFF</button>
-        </div>
-      </div>
+      <ControlSwitch />
       <div className={styles.buttons}>
         {!state === true ? (
           <button onClick={handleControlContent}>

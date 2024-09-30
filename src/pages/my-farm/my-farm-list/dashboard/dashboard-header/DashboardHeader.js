@@ -2,6 +2,7 @@ import React from 'react';
 import { IoArrowBackCircle } from 'react-icons/io5';
 import { TbBellFilled, TbHomeFilled, TbUserFilled } from 'react-icons/tb';
 import { useNavigate } from 'react-router-dom';
+import Clock from './../../../../../components/clock/Clock';
 import styles from './DashboardHeader.module.scss';
 
 function DashboardHeader({ info }) {
@@ -19,7 +20,7 @@ function DashboardHeader({ info }) {
             {farmName} / {type} / {crop}
           </h1>
         </div>
-        {/* <Clock /> */}
+        <Clock />
         <div className={styles.icons}>
           <button className={styles.gotoHome} onClick={() => navigate('/')}>
             <TbHomeFilled />

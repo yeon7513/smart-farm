@@ -1,4 +1,57 @@
+@import "/src/scss/mixins.scss";
 .menu {
+  .search {
+    @include flexCenter();
+    gap: 10px;
+    margin-bottom: 20px;
+    width: 100%;
+
+    input {
+      border: 2px solid #ececec;
+      font-size: 18px;
+      font-weight: 300;
+      padding: 10px;
+      border-radius: 8px;
+
+      &::placeholder {
+        color: #c2c2c2;
+        transition: 0.5s;
+      }
+
+      &:hover {
+        border: 2px solid var(--common-color);
+        &::placeholder {
+          color: var(--common-color);
+          opacity: 0.5;
+        }
+      }
+
+      &:focus {
+        border: 2px solid var(--hover-color);
+
+        &::placeholder {
+          color: var(--hover-color);
+          opacity: 0.5;
+        }
+      }
+    }
+    button {
+      display: flex;
+      flex: none;
+      @include packedBtn($padding: 9px 20px);
+      border-radius: 8px;
+      font-size: 20px;
+
+      > span {
+        @include flexCenter();
+        gap: 5px;
+        > svg {
+          font-size: 24px;
+        }
+      }
+    }
+  }
+
   .menu_bar {
     display: flex;
 

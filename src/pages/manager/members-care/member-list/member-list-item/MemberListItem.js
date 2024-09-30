@@ -9,6 +9,8 @@ function MemberListItem({ docId, handleEdit }) {
 
   const member = items.find((item) => item.docId === docId);
 
+  console.log(member);
+
   const navigate = useNavigate();
 
   return (
@@ -56,6 +58,12 @@ function MemberListItem({ docId, handleEdit }) {
           <li>
             <span className={styles.label}>신고 누적 횟수</span>
             <span className={styles.data}>{member.complaneNum || 0} 회</span>
+          </li>
+          <li>
+            <span className={styles.label}>가입일</span>
+            <span className={styles.data}>
+              {new Date(member.createdAt).toLocaleDateString()}
+            </span>
           </li>
         </ul>
         <div className={styles.btns}>

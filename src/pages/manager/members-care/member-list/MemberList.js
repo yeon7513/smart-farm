@@ -34,6 +34,10 @@ function MemberList({ data, setIsOpen, setUserDetail }) {
               <span className={styles.label}>전화번호</span>
               <span>{data.number}</span>
             </li>
+            <li>
+              <span className={styles.label}>가입일</span>
+              <span>{new Date(data.createdAt).toLocaleDateString()}</span>
+            </li>
           </ul>
         </div>
       </Card>
