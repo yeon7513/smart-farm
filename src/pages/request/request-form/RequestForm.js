@@ -196,10 +196,11 @@ function RequestForm({ user }) {
     setFarmEquivalent(Number(e.target.value));
   };
 
-  // 회원가입이 되어있지 않은 경우 농장 주소는 공백이 됩니다.
+  // 회원가입이 되어있지 않은 경우 견적 의뢰를 할 수 없습니다.
   useEffect(() => {
-    if (user) {
-      setFarmAddress(user.farmAddress || "");
+    if (!user) {
+      navigate(-1);
+      return;
     }
   }, [user]);
 
