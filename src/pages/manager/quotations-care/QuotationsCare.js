@@ -107,7 +107,10 @@ function QuotationsCare() {
   // 검색 실행 핸들러
   const handleSearch = (e) => {
     e.preventDefault();
-    setItems(listItems.filter(({ name }) => name.includes(keyword)));
+    const filteredItems = listItems.filter(({ name }) =>
+      name.includes(keyword)
+    );
+    setItems(filteredItems);
   };
 
   // 모달을 여는 함수
@@ -188,7 +191,8 @@ function QuotationsCare() {
             name={<TbPencilSearch />}
             placeholder={"견적 의뢰서 검색"}
             onChange={handleKeywordChange}
-            onClick={handleSearch}
+            // value={keyword}
+            // onClick={handleSearch}
           />
           <button onClick={exportToExcel} className={styles.exp_btn}>
             견적 내역 다운로드
