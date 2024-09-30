@@ -5,7 +5,9 @@ import { RiScrollToBottomLine } from "react-icons/ri";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import backImg from "../../assets/main/content2.jpg";
-import phoneImg from "../../assets/main/phone.png";
+import phoneImg1 from "../../assets/main/1231.png";
+import phoneImg2 from "../../assets/main/1232.png";
+import phoneImg3 from "../../assets/main/1233.png";
 import HomeChart from "../../components/home-chart/HomeChart";
 import CaseSlide from "../../components/slide/case/CaseSlide";
 import MainSlide from "../../components/slide/main/MainSlide";
@@ -169,19 +171,19 @@ function Home() {
         <div>
           <img
             className={styles.small}
-            src={phoneImg}
+            src={phoneImg2}
             ref={(el) => (imgRef.current[0] = el)}
             alt=""
           />
           <img
             className={styles.big}
-            src={phoneImg}
+            src={phoneImg1}
             ref={(el) => (imgRef.current[1] = el)}
             alt=""
           />
           <img
             className={styles.small}
-            src={phoneImg}
+            src={phoneImg3}
             ref={(el) => (imgRef.current[2] = el)}
             alt=""
           />
