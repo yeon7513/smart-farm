@@ -107,10 +107,7 @@ function QuotationsCare() {
   // 검색 실행 핸들러
   const handleSearch = (e) => {
     e.preventDefault();
-    const filteredItems = listItems.filter(({ name }) =>
-      name.includes(keyword)
-    );
-    setItems(filteredItems);
+    setItems(listItems.filter(({ name }) => name.includes(keyword)));
   };
 
   // 모달을 여는 함수
