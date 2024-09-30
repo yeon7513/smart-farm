@@ -163,7 +163,7 @@ function InfoInput({ onSearch, resetSearch }) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
         const result = await response.json();
-        console.log(result);
+        // console.log(result);
         // 대분류 셀렉트 박스의 옵션을 설정
         setSelectedBig(result.service.srchKncrList1);
         // console.log(result.service.srchKncrList1);
