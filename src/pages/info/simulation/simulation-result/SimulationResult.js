@@ -29,18 +29,26 @@ function SimulationResult({ bestProd, data, handleReset }) {
         <button onClick={handleResultClick}>결과보기</button>
       </div>
       {result && (
-        <div>
+        <div className={styles.resultContent}>
           <h3>시뮬레이션 결과</h3>
-          <p>우수농가 기본 생산량: {result.bestProduction}</p>
-          <p>주간 평균 생산량: {result.weeklyAverageBestProduction}</p>
-          <p>사용자의 생산량: {result.usersProduction}</p>
           <p>
-            사용자의 주간 평균 생산량: {result.weeklyAverageUsersProduction}
+            우수농가와 비교한 생산량의 차이는{' '}
+            {result.bestProduction - result.usersProduction} kg 입니다.
+          </p>
+          <p>
+            우수농가 기본 생산량: {result.bestProduction.toLocaleString()} kg
+          </p>
+          <p>주간 평균 생산량: {result.weeklyAverageBestProduction} kg</p>
+          <p>사용자의 생산량: {result.usersProduction.toLocaleString()} kg</p>
+          <p>
+            사용자의 주간 평균 생산량: {result.weeklyAverageUsersProduction} kg
           </p>
         </div>
       )}
       <div>
-        <button onClick={handleResetData}>초기화</button>
+        <button className={styles.reset} onClick={handleResetData}>
+          초기화
+        </button>
       </div>
     </div>
   );
