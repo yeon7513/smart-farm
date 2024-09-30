@@ -50,4 +50,19 @@
       min-height: 160px;
     }
   }
+  @media (max-width: 676px) {
+    p {
+      max-width: 250px;
+    }
+    img {
+      max-width: 280px;
+      min-height: 250px;
+    }
+  }
+  @media (max-width: 400px) {
+    img {
+      max-width: 250px;
+      min-height: 220px;
+    }
+  }
 }

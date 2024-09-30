@@ -14,7 +14,7 @@ function CpModal({ complainant, complainId }) {
   const noProcessed = () => {
     dispatch(approveComplaint({ userId: complainant, complainId: complainId }))
       .then(() => {
-        alert("신고가 승인되었습니다.");
+        alert("신고가 거부되었습니다.");
         setNoModalOpen(false); // 모달 닫기
       })
       .catch((error) => {
@@ -38,7 +38,7 @@ function CpModal({ complainant, complainId }) {
       <button onClick={openNoModal}>거부</button>
       <CustomModal
         title={"댓글 신고 거부"}
-        btnName={"제재"}
+        btnName={"완료"}
         handleClose={closeNoModal}
         isOpen={noModalOpen}
         btnHandler={noProcessed}
@@ -47,6 +47,7 @@ function CpModal({ complainant, complainId }) {
           <img src={member?.photoUrl} alt="" className={styles.memberImg}></img>
           <p>{member?.nickname}</p>
           <p>신고자에게 허위신고 제재를 내리시겠습니까?</p>
+          <button>제재</button>
         </div>
       </CustomModal>
     </>

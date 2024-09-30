@@ -1,7 +1,7 @@
 export const cases = [
   {
     id: 1,
-    img: "/img/mainslide2.jpg",
+    img: "/img/case2.jpg",
     why: "전남 구례 / 토마토",
     name: "박정훈 님",
     content:
@@ -25,14 +25,14 @@ export const cases = [
   },
   {
     id: 4,
-    img: "/img/mainslide2.jpg",
+    img: "/img/case3.jpg",
     why: "대구 / 파프리카",
     name: "정진구 님",
     content: "대박입니다!",
   },
   {
     id: 5,
-    img: "/img/mainslide2.jpg",
+    img: "/img/case2.jpg",
     why: "강원 속초 / 방울토마토",
     name: "이새롬 님",
     content: "대박입니다!",
