@@ -5,7 +5,11 @@ import CpModal from "./CpModal";
 import { Link } from "react-router-dom";
 import { deleteComment } from "../../../../api/board";
 import { useDispatch } from "react-redux";
-import { approveComplaint } from "../../../../store/complain/complainSlice";
+import {
+  approveComplaint,
+  fetchProcessed,
+  fetchProcessing,
+} from "../../../../store/complain/complainSlice";
 
 function CpComment({ item, process }) {
   const processYy = {
@@ -23,6 +27,12 @@ function CpComment({ item, process }) {
       .then(() => {
         alert("신고가 승인되었습니다.");
         setIsModalOpen(false); // 모달 닫기
+
+        if (process === "processing") {
+          dispatch(fetchProcessing(process));
+        } else {
+          dispatch(fetchProcessed(process));
+        }
       })
       .catch((error) => {
         console.error(error);
@@ -88,11 +98,11 @@ function CpComment({ item, process }) {
                   isOpen={isModalOpen}
                   btnHandler={goProcessed}
                 >
-                  <div>
-                    <p>{item.text}</p>
+                  <div className={styles.modlaComment}>
+                    <h3>{item.text}</h3>
                     <p>{item.defendant}</p>
                   </div>
-                  <div>
+                  <div className={styles.processBtn}>
                     <button onClick={() => handleDeleteCm()}>댓글 삭제</button>
                     <button>활동 정지</button>
                   </div>

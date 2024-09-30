@@ -10,9 +10,18 @@ import SimulationResult from './simulation-result/SimulationResult';
 import SimulationSelectData from './simulation-select-data/SimulationSelectData';
 
 function Simulation() {
+  const initialState = {
+    area: null,
+    week: null,
+    '누적 일사량': null,
+    '주간 평균 내부 습도': null,
+    '주간 평균 내부 온도': null,
+    '주간 평균 잔존 CO2': null,
+  };
+
   const [farmCode, setFarmCode] = useState('S47');
   const [bestProdValue, setBestProdValue] = useState(23);
-  const [resultData, setResultData] = useState();
+  const [resultData, setResultData] = useState(initialState);
 
   const { environmentData } = useSelector((state) => state.bestfarmSlice);
   const dispatch = useDispatch();
@@ -33,8 +42,10 @@ function Simulation() {
   };
 
   const handleResetData = () => {
-    setResultData();
+    setResultData(initialState);
   };
+
+  console.log(resultData);
 
   useEffect(() => {
     dispatch(fetchEnvironmentData(`pageSize=5&searchFrmhsCode=${farmCode}`));
@@ -52,27 +63,39 @@ function Simulation() {
         <h3>
           1. 작물을 선택하세요. <span>* 필수입력</span>
         </h3>
-        {selectCrop.map((crop) => (
-          <SelectCrops
-            key={crop.id}
-            selectCrop={crop}
-            farmCode={farmCode}
-            setFarmCode={setFarmCode}
-            setBestProdValue={setBestProdValue}
-          />
-        ))}
+        <div className={styles.selectCrop}>
+          {selectCrop.map((crop) => (
+            <SelectCrops
+              key={crop.id}
+              selectCrop={crop}
+              farmCode={farmCode}
+              setFarmCode={setFarmCode}
+              setBestProdValue={setBestProdValue}
+            />
+          ))}
+        </div>
       </div>
       <div>
         <h3>
           2. 생산정보를 입력하세요. <span>* 필수입력</span>
         </h3>
         <ul>
-          <li>
+          <li className={styles.weekBtn}>
             <h4>주차</h4>
-            <button onClick={() => handleClickData(51)}>51주차</button>
-            <button onClick={() => handleClickData(52)}>52주차</button>
+            <button
+              className={resultData.week === 51 ? styles.selected : ''}
+              onClick={() => handleClickData(51)}
+            >
+              51주차
+            </button>
+            <button
+              className={resultData.week === 52 ? styles.selected : ''}
+              onClick={() => handleClickData(52)}
+            >
+              52주차
+            </button>
           </li>
-          <li>
+          <li className={styles.input}>
             <h4>면적 (평)</h4>
             <TextInput
               name="area"

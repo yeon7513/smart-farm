@@ -1,0 +1,17 @@
+.result {
+  button {
+    width: 100%;
+    padding: 20px;
+    font-size: 20px;
+    margin-bottom: 8px;
+    background-color: var(--common-color);
+
+    &.reset {
+      background-color: #eee;
+    }
+  }
+
+  .resultContent {
+    padding: 20px;
+  }
+}

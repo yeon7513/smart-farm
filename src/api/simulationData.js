@@ -120,9 +120,13 @@ export function calcResult(bestProd, selectObj) {
   const weeklyAverageUsersProduction = usersProduction / selectObj.week;
 
   return {
-    bestProduction,
-    weeklyAverageBestProduction,
-    usersProduction,
-    weeklyAverageUsersProduction,
+    bestProduction: bestProduction,
+    weeklyAverageBestProduction: parseFloat(
+      weeklyAverageBestProduction.toFixed(2)
+    ).toLocaleString(),
+    usersProduction: usersProduction,
+    weeklyAverageUsersProduction: parseFloat(
+      weeklyAverageUsersProduction.toFixed(2)
+    ).toLocaleString(),
   };
 }

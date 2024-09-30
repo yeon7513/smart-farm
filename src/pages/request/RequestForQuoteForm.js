@@ -92,15 +92,12 @@ function RequestForQuoteForm({ addEstimate, user }) {
     const month = String(today.getMonth() + 1).padStart(2, "0"); // 월은 0부터 시작하므로 +1
     const day = String(today.getDate()).padStart(2, "0");
     const createdAt = `${year}${month}${day}${new Date().getTime()}`;
-    const formattedAdditionalOptions =
-      Object.keys(additionalOptions).join(", ");
     const dataObj = {
       userEmail,
       date,
       cropType,
       farmAddress,
       facilityType,
-      additionalOptions: formattedAdditionalOptions,
       farmName,
       farmArea,
       farmEquivalent,
@@ -123,11 +120,33 @@ function RequestForQuoteForm({ addEstimate, user }) {
       if (uid) {
         const userDocRef = doc(db, "users", uid);
         const paymentCollectionRef = collection(userDocRef, "payments");
-        await addDoc(paymentCollectionRef, dataObj);
+
+        // "payments" 컬렉션에 문서 추가
+        const paymentDocRef = await addDoc(paymentCollectionRef, dataObj);
         console.log("데이터가 성공적으로 추가되었습니다.");
+
+        // additionalOptions을 "sector" 하위 컬렉션에 저장
+        const sectorCollectionRef = collection(paymentDocRef, "sector");
+
+        // 각 동에 대한 부가 옵션을 다루기 위해 구조화된 데이터 생성
+        for (let i = 1; i <= farmEquivalent; i++) {
+          // 각 동에 대한 추가 옵션을 별도로 관리
+          const optionsForCurrentSector = additionalOptions[`${i}동`] || [];
+
+          const sectorData = {
+            동수: i,
+            부가옵션: optionsForCurrentSector.join(", "),
+          };
+
+          // 각 동의 옵션을 "sector" 하위 컬렉션에 추가
+          await addDoc(sectorCollectionRef, sectorData);
+          console.log(
+            `부가 옵션이 "sector" 하위 컬렉션의 ${i}동에 저장되었습니다!`
+          );
+        }
+
         addEstimate(dataObj);
         exportToExcel();
-        // handleExcelDownload(e);
       } else {
         console.error("사용자 ID가 설정되지 않았습니다.");
       }

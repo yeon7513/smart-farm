@@ -5,7 +5,11 @@ import CustomModal from "../../../../components/modal/CustomModal";
 import CpModal from "./CpModal";
 import { useDispatch } from "react-redux";
 import { deleteBoardDatas } from "../../../../store/board/boardSlice";
-import { approveComplaint } from "../../../../store/complain/complainSlice";
+import {
+  approveComplaint,
+  fetchProcessed,
+  fetchProcessing,
+} from "../../../../store/complain/complainSlice";
 
 function CpPost({ item, process }) {
   // console.log(item);
@@ -29,6 +33,12 @@ function CpPost({ item, process }) {
       .then(() => {
         alert("신고가 승인되었습니다.");
         setIsModalOpen(false); // 모달 닫기
+
+        if (process === "processing") {
+          dispatch(fetchProcessing(process));
+        } else {
+          dispatch(fetchProcessed(process));
+        }
       })
       .catch((error) => {
         console.error(error);

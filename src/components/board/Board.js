@@ -104,10 +104,10 @@ function Board({ nopost, category, complain, myPosts }) {
                 >
                   <li id={view.length - ((currentPage - 1) * PAGE_SIZE + idx)}>
                     <div>{item.id}</div>
-                    <div>{item.title}</div>
+                    <div className={styles.title}>{item.title}</div>
                     <div>{item.nick}</div>
-                    <div>{item.createdAt}</div>
-                    <div>{item.count}</div>
+                    <div className={styles.createdAt}>{item.createdAt}</div>
+                    <div className={styles.count}>{item.count}</div>
                   </li>
                 </Link>
               ))}

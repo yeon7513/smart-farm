@@ -58,7 +58,7 @@ function PostView() {
           closeModal(); // 성공 시 모달 닫기
         })
         .catch((error) => {
-          console.log("신고 접수 중 오류 발생:", error);
+          console.log(" 접수 중 오류 발생:", error);
         });
     } else {
       setErrorMessage("신고 사유를 선택해주세요.");
