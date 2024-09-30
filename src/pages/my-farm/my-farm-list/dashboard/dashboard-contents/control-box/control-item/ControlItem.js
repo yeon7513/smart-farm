@@ -21,14 +21,17 @@ function ControlItem({
     });
   };
 
-  console.log('state: ', state);
+  console.log('idx: ', idx);
+  console.log('sector: ', sector);
+  console.log('sector.id: ', sector.id);
+  console.log('option: ', option);
 
   return (
     <div className={styles.control}>
       <div className={styles.name}>
         <div>{option}</div>
       </div>
-      <ControlSwitch />
+      <ControlSwitch id={idx} />
       <div className={styles.buttons}>
         {!state === true ? (
           <button onClick={handleControlContent}>

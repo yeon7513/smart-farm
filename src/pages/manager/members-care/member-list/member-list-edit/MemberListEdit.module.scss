@@ -1,17 +1,82 @@
+@import '/src/scss/mixins.scss';
+
 .memberEdit {
   display: flex;
-  gap: 48px;
+  gap: 30px;
   padding: 24px;
 
   .memberProfile {
-    width: 320px;
-    height: 320px;
+    flex: none;
+    width: 300px;
+    height: 300px;
   }
 
   .content {
+    flex: 1;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    gap: 20px;
+
     .memberId {
       opacity: 0.5;
       font-size: 14px;
+    }
+
+    .info {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      margin: 8px 0;
+      li {
+        .label {
+          display: block;
+          margin-bottom: 5px;
+          font-size: 14px;
+          color: var(--common-color);
+        }
+        .data {
+          margin-left: 5px;
+        }
+
+        .nick {
+          @include flexCenter();
+          gap: 8px;
+          margin-left: 5px;
+
+          > input {
+            padding: 7px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+            color: #888;
+          }
+
+          .randomBtn {
+            @include flexCenter();
+            @include linearBtn($padding: 4px 8px);
+            font-size: 24px;
+          }
+        }
+      }
+    }
+
+    .btns {
+      text-align: right;
+
+      > button {
+        @include packedBtn($borderRadius: 4px);
+
+        &.cancel {
+          @include packedBtn(
+            $hoverColor: var(--danger-color),
+            $commonColor: var(--danger-hover-color),
+            $fontColor: #fff,
+            $borderRadius: 4px
+          );
+          margin-left: 5px;
+        }
+      }
     }
   }
 }

@@ -45,8 +45,6 @@ function Simulation() {
     setResultData(initialState);
   };
 
-  console.log(resultData);
-
   useEffect(() => {
     dispatch(fetchEnvironmentData(`pageSize=5&searchFrmhsCode=${farmCode}`));
   }, [dispatch, farmCode]);

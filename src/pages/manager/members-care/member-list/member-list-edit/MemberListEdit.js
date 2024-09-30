@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { LiaRandomSolid } from 'react-icons/lia';
 import { useDispatch, useSelector } from 'react-redux';
 import FileInput from '../../../../../components/form/file-input/FileInput';
 import { updateUserInfo } from '../../../../../store/user/UserSlice';
@@ -64,28 +65,32 @@ function MemberListEdit({ docId, cancelEdit }) {
         <ul className={styles.info}>
           <li>
             <span className={styles.label}>이메일</span>
-            <span>{member.email}</span>
+            <span className={styles.data}>{member.email}</span>
           </li>
           <li>
             <span className={styles.label}>이름</span>
-            <span>{member.name}</span>
+            <span className={styles.data}>{member.name}</span>
           </li>
           <li>
             <span className={styles.label}>닉네임</span>
-            <input type="text" name="nickname" value={newNickName} readOnly />
-            <button
-              type="button"
-              className={styles.randomBtn}
-              onClick={handleRandomNickName}
-            >
-              랜덤
-            </button>
+            <div className={styles.nick}>
+              <input type="text" name="nickname" value={newNickName} readOnly />
+              <button
+                type="button"
+                className={styles.randomBtn}
+                onClick={handleRandomNickName}
+              >
+                <LiaRandomSolid />
+              </button>
+            </div>
           </li>
         </ul>
         <div className={styles.btns}>
-          <button type="submit">수정완료</button>
-          <button type="button" onClick={cancelEdit}>
-            취소
+          <button type="submit">
+            <span>수정완료</span>
+          </button>
+          <button className={styles.cancel} type="button" onClick={cancelEdit}>
+            <span>취소</span>
           </button>
         </div>
       </div>

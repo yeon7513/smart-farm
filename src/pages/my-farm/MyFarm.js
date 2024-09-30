@@ -21,10 +21,6 @@ function MyFarm() {
 
   const userStorage = JSON.parse(localStorage.getItem('user'));
   const isAdmin = userStorage.email.includes('addmin');
-  console.log('userStorage: ', userStorage);
-  console.log('isAdmin: ', isAdmin);
-
-  console.log(commonInfo);
 
   const geoCode = commonInfo
     .filter((info) => {
