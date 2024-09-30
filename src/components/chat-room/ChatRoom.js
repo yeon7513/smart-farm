@@ -114,6 +114,7 @@ function ChatRoom({ chatroomId }) {
   // }, []);
 
   //  chatOptionsData 화면에서 사용할 추가 질문과 답변
+  
 
   const chatOptionsData = [
     {

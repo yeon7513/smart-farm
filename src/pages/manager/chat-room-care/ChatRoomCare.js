@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { auth, db } from "../../../api/firebase";
-import { collection, getDocs, onSnapshot, query, orderBy, doc, updateDoc } from "firebase/firestore";
+import { collection, getDocs, onSnapshot, query, orderBy, doc, updateDoc, addDoc } from "firebase/firestore";
 import styles from "./ChatRoomCare.module.scss";
 import ChatRequestList from "./chat-request-list/ChatRequestList";
 import ManagerChatRoom from "./chat-request-list/chat-request-item/manager-chat-room/ManagerChatRoom"; // 채팅방 컴포넌트 임포트
@@ -88,6 +88,24 @@ function ChatRoomCare() {
   if (loading) {
     return <p>로딩 중...</p>;
   }
+
+  // 메시지 전송 함수
+const handleSendMessage = async (chatId, userEmail, messageContent) => {
+  try {
+    const messagesRef = collection(db, "chatRoom", userEmail, "chatContent", chatId, "message");
+    
+    // 메시지 데이터 추가
+    await addDoc(messagesRef, {
+      content: messageContent,
+      createdAt: Date.now(),
+      uid: auth.currentUser.uid, // 관리자의 uid (Firebase 인증된 유저)
+    });
+
+    console.log("관리자 메시지 전송 성공");
+  } catch (error) {
+    console.error("메시지 전송 중 오류 발생:", error);
+  }
+};
 
   return (
     <div className={styles.wrapper}>

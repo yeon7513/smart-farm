@@ -1,103 +1,101 @@
-import React, { useEffect, useState } from 'react'
-import styles from './ManagerChatRoom.module.scss'
-import { addDoc, collection, onSnapshot } from 'firebase/firestore';
+import React, { useEffect, useState } from 'react';
+import styles from './ManagerChatRoom.module.scss';
+import { addDoc, collection, onSnapshot, serverTimestamp } from 'firebase/firestore';
 import { auth, db } from '../../../../../../api/firebase';
 import closeIcon from "../../../../../../assets/main/closeImg.svg";
 import ManagerMessage from './manager-message/ManagerMessage';
 import { FaPaperPlane } from 'react-icons/fa';
 
-
-
 function ManagerChatRoom({ chatId, userEmail }) {
     const [isChatRoomOpened, setIsChatRoomOpened] = useState(true);
     const [messages, setMessages] = useState([]);
-    const [chatRoomId, setChatRoomId] = useState(null); 
     const [message, setMessage] = useState('');
-
     
+    
+
     useEffect(() => {
       if (!chatId || !userEmail) return;
-  
+    
       const messageRef = collection(db, "chatRoom", userEmail, "chatContent", chatId, "message");
       const unsubscribe = onSnapshot(messageRef, (snapshot) => {
-        const newMessages = snapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
+        const newMessages = snapshot.docs.map((doc) => {
+          const data = doc.data();
+          const createdAt = data.createdAt;
+    
+          return {
+            id: doc.id,
+            ...data,
+            // createdAt이 객체일 경우 처리 (밀리세컨즈로 변환)
+            createdAt: createdAt instanceof Object && createdAt.seconds
+            ? new Date(createdAt.seconds * 1000)
+            : new Date(createdAt), // 이미 밀리세컨즈로 저장된 경우
+          };
+        });
         setMessages(newMessages);
       });
-  
+    
       return () => unsubscribe();
     }, [chatId, userEmail]);
 
-    const handleClose = () => {
-        setIsChatRoomOpened(false);
-        // 챗룸 닫기
-      };
+    const handleSendMessage = async () => {
+      const currentUser = auth.currentUser;
+      if (!currentUser || !message.trim()) return;
 
-      
-  // 기존 핸들러 및 전송 로직 유지
-  const handleSendMessage = async () => {
-    const currentUser = auth.currentUser;
-    if (!currentUser) return;
+      const messageRef = collection(db, "chatRoom", userEmail, "chatContent", chatId, "message");
+      await addDoc(messageRef, {
+        content: message,
+        createdAt: Date.now(), 
+        uid: currentUser.uid,
+      });
 
-    const messageRef = collection(db, "chatRoom", userEmail, "chatContent", chatId, "message");
-    await addDoc(messageRef, {
-      content: message,
-      createdAt: Date.now(),
-      uid: currentUser.uid,
-    });
-
-    setMessage(''); // 메시지 입력 필드 초기화
-  };
-
-        // 메시지 전송 핸들러
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (message.trim()) {
-      // 메시지를 서버로 전송하거나 처리하는 로직
-      console.log('전송된 메시지:', message);
-      handleSendMessage(message); // 상위 컴포넌트로 메세지 전달 
       setMessage(''); // 메시지 입력 필드 초기화
-    }
-  };
-      
+    };
+
+    const handleSubmit = (e) => {
+      e.preventDefault();
+      handleSendMessage(); // 메시지 전송
+    };
+
+    const handleClose = () => {
+      setIsChatRoomOpened(false);
+      // 챗룸 닫기
+    };
+  
+    if (!isChatRoomOpened) return null;
 
 
-  return (
-    <div className={styles.wrapper}>
-<div className={styles.header}>
-<h2 className={styles.chattingTitle}>아이팜 채팅상담</h2>
-          <button className={styles.closeBtn} onClick={() => { handleClose();}}>
-            <img
-              src={closeIcon}
-              alt="닫기"
-              style={{ width: "16px", height: "16px" }}
-            />
+
+    return (
+      <div className={styles.wrapper}>
+        <div className={styles.header}>
+          <h2 className={styles.chattingTitle}>아이팜 채팅상담</h2>
+          <button className={styles.closeBtn} onClick={handleClose}>
+            <img src={closeIcon} alt="닫기" style={{ width: "16px", height: "16px" }} />
           </button>
-</div>
-    {/* 여기까지 헤더의 영역 */}
+        </div>
+        
+        {/* 메시지 리스트 영역 */}
+        <div className={styles.content}>
+          <ManagerMessage messages={messages} />
+        </div>
 
-
-    <div className={styles.content}><ManagerMessage/></div>
-
-   <div className={styles.footer}>
-   <form className={styles.chattingForm} onSubmit={handleSubmit}>
-      <input
-      className={styles.input}
-        type="text"
-        value={message}
-        onChange={(e) => setMessage(e.target.value)}
-        placeholder="메시지를 입력하세요..."
-      />
-      <button type="submit" className={styles.submitButton}>
-      <FaPaperPlane />
-      </button>
-    </form>
-</div>
-    {/* 풋터의 영역 */}
-  </div>
-  )
+        {/* 메시지 입력 폼 */}
+        <div className={styles.footer}>
+          <form className={styles.chattingForm} onSubmit={handleSubmit}>
+            <input
+              className={styles.input}
+              type="text"
+              value={message}
+              onChange={(e) => setMessage(e.target.value)}
+              placeholder="메시지를 입력하세요..."
+            />
+            <button type="submit" className={styles.submitButton}>
+              <FaPaperPlane />
+            </button>
+          </form>
+        </div>
+      </div>
+    );
 }
 
 export default ManagerChatRoom;

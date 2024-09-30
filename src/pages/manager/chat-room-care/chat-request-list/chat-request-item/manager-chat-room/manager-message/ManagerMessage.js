@@ -13,37 +13,26 @@ const isSameDate = (date1, date2) => {
 };
 
 function ManagerMessage({ messages = [] }) {
-  let previousDate = null;
+    // 메시지를 시간 순서대로 정렬
+    messages.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
+  
+    return (
+    <div className={styles.messageContainer}>
+  
+        <div className={styles.dateHeader}>
+         {new Date().toLocaleDateString()}
+        </div>
+        {messages.map((msg, index) => {
+          const messageDate = new Date(msg.createdAt); 
 
-  // messages가 빈 배열일 때 map 호출 오류를 방지하기 위해 기본값 설정
-  return (
-    <div>
-      {messages.map((msg, index) => {
-        const messageDate = new Date(msg.createdAt);
-        const showDateHeader = !previousDate || !isSameDate(previousDate, messageDate);
-        previousDate = messageDate;
 
-        return (
-          <div key={index} className={styles.messageWrapper}>
-            {showDateHeader && (
-              <div className={styles.dateHeader}>
-                {messageDate.toLocaleDateString('ko-KR', {
-                  year: 'numeric',
-                  month: 'long',
-                  day: 'numeric',
-                })}
-              </div>
-            )}
+          return (
 
-            <div className={styles.messageContainer}>
-              <div
-                className={`${styles.messageContent} ${
-                  msg.uid === auth.currentUser?.uid ? styles.userMessage : styles.managerMessage
-                }`}
-              >
-                <p>{msg.content}</p>
-              </div>
+            <div key={index} className={`${styles.messageContent} ${
+              msg.uid === auth.currentUser?.uid ? styles.managerMessage : styles.userMessage
+            }`}>
 
+              <p>{msg.content}</p>
               <small className={styles.messageTime}>
                 {messageDate.toLocaleTimeString('ko-KR', {
                   hour: '2-digit',
@@ -51,10 +40,10 @@ function ManagerMessage({ messages = [] }) {
                 })}
               </small>
             </div>
-          </div>
-        );
-      })}
+          )
+        })}
+
     </div>
   );
 }
-export default ManagerMessage
+export default ManagerMessage;
