@@ -52,27 +52,29 @@ function Simulation() {
         <h3>
           1. 작물을 선택하세요. <span>* 필수입력</span>
         </h3>
-        {selectCrop.map((crop) => (
-          <SelectCrops
-            key={crop.id}
-            selectCrop={crop}
-            farmCode={farmCode}
-            setFarmCode={setFarmCode}
-            setBestProdValue={setBestProdValue}
-          />
-        ))}
+        <div className={styles.selectCrop}>
+          {selectCrop.map((crop) => (
+            <SelectCrops
+              key={crop.id}
+              selectCrop={crop}
+              farmCode={farmCode}
+              setFarmCode={setFarmCode}
+              setBestProdValue={setBestProdValue}
+            />
+          ))}
+        </div>
       </div>
       <div>
         <h3>
           2. 생산정보를 입력하세요. <span>* 필수입력</span>
         </h3>
         <ul>
-          <li>
+          <li className={styles.weekBtn}>
             <h4>주차</h4>
             <button onClick={() => handleClickData(51)}>51주차</button>
             <button onClick={() => handleClickData(52)}>52주차</button>
           </li>
-          <li>
+          <li className={styles.input}>
             <h4>면적 (평)</h4>
             <TextInput
               name="area"
