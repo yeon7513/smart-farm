@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styles from "../ComplaintsCare.module.scss";
 import CustomModal from "../../../../components/modal/CustomModal";
-import CpModal from "./CpModal";
+import CpSanction from "./CpSanction";
 import { Link } from "react-router-dom";
 import { deleteComment } from "../../../../api/board";
 import { useDispatch } from "react-redux";
@@ -85,8 +85,10 @@ function CpComment({ item, process }) {
           <h4>{item.defendant}</h4>
         </div>
         <div className={styles.care}>
-          <p>신고사유: {item.reasonName}</p>
-          <p>신고자: {item.complainant}</p>
+          <div className={styles.careUser}>
+            <p>신고사유: {item.reasonName}</p>
+            <p>신고자: {item.complainant}</p>
+          </div>
           <div>
             {process === "processing" ? (
               <>
@@ -107,7 +109,7 @@ function CpComment({ item, process }) {
                     <button>활동 정지</button>
                   </div>
                 </CustomModal>
-                <CpModal />
+                <CpSanction />
               </>
             ) : (
               <div className={styles.processed}>

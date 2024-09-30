@@ -3,9 +3,9 @@ import CustomModal from "../../../../components/modal/CustomModal";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchItems } from "../../../../store/user/UserSlice";
 import { approveComplaint } from "../../../../store/complain/complainSlice";
-import styles from "./CpModal.module.scss";
+import styles from "./CpSanction.module.scss";
 
-function CpModal({ complainant, complainId }) {
+function CpSanction({ complainant, complainId }) {
   // const [values, setValues] = useState();
   const [noModalOpen, setNoModalOpen] = useState(false);
   const openNoModal = () => setNoModalOpen(true);
@@ -53,4 +53,4 @@ function CpModal({ complainant, complainId }) {
   );
 }
 
-export default CpModal;
+export default CpSanction;
