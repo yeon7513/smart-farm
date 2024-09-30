@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import styles from "../ComplaintsCare.module.scss";
 import CustomModal from "../../../../components/modal/CustomModal";
 import FileInput from "../../../../components/form/file-input/FileInput";
-import CpModal from "./CpModal";
+import CpSanction from "./CpSanction";
 import TextInput from "../../../../components/form/text-input/TextInput";
 import { useDispatch, useSelector } from "react-redux";
 import { updateUserInfo } from "../../../../store/user/UserSlice";
@@ -144,7 +144,7 @@ function CpProfile({ item, process }) {
                       />
                       <p>신고 누적 횟수: 3회</p>
                     </div>
-                    <div className={styles.btns}>
+                    <div className={styles.processBtn}>
                       <button type="submit" onClick={handleSubmit}>
                         수정 완료
                       </button>
@@ -153,7 +153,7 @@ function CpProfile({ item, process }) {
                   </form>
                 </CustomModal>
 
-                <CpModal />
+                <CpSanction />
               </>
             ) : (
               <div className={styles.processed}>

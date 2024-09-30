@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import styles from "../ComplaintsCare.module.scss";
-import { Link } from "react-router-dom";
 import CustomModal from "../../../../components/modal/CustomModal";
-import CpModal from "./CpModal";
+import CpSanction from "./CpSanction";
 import { useDispatch } from "react-redux";
 import { deleteBoardDatas } from "../../../../store/board/boardSlice";
 import {
@@ -93,7 +92,7 @@ function CpPost({ item, process }) {
                   btnHandler={goProcessed}
                 >
                   <div className={styles.container}>
-                    <div className={styles.modlaTitle}>
+                    <div className={styles.modalTitle}>
                       <div>
                         <h2>{item.title}</h2>
                       </div>
@@ -108,7 +107,7 @@ function CpPost({ item, process }) {
                         </div>
                       </div>
                     </div>
-                    <div className={styles.modlaContent}>
+                    <div className={styles.modalSummary}>
                       <div>{item.summary}</div>
                       <div>
                         {item.imgUrl ? (
@@ -127,7 +126,7 @@ function CpPost({ item, process }) {
                   </div>
                 </CustomModal>
 
-                <CpModal
+                <CpSanction
                   complainant={item.complainantDocId}
                   complainId={item.docId}
                 />

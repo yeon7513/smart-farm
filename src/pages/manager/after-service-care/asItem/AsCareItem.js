@@ -8,7 +8,6 @@ import styles from "./AsCareItem.module.scss";
 const PAGE_SIZE = 20;
 
 function AsCareItem({ items }) {
-  console.log(items);
   const [currentPage, setCurrentPage] = useState(1);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentItem, setCurrentItem] = useState(null); // 현재 선택된 아이템의 데이터를 저장

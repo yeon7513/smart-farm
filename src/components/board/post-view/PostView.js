@@ -134,7 +134,7 @@ function PostView() {
                     <p>{post.nick}</p>
                   </div>
                   <p>작성일: {post.createdAt}</p>
-                  <p>조회수: {count}</p>
+                  <p className={styles.count}>조회수: {count}</p>
                 </div>
                 {post.nick === loginUser?.nickname ? (
                   <div className={styles.test}>

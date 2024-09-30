@@ -2,13 +2,12 @@
   margin: 30px;
   padding: 10px;
 
-  @media (max-width: 992px) {
-  }
   @media (max-width: 768px) {
-    margin: 30px 10px;
+    margin: 40px 10px;
     padding: 0;
   }
   @media (max-width: 576px) {
+    margin: 30px 0;
   }
 }
 
@@ -37,6 +36,25 @@
     font-size: 14px;
     color: gray;
   }
+
+  @media (max-width: 992px) {
+    h2 {
+      font-size: 22px;
+    }
+  }
+  @media (max-width: 768px) {
+    h2 {
+      font-size: 20px;
+    }
+  }
+  @media (max-width: 576px) {
+    h2 {
+      font-size: 18px;
+    }
+    p {
+      font-size: 12px;
+    }
+  }
 }
 
 .profile {
@@ -49,16 +67,37 @@
 }
 
 .titleBar {
-  width: 70%;
+  width: 80%;
   display: flex;
   // justify-content: space-between;
   gap: 80px;
+
+  @media (max-width: 992px) {
+    gap: 60px;
+  }
+  @media (max-width: 768px) {
+    width: 90%;
+    gap: 40px;
+  }
+  @media (max-width: 576px) {
+    width: 70%;
+    gap: 10px;
+    .count {
+      display: none;
+    }
+  }
 }
 
 .complain {
   width: 30%;
   display: flex;
   justify-content: end;
+
+  @media (max-width: 576px) {
+    button {
+      font-size: 12px;
+    }
+  }
 }
 
 .test {
@@ -81,7 +120,7 @@
 
 .content {
   min-height: 300px;
-  padding: 30px 50px 40px;
+  padding: 30px 20px 40px;
   border-bottom: 1px solid #ddd;
   letter-spacing: 0.5px;
   white-space: pre-line;
@@ -94,6 +133,10 @@
       max-width: 60%;
       height: auto;
     }
+  }
+
+  @media (max-width: 576px) {
+    font-size: 14px;
   }
 }
 
@@ -112,29 +155,29 @@
   // }
 }
 
-.comment {
-  padding: 30px;
+// .comment {
+//   padding: 30px;
 
-  h2 {
-    margin: 20px auto;
-  }
+//   h2 {
+//     margin: 20px auto;
+//   }
 
-  div {
-    padding: 20px 10px 15px;
-    border-bottom: 1px solid #ddd;
-  }
-  h4 {
-    margin-bottom: 10px;
-  }
-  p {
-    margin-top: 10px;
-    font-size: 12px;
-    color: gray;
-  }
-  span {
-    margin-left: 5px;
-  }
-}
+//   div {
+//     padding: 20px 10px 15px;
+//     border-bottom: 1px solid #ddd;
+//   }
+//   h4 {
+//     margin-bottom: 10px;
+//   }
+//   p {
+//     margin-top: 10px;
+//     font-size: 12px;
+//     color: gray;
+//   }
+//   span {
+//     margin-left: 5px;
+//   }
+// }
 
 .back {
   display: flex;

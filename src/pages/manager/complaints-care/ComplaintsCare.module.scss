@@ -64,12 +64,20 @@
   display: none;
 }
 
+// 각 파트 스타일 시작
 .flex_box {
+  h2,
+  h3,
+  h4 {
+    font-family: "TheJamsil";
+  }
+
   div {
     display: flex;
   }
 }
 
+// 프로필
 .profile {
   flex-direction: column;
   align-items: center;
@@ -79,30 +87,39 @@
 
   img {
     width: 200px;
+    height: 200px;
     border-radius: 50%;
     margin-bottom: 15px;
   }
 }
 
+// 게시물
 .post {
   flex-direction: column;
-  padding: 10px;
+  padding: 15px;
 }
-
 .title {
   justify-content: space-between;
   border-bottom: 1px solid #ddd;
   margin-bottom: 15px;
 
+  h2 {
+    font-weight: 500;
+  }
+
   div {
     align-items: center;
-  }
-  img {
-    width: 35px;
-    height: 35px;
-    border-radius: 50%;
-    margin-right: 5px;
-    margin-bottom: 5px;
+
+    h4 {
+      font-weight: 400;
+    }
+    img {
+      width: 35px;
+      height: 35px;
+      border-radius: 50%;
+      margin-right: 5px;
+      margin-bottom: 5px;
+    }
   }
 }
 
@@ -112,6 +129,7 @@
   min-height: 80px;
 
   h3 {
+    font-weight: 400;
     margin-bottom: 10px;
     padding-left: 7px;
   }
@@ -121,6 +139,7 @@
   }
 }
 
+// 댓글
 .comment {
   justify-content: space-between;
   padding: 10px;
@@ -130,12 +149,20 @@
   }
 }
 
+//공통
 .care {
+  display: flex;
   justify-content: space-between;
   align-items: center;
   margin: 10px 0 15px;
   border-bottom: 1px solid var(--common-color);
   padding: 3px;
+
+  @media (max-width: 576px) {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+  }
 }
 
 .processBtn {
@@ -144,6 +171,7 @@
   justify-content: center;
   gap: 10px;
   margin-top: 15px;
+  margin-bottom: 15px;
 
   button {
     padding: 10px 15px;
@@ -154,26 +182,43 @@
       background-color: var(--common-color);
     }
   }
+
+  @media (max-width: 576px) {
+  }
+}
+
+.processed {
+  display: flex;
+  flex-direction: column;
 }
 
 // 게시글 승인 모달
 .container {
-  width: 600px;
-}
-
-.modlaTitle {
-  border-bottom: 1px solid #ddd;
-  padding-bottom: 8px;
-  margin: 10px;
-
-  div {
-    display: flex;
-    align-items: center;
-  }
+  min-width: 600px;
+  padding: 30px;
 
   h2 {
-    margin-bottom: 25px;
+    font-family: "TheJamsil";
   }
+}
+
+.modalTitle {
+  border-bottom: 1px solid #ddd;
+  margin: 10px;
+
+  h2 {
+    margin-bottom: 20px;
+    font-size: 20px;
+    font-weight: 500;
+  }
+}
+
+.titleBar {
+  width: 70%;
+  display: flex;
+  align-items: center;
+  gap: 60px;
+  margin-bottom: 5px;
 
   p {
     font-size: 14px;
@@ -183,26 +228,20 @@
 
 .modalProfile {
   display: flex;
+  flex-direction: row;
   align-items: center;
   gap: 5px;
 
   img {
-    width: 40px;
-    height: 40px;
+    width: 38px;
+    height: 38px;
     border-radius: 50%;
   }
 }
 
-.titleBar {
-  width: 70%;
-  display: flex;
-  // justify-content: space-between;
-  gap: 80px;
-}
-
-.modlaContent {
-  min-height: 300px;
-  padding: 30px 20px 40px;
+.modalSummary {
+  min-height: 200px;
+  padding: 30px 20px;
   // border-bottom: 1px solid #eee;
   letter-spacing: 0.5px;
   white-space: pre-line;
@@ -220,16 +259,17 @@
 
 // 프로필 승인 모달
 .form {
-  padding: 20px 0;
+  padding: 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  min-width: 350px;
 }
 
 .modalImg {
-  width: 350px;
-  height: 350px;
+  width: 250px;
+  height: 250px;
 }
 
 .nickname {
@@ -244,27 +284,22 @@
   }
 }
 
-.btns {
-  button {
-    padding: 5px 20px;
-    border: 1px solid var(--common-color);
-    margin: 20px 3px;
-    border-radius: 8px;
-  }
-}
-
-.processed {
-  display: flex;
-  flex-direction: column;
-}
-
+// 댓글 모달
 .modlaComment {
+  min-width: 400px;
+  min-height: 130px;
+  padding: 20px;
+
   display: flex;
   align-items: flex-start;
   justify-content: center;
   flex-direction: column;
-  width: 350px;
-  height: 100px;
+
+  h3 {
+    font-family: "TheJamsil";
+    margin-bottom: 3px;
+  }
+
   p {
     font-size: 14px;
     color: gray;
