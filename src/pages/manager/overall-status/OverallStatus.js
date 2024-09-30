@@ -1,10 +1,10 @@
-import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { fetchCommonInfo } from '../../../store/dashboard/dashboardSlice';
-import { fetchItems } from '../../../store/user/UserSlice';
-import styles from './OverallStatus.module.scss';
-import AccumulatedStatus from './status-chart/AccumulatedStatus';
-import NewStatus from './status-chart/NewStatus';
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchCommonInfo } from "../../../store/dashboard/dashboardSlice";
+import { fetchItems } from "../../../store/user/UserSlice";
+import styles from "./OverallStatus.module.scss";
+import AccumulatedStatus from "./status-chart/AccumulatedStatus";
+import NewStatus from "./status-chart/NewStatus";
 
 function OverallStatus() {
   const { items, isLoading: userLoading } = useSelector(
@@ -20,7 +20,7 @@ function OverallStatus() {
     if (!data || data.length === 0) return [];
 
     return data
-      .filter((item) => item.deleteYn === 'N')
+      .filter((item) => item.deleteYn === "N")
       .reduce((acc, item) => {
         const date = new Date(item.createdAt).toLocaleDateString();
         const exist = acc.find((entry) => entry.name === date);
@@ -38,7 +38,7 @@ function OverallStatus() {
   const getNewChartData = (changeData) => {
     if (userLoading || dashboardLoading) return [];
 
-    if (changeData === 'all') {
+    if (changeData === "all") {
       const allDataMap = new Map();
 
       filteredData(items).forEach((entry) => {
@@ -64,14 +64,14 @@ function OverallStatus() {
           user: arr.user,
           dashboard: arr.dashboard,
         }));
-    } else if (changeData === 'users') {
+    } else if (changeData === "users") {
       return filteredData(items)
         .sort((a, b) => new Date(a.name) - new Date(b.name))
         .map((item) => ({
           ...item,
           name: item.name,
         }));
-    } else if (changeData === 'dashboard') {
+    } else if (changeData === "dashboard") {
       return filteredData(commonInfo)
         .sort((a, b) => new Date(a.name) - new Date(b.name))
         .map((item) => ({
@@ -85,7 +85,7 @@ function OverallStatus() {
   const getAccumulatedChartData = (changeData) => {
     if (userLoading || dashboardLoading) return [];
 
-    if (changeData === 'all') {
+    if (changeData === "all") {
       const allDataMap = new Map();
 
       filteredData(items).forEach((entry) => {
@@ -118,7 +118,7 @@ function OverallStatus() {
             dashboard: cumulativeDashboard,
           };
         });
-    } else if (changeData === 'users') {
+    } else if (changeData === "users") {
       let cumulativeUser = 0;
       return filteredData(items)
         .sort((a, b) => new Date(a.name) - new Date(b.name))
@@ -129,7 +129,7 @@ function OverallStatus() {
             value: cumulativeUser,
           };
         });
-    } else if (changeData === 'dashboard') {
+    } else if (changeData === "dashboard") {
       let cumulativeDashboard = 0;
       return filteredData(commonInfo)
         .sort((a, b) => new Date(a.name) - new Date(b.name))
@@ -144,11 +144,11 @@ function OverallStatus() {
   };
 
   useEffect(() => {
-    dispatch(fetchItems({ collectionName: 'users' }));
+    dispatch(fetchItems({ collectionName: "users" }));
   }, [dispatch]);
 
   useEffect(() => {
-    dispatch(fetchCommonInfo('dashboard'));
+    dispatch(fetchCommonInfo("dashboard"));
   }, [dispatch]);
 
   return (
