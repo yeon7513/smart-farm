@@ -6,7 +6,6 @@ function DashboardSector({ id, data, className }) {
 
   const handleClickSaveData = () => {
     setSector(data);
-    console.log(data);
   };
 
   return (

@@ -13,6 +13,8 @@ import {
 } from "../../../store/dashboard/dashboardSlice";
 import CustomModal from "../../../components/modal/CustomModal";
 import PaginationButton from "../../../components/pagination-button/PaginationButton";
+import { db, fetchSectorData } from "../../../api/firebase";
+import { collection, getDocs } from "firebase/firestore";
 
 // listItems 변수는 firebase에서 데이터를 가져와서 메모리에 저장합니다.
 // 이를 기반으로 검색 기능 구현 및 초기 데이터를 렌더링 합니다.
@@ -61,29 +63,66 @@ function QuotationsCare() {
     listItems = data; // 데이터 저장
   };
 
+  // "payments"의 하위 컬렉션 "sector"의 데이터를 불러오는 함수입니다.
+  const fetchSectorData = async (paymentId) => {
+    const sectorRef = collection(db, "payments", paymentId, "sector");
+    const sectorSnapshot = await getDocs(sectorRef);
+
+    const additionalOptions = {};
+    sectorSnapshot.forEach((doc) => {
+      additionalOptions[doc.id] = doc.data();
+    });
+    console.log(sectorSnapshot);
+
+    return additionalOptions;
+  };
+
   // payments를 listItems에 저장
   useEffect(() => {
+    const fetchData = async () => {
+      const allSectorData = [];
+      for (const payment of payments) {
+        // 각 payment의 sector 데이터를 가져옵니다.
+        const sectorData = await fetchSectorData(payment.id);
+        console.log(`${payment.docId}: `, sectorData);
+        // 모든 sector 데이터를 배열에 추가합니다.
+        allSectorData.push({
+          docId: payment.docId,
+          sectorData,
+        });
+      }
+      console.log(allSectorData);
+    };
     setListItems(payments);
+    fetchData();
   }, [payments]);
 
   // firebase의 데이터를 excel로 불러옵니다.
-  const exportToExcel = () => {
-    const processedData = payments.map((payment) => ({
-      ...payment,
-      // additionalOptions 객체의 키(옵션 카테고리)-값(옵션) 쌍을 배열로 변환
-      // 이 때, 키(옵션 카테고리) 값은 출력하지 않습니다.
-      additionalOptions: Object.entries(payment.additionalOptions)
-        .map(([optionCategory, options]) => {
+  const exportToExcel = async () => {
+    const processedData = [];
+
+    for (const payment of payments) {
+      const additionalOptions = await fetchSectorData(payment.id);
+
+      const controlValue = additionalOptions.control || null;
+
+      const formattedAdditionalOptions = Object.entries(additionalOptions)
+        .map(([동, options]) => {
           const selectedOptions = Object.entries(options)
             .filter(([_, selected]) => selected)
             .map(([optionName]) => optionName);
-          return `${selectedOptions.join(", ")}`;
+
+          return `${동}동: ${selectedOptions.join(", ")}`;
         })
-        .join(", "),
-    }));
-    processedData.forEach((payment) => {
-      console.log(payment.additionalOptions);
-    });
+        .join(", ");
+
+      processedData.push({
+        ...payment,
+        control: controlValue,
+        additionalOptions: formattedAdditionalOptions,
+      });
+    }
+
     const worksheet = XLSX.utils.json_to_sheet(processedData);
     const workbook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(workbook, worksheet, "결제 내역");
