@@ -118,7 +118,7 @@ function Weather({ latitude, longitude }) {
     try {
       const response = await fetch(url);
       const json = await response.json();
-      console.log(json);
+      // console.log(json);
       const changedList = json.list.map((item) => ({
         ...item,
         dt: item.dt * 1000,
