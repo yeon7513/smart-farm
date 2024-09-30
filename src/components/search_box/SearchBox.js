@@ -13,8 +13,9 @@ function SearchBox({ className, placeholder, name, value, onChange }) {
   // 2. 검색 구현 로직이나 value props를 변경할 핸들러를 onChange로 전달해주세요.
 
   const handleSubmit = (e) => {
+    console.log(e.target[0].value);
     e.preventDefault();
-    onChange();
+    onChange(e);
   };
 
   return (

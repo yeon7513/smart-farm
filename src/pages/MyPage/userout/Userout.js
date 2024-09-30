@@ -2,23 +2,30 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { getUserAuth, updateDatas } from '../../../api/firebase';
+import CustomModal from '../../../components/modal/CustomModal';
 import { fetchItems, removeUser } from '../../../store/user/UserSlice';
-import Container from '../../layout/container/Container';
-import CustomModal from '../../modal/CustomModal';
+import Container from './../../../components/layout/container/Container';
 import style from './Userout.module.scss';
 
 function Userout(props) {
   const [isModalOpen, setIsModalOpen] = useState(false);
+
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
+
   const { items } = useSelector((state) => state.userSlice);
+
   const dispatch = useDispatch();
+
   const user = JSON.parse(localStorage.getItem('user'));
+
   useEffect(() => {
     dispatch(fetchItems({ collectionName: 'users' }));
   }, [dispatch]);
+
   const auth = getUserAuth();
   const navigate = useNavigate();
+
   const handleLogout = async () => {
     try {
       await auth.signOut();

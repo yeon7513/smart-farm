@@ -1,9 +1,10 @@
 import React from "react";
 import InfoEdit from "../pages/MyPage/info-edit/InfoEdit";
 import IntroMyPage from "../pages/MyPage/intro-my-page/IntroMyPage";
-import Payment from "../pages/MyPage/payment/Payment";
-import { useComponentContext } from "./ComponentContext";
 import MYChatRoom from "../pages/MyPage/my-chat-room/MYChatRoom";
+import Payment from "../pages/MyPage/payment/Payment";
+import Userout from "./../pages/MyPage/userout/Userout";
+import { useComponentContext } from "./ComponentContext";
 
 function MyPageMenu() {
   const { currComp } = useComponentContext();
@@ -21,8 +22,8 @@ function MyPageMenu() {
     //   return <Asinfo />;
     // case 'Myletter':
     //   return <Myletter />;
-    // case 'Userout':
-    //   return <Userout />;
+    case "Userout":
+      return <Userout />;
     default:
       return <IntroMyPage />;
   }

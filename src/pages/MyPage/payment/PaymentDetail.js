@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios from "axios";
 import {
   collection,
   deleteDoc,
@@ -6,19 +6,20 @@ import {
   getDoc,
   getDocs,
   query,
-} from 'firebase/firestore';
-import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
-import { GridLoader } from 'react-spinners';
-import { db } from '../../../api/firebase';
-import Container from '../../../components/layout/container/Container';
-import styles from './PaymentDetail.module.scss';
+} from "firebase/firestore";
+import React, { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { GridLoader } from "react-spinners";
+import { db } from "../../../api/firebase";
+import Container from "../../../components/layout/container/Container";
+import styles from "./PaymentDetail.module.scss";
 
 function PaymentDetail() {
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState(null);
   const [dashboardData, setDashboardData] = useState(null);
   const { paymentsDocId } = useParams();
+  const navigate = useNavigate();
 
   // 액세스 토큰을 받아오는 함수입니다.
   const getAccessToken = async () => {
@@ -27,26 +28,26 @@ function PaymentDetail() {
 
     try {
       const response = await axios.post(
-        'https://api.iamport.kr/users/getToken',
+        "https://api.iamport.kr/users/getToken",
         {
           imp_key: impKey,
           imp_secret: impSecret,
         },
         {
           headers: {
-            'Content-Type': 'application/json',
+            "Content-Type": "application/json",
           },
         }
       );
       console.log(response);
 
       if (response.data.code !== 0) {
-        throw new Error('토큰을 가져오는 데 실패했습니다.');
+        throw new Error("토큰을 가져오는 데 실패했습니다.");
       }
 
       return response.data.response.access_token;
     } catch (error) {
-      console.error('액세스 토큰 가져오기 에러:', error);
+      console.error("액세스 토큰 가져오기 에러:", error);
       throw error;
     }
   };
@@ -70,7 +71,7 @@ function PaymentDetail() {
         // Firebase에서 데이터 삭제
         await deletePaymentData(data.imp_uid);
       } catch (error) {
-        console.error('결제 취소 에러 발생: ', error);
+        console.error("결제 취소 에러 발생: ", error);
       } finally {
         setLoading(false);
       }
@@ -80,10 +81,10 @@ function PaymentDetail() {
   // Firebase에서 결제 데이터 삭제
   const deletePaymentData = async (docId) => {
     try {
-      const paymentDocRef = doc(db, 'payments', docId);
+      const paymentDocRef = doc(db, "payments", docId);
       await deleteDoc(paymentDocRef);
     } catch (error) {
-      console.error('Firebase 데이터 삭제 에러: ', error);
+      console.error("Firebase 데이터 삭제 에러: ", error);
     }
   };
 
@@ -92,19 +93,25 @@ function PaymentDetail() {
     try {
       const response = await axios.post(
         process.env.REACT_APP_API_URL ||
-          'http://api.iamport.kr/payments/cancel',
+          "http://api.iamport.kr/payments/cancel",
         { imp_uid },
         { headers: { Authorization: `Bearer ${accessToken}` } }
       );
 
       if (response.status !== 200 || response.data.code !== 0) {
-        throw new Error('결제 취소 요청 실패');
+        throw new Error("결제 취소 요청 실패");
       }
 
       return response.data;
     } catch (error) {
-      console.error('결제 취소 에러 발생: ', error);
+      console.error("결제 취소 에러 발생: ", error);
     }
+  };
+
+  // 뒤로 가기 함수
+  const goBack = (e) => {
+    e.preventDefault();
+    navigate(-1);
   };
 
   useEffect(() => {
@@ -112,30 +119,30 @@ function PaymentDetail() {
       setLoading(true);
       try {
         // payments 컬렉션에서 데이터 가져오기
-        const paymentDocRef = doc(db, 'payments', paymentsDocId);
+        const paymentDocRef = doc(db, "payments", paymentsDocId);
         const paymentSnapshot = await getDoc(paymentDocRef);
 
         if (paymentSnapshot.exists()) {
           const paymentData = paymentSnapshot.data();
           setData(paymentData);
         } else {
-          console.log('Payment data not found');
+          console.log("Payment data not found");
           setData(null);
         }
 
         // dashboard 컬렉션에서 데이터 가져오기
-        const dashboardQuery = query(collection(db, 'dashboard'));
+        const dashboardQuery = query(collection(db, "dashboard"));
         const dashboardSnapshot = await getDocs(dashboardQuery);
 
         if (!dashboardSnapshot.empty) {
           const dashboardData = dashboardSnapshot.docs.map((doc) => doc.data());
           setDashboardData(dashboardData[0]); // 첫 번째 문서 데이터 설정
         } else {
-          console.log('Dashboard data not found');
+          console.log("Dashboard data not found");
           setDashboardData(null);
         }
       } catch (error) {
-        console.error('Error fetching data:', error);
+        console.error("Error fetching data:", error);
       } finally {
         setLoading(false);
       }
@@ -200,7 +207,7 @@ function PaymentDetail() {
                           ))}
                         </ul>
                       ) : (
-                        ''
+                        ""
                       )}
                     </div>
                   );
@@ -213,6 +220,9 @@ function PaymentDetail() {
               <p>현금영수증: {data.cashReceipt}</p>
               <button type="button" onClick={onPayCancel}>
                 주문 취소
+              </button>
+              <button type="button" onClick={goBack}>
+                뒤로 가기
               </button>
             </>
           ) : (
