@@ -21,18 +21,23 @@ function MyFarm() {
 
   const userStorage = JSON.parse(localStorage.getItem('user'));
   const isAdmin = userStorage.email.includes('addmin');
+  console.log('userStorage: ', userStorage);
+  console.log('isAdmin: ', isAdmin);
+
+  console.log(commonInfo);
 
   const geoCode = commonInfo
     .filter((info) => {
       if (isAdmin) {
+        console.log(info);
         return info;
       } else {
-        return info.email === userStorage.email;
+        return info.userId === userStorage.email;
       }
     })
     .map((item) => {
-      const latitude = item.latitude || null;
-      const longitude = item.longitude || null;
+      const latitude = item.lat || null;
+      const longitude = item.lng || null;
 
       return {
         lat: latitude,
