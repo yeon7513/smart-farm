@@ -80,18 +80,18 @@ function QuotationsCare() {
   // payments를 listItems에 저장
   useEffect(() => {
     const fetchData = async () => {
-      // const allSectorData = [];
+      const allSectorData = [];
       for (const payment of payments) {
         // 각 payment의 sector 데이터를 가져옵니다.
-        // const sectorData = await fetchSectorData(payment.id);
-        // console.log(`${payment.docId}: `, sectorData);
+        const sectorData = await fetchSectorData(payment.id);
+        console.log(`${payment.docId}: `, sectorData);
         // 모든 sector 데이터를 배열에 추가합니다.
-        // allSectorData.push({
-        // docId: payment.docId,
-        // sectorData,
-        // });
+        allSectorData.push({
+          docId: payment.docId,
+          sectorData,
+        });
       }
-      // console.log(allSectorData);
+      console.log(allSectorData);
     };
     setListItems(payments);
     fetchData();
