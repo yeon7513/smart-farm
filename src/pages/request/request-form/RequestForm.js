@@ -338,8 +338,11 @@ function RequestForm({ user }) {
       if (!updatedOptions[index][category]) {
         updatedOptions[index][category] = {};
       }
-      updatedOptions[index][category][value] =
-        !updatedOptions[index][category][value];
+      updatedOptions[index][category][value] = updatedOptions[index][category][
+        value
+      ]
+        ? undefined
+        : "Y";
       return updatedOptions;
     });
   };
@@ -425,15 +428,22 @@ function RequestForm({ user }) {
       await Promise.all(
         Array.from({ length: farmEquivalent }, async (_, index) => {
           const additionalOptionsForCurrentSector = selectedOptions[index];
+          const control = {};
+
+          // 선택된 옵션을 control 객체에 저장합니다.
+          Object.entries(additionalOptionsForCurrentSector).forEach(
+            ([category, options]) => {
+              Object.keys(options).forEach((option) => {
+                if (options[option] === "Y") {
+                  control[option] = "Y"; // 선택된 옵션을 control 객체에 추가합니다.
+                }
+              });
+            }
+          );
+
           const sectorData = {
             동수: index + 1,
-            부가옵션: Object.entries(additionalOptionsForCurrentSector)
-              .flatMap(([category, options]) =>
-                Object.keys(options)
-                  .filter((option) => options[option])
-                  .map((option) => option)
-              )
-              .join(", "),
+            부가옵션: Object.keys(control).length > 0 ? control : {},
             id: index + 1,
           };
 
@@ -490,7 +500,7 @@ function RequestForm({ user }) {
 
           const sectorData = {
             동수: index + 1,
-            control: control,
+            control: Object.keys(control).length > 0 ? control : {},
             createdAt: new Date().getTime(),
             deleteYn: "N",
             growthInfo: {
