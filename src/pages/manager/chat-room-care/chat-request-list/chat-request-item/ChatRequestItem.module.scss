@@ -38,6 +38,11 @@
 }
 
 .statusLabel.new {
-  background-color: #ffcc00;
-  color: white;
+  background-color: var(--common-color);
+  font: var(--main-color);
+  font-weight: bold;
+  
+  &:hover {
+background-color: var(--hover-color);
+  }
 }

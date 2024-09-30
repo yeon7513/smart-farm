@@ -196,11 +196,13 @@ function RequestForm({ user }) {
     setFarmEquivalent(Number(e.target.value));
   };
 
-  // 회원가입이 되어있지 않은 경우 농장 주소는 공백이 됩니다.
+  // 회원가입이 되어있지 않은 경우 견적 의뢰를 할 수 없습니다.
   useEffect(() => {
-    if (user) {
-      setFarmAddress(user.farmAddress || "");
-    }
+    console.log(user);
+    // if (!user.id) {
+    //   navigate(-1);
+    //   return;
+    // }
   }, [user]);
 
   useEffect(() => {
@@ -474,9 +476,10 @@ function RequestForm({ user }) {
       await Promise.all(
         Array.from({ length: farmEquivalent }, async (_, index) => {
           const additionalOptionsForCurrentSector = selectedOptions[index];
+          const control = {};
+
           Object.entries(additionalOptionsForCurrentSector).forEach(
             ([category, options]) => {
-              const control = {};
               Object.keys(options).forEach((option) => {
                 if (options[option] === "Y") {
                   control[option] = "Y";
@@ -487,13 +490,7 @@ function RequestForm({ user }) {
 
           const sectorData = {
             동수: index + 1,
-            control: Object.entries(additionalOptionsForCurrentSector)
-              .flatMap(([category, options]) =>
-                Object.keys(options)
-                  .filter((option) => options[option])
-                  .map((option) => option)
-              )
-              .join(", "),
+            control: control,
             createdAt: new Date().getTime(),
             deleteYn: "N",
             growthInfo: {

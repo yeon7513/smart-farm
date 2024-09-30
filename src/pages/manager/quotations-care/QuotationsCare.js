@@ -33,6 +33,7 @@ function QuotationsCare() {
 
   // 페이지가 렌더링 될 때마다 최신화된 "payments"와 "dashboard"의 내용을 화면에 표시합니다.
   useEffect(() => {
+    console.log(payments);
     dispatch(fetchPayments("payments")); // 결제 데이터 가져오기
     dispatch(fetchCommonInfo("dashboard")); // 공통 정보 가져오기
   }, [dispatch]);
@@ -67,19 +68,23 @@ function QuotationsCare() {
 
   // firebase의 데이터를 excel로 불러옵니다.
   const exportToExcel = () => {
-    const processedData = payments.map((payment) => ({
-      ...payment,
-      // additionalOptions 객체의 키(옵션 카테고리)-값(옵션) 쌍을 배열로 변환
-      // 이 때, 키(옵션 카테고리) 값은 출력하지 않습니다.
-      additionalOptions: Object.entries(payment.additionalOptions)
-        .map(([optionCategory, options]) => {
-          const selectedOptions = Object.entries(options)
-            .filter(([_, selected]) => selected)
-            .map(([optionName]) => optionName);
-          return `${selectedOptions.join(", ")}`;
-        })
-        .join(", "),
-    }));
+    const processedData = payments.map((payment) => {
+      const additionalOptions = payment.sector || {};
+
+      return {
+        ...payment,
+        additionalOptions: Object.entries(additionalOptions)
+          .map(([optionCategory, options]) => {
+            // options가 유효한지 확인하고 선택된 값을 가져옵니다.
+            const selectedOptions = Object.entries(options)
+              .filter(([_, selected]) => selected)
+              .map(([optionName]) => optionName);
+            return `${selectedOptions.join(", ")}`;
+          })
+          .join(", "),
+      };
+    });
+
     processedData.forEach((payment) => {
       console.log(payment.additionalOptions);
     });
@@ -107,7 +112,10 @@ function QuotationsCare() {
   // 검색 실행 핸들러
   const handleSearch = (e) => {
     e.preventDefault();
-    setItems(listItems.filter(({ name }) => name.includes(keyword)));
+    const filteredItems = listItems.filter(({ name }) =>
+      name.includes(keyword)
+    );
+    setItems(filteredItems);
   };
 
   // 모달을 여는 함수
@@ -188,7 +196,8 @@ function QuotationsCare() {
             name={<TbPencilSearch />}
             placeholder={"견적 의뢰서 검색"}
             onChange={handleKeywordChange}
-            onClick={handleSearch}
+            // value={keyword}
+            // onClick={handleSearch}
           />
           <button onClick={exportToExcel} className={styles.exp_btn}>
             견적 내역 다운로드

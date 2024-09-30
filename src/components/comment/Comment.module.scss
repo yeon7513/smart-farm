@@ -1,5 +1,5 @@
 .container {
-  padding: 30px;
+  padding: 20px;
 
   h2 {
     margin: 20px auto;
@@ -52,15 +52,15 @@
   input {
     border: 1px solid #e2e2e2;
     border-radius: 8px;
-    width: 80%;
+    width: 78%;
     padding: 20px;
   }
   button {
-    padding: 30px;
+    padding: 30px 20px;
     margin-left: 20px;
     border: 1px solid #e2e2e2;
     border-radius: 8px;
-    font-size: 16px;
+    font-size: 15px;
     letter-spacing: 0.75px;
 
     &:hover {

@@ -84,7 +84,7 @@
 
 // 모달 css
 .modal {
-  width: 40%;
+  min-width: 650px;
 }
 
 .modalContainer {
@@ -126,8 +126,8 @@
 }
 
 .modlaContent {
-  min-height: 200px;
-  padding: 30px 50px 40px;
+  min-height: 150px;
+  padding: 30px 20px 40px;
   border-bottom: 1px solid #ddd;
   letter-spacing: 0.5px;
   white-space: pre-line;
@@ -147,4 +147,8 @@
   text-align: center;
   padding: 20px;
   border-bottom: 1px solid #e2e2e2;
+}
+
+.comment {
+  width: 100%;
 }

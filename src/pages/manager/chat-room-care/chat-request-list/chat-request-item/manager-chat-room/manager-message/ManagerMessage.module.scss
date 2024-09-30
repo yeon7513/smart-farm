@@ -1,0 +1,47 @@
+.messageContainer {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10px;
+  }
+
+  .dateHeader {
+    display: flex;
+    justify-content: left;
+    text-align: center;
+    margin: 10px 0;
+    padding-left: 15px;
+    padding-top: 4px;
+    padding-bottom: 4px;
+    background-color: var(--common-color);
+  }
+  
+  .messageContent {
+    background-color: #f1f1f1;
+    padding: 10px;
+    border-radius: 10px;
+    max-width: 300px;
+    word-wrap: break-word;
+    align-self: flex-start;
+  }
+  
+  .messageTime {
+    font-size: 0.75rem;
+    color: #888;
+    margin-top: 5px;
+    margin-right: 10px;
+    align-self: flex-end;
+  }
+  
+  /* 본인 메시지와 다른 사람 메시지를 구분하는 경우 */
+  .myMessage {
+    align-self: flex-end;
+    background-color: var(--common-color);
+   margin: 10px;
+  }
+  
+  .managerMessage {
+    align-self: flex-start;
+    background-color: var(--common-color);
+    margin: 10px;
+  }
+  
