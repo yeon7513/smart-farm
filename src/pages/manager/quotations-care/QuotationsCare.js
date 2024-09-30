@@ -13,6 +13,7 @@ import {
 } from "../../../store/dashboard/dashboardSlice";
 import CustomModal from "../../../components/modal/CustomModal";
 import PaginationButton from "../../../components/pagination-button/PaginationButton";
+import { fetchSectorData } from "../../../api/firebase";
 
 // listItems 변수는 firebase에서 데이터를 가져와서 메모리에 저장합니다.
 // 이를 기반으로 검색 기능 구현 및 초기 데이터를 렌더링 합니다.
@@ -61,33 +62,20 @@ function QuotationsCare() {
     listItems = data; // 데이터 저장
   };
 
+  // "payments"의 하위 컬렉션 "sector"의 데이터를 불러오는 함수입니다.
+
   // payments를 listItems에 저장
   useEffect(() => {
     setListItems(payments);
   }, [payments]);
 
   // firebase의 데이터를 excel로 불러옵니다.
-  const exportToExcel = () => {
-    const processedData = payments.map((payment) => {
-      const additionalOptions = payment.sector || {};
+  const exportToExcel = async () => {
+    const processedData = [];
 
-      return {
-        ...payment,
-        additionalOptions: Object.entries(additionalOptions)
-          .map(([optionCategory, options]) => {
-            // options가 유효한지 확인하고 선택된 값을 가져옵니다.
-            const selectedOptions = Object.entries(options)
-              .filter(([_, selected]) => selected)
-              .map(([optionName]) => optionName);
-            return `${selectedOptions.join(", ")}`;
-          })
-          .join(", "),
-      };
-    });
+    for (const payment of payments) {
+    }
 
-    processedData.forEach((payment) => {
-      console.log(payment.additionalOptions);
-    });
     const worksheet = XLSX.utils.json_to_sheet(processedData);
     const workbook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(workbook, worksheet, "결제 내역");
