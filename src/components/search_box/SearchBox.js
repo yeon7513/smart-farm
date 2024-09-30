@@ -1,5 +1,5 @@
-import cn from 'classnames';
-import styles from './SearchBox.module.scss';
+import cn from "classnames";
+import styles from "./SearchBox.module.scss";
 
 function SearchBox({ className, placeholder, name, value, onChange }) {
   // className: 클래스 이름

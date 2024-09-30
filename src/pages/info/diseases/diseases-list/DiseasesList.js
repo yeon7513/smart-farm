@@ -54,7 +54,7 @@ function DiseasesList() {
 
         setData(result.service);
         setTotalPages(Math.ceil(result.service.totalCount / DISPLAY_COUNT));
-        console.log(result.service);
+        // console.log(result.service);
       } catch (error) {
         console.error("There was a problem with the fetch operation:", error);
       }

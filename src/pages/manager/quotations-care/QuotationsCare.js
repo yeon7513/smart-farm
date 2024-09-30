@@ -167,7 +167,13 @@ function QuotationsCare() {
   // 현재 페이지에 맞는 데이터 추출
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = filteredInfo.slice(indexOfFirstItem, indexOfLastItem);
+
+  // filteredInfo를 createdAt 기준으로 내림차순 정렬
+  const sortedInfo = [...filteredInfo].sort((a, b) => {
+    return new Date(b.createdAt) - new Date(a.createdAt);
+  });
+
+  const currentItems = sortedInfo.slice(indexOfFirstItem, indexOfLastItem);
 
   // 총 페이지 수 계산
   const totalPages = Math.ceil(filteredInfo.length / itemsPerPage);
@@ -221,7 +227,7 @@ function QuotationsCare() {
                     }
 
                     return (
-                      <tr key={item.id} className={styles.main}>
+                      <tr key={item.docId || item.id} className={styles.main}>
                         <td>{item.name}</td>
                         <td>{item.crop}</td>
                         <td>{item.type}</td>
