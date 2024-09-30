@@ -377,9 +377,24 @@ function RequestForm({ user }) {
     const { lat, lng } = await convertingAddressToGeoCode(farmAddress);
 
     try {
+      // "estimate" 컬렉션에 새로운 문서 추가
+      const estimateCollectionRef = collection(db, "estimate");
+      await addDoc(estimateCollectionRef, {
+        amount: 100,
+        userId: user.uid,
+        address: user.address,
+        phoneNumber: user.number,
+        facilityType: facilityType,
+        farmArea: Number(farmArea),
+        crop: cropType,
+        createdAt: new Date().getTime(),
+        updatedAt: new Date().getTime(),
+      });
+
       // "payments" 컬렉션에 새로운 문서 추가
       const paymentCollectionRef = collection(db, "payments");
       const paymentDocRef = await addDoc(paymentCollectionRef, {
+        amount: 100,
         uid: user.uid,
         email: user.email,
         name: user.name,
@@ -391,7 +406,6 @@ function RequestForm({ user }) {
         lng: lng,
         cropType: cropType,
         facilityType: facilityType,
-        // additionalOptions: selectedOptions[index],
         farmArea: Number(farmArea),
         farmName: farmName,
         farmEquivalent: Number(farmEquivalent),
