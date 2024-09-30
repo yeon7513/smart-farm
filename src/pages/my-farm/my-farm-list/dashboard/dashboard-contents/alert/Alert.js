@@ -31,7 +31,6 @@ function Alert() {
     };
     await addDatas("alert", addObj);
   };
-
   useEffect(() => {
     dispatch(
       getdashboardAlertContent({
@@ -45,7 +44,6 @@ function Alert() {
     firstThing?.map((data) => setFruitNum(data.frtstCo));
     dispatch(fetchDisasterDatas("disasters"));
   }, []);
-
   useEffect(() => {
     if (count === Math.round(fruitNum) && !hasExecuted) {
       alert("수확");
@@ -62,6 +60,8 @@ function Alert() {
       setIsPestAlerted(true);
     }
   }, [count, fruitNum, hasExecuted, isAlmostHarvest]);
+  console.log(Math.round(fruitNum));
+  console.log(count);
 
   return (
     <div className={styles.alert}>
