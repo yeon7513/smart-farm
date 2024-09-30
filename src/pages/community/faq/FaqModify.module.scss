@@ -10,10 +10,17 @@
   }
 
   div {
+    gap: 20px;
     margin: 20px auto;
     display: flex;
     text-align: center;
     justify-content: center;
+
+    button {
+      &:hover {
+        color: var(--hover-color);
+      }
+    }
   }
 
   p {
