@@ -2,32 +2,29 @@ import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import Comment from "../../../../components/comment/Comment";
 import CustomModal from "../../../../components/modal/CustomModal";
-import {
-  approveComplete,
-  fetchCompleting,
-} from "../../../../store/as-service/asSlice";
+import { approveComplete } from "../../../../store/as-service/asSlice";
 import styles from "./AsCareItem.module.scss";
 
 const PAGE_SIZE = 20;
 
-function AsCareItem({ items = [] }) {
-  // console.log(items);
+function AsCareItem({ items }) {
+  console.log(items);
   const [currentPage, setCurrentPage] = useState(1);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [currentDocId, setCurrentDocId] = useState(null); // 현재 선택된 아이템의 docId 저장
+  const [currentItem, setCurrentItem] = useState(null); // 현재 선택된 아이템의 데이터를 저장
 
   const dispatch = useDispatch();
 
   // 모달
-  const openModal = (docId) => {
+  const openModal = (item) => {
     setIsModalOpen(true);
-    setCurrentDocId(docId); // 모달 열면서 해당 아이템의 docId 설정
+    setCurrentItem(item); // 모달 열 때 해당 아이템의 데이터를 설정
   };
   const closeModal = () => setIsModalOpen(false);
 
   const goCompleted = () => {
-    if (currentDocId) {
-      dispatch(approveComplete({ postId: currentDocId }))
+    if (currentItem && currentItem.docId) {
+      dispatch(approveComplete({ postId: currentItem.docId }))
         .then(() => {
           alert("답변 완료 되었습니다.");
           setIsModalOpen(false);
@@ -41,7 +38,7 @@ function AsCareItem({ items = [] }) {
 
   // 페이지네이션
   const totalPages = Math.ceil(items.length / PAGE_SIZE);
-  const currentItem = items.slice(
+  const currentItems = items.slice(
     (currentPage - 1) * PAGE_SIZE,
     currentPage * PAGE_SIZE
   );
@@ -68,8 +65,8 @@ function AsCareItem({ items = [] }) {
 
       <div className={styles.board}>
         <ul>
-          {currentItem.length > 0 ? (
-            currentItem.map((item, idx) => (
+          {currentItems.length > 0 ? (
+            currentItems.map((item, idx) => (
               <li
                 key={idx}
                 id={items.length - ((currentPage - 1) * PAGE_SIZE + idx)}
@@ -84,47 +81,9 @@ function AsCareItem({ items = [] }) {
                 <div>{item.createdAt}</div>
 
                 <div>
-                  <button onClick={() => openModal(item.docId)}>
+                  <button onClick={() => openModal(item)}>
                     {item.completeYn}
                   </button>
-
-                  <CustomModal
-                    title={"A/S 답변"}
-                    btnName={"완료"}
-                    handleClose={closeModal}
-                    isOpen={isModalOpen}
-                    btnHandler={goCompleted}
-                    className={styles.modal}
-                  >
-                    <div className={styles.modalContainer}>
-                      <div className={styles.modlaTitle}>
-                        <div>
-                          <h2>{item.title}</h2>
-                        </div>
-                        <div>
-                          <div className={styles.titleBar}>
-                            <div className={styles.modalProfile}>
-                              <p>작성자: {item.defendant}</p>
-                            </div>
-                            <p>작성일: {item.createdAt}</p>
-                          </div>
-                        </div>
-                      </div>
-                      <div className={styles.modlaContent}>
-                        <div>{item.summary}</div>
-                        <div>
-                          {item.imgUrl ? (
-                            <img src={item.imgUrl} alt="첨부 이미지" />
-                          ) : (
-                            ""
-                          )}
-                        </div>
-                      </div>
-                      <div className={styles.comment}>
-                        <Comment item={item} />
-                      </div>
-                    </div>
-                  </CustomModal>
                 </div>
               </li>
             ))
@@ -151,6 +110,46 @@ function AsCareItem({ items = [] }) {
           다음 &gt;
         </button>
       </div>
+
+      {isModalOpen && currentItem && (
+        <CustomModal
+          title={"A/S 답변"}
+          btnName={"완료"}
+          handleClose={closeModal}
+          isOpen={isModalOpen}
+          btnHandler={goCompleted}
+          className={styles.modal}
+        >
+          <div className={styles.modalContainer}>
+            <div className={styles.modlaTitle}>
+              <div>
+                <h2>{currentItem.title}</h2>
+              </div>
+              <div>
+                <div className={styles.titleBar}>
+                  <div className={styles.modalProfile}>
+                    <p>작성자: {currentItem.defendant}</p>
+                  </div>
+                  <p>작성일: {currentItem.createdAt}</p>
+                </div>
+              </div>
+            </div>
+            <div className={styles.modlaContent}>
+              <div>{currentItem.summary}</div>
+              <div>
+                {currentItem.imgUrl ? (
+                  <img src={currentItem.imgUrl} alt="첨부 이미지" />
+                ) : (
+                  ""
+                )}
+              </div>
+            </div>
+            <div className={styles.comment}>
+              <Comment item={currentItem} />
+            </div>
+          </div>
+        </CustomModal>
+      )}
     </div>
   );
 }
