@@ -33,6 +33,7 @@ function QuotationsCare() {
 
   // 페이지가 렌더링 될 때마다 최신화된 "payments"와 "dashboard"의 내용을 화면에 표시합니다.
   useEffect(() => {
+    console.log(payments);
     dispatch(fetchPayments("payments")); // 결제 데이터 가져오기
     dispatch(fetchCommonInfo("dashboard")); // 공통 정보 가져오기
   }, [dispatch]);
