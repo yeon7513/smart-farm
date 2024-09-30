@@ -68,19 +68,23 @@ function QuotationsCare() {
 
   // firebase의 데이터를 excel로 불러옵니다.
   const exportToExcel = () => {
-    const processedData = payments.map((payment) => ({
-      ...payment,
-      // additionalOptions 객체의 키(옵션 카테고리)-값(옵션) 쌍을 배열로 변환
-      // 이 때, 키(옵션 카테고리) 값은 출력하지 않습니다.
-      additionalOptions: Object.entries(payment.additionalOptions)
-        .map(([optionCategory, options]) => {
-          const selectedOptions = Object.entries(options)
-            .filter(([_, selected]) => selected)
-            .map(([optionName]) => optionName);
-          return `${selectedOptions.join(", ")}`;
-        })
-        .join(", "),
-    }));
+    const processedData = payments.map((payment) => {
+      const additionalOptions = payment.sector || {};
+
+      return {
+        ...payment,
+        additionalOptions: Object.entries(additionalOptions)
+          .map(([optionCategory, options]) => {
+            // options가 유효한지 확인하고 선택된 값을 가져옵니다.
+            const selectedOptions = Object.entries(options)
+              .filter(([_, selected]) => selected)
+              .map(([optionName]) => optionName);
+            return `${selectedOptions.join(", ")}`;
+          })
+          .join(", "),
+      };
+    });
+
     processedData.forEach((payment) => {
       console.log(payment.additionalOptions);
     });
