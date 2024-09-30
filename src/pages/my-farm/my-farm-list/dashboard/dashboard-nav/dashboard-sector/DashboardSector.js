@@ -5,11 +5,8 @@ function DashboardSector({ id, data, className }) {
   const [isClicked, setIsClicked] = useState(false);
   const { setSector } = useSectorContext();
 
-  console.log(isClicked);
-
   const handleClickSaveData = () => {
     setSector(data);
-    console.log(data);
     setIsClicked(!isClicked);
   };
 

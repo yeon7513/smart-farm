@@ -199,10 +199,10 @@ function RequestForm({ user }) {
   // 회원가입이 되어있지 않은 경우 견적 의뢰를 할 수 없습니다.
   useEffect(() => {
     console.log(user);
-    if (!user.id) {
-      navigate(-1);
-      return;
-    }
+    // if (!user.id) {
+    //   navigate(-1);
+    //   return;
+    // }
   }, [user]);
 
   useEffect(() => {
@@ -338,8 +338,11 @@ function RequestForm({ user }) {
       if (!updatedOptions[index][category]) {
         updatedOptions[index][category] = {};
       }
-      updatedOptions[index][category][value] =
-        !updatedOptions[index][category][value];
+      updatedOptions[index][category][value] = updatedOptions[index][category][
+        value
+      ]
+        ? undefined
+        : "Y";
       return updatedOptions;
     });
   };
@@ -425,15 +428,22 @@ function RequestForm({ user }) {
       await Promise.all(
         Array.from({ length: farmEquivalent }, async (_, index) => {
           const additionalOptionsForCurrentSector = selectedOptions[index];
+          const control = {};
+
+          // 선택된 옵션을 control 객체에 저장합니다.
+          Object.entries(additionalOptionsForCurrentSector).forEach(
+            ([category, options]) => {
+              Object.keys(options).forEach((option) => {
+                if (options[option] === "Y") {
+                  control[option] = "Y"; // 선택된 옵션을 control 객체에 추가합니다.
+                }
+              });
+            }
+          );
+
           const sectorData = {
             동수: index + 1,
-            부가옵션: Object.entries(additionalOptionsForCurrentSector)
-              .flatMap(([category, options]) =>
-                Object.keys(options)
-                  .filter((option) => options[option])
-                  .map((option) => option)
-              )
-              .join(", "),
+            부가옵션: Object.keys(control).length > 0 ? control : {},
             id: index + 1,
           };
 
@@ -476,9 +486,10 @@ function RequestForm({ user }) {
       await Promise.all(
         Array.from({ length: farmEquivalent }, async (_, index) => {
           const additionalOptionsForCurrentSector = selectedOptions[index];
+          const control = {};
+
           Object.entries(additionalOptionsForCurrentSector).forEach(
             ([category, options]) => {
-              const control = {};
               Object.keys(options).forEach((option) => {
                 if (options[option] === "Y") {
                   control[option] = "Y";
@@ -489,13 +500,7 @@ function RequestForm({ user }) {
 
           const sectorData = {
             동수: index + 1,
-            control: Object.entries(additionalOptionsForCurrentSector)
-              .flatMap(([category, options]) =>
-                Object.keys(options)
-                  .filter((option) => options[option])
-                  .map((option) => option)
-              )
-              .join(", "),
+            control: Object.keys(control).length > 0 ? control : {},
             createdAt: new Date().getTime(),
             deleteYn: "N",
             growthInfo: {

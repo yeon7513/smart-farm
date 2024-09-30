@@ -33,7 +33,6 @@ function QuotationsCare() {
 
   // 페이지가 렌더링 될 때마다 최신화된 "payments"와 "dashboard"의 내용을 화면에 표시합니다.
   useEffect(() => {
-    console.log(payments);
     dispatch(fetchPayments("payments")); // 결제 데이터 가져오기
     dispatch(fetchCommonInfo("dashboard")); // 공통 정보 가져오기
   }, [dispatch]);
@@ -108,10 +107,7 @@ function QuotationsCare() {
   // 검색 실행 핸들러
   const handleSearch = (e) => {
     e.preventDefault();
-    const filteredItems = listItems.filter(({ name }) =>
-      name.includes(keyword)
-    );
-    setItems(filteredItems);
+    setItems(listItems.filter(({ name }) => name.includes(keyword)));
   };
 
   // 모달을 여는 함수
@@ -171,13 +167,7 @@ function QuotationsCare() {
   // 현재 페이지에 맞는 데이터 추출
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-
-  // filteredInfo를 createdAt 기준으로 내림차순 정렬
-  const sortedInfo = [...filteredInfo].sort((a, b) => {
-    return new Date(b.createdAt) - new Date(a.createdAt);
-  });
-
-  const currentItems = sortedInfo.slice(indexOfFirstItem, indexOfLastItem);
+  const currentItems = filteredInfo.slice(indexOfFirstItem, indexOfLastItem);
 
   // 총 페이지 수 계산
   const totalPages = Math.ceil(filteredInfo.length / itemsPerPage);
@@ -192,8 +182,7 @@ function QuotationsCare() {
             name={<TbPencilSearch />}
             placeholder={"견적 의뢰서 검색"}
             onChange={handleKeywordChange}
-            // value={keyword}
-            // onClick={handleSearch}
+            onClick={handleSearch}
           />
           <button onClick={exportToExcel} className={styles.exp_btn}>
             견적 내역 다운로드
