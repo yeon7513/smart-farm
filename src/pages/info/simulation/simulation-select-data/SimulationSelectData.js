@@ -1,9 +1,9 @@
-import React from 'react';
-import SimulationBtn from './simulation-btns/SimulationBtn';
-import styles from './SimulationSelectData.module.scss';
+import React from "react";
+import SimulationBtn from "./simulation-btns/SimulationBtn";
+import styles from "./SimulationSelectData.module.scss";
 
 function SimulationSelectData({ selectDatas, onClick }) {
-  console.log('selectDatas: ', selectDatas);
+  console.log("selectDatas: ", selectDatas);
 
   return (
     <div className={styles.selectBox}>
