@@ -198,7 +198,8 @@ function RequestForm({ user }) {
 
   // 회원가입이 되어있지 않은 경우 견적 의뢰를 할 수 없습니다.
   useEffect(() => {
-    if (!user) {
+    console.log(user);
+    if (!user.id) {
       navigate(-1);
       return;
     }
