@@ -1,6 +1,6 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import styles from './ManagerChatRoom.module.scss'
-import { addDoc, collection } from 'firebase/firestore';
+import { addDoc, collection, onSnapshot } from 'firebase/firestore';
 import { auth, db } from '../../../../../../api/firebase';
 import closeIcon from "../../../../../../assets/main/closeImg.svg";
 import { FaIcons } from 'react-icons/fa';
@@ -8,54 +8,48 @@ import ManagerMessage from './manager-message/ManagerMessage';
 
 
 
-function ManagerChatRoom() {
+function ManagerChatRoom({ chatId, userEmail }) {
     const [isChatRoomOpened, setIsChatRoomOpened] = useState(true);
     const [messages, setMessages] = useState([]);
     const [chatRoomId, setChatRoomId] = useState(null); 
     const [message, setMessage] = useState('');
 
     
-
+    useEffect(() => {
+      if (!chatId || !userEmail) return;
+  
+      const messageRef = collection(db, "chatRoom", userEmail, "chatContent", chatId, "message");
+      const unsubscribe = onSnapshot(messageRef, (snapshot) => {
+        const newMessages = snapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        setMessages(newMessages);
+      });
+  
+      return () => unsubscribe();
+    }, [chatId, userEmail]);
 
     const handleClose = () => {
         setIsChatRoomOpened(false);
         // 챗룸 닫기
       };
 
-      const handleSendMessage = async (message) => {
-        const currentUser = auth.currentUser;
       
-        if (!currentUser || !chatRoomId) {
-          console.error("사용자가 로그인되지 않았거나 chatRoomId가 없습니다.");
-          return;
-        }
-      
-        const userEmail = currentUser.email;
-      
-        try {
-          const messageRef = collection(db, "chatRoom", userEmail, "chatContent", chatRoomId, "message");
-      
-          const messageDoc = await addDoc(messageRef, {
-            content: message,
-            createdAt: Date.now(), // 밀리세컨즈 단위로 시간을 저장
-            uid: currentUser.uid,
-          });
-      
-          setMessages((prevMessages) => [
-            ...prevMessages,
-            {
-              id: messageDoc.id,
-              content: message,
-              createdAt: Date.now(), // 밀리세컨즈 단위로 시간을 추가
-              uid: currentUser.uid,
-            },
-          ]);
-      
-          console.log("메시지가 성공적으로 Firestore에 저장되었습니다.");
-        } catch (error) {
-          console.error("메시지 전송 중 오류 발생:", error.message);
-        }
-      };
+  // 기존 핸들러 및 전송 로직 유지
+  const handleSendMessage = async () => {
+    const currentUser = auth.currentUser;
+    if (!currentUser) return;
+
+    const messageRef = collection(db, "chatRoom", userEmail, "chatContent", chatId, "message");
+    await addDoc(messageRef, {
+      content: message,
+      createdAt: Date.now(),
+      uid: currentUser.uid,
+    });
+
+    setMessage(''); // 메시지 입력 필드 초기화
+  };
 
         // 메시지 전송 핸들러
   const handleSubmit = (e) => {

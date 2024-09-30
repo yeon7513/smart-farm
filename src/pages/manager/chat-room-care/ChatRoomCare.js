@@ -69,6 +69,13 @@ function ChatRoomCare() {
     return () => unsubscribe();
   }, []);
 
+  useEffect(() => {
+    if (activeChat) {
+      console.log("ManagerChatRoom으로 전환 중...");
+      // 이곳에서 필요한 동작을 추가
+    }
+  }, [activeChat]);
+
   const handleApproveChat = async (chatId, userEmail) => {
     try {
       const chatRoomRef = doc(db, "chatRoom", userEmail, "chatContent", chatId);
@@ -77,34 +84,30 @@ function ChatRoomCare() {
         chatEnd: "N",
       });
       console.log(`채팅(${chatId}) 승인됨`);
-      
+  
       // 승인 후 해당 채팅을 활성화하여 열림
       setActiveChat({ chatId, userEmail });
+      console.log("activeChat 상태 변경됨: ", { chatId, userEmail }); // 상태 확인
     } catch (error) {
       console.error("채팅 승인 중 오류 발생:", error);
     }
   };
 
-  if (loading) {
-    return <p>로딩 중...</p>;
-  }
-
   return (
     <div className={styles.wrapper}>
       <h2>채팅 요청 관리</h2>
       <SearchBox name={<TbMessageSearch />} placeholder={'채팅 요청 검색'} />
-      {chatRequests.length > 0 ? (
+  
+      {activeChat ? (
+        <ManagerChatRoom chatId={activeChat.chatId} userEmail={activeChat.userEmail} />
+      ) : (
         <>
-          <ChatRequestList chatRequests={chatRequests} onApproveChat={handleApproveChat} />
-          {activeChat && (
-            <ManagerChatRoom
-              chatRoomId={activeChat.chatId}
-              userEmail={activeChat.userEmail}
-            />
+          {chatRequests.length > 0 ? (
+            <ChatRequestList chatRequests={chatRequests} onApproveChat={handleApproveChat} />
+          ) : (
+            <p>채팅 요청이 없습니다.</p>
           )}
         </>
-      ) : (
-        <p>채팅 요청이 없습니다.</p>
       )}
     </div>
   );
