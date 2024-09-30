@@ -1,11 +1,15 @@
 import React from 'react';
 
-function SimulationBtn({ children, name, count, onClick }) {
+function SimulationBtn({ children, name, count, onClick, className }) {
   const handleClick = () => {
     onClick(name, count);
   };
 
-  return <button onClick={handleClick}>{children}</button>;
+  return (
+    <button className={className} onClick={handleClick}>
+      {children}
+    </button>
+  );
 }
 
 export default SimulationBtn;

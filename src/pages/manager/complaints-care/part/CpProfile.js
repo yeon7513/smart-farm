@@ -7,7 +7,11 @@ import TextInput from "../../../../components/form/text-input/TextInput";
 import { useDispatch, useSelector } from "react-redux";
 import { updateUserInfo } from "../../../../store/user/UserSlice";
 import placehorderImg from "../../../../assets/member/basic_profile.png";
-import { approveComplaint } from "../../../../store/complain/complainSlice";
+import {
+  approveComplaint,
+  fetchProcessed,
+  fetchProcessing,
+} from "../../../../store/complain/complainSlice";
 
 function CpProfile({ item, process }) {
   const processYy = {
@@ -32,6 +36,11 @@ function CpProfile({ item, process }) {
       .then(() => {
         alert("신고가 승인되었습니다.");
         setIsModalOpen(false); // 모달 닫기
+        if (process === "processing") {
+          dispatch(fetchProcessing(process));
+        } else {
+          dispatch(fetchProcessed(process));
+        }
       })
       .catch((error) => {
         console.error(error);

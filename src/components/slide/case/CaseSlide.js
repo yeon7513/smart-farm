@@ -27,6 +27,14 @@ export default function App({ items }) {
         scrollbar={{
           hide: false,
         }}
+        breakpoints={{
+          276: {
+            slidesPerView: 1,
+          },
+          676: {
+            slidesPerView: 3,
+          },
+        }}
         modules={[Autoplay, FreeMode, Scrollbar]}
       >
         {items.map((item) => (

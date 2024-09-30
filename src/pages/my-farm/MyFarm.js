@@ -25,7 +25,7 @@ function MyFarm() {
   const geoCode = commonInfo
     .filter((info) => {
       if (isAdmin) {
-        return true;
+        return info;
       } else {
         return info.email === userStorage.email;
       }

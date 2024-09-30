@@ -46,22 +46,20 @@ function Alert() {
   }, []);
   useEffect(() => {
     if (count === Math.round(fruitNum) && !hasExecuted) {
-      alert("수확");
+      console.log("수확");
       handleAddAlert({ content: "complete", gb: "IoLeaf" });
       setHasExecuted(true); //함수 한 번만 실행하고 종료.
-    } else if (count === Math.round(fruitNum * 0.9) && !isAlmostHarvest) {
-      alert("수확예정");
+    } else if (count === Math.round(fruitNum * 0.8) && !isAlmostHarvest) {
+      console.log("수확예정");
       handleAddAlert({ content: "almost", gb: "IoLeafOutline" });
       setIsAlmostHarvest(true);
     }
     if (Math.round(randomCount) === 1000 && !isPestAlerted) {
-      alert("병해충");
+      console.log("병해충");
       handleAddAlert({ content: "disease", gb: "IoWarning" });
       setIsPestAlerted(true);
     }
   }, [count, fruitNum, hasExecuted, isAlmostHarvest]);
-  console.log(Math.round(fruitNum));
-  console.log(count);
 
   return (
     <div className={styles.alert}>
