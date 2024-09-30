@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { CiSearch } from "react-icons/ci";
-import SearchBox from "../../../../components/search_box/SearchBox";
 import styles from "./DisasterList.module.scss";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -110,18 +109,6 @@ function DisasterList({ currentPage, itemsPerPage, updateTotalPages }) {
               </span>
             </button>
           </div>
-          {/* <SearchBox
-            placeholder={"검색어를 입력해주세요."}
-            name={
-              <>
-                <CiSearch /> 조회
-              </>
-            }
-            value={searchTerm}
-            onChange={handleSearchChange}
-            onClick={onClick}
-            // onKeyDown={handleKeyDown}
-          /> */}
 
           <div className={styles.menu_bar}>
             <div className={styles.menu_number}>
