@@ -6,10 +6,10 @@ function SimulationSelectData({ selectDatas, onClick }) {
   console.log('selectDatas: ', selectDatas);
 
   return (
-    <div>
+    <div className={styles.selectBox}>
       {selectDatas.map((data, idx) => (
-        <div key={idx}>
-          <h4>{data.name}</h4>
+        <div key={idx} className={styles.content}>
+          <h4 className={styles.label}>{data.name}</h4>
           <div className={styles.btns}>
             {data.values.map((value, idx) => (
               <SimulationBtn

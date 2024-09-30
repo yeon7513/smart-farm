@@ -19,7 +19,17 @@ function MyFarm() {
     dispatch(fetchCommonInfo('dashboard'));
   }, [dispatch]);
 
+  const userStorage = JSON.parse(localStorage.getItem('user'));
+  const isAdmin = userStorage.email.includes('addmin');
+
   const geoCode = commonInfo
+    .filter((info) => {
+      if (isAdmin) {
+        return true;
+      } else {
+        return info.email === userStorage.email;
+      }
+    })
     .map((item) => {
       const latitude = item.latitude || null;
       const longitude = item.longitude || null;
