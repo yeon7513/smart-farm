@@ -42,7 +42,6 @@ function Simulation() {
 
   return (
     <div className={styles.simulation}>
-      {}
       <div className={styles.notice}>
         <span>* 온실 환경의 경우입니다.</span>
         <span>

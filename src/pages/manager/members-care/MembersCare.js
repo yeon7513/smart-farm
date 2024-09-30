@@ -73,7 +73,8 @@ function MembersCare() {
   };
 
   const handleChangeSearchUsers = (e) => {
-    setSearchValue(e.target.value);
+    let value = !e.target[0] ? e.target.value : e.target[0].value;
+    setSearchValue(value);
   };
 
   // users 컬렉션 전체 불러오기

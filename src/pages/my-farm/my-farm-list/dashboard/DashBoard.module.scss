@@ -8,13 +8,13 @@
 }
 
 .dashBoard {
+  overflow: hidden;
   display: flex;
   flex-direction: column;
   padding: 0;
   width: 1200px;
   min-width: calc(100vh - 40px);
   height: calc(100vh - 40px);
-  max-height: calc(100vh - 40px);
   box-shadow: var(--box-shadow);
   background-color: #fff;
 }
@@ -25,6 +25,7 @@
   grid-template-columns: 1fr 4fr;
   height: calc(100% - 64px);
   outline: 1px dotted blue;
+  // overflow-y: auto;
 }
 
 .alert {

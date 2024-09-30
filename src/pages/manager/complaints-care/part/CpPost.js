@@ -54,19 +54,19 @@ function CpPost({ item, process }) {
     <>
       <div className={styles.flex_box}>
         <div className={styles.post}>
-          <Link to={`/community/${item.category}/${item.postId}`}>
-            <div className={styles.title}>
-              <h2>{item.title}</h2>
-              <div>
-                <img src={item.photoUrl} alt="" />
-                <h4>{item.defendant}</h4>
-              </div>
+          {/* <Link to={`/community/${item.category}/${item.postId}`}> */}
+          <div className={styles.title}>
+            <h2>{item.title}</h2>
+            <div>
+              <img src={item.photoUrl} alt="" />
+              <h4>{item.defendant}</h4>
             </div>
-            <div className={styles.summary}>
-              <h3>{item.summary}</h3>
-              {item.imgUrl ? <img src={item.imgUrl} alt="첨부 이미지" /> : ""}
-            </div>
-          </Link>
+          </div>
+          <div className={styles.summary}>
+            <h3>{item.summary}</h3>
+            {item.imgUrl ? <img src={item.imgUrl} alt="첨부 이미지" /> : ""}
+          </div>
+          {/* </Link> */}
         </div>
         <div className={styles.care}>
           <p>신고사유: {item.reasonName}</p>
