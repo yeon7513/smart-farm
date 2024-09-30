@@ -38,16 +38,15 @@ function CpModal({ complainant, complainId }) {
       <button onClick={openNoModal}>거부</button>
       <CustomModal
         title={"댓글 신고 거부"}
-        btnName={"완료"}
+        btnName={"제재"}
         handleClose={closeNoModal}
         isOpen={noModalOpen}
         btnHandler={noProcessed}
       >
-        <div>
+        <div className={styles.sanction}>
           <img src={member?.photoUrl} alt="" className={styles.memberImg}></img>
           <p>{member?.nickname}</p>
           <p>신고자에게 허위신고 제재를 내리시겠습니까?</p>
-          <button>제재</button>
         </div>
       </CustomModal>
     </>
