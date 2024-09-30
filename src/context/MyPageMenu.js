@@ -18,10 +18,6 @@ function MyPageMenu() {
       return <InfoEdit />;
     case "MyChatRoom":
       return <MYChatRoom />;
-    // case 'Asinfo':
-    //   return <Asinfo />;
-    // case 'Myletter':
-    //   return <Myletter />;
     case "Userout":
       return <Userout />;
     default:
