@@ -15,7 +15,11 @@ function DisasterList({ currentPage, itemsPerPage, updateTotalPages }) {
   const [isLoading, setIsLoading] = useState(true); // 로딩
 
   const handleSearchChange = (e) => {
+    console.log(e);
     setSearchTerm(e.target.value);
+    // onClick();
+    // console.log(e);
+    // filterPosts(e.target[0].value);
   };
 
   const onClick = () => {
@@ -42,6 +46,7 @@ function DisasterList({ currentPage, itemsPerPage, updateTotalPages }) {
       setFilteredPosts(posts);
     }
   };
+
   useEffect(() => {
     const loadData = () => {
       setIsLoading(true);
@@ -90,7 +95,22 @@ function DisasterList({ currentPage, itemsPerPage, updateTotalPages }) {
         </div>
       ) : (
         <div className={styles.menu}>
-          <SearchBox
+          <div className={styles.search}>
+            <input
+              type="text"
+              placeholder={"검색어를 입력해주세요."}
+              value={searchTerm}
+              onChange={handleSearchChange}
+              onKeyDown={handleKeyDown}
+            />
+            <button onClick={onClick}>
+              <span>
+                <CiSearch />
+                조회
+              </span>
+            </button>
+          </div>
+          {/* <SearchBox
             placeholder={"검색어를 입력해주세요."}
             name={
               <>
@@ -100,8 +120,9 @@ function DisasterList({ currentPage, itemsPerPage, updateTotalPages }) {
             value={searchTerm}
             onChange={handleSearchChange}
             onClick={onClick}
-            onKeyDown={handleKeyDown}
-          />
+            // onKeyDown={handleKeyDown}
+          /> */}
+
           <div className={styles.menu_bar}>
             <div className={styles.menu_number}>
               <p>NO.</p>
