@@ -107,7 +107,10 @@ function QuotationsCare() {
   // 검색 실행 핸들러
   const handleSearch = (e) => {
     e.preventDefault();
-    setItems(listItems.filter(({ name }) => name.includes(keyword)));
+    const filteredItems = listItems.filter(({ name }) =>
+      name.includes(keyword)
+    );
+    setItems(filteredItems);
   };
 
   // 모달을 여는 함수
@@ -167,7 +170,13 @@ function QuotationsCare() {
   // 현재 페이지에 맞는 데이터 추출
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = filteredInfo.slice(indexOfFirstItem, indexOfLastItem);
+
+  // filteredInfo를 createdAt 기준으로 내림차순 정렬
+  const sortedInfo = [...filteredInfo].sort((a, b) => {
+    return new Date(b.createdAt) - new Date(a.createdAt);
+  });
+
+  const currentItems = sortedInfo.slice(indexOfFirstItem, indexOfLastItem);
 
   // 총 페이지 수 계산
   const totalPages = Math.ceil(filteredInfo.length / itemsPerPage);
@@ -182,7 +191,8 @@ function QuotationsCare() {
             name={<TbPencilSearch />}
             placeholder={"견적 의뢰서 검색"}
             onChange={handleKeywordChange}
-            onClick={handleSearch}
+            // value={keyword}
+            // onClick={handleSearch}
           />
           <button onClick={exportToExcel} className={styles.exp_btn}>
             견적 내역 다운로드
@@ -221,7 +231,7 @@ function QuotationsCare() {
                     }
 
                     return (
-                      <tr key={item.id} className={styles.main}>
+                      <tr key={item.docId || item.id} className={styles.main}>
                         <td>{item.name}</td>
                         <td>{item.crop}</td>
                         <td>{item.type}</td>

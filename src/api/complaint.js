@@ -46,7 +46,7 @@ export const updateCompleteProcess = async (postId) => {
 
     const completeRef = doc(db, "as", postId);
     await updateDoc(completeRef, {
-      completedYn: "Y",
+      completeYn: "Y",
     });
   } catch (error) {
     console.log("답변 상태 변경 중 오류 발생:", error);

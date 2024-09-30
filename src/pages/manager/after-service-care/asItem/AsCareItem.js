@@ -2,7 +2,10 @@ import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import Comment from "../../../../components/comment/Comment";
 import CustomModal from "../../../../components/modal/CustomModal";
-import { approveComplete } from "../../../../store/as-service/asSlice";
+import {
+  approveComplete,
+  fetchCompleting,
+} from "../../../../store/as-service/asSlice";
 import styles from "./AsCareItem.module.scss";
 
 const PAGE_SIZE = 20;

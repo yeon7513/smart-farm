@@ -66,6 +66,7 @@ function ComplaintsCare() {
       );
       return commentData;
     }
+    return data;
   };
 
   return (

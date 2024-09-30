@@ -57,7 +57,9 @@ function AsPost({ onClick, onSubmit, initialValue = INITIAL_VALUE }) {
       .then((result) => {
         setValues(INITIAL_VALUE);
         setFile(null);
-        navigate(`/community/as/${result.id}`, { state: result });
+        navigate(`/community/as/${result.payload.id}`, {
+          state: result.payload,
+        });
       })
       .catch((error) => {
         console.log(error);

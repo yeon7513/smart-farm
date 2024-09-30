@@ -1,14 +1,14 @@
-import React, { useEffect, useState } from 'react';
-import { TbUserSearch } from 'react-icons/tb';
-import { useDispatch, useSelector } from 'react-redux';
-import PaginationButton from '../../../components/pagination-button/PaginationButton';
-import SearchBox from '../../../components/search_box/SearchBox';
-import { fetchItems } from '../../../store/user/UserSlice';
-import CustomModal from './../../../components/modal/CustomModal';
-import styles from './MembersCare.module.scss';
-import MemberList from './member-list/MemberList';
-import MemberListEdit from './member-list/member-list-edit/MemberListEdit';
-import MemberListItem from './member-list/member-list-item/MemberListItem';
+import React, { useEffect, useState } from "react";
+import { TbUserSearch } from "react-icons/tb";
+import { useDispatch, useSelector } from "react-redux";
+import PaginationButton from "../../../components/pagination-button/PaginationButton";
+import SearchBox from "../../../components/search_box/SearchBox";
+import { fetchItems } from "../../../store/user/UserSlice";
+import CustomModal from "./../../../components/modal/CustomModal";
+import styles from "./MembersCare.module.scss";
+import MemberList from "./member-list/MemberList";
+import MemberListEdit from "./member-list/member-list-edit/MemberListEdit";
+import MemberListItem from "./member-list/member-list-item/MemberListItem";
 
 const PAGE_SIZE_DESKTOP = 6;
 const PAGE_SIZE_MOBILE = 4;
@@ -18,7 +18,7 @@ function MembersCare() {
   const [userDetail, setUserDetail] = useState();
   const [isEdit, setIsEdit] = useState(false);
 
-  const [searchValue, setSearchValue] = useState('');
+  const [searchValue, setSearchValue] = useState("");
 
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPage, setTotalPage] = useState(1);
@@ -42,10 +42,10 @@ function MembersCare() {
   };
 
   const filteredUsers = items
-    .filter((user) => !user.email.includes('admin'))
+    .filter((user) => !user.email.includes("admin"))
     .filter(
       (user) =>
-        searchValue === '' || // 검색어가 빈 문자열인 경우 모든 사용자 포함
+        searchValue === "" || // 검색어가 빈 문자열인 경우 모든 사용자 포함
         user.name.toLowerCase().includes(searchValue.toLowerCase()) ||
         user.email.toLowerCase().includes(searchValue.toLowerCase()) ||
         user.nickname.toLowerCase().includes(searchValue.toLowerCase())
@@ -79,7 +79,7 @@ function MembersCare() {
 
   // users 컬렉션 전체 불러오기
   useEffect(() => {
-    dispatch(fetchItems({ collectionName: 'users' }));
+    dispatch(fetchItems({ collectionName: "users" }));
   }, [dispatch]);
 
   useEffect(() => {
@@ -89,10 +89,10 @@ function MembersCare() {
 
   // 윈도우 크기 변경 이벤트 리스너 등록 및 삭제
   useEffect(() => {
-    window.addEventListener('resize', handleResize);
+    window.addEventListener("resize", handleResize);
 
     return () => {
-      window.removeEventListener('resize', handleResize);
+      window.removeEventListener("resize", handleResize);
     };
   }, []);
 
@@ -103,7 +103,7 @@ function MembersCare() {
         name={<TbUserSearch />}
         value={searchValue}
         onChange={handleChangeSearchUsers}
-        placeholder={'회원 검색'}
+        placeholder={"회원 검색"}
       />
       <ul className={styles.members}>
         {getCurrentUsers() // createdAt으로 오름차순 => 신규 가입자가 위로 옵니다.

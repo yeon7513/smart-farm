@@ -10,15 +10,18 @@ import {
   countData,
   randomCountData,
 } from "../../../../../store/controlData/controlSlice";
+import { useSectorContext } from "../../../../../context/SectorContext";
 
 function DashboardContent({ docId }) {
   const { sectorInfo } = useSelector((state) => state.dashboardSlice);
   const { currComp } = useComponentContext();
+  const { selectedSector } = useSectorContext();
   const [count, setCount] = useState(1);
   const [randomCount, setRandomCount] = useState(1);
   const dispatch = useDispatch();
   const { state } = useLocation();
   useEffect(() => {
+    console.log(selectedSector);
     const collectionName = `dashboard/${docId}/sector`;
     dispatch(fetchSectorInfo(collectionName));
   }, [dispatch, docId]);

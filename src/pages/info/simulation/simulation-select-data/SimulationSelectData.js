@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
-import SimulationBtn from './simulation-btns/SimulationBtn';
-import styles from './SimulationSelectData.module.scss';
+import React, { useState } from "react";
+import SimulationBtn from "./simulation-btns/SimulationBtn";
+import styles from "./SimulationSelectData.module.scss";
 
 function SimulationSelectData({ selectDatas, onClick }) {
   const [selectedIndexes, setSelectedIndexes] = useState({});
@@ -25,7 +25,7 @@ function SimulationSelectData({ selectDatas, onClick }) {
                   name={data.name}
                   count={value.count}
                   onClick={() => handleClick(data.name, value.count, valIdx)}
-                  className={isSelected ? styles.selected : ''}
+                  className={isSelected ? styles.selected : ""}
                 >
                   {value.range}
                 </SimulationBtn>

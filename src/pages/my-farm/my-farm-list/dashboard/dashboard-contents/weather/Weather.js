@@ -118,7 +118,7 @@ function Weather({ latitude, longitude }) {
     try {
       const response = await fetch(url);
       const json = await response.json();
-      console.log(json);
+      // console.log(json);
       const changedList = json.list.map((item) => ({
         ...item,
         dt: item.dt * 1000,
@@ -155,7 +155,7 @@ function Weather({ latitude, longitude }) {
   useEffect(() => {
     if (latitude && longitude) {
       handleWeather(latitude, longitude); //위도,경도
-      console.log(latitude, longitude);
+      // console.log(latitude, longitude);
     }
     //   대전 선화동 위도 경도
     // const latitude = 36.328799;
