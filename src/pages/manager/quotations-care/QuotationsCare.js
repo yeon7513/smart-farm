@@ -221,7 +221,7 @@ function QuotationsCare() {
                     }
 
                     return (
-                      <tr key={item.id} className={styles.main}>
+                      <tr key={item.docId} className={styles.main}>
                         <td>{item.name}</td>
                         <td>{item.crop}</td>
                         <td>{item.type}</td>
