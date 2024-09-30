@@ -3,8 +3,8 @@ import styles from './ManagerChatRoom.module.scss'
 import { addDoc, collection, onSnapshot } from 'firebase/firestore';
 import { auth, db } from '../../../../../../api/firebase';
 import closeIcon from "../../../../../../assets/main/closeImg.svg";
-import { FaIcons } from 'react-icons/fa';
 import ManagerMessage from './manager-message/ManagerMessage';
+import { FaPaperPlane } from 'react-icons/fa';
 
 
 
@@ -91,7 +91,7 @@ function ManagerChatRoom({ chatId, userEmail }) {
         placeholder="메시지를 입력하세요..."
       />
       <button type="submit" className={styles.submitButton}>
-      <FaIcons.FaPaperPlane />
+      <FaPaperPlane />
       </button>
     </form>
 </div>
