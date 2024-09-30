@@ -92,15 +92,12 @@ function RequestForQuoteForm({ addEstimate, user }) {
     const month = String(today.getMonth() + 1).padStart(2, "0"); // 월은 0부터 시작하므로 +1
     const day = String(today.getDate()).padStart(2, "0");
     const createdAt = `${year}${month}${day}${new Date().getTime()}`;
-    // const formattedAdditionalOptions =
-    //   Object.keys(additionalOptions).join(", ");
     const dataObj = {
       userEmail,
       date,
       cropType,
       farmAddress,
       facilityType,
-      // additionalOptions: formattedAdditionalOptions,
       farmName,
       farmArea,
       farmEquivalent,
