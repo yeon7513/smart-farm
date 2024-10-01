@@ -19,7 +19,6 @@ function Alert() {
   const [isAlmostHarvest, setIsAlmostHarvest] = useState(false);
   const [fruitNum, setFruitNum] = useState("");
   const [farmCode, setFarmCode] = useState("");
-  console.log(growthData);
   const handleAddAlert = async (option) => {
     const addObj = {
       chechYn: "N",
@@ -32,18 +31,20 @@ function Alert() {
     await addDatas("alert", addObj);
   };
   useEffect(() => {
-    dispatch(
-      getdashboardAlertContent({
-        collectionName: "alert",
-        orderByField: "createdAt",
-      })
-    );
-    // dispatch(fetchGrowthData(`searchFrmhsCode=${farmCode}`));
-    // setFarmCode("349");
-    const firstThing = growthData?.filter((data) => data.frtstCo > 16);
-    firstThing?.map((data) => setFruitNum(data.frtstCo));
-    dispatch(fetchDisasterDatas("disasters"));
-  }, []);
+    // dispatch(
+    //   getdashboardAlertContent({
+    //     collectionName: "alert",
+    //     orderByField: "createdAt",
+    //   })
+    // );
+    dispatch(fetchGrowthData(`&searchFrmhsCode=43`));
+    setFarmCode("43");
+    // const firstThing = growthData.filter((data) => data.frtstCo > 16);
+    // firstThing?.map((data) => setFruitNum(data.frtstCo));
+    // dispatch(fetchDisasterDatas("disasters"));
+  }, [dispatch, farmCode]);
+  console.log(growthData);
+
   // useEffect(() => {
   //   if (count === Math.round(fruitNum) && !hasExecuted) {
   //     console.log("수확");

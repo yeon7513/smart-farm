@@ -1,25 +1,25 @@
-import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { createRange, formatData } from '../../../api/simulationData';
-import { evnironmentFields, selectCrop } from '../../../lib/simulationLib';
-import { fetchEnvironmentData } from '../../../store/bestfarm/bestfarmSlice';
-import TextInput from './../../../components/form/text-input/TextInput';
-import styles from './Simulation.module.scss';
-import SelectCrops from './select-crops/SelectCrops';
-import SimulationResult from './simulation-result/SimulationResult';
-import SimulationSelectData from './simulation-select-data/SimulationSelectData';
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { createRange, formatData } from "../../../api/simulationData";
+import { evnironmentFields, selectCrop } from "../../../lib/simulationLib";
+import { fetchEnvironmentData } from "../../../store/bestfarm/bestfarmSlice";
+import TextInput from "./../../../components/form/text-input/TextInput";
+import styles from "./Simulation.module.scss";
+import SelectCrops from "./select-crops/SelectCrops";
+import SimulationResult from "./simulation-result/SimulationResult";
+import SimulationSelectData from "./simulation-select-data/SimulationSelectData";
 
 function Simulation() {
   const initialState = {
     area: null,
     week: null,
-    '누적 일사량': null,
-    '주간 평균 내부 습도': null,
-    '주간 평균 내부 온도': null,
-    '주간 평균 잔존 CO2': null,
+    "누적 일사량": null,
+    "주간 평균 내부 습도": null,
+    "주간 평균 내부 온도": null,
+    "주간 평균 잔존 CO2": null,
   };
 
-  const [farmCode, setFarmCode] = useState('S47');
+  const [farmCode, setFarmCode] = useState("S47");
   const [bestProdValue, setBestProdValue] = useState(23);
   const [resultData, setResultData] = useState(initialState);
 
@@ -38,7 +38,7 @@ function Simulation() {
   };
 
   const handleClickData = (week) => {
-    handleSaveResult('week', week);
+    handleSaveResult("week", week);
   };
 
   const handleResetData = () => {
@@ -81,13 +81,13 @@ function Simulation() {
           <li className={styles.weekBtn}>
             <h4>주차</h4>
             <button
-              className={resultData.week === 51 ? styles.selected : ''}
+              className={resultData.week === 51 ? styles.selected : ""}
               onClick={() => handleClickData(51)}
             >
               51주차
             </button>
             <button
-              className={resultData.week === 52 ? styles.selected : ''}
+              className={resultData.week === 52 ? styles.selected : ""}
               onClick={() => handleClickData(52)}
             >
               52주차

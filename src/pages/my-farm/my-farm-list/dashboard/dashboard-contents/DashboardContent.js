@@ -21,7 +21,6 @@ function DashboardContent({ docId }) {
   const dispatch = useDispatch();
   const { state } = useLocation();
   useEffect(() => {
-    console.log(selectedSector);
     const collectionName = `dashboard/${docId}/sector`;
     dispatch(fetchSectorInfo(collectionName));
   }, [dispatch, docId]);
