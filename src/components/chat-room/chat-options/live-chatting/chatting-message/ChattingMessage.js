@@ -1,5 +1,6 @@
 import React from 'react';
 import styles from './ChattingMessage.module.scss';
+import { auth } from '../../../../../api/firebase';
 
 // 날짜 비교 함수 (같은 날짜인지 확인)
 const isSameDate = (date1, date2) => {
@@ -10,52 +11,39 @@ const isSameDate = (date1, date2) => {
   );
 };
 
-function ChattingMessage({ messages }) {
-  let previousDate = null;
-
+function ChattingMessage({ messages = []  }) {
+  // 현재 로그인한 사용자의 UID 가져오기
+  messages.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt))
+  
   return (
-    <div>
-      {messages.map((msg, index) => {
-        const messageDate = new Date(msg.createdAt);
-        const showDateHeader = !previousDate || !isSameDate(previousDate, messageDate);
-        previousDate = messageDate;
+      <div className={styles.messageContainer}>
 
-        return (
-          <div key={index} className={styles.messageWrapper}>
-            {showDateHeader && (
-              <div className={styles.dateHeader}>
+ <div className={styles.dateHeader}>
                 {/* 년월일 표시 */}
-                {messageDate.toLocaleDateString('ko-KR', {
+                {new Date().toLocaleDateString('ko-KR', {
                   year: 'numeric',
                   month: 'long',
                   day: 'numeric',
                 })}
               </div>
-            )}
+              {messages.map((msg, index) => {
+          const messageDate = new Date(msg.createdAt); 
 
-            <div className={styles.messageContainer}>
-              {/* 본인의 메시지와 관리자의 메시지를 구분 */}
-              <div
-                className={`${styles.messageContent} ${
-                  msg.uid === 'auth.currentUser.uid' ? styles.managerMessage : styles.myMessage
+        return (
+              <div key={index} className={`${styles.messageContent} ${
+                  msg.uid === auth.currentUser?.uid ? styles.managerMessage : styles.myMessage
                 }`}
               >
-                <p>{msg.content}</p> {/* 메시지 내용 */}
-              </div>
-
-              {/* 메시지 전송 시간 (시간만 표시) */}
+                     <p>{msg.content}</p> {/* 메시지 내용 */}
               <small className={styles.messageTime}>
                 {messageDate.toLocaleTimeString('ko-KR', {
                   hour: '2-digit',
                   minute: '2-digit',
                 })}
               </small>
-            </div>
-          </div>
-        );
-      })}
+                  </div>
+                     )})}
     </div>
-  );
-}
-
+    );
+    }
 export default ChattingMessage;

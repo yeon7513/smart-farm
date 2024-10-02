@@ -92,6 +92,25 @@ function ChatRoom({ chatroomId }) {
     return () => unsubscribe(); // 컴포넌트 언마운트 시 구독 해제
   }, [chatRoomId, selectedAnswer]);
 
+  useEffect(() => {
+    if (!chatRoomId) return;
+  
+    const messageRef = collection(db, 'chatRoom', auth.currentUser.email, 'chatContent', chatRoomId, 'message');
+    const q = query(messageRef, orderBy('createdAt', 'asc'));
+  
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+      const fetchedMessages = [];
+      snapshot.forEach((doc) => {
+        fetchedMessages.push({ id: doc.id, ...doc.data() });
+      });
+  
+      // 받아온 메시지를 상태에 저장
+      setMessages(fetchedMessages);
+    });
+  
+    return () => unsubscribe(); // 컴포넌트 언마운트 시 구독 해제
+  }, [chatRoomId]);
+
   
   
   // useEffect(() => {
@@ -342,21 +361,12 @@ const startNewChat = async (question) => {
     try {
       const messageRef = collection(db, "chatRoom", userEmail, "chatContent", chatRoomId, "message");
   
-      const messageDoc = await addDoc(messageRef, {
+      // Firestore에 메시지를 추가하지만, 상태는 onSnapshot에서 관리
+      await addDoc(messageRef, {
         content: message,
-        createdAt: Date.now(), // 밀리세컨즈 단위로 시간을 저장
+        createdAt: Date.now(),
         uid: currentUser.uid,
       });
-  
-      setMessages((prevMessages) => [
-        ...prevMessages,
-        {
-          id: messageDoc.id,
-          content: message,
-          createdAt: Date.now(), // 밀리세컨즈 단위로 시간을 추가
-          uid: currentUser.uid,
-        },
-      ]);
   
       console.log("메시지가 성공적으로 Firestore에 저장되었습니다.");
     } catch (error) {
