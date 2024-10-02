@@ -1,19 +1,19 @@
-import { saveAs } from 'file-saver';
-import { collection, getDocs } from 'firebase/firestore';
-import React, { useState } from 'react';
-import { TbPencilSearch } from 'react-icons/tb';
-import { useDispatch, useSelector } from 'react-redux';
-import { BeatLoader } from 'react-spinners';
-import * as XLSX from 'xlsx';
-import { db } from '../../../api/firebase';
-import CustomModal from '../../../components/modal/CustomModal';
-import PaginationButton from '../../../components/pagination-button/PaginationButton';
-import SearchBox from '../../../components/search_box/SearchBox';
+import { saveAs } from "file-saver";
+import { collection, getDocs } from "firebase/firestore";
+import React, { useEffect, useState } from "react";
+import { TbPencilSearch } from "react-icons/tb";
+import { useDispatch, useSelector } from "react-redux";
+import { BeatLoader } from "react-spinners";
+import * as XLSX from "xlsx";
+import { db } from "../../../api/firebase";
+import CustomModal from "../../../components/modal/CustomModal";
+import PaginationButton from "../../../components/pagination-button/PaginationButton";
+import SearchBox from "../../../components/search_box/SearchBox";
 import {
   fetchCommonInfo,
   updateCommonInfo,
-} from '../../../store/dashboard/dashboardSlice';
-import styles from './QuotationsCare.module.scss';
+} from "../../../store/dashboard/dashboardSlice";
+import styles from "./QuotationsCare.module.scss";
 
 // listItems 변수는 firebase에서 데이터를 가져와서 메모리에 저장합니다.
 // 이를 기반으로 검색 기능 구현 및 초기 데이터를 렌더링 합니다.
@@ -23,7 +23,7 @@ function QuotationsCare() {
   const { payments, isLoading } = useSelector((state) => state.paymentsSlice);
   const { commonInfo } = useSelector((state) => state.dashboardSlice);
   const [items, setItems] = useState([]); // 검색 결과용 상태
-  const [keyword, setKeyword] = useState(''); // 검색어 상태
+  const [keyword, setKeyword] = useState(""); // 검색어 상태
   const [selectedItem, setSelectedItem] = useState(null); // 모달용 선택된 아이템
   const [modalOpen, setModalOpen] = useState(false); // 모달 열기/닫기 상태
   const [filteredInfo, setFilteredInfo] = useState(commonInfo); // 필터링된 정보 상태
@@ -41,16 +41,16 @@ function QuotationsCare() {
 
   // 필터링된 데이터 처리(대기 및 승인여부)
   const filterData = (status) => {
-    if (status === 'pending') {
+    if (status === "pending") {
       setFilteredInfo(
-        commonInfo.filter((item) => item.useYn === 'N' && item.deleteYn === 'N')
+        commonInfo.filter((item) => item.useYn === "N" && item.deleteYn === "N")
       );
-    } else if (status === 'approved') {
+    } else if (status === "approved") {
       setFilteredInfo(
-        commonInfo.filter((item) => item.useYn === 'Y' && item.deleteYn === 'N')
+        commonInfo.filter((item) => item.useYn === "Y" && item.deleteYn === "N")
       );
-    } else if (status === 'rejected') {
-      setFilteredInfo(commonInfo.filter((item) => item.deleteYn === 'Y'));
+    } else if (status === "rejected") {
+      setFilteredInfo(commonInfo.filter((item) => item.deleteYn === "Y"));
     } else {
       setFilteredInfo(commonInfo);
     }
@@ -65,7 +65,7 @@ function QuotationsCare() {
   // "payments"의 하위 컬렉션 "sector"의 데이터를 불러오는 함수입니다.
   const fetchSectorData = async (paymentId) => {
     try {
-      const sectorRef = collection(db, 'payments', paymentId, 'sector');
+      const sectorRef = collection(db, "payments", paymentId, "sector");
       const sectorSnapshot = await getDocs(sectorRef);
 
       const additionalOptions = {};
@@ -74,7 +74,7 @@ function QuotationsCare() {
       });
       return additionalOptions;
     } catch (error) {
-      console.error('Error fetching sector data: ', error);
+      console.error("Error fetching sector data: ", error);
       return null;
     }
   };
@@ -113,9 +113,9 @@ function QuotationsCare() {
             .filter(([_, selected]) => selected)
             .map(([optionName]) => optionName);
 
-          return `${동}동: ${selectedOptions.join(', ')}`;
+          return `${동}동: ${selectedOptions.join(", ")}`;
         })
-        .join(', ');
+        .join(", ");
 
       processedData.push({
         ...payment,
@@ -126,18 +126,18 @@ function QuotationsCare() {
 
     const worksheet = XLSX.utils.json_to_sheet(processedData);
     const workbook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(workbook, worksheet, '결제 내역');
+    XLSX.utils.book_append_sheet(workbook, worksheet, "결제 내역");
 
     // excel 파일을 생성하고 다운로드하는 함수입니다.
     const excelBuffer = XLSX.write(workbook, {
-      bookType: 'xlsx',
-      type: 'array',
+      bookType: "xlsx",
+      type: "array",
     });
     const file = new Blob([excelBuffer], {
-      type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+      type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
     });
 
-    saveAs(file, '결제 내역.xlsx');
+    saveAs(file, "결제 내역.xlsx");
   };
 
   // 검색어 변경 핸들러
@@ -162,49 +162,49 @@ function QuotationsCare() {
 
   // 요청을 승인하는 함수입니다.
   const handleApproval = async () => {
-    if (selectedItem && selectedItem.useYn === 'N') {
+    if (selectedItem && selectedItem.useYn === "N") {
       try {
         const result = await dispatch(
           updateCommonInfo({
-            collectionName: 'dashboard',
+            collectionName: "dashboard",
             docId: selectedItem.docId,
-            updateObj: { ...selectedItem, useYn: 'Y', deleteYn: 'N' },
+            updateObj: { ...selectedItem, useYn: "Y", deleteYn: "N" },
           })
         ).unwrap();
 
         console.log(`문서 ${selectedItem.name}가 승인되었습니다!`, result);
 
-        dispatch(fetchCommonInfo('dashboard'));
+        dispatch(fetchCommonInfo("dashboard"));
         setModalOpen(false); // 모달 닫기
       } catch (error) {
-        console.error('승인 처리 중 오류 발생: ', error);
+        console.error("승인 처리 중 오류 발생: ", error);
       }
     } else {
-      console.error('승인할 수 없는 항목입니다.');
+      console.error("승인할 수 없는 항목입니다.");
     }
   };
 
   // 요청을 거절하는 함수입니다.
   const handleRejection = async () => {
-    if (selectedItem && selectedItem.deleteYn === 'N') {
+    if (selectedItem && selectedItem.deleteYn === "N") {
       try {
         const result = await dispatch(
           updateCommonInfo({
-            collectionName: 'dashboard',
+            collectionName: "dashboard",
             docId: selectedItem.docId,
-            updateObj: { ...selectedItem, deleteYn: 'Y', useYn: 'N' },
+            updateObj: { ...selectedItem, deleteYn: "Y", useYn: "N" },
           })
         ).unwrap();
 
         console.log(`문서 ${selectedItem.name}가 거절되었습니다!`, result);
 
-        dispatch(fetchCommonInfo('dashboard'));
+        dispatch(fetchCommonInfo("dashboard"));
         setModalOpen(false);
       } catch (error) {
-        console.error('거절 처리 중 오류 발생: ', error);
+        console.error("거절 처리 중 오류 발생: ", error);
       }
     } else {
-      console.error('거절할 수 없는 항목입니다.');
+      console.error("거절할 수 없는 항목입니다.");
     }
   };
 
@@ -230,7 +230,7 @@ function QuotationsCare() {
         <>
           <SearchBox
             name={<TbPencilSearch />}
-            placeholder={'견적 의뢰서 검색'}
+            placeholder={"견적 의뢰서 검색"}
             onChange={handleKeywordChange}
             // value={keyword}
             // onClick={handleSearch}
@@ -263,12 +263,12 @@ function QuotationsCare() {
                 <tbody>
                   {currentItems.map((item) => {
                     let approvalStatus;
-                    if (item.useYn === 'Y' && item.deleteYn === 'N') {
-                      approvalStatus = '승인';
-                    } else if (item.deleteYn === 'Y' && item.useYn === 'N') {
-                      approvalStatus = '거절';
+                    if (item.useYn === "Y" && item.deleteYn === "N") {
+                      approvalStatus = "승인";
+                    } else if (item.deleteYn === "Y" && item.useYn === "N") {
+                      approvalStatus = "거절";
                     } else {
-                      approvalStatus = '대기';
+                      approvalStatus = "대기";
                     }
 
                     return (
