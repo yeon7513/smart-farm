@@ -7,23 +7,107 @@ import RenderingChart from "../../../../../../components/chart/RenderingChart";
 function Monitoring() {
   const dispatch = useDispatch();
   const [farmState, setFarmState] = useState("");
-  const [farmTopState, setFarmTopState] = useState("");
   const { growthData } = useSelector((state) => state.bestfarmSlice);
   const [chartType, setChartType] = useState("line");
+  // ----------------------------------------------------------------
+  const [averageState1, setAverageState1] = useState();
+  const [averageState2, setAverageState2] = useState();
+  const [averageState3, setAverageState3] = useState();
+  const [averageState4, setAverageState4] = useState();
+  const [averageState5, setAverageState5] = useState();
+  const [averageState6, setAverageState6] = useState();
+  const [averageState7, setAverageState7] = useState();
+  // ----------------------------------------------------------------
+
   useEffect(() => {
     dispatch(fetchGrowthData(`pageSize=30&searchFrmhsCode=${farmState}`));
     setFarmState("43");
   }, [dispatch, farmState]);
-
+  //---------------------------------------------------------------1
   useEffect(() => {
-    const growData = growthData?.map((item) => {
-      return item.hvstGrupp;
+    const growData1 = growthData?.filter((item) => {
+      return item.frmMonth === "9";
     });
-    const onlyData = growData.filter((item) => {
-      return item > 11;
+    const frtsNum1 = growData1?.map((item) => {
+      return item.frtstGrupp;
     });
-    setFarmTopState(onlyData);
-  }, []);
+    const average1 =
+      frtsNum1?.reduce((acc, cur) => acc + cur, 0) / frtsNum1?.length;
+    setAverageState1(average1);
+  }, [dispatch]);
+  //---------------------------------------------------------------2
+  useEffect(() => {
+    const growData1 = growthData?.filter((item) => {
+      return item.frmMonth === "10";
+    });
+    const frtsNum1 = growData1?.map((item) => {
+      return item.frtstGrupp;
+    });
+    const average2 =
+      frtsNum1?.reduce((acc, cur) => acc + cur, 0) / frtsNum1?.length;
+    setAverageState2(average2);
+  }, [dispatch]);
+  //---------------------------------------------------------------3
+  useEffect(() => {
+    const growData1 = growthData?.filter((item) => {
+      return item.frmMonth === "11";
+    });
+    const frtsNum1 = growData1?.map((item) => {
+      return item.frtstGrupp;
+    });
+    const average3 =
+      frtsNum1?.reduce((acc, cur) => acc + cur, 0) / frtsNum1?.length;
+    setAverageState3(average3);
+  }, [dispatch]);
+  //---------------------------------------------------------------4
+  useEffect(() => {
+    const growData1 = growthData?.filter((item) => {
+      return item.frmMonth === "12";
+    });
+    const frtsNum1 = growData1?.map((item) => {
+      return item.frtstGrupp;
+    });
+    const average4 =
+      frtsNum1?.reduce((acc, cur) => acc + cur, 0) / frtsNum1?.length;
+    setAverageState4(average4);
+  }, [dispatch]);
+  //---------------------------------------------------------------5
+  useEffect(() => {
+    const growData1 = growthData?.filter((item) => {
+      return item.frmMonth === "1";
+    });
+    const frtsNum1 = growData1?.map((item) => {
+      return item.frtstGrupp;
+    });
+    const average5 =
+      frtsNum1?.reduce((acc, cur) => acc + cur, 0) / frtsNum1?.length;
+    setAverageState5(average5);
+  }, [dispatch]);
+  //---------------------------------------------------------------6
+  useEffect(() => {
+    const growData1 = growthData?.filter((item) => {
+      return item.frmMonth === "2";
+    });
+    const frtsNum1 = growData1?.map((item) => {
+      return item.frtstGrupp;
+    });
+    const average6 =
+      frtsNum1?.reduce((acc, cur) => acc + cur, 0) / frtsNum1?.length;
+    setAverageState6(average6);
+  }, [dispatch]);
+  //---------------------------------------------------------------7
+  useEffect(() => {
+    const growData1 = growthData?.filter((item) => {
+      return item.frmMonth === "3";
+    });
+    const frtsNum1 = growData1?.map((item) => {
+      return item.frtstGrupp;
+    });
+    const average7 =
+      frtsNum1?.reduce((acc, cur) => acc + cur, 0) / frtsNum1?.length;
+    setAverageState7(average7);
+  }, [dispatch]);
+
   function formatData(timestamp) {
     const date = new Date(timestamp);
     const year = date.getFullYear();
@@ -31,47 +115,41 @@ function Monitoring() {
     const day = date.getDate().toString().padStart(2, "0");
     return `${year}.${month}.${day}`;
   }
-  console.log(new Date().getTime());
   const chatData = [
     {
-      name: formatData(new Date().getTime() - 86400000 * 7),
-      value: 1,
-      우수농가: farmTopState,
+      name: formatData(new Date().getTime() - 86400000 * 180),
+      내농장: 1,
+      우수농가: averageState1,
     },
     {
-      name: formatData(new Date().getTime() - 86400000 * 6),
-      value: 2,
-      우수농가: farmTopState,
+      name: formatData(new Date().getTime() - 86400000 * 150),
+      내농장: 2,
+      우수농가: averageState2,
     },
     {
-      name: formatData(new Date().getTime() - 86400000 * 5),
-      value: 3,
-      우수농가: farmTopState,
+      name: formatData(new Date().getTime() - 86400000 * 120),
+      내농장: 5,
+      우수농가: averageState3,
     },
     {
-      name: formatData(new Date().getTime() - 86400000 * 4),
-      value: 4,
-      우수농가: farmTopState,
+      name: formatData(new Date().getTime() - 86400000 * 90),
+      내농장: 4,
+      우수농가: averageState4,
     },
     {
-      name: formatData(new Date().getTime() - 86400000 * 3),
-      value: 5,
-      우수농가: farmTopState,
+      name: formatData(new Date().getTime() - 86400000 * 60),
+      내농장: 5,
+      우수농가: averageState5,
     },
     {
-      name: formatData(new Date().getTime() - 86400000 * 2),
-      value: 6,
-      우수농가: farmTopState,
-    },
-    {
-      name: formatData(new Date().getTime() - 86400000),
-      value: 7,
-      우수농가: farmTopState,
+      name: formatData(new Date().getTime() - 86400000 * 30),
+      내농장: 16,
+      우수농가: averageState6,
     },
     {
       name: formatData(new Date().getTime()),
-      value: 8,
-      우수농가: farmTopState,
+      내농장: 10,
+      우수농가: averageState7,
     },
   ];
 
@@ -79,7 +157,11 @@ function Monitoring() {
     <div>
       <span>Monitoring</span>
       <Outlet />
-      <RenderingChart chartType={chartType} data={chatData} />
+      <RenderingChart
+        chartType={chartType}
+        data={chatData}
+        checkKey={"우수농가"}
+      />
     </div>
   );
 }

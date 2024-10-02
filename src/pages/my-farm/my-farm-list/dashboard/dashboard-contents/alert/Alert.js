@@ -9,9 +9,7 @@ import AlertContent from "./AlertComponent/AlertContent";
 import { fetchDisasterDatas } from "../../../../../../store/disaster/disasterSlice";
 
 function Alert() {
-  const { count, randomCount, dashboardAlertContent } = useSelector(
-    (state) => state.controlSlice
-  );
+  const { dashboardAlertContent } = useSelector((state) => state.controlSlice);
   const dispatch = useDispatch();
   const { growthData } = useSelector((state) => state.bestfarmSlice);
   const [hasExecuted, setHasExecuted] = useState(false);
@@ -31,17 +29,19 @@ function Alert() {
     await addDatas("alert", addObj);
   };
   useEffect(() => {
-    // dispatch(
-    //   getdashboardAlertContent({
-    //     collectionName: "alert",
-    //     orderByField: "createdAt",
-    //   })
-    // );
+    dispatch(
+      getdashboardAlertContent({
+        collectionName: "alert",
+        orderByField: "createdAt",
+      })
+    );
     dispatch(fetchGrowthData(`&searchFrmhsCode=${farmCode}`));
-    setFarmCode("43");
-    // const firstThing = growthData.filter((data) => data.frtstCo > 16);
-    // firstThing?.map((data) => setFruitNum(data.frtstCo));
-    // dispatch(fetchDisasterDatas("disasters"));
+    setFarmCode("349");
+    if (growthData) {
+      const firstThing = growthData.filter((data) => data.frtstCo > 16);
+      firstThing?.map((data) => setFruitNum(data.frtstCo));
+    }
+    dispatch(fetchDisasterDatas("disasters"));
   }, [dispatch, farmCode]);
 
   // useEffect(() => {
