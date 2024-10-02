@@ -37,13 +37,12 @@ function Alert() {
     //     orderByField: "createdAt",
     //   })
     // );
-    dispatch(fetchGrowthData(`&searchFrmhsCode=43`));
+    dispatch(fetchGrowthData(`&searchFrmhsCode=${farmCode}`));
     setFarmCode("43");
     // const firstThing = growthData.filter((data) => data.frtstCo > 16);
     // firstThing?.map((data) => setFruitNum(data.frtstCo));
     // dispatch(fetchDisasterDatas("disasters"));
   }, [dispatch, farmCode]);
-  console.log(growthData);
 
   // useEffect(() => {
   //   if (count === Math.round(fruitNum) && !hasExecuted) {
