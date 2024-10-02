@@ -20,8 +20,8 @@ export function renameOptionsKor(option) {
       return 'CO2 센서';
     case 'nutrientLiquidMeasurementSensor':
       return '양액 측정 센서';
-    case 'CCTV':
-      return 'CCTV';
+    case 'cctv':
+      return 'cctv';
     case 'dripIrrigationSystem':
       return '드립 관수 시스템';
     case 'sprinkler':
@@ -72,8 +72,8 @@ export function renameOptionsEn(option) {
       return 'co2Sensor';
     case '양액 측정 센서':
       return 'nutrientLiquidMeasurementSensor';
-    case 'CCTV':
-      return 'CCTV';
+    case 'cctv':
+      return 'cctv';
     case '드립 관수 시스템':
       return 'dripIrrigationSystem';
     case '스프링클러 시스템':
