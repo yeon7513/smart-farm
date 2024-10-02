@@ -9,26 +9,25 @@ import { updateUserInfo } from "../../../../store/user/UserSlice";
 import placehorderImg from "../../../../assets/member/basic_profile.png";
 import {
   approveComplaint,
-  fetchProcessed,
-  fetchProcessing,
+  approveSuspend,
 } from "../../../../store/complain/complainSlice";
+import { changingNickName } from "../../../../utils/transformNick";
+import PulseLoader from "react-spinners/PulseLoader";
 
 function CpProfile({ item, process }) {
   const processYy = {
     y: "거부",
     Y: "승인",
   };
-  const dispatch = useDispatch();
-  // const { setCurrComp } = useComponentContext();
-  const { items, isLoading } = useSelector((state) => state.userSlice);
 
-  const [values, setValues] = useState();
+  const dispatch = useDispatch();
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
-  const [checkNickName, setCheckNickName] = useState(false);
+  // const [checkNickName, setCheckNickName] = useState(false);
 
+  // 승인
   const goProcessed = () => {
     dispatch(
       approveComplaint({ userId: item.defendantDocId, complainId: item.docId })
@@ -36,11 +35,6 @@ function CpProfile({ item, process }) {
       .then(() => {
         alert("신고가 승인되었습니다.");
         setIsModalOpen(false); // 모달 닫기
-        if (process === "processing") {
-          dispatch(fetchProcessing(process));
-        } else {
-          dispatch(fetchProcessed(process));
-        }
       })
       .catch((error) => {
         console.error(error);
@@ -48,59 +42,58 @@ function CpProfile({ item, process }) {
       });
   };
 
+  // 활동 정지
+  const goSuspend = () => {
+    dispatch(approveSuspend({ userId: item.defendantDocId }))
+      .then(() => {
+        alert("해당 유저를 활동 정지 처리하였습니다.");
+      })
+      .catch((error) => {
+        console.error(error);
+        alert("오류가 발생했습니다.");
+      });
+  };
+
+  const { items, isLoading } = useSelector((state) => state.userSlice);
+
+  const member = items.find((user) => user.docId === item.defendantDocId);
+
+  const [values, setValues] = useState({
+    nickname: member.nickname,
+    photoUrl: member.photoUrl,
+  });
+  const [newNickName, setNewNickName] = useState(member.nickname);
+
   const handleChange = (name, value) => {
     setValues((prev) => ({ ...prev, [name]: value }));
   };
 
-  // 닉네임 중복 확인
-  const handleNickNameCheckDuplication = (e) => {
-    const { name, value } = e.target;
-
-    const nickNameCheck = items.some((item) => item.nickname === value);
-
-    if (value !== "" && !nickNameCheck) {
-      // 중복이 없을 경우
-      setCheckNickName(false);
-      handleChange(name, value);
-    } else if (value === "" || nickNameCheck) {
-      // 중복이 있을 경우
-      setCheckNickName(true);
-      handleChange(name, value);
-    }
+  const handleRandomNickName = () => {
+    const newRandomNickName = changingNickName();
+    setNewNickName(newRandomNickName);
+    handleChange("nickname", newRandomNickName);
   };
 
-  // 파이어베이스 전송
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const updateNickname = checkNickName ? values.nickname : item.defendant;
-
     const params = {
       collectionName: "users",
-      docId: item?.defendantDocId,
-      updateObj: {
-        ...values,
-        nickname: updateNickname,
-      },
-      photoUrl: values.photoUrl || placehorderImg, // 기본 이미지로 설정
+      docId: item.defendantDocId,
+      updateObj: values,
+      photoUrl: member.photoUrl,
     };
 
     try {
-      await dispatch(updateUserInfo(params)); // 비동기 처리
-      // setIsModalOpen(false); // 성공 시 모달 닫기
+      dispatch(updateUserInfo(params));
+
+      if (isLoading === false) {
+        await setIsModalOpen(false);
+      }
     } catch (error) {
-      console.error("신고 프로필 수정 중 오류 : ", error);
+      console.error(error);
     }
   };
-
-  useEffect(() => {
-    if (item) {
-      setValues({
-        nickname: item.defendant,
-        photoUrl: item.photoUrl || placehorderImg,
-      });
-    }
-  }, [item]);
 
   return (
     <>
@@ -110,8 +103,10 @@ function CpProfile({ item, process }) {
           <h3>{values?.nickname || item.defendant}</h3>
         </div>
         <div className={styles.care}>
-          <p>신고사유: {item.reasonName}</p>
-          <p>신고자: {item.complainant} </p>
+          <div className={styles.careUser}>
+            <p>신고사유: {item.reasonName}</p>
+            <p>신고자: {item.complainant} </p>
+          </div>
           <div>
             {process === "processing" ? (
               <>
@@ -126,11 +121,11 @@ function CpProfile({ item, process }) {
                   <form onSubmit={handleSubmit} className={styles.form}>
                     <div>
                       <FileInput
+                        className={styles.modalImg}
                         setFile={handleChange}
                         name="photoUrl"
-                        value={values?.photoUrl || item.photoUrl}
-                        initialPreview={item.photoUrl}
-                        className={styles.modalImg}
+                        value={values.photoUrl}
+                        initialPreview={member.photoUrl}
                         selected={true}
                       />
                     </div>
@@ -138,17 +133,19 @@ function CpProfile({ item, process }) {
                       <TextInput
                         type="text"
                         name="nickname"
-                        value={values?.nickname || item.defendant}
+                        value={newNickName}
                         placeholder={item.defendant}
-                        onChange={handleNickNameCheckDuplication}
+                        isDisabled={true}
                       />
-                      <p>신고 누적 횟수: 3회</p>
+                      <button type="button" onClick={handleRandomNickName}>
+                        변경
+                      </button>
                     </div>
                     <div className={styles.processBtn}>
-                      <button type="submit" onClick={handleSubmit}>
-                        수정 완료
+                      <button type="submit">수정 완료</button>
+                      <button type="button" onClick={goSuspend}>
+                        활동 정지
                       </button>
-                      <button type="button">활동 정지</button>
                     </div>
                   </form>
                 </CustomModal>
@@ -157,8 +154,8 @@ function CpProfile({ item, process }) {
               </>
             ) : (
               <div className={styles.processed}>
-                <div>처리일: {item.processedAt}</div>
-                <div>처리 결과: {processYy[item.processYn]}</div>
+                <p>처리일: {item.processedAt}</p>
+                <p>처리 결과: {processYy[item.processYn]}</p>
               </div>
             )}
           </div>

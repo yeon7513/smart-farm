@@ -13,11 +13,13 @@ import { GridLoader } from "react-spinners";
 import { db } from "../../../api/firebase";
 import Container from "../../../components/layout/container/Container";
 import styles from "./PaymentDetail.module.scss";
+import { renameOptionsKor } from "./../../../utils/renameOptions";
 
 function PaymentDetail() {
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState(null);
   const [dashboardData, setDashboardData] = useState(null);
+  const [additionalOptions, setAdditionalOptions] = useState([]); // 부가옵션 초기값은 빈 배열입니다.
   const { paymentsDocId } = useParams();
   const navigate = useNavigate();
 
@@ -126,6 +128,19 @@ function PaymentDetail() {
         if (paymentSnapshot.exists()) {
           const paymentData = paymentSnapshot.data();
           setData(paymentData);
+
+          // sector 컬렉션에서 데이터 가져오기
+          const sectorQuery = query(collection(paymentDocRef, "sector"));
+          const sectorSnapshot = await getDocs(sectorQuery);
+          const optionsData = {};
+
+          sectorSnapshot.forEach((doc) => {
+            const option = doc.data().option;
+            const equivalent = doc.id;
+          });
+          console.log(sectorSnapshot.docs.map((doc) => doc.data()));
+
+          setAdditionalOptions(optionsData);
         } else {
           console.log("Payment data not found");
           setData(null);
@@ -190,44 +205,32 @@ function PaymentDetail() {
                 </div>
               </div>
               <div className={styles.option}>
-                <h2>내가 선택한 옵션 </h2>
-                <div className={styles.potions}>
-                  {data.farmEquivalent &&
-                  data.additionalOptions &&
-                  Object.keys(data.additionalOptions).length > 0 ? (
-                    Object.entries(data.additionalOptions).map(
-                      ([id, options]) => {
-                        const selectedOptions = Object.entries(options)
-                          .filter(([_, selected]) => selected)
-                          .map(([optionName]) => optionName);
-                        return (
-                          <div key={id} className={styles.farm_main}>
-                            {selectedOptions.length > 0 ? (
-                              <ul>
-                                {selectedOptions.map((option) => (
-                                  <li key={option}>{option}</li>
-                                ))}
-                              </ul>
-                            ) : (
-                              ""
-                            )}
-                          </div>
-                        );
-                      }
-                    )
-                  ) : (
-                    <p>선택한 옵션이 없습니다.</p>
-                  )}
-                </div>
-                <p>결제 방식: {data.paymentMethod}</p>
-                <p>현금영수증: {data.cashReceipt}</p>
+                <p>내가 선택한 옵션</p>
               </div>
+              {data.farmEquivalent &&
+              Object.keys(additionalOptions).length > 0 ? (
+                <div className={styles.farm_main}>
+                  <ul>
+                    {Object.entries(additionalOptions).map(([key, value]) => (
+                      <li key={key}>
+                        {key}동: {value}{" "}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ) : (
+                <p>선택한 옵션이 없습니다.</p>
+              )}
 
               <div className={styles.pay_button}>
-                <button type="button" onClick={onPayCancel}>
+                <button
+                  type="button"
+                  onClick={onPayCancel}
+                  className={styles.onpay}
+                >
                   주문 취소
                 </button>
-                <button type="button" onClick={goBack}>
+                <button type="button" onClick={goBack} className={styles.back}>
                   뒤로 가기
                 </button>
               </div>

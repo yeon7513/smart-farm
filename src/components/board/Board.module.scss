@@ -9,6 +9,17 @@
   }
 }
 
+.searchBox {
+  justify-content: right;
+
+  input {
+    font-size: 16px;
+  }
+  button {
+    padding: 8px 14px;
+  }
+}
+
 .col {
   display: grid;
   grid-template-columns: 0.5fr 3fr 1fr 1fr 0.7fr;

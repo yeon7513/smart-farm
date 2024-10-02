@@ -41,23 +41,54 @@ function QuotationsCare() {
   // }, []);
 
   // 필터링된 데이터 처리(대기 및 승인여부)
+  // 재협님이 작성
+  // const filterData = (status) => {
+  //   if (status === "pending") {
+  //     setFilteredInfo(
+  //       commonInfo.filter((item) => item.useYn === "N" && item.deleteYn === "N")
+  //     );
+  //   } else if (status === "approved") {
+  //     setFilteredInfo(
+  //       commonInfo.filter((item) => item.useYn === "Y" && item.deleteYn === "N")
+  //     );
+  //   } else if (status === "rejected") {
+  //     setFilteredInfo(commonInfo.filter((item) => item.deleteYn === "Y"));
+  //   } else {
+  //     setFilteredInfo(commonInfo);
+  //   }
+
+  //   // setFilteredInfo(filtered);
+  //   setCurrentPage(1); // 필터 변경 시 첫 페이지로 초기화
+  // };
+
+  //서정은 작성=> 문제생기면 다시 재협님 코드로...
   const filterData = (status) => {
+    let filtered;
+
     if (status === "pending") {
-      setFilteredInfo(
-        commonInfo.filter((item) => item.useYn === "N" && item.deleteYn === "N")
+      filtered = commonInfo.filter(
+        (item) => item.useYn === "N" && item.deleteYn === "N"
       );
     } else if (status === "approved") {
-      setFilteredInfo(
-        commonInfo.filter((item) => item.useYn === "Y" && item.deleteYn === "N")
+      filtered = commonInfo.filter(
+        (item) => item.useYn === "Y" && item.deleteYn === "N"
       );
     } else if (status === "rejected") {
-      setFilteredInfo(commonInfo.filter((item) => item.deleteYn === "Y"));
+      filtered = commonInfo.filter((item) => item.deleteYn === "Y");
     } else {
-      setFilteredInfo(commonInfo);
+      filtered = commonInfo;
     }
+
+    // 검색어에 따라 필터링
+    if (keyword) {
+      filtered = filtered.filter((item) =>
+        item.name.toLowerCase().includes(keyword.toLowerCase())
+      );
+    }
+
+    setFilteredInfo(filtered);
     setCurrentPage(1); // 필터 변경 시 첫 페이지로 초기화
   };
-
   // listItems에 데이터를 저장하는 함수 (QuotationsCare에서 호출)
   const setListItems = (data) => {
     listItems = data; // 데이터 저장
@@ -158,7 +189,9 @@ function QuotationsCare() {
 
   // 검색어 변경 핸들러
   const handleKeywordChange = (e) => {
-    setKeyword(e.target.value);
+    const newKeyword = e.target.value;
+    setKeyword(newKeyword);
+    filterData("all");
   };
 
   // 검색 실행 핸들러
@@ -277,34 +310,42 @@ function QuotationsCare() {
                   </tr>
                 </thead>
                 <tbody>
-                  {currentItems.map((item) => {
-                    let approvalStatus;
-                    if (item.useYn === "Y" && item.deleteYn === "N") {
-                      approvalStatus = "승인";
-                    } else if (item.deleteYn === "Y" && item.useYn === "N") {
-                      approvalStatus = "거절";
-                    } else {
-                      approvalStatus = "대기";
-                    }
+                  {currentItems.length > 0 ? (
+                    currentItems.map((item) => {
+                      let approvalStatus;
+                      if (item.useYn === "Y" && item.deleteYn === "N") {
+                        approvalStatus = "승인";
+                      } else if (item.deleteYn === "Y" && item.useYn === "N") {
+                        approvalStatus = "거절";
+                      } else {
+                        approvalStatus = "대기";
+                      }
 
-                    return (
-                      <tr key={item.docId || item.id} className={styles.main}>
-                        <td>{item.name}</td>
-                        <td>{item.crop}</td>
-                        <td>{item.type}</td>
-                        <td>{item.createdAt}</td>
-                        <td>{approvalStatus}</td>
-                        <td>
-                          <button
-                            className={styles.button}
-                            onClick={() => openModal(item)}
-                          >
-                            자세히 보기
-                          </button>
-                        </td>
-                      </tr>
-                    );
-                  })}
+                      return (
+                        <tr key={item.docId || item.id} className={styles.main}>
+                          <td>{item.name}</td>
+                          <td>{item.crop}</td>
+                          <td>{item.type}</td>
+                          <td>{item.createdAt}</td>
+                          <td>{approvalStatus}</td>
+                          <td>
+                            <button
+                              className={styles.button}
+                              onClick={() => openModal(item)}
+                            >
+                              자세히 보기
+                            </button>
+                          </td>
+                        </tr>
+                      );
+                    })
+                  ) : (
+                    <tr>
+                      <td colSpan="6" style={{ textAlign: "center" }}>
+                        회원정보가 없습니다.
+                      </td>
+                    </tr>
+                  )}
                 </tbody>
               </table>
             ) : (

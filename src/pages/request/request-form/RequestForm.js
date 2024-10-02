@@ -338,15 +338,21 @@ function RequestForm({ user }) {
   // 부가 옵션을 변경합니다.
   const handleAdditionalOptionsChange = (index, category, value) => {
     setSelectedOptions((prevOptions) => {
-      const updatedOptions = [...prevOptions];
+      const updatedOptions = prevOptions.map((option) => ({ ...option }));
+
       if (!updatedOptions[index][category]) {
         updatedOptions[index][category] = {};
       }
-      updatedOptions[index][category][value] = updatedOptions[index][category][
-        value
-      ]
-        ? undefined
-        : "Y";
+
+      if (!updatedOptions[index][category]) {
+        updatedOptions[index][category] = {};
+      }
+
+      // 체크박스의 현재 상태를 가져옵니다.
+      const currentValue = updatedOptions[index][category][value];
+
+      updatedOptions[index][category][value] = currentValue === "Y" ? "N" : "Y";
+      console.log(updatedOptions);
       return updatedOptions;
     });
   };
@@ -438,15 +444,17 @@ function RequestForm({ user }) {
           Object.entries(additionalOptionsForCurrentSector).forEach(
             ([category, options]) => {
               Object.keys(options).forEach((option) => {
+                // 선택된 옵션에 한해 "Y"로 설정됩니다.
                 if (options[option] === "Y") {
                   control[renameOptionsEn(option)] = "Y";
+                } else {
+                  control[renameOptionsEn(option)] = "N";
                 }
               });
             }
           );
 
           const sectorData = {
-            동수: index + 1,
             부가옵션: Object.keys(control).length > 0 ? control : {},
             id: index + 1,
           };
@@ -492,18 +500,20 @@ function RequestForm({ user }) {
           const additionalOptionsForCurrentSector = selectedOptions[index];
           const control = {};
 
+          // 선택된 옵션을 control 객체에 저장합니다.
           Object.entries(additionalOptionsForCurrentSector).forEach(
             ([category, options]) => {
               Object.keys(options).forEach((option) => {
                 if (options[option] === "Y") {
                   control[renameOptionsEn(option)] = "Y";
+                } else {
+                  control[renameOptionsEn(option)] = "N";
                 }
               });
             }
           );
 
           const sectorData = {
-            동수: index + 1,
             control: Object.keys(control).length > 0 ? control : {},
             createdAt: new Date().getTime(),
             deleteYn: "N",

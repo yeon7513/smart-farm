@@ -168,6 +168,13 @@ export async function getComment(collectionName, docId) {
 export async function addComment(collectionName, docId, commentObj) {
   try {
     const commentRef = collection(db, collectionName, docId, "comment");
+
+    const lastId = await getLastNum(
+      `${collectionName}/${docId}/comment`,
+      "commentId"
+    );
+    commentObj.commentId = lastId + 1;
+
     await addDoc(commentRef, {
       ...commentObj,
       createdAt: new Date().toLocaleString(),

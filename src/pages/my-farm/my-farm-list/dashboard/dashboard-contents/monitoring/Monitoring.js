@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { Outlet } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchGrowthData } from "../../../../../../store/bestfarm/bestfarmSlice";
-import { chatData } from "./chartData/chartdata";
 import RenderingChart from "../../../../../../components/chart/RenderingChart";
+import { useSectorContext } from "../../../../../../context/SectorContext";
+import styles from "./Monitoring.module.scss";
+import Card from "../../../../../../components/card/Card";
+
 function Monitoring() {
   const dispatch = useDispatch();
+  const { sector } = useSectorContext();
   const [farmState, setFarmState] = useState("");
   const { growthData } = useSelector((state) => state.bestfarmSlice);
   const [chartType, setChartType] = useState("line");
@@ -18,7 +21,7 @@ function Monitoring() {
   const [averageState6, setAverageState6] = useState();
   const [averageState7, setAverageState7] = useState();
   // ----------------------------------------------------------------
-
+  console.log(sector);
   useEffect(() => {
     dispatch(fetchGrowthData(`pageSize=30&searchFrmhsCode=${farmState}`));
     setFarmState("43");
@@ -148,20 +151,55 @@ function Monitoring() {
     },
     {
       name: formatData(new Date().getTime()),
-      내농장: 10,
+      내농장: 20,
       우수농가: averageState7,
     },
   ];
 
   return (
     <div>
-      <span>Monitoring</span>
-      <Outlet />
-      <RenderingChart
-        chartType={chartType}
-        data={chatData}
-        checkKey={"우수농가"}
-      />
+      <section>
+        <h1>환경 상태</h1>
+        <div className={styles.boxes}>
+          <Card className={styles.box}>
+            <div>온도</div>
+            <div className={styles.Num}>27</div>
+          </Card>
+          <Card className={styles.box}>
+            <div>습도</div>
+            <div className={styles.Num}>20</div>
+          </Card>
+          <Card className={styles.box}>
+            <div>일사량</div>
+            <div className={styles.Num}>50</div>
+          </Card>
+          <Card className={styles.box}>
+            <div>풍량</div>
+            <div className={styles.Num}>5</div>
+          </Card>
+          <Card className={styles.box}>
+            <div>배수</div>
+            <div className={styles.Num}>3</div>
+          </Card>
+        </div>
+      </section>
+      <section>
+        <h1>상태 그래프</h1>
+        <RenderingChart
+          chartType={chartType}
+          data={chatData}
+          checkKey={"우수농가"}
+        />
+      </section>
+      <section>
+        <h1>CCTV</h1>
+        <div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+        </div>
+      </section>
     </div>
   );
 }

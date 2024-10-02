@@ -8,7 +8,6 @@ import {
 
 const initialState = {
   posts: [], // 전체 게시글
-  myPosts: [], // 로그인한 사용자의 게시글
   isLoading: false,
   error: null,
 };

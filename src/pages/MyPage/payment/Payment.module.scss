@@ -75,26 +75,153 @@ td {
 @media (max-width: 1200px) {
   .container {
     .payment {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
       width: 100%;
+      padding: 10px;
+
+      select {
+        padding: 10px;
+        border: none;
+        border-bottom: 2px solid var(--common-color);
+        margin-bottom: 30px;
+        font-size: 20px;
+        width: 300px;
+      }
+
+      .thead {
+        font-size: 14px;
+        tr {
+          th {
+            padding: 20px 0;
+            font-size: 18px;
+            margin-bottom: 8px;
+          }
+        }
+      }
+
+      .item {
+        td {
+          padding: 10px;
+          font-size: 18px;
+        }
+      }
     }
+  }
+
+  .button {
+    padding: 10px 6px;
+    font-size: 16px;
   }
 }
 
 /* 태블릿 */
 @media (max-width: 992px) {
+  .container {
+    .payment {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      width: 100%;
+      padding: 10px;
+
+      select {
+        padding: 10px;
+        border: none;
+        border-bottom: 2px solid var(--common-color);
+        margin-bottom: 30px;
+        font-size: 20px;
+        width: 300px;
+      }
+
+      .thead {
+        font-size: 14px;
+        tr {
+          th {
+            padding: 20px 0;
+            font-size: 18px;
+            margin-bottom: 8px;
+          }
+        }
+      }
+
+      .item {
+        td {
+          padding: 10px;
+          font-size: 18px;
+        }
+      }
+    }
+  }
+
+  .button {
+    padding: 10px 6px;
+    font-size: 16px;
+  }
 }
 
 /* 모바일 */
 @media (max-width: 768px) {
   .container {
-    .payment {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    gap: 60px;
+    flex-direction: column;
+    .main {
+      display: flex;
+      justify-content: center;
       width: 100%;
+    }
+
+    .payment {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      width: 100%;
+      padding: 10px;
 
       select {
-        font-size: 18px;
+        padding: 10px;
+        border: none;
+        border-bottom: 2px solid var(--common-color);
+        margin-bottom: 30px;
+        font-size: 20px;
         width: 300px;
       }
+
+      .thead {
+        font-size: 14px;
+        tr {
+          th {
+            padding: 10px 0;
+            font-size: 14px;
+            margin-bottom: 10px;
+          }
+        }
+      }
+
+      .item {
+        td {
+          padding: 10px;
+          font-size: 14px;
+          margin-top: 10px;
+        }
+      }
     }
+  }
+
+  td {
+    text-align: center;
+  }
+
+  .button {
+    padding: 6px;
+    margin: 0;
+    margin-left: 0;
+    font-size: 12px;
   }
 }
 
@@ -134,7 +261,7 @@ td {
         tr {
           th {
             padding: 0;
-            font-size: 12px;
+            font-size: 10px;
             margin-bottom: 8px;
           }
         }

@@ -10,7 +10,7 @@ import {
 } from 'firebase/firestore';
 import React, { useEffect, useState } from 'react';
 import { TbMessageSearch } from 'react-icons/tb';
-import { auth, db, getDatas } from '../../../api/firebase';
+import { auth, db } from '../../../api/firebase';
 import SearchBox from '../../../components/search_box/SearchBox';
 import styles from './ChatRoomCare.module.scss';
 import ChatRequestList from './chat-request-list/ChatRequestList';
@@ -29,7 +29,6 @@ function ChatRoomCare() {
       try {
         const chatRequestsPromises = snapshot.docs.map(async (chatRoomDoc) => {
           const userEmail = chatRoomDoc.id;
-
           const chatContentRef = collection(
             db,
             'chatRoom',
@@ -120,17 +119,6 @@ function ChatRoomCare() {
       console.error('채팅 승인 중 오류 발생:', error);
     }
   };
-
-  const handleLoad = async () => {
-    const data = await getDatas('chatRoom');
-    setData(data);
-  };
-
-  console.log(data);
-
-  useEffect(() => {
-    handleLoad();
-  }, []);
 
   if (loading) {
     return <p>로딩 중...</p>;

@@ -1,0 +1,20 @@
+section {
+  margin: 5% 0 5% 0;
+}
+.boxes {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 5px;
+}
+.box {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+.Num {
+  box-shadow: var(--box-shadow);
+  padding: 15px 25px 15px 25px;
+  border-radius: 5px;
+}

@@ -14,6 +14,7 @@ import CpProfile from "./part/CpProfile";
 function ComplaintsCare() {
   const [sort, setSort] = useState("all");
   const [process, setProcess] = useState("processing");
+  const [searchValue, setSearchValue] = useState("");
 
   const dispatch = useDispatch();
   const { processing, processed } = useSelector((state) => state.complainSlice);
@@ -37,41 +38,48 @@ function ComplaintsCare() {
   }, [dispatch, process]);
 
   // 카테고리별 필터링된 데이터 가져오기
-  // const filteredData = () => {
-  //   const data = process === "processing" ? processing : processed;
-
-  //   if (sort === "profile") {
-  //     return data.filter((item) => item.reasonCode.startsWith("pf"));
-  //   } else if (sort === "post") {
-  //     return data.filter((item) => item.reasonCode.startsWith("ps"));
-  //   } else if (sort === "comment") {
-  //     return data.filter((item) => item.reasonCode.startsWith("cm"));
-  //   }
-  //   return data; // 전체
-  // };
   const filteredData = (sort) => {
     const data = process === "processing" ? processing : processed;
+    let filteredBySort = data;
 
     if (sort === "profile") {
-      const profileData = data.filter((item) =>
-        item.reasonCode.startsWith("pf")
+      filteredBySort = data.filter(
+        (item) => item.reasonCode && item.reasonCode.startsWith("pf")
       );
-      return profileData;
     } else if (sort === "post") {
-      const postData = data.filter((item) => item.reasonCode.startsWith("ps"));
-      return postData;
-    } else if (sort === "comment") {
-      const commentData = data.filter((item) =>
-        item.reasonCode.startsWith("cm")
+      filteredBySort = data.filter(
+        (item) => item.reasonCode && item.reasonCode.startsWith("ps")
       );
-      return commentData;
+    } else if (sort === "comment") {
+      filteredBySort = data.filter(
+        (item) => item.reasonCode && item.reasonCode.startsWith("cm")
+      );
     }
-    return data;
+
+    // 검색어로 필터링
+    return filteredBySort.filter(
+      (item) =>
+        searchValue === "" ||
+        item.reasonName.toLowerCase().includes(searchValue.toLowerCase()) ||
+        item.complainant.toLowerCase().includes(searchValue.toLowerCase()) ||
+        item.defendant.toLowerCase().includes(searchValue.toLowerCase())
+    );
+  };
+
+  // 검색
+  const handleChangeSearchComplaint = (e) => {
+    let value = !e.target[0] ? e.target.value : e.target[0].value;
+    setSearchValue(value);
   };
 
   return (
     <div className={styles.complaints}>
-      <SearchBox name={<TbReportSearch />} placeholder={"신고 검색"} />
+      <SearchBox
+        name={<TbReportSearch />}
+        placeholder={"신고 검색"}
+        value={searchValue}
+        onChange={handleChangeSearchComplaint}
+      />
       <div className={styles.header}>
         <div className={styles.state}>
           <div>
@@ -117,7 +125,7 @@ function ComplaintsCare() {
         <div
           className={sort === "post" || sort === "comment" ? styles.hide : ""}
         >
-          <b>프로필</b>
+          <h1>프로필</h1>
           <section>
             {filteredData("profile").map((items, idx) => {
               return <CpProfile key={idx} item={items} process={process} />;
@@ -130,7 +138,7 @@ function ComplaintsCare() {
             sort === "profile" || sort === "comment" ? styles.hide : ""
           }
         >
-          <b>게시글</b>
+          <h1>게시글</h1>
           <section>
             {filteredData("post").map((items, idx) => {
               return <CpPost key={idx} item={items} process={process} />;
@@ -141,7 +149,7 @@ function ComplaintsCare() {
         <div
           className={sort === "profile" || sort === "post" ? styles.hide : ""}
         >
-          <b>댓글</b>
+          <h1>댓글</h1>
           <section>
             {filteredData("comment").map((items, idx) => {
               return <CpComment key={idx} item={items} process={process} />;

@@ -7,6 +7,7 @@ import { deleteComment } from "../../../../api/board";
 import { useDispatch } from "react-redux";
 import {
   approveComplaint,
+  approveSuspend,
   fetchProcessed,
   fetchProcessing,
 } from "../../../../store/complain/complainSlice";
@@ -19,6 +20,8 @@ function CpComment({ item, process }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
+
+  const dispatch = useDispatch();
 
   const goProcessed = () => {
     dispatch(
@@ -40,38 +43,34 @@ function CpComment({ item, process }) {
       });
   };
 
-  const dispatch = useDispatch();
+  // 활동 정지
+  const goSuspend = () => {
+    dispatch(approveSuspend({ userId: item.defendantDocId }))
+      .then(() => {
+        alert("해당 유저를 활동 정지 처리하였습니다.");
+      })
+      .catch((error) => {
+        console.error(error);
+        alert("오류가 발생했습니다.");
+      });
+  };
 
-  // const handleDeleteCm = async () => {
-  //   dispatch(
-  //     deleteCommentDatas({
-  //       collectionName: item.category,
-  //       docId: item.postDocId,
-  //       commentId: item.commentDocId,
-  //     })
-  //   )
-  //     .then(() => {
-  //       alert("댓글이 성공적으로 삭제되었습니다.");
-  //     })
-  //     .catch((error) => {
-  //       alert("댓글 삭제 중 오류가 발생했습니다.");
-  //       console.error(error);
-  //     });
-  // };
+  // 댓글 삭제하는 함수
   const handleDeleteCm = async () => {
-    const params = {
-      collectionName: item.category,
-      docId: item.postDocId,
-      commentId: item.commentDocId,
-    };
-
     try {
-      const deletedata = await deleteComment(params);
-      alert("댓글이 성공적으로 삭제되었습니다.");
-      return deletedata;
+      const success = await deleteComment(
+        item.category,
+        item.postDocId,
+        item.commentDocId
+      );
+      if (success) {
+        alert("댓글이 성공적으로 삭제되었습니다.");
+      } else {
+        alert("댓글 삭제에 실패했습니다.");
+      }
     } catch (error) {
+      console.error("댓글 삭제 중 오류 발생:", error);
       alert("댓글 삭제 중 오류가 발생했습니다.");
-      console.error("Error details: ", error);
     }
   };
 
@@ -105,16 +104,16 @@ function CpComment({ item, process }) {
                     <p>{item.defendant}</p>
                   </div>
                   <div className={styles.processBtn}>
-                    <button onClick={() => handleDeleteCm()}>댓글 삭제</button>
-                    <button>활동 정지</button>
+                    <button onClick={handleDeleteCm}>댓글 삭제</button>
+                    <button onClick={goSuspend}>활동 정지</button>
                   </div>
                 </CustomModal>
                 <CpSanction />
               </>
             ) : (
               <div className={styles.processed}>
-                <div>처리일: {item.processedAt}</div>
-                <div>처리 결과: {processYy[item.processYn]}</div>
+                <p>처리일: {item.processedAt}</p>
+                <p>처리 결과: {processYy[item.processYn]}</p>
               </div>
             )}
           </div>
