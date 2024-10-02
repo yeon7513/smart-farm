@@ -5,6 +5,7 @@ import { TbPencilSearch } from "react-icons/tb";
 import { useDispatch, useSelector } from "react-redux";
 import { BeatLoader } from "react-spinners";
 import * as XLSX from "xlsx";
+import { fetchPayments } from "../../../store/payment/paymentsSlice";
 import { db } from "../../../api/firebase";
 import CustomModal from "../../../components/modal/CustomModal";
 import PaginationButton from "../../../components/pagination-button/PaginationButton";
@@ -40,23 +41,54 @@ function QuotationsCare() {
   // }, []);
 
   // 필터링된 데이터 처리(대기 및 승인여부)
+  // 재협님이 작성
+  // const filterData = (status) => {
+  //   if (status === "pending") {
+  //     setFilteredInfo(
+  //       commonInfo.filter((item) => item.useYn === "N" && item.deleteYn === "N")
+  //     );
+  //   } else if (status === "approved") {
+  //     setFilteredInfo(
+  //       commonInfo.filter((item) => item.useYn === "Y" && item.deleteYn === "N")
+  //     );
+  //   } else if (status === "rejected") {
+  //     setFilteredInfo(commonInfo.filter((item) => item.deleteYn === "Y"));
+  //   } else {
+  //     setFilteredInfo(commonInfo);
+  //   }
+
+  //   // setFilteredInfo(filtered);
+  //   setCurrentPage(1); // 필터 변경 시 첫 페이지로 초기화
+  // };
+
+  //서정은 작성
   const filterData = (status) => {
+    let filtered;
+
     if (status === "pending") {
-      setFilteredInfo(
-        commonInfo.filter((item) => item.useYn === "N" && item.deleteYn === "N")
+      filtered = commonInfo.filter(
+        (item) => item.useYn === "N" && item.deleteYn === "N"
       );
     } else if (status === "approved") {
-      setFilteredInfo(
-        commonInfo.filter((item) => item.useYn === "Y" && item.deleteYn === "N")
+      filtered = commonInfo.filter(
+        (item) => item.useYn === "Y" && item.deleteYn === "N"
       );
     } else if (status === "rejected") {
-      setFilteredInfo(commonInfo.filter((item) => item.deleteYn === "Y"));
+      filtered = commonInfo.filter((item) => item.deleteYn === "Y");
     } else {
-      setFilteredInfo(commonInfo);
+      filtered = commonInfo;
     }
+
+    // 검색어에 따라 필터링
+    if (keyword) {
+      filtered = filtered.filter((item) =>
+        item.name.toLowerCase().includes(keyword.toLowerCase())
+      );
+    }
+
+    setFilteredInfo(filtered);
     setCurrentPage(1); // 필터 변경 시 첫 페이지로 초기화
   };
-
   // listItems에 데이터를 저장하는 함수 (QuotationsCare에서 호출)
   const setListItems = (data) => {
     listItems = data; // 데이터 저장
@@ -87,13 +119,29 @@ function QuotationsCare() {
       const allSectorData = [];
       for (const payment of payments) {
         const sectorData = await fetchSectorData(payment.docId);
-        // docId는 문서 고유의 ID고, sectorData는 그 sector 문서 고유 ID, 동수, 부가옵션입니다.
+        const detailedInformation = [];
+
+        // 각 sectorData에서 동수와 부가옵션을 추출합니다.
+        Object.entries(sectorData).forEach(([key, value]) => {
+          const equivalentNumber = value.동수;
+          const additionalOptions = value.부가옵션;
+
+          // 상세정보 배열에 객체를 추가합니다.
+          detailedInformation.push({
+            동수: equivalentNumber,
+            부가옵션: additionalOptions,
+          });
+        });
+
+        // 결제 정보와 상세 정보를 결합합니다.
         allSectorData.push({
           docId: payment.docId,
-          sectorData,
+          상세내역: detailedInformation,
         });
       }
+      setListItems(allSectorData);
       console.log(allSectorData);
+      exportToExcel();
     }
   };
 
@@ -104,18 +152,17 @@ function QuotationsCare() {
     const processedData = [];
 
     for (const payment of payments) {
-      const additionalOptions = await fetchSectorData(payment.id);
+      const additionalOptions =
+        listItems.find((item) => item.docId === payment.docId)?.sectorData ||
+        {};
       const controlValue = additionalOptions.control || null;
 
-      const formattedAdditionalOptions = Object.entries(additionalOptions)
-        .map(([동, options]) => {
-          const selectedOptions = Object.entries(options)
-            .filter(([_, selected]) => selected)
-            .map(([optionName]) => optionName);
+      // 추가 옵션을 객체로 변환합니다.
+      const formattedAdditionalOptions = {};
 
-          return `${동}동: ${selectedOptions.join(", ")}`;
-        })
-        .join(", ");
+      Object.entries(additionalOptions).forEach(([동, options]) => {
+        formattedAdditionalOptions[동] = options.부가옵션;
+      });
 
       processedData.push({
         ...payment,
@@ -142,7 +189,9 @@ function QuotationsCare() {
 
   // 검색어 변경 핸들러
   const handleKeywordChange = (e) => {
-    setKeyword(e.target.value);
+    const newKeyword = e.target.value;
+    setKeyword(newKeyword);
+    filterData("all");
   };
 
   // 검색 실행 핸들러

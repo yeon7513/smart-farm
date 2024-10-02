@@ -1,27 +1,18 @@
 import React from 'react';
 import styles from './ControlSwitch.module.scss';
 
-function ControlSwitch({ id }) {
+function ControlSwitch({ id, isChecked, handleChange }) {
   return (
-    <div className={styles.switch}>
-      <input name={`switch_${id}`} id={`switch_${id}_on`} type="radio" />
-      <label htmlFor={`switch_${id}_on`} className={styles.on}>
-        ON
-      </label>
-      <input name={`switch_${id}`} id={`switch_${id}_off`} type="radio" />
-      <label htmlFor={`switch_${id}_off`} className={styles.off}>
-        OFF
-      </label>
+    <label htmlFor={`switch_${id}`} className={styles.switch}>
       <input
-        defaultChecked
         name={`switch_${id}`}
-        id={`switch_${id}_auto`}
-        type="radio"
+        id={`switch_${id}`}
+        type="checkbox"
+        onChange={handleChange}
+        checked={isChecked}
       />
-      <label htmlFor={`switch_${id}_auto`} className={styles.auto}>
-        AUTO
-      </label>
-    </div>
+      <span className={styles.slider}></span>
+    </label>
   );
 }
 

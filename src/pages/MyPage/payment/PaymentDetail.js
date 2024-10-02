@@ -190,41 +190,51 @@ function PaymentDetail() {
                 </div>
               </div>
               <div className={styles.option}>
-                <p>내가 선택한 옵션 </p>
+                <h2>내가 선택한 옵션 </h2>
+                <div className={styles.potions}>
+                  {data.farmEquivalent &&
+                  data.additionalOptions &&
+                  Object.keys(data.additionalOptions).length > 0 ? (
+                    Object.entries(data.additionalOptions).map(
+                      ([id, options]) => {
+                        const selectedOptions = Object.entries(options)
+                          .filter(([_, selected]) => selected)
+                          .map(([optionName]) => optionName);
+                        return (
+                          <div key={id} className={styles.farm_main}>
+                            {selectedOptions.length > 0 ? (
+                              <ul>
+                                {selectedOptions.map((option) => (
+                                  <li key={option}>{option}</li>
+                                ))}
+                              </ul>
+                            ) : (
+                              ""
+                            )}
+                          </div>
+                        );
+                      }
+                    )
+                  ) : (
+                    <p>선택한 옵션이 없습니다.</p>
+                  )}
+                </div>
+                <p>결제 방식: {data.paymentMethod}</p>
+                <p>현금영수증: {data.cashReceipt}</p>
               </div>
-              {data.farmEquivalent &&
-              data.additionalOptions &&
-              Object.keys(data.additionalOptions).length > 0 ? (
-                Object.entries(data.additionalOptions).map(([id, options]) => {
-                  const selectedOptions = Object.entries(options)
-                    .filter(([_, selected]) => selected)
-                    .map(([optionName]) => optionName);
-                  return (
-                    <div key={id} className={styles.farm_main}>
-                      {selectedOptions.length > 0 ? (
-                        <ul>
-                          {selectedOptions.map((option) => (
-                            <li key={option}>{option}</li>
-                          ))}
-                        </ul>
-                      ) : (
-                        ""
-                      )}
-                    </div>
-                  );
-                })
-              ) : (
-                <p>선택한 옵션이 없습니다.</p>
-              )}
 
-              <p>결제 방식: {data.paymentMethod}</p>
-              <p>현금영수증: {data.cashReceipt}</p>
-              <button type="button" onClick={onPayCancel}>
-                주문 취소
-              </button>
-              <button type="button" onClick={goBack}>
-                뒤로 가기
-              </button>
+              <div className={styles.pay_button}>
+                <button
+                  type="button"
+                  onClick={onPayCancel}
+                  className={styles.onpay}
+                >
+                  주문 취소
+                </button>
+                <button type="button" onClick={goBack} className={styles.back}>
+                  뒤로 가기
+                </button>
+              </div>
             </>
           ) : (
             <p>No data available.</p>

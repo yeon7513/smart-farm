@@ -2,7 +2,7 @@ import React from 'react'
 import styles from "./ChatRoomFooter.module.scss";
 import FooterChattingForm from './footer-chatting-form/FooterChattingForm';
 
-function ChatRoomFooter({isLiveChatOpend, isTransitioningToLiveChat, auth, onSendMessage }) {
+function ChatRoomFooter({isLiveChatOpend, isTransitioningToLiveChat, auth, messages, onSendMessage }) {
   return (
     <div
     className={`${styles.footer} 
@@ -11,6 +11,7 @@ function ChatRoomFooter({isLiveChatOpend, isTransitioningToLiveChat, auth, onSen
   >
     { isTransitioningToLiveChat ? (    
     <FooterChattingForm
+    messages={messages}  // 메시지 전달
     onSendMessage={onSendMessage}
     />
   ) : isLiveChatOpend ? (

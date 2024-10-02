@@ -5,59 +5,15 @@
   align-items: center;
   padding: 30px;
   gap: 10px;
-}
 
-.title {
-  border-bottom: 1px solid #ddd;
-  padding-bottom: 8px;
-  margin: 10px;
-
-  div {
-    display: flex;
-    align-items: center;
-  }
-
-  h2 {
-    margin-bottom: 25px;
-  }
-
-  p {
-    font-size: 14px;
-    color: gray;
+  button {
+    font-size: 16px;
+    border: 1px solid #ddd;
+    padding: 7px 15px;
+    border-radius: 8px;
   }
 }
 
-.profile {
-  img {
-    width: 70px;
-    border-radius: 50%;
-  }
-}
-
-.titleBar {
-  width: 70%;
-  display: flex;
-  // justify-content: space-between;
-  gap: 80px;
-}
-
-.content {
-  min-height: 300px;
-  padding: 30px 50px 40px;
-  border-bottom: 1px solid #ddd;
-  letter-spacing: 0.5px;
-  white-space: pre-line;
-
-  div {
-    width: 100%;
-
-    img {
-      margin-top: 30px;
-      max-width: 60%;
-      height: auto;
-    }
-  }
-}
 .memberImg {
   width: 200px;
   height: 200px;

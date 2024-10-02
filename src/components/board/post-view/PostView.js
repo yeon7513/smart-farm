@@ -51,6 +51,7 @@ function PostView() {
         title: post.title,
         summary: post.summary,
         imgUrl: post.imgUrl,
+        type: "post",
       };
 
       dispatch(addComplain({ collectionName: "complain", complainData }))

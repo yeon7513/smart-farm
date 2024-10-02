@@ -7,6 +7,7 @@ import { deleteComment } from "../../../../api/board";
 import { useDispatch } from "react-redux";
 import {
   approveComplaint,
+  approveSuspend,
   fetchProcessed,
   fetchProcessing,
 } from "../../../../store/complain/complainSlice";
@@ -33,6 +34,19 @@ function CpComment({ item, process }) {
         } else {
           dispatch(fetchProcessed(process));
         }
+      })
+      .catch((error) => {
+        console.error(error);
+        alert("오류가 발생했습니다.");
+      });
+  };
+
+  // 활동 정지
+  const goSuspend = () => {
+    dispatch(approveSuspend({ userId: item.defendantDocId }))
+      .then(() => {
+        alert("해당 유저를 활동 정지 처리하였습니다.");
+        setIsModalOpen(false); // 모달 닫기
       })
       .catch((error) => {
         console.error(error);
@@ -105,8 +119,8 @@ function CpComment({ item, process }) {
                     <p>{item.defendant}</p>
                   </div>
                   <div className={styles.processBtn}>
-                    <button onClick={() => handleDeleteCm()}>댓글 삭제</button>
-                    <button>활동 정지</button>
+                    <button onClick={handleDeleteCm}>댓글 삭제</button>
+                    <button onClick={goSuspend}>활동 정지</button>
                   </div>
                 </CustomModal>
                 <CpSanction />
