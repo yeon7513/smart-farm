@@ -68,30 +68,39 @@ function ChatRoom({ chatroomId }) {
 
 
   useEffect(() => {
-    if (!chatRoomId || !selectedAnswer) return;
+    if (!chatRoomId) return;
   
-    const chatRoomRef = doc(
-      db,
-      'chatRoom',
-      auth.currentUser.email,
-      'chatContent',
-      chatRoomId
-    );
+    const messageRef = collection(db, 'chatRoom', auth.currentUser.email, 'chatContent', chatRoomId, 'message');
+    const q = query(messageRef, orderBy('createdAt', 'asc'));
   
-    const unsubscribe = onSnapshot(chatRoomRef, (doc) => {
+    const chatRoomRef = doc(db, 'chatRoom', auth.currentUser.email, 'chatContent', chatRoomId);
+  
+    const unsubscribeMessages = onSnapshot(q, (snapshot) => {
+      const fetchedMessages = [];
+      snapshot.forEach((doc) => {
+        fetchedMessages.push({ id: doc.id, ...doc.data() });
+      });
+  
+      setMessages(fetchedMessages);
+    });
+  
+    const unsubscribeChatRoom = onSnapshot(chatRoomRef, (doc) => {
       if (doc.exists()) {
         const chatRoomData = doc.data();
-        if (chatRoomData?.activeYn === 'Y' && chatRoomData?.chatEnd === 'N') {
-          setIsLoading(false);
-          setIsLiveChatOpend(true);   // LiveChatting으로 전환되도록 상태 변경
-          setIsTransitioningToLiveChat(true);  // 전환 상태로 변경
+        if (chatRoomData?.chatEnd === 'Y') {
+          setMessages((prevMessages) => [
+            ...prevMessages,
+            { id: 'endMessage', content: '상담이 종료되었습니다.', createdAt: new Date() },
+          ]);
         }
       }
     });
   
-    return () => unsubscribe(); // 컴포넌트 언마운트 시 구독 해제
-  }, [chatRoomId, selectedAnswer]);
-
+    return () => {
+      unsubscribeMessages(); // 메시지 구독 해제
+      unsubscribeChatRoom(); // 채팅방 상태 구독 해제
+    };
+  }, [chatRoomId]);
   
   
   // useEffect(() => {
@@ -277,6 +286,8 @@ const startNewChat = async (question) => {
       chatEnd: "N",
       createdAt: Date.now(), // 밀리세컨드 단위로 시간을 저장
     });
+
+    
 
     const newChatRoomId = newChatRoom.id;
     setChatRoomId(newChatRoomId); // 상태로 chatRoomId를 설정
