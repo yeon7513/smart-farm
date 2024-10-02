@@ -1,26 +1,26 @@
-import { BiSolidBarChartAlt2 } from "react-icons/bi";
+import { BiSolidBarChartAlt2 } from 'react-icons/bi';
 // import { LiaChartLineSolid } from 'react-icons/lia';
 import {
   // TbChartAreaLineFilled,
   TbChartDonutFilled,
   TbChartPieFilled,
-} from "react-icons/tb";
+} from 'react-icons/tb';
 
 export const chartTypes = [
-  { value: "bar", label: <BiSolidBarChartAlt2 /> },
-  { value: "donut", label: <TbChartDonutFilled /> },
+  { value: 'bar', label: <BiSolidBarChartAlt2 /> },
+  { value: 'donut', label: <TbChartDonutFilled /> },
   // { value: 'area', label: <TbChartAreaLineFilled /> },
-  { value: "pie", label: <TbChartPieFilled /> },
+  { value: 'pie', label: <TbChartPieFilled /> },
   // { value: 'line', label: <LiaChartLineSolid /> },
 ];
 
 export const COLORS = [
-  "#8adab2",
-  "#51c6af",
-  "#00b0af",
-  "#009ab0",
-  "#0083af",
-  "#006baa",
+  '#8adab2',
+  '#51c6af',
+  '#00b0af',
+  '#009ab0',
+  '#0083af',
+  '#006baa',
 ];
 
 // [막대그래프]작물별 상세 조회용 데이터 변환
@@ -89,7 +89,7 @@ export const renderCustomizedLabel = ({
       x={x}
       y={y}
       fill="white"
-      textAnchor={x > cx ? "start" : "end"}
+      textAnchor={x > cx ? 'start' : 'end'}
       dominantBaseline="central"
     >
       {percentage > 5 ? `${percentage.toFixed(1)}%` : null}
@@ -115,7 +115,7 @@ export const renderCustomizedLabelToStr = ({
       x={x}
       y={y}
       fill="white"
-      textAnchor={x > cx ? "start" : "end"}
+      textAnchor={x > cx ? 'start' : 'end'}
       dominantBaseline="central"
     >
       {name}
@@ -134,9 +134,9 @@ export const customTooltip =
         <div
           className="custom-tooltip"
           style={{
-            backgroundColor: "rgba(255,255,255,0.8)",
-            padding: "10px",
-            border: "1px solid #ccc",
+            backgroundColor: 'rgba(255,255,255,0.8)',
+            padding: '10px',
+            border: '1px solid #ccc',
           }}
         >
           <p>{`${name}: ${value} (${percent}%)`}</p>
@@ -145,3 +145,7 @@ export const customTooltip =
     }
     return null;
   };
+
+export function checkDataKeyExists(data, key) {
+  return data.some((item) => item.hasOwnProperty(key));
+}

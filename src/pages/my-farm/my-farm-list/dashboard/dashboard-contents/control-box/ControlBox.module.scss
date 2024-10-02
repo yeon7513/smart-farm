@@ -2,4 +2,8 @@
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 20px;
+
+  .disabled {
+    opacity: 0.5;
+  }
 }

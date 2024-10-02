@@ -43,7 +43,7 @@ function NewStatus({ data }) {
           </div>
         </div>
       </div>
-      <RenderingChart chartType={chartType} data={newData} />
+      <RenderingChart chartType={chartType} data={newData} checkKey={'user'} />
     </div>
   );
 }

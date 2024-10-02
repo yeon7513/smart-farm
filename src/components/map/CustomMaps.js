@@ -3,9 +3,6 @@ import React from 'react';
 
 function CustomMaps({ geoCode }) {
   const position = geoCode[0];
-  console.log(geoCode);
-
-  console.log(position);
 
   return (
     <APIProvider apiKey={process.env.REACT_APP_GOOGLE_MAP_API_KEY}>

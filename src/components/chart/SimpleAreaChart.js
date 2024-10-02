@@ -8,9 +8,13 @@ import {
   XAxis,
   YAxis,
 } from 'recharts';
+import { checkDataKeyExists } from './Charts';
 
-function SimpleAreaChart({ data }) {
-  const hasAllData = data.some((item) => item.hasOwnProperty('user'));
+function SimpleAreaChart({ data, checkKey }) {
+  const hasAllData = checkKey ? checkDataKeyExists(data, checkKey) : null;
+
+  const dataKeys =
+    data.length > 0 ? Object.keys(data[0]).filter((key) => key !== 'name') : [];
 
   return (
     <ResponsiveContainer
@@ -34,18 +38,15 @@ function SimpleAreaChart({ data }) {
         <Tooltip />
         {hasAllData ? (
           <>
-            <Area
-              type="monotone"
-              dataKey="user"
-              stroke="#4b9f9e"
-              fill="#8adab2"
-            />
-            <Area
-              type="monotone"
-              dataKey="dashboard"
-              stroke="#4b9f9e"
-              fill="#8adab2"
-            />
+            {dataKeys.map((key, index) => (
+              <Area
+                key={key}
+                type="monotone"
+                dataKey={key}
+                stroke={index % 2 === 0 ? '#8adab2' : '#4b9f9e'} // 색상 변경
+                fill={index % 2 === 0 ? '#8adab2' : '#4b9f9e'} // 색상 변경
+              />
+            ))}
           </>
         ) : (
           <Area
