@@ -12,12 +12,12 @@ import CustomModal from "../modal/CustomModal";
 import styles from "./Comment.module.scss";
 
 function Comment({ item }) {
-  // console.log(item);
   const loginUser = JSON.parse(localStorage.getItem("user"));
-  const [comments, setComments] = useState("");
+  const [comments, setComments] = useState([]);
   const [newComment, setNewComment] = useState("");
   const [editComment, setEditComment] = useState("");
   const [editCommentId, setEditCommentId] = useState(null);
+  const [selectedComment, setSelectedComment] = useState(null);
   const docId = item.docId;
   const collectionName = item.collection;
   // const { isAuthenticated } = useSelector((state) => state.userSlice);
@@ -47,11 +47,12 @@ function Comment({ item }) {
         category: item.category,
         postId: item.id,
         postDocId: docId,
-        commentDocId: comment.id,
+        commentId: comment.commentId,
         text: comment.text,
+        type: "comment",
       };
 
-      dispatch(addComplain({ collectionName: "complain", complainData }))
+      await dispatch(addComplain({ collectionName: "complain", complainData }))
         .then(() => {
           closeModal(); // 성공 시 모달 닫기
         })
@@ -90,6 +91,7 @@ function Comment({ item }) {
 
     const success = await addComment(collectionName, docId, commentObj);
     if (success) {
+      console.log(commentObj);
       setNewComment(""); // 입력 필드 초기화
       getComments();
     }
@@ -208,7 +210,10 @@ function Comment({ item }) {
                             <div>
                               <button
                                 className={styles.complain}
-                                onClick={() => openModal(comment)}
+                                onClick={() => {
+                                  openModal();
+                                  setSelectedComment(comment);
+                                }}
                               >
                                 🚨신고하기
                               </button>
@@ -217,7 +222,7 @@ function Comment({ item }) {
                                 btnName={"접수"}
                                 handleClose={closeModal}
                                 isOpen={isModalOpen}
-                                btnHandler={() => goComplain(comment)}
+                                btnHandler={() => goComplain(selectedComment)}
                                 className={styles.modal}
                               >
                                 <CmRadio

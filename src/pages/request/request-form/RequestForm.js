@@ -363,13 +363,8 @@ function RequestForm({ user }) {
 
       // 현재 옵션의 값을 토글합니다.
       const renamedValue = renameOptionsEn(value);
-
-      // 선택된 옵션의 현재 값을 확인하고 토글합니다.
-      if (updatedOptions[index][category][renamedValue] === "Y") {
-        updatedOptions[index][category][renamedValue] = "N"; // 선택 해제
-      } else {
-        updatedOptions[index][category][renamedValue] = "Y"; // 선택
-      }
+      updatedOptions[index][category][renamedValue] =
+        updatedOptions[index][category][renamedValue] === "Y" ? "N" : "Y";
 
       console.log(updatedOptions[index][category]);
       return updatedOptions;

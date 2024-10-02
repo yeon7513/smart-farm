@@ -1,33 +1,32 @@
-import React, { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
-import { useSectorContext } from '../../../../../../context/SectorContext';
+import React, { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { useSectorContext } from "../../../../../../context/SectorContext";
 import {
   addControlItem,
   removeControlItem,
   setControlItem,
-} from '../../../../../../store/controlData/controlSlice';
-import { getAllControlItems } from '../../../../../../utils/indexedDB';
-import { renameOptionsKor } from '../../../../../../utils/renameOptions';
-import ControlItem from './control-item/ControlItem';
-import styles from './ControlBox.module.scss';
+} from "../../../../../../store/controlData/controlSlice";
+import { getAllControlItems } from "../../../../../../utils/indexedDB";
+import { renameOptionsKor } from "../../../../../../utils/renameOptions";
+import ControlItem from "./control-item/ControlItem";
+import styles from "./ControlBox.module.scss";
 
 function ControlBox() {
   const { sector } = useSectorContext();
 
   const dispatch = useDispatch();
-
-  const isAdmin = JSON.parse(localStorage.getItem('user')).email.includes(
-    'admin'
+  const isAdmin = JSON.parse(localStorage.getItem("user")).email.includes(
+    "admin"
   );
 
   // 컨트롤 활성 옵션 필터링
   const filteredOptions = Object.entries(sector?.control || {})
-    .filter(([key, value]) => (isAdmin ? true : value === 'Y'))
+    .filter(([key, value]) => (isAdmin ? true : value === "Y"))
     .map(([key, value]) => ({
       label: renameOptionsKor(key),
-      isDisabled: value === 'N',
+      isDisabled: value === "N",
     }))
-    .sort((a, b) => a.label.localeCompare(b.label, 'ko-KR'));
+    .sort((a, b) => a.label.localeCompare(b.label, "ko-KR"));
 
   // useEffect(() => {
   //   dispatch(
@@ -120,9 +119,9 @@ function ControlBox() {
       try {
         const list = await getAllControlItems();
         dispatch(setControlItem(list));
-        console.log('indexedDB 로드 성공');
+        console.log("indexedDB 로드 성공");
       } catch (error) {
-        console.error('indexedDB 로드 실패: ', error);
+        console.error("indexedDB 로드 실패: ", error);
       }
     };
 
@@ -145,7 +144,7 @@ function ControlBox() {
             key={idx}
             idx={idx}
             option={option.label}
-            className={option.isDisabled ? styles.disabled : ''}
+            className={option.isDisabled ? styles.disabled : ""}
             handleAddClick={handleAddClick}
             handleRemoveClick={handleRemoveClick}
             // onMoveComponent={handleMoveComponent}

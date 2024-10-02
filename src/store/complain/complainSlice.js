@@ -4,6 +4,8 @@ import {
   addSetDocDatas,
   duplicateComplaint,
   incrementComplainCount,
+  suspendBoard,
+  updateComplaintNotProcess,
   updateComplaintProcess,
 } from "../../api/complaint";
 
@@ -80,7 +82,7 @@ const complainSlice = createSlice({
         );
         state.processed.push({
           ...state.processing.find((complain) => complain.id === complaintId),
-          processYn: "Y",
+          processYn: "Y" || "y",
         });
       })
       .addCase(approveComplaint.rejected, (state, action) => {
@@ -123,7 +125,9 @@ export const fetchProcessed = createAsyncThunk(
   async () => {
     try {
       const data = await getDatas("complain");
-      const resultData = data.filter((item) => item.processYn === "Y"); // processYn 필드로 필터링
+      const resultData = data.filter(
+        (item) => item.processYn === "Y" || item.processYn === "y"
+      ); // processYn 필드로 필터링
       return resultData;
     } catch (error) {
       console.log("처리 완료 데이터 불러오기 중 에러: ", error);
@@ -132,32 +136,58 @@ export const fetchProcessed = createAsyncThunk(
 );
 
 // 신고 추가
+// export const addComplain = createAsyncThunk(
+//   "complain/addComplain",
+//   async ({ collectionName, complainData }) => {
+//     try {
+//       const isDuplicate = await duplicateComplaint(
+//         complainData.complainantDocId,
+//         complainData.postDocId
+//       );
+
+//       if (isDuplicate) {
+//         alert("이미 신고되어 처리 중입니다.");
+//         return { success: false, message: "이미 신고되어 처리 중입니다." };
+//       } else {
+//       }
+
+//       await addSetDocDatas(collectionName, complainData);
+
+//       return { success: true, data: complainData }; // 성공 시 추가한 데이터를 리턴
+//     } catch (error) {
+//       console.log(`신고하기 에러 발생: ${error.message}`);
+//       return { success: false, message: error.message }; // 에러 발생 시 메시지 리턴
+//     }
+//   }
+// );
 export const addComplain = createAsyncThunk(
   "complain/addComplain",
   async ({ collectionName, complainData }) => {
     try {
       const isDuplicate = await duplicateComplaint(
         complainData.complainantDocId,
-        complainData.postDocId
+        complainData.postDocId,
+        complainData.type,
+        complainData.commentId
       );
 
       if (isDuplicate) {
         alert("이미 신고되어 처리 중입니다.");
+        console.log(complainData.commentId);
         return { success: false, message: "이미 신고되어 처리 중입니다." };
-      } else {
       }
 
       await addSetDocDatas(collectionName, complainData);
 
-      return { success: true, data: complainData }; // 성공 시 추가한 데이터를 리턴
+      return { success: true, data: complainData };
     } catch (error) {
       console.log(`신고하기 에러 발생: ${error.message}`);
-      return { success: false, message: error.message }; // 에러 발생 시 메시지 리턴
+      return { success: false, message: error.message };
     }
   }
 );
 
-// 신고 누적횟수 증가
+// 신고 누적횟수 증가 및 승인
 export const approveComplaint = createAsyncThunk(
   "complain/approveComplaint",
   async ({ userId, complainId }) => {
@@ -174,20 +204,47 @@ export const approveComplaint = createAsyncThunk(
     }
   }
 );
+// 활동 정지
+export const approveSuspend = createAsyncThunk(
+  "complain/approveSuspend",
+  async ({ userId }) => {
+    try {
+      // 신고당한 사용자의 신고 누적 횟수 증가
+      await suspendBoard(userId);
+
+      return { userId };
+    } catch (error) {
+      console.log(`승인 중 오류:`, error);
+    }
+  }
+);
+
 // 신고자 제재
 export const approveComplainant = createAsyncThunk(
   "complain/approveComplainant",
-  async ({ userId, complainId }) => {
+  async ({ userId }) => {
     try {
       // 신고당한 사용자의 신고 누적 횟수 증가
       await incrementComplainCount(userId);
 
-      // processYn을 'Y'로 업데이트
-      await updateComplaintProcess(complainId);
-
-      return { userId, complainId };
+      return { userId };
     } catch (error) {
       console.log(`거부 승인 중 오류:`, error);
+    }
+  }
+);
+
+// 신고 거부
+export const notApproveComplaint = createAsyncThunk(
+  "complain/notApproveComplaint",
+  async ({ complainId }) => {
+    try {
+      // processYn을 'y'로 업데이트
+      await updateComplaintNotProcess(complainId);
+
+      return { complainId };
+    } catch (error) {
+      console.log(`승인 중 오류:`, error);
     }
   }
 );
