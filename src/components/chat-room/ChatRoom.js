@@ -70,7 +70,14 @@ function ChatRoom({ chatroomId }) {
   useEffect(() => {
     if (!chatRoomId) return;
   
-    const messageRef = collection(db, 'chatRoom', auth.currentUser.email, 'chatContent', chatRoomId, 'message');
+    const messageRef = collection(
+      db, 
+      'chatRoom',
+       auth.currentUser.email,
+        'chatContent',
+         chatRoomId,
+          'message'
+        );
     const q = query(messageRef, orderBy('createdAt', 'asc'));
   
     const chatRoomRef = doc(db, 'chatRoom', auth.currentUser.email, 'chatContent', chatRoomId);
@@ -385,25 +392,21 @@ const startNewChat = async (question) => {
     const userEmail = currentUser.email;
   
     try {
-      const messageRef = collection(db, "chatRoom", userEmail, "chatContent", chatRoomId, "message");
+      const messageRef = collection(db,
+         "chatRoom",
+          userEmail, 
+          "chatContent",
+           chatRoomId,
+            "message"
+          );
   
-      const messageDoc = await addDoc(messageRef, {
+     await addDoc(messageRef, {
         content: message,
         createdAt: Date.now(), // 밀리세컨즈 단위로 시간을 저장
         uid: currentUser.uid,
       });
   
-      setMessages((prevMessages) => [
-        ...prevMessages,
-        {
-          id: messageDoc.id,
-          content: message,
-          createdAt: Date.now(), // 밀리세컨즈 단위로 시간을 추가
-          uid: currentUser.uid,
-        },
-      ]);
-  
-      console.log("메시지가 성공적으로 Firestore에 저장되었습니다.");
+     
     } catch (error) {
       console.error("메시지 전송 중 오류 발생:", error.message);
     }
