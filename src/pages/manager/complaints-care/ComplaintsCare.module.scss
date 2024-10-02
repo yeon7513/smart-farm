@@ -13,6 +13,12 @@
   button {
     font-size: 18px;
   }
+
+  @media (max-width: 576px) {
+    button {
+      font-size: 17px;
+    }
+  }
 }
 
 .category {
@@ -23,25 +29,35 @@
   button {
     font-size: 18px;
   }
-}
-.active {
-  border-bottom: 2px solid var(--accent-color);
+
+  .active {
+    border-bottom: 2px solid var(--accent-color);
+  }
+
+  @media (max-width: 576px) {
+    div {
+      gap: 10px;
+    }
+    button {
+      font-size: 16px;
+    }
+  }
 }
 
 .content {
   padding: 20px;
 
-  h3 {
-    font-size: 17px;
+  h1 {
+    font-size: 18px;
+    font-weight: 200;
   }
   h2 {
     font-size: 19px;
     margin-bottom: 5px;
     font-weight: 500;
   }
-  h1 {
-    font-size: 18px;
-    font-weight: 500;
+  h3 {
+    font-size: 17px;
   }
   h4 {
     font-size: 15px;
@@ -60,48 +76,49 @@
       padding: 10px 13px;
       font-weight: 500;
     }
+  }
 
-    @media (max-width: 992px) {
-      padding: 10px;
+  @media (max-width: 992px) {
+    padding: 10px;
 
-      h1 {
-        text-align: center;
-      }
-      h4 {
-        font-size: 14px;
-      }
+    h4 {
+      font-size: 14px;
     }
-    @media (max-width: 768px) {
+  }
+  @media (max-width: 768px) {
+    section {
       padding: 10px;
-
-      h2 {
-        font-size: 18px;
-      }
-      h4 {
-        font-size: 12px;
-      }
-      h3 {
-        font-size: 16px;
-      }
     }
-    @media (max-width: 576px) {
-      padding: 10px;
-      h2 {
-        font-size: 16px;
-      }
-      h4 {
-        font-size: 12px;
-      }
-      h3 {
-        font-size: 15px;
-      }
+    h2 {
+      font-size: 18px;
+    }
+    h4 {
+      font-size: 12px;
+    }
+    h3 {
+      font-size: 16px;
+    }
+  }
+  @media (max-width: 576px) {
+    h1 {
+      font-size: 16px;
+    }
+    h2 {
+      font-size: 16px;
+    }
+    h4 {
+      font-size: 12px;
+    }
+    h3 {
+      font-size: 15px;
+    }
 
-      button {
-        font-weight: 400;
-      }
+    button {
+      font-weight: 400;
     }
   }
 }
+
 .hide {
   display: none;
 }
@@ -213,7 +230,7 @@
       flex-direction: column;
     }
   }
-  @media (max-width: 768px) {
+  @media (max-width: 576px) {
     .careUser {
       font-size: 14px;
     }
@@ -245,6 +262,16 @@
 .processed {
   display: flex;
   flex-direction: column;
+  gap: 1px;
+
+  p {
+    font-size: 15px;
+  }
+  @media (max-width: 576px) {
+    p {
+      font-size: 14px;
+    }
+  }
 }
 
 // 게시글 승인 모달

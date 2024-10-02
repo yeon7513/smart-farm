@@ -4,6 +4,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchBoardDatas } from "../../store/board/boardSlice";
 import styles from "./Board.module.scss";
 import Post from "./post/Post";
+import SearchBox from "../search_box/SearchBox";
+import { TbSearch } from "react-icons/tb";
 
 const PAGE_SIZE = 10;
 
@@ -13,6 +15,7 @@ function Board({ nopost, category, complain, myPosts }) {
   const [currentPage, setCurrentPage] = useState(1);
   const [isWriting, setIsWriting] = useState(false); // 글쓰기 모드 상태
   const [view, setView] = useState([]);
+  const [searchValue, setSearchValue] = useState("");
 
   const dispatch = useDispatch();
   const { posts, isLoading } = useSelector((state) => state.boardSlice);
@@ -30,9 +33,16 @@ function Board({ nopost, category, complain, myPosts }) {
     }
   }, [posts, isLoading]);
 
+  // 검색
+  const filteredPosts = view.filter(
+    (post) =>
+      post.title.toLowerCase().includes(searchValue.toLowerCase()) ||
+      post.nick.toLowerCase().includes(searchValue.toLowerCase())
+  );
+
   // 페이지 넘기기
   const totalPages = Math.ceil(view.length / PAGE_SIZE);
-  const currentItem = view.slice(
+  const currentItem = filteredPosts.slice(
     (currentPage - 1) * PAGE_SIZE,
     currentPage * PAGE_SIZE
   );
@@ -69,15 +79,12 @@ function Board({ nopost, category, complain, myPosts }) {
     }
   };
 
-  // 데이터 불러오기
-  // const handleLoad = async () => {
-  //   const data = await getBoardDatas(category);
-  //   setView(data);
-  // };
+  // 검색
 
-  // useEffect(() => {
-  //   handleLoad();
-  // }, []);
+  const handleChangeSearch = (e) => {
+    let value = !e.target[0] ? e.target.value : e.target[0].value;
+    setSearchValue(value);
+  };
 
   return (
     <div className={styles.container}>
@@ -86,6 +93,15 @@ function Board({ nopost, category, complain, myPosts }) {
         <Post onClick={notPosting} onSubmit={addPost} category={category} />
       ) : (
         <>
+          <div className={styles.boardSearch}>
+            <SearchBox
+              className={styles.searchBox}
+              name={<TbSearch />}
+              placeholder={"검색"}
+              value={searchValue}
+              onChange={handleChangeSearch}
+            />
+          </div>
           <div className={styles.col}>
             <div>NO.</div>
             <div>제목</div>

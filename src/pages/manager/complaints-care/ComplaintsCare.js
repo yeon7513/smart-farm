@@ -14,6 +14,7 @@ import CpProfile from "./part/CpProfile";
 function ComplaintsCare() {
   const [sort, setSort] = useState("all");
   const [process, setProcess] = useState("processing");
+  const [searchValue, setSearchValue] = useState("");
 
   const dispatch = useDispatch();
   const { processing, processed } = useSelector((state) => state.complainSlice);
@@ -39,30 +40,33 @@ function ComplaintsCare() {
   // 카테고리별 필터링된 데이터 가져오기
   const filteredData = (sort) => {
     const data = process === "processing" ? processing : processed;
+    let filteredBySort = data;
 
     if (sort === "profile") {
-      const profileData = data.filter(
+      filteredBySort = data.filter(
         (item) => item.reasonCode && item.reasonCode.startsWith("pf")
       );
-      return profileData;
     } else if (sort === "post") {
-      const postData = data.filter(
+      filteredBySort = data.filter(
         (item) => item.reasonCode && item.reasonCode.startsWith("ps")
       );
-      return postData;
     } else if (sort === "comment") {
-      const commentData = data.filter(
+      filteredBySort = data.filter(
         (item) => item.reasonCode && item.reasonCode.startsWith("cm")
       );
-      return commentData;
     }
 
-    return data;
+    // 검색어로 필터링
+    return filteredBySort.filter(
+      (item) =>
+        searchValue === "" ||
+        item.reasonName.toLowerCase().includes(searchValue.toLowerCase()) ||
+        item.complainant.toLowerCase().includes(searchValue.toLowerCase()) ||
+        item.defendant.toLowerCase().includes(searchValue.toLowerCase())
+    );
   };
 
   // 검색
-  const [searchValue, setSearchValue] = useState("");
-
   const handleChangeSearchComplaint = (e) => {
     let value = !e.target[0] ? e.target.value : e.target[0].value;
     setSearchValue(value);

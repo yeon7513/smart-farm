@@ -148,8 +148,8 @@ function CpPost({ item, process }) {
               </>
             ) : (
               <div className={styles.processed}>
-                <div>처리일: {item.processedAt}</div>
-                <div>처리 결과: {processYy[item.processYn]}</div>
+                <p>처리일: {item.processedAt}</p>
+                <p>처리 결과: {processYy[item.processYn]}</p>
               </div>
             )}
           </div>
