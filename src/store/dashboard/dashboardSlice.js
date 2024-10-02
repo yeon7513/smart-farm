@@ -1,6 +1,6 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { deactivationData } from "../../api/dashboard";
-import { getDatas, updateDatas } from "../../api/firebase";
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { deactivationData } from '../../api/dashboard';
+import { getDatas, updateDatas } from '../../api/firebase';
 
 const initialState = {
   commonInfo: [],
@@ -11,7 +11,7 @@ const initialState = {
 };
 
 const dashboardSlice = createSlice({
-  name: "dashboard",
+  name: 'dashboard',
   initialState,
   reducers: {},
   extraReducers: (builder) => {
@@ -82,7 +82,7 @@ const dashboardSlice = createSlice({
 });
 
 export const fetchCommonInfo = createAsyncThunk(
-  "dashboard/fetchCommonInfo",
+  'dashboard/fetchCommonInfo',
   async (collectionName) => {
     try {
       const data = await getDatas(collectionName);
@@ -94,11 +94,10 @@ export const fetchCommonInfo = createAsyncThunk(
 );
 
 export const fetchSectorInfo = createAsyncThunk(
-  "dashboard/fetchSectorInfo",
+  'dashboard/fetchSectorInfo',
   async (collectionName) => {
     try {
       const data = await getDatas(collectionName);
-      console.log(data);
       return data;
     } catch (error) {
       return error;
@@ -107,7 +106,7 @@ export const fetchSectorInfo = createAsyncThunk(
 );
 
 export const resetSectorData = createAsyncThunk(
-  "dashboard/resetSectorData",
+  'dashboard/resetSectorData',
   async (collectionName) => {
     try {
       const data = await getDatas(collectionName);
@@ -119,7 +118,7 @@ export const resetSectorData = createAsyncThunk(
 );
 
 export const updateCommonInfo = createAsyncThunk(
-  "dashboard/updateCommonInfo",
+  'dashboard/updateCommonInfo',
   async ({ collectionName, docId, updateObj }) => {
     try {
       const result = await updateDatas(collectionName, docId, updateObj);
@@ -131,7 +130,7 @@ export const updateCommonInfo = createAsyncThunk(
 );
 
 export const deactivationDashboard = createAsyncThunk(
-  "dashboard/deactivationDashboard",
+  'dashboard/deactivationDashboard',
   async ({ collectionName, docId, fieldName }) => {
     try {
       const result = await deactivationData(collectionName, docId, fieldName);
