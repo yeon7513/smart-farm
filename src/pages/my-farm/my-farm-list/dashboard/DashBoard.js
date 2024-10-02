@@ -12,29 +12,9 @@ import styles from './DashBoard.module.scss';
 function DashBoard() {
   const { state } = useLocation();
   const { resetSector } = useSelector((state) => state.dashboardSlice);
-  const { items } = useSelector((state) => state.userSlice);
 
   const { setCurrComp } = useComponentContext();
   const { setSector } = useSectorContext();
-
-  console.log(state);
-  console.log('items: ', items);
-  const isAdmin = JSON.parse(localStorage.getItem('user')).email.includes(
-    'admin'
-  );
-
-  const filteredInfo = isAdmin
-    ? items.find((item) =>
-        item.email === state.userId
-          ? {
-              name: item.name,
-              crop: state.crop,
-              farmName: state.farmName,
-              type: state.type,
-            }
-          : null
-      )
-    : state;
 
   const dispatch = useDispatch();
 
@@ -56,7 +36,7 @@ function DashBoard() {
   return (
     <div className={styles.wrapper}>
       <div className={styles.dashBoard}>
-        <DashboardHeader info={filteredInfo} />
+        <DashboardHeader info={state} />
         <div className={styles.content}>
           <DashboardNav />
           <DashboardContent docId={state.docId} />

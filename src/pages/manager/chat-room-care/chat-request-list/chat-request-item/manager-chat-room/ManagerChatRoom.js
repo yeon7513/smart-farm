@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import styles from './ManagerChatRoom.module.scss';
-import { addDoc, collection, onSnapshot, serverTimestamp } from 'firebase/firestore';
+import { addDoc, collection, doc, onSnapshot, updateDoc } from 'firebase/firestore';
 import { auth, db } from '../../../../../../api/firebase';
 import closeIcon from "../../../../../../assets/main/closeImg.svg";
 import ManagerMessage from './manager-message/ManagerMessage';
@@ -33,6 +33,13 @@ function ManagerChatRoom({ chatId, userEmail }) {
         });
         setMessages(newMessages);
       });
+
+      const handleUserEndChat = async () => {
+        const chatRoomRef = doc(db, "chatRoom", userEmail, "chatContent", chatId);
+        await updateDoc(chatRoomRef, {
+          chatEnd: "Y", // 유저가 상담 종료
+        });
+      };
     
       return () => unsubscribe();
     }, [chatId, userEmail]);
@@ -56,9 +63,12 @@ function ManagerChatRoom({ chatId, userEmail }) {
       handleSendMessage(); // 메시지 전송
     };
 
-    const handleClose = () => {
+    const handleClose = async () => {
+      const chatRoomRef = doc(db, "chatRoom", userEmail, "chatContent", chatId);
+      await updateDoc(chatRoomRef, {
+        chatEnd: "Y", // 상담 종료 상태로 업데이트
+      });
       setIsChatRoomOpened(false);
-      // 챗룸 닫기
     };
   
     if (!isChatRoomOpened) return null;
@@ -68,7 +78,7 @@ function ManagerChatRoom({ chatId, userEmail }) {
     return (
       <div className={styles.wrapper}>
         <div className={styles.header}>
-          <h2 className={styles.chattingTitle}>아이팜 채팅상담</h2>
+          <h2 className={styles.chattingTitle}>관리자용 채팅상담</h2>
           <button className={styles.closeBtn} onClick={handleClose}>
             <img src={closeIcon} alt="닫기" style={{ width: "16px", height: "16px" }} />
           </button>
@@ -81,19 +91,23 @@ function ManagerChatRoom({ chatId, userEmail }) {
 
         {/* 메시지 입력 폼 */}
         <div className={styles.footer}>
-          <form className={styles.chattingForm} onSubmit={handleSubmit}>
-            <input
-              className={styles.input}
-              type="text"
-              value={message}
-              onChange={(e) => setMessage(e.target.value)}
-              placeholder="메시지를 입력하세요..."
-            />
-            <button type="submit" className={styles.submitButton}>
-              <FaPaperPlane />
-            </button>
-          </form>
-        </div>
+  {messages.some((msg) => msg.id === "endMessage") ? (
+    <div className={styles.endMessage}>상담이 종료되었습니다</div>
+  ) : (
+    <form className={styles.chattingForm} onSubmit={handleSubmit}>
+      <input
+        className={styles.input}
+        type="text"
+        value={message}
+        onChange={(e) => setMessage(e.target.value)}
+        placeholder="메시지를 입력하세요..."
+      />
+      <button type="submit" className={styles.submitButton}>
+        <FaPaperPlane />
+      </button>
+    </form>
+  )}
+</div>
       </div>
     );
 }

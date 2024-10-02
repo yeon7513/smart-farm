@@ -1,15 +1,17 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { getOrder } from "../../api/firebase";
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { getOrder } from '../../api/firebase';
+import { openDB } from '../../utils/indexedDB';
 
 const initialState = {
   item: [],
-  postsLength: "",
-  count: "",
-  randomCount: "",
+  postsLength: '',
+  count: '',
+  randomCount: '',
   dashboardAlertContent: [],
+  controlItems: [],
 };
 const controlSlice = createSlice({
-  name: "controlStatus",
+  name: 'controlStatus',
   initialState,
   reducers: {
     setData: (state, action) => {
@@ -26,6 +28,19 @@ const controlSlice = createSlice({
     },
     postsLengthData: (state, action) => {
       state.postsLength = action.payload;
+    },
+    setControlItem: (state, action) => {
+      state.controlItems = action.payload;
+    },
+    addControlItem: (state, action) => {
+      state.controlItems.push(action.payload);
+      saveControlItem(action.payload);
+    },
+    removeControlItem: (state, action) => {
+      state.controlItems = state.controlItems.filter(
+        (item) => item.id !== action.payload
+      );
+      deleteControlItem(action.payload);
     },
   },
 
@@ -44,14 +59,34 @@ const controlSlice = createSlice({
   },
 });
 
+// indexedDB에 데이터 저장
+const saveControlItem = async (item) => {
+  const db = await openDB();
+
+  const transaction = db.transaction(['myStore'], 'readwrite');
+  const store = transaction.objectStore('myStore');
+
+  await store.put(item);
+};
+
+// indexedDB에 데이터 삭제
+const deleteControlItem = async (id) => {
+  const db = await openDB();
+
+  const transaction = db.transaction(['myStore'], 'readwrite');
+  const store = transaction.objectStore('myStore');
+
+  store.delete(id);
+};
+
 const getdashboardAlertContent = createAsyncThunk(
-  "dashboardAlertContent/fetchAlldashboardAlertContent",
+  'dashboardAlertContent/fetchAlldashboardAlertContent',
   async ({ collectionName, orderByField }) => {
     try {
       const resultData = await getOrder(collectionName, orderByField);
       return resultData;
     } catch (error) {
-      return "Error" + error;
+      return 'Error' + error;
     }
   }
 );
@@ -64,4 +99,7 @@ export const {
   countData,
   randomCountData,
   postsLengthData,
+  setControlItem,
+  addControlItem,
+  removeControlItem,
 } = controlSlice.actions;

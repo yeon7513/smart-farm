@@ -3,7 +3,7 @@ import styles from './FooterChattingForm.module.scss';
 import * as FaIcons from "react-icons/fa";
 
 
-function FooterChattingForm({onSendMessage}) {
+function FooterChattingForm({messages = [], onSendMessage}) {
   const [message, setMessage] = useState('');
 
   // 메시지 전송 핸들러
@@ -16,8 +16,14 @@ function FooterChattingForm({onSendMessage}) {
       setMessage(''); // 메시지 입력 필드 초기화
     }
   };
+  // 상담이 종료되었는지 확인
+  const isChatEnded = messages.some((msg) => msg.id === 'endMessage');
 
   return (
+    <div>
+    {isChatEnded ? (
+      <div className={styles.endMessage}>상담이 종료되었습니다</div>  // 상담 종료 메시지 표시
+    ) : (
     <form className={styles.chattingForm} onSubmit={handleSubmit}>
       <input
       className={styles.input}
@@ -30,6 +36,8 @@ function FooterChattingForm({onSendMessage}) {
       <FaIcons.FaPaperPlane />
       </button>
     </form>
+  )}
+  </div>
   );
 }
 

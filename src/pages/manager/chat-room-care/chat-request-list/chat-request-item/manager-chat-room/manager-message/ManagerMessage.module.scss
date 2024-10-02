@@ -32,13 +32,15 @@
 .managerMessage {
   margin: 10px;
 align-self: flex-end;
-text-align: right;
+text-align: left;
 p {
   background-color: var(--common-color);
 }
 }
 
 .managerMessage .messageTime {
+  display: flex;
+justify-content: right;
 }
 
 /* 유저 메시지 */
@@ -52,4 +54,6 @@ p {
 }
 
 .userMessage .messageTime {
+  display: flex;
+  text-align: left;
 }

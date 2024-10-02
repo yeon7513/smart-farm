@@ -92,6 +92,41 @@ function ChatRoom({ chatroomId }) {
     return () => unsubscribe(); // 컴포넌트 언마운트 시 구독 해제
   }, [chatRoomId, selectedAnswer]);
 
+  useEffect(() => {
+    if (!chatRoomId) return;
+  
+    const messageRef = collection(db, 'chatRoom', auth.currentUser.email, 'chatContent', chatRoomId, 'message');
+    const q = query(messageRef, orderBy('createdAt', 'asc'));
+  
+    const chatRoomRef = doc(db, 'chatRoom', auth.currentUser.email, 'chatContent', chatRoomId);
+  
+    const unsubscribeMessages = onSnapshot(q, (snapshot) => {
+      const fetchedMessages = [];
+      snapshot.forEach((doc) => {
+        fetchedMessages.push({ id: doc.id, ...doc.data() });
+      });
+  
+      setMessages(fetchedMessages);
+    });
+  
+    const unsubscribeChatRoom = onSnapshot(chatRoomRef, (doc) => {
+      if (doc.exists()) {
+        const chatRoomData = doc.data();
+        if (chatRoomData?.chatEnd === 'Y') {
+          setMessages((prevMessages) => [
+            ...prevMessages,
+            { id: 'endMessage', content: '상담이 종료되었습니다.', createdAt: new Date() },
+          ]);
+        }
+      }
+    });
+  
+    return () => {
+      unsubscribeMessages(); // 메시지 구독 해제
+      unsubscribeChatRoom(); // 채팅방 상태 구독 해제
+    };
+  }, [chatRoomId]);
+
   
   
   // useEffect(() => {
@@ -265,6 +300,7 @@ const startNewChat = async (question) => {
   };
 
   const handleClose = () => {
+    endChat(chatRoomId); // 상담 종료 함수 호출
     setIsChatRoomOpened(false);
     // 챗룸 닫기
   };
@@ -301,7 +337,7 @@ const startNewChat = async (question) => {
         {
           activeYn: 'Y',
           chatEnd: 'Y',  // 상담 종료 처리
-          endedAt: Date.now(), // 상담 종료 시간도 밀리세컨즈로 저장
+          endedAt: Date.now(), // 상담 종료 시간도 저장
         },
         { merge: true }
       );
@@ -342,21 +378,12 @@ const startNewChat = async (question) => {
     try {
       const messageRef = collection(db, "chatRoom", userEmail, "chatContent", chatRoomId, "message");
   
-      const messageDoc = await addDoc(messageRef, {
+      // Firestore에 메시지를 추가하지만, 상태는 onSnapshot에서 관리
+      await addDoc(messageRef, {
         content: message,
-        createdAt: Date.now(), // 밀리세컨즈 단위로 시간을 저장
+        createdAt: Date.now(),
         uid: currentUser.uid,
       });
-  
-      setMessages((prevMessages) => [
-        ...prevMessages,
-        {
-          id: messageDoc.id,
-          content: message,
-          createdAt: Date.now(), // 밀리세컨즈 단위로 시간을 추가
-          uid: currentUser.uid,
-        },
-      ]);
   
       console.log("메시지가 성공적으로 Firestore에 저장되었습니다.");
     } catch (error) {
