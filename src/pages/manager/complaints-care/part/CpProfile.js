@@ -21,9 +21,6 @@ function CpProfile({ item, process }) {
   };
 
   const dispatch = useDispatch();
-  const { items } = useSelector((state) => state.userSlice);
-
-  const member = items.find((user) => user.docId === item.defendantDocId);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const openModal = () => setIsModalOpen(true);
@@ -50,13 +47,16 @@ function CpProfile({ item, process }) {
     dispatch(approveSuspend({ userId: item.defendantDocId }))
       .then(() => {
         alert("해당 유저를 활동 정지 처리하였습니다.");
-        setIsModalOpen(false); // 모달 닫기
       })
       .catch((error) => {
         console.error(error);
         alert("오류가 발생했습니다.");
       });
   };
+
+  const { items, isLoading } = useSelector((state) => state.userSlice);
+
+  const member = items.find((user) => user.docId === item.defendantDocId);
 
   const [values, setValues] = useState({
     nickname: member.nickname,
@@ -86,6 +86,10 @@ function CpProfile({ item, process }) {
 
     try {
       dispatch(updateUserInfo(params));
+
+      if (isLoading === false) {
+        await setIsModalOpen(false);
+      }
     } catch (error) {
       console.error(error);
     }
@@ -120,8 +124,8 @@ function CpProfile({ item, process }) {
                         className={styles.modalImg}
                         setFile={handleChange}
                         name="photoUrl"
-                        value={values.photoUrl || placehorderImg}
-                        initialPreview={item.photoUrl}
+                        value={values.photoUrl}
+                        initialPreview={member.photoUrl}
                         selected={true}
                       />
                     </div>
@@ -131,14 +135,12 @@ function CpProfile({ item, process }) {
                         name="nickname"
                         value={newNickName}
                         placeholder={item.defendant}
-                        readOnly
+                        isDisabled={true}
                       />
-                      <button
-                        type="button"
-                        onClick={handleRandomNickName}
-                      ></button>
+                      <button type="button" onClick={handleRandomNickName}>
+                        변경
+                      </button>
                     </div>
-                    <p>신고 누적 횟수: 3회</p>
                     <div className={styles.processBtn}>
                       <button type="submit">수정 완료</button>
                       <button type="button" onClick={goSuspend}>

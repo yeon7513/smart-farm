@@ -68,34 +68,16 @@ function ChatRoom({ chatroomId }) {
 
 
   useEffect(() => {
-    if (!chatRoomId || !selectedAnswer) return;
-  
-    const chatRoomRef = doc(
-      db,
-      'chatRoom',
-      auth.currentUser.email,
-      'chatContent',
-      chatRoomId
-    );
-  
-    const unsubscribe = onSnapshot(chatRoomRef, (doc) => {
-      if (doc.exists()) {
-        const chatRoomData = doc.data();
-        if (chatRoomData?.activeYn === 'Y' && chatRoomData?.chatEnd === 'N') {
-          setIsLoading(false);
-          setIsLiveChatOpend(true);   // LiveChatting으로 전환되도록 상태 변경
-          setIsTransitioningToLiveChat(true);  // 전환 상태로 변경
-        }
-      }
-    });
-  
-    return () => unsubscribe(); // 컴포넌트 언마운트 시 구독 해제
-  }, [chatRoomId, selectedAnswer]);
-
-  useEffect(() => {
     if (!chatRoomId) return;
   
-    const messageRef = collection(db, 'chatRoom', auth.currentUser.email, 'chatContent', chatRoomId, 'message');
+    const messageRef = collection(
+      db, 
+      'chatRoom',
+       auth.currentUser.email,
+        'chatContent',
+         chatRoomId,
+          'message'
+        );
     const q = query(messageRef, orderBy('createdAt', 'asc'));
   
     const chatRoomRef = doc(db, 'chatRoom', auth.currentUser.email, 'chatContent', chatRoomId);
@@ -126,7 +108,6 @@ function ChatRoom({ chatroomId }) {
       unsubscribeChatRoom(); // 채팅방 상태 구독 해제
     };
   }, [chatRoomId]);
-
   
   
   // useEffect(() => {
@@ -252,6 +233,39 @@ function ChatRoom({ chatroomId }) {
       return null;
     }
   };
+
+  const ensureEmailDocumentExists = async () => {
+    const currentUser = auth.currentUser;
+  
+    if (!currentUser) {
+      console.error("사용자가 로그인되지 않았습니다.");
+      return;
+    }
+  
+    const userEmail = currentUser.email;
+  
+    try {
+      const userDocRef = doc(db, "users", userEmail);
+  
+  
+      // 문서가 존재하는지 확인
+      const userDoc = await getDoc(userDocRef);
+      if (!userDoc.exists()) {
+        // 문서가 존재하지 않으면 dummy 필드를 포함해 문서 생성
+        const chatRoomRef = doc(db, "chatRoom", userEmail);
+        await setDoc(chatRoomRef, {
+          email: userEmail,
+          dummy: "", // dummy 필드에 빈 문자열 추가
+          createdAt: Date.now() // 문서 생성 시간 추가
+        });
+        console.log('새로운 이메일 문서가 생성되었습니다. (dummy 필드 포함)');
+      } else {
+        console.log('이메일 문서가 이미 존재합니다.');
+      }
+    } catch (error) {
+      console.error("이메일 문서 생성 중 오류가 발생했습니다:", error.message);
+    }
+  };
   
   
   // startNewChat 함수 - 새로운 chatRoom을 생성
@@ -266,6 +280,7 @@ const startNewChat = async (question) => {
 
   const userEmail = currentUser.email;
   const userNickname = await fetchUserNickname(); // 닉네임을 가져오는 함수
+  ensureEmailDocumentExists()
 
   try {
     // 새로운 chatRoom 계정의 chatContent 문서를 생성
@@ -278,6 +293,8 @@ const startNewChat = async (question) => {
       chatEnd: "N",
       createdAt: Date.now(), // 밀리세컨드 단위로 시간을 저장
     });
+
+    
 
     const newChatRoomId = newChatRoom.id;
     setChatRoomId(newChatRoomId); // 상태로 chatRoomId를 설정
@@ -300,7 +317,6 @@ const startNewChat = async (question) => {
   };
 
   const handleClose = () => {
-    endChat(chatRoomId); // 상담 종료 함수 호출
     setIsChatRoomOpened(false);
     // 챗룸 닫기
   };
@@ -337,7 +353,7 @@ const startNewChat = async (question) => {
         {
           activeYn: 'Y',
           chatEnd: 'Y',  // 상담 종료 처리
-          endedAt: Date.now(), // 상담 종료 시간도 저장
+          endedAt: Date.now(), // 상담 종료 시간도 밀리세컨즈로 저장
         },
         { merge: true }
       );
@@ -376,16 +392,21 @@ const startNewChat = async (question) => {
     const userEmail = currentUser.email;
   
     try {
-      const messageRef = collection(db, "chatRoom", userEmail, "chatContent", chatRoomId, "message");
+      const messageRef = collection(db,
+         "chatRoom",
+          userEmail, 
+          "chatContent",
+           chatRoomId,
+            "message"
+          );
   
-      // Firestore에 메시지를 추가하지만, 상태는 onSnapshot에서 관리
-      await addDoc(messageRef, {
+     await addDoc(messageRef, {
         content: message,
-        createdAt: Date.now(),
+        createdAt: Date.now(), // 밀리세컨즈 단위로 시간을 저장
         uid: currentUser.uid,
       });
   
-      console.log("메시지가 성공적으로 Firestore에 저장되었습니다.");
+     
     } catch (error) {
       console.error("메시지 전송 중 오류 발생:", error.message);
     }
