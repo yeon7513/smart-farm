@@ -338,30 +338,43 @@ function RequestForm({ user }) {
   // 부가 옵션을 변경합니다.
   const handleAdditionalOptionsChange = (index, category, value) => {
     setSelectedOptions((prevOptions) => {
-      const updatedOptions = [...prevOptions];
+      const updatedOptions = { ...prevOptions };
+
+      // 인덱스의 카테고리가 없으면 초기화 합니다.
+      if (!updatedOptions[index]) {
+        updatedOptions[index] = {};
+      }
+
       if (!updatedOptions[index][category]) {
         updatedOptions[index][category] = {};
       }
-      updatedOptions[index][category][value] = updatedOptions[index][category][
-        value
-      ]
-        ? undefined
-        : "Y";
+
+      // 현재 카테고리에 있는 옵션을 가져옵니다.
+      const categoryOptions =
+        facilitiesHorticultureOptions[category] ||
+        openGroundOptions[category] ||
+        [];
+
+      // 모든 옵션을 "N"으로 초기화합니다.
+      categoryOptions.forEach((option) => {
+        const optionId = option.id;
+        updatedOptions[index][category][optionId] = "N";
+      });
+
+      // 현재 옵션의 값을 토글합니다.
+      const renamedValue = renameOptionsEn(value);
+
+      // 선택된 옵션의 현재 값을 확인하고 토글합니다.
+      if (updatedOptions[index][category][renamedValue] === "Y") {
+        updatedOptions[index][category][renamedValue] = "N"; // 선택 해제
+      } else {
+        updatedOptions[index][category][renamedValue] = "Y"; // 선택
+      }
+
+      console.log(updatedOptions[index][category]);
       return updatedOptions;
     });
   };
-
-  // dataObj와 dashboardObj에서 additionalOptions 필드를 설정
-  const additionalOptionsArray = selectedOptions.reduce((acc, option) => {
-    Object.keys(option).forEach((category) => {
-      const checkedOptions = Object.entries(option[category] || {})
-        .filter(([_, checked]) => checked)
-        .map(([value]) => ({ value }));
-
-      acc.push(...checkedOptions);
-    });
-    return acc;
-  }, []);
 
   // 현금영수증 발행 여부를 결정하는 함수입니다.
   const handleCashReceipt = (e) => {
@@ -434,10 +447,16 @@ function RequestForm({ user }) {
           const additionalOptionsForCurrentSector = selectedOptions[index];
           const control = {};
 
+          // 모든 옵션을 "N"으로 초기화합니다.
+          Object.keys(additionalOptionsForCurrentSector).forEach((option) => {
+            control[renameOptionsEn(option)] = "N";
+          });
+
           // 선택된 옵션을 control 객체에 저장합니다.
           Object.entries(additionalOptionsForCurrentSector).forEach(
             ([category, options]) => {
               Object.keys(options).forEach((option) => {
+                // 선택된 옵션에 한해 "Y"로 설정됩니다.
                 if (options[option] === "Y") {
                   control[renameOptionsEn(option)] = "Y";
                 }
@@ -446,8 +465,7 @@ function RequestForm({ user }) {
           );
 
           const sectorData = {
-            동수: index + 1,
-            부가옵션: Object.keys(control).length > 0 ? control : {},
+            부가옵션: control,
             id: index + 1,
           };
 
@@ -492,9 +510,16 @@ function RequestForm({ user }) {
           const additionalOptionsForCurrentSector = selectedOptions[index];
           const control = {};
 
+          // 모든 옵션을 "N"으로 초기화합니다.
+          Object.keys(additionalOptionsForCurrentSector).forEach((option) => {
+            control[renameOptionsEn(option)] = "N";
+          });
+
+          // 선택된 옵션을 control 객체에 저장합니다.
           Object.entries(additionalOptionsForCurrentSector).forEach(
             ([category, options]) => {
               Object.keys(options).forEach((option) => {
+                // 선택된 옵션에 한해 "Y"로 설정됩니다.
                 if (options[option] === "Y") {
                   control[renameOptionsEn(option)] = "Y";
                 }
@@ -503,8 +528,7 @@ function RequestForm({ user }) {
           );
 
           const sectorData = {
-            동수: index + 1,
-            control: Object.keys(control).length > 0 ? control : {},
+            control: control,
             createdAt: new Date().getTime(),
             deleteYn: "N",
             growthInfo: {
@@ -631,7 +655,7 @@ function RequestForm({ user }) {
               <h3>{index + 1}번째 농장 부가 옵션 선택: </h3>
               {facilityType === "시설원예" ? (
                 <FacilitiesHorticulture
-                  additionalOptions={selectedOptions[index] || []}
+                  additionalOptions={selectedOptions[index] || {}}
                   handleAdditionalOptionsChange={(category, value) =>
                     handleAdditionalOptionsChange(index, category, value)
                   }
@@ -639,7 +663,7 @@ function RequestForm({ user }) {
                 />
               ) : (
                 <OpenGround
-                  additionalOptions={selectedOptions[index] || []}
+                  additionalOptions={selectedOptions[index] || {}}
                   handleAdditionalOptionsChange={(category, value) =>
                     handleAdditionalOptionsChange(index, category, value)
                   }

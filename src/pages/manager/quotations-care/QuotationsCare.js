@@ -157,17 +157,10 @@ function QuotationsCare() {
         {};
       const controlValue = additionalOptions.control || null;
 
-      // 추가 옵션을 객체로 변환합니다.
-      const formattedAdditionalOptions = {};
-
-      Object.entries(additionalOptions).forEach(([동, options]) => {
-        formattedAdditionalOptions[동] = options.부가옵션;
-      });
-
       processedData.push({
         ...payment,
         control: controlValue,
-        additionalOptions: formattedAdditionalOptions,
+        additionalOptions: JSON.stringify(additionalOptions),
       });
     }
 
@@ -301,10 +294,10 @@ function QuotationsCare() {
               <table className={styles.table_main}>
                 <thead>
                   <tr>
+                    <th>주문번호</th>
                     <th>이름</th>
                     <th>작물 종류</th>
                     <th>농장 종류</th>
-                    <th>주문번호</th>
                     <th>승인여부</th>
                     <th>상세정보</th>
                   </tr>
@@ -322,10 +315,10 @@ function QuotationsCare() {
 
                     return (
                       <tr key={item.docId || item.id} className={styles.main}>
+                        <td>{item.createdAt}</td>
                         <td>{item.name}</td>
                         <td>{item.crop}</td>
                         <td>{item.type}</td>
-                        <td>{item.createdAt}</td>
                         <td>{approvalStatus}</td>
                         <td>
                           <button
