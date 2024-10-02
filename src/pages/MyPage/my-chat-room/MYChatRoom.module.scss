@@ -1,9 +1,84 @@
 .container {
-    display: flex;
-    justify-content: center;
-    width: 100%;
+  display: flex;
+  justify-content: center;
+  width: 100%;
   
-    .main {
-      width: 70%;
+  .main {
+    width: 70%;
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  h2 {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+  }
+
+  .chatItem {
+    margin-bottom: 30px; /* 상담 항목 사이 간격 추가 */
+    padding: 20px; /* 내부 패딩 추가 */
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px; /* 둥근 모서리 */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 가벼운 그림자 추가 */
+  }
+
+  .messageList {
+    margin-top: 20px;
+    background-color: #f0f0f0;
+    padding: 15px; /* 메시지 리스트 내부 패딩 */
+    border-radius: 4px;
+  }
+
+  .messageItem {
+    margin-bottom: 15px; /* 메시지 사이 간격 추가 */
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+  }
+
+  .noMessage {
+    color: #999;
+    font-size: 1rem;
+    margin-top: 10px; /* 메시지가 없을 때 간격 추가 */
+  }
+
+  /* 사용자 메시지 스타일 */
+  .myMessage {
+    background-color: #e0ffe0; /* 사용자 메시지 배경색 */
+    padding: 10px;
+    margin-bottom: 15px; /* 사용자 메시지 간격 */
+    border-radius: 8px;
+    text-align: right;
+  }
+
+  /* 관리자 메시지 스타일 */
+  .adminMessage {
+    background-color: #e0f0ff; /* 관리자 메시지 배경색 */
+    padding: 10px;
+    margin-bottom: 15px; /* 관리자 메시지 간격 */
+    border-radius: 8px;
+    text-align: left;
+  }
+
+  .pagination {
+    margin-top: 20px;
+    text-align: center;
+
+    button {
+      margin: 0 5px;
+      padding: 5px 10px;
+      background-color: #fff;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .activePage {
+      background-color: #007bff;
+      color: #fff;
+      border: 1px solid #007bff;
     }
   }
+}

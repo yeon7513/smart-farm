@@ -14,12 +14,10 @@ import {
   collection,
   doc,
   getDoc,
-  getDocs,
   onSnapshot,
   orderBy,
   query,
   setDoc,
-  where,
 } from 'firebase/firestore';
 
 function ChatRoom({ chatroomId }) {
@@ -67,6 +65,28 @@ function ChatRoom({ chatroomId }) {
   };
 
 
+
+  useEffect(() => {
+    if (!chatRoomId) return;
+  
+    const chatRoomRef = doc(db, 'chatRoom', auth.currentUser.email, 'chatContent', chatRoomId);
+  
+    const unsubscribeChatRoom = onSnapshot(chatRoomRef, (doc) => {
+      if (doc.exists()) {
+        const chatRoomData = doc.data();
+        if (chatRoomData.activeYn === 'Y') {
+          setIsTransitioningToLiveChat(true); // activeYn이 Y로 변경되면 전환 상태 설정
+          setIsLiveChatOpend(true);  // live chat 화면 열기
+        }
+      }
+    });
+  
+    return () => {
+      unsubscribeChatRoom(); // 채팅방 상태 구독 해제
+    };
+  }, [chatRoomId]);
+
+  
   useEffect(() => {
     if (!chatRoomId) return;
   
@@ -78,9 +98,20 @@ function ChatRoom({ chatroomId }) {
          chatRoomId,
           'message'
         );
-    const q = query(messageRef, orderBy('createdAt', 'asc'));
+
+    const q = query(
+      messageRef,
+       orderBy(
+      'createdAt',
+       'asc'
+      ));
   
-    const chatRoomRef = doc(db, 'chatRoom', auth.currentUser.email, 'chatContent', chatRoomId);
+    const chatRoomRef = doc(db,
+       'chatRoom',
+        auth.currentUser.email,
+         'chatContent',
+          chatRoomId
+        );
   
     const unsubscribeMessages = onSnapshot(q, (snapshot) => {
       const fetchedMessages = [];
@@ -177,11 +208,11 @@ function ChatRoom({ chatroomId }) {
     },
   ];
 
-  const handleChatButtonClick = (id) => {
-    setIsStartChatSelected(true);
-    // 첫번째 화면에서 "채팅 상담원 연결하기" 버튼 클릭 시 선택지 화면으로 전환
-    setSelectedAnswer(''); // 선택된 답변 초기화
-  };
+  // const handleChatButtonClick = (id) => {
+  //   setIsStartChatSelected(true);
+  //   // 첫번째 화면에서 "채팅 상담원 연결하기" 버튼 클릭 시 선택지 화면으로 전환
+  //   setSelectedAnswer(''); // 선택된 답변 초기화
+  // };
 
   const handleBackButtonClick = () => {
     setIsStartChatSelected(false); // "뒤로 가기" 버튼 클릭 시 이전 화면으로 전환
@@ -215,7 +246,7 @@ function ChatRoom({ chatroomId }) {
       return null;
     }
   
-    const userEmail = currentUser.email;
+    // const userEmail = currentUser.email;
   
     try {
       const userDocRef = doc(db, "users", currentUser.uid);  // 유저의 이메일을 문서 ID로 사용
