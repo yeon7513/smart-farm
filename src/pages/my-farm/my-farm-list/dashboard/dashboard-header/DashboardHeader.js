@@ -6,7 +6,9 @@ import Clock from './../../../../../components/clock/Clock';
 import styles from './DashboardHeader.module.scss';
 
 function DashboardHeader({ info }) {
-  const { crop, farmName, type } = info;
+  const { crop, farmName, type, name } = info;
+
+  console.log(info);
   const navigate = useNavigate();
 
   return (
@@ -17,6 +19,7 @@ function DashboardHeader({ info }) {
             <IoArrowBackCircle />
           </button>
           <h1>
+            {name ? <>{name} /</> : ''}
             {farmName} / {type} / {crop}
           </h1>
         </div>

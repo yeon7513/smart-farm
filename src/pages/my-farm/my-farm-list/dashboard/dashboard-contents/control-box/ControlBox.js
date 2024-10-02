@@ -13,9 +13,20 @@ function ControlBox() {
 
   const dispatch = useDispatch();
 
+  const isAdmin = JSON.parse(localStorage.getItem('user')).email.includes(
+    'admin'
+  );
+
+  console.log(sector.control);
+
+  console.log(isAdmin);
+
   const filteredOptions = Object.entries(sector?.control || {})
-    .filter(([key, value]) => value === 'Y')
-    .map(([key, value]) => renameOptionsKor(key));
+    .filter(([key, value]) => (isAdmin ? true : value === 'Y'))
+    .map(([key, value]) => ({
+      label: renameOptionsKor(key),
+      isDisabled: value === 'N',
+    }));
 
   useEffect(() => {
     dispatch(
@@ -110,7 +121,8 @@ function ControlBox() {
           <ControlItem
             key={idx}
             idx={idx}
-            option={option}
+            option={option.label}
+            className={option.isDisabled ? styles.disabled : ''}
             onMoveComponent={handleMoveComponent}
             state={false}
           />

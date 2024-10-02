@@ -44,7 +44,11 @@ function AccumulatedStatus({ data }) {
           </div>
         </div>
       </div>
-      <RenderingChart chartType={chartType} data={accumulatedData} />
+      <RenderingChart
+        chartType={chartType}
+        data={accumulatedData}
+        checkKey={'user'}
+      />
     </div>
   );
 }

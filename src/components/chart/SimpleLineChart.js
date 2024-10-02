@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import {
   CartesianGrid,
   Legend,
@@ -8,10 +8,15 @@ import {
   Tooltip,
   XAxis,
   YAxis,
-} from "recharts";
+} from 'recharts';
+import { checkDataKeyExists } from './Charts';
 
-function SimpleLineChart({ data }) {
-  const hasAllData = data.some((item) => item.hasOwnProperty("user"));
+function SimpleLineChart({ data, checkKey }) {
+  const hasAllData = checkKey ? checkDataKeyExists(data, checkKey) : null;
+
+  const dataKeys =
+    data.length > 0 ? Object.keys(data[0]).filter((key) => key !== 'name') : [];
+
   return (
     <ResponsiveContainer
       width="100%"
@@ -27,8 +32,14 @@ function SimpleLineChart({ data }) {
         <Legend />
         {hasAllData ? (
           <>
-            <Line type="monotone" dataKey="user" stroke="#8adab2" />
-            <Line type="monotone" dataKey="dashboard" stroke="#4b9f9e" />
+            {dataKeys.map((key, index) => (
+              <Line
+                key={key}
+                type="monotone"
+                dataKey={key}
+                stroke={index % 2 === 0 ? '#8adab2' : '#4b9f9e'} // 색상 변경
+              />
+            ))}
           </>
         ) : (
           <Line

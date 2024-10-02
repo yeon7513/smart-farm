@@ -1,21 +1,25 @@
+@import '/src/scss/mixins.scss';
+
 .control {
   padding: 20px;
-  border: 2px solid #ccc;
-  position: relative;
+
   .name {
     display: flex;
-    font-size: 20px;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 16px;
   }
   .buttons {
-    position: absolute;
-    right: 5px;
-    top: 10px;
-    display: flex;
-    gap: 5px;
+    @include flexCenter();
+    // padding: 4px 8px;
+    width: 24px;
+    height: 24px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+
     span {
-      border: 1px solid #ccc;
-      padding: 5px;
-      border-radius: 5px;
+      font-size: 16px;
+      color: #ccc;
     }
   }
 }

@@ -1,5 +1,7 @@
+import cn from 'classnames';
 import React from 'react';
 import { useSectorContext } from '../../../../../../../context/SectorContext';
+import Card from './../../../../../../../components/card/Card';
 import styles from './ControlItem.module.scss';
 import ControlSwitch from './control-switch/ControlSwitch';
 
@@ -10,6 +12,7 @@ function ControlItem({
   handleDeleteItem,
   docId,
   onMoveComponent,
+  className,
 }) {
   const { sector } = useSectorContext();
 
@@ -21,30 +24,25 @@ function ControlItem({
     });
   };
 
-  console.log('idx: ', idx);
-  console.log('sector: ', sector);
-  console.log('sector.id: ', sector.id);
-  console.log('option: ', option);
-
   return (
-    <div className={styles.control}>
+    <Card className={cn(styles.control, className)}>
       <div className={styles.name}>
-        <div>{option}</div>
+        <h3>{option}</h3>
+        <div className={styles.buttons}>
+          {!state === true ? (
+            <button onClick={handleControlContent}>
+              <span>+</span>
+            </button>
+          ) : null}
+          {state === false ? null : (
+            <button onClick={() => handleDeleteItem(docId)}>
+              <span>-</span>
+            </button>
+          )}
+        </div>
       </div>
       <ControlSwitch id={idx} />
-      <div className={styles.buttons}>
-        {!state === true ? (
-          <button onClick={handleControlContent}>
-            <span>+</span>
-          </button>
-        ) : null}
-        {state === false ? null : (
-          <button onClick={() => handleDeleteItem(docId)}>
-            <span>-</span>
-          </button>
-        )}
-      </div>
-    </div>
+    </Card>
   );
 }
 

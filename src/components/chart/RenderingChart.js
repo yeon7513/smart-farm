@@ -9,10 +9,10 @@ import SimplePieChart from './SimplePieChart';
 //  - 데이터 모양
 //    -> const data = [ {name: 'string', value: number}, {name: 'string', value: number}, ... ];
 
-function RenderingChart({ chartType, data }) {
+function RenderingChart({ chartType, data, checkKey }) {
   switch (chartType) {
     case 'line':
-      return <SimpleLineChart data={data} />;
+      return <SimpleLineChart data={data} checkKey={checkKey} />;
     case 'bar':
       return <SimpleBarChart data={data} />;
     case 'pie':
@@ -20,7 +20,7 @@ function RenderingChart({ chartType, data }) {
     case 'donut':
       return <SimpleDonutChart data={data} />;
     case 'area':
-      return <SimpleAreaChart data={data} />;
+      return <SimpleAreaChart data={data} checkKey={checkKey} />;
 
     default:
       return <SimpleBarChart data={data} />;
