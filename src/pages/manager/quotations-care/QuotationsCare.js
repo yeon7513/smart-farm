@@ -61,7 +61,7 @@ function QuotationsCare() {
   //   setCurrentPage(1); // 필터 변경 시 첫 페이지로 초기화
   // };
 
-  //서정은 작성
+  //서정은 작성=> 문제생기면 다시 재협님 코드로...
   const filterData = (status) => {
     let filtered;
 
@@ -310,34 +310,42 @@ function QuotationsCare() {
                   </tr>
                 </thead>
                 <tbody>
-                  {currentItems.map((item) => {
-                    let approvalStatus;
-                    if (item.useYn === "Y" && item.deleteYn === "N") {
-                      approvalStatus = "승인";
-                    } else if (item.deleteYn === "Y" && item.useYn === "N") {
-                      approvalStatus = "거절";
-                    } else {
-                      approvalStatus = "대기";
-                    }
+                  {currentItems.length > 0 ? (
+                    currentItems.map((item) => {
+                      let approvalStatus;
+                      if (item.useYn === "Y" && item.deleteYn === "N") {
+                        approvalStatus = "승인";
+                      } else if (item.deleteYn === "Y" && item.useYn === "N") {
+                        approvalStatus = "거절";
+                      } else {
+                        approvalStatus = "대기";
+                      }
 
-                    return (
-                      <tr key={item.docId || item.id} className={styles.main}>
-                        <td>{item.name}</td>
-                        <td>{item.crop}</td>
-                        <td>{item.type}</td>
-                        <td>{item.createdAt}</td>
-                        <td>{approvalStatus}</td>
-                        <td>
-                          <button
-                            className={styles.button}
-                            onClick={() => openModal(item)}
-                          >
-                            자세히 보기
-                          </button>
-                        </td>
-                      </tr>
-                    );
-                  })}
+                      return (
+                        <tr key={item.docId || item.id} className={styles.main}>
+                          <td>{item.name}</td>
+                          <td>{item.crop}</td>
+                          <td>{item.type}</td>
+                          <td>{item.createdAt}</td>
+                          <td>{approvalStatus}</td>
+                          <td>
+                            <button
+                              className={styles.button}
+                              onClick={() => openModal(item)}
+                            >
+                              자세히 보기
+                            </button>
+                          </td>
+                        </tr>
+                      );
+                    })
+                  ) : (
+                    <tr>
+                      <td colSpan="6" style={{ textAlign: "center" }}>
+                        회원정보가 없습니다.
+                      </td>
+                    </tr>
+                  )}
                 </tbody>
               </table>
             ) : (
