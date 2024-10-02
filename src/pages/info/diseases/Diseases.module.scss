@@ -4,28 +4,35 @@
   flex-direction: column;
   align-items: center;
   .list {
-    // display: flex;
-    // justify-content: center;
-    // flex-direction: column;
-    // align-items: center;
     display: flex;
     flex-direction: column;
     align-items: center;
     ul {
       gap: 10px;
     }
-    // li {
-    //   border-bottom: 1px solid #ececec;
-    //   border-radius: 6px;
-    //   margin: 6px 0;
-    //   box-shadow: var(--box-shadow);
-    //   // width: 600px;
-    //   text-align: center;
-    //   padding: 20px;
-    // }
   }
 }
 // }
+
+@media (max-width: 1200px) {
+  .main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    .list {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+      ul {
+        gap: 10px;
+      }
+    }
+  }
+}
+/* 태블릿 */
+@media (max-width: 992px) {
+}
 
 // 모바일
 @media (max-width: 768px) {

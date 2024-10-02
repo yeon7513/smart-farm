@@ -3,7 +3,7 @@
   display: flex;
   border: 2px solid var(--common-color);
   padding: 10px;
-  width: 65%;
+  width: 100%;
   margin: 20px 0;
   gap: 20px;
   justify-content: center;
@@ -96,8 +96,8 @@
   .main {
     display: flex;
     border: 2px solid var(--common-color);
-    padding: 10px;
-    width: 65%;
+    padding: 8px;
+    width: 90%;
     margin: 20px 0;
     gap: 20px;
     justify-content: center;
@@ -167,7 +167,7 @@
     display: flex;
     border: 2px solid var(--common-color);
     padding: 0;
-    width: 70%;
+    width: 80%;
     margin: 20px 0;
     gap: 0px;
     span {
@@ -247,14 +247,15 @@
     display: flex;
     border: 2px solid var(--common-color);
     padding: 0;
-    width: 100%;
+    width: 280px;
     margin: 20px 0;
 
     gap: 0px;
     span {
-      font-size: 1rem;
+      font-size: 14px;
     }
     .menu {
+      // width: 50%;
       display: flex;
       flex-direction: column;
     }
@@ -265,16 +266,17 @@
       .input_item {
         display: flex;
         align-items: center;
-        gap: 10px;
+        gap: 3px;
         input {
           border-bottom: 2px solid var(--hover-color);
-          width: 200px;
-          font-size: 20px;
-          padding: 10px;
+          width: 80%;
+          font-size: 14px;
+          padding: 6px;
         }
       }
     }
     .select_box {
+      justify-content: space-around;
       margin: 6px 16px;
       display: flex;
       align-items: center;
@@ -284,18 +286,21 @@
       .select_box_item {
         display: flex;
         align-items: center;
-        gap: 10px;
+        gap: 3px;
         select {
           border: none;
           border-bottom: 2px solid var(--hover-color);
         }
         span {
-          margin: 0 8px 0 0;
+          margin: 0;
         }
         select {
           width: 50px;
           height: 40px;
           padding: 0;
+        }
+        svg {
+          font-size: 16px;
         }
       }
     }
@@ -307,10 +312,11 @@
 
     button {
       // display: flex;
-      // margin-right: 6px;
-      @include packedBtn($padding: 12px 6px);
+      margin-right: 6px;
+      @include packedBtn($padding: 8px 3px);
       border-radius: 8px;
       > span {
+        font-size: 10px;
         @include flexCenter();
 
         gap: 5px;
