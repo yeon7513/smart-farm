@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import styles from './ManagerChatRoom.module.scss';
-import { addDoc, collection, onSnapshot, serverTimestamp } from 'firebase/firestore';
+import { addDoc, collection, onSnapshot } from 'firebase/firestore';
 import { auth, db } from '../../../../../../api/firebase';
 import closeIcon from "../../../../../../assets/main/closeImg.svg";
 import ManagerMessage from './manager-message/ManagerMessage';

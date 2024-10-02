@@ -20,7 +20,11 @@ function ManagerMessage({ messages = [] }) {
     <div className={styles.messageContainer}>
   
         <div className={styles.dateHeader}>
-         {new Date().toLocaleDateString()}
+         {new Date().toLocaleDateString('ko-KR', {
+                  year: 'numeric',
+                  month: 'long',
+                  day: 'numeric',
+                })}
         </div>
         {messages.map((msg, index) => {
           const messageDate = new Date(msg.createdAt); 
