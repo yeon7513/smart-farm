@@ -12,17 +12,29 @@ function ControlItem({
   className,
   defaultChecked,
   isAdd,
+  setValue,
 }) {
   const { sector } = useSectorContext();
 
   const [isChecked, setIsChecked] = useState(defaultChecked);
-  const [settingValue, setSettingValue] = useState(0);
+  const [settingValue, setSettingValue] = useState();
 
   const handleAddClick = () => {
     onUpdate({ label: option, on: isChecked, isAdd: true, set: settingValue });
   };
   const handleRemoveClick = () => {
     onUpdate({ label: option, on: isChecked, isAdd: false, set: settingValue });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    onUpdate({
+      label: option,
+      on: isChecked,
+      isAdd: false,
+      set: Number(e.target[0].value),
+    });
+    setSettingValue(Number(e.target[0].value));
   };
 
   useEffect(() => {
@@ -49,7 +61,15 @@ function ControlItem({
         {isChecked ? (
           <div className={styles.auto}></div>
         ) : (
-          <input type="text" placeholder="설정값" />
+          <form onSubmit={handleSubmit}>
+            <input
+              type="text"
+              placeholder="설정값"
+              value={setValue}
+              onChange={(e) => setSettingValue(e.target.value)}
+            />
+            <button type="submit">설정</button>
+          </form>
         )}
         <ControlSwitch
           id={`${sector.docId}_${idx}`}

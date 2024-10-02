@@ -48,6 +48,7 @@ function Briefing() {
                   option={control.label}
                   defaultChecked={control.on}
                   isAdd={control.isAdd}
+                  setValue={control.set}
                   onUpdate={handleRemoveControlItem}
                 />
               ) : null;
