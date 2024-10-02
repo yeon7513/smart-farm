@@ -47,6 +47,39 @@
     opacity: 1;
   }
 }
+@media (max-width: 1200px) {
+  .system {
+    display: flex;
+    margin: 80px;
+    gap: 30px;
+
+    // &:nth-child(even) {
+    //   // margin-left: 400px;
+    //   flex-direction: row-reverse;
+    // }
+    h3 {
+      font-size: 25px;
+      margin-top: 20px;
+      padding: 10px 0;
+    }
+    img {
+      width: 350px;
+      height: 250px;
+      border-radius: 10px;
+      position: relative;
+      animation: slideIn 3s ease forwards;
+      opacity: 0;
+    }
+    p {
+      width: 100%;
+      font-size: 20px;
+      // margin-top: 50px;
+    }
+  }
+}
+// /* 태블릿 */
+// @media (max-width: 992px) {
+// }
 
 // 모바일
 @media (max-width: 768px) {
@@ -60,22 +93,21 @@
       flex-direction: row-reverse;
     }
     h3 {
-      font-size: 30px;
-      margin-top: 50px;
-      padding: 10px 0;
+      font-size: 26px;
+      margin-top: 20px;
       color: var(--accent-color);
       font-family: var(--title-font);
     }
     img {
-      width: 300px;
-      height: 200px;
+      width: 200px;
+      height: 100px;
       position: relative;
       animation: slideIn 3s ease forwards;
       opacity: 0;
     }
     p {
-      width: 350px;
-      font-size: 20px;
+      width: 100%;
+      font-size: 16px;
     }
   }
 }
@@ -85,17 +117,17 @@
     margin: 10px;
 
     h3 {
-      font-size: 23px;
+      font-size: 20px;
       margin-top: 10px;
       padding: 10px 0;
     }
     img {
-      width: 200px;
-      height: 150px;
+      width: 150px;
+      height: 100px;
     }
     p {
       width: 100%;
-      font-size: 18px;
+      font-size: 14px;
     }
   }
 }
