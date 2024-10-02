@@ -100,9 +100,13 @@ function QuotationsCare() {
       const sectorRef = collection(db, "payments", paymentId, "sector");
       const sectorSnapshot = await getDocs(sectorRef);
 
-      const additionalOptions = {};
+      const additionalOptions = [];
       sectorSnapshot.forEach((doc) => {
-        additionalOptions[doc.id] = doc.data();
+        const data = doc.data();
+        additionalOptions.push({
+          동수: data.동수, // 동수 추가
+          부가옵션: data.부가옵션, // 부가옵션 추가
+        });
       });
       return additionalOptions;
     } catch (error) {
@@ -112,62 +116,62 @@ function QuotationsCare() {
   };
 
   // payments를 listItems에 저장
-  // useEffect(() => {
-  const fetchData = async () => {
-    if (payments.length > 0) {
-      // payments가 비어있지 않을 때만 호출
-      const allSectorData = [];
-      for (const payment of payments) {
-        const sectorData = await fetchSectorData(payment.docId);
-        const detailedInformation = [];
+  useEffect(() => {
+    const fetchData = async () => {
+      if (payments.length > 0) {
+        // payments가 비어있지 않을 때만 호출
+        const allSectorData = [];
+        for (const payment of payments) {
+          const sectorData = await fetchSectorData(payment.docId);
+          const detailedInformation = [];
 
-        // 각 sectorData에서 동수와 부가옵션을 추출합니다.
-        Object.entries(sectorData).forEach(([key, value]) => {
-          const equivalentNumber = value.동수;
-          const additionalOptions = value.부가옵션;
+          // 각 sectorData에서 동수와 부가옵션을 추출합니다.
+          Object.entries(sectorData).forEach(([key, value]) => {
+            const equivalentNumber = value.동수;
+            const additionalOptions = value.부가옵션;
 
-          // 상세정보 배열에 객체를 추가합니다.
-          detailedInformation.push({
-            동수: equivalentNumber,
-            부가옵션: additionalOptions,
+            // 상세정보 배열에 객체를 추가합니다.
+            detailedInformation.push({
+              동수: equivalentNumber,
+              부가옵션: additionalOptions,
+            });
           });
-        });
 
-        // 결제 정보와 상세 정보를 결합합니다.
-        allSectorData.push({
-          docId: payment.docId,
-          상세내역: detailedInformation,
-        });
+          // 결제 정보와 상세 정보를 결합합니다.
+          allSectorData.push({
+            docId: payment.docId,
+            상세내역: detailedInformation,
+          });
+        }
+        setListItems(allSectorData);
+        console.log(allSectorData);
       }
-      setListItems(allSectorData);
-      console.log(allSectorData);
-      exportToExcel();
-    }
-  };
-
-  // }, [payments]); // payments 배열이 변경될 때만 호출
+    };
+    fetchData();
+  }, []);
 
   // firebase의 데이터를 excel로 불러옵니다.
   const exportToExcel = async () => {
     const processedData = [];
 
     for (const payment of payments) {
-      const additionalOptions =
-        listItems.find((item) => item.docId === payment.docId)?.sectorData ||
-        {};
-      const controlValue = additionalOptions.control || null;
+      const sectorDataItem = listItems.find(
+        (item) => item.docId === payment.docId
+      );
+      const additionalOptions = sectorDataItem ? sectorDataItem.상세내역 : [];
 
-      // 추가 옵션을 객체로 변환합니다.
-      const formattedAdditionalOptions = {};
+      // 부가옵션을 문자열로 변환
+      const formattedOptions = additionalOptions.map((option) => ({
+        동수: option.동수,
+        부가옵션: JSON.stringify(option.부가옵션), // 필요한 형식으로 변환
+      }));
 
-      Object.entries(additionalOptions).forEach(([동, options]) => {
-        formattedAdditionalOptions[동] = options.부가옵션;
-      });
-
-      processedData.push({
-        ...payment,
-        control: controlValue,
-        additionalOptions: formattedAdditionalOptions,
+      formattedOptions.forEach((option) => {
+        processedData.push({
+          ...payment,
+          동수: option.동수,
+          부가옵션: option.부가옵션,
+        });
       });
     }
 
@@ -284,7 +288,7 @@ function QuotationsCare() {
             // value={keyword}
             // onClick={handleSearch}
           />
-          <button onClick={fetchData} className={styles.exp_btn}>
+          <button onClick={exportToExcel} className={styles.exp_btn}>
             견적 내역 다운로드
           </button>
           <select
@@ -301,10 +305,10 @@ function QuotationsCare() {
               <table className={styles.table_main}>
                 <thead>
                   <tr>
+                    <th>주문번호</th>
                     <th>이름</th>
                     <th>작물 종류</th>
                     <th>농장 종류</th>
-                    <th>주문번호</th>
                     <th>승인여부</th>
                     <th>상세정보</th>
                   </tr>

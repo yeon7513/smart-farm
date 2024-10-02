@@ -338,36 +338,21 @@ function RequestForm({ user }) {
   // 부가 옵션을 변경합니다.
   const handleAdditionalOptionsChange = (index, category, value) => {
     setSelectedOptions((prevOptions) => {
-      const updatedOptions = prevOptions.map((option) => ({ ...option }));
+      const updatedOptions = { ...prevOptions };
 
+      // 인덱스의 카테고리가 없으면 초기화 합니다.
       if (!updatedOptions[index][category]) {
         updatedOptions[index][category] = {};
       }
-
-      if (!updatedOptions[index][category]) {
-        updatedOptions[index][category] = {};
-      }
-
-      // 체크박스의 현재 상태를 가져옵니다.
-      const currentValue = updatedOptions[index][category][value];
-
-      updatedOptions[index][category][value] = currentValue === "Y" ? "N" : "Y";
+      updatedOptions[index][category][value] = updatedOptions[index][category][
+        value
+      ]
+        ? "N"
+        : "Y";
       console.log(updatedOptions);
       return updatedOptions;
     });
   };
-
-  // dataObj와 dashboardObj에서 additionalOptions 필드를 설정
-  const additionalOptionsArray = selectedOptions.reduce((acc, option) => {
-    Object.keys(option).forEach((category) => {
-      const checkedOptions = Object.entries(option[category] || {})
-        .filter(([_, checked]) => checked)
-        .map(([value]) => ({ value }));
-
-      acc.push(...checkedOptions);
-    });
-    return acc;
-  }, []);
 
   // 현금영수증 발행 여부를 결정하는 함수입니다.
   const handleCashReceipt = (e) => {
@@ -447,8 +432,6 @@ function RequestForm({ user }) {
                 // 선택된 옵션에 한해 "Y"로 설정됩니다.
                 if (options[option] === "Y") {
                   control[renameOptionsEn(option)] = "Y";
-                } else {
-                  control[renameOptionsEn(option)] = "N";
                 }
               });
             }
@@ -506,8 +489,6 @@ function RequestForm({ user }) {
               Object.keys(options).forEach((option) => {
                 if (options[option] === "Y") {
                   control[renameOptionsEn(option)] = "Y";
-                } else {
-                  control[renameOptionsEn(option)] = "N";
                 }
               });
             }
@@ -641,7 +622,7 @@ function RequestForm({ user }) {
               <h3>{index + 1}번째 농장 부가 옵션 선택: </h3>
               {facilityType === "시설원예" ? (
                 <FacilitiesHorticulture
-                  additionalOptions={selectedOptions[index] || []}
+                  additionalOptions={selectedOptions[index] || {}}
                   handleAdditionalOptionsChange={(category, value) =>
                     handleAdditionalOptionsChange(index, category, value)
                   }
@@ -649,7 +630,7 @@ function RequestForm({ user }) {
                 />
               ) : (
                 <OpenGround
-                  additionalOptions={selectedOptions[index] || []}
+                  additionalOptions={selectedOptions[index] || {}}
                   handleAdditionalOptionsChange={(category, value) =>
                     handleAdditionalOptionsChange(index, category, value)
                   }

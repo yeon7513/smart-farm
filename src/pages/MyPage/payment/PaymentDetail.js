@@ -13,13 +13,16 @@ import { GridLoader } from "react-spinners";
 import { db } from "../../../api/firebase";
 import Container from "../../../components/layout/container/Container";
 import styles from "./PaymentDetail.module.scss";
-import { renameOptionsKor } from "./../../../utils/renameOptions";
+import {
+  renameOptionsEn,
+  renameOptionsKor,
+} from "./../../../utils/renameOptions";
 
 function PaymentDetail() {
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState(null);
   const [dashboardData, setDashboardData] = useState(null);
-  const [additionalOptions, setAdditionalOptions] = useState([]); // 부가옵션 초기값은 빈 배열입니다.
+  const [additionalOptions, setAdditionalOptions] = useState({}); // 부가옵션 초기값은 빈 객체입니다.
   const { paymentsDocId } = useParams();
   const navigate = useNavigate();
 
@@ -132,15 +135,15 @@ function PaymentDetail() {
           // sector 컬렉션에서 데이터 가져오기
           const sectorQuery = query(collection(paymentDocRef, "sector"));
           const sectorSnapshot = await getDocs(sectorQuery);
-          const optionsData = {};
 
+          const additionalOptions = {};
           sectorSnapshot.forEach((doc) => {
-            const option = doc.data().option;
+            const options = doc.data().부가옵션 || {};
             const equivalent = doc.id;
+            additionalOptions[equivalent] = Object.entries(options);
           });
-          console.log(sectorSnapshot.docs.map((doc) => doc.data()));
 
-          setAdditionalOptions(optionsData);
+          setAdditionalOptions(additionalOptions);
         } else {
           console.log("Payment data not found");
           setData(null);
@@ -211,15 +214,24 @@ function PaymentDetail() {
               Object.keys(additionalOptions).length > 0 ? (
                 <div className={styles.farm_main}>
                   <ul>
-                    {Object.entries(additionalOptions).map(([key, value]) => (
-                      <li key={key}>
-                        {key}동: {value}{" "}
-                      </li>
-                    ))}
+                    {Object.entries(additionalOptions).map(
+                      ([key, options], index) => (
+                        <li key={key}>
+                          {index + 1}동:{" "}
+                          {options.length > 0
+                            ? options.map(([optionKey, value]) => (
+                                <span key={optionKey}>
+                                  {renameOptionsKor(optionKey)}
+                                </span>
+                              ))
+                            : "선택된 옵션이 없습니다."}
+                        </li>
+                      )
+                    )}
                   </ul>
                 </div>
               ) : (
-                <p>선택한 옵션이 없습니다.</p>
+                <p>선택된 옵션이 없습니다.</p>
               )}
 
               <div className={styles.pay_button}>
