@@ -1,28 +1,29 @@
-import React, { useState, useEffect } from "react";
-import { auth, db } from "../../../api/firebase";
 import {
+  addDoc,
   collection,
+  doc,
   getDocs,
   onSnapshot,
-  query,
   orderBy,
-  doc,
+  query,
   updateDoc,
-  addDoc,
-} from "firebase/firestore";
-import styles from "./ChatRoomCare.module.scss";
-import ChatRequestList from "./chat-request-list/ChatRequestList";
-import ManagerChatRoom from "./chat-request-list/chat-request-item/manager-chat-room/ManagerChatRoom"; // 채팅방 컴포넌트 임포트
-import { TbMessageSearch } from "react-icons/tb";
-import SearchBox from "../../../components/search_box/SearchBox";
+} from 'firebase/firestore';
+import React, { useEffect, useState } from 'react';
+import { TbMessageSearch } from 'react-icons/tb';
+import { auth, db } from '../../../api/firebase';
+import SearchBox from '../../../components/search_box/SearchBox';
+import styles from './ChatRoomCare.module.scss';
+import ChatRequestList from './chat-request-list/ChatRequestList';
+import ManagerChatRoom from './chat-request-list/chat-request-item/manager-chat-room/ManagerChatRoom'; // 채팅방 컴포넌트 임포트
 
 function ChatRoomCare() {
   const [chatRequests, setChatRequests] = useState([]);
   const [loading, setLoading] = useState(true);
   const [activeChat, setActiveChat] = useState(null); // 활성화된 채팅 정보 저장
+  const [data, setData] = useState();
 
   useEffect(() => {
-    const chatRoomRef = collection(db, "chatRoom");
+    const chatRoomRef = collection(db, 'chatRoom');
 
     const unsubscribe = onSnapshot(chatRoomRef, async (snapshot) => {
       try {
@@ -30,9 +31,9 @@ function ChatRoomCare() {
           const userEmail = chatRoomDoc.id;
           const chatContentRef = collection(
             db,
-            "chatRoom",
+            'chatRoom',
             userEmail,
-            "chatContent"
+            'chatContent'
           );
 
           const chatContentSnapshot = await getDocs(chatContentRef);
@@ -44,15 +45,15 @@ function ChatRoomCare() {
 
               const messagesRef = collection(
                 db,
-                "chatRoom",
+                'chatRoom',
                 userEmail,
-                "chatContent",
+                'chatContent',
                 chatRoomId,
-                "message"
+                'message'
               );
               const messageQuery = query(
                 messagesRef,
-                orderBy("createdAt", "asc")
+                orderBy('createdAt', 'asc')
               );
               const messageSnapshot = await getDocs(messageQuery);
 
@@ -96,7 +97,7 @@ function ChatRoomCare() {
         setChatRequests(chatRequests);
         setLoading(false);
       } catch (error) {
-        console.error("실시간 데이터 수신 중 오류 발생:", error);
+        console.error('실시간 데이터 수신 중 오류 발생:', error);
       }
     });
 
@@ -105,17 +106,17 @@ function ChatRoomCare() {
 
   const handleApproveChat = async (chatId, userEmail) => {
     try {
-      const chatRoomRef = doc(db, "chatRoom", userEmail, "chatContent", chatId);
+      const chatRoomRef = doc(db, 'chatRoom', userEmail, 'chatContent', chatId);
       await updateDoc(chatRoomRef, {
-        activeYn: "Y",
-        chatEnd: "N",
+        activeYn: 'Y',
+        chatEnd: 'N',
       });
       console.log(`채팅(${chatId}) 승인됨`);
 
       // 승인 후 해당 채팅을 활성화하여 열림
       setActiveChat({ chatId, userEmail });
     } catch (error) {
-      console.error("채팅 승인 중 오류 발생:", error);
+      console.error('채팅 승인 중 오류 발생:', error);
     }
   };
 
@@ -128,11 +129,11 @@ function ChatRoomCare() {
     try {
       const messagesRef = collection(
         db,
-        "chatRoom",
+        'chatRoom',
         userEmail,
-        "chatContent",
+        'chatContent',
         chatId,
-        "message"
+        'message'
       );
 
       // 메시지 데이터 추가
@@ -142,16 +143,16 @@ function ChatRoomCare() {
         uid: auth.currentUser.uid, // 관리자의 uid (Firebase 인증된 유저)
       });
 
-      console.log("관리자 메시지 전송 성공");
+      console.log('관리자 메시지 전송 성공');
     } catch (error) {
-      console.error("메시지 전송 중 오류 발생:", error);
+      console.error('메시지 전송 중 오류 발생:', error);
     }
   };
 
   return (
     <div className={styles.wrapper}>
       <h2>채팅 요청 관리</h2>
-      <SearchBox name={<TbMessageSearch />} placeholder={"채팅 요청 검색"} />
+      <SearchBox name={<TbMessageSearch />} placeholder={'채팅 요청 검색'} />
 
       {activeChat ? (
         <ManagerChatRoom

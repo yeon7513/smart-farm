@@ -1,156 +1,71 @@
-import React, { useEffect } from "react";
-import { useDispatch } from "react-redux";
-import { useSectorContext } from "../../../../../../context/SectorContext";
+import React, { useEffect, useState } from 'react';
+import { useSectorContext } from '../../../../../../context/SectorContext';
 import {
-  addControlItem,
-  removeControlItem,
-  setControlItem,
-} from "../../../../../../store/controlData/controlSlice";
-import { getAllControlItems } from "../../../../../../utils/indexedDB";
-import { renameOptionsKor } from "../../../../../../utils/renameOptions";
-import ControlItem from "./control-item/ControlItem";
-import styles from "./ControlBox.module.scss";
+  getControlItem,
+  saveControlItem,
+} from '../../../../../../utils/indexedDB';
+import { renameOptionsKor } from '../../../../../../utils/renameOptions';
+import ControlItem from './control-item/ControlItem';
+import styles from './ControlBox.module.scss';
 
 function ControlBox() {
   const { sector } = useSectorContext();
 
-  const dispatch = useDispatch();
-  const isAdmin = JSON.parse(localStorage.getItem("user")).email.includes(
-    "admin"
+  const [selectedControls, setSelectedControls] = useState([]);
+
+  const isAdmin = JSON.parse(localStorage.getItem('user')).email.includes(
+    'admin'
   );
 
   // 컨트롤 활성 옵션 필터링
   const filteredOptions = Object.entries(sector?.control || {})
-    .filter(([key, value]) => (isAdmin ? true : value === "Y"))
+    .filter(([key, value]) => (isAdmin ? true : value === 'Y'))
     .map(([key, value]) => ({
       label: renameOptionsKor(key),
-      isDisabled: value === "N",
+      isDisabled: value === 'N',
     }))
-    .sort((a, b) => a.label.localeCompare(b.label, "ko-KR"));
+    .sort((a, b) => a.label.localeCompare(b.label, 'ko-KR'));
 
-  // useEffect(() => {
-  //   dispatch(
-  //     setData({
-  //       Data: movedData,
-  //     })
-  //   );
-  // }, [dispatch, movedData]);
+  const loadControlList = async () => {
+    try {
+      const list = await getControlItem(sector.docId);
+      setSelectedControls(list);
+    } catch (error) {
+      console.error('indexedDB 로드 실패: ', error);
+    }
+  };
 
-  // // ControlItem 클릭시 해당 Item의 정보를 받는 함수
-  // const handleMoveComponent = (data) => {
-  //   setMovedData((prevData) => [...prevData, data]);
-  // };
-  // // indexed DB 함수
-  // let db;
-  // // 데이터베이스를 여는 함수
-  // function openDatabase() {
-  //   let request = indexedDB.open('MyDatabase', 2);
-
-  //   // Object Store 생성
-  //   request.onupgradeneeded = function (event) {
-  //     db = event.target.result;
-  //     if (!db.objectStoreNames.contains('myStore')) {
-  //       db.createObjectStore('myStore', {
-  //         keyPath: 'docId',
-  //         autoIncrement: true,
-  //       });
-  //       console.log('Object Store 생성 완료');
-  //     }
-  //   };
-
-  //   request.onsuccess = function (event) {
-  //     db = event.target.result;
-  //     console.log('데이터베이스 열기 성공');
-
-  //     // 데이터베이스가 열린 후, addUniqueData 함수를 호출
-  //     addUniqueData(movedData);
-  //   };
-
-  //   request.onerror = function (event) {
-  //     console.error('IndexedDB 열기 실패', event);
-  //   };
-  // }
-
-  // async function addUniqueData(movedData) {
-  //   if (!db) {
-  //     console.error('데이터베이스가 열리지 않았습니다.');
-  //     return;
-  //   }
-
-  //   // 트랜잭션 생성
-  //   let transaction = db.transaction(['myStore'], 'readwrite');
-  //   let store = transaction.objectStore('myStore');
-
-  //   // 모든 데이터를 조회
-  //   let getAllRequest = store.getAll();
-  //   getAllRequest.onsuccess = function () {
-  //     const existingData = getAllRequest.result; // 현재 저장된 데이터
-  //     // movedData의 각 item에 대해 중복 검사 후 추가
-  //     movedData.forEach((item) => {
-  //       // existingData에서 option 값이 같은 객체가 있는지 확인
-  //       const isDuplicate = existingData.some(
-  //         (existingItem) =>
-  //           existingItem.option === item.option && existingItem.id === item.id
-  //       );
-
-  //       if (!isDuplicate) {
-  //         // 중복이 아닐 경우 데이터 추가
-  //         store.add(item);
-  //         console.log(`데이터 추가 성공: ${JSON.stringify(item)}`);
-  //       } else {
-  //         console.log(`중복된 데이터: ${item.option}은 이미 존재합니다.`);
-  //       }
-  //     });
-  //   };
-
-  //   getAllRequest.onerror = function () {
-  //     console.error('데이터 조회 실패');
-  //   };
-  // }
-
-  // // 데이터베이스 열기 호출
-
-  // openDatabase();
-
-  console.log(filteredOptions);
+  // indexedDB 수정
+  const handleUpdateControlItem = async (newItem) => {
+    await saveControlItem(sector.docId, newItem);
+    await loadControlList();
+  };
 
   useEffect(() => {
-    const loadControlList = async () => {
-      try {
-        const list = await getAllControlItems();
-        dispatch(setControlItem(list));
-        console.log("indexedDB 로드 성공");
-      } catch (error) {
-        console.error("indexedDB 로드 실패: ", error);
-      }
-    };
-
     loadControlList();
-  });
-
-  const handleAddClick = (item) => {
-    dispatch(addControlItem(item));
-  };
-
-  const handleRemoveClick = (id) => {
-    dispatch(removeControlItem(id));
-  };
+  }, [sector.docId]);
 
   return (
     <>
       <div className={styles.control}>
-        {filteredOptions.map((option, idx) => (
-          <ControlItem
-            key={idx}
-            idx={idx}
-            option={option.label}
-            className={option.isDisabled ? styles.disabled : ""}
-            handleAddClick={handleAddClick}
-            handleRemoveClick={handleRemoveClick}
-            // onMoveComponent={handleMoveComponent}
-            state={false}
-          />
-        ))}
+        {filteredOptions.map((option, idx) => {
+          const selectedControl = selectedControls.find(
+            (control) => control.label === option.label
+          );
+
+          return (
+            <ControlItem
+              key={idx}
+              idx={idx}
+              docId={sector.docId}
+              option={option.label}
+              defaultChecked={selectedControl ? selectedControl.on : false}
+              isAdd={selectedControl ? selectedControl.isAdd : false}
+              className={option.isDisabled ? styles.disabled : ''}
+              onUpdate={handleUpdateControlItem}
+            />
+          );
+        })}
       </div>
     </>
   );

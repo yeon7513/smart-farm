@@ -1,16 +1,16 @@
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { Outlet, useLocation } from "react-router-dom";
-import { useComponentContext } from "../../../../../context/ComponentContext";
-import DashboardSector from "../dashboard-nav/dashboard-sector/DashboardSector";
-import { fetchSectorInfo } from "./../../../../../store/dashboard/dashboardSlice";
-import styles from "./DashboardContent.module.scss";
-import Weather from "./weather/Weather";
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Outlet, useLocation } from 'react-router-dom';
+import { useComponentContext } from '../../../../../context/ComponentContext';
+import { useSectorContext } from '../../../../../context/SectorContext';
 import {
   countData,
   randomCountData,
-} from "../../../../../store/controlData/controlSlice";
-import { useSectorContext } from "../../../../../context/SectorContext";
+} from '../../../../../store/controlData/controlSlice';
+import DashboardSector from '../dashboard-nav/dashboard-sector/DashboardSector';
+import { fetchSectorInfo } from './../../../../../store/dashboard/dashboardSlice';
+import styles from './DashboardContent.module.scss';
+import Weather from './weather/Weather';
 
 function DashboardContent({ docId }) {
   const { sectorInfo } = useSelector((state) => state.dashboardSlice);
@@ -72,11 +72,11 @@ function DashboardContent({ docId }) {
   console.log(randomCount);
   return (
     <div className={styles.content}>
-      {currComp === "Briefing" && (
+      {currComp === 'Briefing' && (
         <Weather latitude={state.lat} longitude={state.lng} />
       )}
       <ul className={styles.sectorMenu}>
-        {currComp !== "Alert" &&
+        {currComp !== 'Alert' &&
           [...sectorInfo]
             .sort((a, b) => a.id - b.id)
             .map((sector) => (

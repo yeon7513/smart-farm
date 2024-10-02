@@ -1,6 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { getOrder } from '../../api/firebase';
-import { openDB } from '../../utils/indexedDB';
 
 const initialState = {
   item: [],
@@ -29,19 +28,6 @@ const controlSlice = createSlice({
     postsLengthData: (state, action) => {
       state.postsLength = action.payload;
     },
-    setControlItem: (state, action) => {
-      state.controlItems = action.payload;
-    },
-    addControlItem: (state, action) => {
-      state.controlItems.push(action.payload);
-      saveControlItem(action.payload);
-    },
-    removeControlItem: (state, action) => {
-      state.controlItems = state.controlItems.filter(
-        (item) => item.id !== action.payload
-      );
-      deleteControlItem(action.payload);
-    },
   },
 
   extraReducers: (builder) => {
@@ -58,26 +44,6 @@ const controlSlice = createSlice({
       });
   },
 });
-
-// indexedDB에 데이터 저장
-const saveControlItem = async (item) => {
-  const db = await openDB();
-
-  const transaction = db.transaction(['myStore'], 'readwrite');
-  const store = transaction.objectStore('myStore');
-
-  await store.put(item);
-};
-
-// indexedDB에 데이터 삭제
-const deleteControlItem = async (id) => {
-  const db = await openDB();
-
-  const transaction = db.transaction(['myStore'], 'readwrite');
-  const store = transaction.objectStore('myStore');
-
-  store.delete(id);
-};
 
 const getdashboardAlertContent = createAsyncThunk(
   'dashboardAlertContent/fetchAlldashboardAlertContent',
@@ -99,7 +65,4 @@ export const {
   countData,
   randomCountData,
   postsLengthData,
-  setControlItem,
-  addControlItem,
-  removeControlItem,
 } = controlSlice.actions;

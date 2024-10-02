@@ -1,83 +1,66 @@
 import cn from 'classnames';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSectorContext } from '../../../../../../../context/SectorContext';
 import Card from './../../../../../../../components/card/Card';
 import styles from './ControlItem.module.scss';
 import ControlSwitch from './control-switch/ControlSwitch';
 
-const INITIAL_OBJ = {
-  id: '',
-  label: '',
-  on: true,
-};
-
 function ControlItem({
   option,
   idx,
-  state,
-  handleDeleteItem,
-  docId,
-  onMoveComponent,
-  handleAddClick,
-  handleRemoveClick,
+  onUpdate,
   className,
+  defaultChecked,
+  isAdd,
 }) {
   const { sector } = useSectorContext();
 
-  const [controlObj, setControlObj] = useState(INITIAL_OBJ);
-  const [isChecked, setIsChecked] = useState(false);
+  const [isChecked, setIsChecked] = useState(defaultChecked);
+  const [settingValue, setSettingValue] = useState(0);
 
-  const handleControlContent = () => {
-    onMoveComponent({
-      option,
-      idx,
-      id: sector.id,
-    });
+  const handleAddClick = () => {
+    onUpdate({ label: option, on: isChecked, isAdd: true, set: settingValue });
+  };
+  const handleRemoveClick = () => {
+    onUpdate({ label: option, on: isChecked, isAdd: false, set: settingValue });
   };
 
-  const handleAddToList = () => {
-    handleAddClick({
-      ...controlObj,
-      id: `${sector.docId}_${idx}`,
-      label: option,
-    });
-  };
-
-  const handleCheckboxChange = (e) => {
-    const checked = e.target.checked;
-    setIsChecked(checked);
-
-    console.log(checked);
-
-    if (checked) {
-      setControlObj({ ...controlObj, on: true });
-    } else {
-      setControlObj({ ...controlObj, on: false });
-    }
-  };
+  useEffect(() => {
+    setIsChecked(defaultChecked);
+  }, [defaultChecked]);
 
   return (
     <Card className={cn(styles.control, className)}>
       <div className={styles.name}>
         <h3>{option}</h3>
         <div className={styles.buttons}>
-          {!state === true ? (
-            <button onClick={handleAddToList}>
-              <span>+</span>
-            </button>
-          ) : null}
-          {state === false ? null : (
-            <button onClick={() => handleDeleteItem(docId)}>
+          {isAdd ? (
+            <button onClick={handleRemoveClick}>
               <span>-</span>
+            </button>
+          ) : (
+            <button onClick={handleAddClick}>
+              <span>+</span>
             </button>
           )}
         </div>
       </div>
-      <ControlSwitch
-        id={`${sector.docId}_${idx}`}
-        isChecked={isChecked}
-        handleChange={handleCheckboxChange}
-      />
+      <div className={styles.operating}>
+        {isChecked ? (
+          <div className={styles.auto}></div>
+        ) : (
+          <input type="text" placeholder="설정값" />
+        )}
+        <ControlSwitch
+          id={`${sector.docId}_${idx}`}
+          isChecked={isChecked}
+          setIsChecked={setIsChecked}
+          label={option}
+          isAdd={isAdd}
+          settingValue={settingValue}
+          onUpdate={onUpdate}
+        />
+      </div>
     </Card>
   );
 }
