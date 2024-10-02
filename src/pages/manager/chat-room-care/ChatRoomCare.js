@@ -20,7 +20,6 @@ function ChatRoomCare() {
   const [chatRequests, setChatRequests] = useState([]);
   const [loading, setLoading] = useState(true);
   const [activeChat, setActiveChat] = useState(null); // 활성화된 채팅 정보 저장
-  const [data, setData] = useState();
 
   useEffect(() => {
     const chatRoomRef = collection(db, 'chatRoom');
