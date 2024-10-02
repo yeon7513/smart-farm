@@ -159,6 +159,7 @@ function Monitoring() {
   return (
     <div>
       <section>
+        <h1>환경 상태</h1>
         <div className={styles.boxes}>
           <Card className={styles.box}>
             <div>온도</div>
@@ -182,11 +183,23 @@ function Monitoring() {
           </Card>
         </div>
       </section>
-      <RenderingChart
-        chartType={chartType}
-        data={chatData}
-        checkKey={"우수농가"}
-      />
+      <section>
+        <h1>상태 그래프</h1>
+        <RenderingChart
+          chartType={chartType}
+          data={chatData}
+          checkKey={"우수농가"}
+        />
+      </section>
+      <section>
+        <h1>CCTV</h1>
+        <div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+        </div>
+      </section>
     </div>
   );
 }

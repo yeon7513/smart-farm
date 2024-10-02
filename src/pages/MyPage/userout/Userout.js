@@ -6,6 +6,7 @@ import CustomModal from "../../../components/modal/CustomModal";
 import { fetchItems, removeUser } from "../../../store/user/UserSlice";
 import Container from "./../../../components/layout/container/Container";
 import style from "./Userout.module.scss";
+import Card from "../../../components/card/Card";
 
 function Userout(props) {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -71,7 +72,7 @@ function Userout(props) {
 
   return (
     <Container className={style.container}>
-      <div>
+      <Card>
         <div>
           <span>탈퇴</span> 시 회원님의 Ifarm 이용정보가 <span>삭제</span>되며
           복구가 불가능하오니 신중히 선택하시기 바랍니다
@@ -102,7 +103,7 @@ function Userout(props) {
           <input type="checkbox" onChange={handleChangeInput} />
           <span>주의사항</span>을 확인했습니다.
         </div>
-      </div>
+      </Card>
       <button
         disabled={!state}
         className={style.lastConfirm}

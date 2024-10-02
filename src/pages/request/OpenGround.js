@@ -16,7 +16,7 @@ function OpenGround({
                 type="checkbox"
                 id={option.id}
                 value={option.value}
-                checked={additionalOptions[category]?.[option.id] === "Y"}
+                checked={additionalOptions[category]?.[option.value] || false}
                 onChange={() => {
                   handleAdditionalOptionsChange(category, option.value);
                 }}
