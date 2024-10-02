@@ -224,10 +224,14 @@ function PaymentDetail() {
               </div>
 
               <div className={styles.pay_button}>
-                <button type="button" onClick={onPayCancel}>
+                <button
+                  type="button"
+                  onClick={onPayCancel}
+                  className={styles.onpay}
+                >
                   주문 취소
                 </button>
-                <button type="button" onClick={goBack}>
+                <button type="button" onClick={goBack} className={styles.back}>
                   뒤로 가기
                 </button>
               </div>

@@ -131,7 +131,7 @@ const Payment = () => {
                 </tbody>
               </table>
             ) : (
-              <p>No data available.</p>
+              <p>결제 내역이 없습니다.</p>
             )}
           </>
         )}
