@@ -21,6 +21,8 @@ function CpComment({ item, process }) {
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
 
+  const dispatch = useDispatch();
+
   const goProcessed = () => {
     dispatch(
       approveComplaint({ userId: item.defendantDocId, complainId: item.docId })
@@ -46,7 +48,6 @@ function CpComment({ item, process }) {
     dispatch(approveSuspend({ userId: item.defendantDocId }))
       .then(() => {
         alert("해당 유저를 활동 정지 처리하였습니다.");
-        setIsModalOpen(false); // 모달 닫기
       })
       .catch((error) => {
         console.error(error);
@@ -54,38 +55,22 @@ function CpComment({ item, process }) {
       });
   };
 
-  const dispatch = useDispatch();
-
-  // const handleDeleteCm = async () => {
-  //   dispatch(
-  //     deleteCommentDatas({
-  //       collectionName: item.category,
-  //       docId: item.postDocId,
-  //       commentId: item.commentDocId,
-  //     })
-  //   )
-  //     .then(() => {
-  //       alert("댓글이 성공적으로 삭제되었습니다.");
-  //     })
-  //     .catch((error) => {
-  //       alert("댓글 삭제 중 오류가 발생했습니다.");
-  //       console.error(error);
-  //     });
-  // };
+  // 댓글 삭제하는 함수
   const handleDeleteCm = async () => {
-    const params = {
-      collectionName: item.category,
-      docId: item.postDocId,
-      commentId: item.commentDocId,
-    };
-
     try {
-      const deletedata = await deleteComment(params);
-      alert("댓글이 성공적으로 삭제되었습니다.");
-      return deletedata;
+      const success = await deleteComment(
+        item.category,
+        item.postDocId,
+        item.commentDocId
+      );
+      if (success) {
+        alert("댓글이 성공적으로 삭제되었습니다.");
+      } else {
+        alert("댓글 삭제에 실패했습니다.");
+      }
     } catch (error) {
+      console.error("댓글 삭제 중 오류 발생:", error);
       alert("댓글 삭제 중 오류가 발생했습니다.");
-      console.error("Error details: ", error);
     }
   };
 

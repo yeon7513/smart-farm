@@ -47,7 +47,7 @@ function Home() {
         setSharing([
           ...sharingPosts
             .slice(0, 3)
-            .sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt)),
+            .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)),
         ]);
       } catch (error) {
         console.error("데이터 불러오기 실패:", error);

@@ -48,6 +48,7 @@ function Comment({ item }) {
         postId: item.id,
         postDocId: docId,
         commentId: comment.commentId,
+        commentDocId: comment.id,
         text: comment.text,
         type: "comment",
       };
@@ -70,9 +71,7 @@ function Comment({ item }) {
       setComments(fetchComment);
     }
   };
-  // useEffect(() => {
-  //   dispatch(fetchComments({ collectionName, docId }));
-  // }, [collectionName, docId, dispatch]);
+
   useEffect(() => {
     getComments();
   }, []);
@@ -144,12 +143,6 @@ function Comment({ item }) {
       getComments(); // 댓글 목록을 다시 불러옴
     }
   };
-
-  // useEffect(() => {
-  //   if (isAuthenticated) {
-  //     getComments();
-  //   }
-  // }, [isAuthenticated]);
 
   return (
     <>

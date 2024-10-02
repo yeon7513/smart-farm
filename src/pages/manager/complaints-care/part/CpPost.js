@@ -51,7 +51,6 @@ function CpPost({ item, process }) {
     dispatch(approveSuspend({ userId: item.defendantDocId }))
       .then(() => {
         alert("해당 유저를 활동 정지 처리하였습니다.");
-        setIsModalOpen(false); // 모달 닫기
       })
       .catch((error) => {
         console.error(error);
