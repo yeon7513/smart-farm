@@ -117,7 +117,7 @@ function ComplaintsCare() {
         <div
           className={sort === "post" || sort === "comment" ? styles.hide : ""}
         >
-          <b>프로필</b>
+          <h1>프로필</h1>
           <section>
             {filteredData("profile").map((items, idx) => {
               return <CpProfile key={idx} item={items} process={process} />;
@@ -130,7 +130,7 @@ function ComplaintsCare() {
             sort === "profile" || sort === "comment" ? styles.hide : ""
           }
         >
-          <b>게시글</b>
+          <h1>게시글</h1>
           <section>
             {filteredData("post").map((items, idx) => {
               return <CpPost key={idx} item={items} process={process} />;
@@ -141,7 +141,7 @@ function ComplaintsCare() {
         <div
           className={sort === "profile" || sort === "post" ? styles.hide : ""}
         >
-          <b>댓글</b>
+          <h1>댓글</h1>
           <section>
             {filteredData("comment").map((items, idx) => {
               return <CpComment key={idx} item={items} process={process} />;

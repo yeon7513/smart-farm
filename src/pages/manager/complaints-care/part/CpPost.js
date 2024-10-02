@@ -6,6 +6,7 @@ import { useDispatch } from "react-redux";
 import { deleteBoardDatas } from "../../../../store/board/boardSlice";
 import {
   approveComplaint,
+  approveSuspend,
   fetchProcessed,
   fetchProcessing,
 } from "../../../../store/complain/complainSlice";
@@ -38,6 +39,19 @@ function CpPost({ item, process }) {
         } else {
           dispatch(fetchProcessed(process));
         }
+      })
+      .catch((error) => {
+        console.error(error);
+        alert("오류가 발생했습니다.");
+      });
+  };
+
+  // 활동 정지
+  const goSuspend = () => {
+    dispatch(approveSuspend({ userId: item.defendantDocId }))
+      .then(() => {
+        alert("해당 유저를 활동 정지 처리하였습니다.");
+        setIsModalOpen(false); // 모달 닫기
       })
       .catch((error) => {
         console.error(error);
@@ -78,8 +92,10 @@ function CpPost({ item, process }) {
           {/* </Link> */}
         </div>
         <div className={styles.care}>
-          <p>신고사유: {item.reasonName}</p>
-          <p>신고자: {item.complainant}</p>
+          <div className={styles.careUser}>
+            <p>신고사유: {item.reasonName}</p>
+            <p>신고자: {item.complainant}</p>
+          </div>
           <div>
             {process === "processing" ? (
               <>
@@ -122,7 +138,7 @@ function CpPost({ item, process }) {
                     <button onClick={() => handleDeletePost()}>
                       게시글 삭제
                     </button>
-                    <button>활동 정지</button>
+                    <button onClick={goSuspend}>활동 정지</button>
                   </div>
                 </CustomModal>
 

@@ -11,6 +11,7 @@ import {
 import { db } from "./firebase";
 import { getLastNum } from "./board";
 
+// 신고 누적 횟수 +1
 export const incrementComplainCount = async (userId) => {
   try {
     const userRef = doc(db, "users", userId); // doc() 사용
@@ -22,7 +23,19 @@ export const incrementComplainCount = async (userId) => {
   }
 };
 
-// 신고 상태 업데이트 함수
+// 신고 누적 횟수 +5 (활동 정지)
+export const suspendBoard = async (userId) => {
+  try {
+    const userRef = doc(db, "users", userId); // doc() 사용
+    await updateDoc(userRef, {
+      complaneNum: increment(5), // increment() 사용
+    });
+  } catch (error) {
+    console.log("신고 누적 횟수 증가 중 오류 발생:", error);
+  }
+};
+
+// 신고 승인 업데이트 함수
 export const updateComplaintProcess = async (complainId) => {
   try {
     const processedDate = new Date().toISOString().split("T")[0];
@@ -37,6 +50,22 @@ export const updateComplaintProcess = async (complainId) => {
   }
 };
 
+// 신고 거부
+export const updateComplaintNotProcess = async (complainId) => {
+  try {
+    const processedDate = new Date().toISOString().split("T")[0];
+
+    const complaintRef = doc(db, "complain", complainId);
+    await updateDoc(complaintRef, {
+      processYn: "y",
+      processedAt: processedDate,
+    });
+  } catch (error) {
+    console.log("신고 상태 변경 중 오류 발생:", error);
+  }
+};
+
+// as 처리 완료
 export const updateCompleteProcess = async (postId) => {
   try {
     console.log("Post ID:", postId);
@@ -73,14 +102,50 @@ export const addSetDocDatas = async (collectionName, complainData) => {
   }
 };
 
-export const duplicateComplaint = async (userId, postDocId) => {
+// 중복 신고
+// export const duplicateComplaint = async (userId, postDocId) => {
+//   try {
+//     const complaintsRef = collection(db, "complain");
+//     const q = query(
+//       complaintsRef,
+//       where("complainantDocId", "==", userId),
+//       where("postDocId", "==", postDocId)
+//     );
+
+//     const querySnapshot = await getDocs(q);
+
+//     return querySnapshot.docs.length > 0;
+//   } catch (error) {
+//     console.log("중복 신고 확인 중 오류 발생:", error);
+//     return false;
+//   }
+// };
+export const duplicateComplaint = async (
+  userId,
+  postDocId,
+  type,
+  commentId = null
+) => {
   try {
     const complaintsRef = collection(db, "complain");
-    const q = query(
-      complaintsRef,
-      where("complainantDocId", "==", userId),
-      where("postDocId", "==", postDocId)
-    );
+
+    let q;
+
+    if (type === "comment" && commentId) {
+      q = query(
+        complaintsRef,
+        where("complainantDocId", "==", userId),
+        where("postDocId", "==", postDocId),
+        where("commentId", "==", commentId)
+      );
+    } else {
+      q = query(
+        complaintsRef,
+        where("complainantDocId", "==", userId),
+        where("postDocId", "==", postDocId),
+        where("type", "==", type)
+      );
+    }
 
     const querySnapshot = await getDocs(q);
 
