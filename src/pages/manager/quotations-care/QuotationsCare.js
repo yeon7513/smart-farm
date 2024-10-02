@@ -13,7 +13,7 @@ import {
 } from "../../../store/dashboard/dashboardSlice";
 import CustomModal from "../../../components/modal/CustomModal";
 import PaginationButton from "../../../components/pagination-button/PaginationButton";
-import { db, fetchSectorData } from "../../../api/firebase";
+import { db } from "../../../api/firebase";
 import { collection, getDocs } from "firebase/firestore";
 
 // listItems 변수는 firebase에서 데이터를 가져와서 메모리에 저장합니다.
@@ -34,11 +34,11 @@ function QuotationsCare() {
   const dispatch = useDispatch();
 
   // 페이지가 렌더링 될 때마다 최신화된 "payments"와 "dashboard"의 내용을 화면에 표시합니다.
-  useEffect(() => {
-    console.log(payments);
-    dispatch(fetchPayments("payments")); // 결제 데이터 가져오기
-    dispatch(fetchCommonInfo("dashboard")); // 공통 정보 가져오기
-  }, [dispatch]);
+  // useEffect(() => {
+  //   console.log(payments);
+  //   dispatch(fetchPayments("payments")); // 결제 데이터 가져오기
+  //   dispatch(fetchCommonInfo("dashboard")); // 공통 정보 가져오기
+  // }, [payments]);
 
   // 필터링된 데이터 처리(대기 및 승인여부)
   const filterData = (status) => {
@@ -65,37 +65,44 @@ function QuotationsCare() {
 
   // "payments"의 하위 컬렉션 "sector"의 데이터를 불러오는 함수입니다.
   const fetchSectorData = async (paymentId) => {
-    const sectorRef = collection(db, "payments", paymentId, "sector");
-    const sectorSnapshot = await getDocs(sectorRef);
+    try {
+      const sectorRef = collection(db, "payments", paymentId, "sector");
+      const sectorSnapshot = await getDocs(sectorRef);
 
-    const additionalOptions = {};
-    sectorSnapshot.forEach((doc) => {
-      additionalOptions[doc.id] = doc.data();
-    });
-    console.log(sectorSnapshot);
-
-    return additionalOptions;
+      const additionalOptions = {};
+      sectorSnapshot.forEach((doc) => {
+        additionalOptions[doc.id] = doc.data();
+      });
+      return additionalOptions;
+    } catch (error) {
+      console.error("Error fetching sector data: ", error);
+      return null;
+    }
   };
 
   // payments를 listItems에 저장
-  useEffect(() => {
-    const fetchData = async () => {
-      const allSectorData = [];
-      for (const payment of payments) {
-        // 각 payment의 sector 데이터를 가져옵니다.
-        const sectorData = await fetchSectorData(payment.id);
-        console.log(`${payment.docId}: `, sectorData);
-        // 모든 sector 데이터를 배열에 추가합니다.
-        allSectorData.push({
-          docId: payment.docId,
-          sectorData,
-        });
-      }
-      console.log(allSectorData);
-    };
-    setListItems(payments);
-    fetchData();
-  }, [payments]);
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     const allSectorData = [];
+  //     for (const payment of payments) {
+  //       // 각 payment의 sector 데이터를 가져옵니다.
+  //       const sectorData = await fetchSectorData(payment.docId, "sector");
+  //       // console.log(`${payment.docId}: `, sectorData);
+  //       const sectorResult = sectorData.forEach((data) => {
+  //         console.log(sectorData.부가옵션);
+  //       });
+  //       console.log(sectorResult);
+  //       // 모든 sector 데이터를 배열에 추가합니다.
+  //       allSectorData.push({
+  //         docId: payment.docId,
+  //         sectorData,
+  //       });
+  //     }
+  //     console.log(allSectorData);
+  //   };
+  //   setListItems(payments);
+  //   fetchData();
+  // }, [payments]);
 
   // firebase의 데이터를 excel로 불러옵니다.
   const exportToExcel = async () => {
@@ -103,7 +110,6 @@ function QuotationsCare() {
 
     for (const payment of payments) {
       const additionalOptions = await fetchSectorData(payment.id);
-
       const controlValue = additionalOptions.control || null;
 
       const formattedAdditionalOptions = Object.entries(additionalOptions)
