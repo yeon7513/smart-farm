@@ -7,7 +7,10 @@ import FacilitiesHorticulture from "../FacilitiesHorticulture";
 import OpenGround from "../OpenGround";
 import { convertingAddressToGeoCode } from "./../../../api/geoCode";
 import styles from "./RequestForm.module.scss";
-import { renameOptionsKor } from "../../../utils/renameOptions";
+import {
+  renameOptionsEn,
+  renameOptionsKor,
+} from "../../../utils/renameOptions";
 
 function RequestForm({ user }) {
   const [cropType, setCropType] = useState("딸기");
@@ -436,7 +439,7 @@ function RequestForm({ user }) {
             ([category, options]) => {
               Object.keys(options).forEach((option) => {
                 if (options[option] === "Y") {
-                  control[renameOptionsKor(option)] = option;
+                  control[renameOptionsEn(option)] = "Y";
                 }
               });
             }
@@ -493,7 +496,7 @@ function RequestForm({ user }) {
             ([category, options]) => {
               Object.keys(options).forEach((option) => {
                 if (options[option] === "Y") {
-                  control[renameOptionsKor(option)] = option;
+                  control[renameOptionsEn(option)] = "Y";
                 }
               });
             }
