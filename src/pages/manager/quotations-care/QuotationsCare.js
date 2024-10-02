@@ -157,10 +157,17 @@ function QuotationsCare() {
         {};
       const controlValue = additionalOptions.control || null;
 
+      // 추가 옵션을 객체로 변환합니다.
+      const formattedAdditionalOptions = {};
+
+      Object.entries(additionalOptions).forEach(([동, options]) => {
+        formattedAdditionalOptions[동] = options.부가옵션;
+      });
+
       processedData.push({
         ...payment,
         control: controlValue,
-        additionalOptions: JSON.stringify(additionalOptions),
+        additionalOptions: formattedAdditionalOptions,
       });
     }
 
@@ -294,10 +301,10 @@ function QuotationsCare() {
               <table className={styles.table_main}>
                 <thead>
                   <tr>
-                    <th>주문번호</th>
                     <th>이름</th>
                     <th>작물 종류</th>
                     <th>농장 종류</th>
+                    <th>주문번호</th>
                     <th>승인여부</th>
                     <th>상세정보</th>
                   </tr>
@@ -314,26 +321,6 @@ function QuotationsCare() {
                         approvalStatus = "대기";
                       }
 
-<<<<<<< HEAD
-                    return (
-                      <tr key={item.docId || item.id} className={styles.main}>
-                        <td>{item.createdAt}</td>
-                        <td>{item.name}</td>
-                        <td>{item.crop}</td>
-                        <td>{item.type}</td>
-                        <td>{approvalStatus}</td>
-                        <td>
-                          <button
-                            className={styles.button}
-                            onClick={() => openModal(item)}
-                          >
-                            자세히 보기
-                          </button>
-                        </td>
-                      </tr>
-                    );
-                  })}
-=======
                       return (
                         <tr key={item.docId || item.id} className={styles.main}>
                           <td>{item.name}</td>
@@ -359,7 +346,6 @@ function QuotationsCare() {
                       </td>
                     </tr>
                   )}
->>>>>>> 663c2abb8323f8ddd92a8460f158858fd1edff54
                 </tbody>
               </table>
             ) : (
