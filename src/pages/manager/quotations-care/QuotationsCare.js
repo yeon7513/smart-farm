@@ -37,7 +37,7 @@ function QuotationsCare() {
   //   console.log(payments);
   //   dispatch(fetchPayments("payments")); // 결제 데이터 가져오기
   //   dispatch(fetchCommonInfo("dashboard")); // 공통 정보 가져오기
-  // }, [payments]);
+  // }, []);
 
   // 필터링된 데이터 처리(대기 및 승인여부)
   const filterData = (status) => {
@@ -81,27 +81,23 @@ function QuotationsCare() {
 
   // payments를 listItems에 저장
   // useEffect(() => {
-  //   const fetchData = async () => {
-  //     const allSectorData = [];
-  //     for (const payment of payments) {
-  //       // 각 payment의 sector 데이터를 가져옵니다.
-  //       const sectorData = await fetchSectorData(payment.docId, "sector");
-  //       // console.log(`${payment.docId}: `, sectorData);
-  //       const sectorResult = sectorData.forEach((data) => {
-  //         console.log(sectorData.부가옵션);
-  //       });
-  //       console.log(sectorResult);
-  //       // 모든 sector 데이터를 배열에 추가합니다.
-  //       allSectorData.push({
-  //         docId: payment.docId,
-  //         sectorData,
-  //       });
-  //     }
-  //     console.log(allSectorData);
-  //   };
-  //   setListItems(payments);
-  //   fetchData();
-  // }, [payments]);
+  const fetchData = async () => {
+    if (payments.length > 0) {
+      // payments가 비어있지 않을 때만 호출
+      const allSectorData = [];
+      for (const payment of payments) {
+        const sectorData = await fetchSectorData(payment.docId);
+        // docId는 문서 고유의 ID고, sectorData는 그 sector 문서 고유 ID, 동수, 부가옵션입니다.
+        allSectorData.push({
+          docId: payment.docId,
+          sectorData,
+        });
+      }
+      console.log(allSectorData);
+    }
+  };
+
+  // }, [payments]); // payments 배열이 변경될 때만 호출
 
   // firebase의 데이터를 excel로 불러옵니다.
   const exportToExcel = async () => {
@@ -239,7 +235,7 @@ function QuotationsCare() {
             // value={keyword}
             // onClick={handleSearch}
           />
-          <button onClick={exportToExcel} className={styles.exp_btn}>
+          <button onClick={fetchData} className={styles.exp_btn}>
             견적 내역 다운로드
           </button>
           <select
