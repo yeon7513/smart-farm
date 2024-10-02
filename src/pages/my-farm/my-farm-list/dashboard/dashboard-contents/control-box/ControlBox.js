@@ -61,6 +61,7 @@ function ControlBox() {
               option={option.label}
               defaultChecked={selectedControl ? selectedControl.on : false}
               isAdd={selectedControl ? selectedControl.isAdd : false}
+              setValue={selectedControl ? selectedControl.set : 0}
               className={option.isDisabled ? styles.disabled : ''}
               onUpdate={handleUpdateControlItem}
             />
