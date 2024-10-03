@@ -93,7 +93,12 @@ function ChatRoomCare() {
           .flat()
           .sort((a, b) => b.createdAt - a.createdAt);
 
-        setChatRequests(chatRequests);
+      // 새로운 요청 리스트가 들어오면 기존 요청을 대체하여 상태를 업데이트
+      setChatRequests(
+        chatRequests
+          .flat()
+          .sort((a, b) => b.createdAt - a.createdAt) // 최신 요청이 위로 오도록 정렬
+      );
         setLoading(false);
       } catch (error) {
         console.error('실시간 데이터 수신 중 오류 발생:', error);
@@ -150,28 +155,26 @@ function ChatRoomCare() {
 
   return (
     <div className={styles.wrapper}>
-      <h2>채팅 요청 관리</h2>
-      <SearchBox name={<TbMessageSearch />} placeholder={'채팅 요청 검색'} />
+    <h2>채팅 요청 관리</h2>
+    <SearchBox name={<TbMessageSearch />} placeholder={'채팅 요청 검색'} />
 
-      {activeChat ? (
+    {/* ChatRequestList는 항상 렌더링 */}
+    <ChatRequestList
+      chatRequests={chatRequests}
+      onApproveChat={handleApproveChat}
+    />
+
+    {/* ManagerChatRoom을 상태에 따라 오버레이로 렌더링 */}
+    {activeChat && (
+      <div className={styles.managerChatOverlay}>
         <ManagerChatRoom
           chatId={activeChat.chatId}
           userEmail={activeChat.userEmail}
         />
-      ) : (
-        <>
-          {chatRequests.length > 0 ? (
-            <ChatRequestList
-              chatRequests={chatRequests}
-              onApproveChat={handleApproveChat}
-            />
-          ) : (
-            <p>채팅 요청이 없습니다.</p>
-          )}
-        </>
-      )}
-    </div>
-  );
+      </div>
+    )}
+  </div>
+);
 }
 
 export default ChatRoomCare;
