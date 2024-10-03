@@ -19,6 +19,7 @@ function ChatRoomCare() {
   const [chatRequests, setChatRequests] = useState([]);
   const [loading, setLoading] = useState(true);
   const [activeChat, setActiveChat] = useState(null); // 활성화된 채팅 정보 저장
+  const [searchValue, setSearchValue] = useState(""); // 검색어 상태 추가
 
   useEffect(() => {
     const chatRoomRef = collection(db, "chatRoom");
@@ -130,6 +131,29 @@ function ChatRoomCare() {
     return () => unsubscribe();
   }, []);
 
+  // 안전하게 toLowerCase를 호출하기 위해 값 확인
+  const safeString = (value) => (value ? value.toLowerCase() : "");
+
+  // 날짜를 포맷하여 검색할 수 있도록 변경
+  const formatDate = (timestamp) => {
+    const date = new Date(timestamp);
+    return `${date.getMonth() + 1}.${date.getDate()}.${date.getFullYear()}`;
+  };
+
+  // 검색어에 맞는 데이터 필터링
+  const filteredChatRequests = chatRequests.filter((chat) => {
+    const formattedDate = formatDate(chat.createdAt);
+    return (
+      safeString(chat.nickname).includes(safeString(searchValue)) ||
+      formattedDate.includes(searchValue) ||
+      safeString(chat.chatTheme).includes(safeString(searchValue)) ||
+      chat.messages.some((msg) =>
+        safeString(msg.content).includes(safeString(searchValue))
+      )
+    );
+  });
+
+
   const handleApproveChat = async (chatId, userEmail) => {
     try {
       const chatRoomRef = doc(db, "chatRoom", userEmail, "chatContent", chatId);
@@ -150,15 +174,25 @@ function ChatRoomCare() {
     return <p>로딩 중...</p>;
   }
 
+  const handleSearchChange = (e) => {
+    setSearchValue(e.target.value);
+  };
+
   
   return (
     <div className={styles.wrapper}>
       <h2>채팅 요청 관리</h2>
-      <SearchBox name={<TbMessageSearch />} placeholder={"채팅 요청 검색"} />
+      <SearchBox 
+      name={<TbMessageSearch />} 
+      placeholder={"채팅 정보 검색"}
+      value={searchValue} // 검색어 상태 연결
+      onChange={handleSearchChange} // 입력 핸들러 연결
+      
+      />
 
       {/* ChatRequestList는 항상 렌더링 */}
       <ChatRequestList
-        chatRequests={chatRequests}
+        chatRequests={filteredChatRequests}
         onApproveChat={handleApproveChat}
       />
 
