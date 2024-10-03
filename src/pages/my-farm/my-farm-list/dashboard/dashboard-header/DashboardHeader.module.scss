@@ -4,11 +4,25 @@
   height: max-content;
   background-color: var(--main-color);
   box-shadow: var(--box-shadow);
+
   .info {
     display: flex;
     align-items: center;
     gap: 20px;
     padding: 16px;
+
+    /* 작은모바일 */
+    @media (max-width: 768px) {
+      flex-wrap: wrap;
+      justify-content: center;
+      row-gap: 8px;
+
+      .title {
+        flex: none !important;
+        justify-content: center;
+        width: 100%;
+      }
+    }
 
     .title {
       flex: 1;
@@ -25,13 +39,24 @@
           transform: rotate(360deg);
           color: var(--hover-color);
         }
+
+        /* 모바일 */
+        @media (max-width: 768px) {
+          font-size: 24px;
+        }
       }
 
       h1 {
         font-family: var(--title-font);
         font-size: 20px;
+
+        /* 모바일 */
+        @media (max-width: 768px) {
+          font-size: 16px;
+        }
       }
     }
+
     .icons {
       display: flex;
       gap: 8px;
@@ -61,6 +86,11 @@
             top: 4px;
             transform: scale(150%);
           }
+        }
+
+        /* 모바일 */
+        @media (max-width: 768px) {
+          font-size: 14px;
         }
       }
     }

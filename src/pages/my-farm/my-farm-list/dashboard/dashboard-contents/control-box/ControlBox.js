@@ -59,7 +59,7 @@ function ControlBox() {
               idx={idx}
               docId={sector.docId}
               option={option.label}
-              defaultChecked={selectedControl ? selectedControl.on : false}
+              defaultChecked={selectedControl ? selectedControl.on : true}
               isAdd={selectedControl ? selectedControl.isAdd : false}
               setValue={selectedControl ? selectedControl.set : 0}
               className={option.isDisabled ? styles.disabled : ''}

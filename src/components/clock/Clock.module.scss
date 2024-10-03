@@ -6,4 +6,14 @@
   .date {
     font-weight: 500;
   }
+
+  /* 모바일 */
+  @media (max-width: 768px) {
+    font-size: 14px;
+  }
+
+  /* 작은모바일 */
+  @media (max-width: 576px) {
+    justify-content: right;
+  }
 }

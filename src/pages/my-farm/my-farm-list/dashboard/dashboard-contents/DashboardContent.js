@@ -84,9 +84,7 @@ function DashboardContent({ docId }) {
               />
             ))}
       </ul>
-      <div className={styles.screen}>
-        <Outlet />
-      </div>
+      <Outlet />
     </div>
   );
 }

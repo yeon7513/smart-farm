@@ -1,5 +1,6 @@
 import cn from 'classnames';
 import React, { useEffect, useState } from 'react';
+import TextInput from '../../../../../../../components/form/text-input/TextInput';
 import { useSectorContext } from '../../../../../../../context/SectorContext';
 import Card from './../../../../../../../components/card/Card';
 import styles from './ControlItem.module.scss';
@@ -17,7 +18,7 @@ function ControlItem({
   const { sector } = useSectorContext();
 
   const [isChecked, setIsChecked] = useState(defaultChecked);
-  const [settingValue, setSettingValue] = useState();
+  const [settingValue, setSettingValue] = useState(setValue || '');
 
   const handleAddClick = () => {
     onUpdate({ label: option, on: isChecked, isAdd: true, set: settingValue });
@@ -28,13 +29,17 @@ function ControlItem({
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    const value = Number(e.target[0].value);
+
     onUpdate({
       label: option,
       on: isChecked,
-      isAdd: false,
-      set: Number(e.target[0].value),
+      isAdd: isAdd,
+      set: value,
     });
-    setSettingValue(Number(e.target[0].value));
+
+    setSettingValue(value);
   };
 
   useEffect(() => {
@@ -61,11 +66,11 @@ function ControlItem({
         {isChecked ? (
           <div className={styles.auto}></div>
         ) : (
-          <form onSubmit={handleSubmit}>
-            <input
+          <form onSubmit={handleSubmit} className={styles.settingForm}>
+            <TextInput
               type="text"
               placeholder="설정값"
-              value={setValue}
+              value={settingValue}
               onChange={(e) => setSettingValue(e.target.value)}
             />
             <button type="submit">설정</button>

@@ -3,6 +3,26 @@
   grid-template-columns: repeat(4, 1fr);
   gap: 20px;
 
+  /* 작은 모니터 */
+  @media (max-width: 1200px) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  /* 태블릿 */
+  @media (max-width: 992px) {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+
+  /* 모바일 */
+  @media (max-width: 768px) {
+  }
+
+  /* 작은모바일 */
+  @media (max-width: 576px) {
+    grid-template-columns: repeat(1, 1fr);
+  }
+
   .disabled {
     opacity: 0.5;
   }
