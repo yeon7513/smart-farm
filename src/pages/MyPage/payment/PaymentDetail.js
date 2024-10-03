@@ -14,7 +14,6 @@ import { db } from "../../../api/firebase";
 import Container from "../../../components/layout/container/Container";
 import styles from "./PaymentDetail.module.scss";
 import {
-  renameOptionsEn,
   renameOptionsKor,
 } from "./../../../utils/renameOptions";
 
