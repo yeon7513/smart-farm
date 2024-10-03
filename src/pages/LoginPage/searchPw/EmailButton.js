@@ -53,7 +53,6 @@ function EmailButton({
         {renderring ? (
           <div className={styles.nav}>
             <h2>이메일 인증</h2>
-
             {isEmailSent ? (
               <div>
                 <h5>

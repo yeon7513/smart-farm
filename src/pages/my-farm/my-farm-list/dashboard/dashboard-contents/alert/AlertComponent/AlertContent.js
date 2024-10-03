@@ -16,7 +16,7 @@ function AlertContent({ item }) {
       <h2>{formatData(item.createdAt)}</h2>
       <div className={styles.harvest}>
         <span>{dashboardAlertIcon(item.gb)}</span>
-        {item.content}
+        <button> {item.content}</button>
       </div>
     </div>
   );

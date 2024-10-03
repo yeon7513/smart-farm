@@ -2,15 +2,14 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchGrowthData } from "../../../../../../store/bestfarm/bestfarmSlice";
 import RenderingChart from "../../../../../../components/chart/RenderingChart";
-import { useSectorContext } from "../../../../../../context/SectorContext";
 import styles from "./Monitoring.module.scss";
 import Card from "../../../../../../components/card/Card";
 
 function Monitoring() {
   const dispatch = useDispatch();
-  const { sector } = useSectorContext();
   const [farmState, setFarmState] = useState("");
   const { growthData } = useSelector((state) => state.bestfarmSlice);
+  const { temperature } = useSelector((state) => state.controlSlice);
   const [chartType, setChartType] = useState("line");
   // ----------------------------------------------------------------
   const [averageState1, setAverageState1] = useState();
@@ -21,7 +20,6 @@ function Monitoring() {
   const [averageState6, setAverageState6] = useState();
   const [averageState7, setAverageState7] = useState();
   // ----------------------------------------------------------------
-  console.log(sector);
   useEffect(() => {
     dispatch(fetchGrowthData(`pageSize=30&searchFrmhsCode=${farmState}`));
     setFarmState("43");
@@ -163,7 +161,7 @@ function Monitoring() {
         <div className={styles.boxes}>
           <Card className={styles.box}>
             <div>온도</div>
-            <div className={styles.Num}>27</div>
+            <div className={styles.Num}>20</div>
           </Card>
           <Card className={styles.box}>
             <div>습도</div>
