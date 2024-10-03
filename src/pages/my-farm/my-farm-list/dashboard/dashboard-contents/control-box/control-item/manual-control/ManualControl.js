@@ -1,11 +1,13 @@
-import cn from 'classnames';
-import React, { useEffect, useState } from 'react';
-import TextInput from '../../../../../../../../components/form/text-input/TextInput';
+import cn from "classnames";
+import React, { useEffect, useState } from "react";
+import TextInput from "../../../../../../../../components/form/text-input/TextInput";
 import {
   getRandomValue,
   getUnitByLabel,
-} from '../../../../../../../../utils/renameOptions';
-import styles from './ManualControl.module.scss';
+} from "../../../../../../../../utils/renameOptions";
+import styles from "./ManualControl.module.scss";
+import { useDispatch } from "react-redux";
+import { temperatureData } from "../../../../../../../../store/controlData/controlSlice";
 
 function ManualControl({
   isChecked,
@@ -17,15 +19,18 @@ function ManualControl({
 }) {
   const [settings, setSettings] = useState(getRandomValue(label));
   const [isSet, setIsSet] = useState(false);
-
+  const dispatch = useDispatch();
   const handleSetClick = () => {
     setIsSet(true);
   };
-
+  console.log(settings);
   const handleSave = (e) => {
     handleSubmit(e);
     setIsSet(false);
   };
+  useEffect(() => {
+    dispatch(temperatureData([settings]));
+  }, [dispatch]);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -73,8 +78,8 @@ function ManualControl({
           type="button"
           onClick={handleSetClick}
         >
-          {setValue === '' ? (
-            '변경'
+          {setValue === "" ? (
+            "변경"
           ) : (
             <>
               {getUnitByLabel(
@@ -85,7 +90,7 @@ function ManualControl({
           )}
         </button>
       )}
-      <div className={cn(styles.auto, isChecked ? '' : styles.stop)}></div>
+      <div className={cn(styles.auto, isChecked ? "" : styles.stop)}></div>
     </div>
   );
 }

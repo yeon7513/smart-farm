@@ -1,16 +1,17 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { getOrder } from '../../api/firebase';
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { getOrder } from "../../api/firebase";
 
 const initialState = {
   item: [],
-  postsLength: '',
-  count: '',
-  randomCount: '',
+  postsLength: "",
+  count: "",
+  randomCount: "",
   dashboardAlertContent: [],
   controlItems: [],
+  temperature: [],
 };
 const controlSlice = createSlice({
-  name: 'controlStatus',
+  name: "controlStatus",
   initialState,
   reducers: {
     setData: (state, action) => {
@@ -27,6 +28,9 @@ const controlSlice = createSlice({
     },
     postsLengthData: (state, action) => {
       state.postsLength = action.payload;
+    },
+    temperatureData: (state, action) => {
+      state.temperature = action.payload;
     },
   },
 
@@ -46,13 +50,13 @@ const controlSlice = createSlice({
 });
 
 const getdashboardAlertContent = createAsyncThunk(
-  'dashboardAlertContent/fetchAlldashboardAlertContent',
+  "dashboardAlertContent/fetchAlldashboardAlertContent",
   async ({ collectionName, orderByField }) => {
     try {
       const resultData = await getOrder(collectionName, orderByField);
       return resultData;
     } catch (error) {
-      return 'Error' + error;
+      return "Error" + error;
     }
   }
 );
@@ -65,4 +69,5 @@ export const {
   countData,
   randomCountData,
   postsLengthData,
+  temperatureData,
 } = controlSlice.actions;
