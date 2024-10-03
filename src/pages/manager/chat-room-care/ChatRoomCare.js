@@ -175,6 +175,7 @@ function ChatRoomCare() {
     )}
   </div>
 );
+
 }
 
 export default ChatRoomCare;
