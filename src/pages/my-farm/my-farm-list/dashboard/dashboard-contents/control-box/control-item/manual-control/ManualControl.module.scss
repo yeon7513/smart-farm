@@ -2,16 +2,41 @@
 
 .manualControl {
   display: flex;
-  justify-content: space-between;
-  outline: 1px dotted red;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
 
   .content {
+    &.running {
+      display: flex;
+      p {
+        font-size: 24px;
+      }
+    }
+
+    &.settingForm {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      > input {
+        padding: 8px;
+        width: 70%;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        font-size: 14px;
+      }
+      > button {
+        @include linearBtn();
+        width: 30%;
+        font-size: 14px;
+      }
+    }
   }
 
   .setbtn {
     @include linearBtn();
     padding: 4px 16px;
-    font-size: 24px;
+    font-size: 20px;
   }
 
   .auto {

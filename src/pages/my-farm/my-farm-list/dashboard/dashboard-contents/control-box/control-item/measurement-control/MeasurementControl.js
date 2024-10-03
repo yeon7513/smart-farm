@@ -19,18 +19,19 @@ function MeasurementControl({ isChecked, label }) {
 
   return (
     <div className={styles.measurementControl}>
-      {isChecked ? (
-        <p className={styles.figure}>
-          {' '}
-          {getUnitByLabel(
-            label,
-            ...(Array.isArray(figure) ? figure : [figure])
-          )}
-        </p>
-      ) : (
-        <div>센서가 비활성화되었습니다.</div>
-      )}
-      <div className={cn(styles.auto, isChecked ? '' : styles.stop)}></div>
+      <div className={styles.content}>
+        {isChecked ? (
+          <p>
+            {getUnitByLabel(
+              label,
+              ...(Array.isArray(figure) ? figure : [figure])
+            )}
+          </p>
+        ) : (
+          <p>비활성화</p>
+        )}
+        <div className={cn(styles.auto, isChecked ? '' : styles.stop)}></div>
+      </div>
     </div>
   );
 }

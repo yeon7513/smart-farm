@@ -340,15 +340,21 @@ function RequestForm({ user }) {
     setSelectedOptions((prevOptions) => {
       const updatedOptions = { ...prevOptions };
 
+       // 인덱스가 없으면 초기화합니다.
+    if (!updatedOptions[index]) {
+      updatedOptions[index] = {};
+    }
+
       // 인덱스의 카테고리가 없으면 초기화 합니다.
       if (!updatedOptions[index][category]) {
         updatedOptions[index][category] = {};
       }
-      updatedOptions[index][category][value] = updatedOptions[index][category][
-        value
-      ]
-        ? "N"
-        : "Y";
+     
+      // 현재 값을 토글합니다.
+    updatedOptions[index][category][value] = updatedOptions[index][category][value]
+    ? undefined // "Y" 대신 undefined로 설정하여 값을 제거
+    : "Y";
+    
       console.log(updatedOptions);
       return updatedOptions;
     });

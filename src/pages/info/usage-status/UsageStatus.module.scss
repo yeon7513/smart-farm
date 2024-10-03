@@ -1,5 +1,23 @@
 .usageStatus {
   display: flex;
+
+  /* 작은 모니터 */
+  @media (max-width: 1200px) {
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 60px;
+  }
+  /* 태블릿 */
+  @media (max-width: 992px) {
+  }
+
+  /* 모바일 */
+  @media (max-width: 768px) {
+  }
+
+  /* 작은모바일 */
+  @media (max-width: 576px) {
+  }
 }
 .map {
   overflow: hidden;
@@ -8,6 +26,7 @@
   align-items: center;
   width: 400px;
   height: 600px;
+
   > svg {
     width: 600px;
     height: 800px;
@@ -17,6 +36,11 @@
 
 .container {
   flex: 1;
+
+  /* 작은 모니터 */
+  @media (max-width: 1200px) {
+    width: 100%;
+  }
 
   .sortBtns {
     display: flex;
@@ -43,5 +67,16 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+  }
+
+  .select {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .chart {
+    width: 100%;
+    height: 450px;
   }
 }

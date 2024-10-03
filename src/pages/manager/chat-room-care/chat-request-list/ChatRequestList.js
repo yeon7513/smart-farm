@@ -76,15 +76,19 @@ function ChatRequestList({ chatRequests, onApproveChat }) {
 
   return (
     <div>
-      <ul className={styles.list}>
-        {currentItems.map((chat) => (
-          <ChatRequestItem
-            key={chat.id}
-            chat={chat}
-            onApprove={() => onApproveChat(chat.id, chat.userEmail)}
-          />
-        ))}
-      </ul>
+      {currentItems.length === 0 ? (
+        <p>채팅 요청이 없습니다.</p>
+      ) : (
+        <ul className={styles.list}>
+          {currentItems.map((chat) => (
+            <ChatRequestItem
+              key={chat.id}
+              chat={chat}
+              onApprove={() => onApproveChat(chat.id, chat.userEmail)}
+            />
+          ))}
+        </ul>
+      )}
 
       <div className={styles.pagination}>{renderPagination()}</div>
     </div>

@@ -79,16 +79,8 @@ function SimpleDonutChart({ data }) {
   };
 
   return (
-    <ResponsiveContainer
-      width="100%"
-      height={450}
-      maxWidth={500}
-      maxHeight={600}
-    >
+    <ResponsiveContainer width="100%" height={450}>
       <PieChart>
-        {/* {hasCrops && data[0].crops.length < 10 ? null : (
-          <Legend layout="vertical" align="right" />
-        )} */}
         {renderPies()}
         {hasCrops ? null : <Tooltip content={customTooltip(totalValue)} />}
       </PieChart>

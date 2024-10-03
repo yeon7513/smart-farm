@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import styles from './ManagerChatRoom.module.scss';
-import { addDoc, collection, onSnapshot, serverTimestamp } from 'firebase/firestore';
+import { addDoc, collection, doc, onSnapshot, serverTimestamp, updateDoc } from 'firebase/firestore';
 import { auth, db } from '../../../../../../api/firebase';
 import closeIcon from "../../../../../../assets/main/closeImg.svg";
 import ManagerMessage from './manager-message/ManagerMessage';
@@ -56,9 +56,19 @@ function ManagerChatRoom({ chatId, userEmail }) {
       handleSendMessage(); // 메시지 전송
     };
 
-    const handleClose = () => {
-      setIsChatRoomOpened(false);
-      // 챗룸 닫기
+    const handleClose = async () => {
+      setIsChatRoomOpened(false); // 챗룸 닫기
+      
+      try {
+        // Firestore에서 해당 채팅방의 chatEnd 상태를 'Y'로 변경
+        const chatRoomRef = doc(db, 'chatRoom', userEmail, 'chatContent', chatId);
+        await updateDoc(chatRoomRef, {
+          chatEnd: 'Y',
+        });
+        console.log('상담이 종료되었습니다.');
+      } catch (error) {
+        console.error('상담 종료 중 오류 발생:', error);
+      }
     };
   
     if (!isChatRoomOpened) return null;
