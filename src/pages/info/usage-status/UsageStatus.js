@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { GrPowerReset } from 'react-icons/gr';
 import { useDispatch, useSelector } from 'react-redux';
-import { GridLoader } from 'react-spinners';
+import { BeatLoader } from 'react-spinners';
 import { chartTypes } from '../../../components/chart/Charts';
 import RenderingChart from '../../../components/chart/RenderingChart';
 import Maps from '../../../components/map/Maps';
@@ -105,7 +105,7 @@ function UsageStatus() {
           {!localFarm ? (
             <div className={styles.entrie}>
               {isLoading ? (
-                <GridLoader color="#a2ca71" margin={5} size={20} />
+                <BeatLoader color="#8adab2" size={20} />
               ) : (
                 <>
                   <h2>
@@ -121,14 +121,16 @@ function UsageStatus() {
                       />
                     ))}
                   </div>
-                  <RenderingChart chartType={chartType} data={entireRegion} />
+                  <div className={styles.chart}>
+                    <RenderingChart chartType={chartType} data={entireRegion} />
+                  </div>
                 </>
               )}
             </div>
           ) : (
             <div className={styles.local}>
               {isLoading ? (
-                <GridLoader color="#a2ca71" margin={5} size={20} />
+                <BeatLoader color="#8adab2" size={20} />
               ) : (
                 <>
                   <h2>
