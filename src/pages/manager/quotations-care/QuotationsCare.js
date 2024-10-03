@@ -15,6 +15,7 @@ import {
   updateCommonInfo,
 } from "../../../store/dashboard/dashboardSlice";
 import styles from "./QuotationsCare.module.scss";
+import { renameOptionsKor } from "../../../utils/renameOptions";
 
 // listItems 변수는 firebase에서 데이터를 가져와서 메모리에 저장합니다.
 // 이를 기반으로 검색 기능 구현 및 초기 데이터를 렌더링 합니다.
@@ -34,11 +35,10 @@ function QuotationsCare() {
   const dispatch = useDispatch();
 
   // 페이지가 렌더링 될 때마다 최신화된 "payments"와 "dashboard"의 내용을 화면에 표시합니다.
-  // useEffect(() => {
-  //   console.log(payments);
-  //   dispatch(fetchPayments("payments")); // 결제 데이터 가져오기
-  //   dispatch(fetchCommonInfo("dashboard")); // 공통 정보 가져오기
-  // }, []);
+  useEffect(() => {
+    dispatch(fetchPayments("payments")); // 결제 데이터 가져오기
+    dispatch(fetchCommonInfo("dashboard")); // 공통 정보 가져오기
+  }, []);
 
   // 필터링된 데이터 처리(대기 및 승인여부)
   // 재협님이 작성
@@ -104,7 +104,7 @@ function QuotationsCare() {
       sectorSnapshot.forEach((doc) => {
         const data = doc.data();
         additionalOptions.push({
-          동수: data.동수, // 동수 추가
+          동수: data.id, // 동수 추가
           부가옵션: data.부가옵션, // 부가옵션 추가
         });
       });
@@ -163,7 +163,9 @@ function QuotationsCare() {
       // 부가옵션을 문자열로 변환
       const formattedOptions = additionalOptions.map((option) => ({
         동수: option.동수,
-        부가옵션: JSON.stringify(option.부가옵션), // 필요한 형식으로 변환
+        부가옵션: Object.entries(option.부가옵션).map(([key, value]) => 
+          value === "Y" ? renameOptionsKor(key) : null
+        ).filter(Boolean).join(", ")
       }));
 
       formattedOptions.forEach((option) => {
@@ -327,10 +329,10 @@ function QuotationsCare() {
 
                       return (
                         <tr key={item.docId || item.id} className={styles.main}>
+                          <td>{item.createdAt}</td>
                           <td>{item.name}</td>
                           <td>{item.crop}</td>
                           <td>{item.type}</td>
-                          <td>{item.createdAt}</td>
                           <td>{approvalStatus}</td>
                           <td>
                             <button
