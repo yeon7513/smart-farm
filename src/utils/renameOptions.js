@@ -101,3 +101,81 @@ export function renameOptionsEn(option) {
       return 'extra';
   }
 }
+
+// 카테고리로 나누기
+export const controlCategories = {
+  adjustableSettings: ['온도 조절기', '양액기', '인공 조명'],
+  measurementSensors: [
+    '온도 및 습도 센서',
+    'CO2 센서',
+    '토양 습도 센서',
+    '양액 측정 센서',
+    '토양 ph 측정기',
+  ],
+  automatedDevices: [
+    '환기 장치',
+    '차광막',
+    '자동 조명 조절기',
+    '자동 관수 시스템',
+    '드립 관수 시스템',
+    '스프링클러 시스템',
+    'cctv',
+    '기상 스테이션',
+    '지상용 드론',
+    '자율주행 트랙터',
+    '해충 디지털 트랩',
+    '조류 퇴치기',
+    '비료 살포기',
+    '농약 살포기',
+    '기타',
+  ],
+};
+
+export const getRandomValue = (label) => {
+  const getRandomInRange = (min, max) =>
+    (Math.random() * (max - min) + min).toFixed(1);
+
+  switch (label) {
+    case '온도 조절기':
+      return getRandomInRange(23, 24.5);
+    case '온도 및 습도 센서':
+      return [getRandomInRange(23, 24.5), getRandomInRange(45, 55)];
+    case 'CO2 센서':
+      return getRandomInRange(700, 800);
+    case '양액기':
+      return getRandomInRange(1.5, 2.0);
+    case '토양 습도 센서':
+      return getRandomInRange(35, 40);
+    case '양액 측정 센서':
+      return getRandomInRange(1000, 1100);
+    case '토양 ph 측정기':
+      return getRandomInRange(6.5, 6.8);
+    case '인공 조명':
+      return getRandomInRange(4000, 5000);
+    default:
+      return null;
+  }
+};
+
+export const getUnitByLabel = (label, value1, value2) => {
+  switch (label) {
+    case '온도 조절기':
+      return `${value1} °C`;
+    case '온도 및 습도 센서':
+      return `${value1} °C / ${value2} %`;
+    case 'CO2 센서':
+      return `${value1} ppm`;
+    case '양액기':
+      return `${value1} L`;
+    case '토양 습도 센서':
+      return `${value1} %`;
+    case '양액 측정 센서':
+      return `${value1} ppm`;
+    case '토양 ph 측정기':
+      return `${value1} pH`;
+    case '인공 조명':
+      return `${value1} lx`;
+    default:
+      return value1;
+  }
+};

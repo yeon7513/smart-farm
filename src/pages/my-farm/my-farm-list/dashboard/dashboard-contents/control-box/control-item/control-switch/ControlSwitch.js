@@ -21,16 +21,18 @@ function ControlSwitch({
   };
 
   return (
-    <label htmlFor={`switch_${id}`} className={styles.switch}>
-      <input
-        name={`switch_${id}`}
-        id={`switch_${id}`}
-        type="checkbox"
-        checked={isChecked}
-        onChange={handleChange}
-      />
-      <span className={styles.slider}></span>
-    </label>
+    <div className={styles.switch}>
+      <label htmlFor={`switch_${id}`}>
+        <input
+          name={`switch_${id}`}
+          id={`switch_${id}`}
+          type="checkbox"
+          checked={isChecked}
+          onChange={handleChange}
+        />
+        <span className={styles.slider}></span>
+      </label>
+    </div>
   );
 }
 

@@ -1,13 +1,16 @@
 import cn from 'classnames';
 import React, { useEffect, useState } from 'react';
-import TextInput from '../../../../../../../components/form/text-input/TextInput';
 import { useSectorContext } from '../../../../../../../context/SectorContext';
 import Card from './../../../../../../../components/card/Card';
 import styles from './ControlItem.module.scss';
+import AutomaticControl from './automatic-control/AutomaticControl';
 import ControlSwitch from './control-switch/ControlSwitch';
+import ManualControl from './manual-control/ManualControl';
+import MeasurementControl from './measurement-control/MeasurementControl';
 
 function ControlItem({
   option,
+  category,
   idx,
   onUpdate,
   className,
@@ -18,13 +21,26 @@ function ControlItem({
   const { sector } = useSectorContext();
 
   const [isChecked, setIsChecked] = useState(defaultChecked);
-  const [settingValue, setSettingValue] = useState(setValue || '');
+  const [settingValue, setSettingValue] = useState(setValue);
 
   const handleAddClick = () => {
-    onUpdate({ label: option, on: isChecked, isAdd: true, set: settingValue });
+    onUpdate({
+      label: option,
+      on: isChecked,
+      isAdd: true,
+      set: settingValue,
+      category: category,
+    });
   };
+
   const handleRemoveClick = () => {
-    onUpdate({ label: option, on: isChecked, isAdd: false, set: settingValue });
+    onUpdate({
+      label: option,
+      on: isChecked,
+      isAdd: false,
+      set: settingValue,
+      category: category,
+    });
   };
 
   const handleSubmit = (e) => {
@@ -37,6 +53,7 @@ function ControlItem({
       on: isChecked,
       isAdd: isAdd,
       set: value,
+      category: category,
     });
 
     setSettingValue(value);
@@ -62,30 +79,29 @@ function ControlItem({
           )}
         </div>
       </div>
-      <div className={styles.operating}>
-        {isChecked ? (
-          <div className={styles.auto}></div>
-        ) : (
-          <form onSubmit={handleSubmit} className={styles.settingForm}>
-            <TextInput
-              type="text"
-              placeholder="설정값"
-              value={settingValue}
-              onChange={(e) => setSettingValue(e.target.value)}
-            />
-            <button type="submit">설정</button>
-          </form>
-        )}
-        <ControlSwitch
-          id={`${sector.docId}_${idx}`}
+      {category === 'adjustableSettings' ? (
+        <ManualControl
           isChecked={isChecked}
-          setIsChecked={setIsChecked}
-          label={option}
-          isAdd={isAdd}
+          handleSubmit={handleSubmit}
+          setValue={setValue}
           settingValue={settingValue}
-          onUpdate={onUpdate}
+          setSettingValue={setSettingValue}
+          label={option}
         />
-      </div>
+      ) : category === 'measurementSensors' ? (
+        <MeasurementControl isChecked={isChecked} label={option} />
+      ) : (
+        <AutomaticControl isChecked={isChecked} />
+      )}
+      <ControlSwitch
+        id={`${sector.docId}_${idx}`}
+        isChecked={isChecked}
+        setIsChecked={setIsChecked}
+        label={option}
+        isAdd={isAdd}
+        settingValue={settingValue}
+        onUpdate={onUpdate}
+      />
     </Card>
   );
 }
