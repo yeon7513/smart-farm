@@ -1,5 +1,4 @@
 import {
-  addDoc,
   collection,
   doc,
   getDocs,
@@ -10,7 +9,7 @@ import {
 } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
 import { TbMessageSearch } from "react-icons/tb";
-import { auth, db } from "../../../api/firebase";
+import { db } from "../../../api/firebase";
 import SearchBox from "../../../components/search_box/SearchBox";
 import styles from "./ChatRoomCare.module.scss";
 import ChatRequestList from "./chat-request-list/ChatRequestList";
@@ -23,25 +22,58 @@ function ChatRoomCare() {
 
   useEffect(() => {
     const chatRoomRef = collection(db, "chatRoom");
-
+  
+    // Firestore 실시간 데이터 구독
     const unsubscribe = onSnapshot(chatRoomRef, async (snapshot) => {
       try {
         const chatRequestsPromises = snapshot.docs.map(async (chatRoomDoc) => {
           const userEmail = chatRoomDoc.id;
+  
           const chatContentRef = collection(
             db,
             "chatRoom",
             userEmail,
             "chatContent"
           );
-
           const chatContentSnapshot = await getDocs(chatContentRef);
-
+  
           const chatRequestPromises = chatContentSnapshot.docs.map(
             async (chatContentDoc) => {
               const chatRoomId = chatContentDoc.id;
               const chatData = chatContentDoc.data();
-
+  
+              // 1시간 경과 체크 및 상태 업데이트
+              const createdAt =
+                chatData.createdAt instanceof Object
+                  ? chatData.createdAt.toMillis()
+                  : chatData.createdAt;
+              const now = Date.now();
+              const oneHour = 60 * 60 * 1000; 
+              // const oneMinute = 60 * 1000; // 1분 (60초 * 1000밀리초)
+              // const twentyMinute = 60 * 1000 * 20; // 20분(60초 * 1000밀리초)
+        
+  
+              if (
+                now - createdAt >= oneHour &&
+                chatData.activeYn === "Y" &&
+                chatData.chatEnd === "N"
+              ) {
+                const chatRoomRef = doc(
+                  db,
+                  "chatRoom",
+                  userEmail,
+                  "chatContent",
+                  chatRoomId
+                );
+                await updateDoc(chatRoomRef, {
+                  chatEnd: "Y",
+                });
+                console.log(
+                  `1시간이 지나 상태가 완료로 변경된 채팅: ${chatRoomId}`
+                );
+              }
+  
+              // 메시지 데이터를 가져옴
               const messagesRef = collection(
                 db,
                 "chatRoom",
@@ -55,7 +87,7 @@ function ChatRoomCare() {
                 orderBy("createdAt", "asc")
               );
               const messageSnapshot = await getDocs(messageQuery);
-
+  
               const messages = messageSnapshot.docs.map((messageDoc) => {
                 const messageData = messageDoc.data();
                 return {
@@ -67,42 +99,34 @@ function ChatRoomCare() {
                       : messageData.createdAt,
                 };
               });
-
+  
               return {
                 id: chatRoomId,
                 userEmail,
                 chatTheme: chatData.chatTheme,
                 activeYn: chatData.activeYn,
                 chatEnd: chatData.chatEnd,
-                createdAt:
-                  chatData.createdAt instanceof Object
-                    ? chatData.createdAt.toMillis()
-                    : chatData.createdAt,
+                createdAt,
                 nickname: chatData.nickname,
                 messages,
               };
             }
           );
-
+  
           return await Promise.all(chatRequestPromises);
         });
-
+  
         let chatRequests = await Promise.all(chatRequestsPromises);
-
-        chatRequests = chatRequests
-          .flat()
-          .sort((a, b) => b.createdAt - a.createdAt);
-
-        // 새로운 요청 리스트가 들어오면 기존 요청을 대체하여 상태를 업데이트
-        setChatRequests(
-          chatRequests.flat().sort((a, b) => b.createdAt - a.createdAt) // 최신 요청이 위로 오도록 정렬
-        );
-        setLoading(false);
+        chatRequests = chatRequests.flat().sort((a, b) => b.createdAt - a.createdAt);
+  
+        setChatRequests(chatRequests);
+        setLoading(false); // 로딩 상태를 false로 설정
       } catch (error) {
         console.error("실시간 데이터 수신 중 오류 발생:", error);
       }
     });
-
+  
+    // 컴포넌트 언마운트 시 구독 해제
     return () => unsubscribe();
   }, []);
 
@@ -126,31 +150,7 @@ function ChatRoomCare() {
     return <p>로딩 중...</p>;
   }
 
-  // 메시지 전송 함수
-  const handleSendMessage = async (chatId, userEmail, messageContent) => {
-    try {
-      const messagesRef = collection(
-        db,
-        "chatRoom",
-        userEmail,
-        "chatContent",
-        chatId,
-        "message"
-      );
-
-      // 메시지 데이터 추가
-      await addDoc(messagesRef, {
-        content: messageContent,
-        createdAt: Date.now(),
-        uid: auth.currentUser.uid, // 관리자의 uid (Firebase 인증된 유저)
-      });
-
-      console.log("관리자 메시지 전송 성공");
-    } catch (error) {
-      console.error("메시지 전송 중 오류 발생:", error);
-    }
-  };
-
+  
   return (
     <div className={styles.wrapper}>
       <h2>채팅 요청 관리</h2>
