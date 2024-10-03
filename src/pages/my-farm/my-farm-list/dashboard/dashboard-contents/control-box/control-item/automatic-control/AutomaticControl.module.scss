@@ -1,0 +1,11 @@
+@import '/src/scss/mixins.scss';
+
+.automaticControl {
+  @include flexCenter();
+
+  .auto {
+    @include gear($size: 100px, $top: 35px, $left: 55px);
+    margin-top: 16px;
+    height: 80px;
+  }
+}

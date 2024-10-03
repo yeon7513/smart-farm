@@ -14,7 +14,6 @@ function Briefing() {
   const loadControlList = async () => {
     try {
       const list = await getAllControlItems();
-      console.log(list);
       setSelectedControls(list);
     } catch (error) {
       console.error('indexedDB 로드 실패: ', error);
@@ -46,6 +45,7 @@ function Briefing() {
                   key={idx}
                   idx={idx}
                   option={control.label}
+                  category={control.category}
                   defaultChecked={control.on}
                   isAdd={control.isAdd}
                   setValue={control.set}

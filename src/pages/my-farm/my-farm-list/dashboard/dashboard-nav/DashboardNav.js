@@ -16,7 +16,6 @@ function DashboardNav() {
   useEffect(() => {
     setIsOpen(false);
   }, [currComp]);
-  console.log(isOpen);
 
   return (
     <div className={cn(styles.navWrap, isOpen ? styles.show : '')}>

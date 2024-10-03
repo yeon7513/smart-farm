@@ -1,0 +1,7 @@
+@import '/src/scss/mixins.scss';
+
+.measurementControl {
+  .auto {
+    @include gear();
+  }
+}

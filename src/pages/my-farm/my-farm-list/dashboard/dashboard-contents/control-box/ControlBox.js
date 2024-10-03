@@ -4,7 +4,10 @@ import {
   getControlItem,
   saveControlItem,
 } from '../../../../../../utils/indexedDB';
-import { renameOptionsKor } from '../../../../../../utils/renameOptions';
+import {
+  controlCategories,
+  renameOptionsKor,
+} from '../../../../../../utils/renameOptions';
 import ControlItem from './control-item/ControlItem';
 import styles from './ControlBox.module.scss';
 
@@ -20,12 +23,21 @@ function ControlBox() {
   // 컨트롤 활성 옵션 필터링
   const filteredOptions = Object.entries(sector?.control || {})
     .filter(([key, value]) => (isAdmin ? true : value === 'Y'))
-    .map(([key, value]) => ({
-      label: renameOptionsKor(key),
-      isDisabled: value === 'N',
-    }))
+    .map(([key, value]) => {
+      // 카테고리 찾기
+      const category = Object.keys(controlCategories).find((cat) =>
+        controlCategories[cat].includes(renameOptionsKor(key))
+      );
+
+      return {
+        label: renameOptionsKor(key),
+        isDisabled: value === 'N',
+        category,
+      };
+    })
     .sort((a, b) => a.label.localeCompare(b.label, 'ko-KR'));
 
+  // indexedDB 호출
   const loadControlList = async () => {
     try {
       const list = await getControlItem(sector.docId);
@@ -59,9 +71,10 @@ function ControlBox() {
               idx={idx}
               docId={sector.docId}
               option={option.label}
+              category={option.category}
               defaultChecked={selectedControl ? selectedControl.on : true}
               isAdd={selectedControl ? selectedControl.isAdd : false}
-              setValue={selectedControl ? selectedControl.set : 0}
+              setValue={selectedControl ? selectedControl.set : ''}
               className={option.isDisabled ? styles.disabled : ''}
               onUpdate={handleUpdateControlItem}
             />

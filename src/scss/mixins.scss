@@ -240,3 +240,157 @@
     }
   }
 }
+
+// 기어
+@mixin gear($size: 60px, $top: 15px, $left: 35px) {
+  width: $size;
+  height: $size * 0.67;
+  position: relative;
+  display: inline-block;
+  background-color: #fff;
+
+  &::before {
+    content: '';
+    left: 0;
+    top: 0;
+    position: absolute;
+    width: $size * 0.6;
+    height: $size * 0.6;
+    border-radius: 50%;
+    background-color: var(--accent-color);
+    background-image: radial-gradient(
+        circle #{$size * 0.1333} at 50% 50%,
+        #fff 100%,
+        transparent 0
+      ),
+      radial-gradient(
+        circle #{$size * 0.0667} at #{$size * 0.3} #{$size * 0},
+        #fff 100%,
+        transparent 0
+      ),
+      radial-gradient(
+        circle #{$size * 0.0667} at #{$size * 0} #{$size * 0.3},
+        #fff 100%,
+        transparent 0
+      ),
+      radial-gradient(
+        circle #{$size * 0.0667} at #{$size * 0.6} #{$size * 0.3},
+        #fff 100%,
+        transparent 0
+      ),
+      radial-gradient(
+        circle #{$size * 0.0667} at #{$size * 0.3} #{$size * 0.6},
+        #fff 100%,
+        transparent 0
+      ),
+      radial-gradient(
+        circle #{$size * 0.0667} at #{$size * 0.5} #{$size * 0.0833},
+        #fff 100%,
+        transparent 0
+      ),
+      radial-gradient(
+        circle #{$size * 0.0667} at #{$size * 0.5} #{$size * 0.0833},
+        #fff 100%,
+        transparent 0
+      ),
+      radial-gradient(
+        circle #{$size * 0.0667} at #{$size * 0.5} #{$size * 0.5},
+        #fff 100%,
+        transparent 0
+      ),
+      radial-gradient(
+        circle #{$size * 0.0667} at #{$size * 0.0833} #{$size * 0.5},
+        #fff 100%,
+        transparent 0
+      ),
+      radial-gradient(
+        circle #{$size * 0.0667} at #{$size * 0.0833} #{$size * 0.0833},
+        #fff 100%,
+        transparent 0
+      );
+    background-repeat: no-repeat;
+    box-sizing: border-box;
+    animation: rotationBack 3s linear infinite;
+  }
+
+  &::after {
+    content: '';
+    left: $left;
+    top: $top;
+    position: absolute;
+    width: $size * 0.4;
+    height: $size * 0.4;
+    border-radius: 50%;
+    background-color: var(--common-color);
+    background-image: radial-gradient(
+        circle #{$size * 0.0833} at 50% 50%,
+        #fff 100%,
+        transparent 0
+      ),
+      radial-gradient(
+        circle #{$size * 0.0417} at #{$size * 0.2} 0,
+        #fff 100%,
+        transparent 0
+      ),
+      radial-gradient(
+        circle #{$size * 0.0417} at 0 #{$size * 0.2},
+        #fff 100%,
+        transparent 0
+      ),
+      radial-gradient(
+        circle #{$size * 0.0417} at #{$size * 0.4} #{$size * 0.2},
+        #fff 100%,
+        transparent 0
+      ),
+      radial-gradient(
+        circle #{$size * 0.0417} at #{$size * 0.2} #{$size * 0.4},
+        #fff 100%,
+        transparent 0
+      ),
+      radial-gradient(
+        circle #{$size * 0.0417} at #{$size * 0.3333} #{$size * 0.05},
+        #fff 100%,
+        transparent 0
+      ),
+      radial-gradient(
+        circle #{$size * 0.0417} at #{$size * 0.3333} #{$size * 0.05},
+        #fff 100%,
+        transparent 0
+      ),
+      radial-gradient(
+        circle #{$size * 0.0417} at #{$size * 0.3333} #{$size * 0.3333},
+        #fff 100%,
+        transparent 0
+      ),
+      radial-gradient(
+        circle #{$size * 0.0417} at #{$size * 0.05} #{$size * 0.3333},
+        #fff 100%,
+        transparent 0
+      ),
+      radial-gradient(
+        circle #{$size * 0.0417} at #{$size * 0.05} #{$size * 0.05},
+        #fff 100%,
+        transparent 0
+      );
+    background-repeat: no-repeat;
+    box-sizing: border-box;
+    animation: rotationBack 4s linear infinite reverse;
+  }
+
+  &.stop {
+    &::before,
+    &::after {
+      animation: none;
+    }
+  }
+}
+
+@keyframes rotationBack {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(-360deg);
+  }
+}
