@@ -134,24 +134,37 @@ function ChatRoomCare() {
   // 안전하게 toLowerCase를 호출하기 위해 값 확인
   const safeString = (value) => (value ? value.toLowerCase() : "");
 
-  // 날짜를 포맷하여 검색할 수 있도록 변경
+  // 날짜를 다양한 형식으로 처리
   const formatDate = (timestamp) => {
+    if (!timestamp) return ""; // timestamp가 undefined인 경우 빈 문자열 반환
+
     const date = new Date(timestamp);
-    return `${date.getMonth() + 1}.${date.getDate()}.${date.getFullYear()}`;
+    const year = date.getFullYear();
+    const month = (date.getMonth() + 1).toString().padStart(2, '0'); // 앞에 0을 추가
+    const day = date.getDate().toString().padStart(2, '0'); // 앞에 0을 추가
+
+    // 'YYYY.MM.DD.' 형식으로 반환
+    return `${year}.${month}.${day}.`;
   };
 
   // 검색어에 맞는 데이터 필터링
   const filteredChatRequests = chatRequests.filter((chat) => {
     const formattedDate = formatDate(chat.createdAt);
+
+    // 검색어가 없는 경우 빈 문자열로 처리
+    const cleanSearchValue = searchValue ? searchValue.replace(/^0+/, '') : ''; // 앞에 있는 0을 제거
+    const cleanFormattedDate = formattedDate ? formattedDate.replace(/^0+/, '') : ''; // 앞에 있는 0을 제거
+
     return (
       safeString(chat.nickname).includes(safeString(searchValue)) ||
-      formattedDate.includes(searchValue) ||
+      cleanFormattedDate.includes(cleanSearchValue) || // 앞에 0을 없앤 값 비교
       safeString(chat.chatTheme).includes(safeString(searchValue)) ||
       chat.messages.some((msg) =>
         safeString(msg.content).includes(safeString(searchValue))
       )
     );
   });
+
 
 
   const handleApproveChat = async (chatId, userEmail) => {
@@ -170,13 +183,15 @@ function ChatRoomCare() {
     }
   };
 
-  if (loading) {
-    return <p>로딩 중...</p>;
-  }
+  
 
   const handleSearchChange = (e) => {
     setSearchValue(e.target.value);
   };
+
+  if (loading) {
+    return <p>로딩 중...</p>;
+  }
 
   
   return (
