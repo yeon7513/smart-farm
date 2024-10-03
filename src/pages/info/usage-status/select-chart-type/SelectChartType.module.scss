@@ -1,8 +1,10 @@
 @import '/src/scss/mixins.scss';
 
-.select {
-  @include flexCenter();
+.selectBtn {
+  @include linearBtn();
+  font-size: 24px;
 
-  font-size: 30px;
-  outline: 1px dotted red;
+  > svg {
+    @include flexCenter();
+  }
 }
