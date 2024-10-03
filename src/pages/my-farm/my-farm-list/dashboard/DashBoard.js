@@ -34,13 +34,11 @@ function DashBoard() {
   }, [resetSector, setSector, setCurrComp]);
 
   return (
-    <div className={styles.wrapper}>
-      <div className={styles.dashBoard}>
-        <DashboardHeader info={state} />
-        <div className={styles.content}>
-          <DashboardNav />
-          <DashboardContent docId={state.docId} />
-        </div>
+    <div className={styles.dashBoard}>
+      <DashboardHeader info={state} />
+      <div className={styles.content}>
+        <DashboardNav />
+        <DashboardContent docId={state.docId} />
       </div>
     </div>
   );

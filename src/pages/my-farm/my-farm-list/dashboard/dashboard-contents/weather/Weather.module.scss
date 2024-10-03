@@ -10,6 +10,7 @@
   display: flex;
 
   .today {
+    position: relative;
     width: 25%;
     border-right: 3px solid var(--accent-color);
     border-top: 3px solid var(--accent-color);
@@ -20,8 +21,8 @@
       padding: 8px;
       border-radius: 5px;
       font-size: 16px;
-      top: -25px;
-      left: 15%;
+      top: 40px;
+      left: 50%;
       transform: translateX(-50%);
       white-space: nowrap;
       z-index: 100;
@@ -31,6 +32,7 @@
     .localName {
       position: relative;
       cursor: pointer;
+      text-align: center;
     }
     h2 {
       padding: 12px 0px;
@@ -119,6 +121,7 @@
       border: 3px solid var(--accent-color);
       border-left: none;
       border-right: none;
+
       .forecast_item {
         border-right: 2px solid var(--accent-color);
         display: flex;
@@ -240,6 +243,18 @@
         display: flex;
         flex-wrap: nowrap;
         overflow: auto;
+
+        &::-webkit-scrollbar {
+          height: 8px;
+        }
+        &::-webkit-scrollbar-thumb {
+          border-radius: 4px;
+          background-color: var(--common-color);
+        }
+        &::-webkit-scrollbar-track {
+          background-color: #eee;
+        }
+
         .forecast_item {
           font-size: 16px;
           padding: 0 10px;
@@ -311,6 +326,7 @@
         display: flex;
         flex-wrap: nowrap;
         overflow: auto;
+
         .forecast_item {
           font-size: 16px;
           padding: 0 10px;

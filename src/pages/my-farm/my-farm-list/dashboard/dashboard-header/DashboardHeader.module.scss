@@ -2,6 +2,8 @@
 
 .header {
   height: max-content;
+  background-color: var(--main-color);
+  box-shadow: var(--box-shadow);
   .info {
     display: flex;
     align-items: center;
