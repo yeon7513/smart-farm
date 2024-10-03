@@ -329,10 +329,10 @@ function QuotationsCare() {
 
                       return (
                         <tr key={item.docId || item.id} className={styles.main}>
+                          <td>{item.createdAt}</td>
                           <td>{item.name}</td>
                           <td>{item.crop}</td>
                           <td>{item.type}</td>
-                          <td>{item.createdAt}</td>
                           <td>{approvalStatus}</td>
                           <td>
                             <button
