@@ -1,4 +1,4 @@
-import { addDoc, collection, doc, setDoc } from "firebase/firestore";
+import { addDoc, collection } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { db } from "../../../api/firebase";
@@ -9,7 +9,6 @@ import { convertingAddressToGeoCode } from "./../../../api/geoCode";
 import styles from "./RequestForm.module.scss";
 import {
   renameOptionsEn,
-  renameOptionsKor,
 } from "../../../utils/renameOptions";
 
 function RequestForm({ user }) {
