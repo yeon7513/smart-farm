@@ -6,46 +6,56 @@ export function renameOptionsKor(option) {
       return "환기 장치";
     case "shadingFilm":
       return "차광막";
-    case "artificialLighting":
+    case "LEDGrowLights":
       return "인공 조명";
     case "automaticLightingRegulator":
       return "자동 조명 조절기";
     case "automaticIrrigationSystem":
       return "자동 관수 시스템";
-    case "nutrientLiquidMachine":
+    case "positiveLiquidMachine":
       return "양액기";
-    case "temperatureAndHumiditySensors":
+    case "temperatureHumiditySensor":
       return "온도 및 습도 센서";
     case "CO2Sensor":
       return "CO2 센서";
-    case "nutrientLiquidMeasurementSensor":
-      return "양액 측정 센서";
     case "cctv":
       return "cctv";
+    case "nutrientLiquidMeasurementSensor":
+      return "양액 측정 센서";
+    case "insectRepellect":
+      return "해충 퇴치기";
+    case "pestDigitalTrap":
+      return "해충 디지털 트랩";
+    case "birdRepellent":
+      return "조류 퇴치기";
     case "dripIrrigationSystem":
       return "드립 관수 시스템";
-    case "sprinkler":
+    case "sprinklerSystem":
       return "스프링클러 시스템";
     case "soilPhMeter":
       return "토양 ph 측정기";
     case "soilHumiditySensor":
       return "토양 습도 센서";
-    case "fertilizerSprayer":
+    case "fertilizerApplicationMachine":
       return "비료 살포기";
     case "pesticideSprayer":
       return "농약 살포기";
     case "weatherStation":
       return "기상 스테이션";
+    case "quadcopter":
+      return "쿼드콥터";
+    case "hexacopter":
+      return "헥사콥터";
+    case "MT7":
+      return "MT7";
+    case "MT5":
+      return "MT5";
+    case "MT4":
+      return "MT4";
     case "groundBasedDrone":
       return "지상용 드론";
     case "selfDrivingTractor":
       return "자율주행 트랙터";
-    case "insectRepellect":
-      return "해충 퇴치기";
-    case "digitalTrapsForPest":
-      return "해충 디지털 트랩";
-    case "birdRepellent":
-      return "조류 퇴치기";
 
     default:
       return "기타";
@@ -61,41 +71,53 @@ export function renameOptionsEn(option) {
     case "차광막":
       return "shadingFilm";
     case "인공 조명":
-      return "artificialLighting";
+      return "LEDGrowLights";
     case "자동 조명 조절기":
       return "automaticLightingRegulator";
     case "자동 관수 시스템":
       return "automaticIrrigationSystem";
     case "양액기":
-      return "nutrientLiquidMachine";
+      return "positiveLiquidMachine";
     case "온도 및 습도 센서":
-      return "temperatureAndHumiditySensors";
+      return "temperatureHumiditySensor";
     case "CO2 센서":
-      return "co2Sensor";
+      return "CO2Sensor";
     case "양액 측정 센서":
-      return "nutrientLiquidMeasurementSensor";
+      return "positiveSolutionMeasurementSensor";
     case "cctv":
       return "cctv";
     case "드립 관수 시스템":
       return "dripIrrigationSystem";
     case "스프링클러 시스템":
-      return "sprinkler";
+      return "sprinklerSystem";
     case "토양 ph 측정기":
       return "soilPhMeter";
     case "토양 습도 센서":
       return "soilHumiditySensor";
     case "비료 살포기":
-      return "fertilizerSprayer";
+      return "fertilizerApplicationMachine";
     case "농약 살포기":
       return "pesticideSprayer";
     case "기상 스테이션":
       return "weatherStation";
     case "지상용 드론":
       return "groundBasedDrone";
+    case "쿼드콥터":
+      return "quadcopter";
+    case "헥사콥터":
+      return "hexacopter";
+    case "MT7":
+      return "MT7";
+    case "MT5":
+      return "MT5";
+    case "MT4":
+      return "MT4";
+    case "해충 퇴치기":
+      return "insectRepellect";
     case "자율주행 트랙터":
       return "selfDrivingTractor";
     case "해충 디지털 트랩":
-      return "digitalTrapsForPest";
+      return "pestDigitalTrap";
     case "조류 퇴치기":
       return "birdRepellent";
 

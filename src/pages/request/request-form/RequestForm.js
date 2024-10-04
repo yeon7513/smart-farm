@@ -77,7 +77,7 @@ function RequestForm({ user }) {
         value: "CO2 센서",
         label: "CO2 센서",
       },
-      { id: "CCTV", value: "CCTV", label: "CCTV" },
+      { id: "cctv", value: "cctv", label: "cctv" },
     ],
     "기타 장비": [
       {
@@ -143,9 +143,9 @@ function RequestForm({ user }) {
         label: "기상 스테이션",
       },
       {
-        id: "CCTV",
-        value: "CCTV",
-        label: "CCTV",
+        id: "cctv",
+        value: "cctv",
+        label: "cctv",
       },
     ],
     "지상용 드론": [
