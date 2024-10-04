@@ -372,6 +372,7 @@
       justify-content: center;
       border-right: 3px solid var(--accent-color);
       border-top: 3px solid var(--accent-color);
+      border-left: 3px solid var(--accent-color);
       .tooltip {
         top: -25px;
         left: 35%;
@@ -472,7 +473,7 @@
         width: 100%;
         display: flex;
         border: 3px solid var(--accent-color);
-        border-left: none;
+        // border-left: none;
         // border-right: none;
         .forecast_item {
           border-right: 2px solid var(--accent-color);
@@ -503,6 +504,7 @@
         .forecast_item {
           padding: 0 10px;
           border-right: 2px solid var(--accent-color);
+          border-left: 2px solid var(--accent-color);
           display: flex;
           // flex-direction: column;
           // justify-content: center;
