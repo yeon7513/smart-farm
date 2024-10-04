@@ -45,8 +45,6 @@ function ChatRoom({ chatroomId }) {
       try {
         const rankedData = await getOrder('faq', 'likes');
         // 'likes' 필드를 기준으로 FAQ 데이터를 가져옴
-        console.log('Fetched FAQ Data: ', rankedData);
-        // 가져온 데이터를 콘솔에 출력
         setRankedFaqData(rankedData);
         // 정렬된 데이터를 상태에 설정
       } catch (error) {
@@ -261,11 +259,9 @@ function ChatRoom({ chatroomId }) {
         const nickname = userDoc.data().nickname; // nickname 필드 가져오기
         return nickname;
       } else {
-        console.error('유저 문서를 찾을 수 없습니다.');
         return null;
       }
     } catch (error) {
-      console.error('닉네임을 가져오는 중 오류 발생:', error.message);
       return null;
     }
   };
@@ -274,7 +270,6 @@ function ChatRoom({ chatroomId }) {
     const currentUser = auth.currentUser;
 
     if (!currentUser) {
-      console.error('사용자가 로그인되지 않았습니다.');
       return;
     }
 
@@ -304,11 +299,9 @@ function ChatRoom({ chatroomId }) {
 
   // startNewChat 함수 - 새로운 chatRoom을 생성
   const startNewChat = async (question) => {
-    console.log('현재 chatRoomId:', chatRoomId);
 
     const currentUser = auth.currentUser;
     if (!currentUser) {
-      console.error('사용자가 로그인되지 않았습니다.');
       return;
     }
 
@@ -335,9 +328,7 @@ function ChatRoom({ chatroomId }) {
 
       const newChatRoomId = newChatRoom.id;
       setChatRoomId(newChatRoomId); // 상태로 chatRoomId를 설정
-      console.log('새로운 상담이 시작되었습니다:', newChatRoomId);
     } catch (error) {
-      console.error('상담 시작 중 오류가 발생했습니다:', error.message);
     }
   };
 
@@ -348,7 +339,6 @@ function ChatRoom({ chatroomId }) {
       setIsLoading(true);
       await startNewChat(selectedOption.question);
     } else {
-      console.warn('선택한 옵션에 답변이 없습니다.', selectedOption);
     }
   };
 
@@ -375,7 +365,6 @@ function ChatRoom({ chatroomId }) {
   const endChat = async (chatRoomId) => {
     const currentUser = auth.currentUser;
     if (!currentUser) {
-      console.error('사용자가 로그인되지 않았습니다.');
       return;
     }
 
@@ -424,7 +413,6 @@ function ChatRoom({ chatroomId }) {
     const currentUser = auth.currentUser;
 
     if (!currentUser || !chatRoomId) {
-      console.error('사용자가 로그인되지 않았거나 chatRoomId가 없습니다.');
       return;
     }
 

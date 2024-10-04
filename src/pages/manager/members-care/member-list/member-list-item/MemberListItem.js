@@ -9,8 +9,6 @@ function MemberListItem({ docId, handleEdit }) {
 
   const member = items.find((item) => item.docId === docId);
 
-  console.log(member);
-
   const navigate = useNavigate();
 
   return (
