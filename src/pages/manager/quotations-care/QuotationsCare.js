@@ -56,7 +56,9 @@ function QuotationsCare() {
         (item) => item.useYn === "Y" && item.deleteYn === "N"
       );
     } else if (status === "rejected") {
-      filtered = commonInfo.filter((item) => item.deleteYn === "Y");
+      filtered = commonInfo.filter(
+        (item) => item.deleteYn === "Y" && item.useYn === "N"
+      );
     } else {
       filtered = commonInfo;
     }
