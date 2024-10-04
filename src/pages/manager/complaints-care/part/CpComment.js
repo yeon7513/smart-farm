@@ -108,7 +108,10 @@ function CpComment({ item, process }) {
                     <button onClick={goSuspend}>활동 정지</button>
                   </div>
                 </CustomModal>
-                <CpSanction />
+                <CpSanction
+                  complainant={item.complainantDocId}
+                  complainId={item.docId}
+                />
               </>
             ) : (
               <div className={styles.processed}>
