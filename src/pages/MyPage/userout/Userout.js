@@ -9,17 +9,10 @@ import style from "./Userout.module.scss";
 import Card from "../../../components/card/Card";
 
 function Userout(props) {
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const [state, setState] = useState(false);
-  const openModal = () => setIsModalOpen(true);
-  const closeModal = () => setIsModalOpen(false);
-
   const { items } = useSelector((state) => state.userSlice);
-
   const dispatch = useDispatch();
-
   const user = JSON.parse(localStorage.getItem("user"));
-
   useEffect(() => {
     dispatch(fetchItems({ collectionName: "users" }));
   }, [dispatch]);
@@ -50,7 +43,6 @@ function Userout(props) {
     } catch (error) {
       console.error(error);
     }
-    // setMenuOpen(false);
   };
 
   const deleteUserInfo = async () => {
@@ -64,7 +56,6 @@ function Userout(props) {
     } else {
       console.error("User not found in items");
     }
-    closeModal();
     alert("탈퇴가 완료되었습니다.");
     handleLogout();
     navigate("/");
