@@ -473,7 +473,7 @@
         display: flex;
         border: 3px solid var(--accent-color);
         border-left: none;
-        border-right: none;
+        // border-right: none;
         .forecast_item {
           border-right: 2px solid var(--accent-color);
           display: flex;
@@ -509,7 +509,8 @@
           // align-items: center;
           // flex: 1;
           &:last-child {
-            border: none;
+            // border: none;
+            border-right: 3px solid var(--accent-color);
           }
 
           .temp_text {
