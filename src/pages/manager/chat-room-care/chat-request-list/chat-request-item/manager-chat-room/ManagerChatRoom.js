@@ -65,7 +65,6 @@ function ManagerChatRoom({ chatId, userEmail }) {
         await updateDoc(chatRoomRef, {
           chatEnd: 'Y',
         });
-        console.log('상담이 종료되었습니다.');
       } catch (error) {
         console.error('상담 종료 중 오류 발생:', error);
       }

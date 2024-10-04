@@ -42,24 +42,6 @@ function QuotationsCare() {
 
   // 필터링된 데이터 처리(대기 및 승인여부)
   // 재협님이 작성
-  // const filterData = (status) => {
-  //   if (status === "pending") {
-  //     setFilteredInfo(
-  //       commonInfo.filter((item) => item.useYn === "N" && item.deleteYn === "N")
-  //     );
-  //   } else if (status === "approved") {
-  //     setFilteredInfo(
-  //       commonInfo.filter((item) => item.useYn === "Y" && item.deleteYn === "N")
-  //     );
-  //   } else if (status === "rejected") {
-  //     setFilteredInfo(commonInfo.filter((item) => item.deleteYn === "Y"));
-  //   } else {
-  //     setFilteredInfo(commonInfo);
-  //   }
-
-  //   // setFilteredInfo(filtered);
-  //   setCurrentPage(1); // 필터 변경 시 첫 페이지로 초기화
-  // };
 
   //서정은 작성=> 문제생기면 다시 재협님 코드로...
   const filterData = (status) => {
