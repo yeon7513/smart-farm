@@ -20,7 +20,7 @@ export function renameOptionsKor(option) {
       return "CO2 센서";
     case "cctv":
       return "cctv";
-    case "nutrientLiquidMeasurementSensor":
+    case "positiveSolutionMeasurementSensor":
       return "양액 측정 센서";
     case "insectRepellect":
       return "해충 퇴치기";

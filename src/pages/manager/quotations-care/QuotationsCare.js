@@ -128,7 +128,6 @@ function QuotationsCare() {
           });
         }
         setListItems(allSectorData);
-        console.log(allSectorData);
       }
     };
     fetchData();
