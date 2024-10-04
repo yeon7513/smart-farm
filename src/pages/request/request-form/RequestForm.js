@@ -77,13 +77,13 @@ function RequestForm({ user }) {
         value: "CO2 센서",
         label: "CO2 센서",
       },
-      { id: "CCTV", value: "CCTV", label: "CCTV" },
+      { id: "cctv", value: "cctv", label: "cctv" },
     ],
     "기타 장비": [
       {
         id: "positiveSolutionMeasurementSensor",
-        value: "양액측정센서",
-        label: "양액측정센서",
+        value: "양액 측정 센서",
+        label: "양액 측정 센서",
       },
       {
         id: "insectRepellect",
@@ -143,9 +143,9 @@ function RequestForm({ user }) {
         label: "기상 스테이션",
       },
       {
-        id: "CCTV",
-        value: "CCTV",
-        label: "CCTV",
+        id: "cctv",
+        value: "cctv",
+        label: "cctv",
       },
     ],
     "지상용 드론": [
