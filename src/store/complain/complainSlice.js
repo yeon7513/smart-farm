@@ -92,19 +92,6 @@ const complainSlice = createSlice({
   },
 });
 
-// // 컴플레인 가져오기
-// export const fetchComplain = createAsyncThunk(
-//   "complain/fetchComplain",
-//   async (collectionName) => {
-//     try {
-//       const data = await getDatas(collectionName);
-//       return data;
-//     } catch (error) {
-//       return error;
-//     }
-//   }
-// );
-
 // 처리 중 신고 불러오기
 export const fetchProcessing = createAsyncThunk(
   "complain/fetchProcessing",
@@ -136,30 +123,6 @@ export const fetchProcessed = createAsyncThunk(
 );
 
 // 신고 추가
-// export const addComplain = createAsyncThunk(
-//   "complain/addComplain",
-//   async ({ collectionName, complainData }) => {
-//     try {
-//       const isDuplicate = await duplicateComplaint(
-//         complainData.complainantDocId,
-//         complainData.postDocId
-//       );
-
-//       if (isDuplicate) {
-//         alert("이미 신고되어 처리 중입니다.");
-//         return { success: false, message: "이미 신고되어 처리 중입니다." };
-//       } else {
-//       }
-
-//       await addSetDocDatas(collectionName, complainData);
-
-//       return { success: true, data: complainData }; // 성공 시 추가한 데이터를 리턴
-//     } catch (error) {
-//       console.log(`신고하기 에러 발생: ${error.message}`);
-//       return { success: false, message: error.message }; // 에러 발생 시 메시지 리턴
-//     }
-//   }
-// );
 export const addComplain = createAsyncThunk(
   "complain/addComplain",
   async ({ collectionName, complainData }) => {
