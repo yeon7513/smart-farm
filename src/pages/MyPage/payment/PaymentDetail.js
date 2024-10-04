@@ -13,9 +13,7 @@ import { GridLoader } from "react-spinners";
 import { db } from "../../../api/firebase";
 import Container from "../../../components/layout/container/Container";
 import styles from "./PaymentDetail.module.scss";
-import {
-  renameOptionsKor,
-} from "./../../../utils/renameOptions";
+import { renameOptionsKor } from "./../../../utils/renameOptions";
 
 function PaymentDetail() {
   const [loading, setLoading] = useState(false);
@@ -188,6 +186,12 @@ function PaymentDetail() {
                   </div>
                   <div>
                     <p>연락처: {data.number}</p>
+                  </div>
+                  <div>
+                    <p>
+                      주문 날짜:{" "}
+                      {new Date(data.createdAt).toLocaleDateString("ko-KR")}
+                    </p>
                   </div>
                   <div>
                     <p>주소: {data.address}</p>

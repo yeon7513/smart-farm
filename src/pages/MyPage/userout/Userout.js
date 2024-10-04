@@ -74,7 +74,7 @@ function Userout(props) {
     <Container className={style.container}>
       <Card>
         <div>
-          <span>탈퇴</span> 시 회원님의 Ifarm 이용정보가 <span>삭제</span>되며
+          <span>탈퇴</span> 시 회원님의 IFarm 이용정보가 <span>삭제</span>되며
           복구가 불가능하오니 신중히 선택하시기 바랍니다
         </div>
         <br />
