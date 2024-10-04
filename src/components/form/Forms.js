@@ -35,14 +35,9 @@ function Forms({ title, getDataForm, firebaseError }) {
   };
 
   const userPassword = {
-    required: "필수 필드입니다.",
-    minLength: {
-      value: 8,
-      message: "최소 8자 이상.",
-    },
     pattern: {
-      // value:
-      //   /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
+      value:
+        /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
       message:
         "대문자, 소문자, 숫자, 특수 문자를 포함한 최소 8자 이상이어야 합니다.",
     },

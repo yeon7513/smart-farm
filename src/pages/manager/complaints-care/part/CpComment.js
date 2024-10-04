@@ -78,9 +78,9 @@ function CpComment({ item, process }) {
     <>
       <div className={styles.flex_box}>
         <div className={styles.comment}>
-          <Link to={`/community/${item.category}/${item.postId}`}>
-            <h3>{item.text}</h3>
-          </Link>
+          {/* <Link to={`/community/${item.category}/${item.postId}`}> */}
+          <h3>{item.text}</h3>
+          {/* </Link> */}
           <h4>{item.defendant}</h4>
         </div>
         <div className={styles.care}>
@@ -108,7 +108,10 @@ function CpComment({ item, process }) {
                     <button onClick={goSuspend}>활동 정지</button>
                   </div>
                 </CustomModal>
-                <CpSanction />
+                <CpSanction
+                  complainant={item.complainantDocId}
+                  complainId={item.docId}
+                />
               </>
             ) : (
               <div className={styles.processed}>

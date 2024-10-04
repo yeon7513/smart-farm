@@ -38,7 +38,6 @@ function Post({ onClick, onSubmit, category, initialValue = INITIAL_VALUE }) {
       imgUrl: file || "",
       nick: loginUser?.nickname,
       email: loginUser?.email,
-      // profileImg: loginUser?.photoUrl,
       category: category,
       photoUrl: loginUser?.photoUrl,
       userDocId: loginUser?.docId,
@@ -51,9 +50,7 @@ function Post({ onClick, onSubmit, category, initialValue = INITIAL_VALUE }) {
         onSubmit(result);
         setValues(INITIAL_VALUE);
         setFile(null);
-        // if (fileInputRef.current) {
-        //   fileInputRef.current.value = "";
-        // }
+
         navigate(`/community/${category}/${result.id}`, { state: result });
       } else {
         alert("게시글 등록에 실패했습니다.");
