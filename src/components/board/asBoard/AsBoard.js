@@ -6,6 +6,8 @@ import CustomModal from "../../modal/CustomModal";
 import PasswordModal from "../../modal/PasswordModal";
 import styles from "./AsBoard.module.scss";
 import AsPost from "./AsPost";
+import SearchBox from "../../search_box/SearchBox";
+import { TbSearch } from "react-icons/tb";
 
 const PAGE_SIZE = 10;
 
@@ -99,6 +101,13 @@ function AsBoard({ nopost }) {
     }
   };
 
+  const [searchValue, setSearchValue] = useState("");
+
+  const handleChangeSearch = (e) => {
+    let value = !e.target[0] ? e.target.value : e.target[0].value;
+    setSearchValue(value);
+  };
+
   return (
     <div className={styles.container}>
       {/* 글쓰기 모드 */}
@@ -106,6 +115,15 @@ function AsBoard({ nopost }) {
         <AsPost onClick={notPosting} onSubmit={addPost} />
       ) : (
         <>
+          <div className={styles.boardSearch}>
+            <SearchBox
+              className={styles.searchBox}
+              name={<TbSearch />}
+              placeholder={"검색"}
+              value={searchValue}
+              onChange={handleChangeSearch}
+            />
+          </div>
           <div className={styles.col}>
             <div>NO.</div>
             <div>제목</div>

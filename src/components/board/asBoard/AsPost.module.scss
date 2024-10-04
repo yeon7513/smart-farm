@@ -59,12 +59,12 @@
     border-radius: 10px;
     margin: 0 6px;
   }
-}
-.sub {
-  background-color: var(--back-color);
+  .sub {
+    background-color: var(--board-color);
 
-  &:hover {
-    background-color: var(--common-color);
+    &:hover {
+      background-color: var(--common-color);
+    }
   }
 }
 .delete {
