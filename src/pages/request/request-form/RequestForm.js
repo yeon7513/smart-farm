@@ -7,9 +7,7 @@ import FacilitiesHorticulture from "../FacilitiesHorticulture";
 import OpenGround from "../OpenGround";
 import { convertingAddressToGeoCode } from "./../../../api/geoCode";
 import styles from "./RequestForm.module.scss";
-import {
-  renameOptionsEn,
-} from "../../../utils/renameOptions";
+import { renameOptionsEn } from "../../../utils/renameOptions";
 
 function RequestForm({ user }) {
   const [cropType, setCropType] = useState("딸기");
@@ -201,11 +199,10 @@ function RequestForm({ user }) {
 
   // 회원가입이 되어있지 않은 경우 견적 의뢰를 할 수 없습니다.
   useEffect(() => {
-    console.log(user);
-    // if (!user.id) {
-    //   navigate(-1);
-    //   return;
-    // }
+    if (!user) {
+      navigate(-1);
+      return;
+    }
   }, [user]);
 
   useEffect(() => {
@@ -306,28 +303,6 @@ function RequestForm({ user }) {
     }
   };
 
-  // 주소를 받아옵니다.
-  const handleGetAddr = async (addr) => {
-    setFarmAddress(addr);
-
-    console.log("addr: ", addr);
-
-    try {
-      // 주소의 위도, 경도 값을 가져옵니다.
-      const { lat, lng } = (await convertingAddressToGeoCode(addr)) || {};
-      if (lat && lng) {
-        setLat(lat);
-        setLng(lng);
-      } else {
-        // console.error('위도 또는 경도 값이 유효하지 않습니다.');
-        console.log("위도:", lat, "경도:", lng);
-      }
-    } catch (error) {
-      console.error("주소 변환 중 오류 발생: ", error.message);
-    }
-    console.log(lat, lng);
-  };
-
   // 농장 종류를 변경합니다.
   const handleFacilityTypeChange = (e) => {
     setFacilityType(e.target.value);
@@ -339,21 +314,23 @@ function RequestForm({ user }) {
     setSelectedOptions((prevOptions) => {
       const updatedOptions = { ...prevOptions };
 
-       // 인덱스가 없으면 초기화합니다.
-    if (!updatedOptions[index]) {
-      updatedOptions[index] = {};
-    }
+      // 인덱스가 없으면 초기화합니다.
+      if (!updatedOptions[index]) {
+        updatedOptions[index] = {};
+      }
 
       // 인덱스의 카테고리가 없으면 초기화 합니다.
       if (!updatedOptions[index][category]) {
         updatedOptions[index][category] = {};
       }
-     
+
       // 현재 값을 토글합니다.
-    updatedOptions[index][category][value] = updatedOptions[index][category][value]
-    ? undefined // "Y" 대신 undefined로 설정하여 값을 제거
-    : "Y";
-    
+      updatedOptions[index][category][value] = updatedOptions[index][category][
+        value
+      ]
+        ? undefined // "Y" 대신 undefined로 설정하여 값을 제거
+        : "Y";
+
       console.log(updatedOptions);
       return updatedOptions;
     });

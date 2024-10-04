@@ -25,40 +25,40 @@ function DashboardContent({ docId }) {
     dispatch(fetchSectorInfo(collectionName));
   }, [dispatch, docId]);
 
-  // useEffect(() => {
-  //   const interval = setInterval(() => {
-  //     setCount((prevCount) => {
-  //       if (prevCount >= 5000) {
-  //         return 0;
-  //       }
-  //       return prevCount + 1;
-  //     });
-  //   }, 1000);
-  //   return () => clearInterval(interval);
-  // }, []);
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCount((prevCount) => {
+        if (prevCount >= 5000) {
+          return 0;
+        }
+        return prevCount + 1;
+      });
+    }, 1000);
+    return () => clearInterval(interval);
+  }, []);
 
-  // useEffect(() => {
-  //   const interval = setInterval(() => {
-  //     setRandomCount((prevCount) => {
-  //       // 1시간 마다 1000으로 설정
-  //       const currentTime = new Date().getMinutes(); // 현재 시간을 분 단위로 체크
-  //       if (currentTime === 0) {
-  //         // 매시간 정각에 1000 설정
-  //         return 1000;
-  //       }
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setRandomCount((prevCount) => {
+        // 1시간 마다 1000으로 설정
+        const currentTime = new Date().getMinutes(); // 현재 시간을 분 단위로 체크
+        if (currentTime === 0) {
+          // 매시간 정각에 1000 설정
+          return 1000;
+        }
 
-  //       // 1000 미만일 때는 랜덤 증가
-  //       if (prevCount >= 1000) {
-  //         return 0;
-  //       }
+        // 1000 미만일 때는 랜덤 증가
+        if (prevCount >= 1000) {
+          return 0;
+        }
 
-  //       const randomIncrease = Math.random() * 1000;
-  //       return randomIncrease;
-  //     });
-  //   }, 10000); // 10초마다 실행
+        const randomIncrease = Math.random() * 1000;
+        return randomIncrease;
+      });
+    }, 10000); // 10초마다 실행
 
-  //   return () => clearInterval(interval);
-  // }, []);
+    return () => clearInterval(interval);
+  }, []);
 
   useEffect(() => {
     dispatch(countData(count));
@@ -68,8 +68,6 @@ function DashboardContent({ docId }) {
     dispatch(randomCountData(randomCount));
   }, [randomCount, dispatch]);
 
-  console.log(count);
-  console.log(randomCount);
   return (
     <div className={styles.content}>
       {currComp === "Briefing" && (

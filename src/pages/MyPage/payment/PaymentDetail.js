@@ -13,9 +13,7 @@ import { GridLoader } from "react-spinners";
 import { db } from "../../../api/firebase";
 import Container from "../../../components/layout/container/Container";
 import styles from "./PaymentDetail.module.scss";
-import {
-  renameOptionsKor,
-} from "./../../../utils/renameOptions";
+import { renameOptionsKor } from "./../../../utils/renameOptions";
 
 function PaymentDetail() {
   const [loading, setLoading] = useState(false);
@@ -43,7 +41,6 @@ function PaymentDetail() {
           },
         }
       );
-      console.log(response);
 
       if (response.data.code !== 0) {
         throw new Error("토큰을 가져오는 데 실패했습니다.");
@@ -58,7 +55,6 @@ function PaymentDetail() {
 
   // 결제 취소 함수
   const onPayCancel = async () => {
-    console.log(data);
     if (!data || !data.createdAt) return;
 
     const confirm = window.confirm(
@@ -188,6 +184,12 @@ function PaymentDetail() {
                   </div>
                   <div>
                     <p>연락처: {data.number}</p>
+                  </div>
+                  <div>
+                    <p>
+                      주문 날짜:{" "}
+                      {new Date(data.createdAt).toLocaleDateString("ko-KR")}
+                    </p>
                   </div>
                   <div>
                     <p>주소: {data.address}</p>

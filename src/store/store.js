@@ -11,7 +11,6 @@ import controlSlice from "./controlData/controlSlice";
 import boardSlice from "./board/boardSlice";
 import complainSlice from "./complain/complainSlice";
 import disasterSlice from "./disaster/disasterSlice";
-import commentSlice from "./comment/commentSlice";
 import asSlice from "./as-service/asSlice";
 
 export const store = configureStore({
@@ -28,7 +27,6 @@ export const store = configureStore({
     boardSlice,
     complainSlice,
     disasterSlice,
-    commentSlice,
     asSlice,
   },
 });
