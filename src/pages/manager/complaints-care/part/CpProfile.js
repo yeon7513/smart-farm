@@ -147,7 +147,10 @@ function CpProfile({ item, process }) {
                   </form>
                 </CustomModal>
 
-                <CpSanction />
+                <CpSanction
+                  complainant={item.complainantDocId}
+                  complainId={item.docId}
+                />
               </>
             ) : (
               <div className={styles.processed}>
