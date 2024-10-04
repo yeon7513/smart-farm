@@ -15,20 +15,6 @@ const asSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-      //   .addCase(fetchAsDatas.pending, (state) => {
-      //     state.isLoading = true;
-      //     state.error = null;
-      //   })
-      //   .addCase(fetchAsDatas.fulfilled, (state, action) => {
-      //     state.isLoading = false;
-      //     state.posts = action.payload;
-      //     state.error = null;
-      //   })
-      //   .addCase(fetchAsDatas.rejected, (state, action) => {
-      //     state.isLoading = false;
-      //     state.error = action.payload;
-      //   })
-
       // 답변 중
       .addCase(fetchCompleting.pending, (state) => {
         state.isLoading = true;
@@ -94,18 +80,6 @@ const asSlice = createSlice({
       });
   },
 });
-
-// export const fetchAsDatas = createAsyncThunk(
-//   "as/fetchAsDatas",
-//   async (category) => {
-//     try {
-//       const data = await getBoardDatas(category);
-//       return data;
-//     } catch (error) {
-//       console.log("as 데이터 불러오기 중 에러: ", error);
-//     }
-//   }
-// );
 
 export const fetchCompleting = createAsyncThunk(
   "as/fetchCompleting",

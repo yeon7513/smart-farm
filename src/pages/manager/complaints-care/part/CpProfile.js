@@ -6,13 +6,11 @@ import CpSanction from "./CpSanction";
 import TextInput from "../../../../components/form/text-input/TextInput";
 import { useDispatch, useSelector } from "react-redux";
 import { updateUserInfo } from "../../../../store/user/UserSlice";
-import placehorderImg from "../../../../assets/member/basic_profile.png";
 import {
   approveComplaint,
   approveSuspend,
 } from "../../../../store/complain/complainSlice";
 import { changingNickName } from "../../../../utils/transformNick";
-import PulseLoader from "react-spinners/PulseLoader";
 
 function CpProfile({ item, process }) {
   const processYy = {
@@ -25,7 +23,6 @@ function CpProfile({ item, process }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
-  // const [checkNickName, setCheckNickName] = useState(false);
 
   // 승인
   const goProcessed = () => {
