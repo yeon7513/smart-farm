@@ -163,9 +163,10 @@ function QuotationsCare() {
       // 부가옵션을 문자열로 변환
       const formattedOptions = additionalOptions.map((option) => ({
         동수: option.동수,
-        부가옵션: Object.entries(option.부가옵션).map(([key, value]) => 
-          value === "Y" ? renameOptionsKor(key) : null
-        ).filter(Boolean).join(", ")
+        부가옵션: Object.entries(option.부가옵션)
+          .map(([key, value]) => (value === "Y" ? renameOptionsKor(key) : null))
+          .filter(Boolean)
+          .join(", "),
       }));
 
       formattedOptions.forEach((option) => {
@@ -311,6 +312,7 @@ function QuotationsCare() {
                     <th>이름</th>
                     <th>작물 종류</th>
                     <th>농장 종류</th>
+                    <th>주문 날짜</th>
                     <th>승인여부</th>
                     <th>상세정보</th>
                   </tr>
@@ -333,6 +335,11 @@ function QuotationsCare() {
                           <td>{item.name}</td>
                           <td>{item.crop}</td>
                           <td>{item.type}</td>
+                          <td>
+                            {new Date(item.createdAt).toLocaleDateString(
+                              "ko-KR"
+                            )}
+                          </td>
                           <td>{approvalStatus}</td>
                           <td>
                             <button
@@ -348,7 +355,7 @@ function QuotationsCare() {
                   ) : (
                     <tr>
                       <td colSpan="6" style={{ textAlign: "center" }}>
-                        회원정보가 없습니다.
+                        주문 내역이 없습니다.
                       </td>
                     </tr>
                   )}
@@ -376,6 +383,10 @@ function QuotationsCare() {
                 </div>
                 <p>농장 종류: {selectedItem.type}</p>
                 <p>주문번호: {selectedItem.createdAt}</p>
+                <p>
+                  주문 날짜:{" "}
+                  {new Date(selectedItem.createdAt).toLocaleDateString("ko-KR")}
+                </p>
                 <p>승인여부: {selectedItem.useYn}</p>
                 <div className={styles.btn}>
                   <div className={styles.ok_btn}>
