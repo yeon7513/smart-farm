@@ -41,9 +41,6 @@ function QuotationsCare() {
   }, []);
 
   // 필터링된 데이터 처리(대기 및 승인여부)
-  // 재협님이 작성
-
-  //서정은 작성=> 문제생기면 다시 재협님 코드로...
   const filterData = (status) => {
     let filtered;
 
@@ -271,8 +268,6 @@ function QuotationsCare() {
             name={<TbPencilSearch />}
             placeholder={"견적 의뢰서 검색"}
             onChange={handleKeywordChange}
-            // value={keyword}
-            // onClick={handleSearch}
           />
           <button onClick={exportToExcel} className={styles.exp_btn}>
             견적 내역 다운로드
