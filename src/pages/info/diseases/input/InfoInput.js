@@ -64,7 +64,6 @@ function InfoInput({ onSearch, resetSearch }) {
   // 첫 번쨰 셀렉트 박스 변경 핸들러
   const handleBigChang = async (e) => {
     const value = e.target.value; //사용자가 선택한 대분류값
-    console.log(value); // 선택된 대분류 값을 콘솔에 출력
     const apiKey = process.env.REACT_APP_DISEASESLIST_API_KEY;
 
     try {
@@ -76,7 +75,6 @@ function InfoInput({ onSearch, resetSearch }) {
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
-      // console.log(response);
 
       // API로부터 받은 데이터를 JSON으로 변환
       const result = await response.json();
@@ -93,7 +91,6 @@ function InfoInput({ onSearch, resetSearch }) {
 
   const handleMiddleChang = async (e) => {
     const value = e.target.value; //사용자가 선택한 중분류 값
-    console.log(value); // 선택된 대분류 값을 콘솔에 출력
     const apiKey = process.env.REACT_APP_DISEASESLIST_API_KEY;
     try {
       const response = await fetch(
@@ -103,12 +100,10 @@ function InfoInput({ onSearch, resetSearch }) {
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
-      // console.log(response);
       const result = await response.json();
       // 소분류 셀렉트 박스의 옵션을 설정
       setSelectedMiddle(result.service.srchKncrList3);
       checkSearchButtonState(inputValue, lastSelectRef.current?.value);
-      console.log(result.service.srchKncrList3);
     } catch (error) {
       console.error("There was a problem with the fetch operation:", error);
     }
@@ -117,34 +112,9 @@ function InfoInput({ onSearch, resetSearch }) {
   // 세번째 셀렉트 박스 변경 핸들러(소분류)
   const handleSmallChange = (e) => {
     const value = e.target.value; //사용자가 선택한 소분류 값
-    console.log(value);
     setCropCode(value); //선택된 소분류 값으로 작물 코드 설정
     checkSearchButtonState(inputValue, value);
     // onSearch(e.target.selectedOptions[0].text);
-  };
-
-  const handleFullClick = async (e) => {
-    const value = e.target.value;
-    console.log(value); // 선택된 대분류 값을 콘솔에 출력
-    const apiKey = process.env.REACT_APP_DISEASESLIST_API_KEY;
-
-    try {
-      // 선택된 작물 코드를 기반으로 작물 정보를 가져오는 API 호출
-      const response = await fetch(
-        `/desease/?apiKey=${apiKey}&serviceCode=SVC16&serviceType=AA003&cropCode=${cropCode}`
-      );
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-      console.log(response); // 응답 객체를 콘솔에 출력
-      const result = await response.json();
-      // 조회된 결과를 상태로 저장
-      setItems(result.service.list);
-    } catch (error) {
-      console.error("There was a problem with the fetch operation:", error);
-    }
-    // console.log(items);
   };
 
   // 셀렉트 박스
@@ -163,10 +133,8 @@ function InfoInput({ onSearch, resetSearch }) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
         const result = await response.json();
-        // console.log(result);
         // 대분류 셀렉트 박스의 옵션을 설정
         setSelectedBig(result.service.srchKncrList1);
-        // console.log(result.service.srchKncrList1);
       } catch (error) {
         console.error("There was a problem with the fetch operation:", error);
       }

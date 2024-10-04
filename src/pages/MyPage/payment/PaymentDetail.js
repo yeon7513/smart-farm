@@ -41,7 +41,6 @@ function PaymentDetail() {
           },
         }
       );
-      console.log(response);
 
       if (response.data.code !== 0) {
         throw new Error("토큰을 가져오는 데 실패했습니다.");
@@ -56,7 +55,6 @@ function PaymentDetail() {
 
   // 결제 취소 함수
   const onPayCancel = async () => {
-    console.log(data);
     if (!data || !data.createdAt) return;
 
     const confirm = window.confirm(
