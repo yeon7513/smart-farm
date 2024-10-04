@@ -82,8 +82,8 @@ function RequestForm({ user }) {
     "기타 장비": [
       {
         id: "positiveSolutionMeasurementSensor",
-        value: "양액측정센서",
-        label: "양액측정센서",
+        value: "양액 측정 센서",
+        label: "양액 측정 센서",
       },
       {
         id: "insectRepellect",
