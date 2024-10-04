@@ -22,7 +22,6 @@ function DiseasesList() {
   };
 
   const handleSearch = (term) => {
-    console.log("검색어:", term);
     setSearchTerm(term);
     setCurrentPage(1);
   };
@@ -54,7 +53,6 @@ function DiseasesList() {
 
         setData(result.service);
         setTotalPages(Math.ceil(result.service.totalCount / DISPLAY_COUNT));
-        // console.log(result.service);
       } catch (error) {
         console.error("There was a problem with the fetch operation:", error);
       }

@@ -42,24 +42,6 @@ function QuotationsCare() {
 
   // 필터링된 데이터 처리(대기 및 승인여부)
   // 재협님이 작성
-  // const filterData = (status) => {
-  //   if (status === "pending") {
-  //     setFilteredInfo(
-  //       commonInfo.filter((item) => item.useYn === "N" && item.deleteYn === "N")
-  //     );
-  //   } else if (status === "approved") {
-  //     setFilteredInfo(
-  //       commonInfo.filter((item) => item.useYn === "Y" && item.deleteYn === "N")
-  //     );
-  //   } else if (status === "rejected") {
-  //     setFilteredInfo(commonInfo.filter((item) => item.deleteYn === "Y"));
-  //   } else {
-  //     setFilteredInfo(commonInfo);
-  //   }
-
-  //   // setFilteredInfo(filtered);
-  //   setCurrentPage(1); // 필터 변경 시 첫 페이지로 초기화
-  // };
 
   //서정은 작성=> 문제생기면 다시 재협님 코드로...
   const filterData = (status) => {
@@ -163,9 +145,10 @@ function QuotationsCare() {
       // 부가옵션을 문자열로 변환
       const formattedOptions = additionalOptions.map((option) => ({
         동수: option.동수,
-        부가옵션: Object.entries(option.부가옵션).map(([key, value]) => 
-          value === "Y" ? renameOptionsKor(key) : null
-        ).filter(Boolean).join(", ")
+        부가옵션: Object.entries(option.부가옵션)
+          .map(([key, value]) => (value === "Y" ? renameOptionsKor(key) : null))
+          .filter(Boolean)
+          .join(", "),
       }));
 
       formattedOptions.forEach((option) => {
@@ -311,6 +294,7 @@ function QuotationsCare() {
                     <th>이름</th>
                     <th>작물 종류</th>
                     <th>농장 종류</th>
+                    <th>주문 날짜</th>
                     <th>승인여부</th>
                     <th>상세정보</th>
                   </tr>
@@ -333,6 +317,11 @@ function QuotationsCare() {
                           <td>{item.name}</td>
                           <td>{item.crop}</td>
                           <td>{item.type}</td>
+                          <td>
+                            {new Date(item.createdAt).toLocaleDateString(
+                              "ko-KR"
+                            )}
+                          </td>
                           <td>{approvalStatus}</td>
                           <td>
                             <button
@@ -348,7 +337,7 @@ function QuotationsCare() {
                   ) : (
                     <tr>
                       <td colSpan="6" style={{ textAlign: "center" }}>
-                        회원정보가 없습니다.
+                        주문 내역이 없습니다.
                       </td>
                     </tr>
                   )}
@@ -376,6 +365,10 @@ function QuotationsCare() {
                 </div>
                 <p>농장 종류: {selectedItem.type}</p>
                 <p>주문번호: {selectedItem.createdAt}</p>
+                <p>
+                  주문 날짜:{" "}
+                  {new Date(selectedItem.createdAt).toLocaleDateString("ko-KR")}
+                </p>
                 <p>승인여부: {selectedItem.useYn}</p>
                 <div className={styles.btn}>
                   <div className={styles.ok_btn}>

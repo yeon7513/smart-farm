@@ -9,17 +9,10 @@ import style from "./Userout.module.scss";
 import Card from "../../../components/card/Card";
 
 function Userout(props) {
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const [state, setState] = useState(false);
-  const openModal = () => setIsModalOpen(true);
-  const closeModal = () => setIsModalOpen(false);
-
   const { items } = useSelector((state) => state.userSlice);
-
   const dispatch = useDispatch();
-
   const user = JSON.parse(localStorage.getItem("user"));
-
   useEffect(() => {
     dispatch(fetchItems({ collectionName: "users" }));
   }, [dispatch]);
@@ -50,7 +43,6 @@ function Userout(props) {
     } catch (error) {
       console.error(error);
     }
-    // setMenuOpen(false);
   };
 
   const deleteUserInfo = async () => {
@@ -64,7 +56,6 @@ function Userout(props) {
     } else {
       console.error("User not found in items");
     }
-    closeModal();
     alert("탈퇴가 완료되었습니다.");
     handleLogout();
     navigate("/");
@@ -74,7 +65,7 @@ function Userout(props) {
     <Container className={style.container}>
       <Card>
         <div>
-          <span>탈퇴</span> 시 회원님의 Ifarm 이용정보가 <span>삭제</span>되며
+          <span>탈퇴</span> 시 회원님의 IFarm 이용정보가 <span>삭제</span>되며
           복구가 불가능하오니 신중히 선택하시기 바랍니다
         </div>
         <br />

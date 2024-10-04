@@ -9,7 +9,6 @@ function Monitoring() {
   const dispatch = useDispatch();
   const [farmState, setFarmState] = useState("");
   const { growthData } = useSelector((state) => state.bestfarmSlice);
-  const { temperature } = useSelector((state) => state.controlSlice);
   const [chartType, setChartType] = useState("line");
   // ----------------------------------------------------------------
   const [averageState1, setAverageState1] = useState();

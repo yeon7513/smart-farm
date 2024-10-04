@@ -98,6 +98,7 @@ const Payment = () => {
                     <th>작물 종류</th>
                     <th>농장 종류</th>
                     <th>주문번호</th>
+                    <th>결제 날짜</th>
                     <th>승인 여부</th>
                     <th>자세히 보기</th>
                   </tr>
@@ -117,6 +118,9 @@ const Payment = () => {
                         <td>{item.crop}</td>
                         <td>{item.type}</td>
                         <td>{item.createdAt}</td>
+                        <td>
+                          {new Date(item.createdAt).toLocaleDateString("ko-KR")}
+                        </td>
                         <td>{approvalStatus}</td>
                         <td>
                           <Link to={`/mypage/${item.paymentsDocId}`}>
