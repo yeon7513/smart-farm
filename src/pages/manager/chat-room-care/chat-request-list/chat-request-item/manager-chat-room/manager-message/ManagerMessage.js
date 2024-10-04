@@ -3,13 +3,13 @@ import styles from './ManagerMessage.module.scss'
 import { auth } from '../../../../../../../api/firebase';
 
 // 날짜 비교 함수 (같은 날짜인지 확인)
-const isSameDate = (date1, date2) => {
-  return (
-    date1.getFullYear() === date2.getFullYear() &&
-    date1.getMonth() === date2.getMonth() &&
-    date1.getDate() === date2.getDate()
-  );
-};
+// const isSameDate = (date1, date2) => {
+//   return (
+//     date1.getFullYear() === date2.getFullYear() &&
+//     date1.getMonth() === date2.getMonth() &&
+//     date1.getDate() === date2.getDate()
+//   );
+// };
 
 function ManagerMessage({ messages = [] }) {
   // 메시지를 시간 순서대로 정렬
