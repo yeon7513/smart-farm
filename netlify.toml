@@ -1,5 +1,5 @@
 [build]
-  command = "npm run build"
+  command = "CI=false npm run build"
   publish = "build"
   environment = { NODE_OPTIONS = "--max_old_space_size=4096"}
 
