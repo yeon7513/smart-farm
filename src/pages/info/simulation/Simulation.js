@@ -18,7 +18,6 @@ function Simulation() {
     "주간 평균 내부 온도": null,
     "주간 평균 잔존 CO2": null,
   };
-
   const [farmCode, setFarmCode] = useState("S47");
   const [bestProdValue, setBestProdValue] = useState(23);
   const [resultData, setResultData] = useState(initialState);

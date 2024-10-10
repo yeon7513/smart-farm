@@ -7,7 +7,6 @@ import Card from "../../../../../../components/card/Card";
 
 function Monitoring() {
   const dispatch = useDispatch();
-  const [farmState, setFarmState] = useState("");
   const { growthData } = useSelector((state) => state.bestfarmSlice);
   const [chartType, setChartType] = useState("line");
   // ----------------------------------------------------------------
@@ -19,93 +18,39 @@ function Monitoring() {
   const [averageState6, setAverageState6] = useState();
   const [averageState7, setAverageState7] = useState();
   // ----------------------------------------------------------------
-  useEffect(() => {
-    dispatch(fetchGrowthData(`pageSize=30&searchFrmhsCode=${farmState}`));
-    setFarmState("43");
-  }, [dispatch, farmState]);
   //---------------------------------------------------------------1
+  const calculateAverage = (month) => {
+    const growData1 = growthData?.filter((item) => item.frmMonth === month);
+    const frtsNum1 = growData1?.map((item) => item.frtstGrupp);
+    return frtsNum1?.reduce((acc, cur) => acc + cur, 0) / frtsNum1?.length || 0;
+  };
+
   useEffect(() => {
-    const growData1 = growthData?.filter((item) => {
-      return item.frmMonth === "9";
-    });
-    const frtsNum1 = growData1?.map((item) => {
-      return item.frtstGrupp;
-    });
-    const average1 =
-      frtsNum1?.reduce((acc, cur) => acc + cur, 0) / frtsNum1?.length;
-    setAverageState1(average1);
+    setAverageState1(calculateAverage("9"));
   }, [dispatch]);
-  //---------------------------------------------------------------2
+
   useEffect(() => {
-    const growData1 = growthData?.filter((item) => {
-      return item.frmMonth === "10";
-    });
-    const frtsNum1 = growData1?.map((item) => {
-      return item.frtstGrupp;
-    });
-    const average2 =
-      frtsNum1?.reduce((acc, cur) => acc + cur, 0) / frtsNum1?.length;
-    setAverageState2(average2);
+    setAverageState2(calculateAverage("10"));
   }, [dispatch]);
-  //---------------------------------------------------------------3
+
   useEffect(() => {
-    const growData1 = growthData?.filter((item) => {
-      return item.frmMonth === "11";
-    });
-    const frtsNum1 = growData1?.map((item) => {
-      return item.frtstGrupp;
-    });
-    const average3 =
-      frtsNum1?.reduce((acc, cur) => acc + cur, 0) / frtsNum1?.length;
-    setAverageState3(average3);
+    setAverageState3(calculateAverage("11"));
   }, [dispatch]);
-  //---------------------------------------------------------------4
+
   useEffect(() => {
-    const growData1 = growthData?.filter((item) => {
-      return item.frmMonth === "12";
-    });
-    const frtsNum1 = growData1?.map((item) => {
-      return item.frtstGrupp;
-    });
-    const average4 =
-      frtsNum1?.reduce((acc, cur) => acc + cur, 0) / frtsNum1?.length;
-    setAverageState4(average4);
+    setAverageState4(calculateAverage("12"));
   }, [dispatch]);
-  //---------------------------------------------------------------5
+
   useEffect(() => {
-    const growData1 = growthData?.filter((item) => {
-      return item.frmMonth === "1";
-    });
-    const frtsNum1 = growData1?.map((item) => {
-      return item.frtstGrupp;
-    });
-    const average5 =
-      frtsNum1?.reduce((acc, cur) => acc + cur, 0) / frtsNum1?.length;
-    setAverageState5(average5);
+    setAverageState5(calculateAverage("1"));
   }, [dispatch]);
-  //---------------------------------------------------------------6
+
   useEffect(() => {
-    const growData1 = growthData?.filter((item) => {
-      return item.frmMonth === "2";
-    });
-    const frtsNum1 = growData1?.map((item) => {
-      return item.frtstGrupp;
-    });
-    const average6 =
-      frtsNum1?.reduce((acc, cur) => acc + cur, 0) / frtsNum1?.length;
-    setAverageState6(average6);
+    setAverageState6(calculateAverage("2"));
   }, [dispatch]);
-  //---------------------------------------------------------------7
+
   useEffect(() => {
-    const growData1 = growthData?.filter((item) => {
-      return item.frmMonth === "3";
-    });
-    const frtsNum1 = growData1?.map((item) => {
-      return item.frtstGrupp;
-    });
-    const average7 =
-      frtsNum1?.reduce((acc, cur) => acc + cur, 0) / frtsNum1?.length;
-    setAverageState7(average7);
+    setAverageState7(calculateAverage("3"));
   }, [dispatch]);
 
   function formatData(timestamp) {
