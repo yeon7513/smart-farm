@@ -128,7 +128,7 @@ function QuotationsCare() {
       }
     };
     fetchData();
-  }, []);
+  }, [payments]);
 
   // firebase의 데이터를 excel로 불러옵니다.
   const exportToExcel = async () => {
@@ -138,6 +138,7 @@ function QuotationsCare() {
       const sectorDataItem = listItems.find(
         (item) => item.docId === payment.docId
       );
+      console.log(sectorDataItem);
       const additionalOptions = sectorDataItem ? sectorDataItem.상세내역 : [];
 
       // 부가옵션을 문자열로 변환
@@ -154,6 +155,7 @@ function QuotationsCare() {
           ...payment,
           동수: option.동수,
           부가옵션: option.부가옵션,
+          결제날짜: payment.createdAt.toLocaleDateString(),
         });
       });
     }
