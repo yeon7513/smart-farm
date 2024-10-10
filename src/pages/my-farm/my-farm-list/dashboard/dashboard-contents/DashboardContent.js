@@ -64,7 +64,6 @@ function DashboardContent({ docId }) {
     dispatch(fetchGrowthData("pageSize=30&searchFrmhsCode=43"));
   }, [dispatch]);
 
-  console.log(growthData);
   useEffect(() => {
     dispatch(countData(count));
   }, [count, dispatch]);

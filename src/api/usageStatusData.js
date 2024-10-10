@@ -11,7 +11,6 @@ export function usageStatusData() {
       result.forEach((item) => {
         usageStatusResult.push(item);
       });
-      // console.log(usageStatusResult);
       return usageStatusResult;
     });
 }

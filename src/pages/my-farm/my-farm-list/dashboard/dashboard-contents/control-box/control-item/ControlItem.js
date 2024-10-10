@@ -1,12 +1,12 @@
-import cn from 'classnames';
-import React, { useEffect, useState } from 'react';
-import { useSectorContext } from '../../../../../../../context/SectorContext';
-import Card from './../../../../../../../components/card/Card';
-import styles from './ControlItem.module.scss';
-import AutomaticControl from './automatic-control/AutomaticControl';
-import ControlSwitch from './control-switch/ControlSwitch';
-import ManualControl from './manual-control/ManualControl';
-import MeasurementControl from './measurement-control/MeasurementControl';
+import cn from "classnames";
+import React, { useEffect, useState } from "react";
+import { useSectorContext } from "../../../../../../../context/SectorContext";
+import Card from "./../../../../../../../components/card/Card";
+import styles from "./ControlItem.module.scss";
+import AutomaticControl from "./automatic-control/AutomaticControl";
+import ControlSwitch from "./control-switch/ControlSwitch";
+import ManualControl from "./manual-control/ManualControl";
+import MeasurementControl from "./measurement-control/MeasurementControl";
 
 function ControlItem({
   option,
@@ -19,7 +19,6 @@ function ControlItem({
   setValue,
 }) {
   const { sector } = useSectorContext();
-
   const [isChecked, setIsChecked] = useState(defaultChecked);
   const [settingValue, setSettingValue] = useState(setValue);
 
@@ -79,7 +78,7 @@ function ControlItem({
           )}
         </div>
       </div>
-      {category === 'adjustableSettings' ? (
+      {category === "adjustableSettings" ? (
         <ManualControl
           isChecked={isChecked}
           handleSubmit={handleSubmit}
@@ -88,7 +87,7 @@ function ControlItem({
           setSettingValue={setSettingValue}
           label={option}
         />
-      ) : category === 'measurementSensors' ? (
+      ) : category === "measurementSensors" ? (
         <MeasurementControl isChecked={isChecked} label={option} />
       ) : (
         <AutomaticControl isChecked={isChecked} />

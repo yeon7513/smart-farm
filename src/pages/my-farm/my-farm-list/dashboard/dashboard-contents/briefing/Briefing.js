@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react';
-import { useSectorContext } from '../../../../../../context/SectorContext';
+import React, { useEffect, useState } from "react";
+import { useSectorContext } from "../../../../../../context/SectorContext";
 import {
   getAllControlItems,
   saveControlItem,
-} from '../../../../../../utils/indexedDB';
-import ControlItem from '../control-box/control-item/ControlItem';
-import styles from './Briefing.module.scss';
+} from "../../../../../../utils/indexedDB";
+import ControlItem from "../control-box/control-item/ControlItem";
+import styles from "./Briefing.module.scss";
 
 function Briefing() {
   const { sector } = useSectorContext();
@@ -16,7 +16,7 @@ function Briefing() {
       const list = await getAllControlItems();
       setSelectedControls(list);
     } catch (error) {
-      console.error('indexedDB 로드 실패: ', error);
+      console.error("indexedDB 로드 실패: ", error);
     }
   };
 
@@ -36,7 +36,7 @@ function Briefing() {
     <>
       <div className={styles.controlContainer}>
         {renderingControls.length === 0 ? (
-          ''
+          ""
         ) : (
           <>
             {renderingControls.controlItems.map((control, idx) => {
