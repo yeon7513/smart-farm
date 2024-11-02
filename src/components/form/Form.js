@@ -44,6 +44,15 @@ function Form({
     required: "필수 필드입니다.",
   };
 
+  // const userPassword = {
+  //   pattern: {
+  //     value:
+  //       /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
+  //     message:
+  //       "대문자, 소문자, 숫자, 특수 문자를 포함한 최소 8자 이상이어야 합니다.",
+  //   },
+  // };
+
   return (
     <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
       <TextField

@@ -18,7 +18,7 @@ function EmailButton({
     const templateParams = {
       to_email: user.email, // 수신 이메일 ex) test@test.gmail.com,
       from_name: "ManageMent",
-      message: `인증 번호입니다, ${getDataForm}`,
+      message: `비밀 번호입니다, ${getDataForm}`,
     };
     emailjs
       .send(
