@@ -50,35 +50,13 @@ function DashboardNav() {
             컨트롤
           </button>
         </li>
-        <li>
-          <button
-            className={currComp === 'Sensor' ? styles.active : ''}
-            onClick={() => setCurrComp('Sensor')}
-          >
-            센서
-          </button>
-        </li>
+
         <li>
           <button
             className={currComp === 'Alert' ? styles.active : ''}
             onClick={() => setCurrComp('Alert')}
           >
             <span>알림 내역</span>
-            {/* <span className={styles.count}>
-            {dashboardAlertContent?.length !== 0 ? (
-              <>{dashboardAlertContent?.length}</>
-            ) : (
-              <></>
-            )}
-          </span> */}
-          </button>
-        </li>
-        <li>
-          <button
-            className={currComp === 'Report' ? styles.active : ''}
-            onClick={() => setCurrComp('Report')}
-          >
-            보고서
           </button>
         </li>
       </ul>

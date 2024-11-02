@@ -35,6 +35,7 @@
     border: 1px solid #e2e2e2;
     border-radius: 8px;
     font-size: 16px;
+    font-family: "TheJamsil";
   }
 }
 
@@ -58,12 +59,12 @@
     border-radius: 10px;
     margin: 0 6px;
   }
-}
-.sub {
-  background-color: var(--back-color);
+  .sub {
+    background-color: var(--board-color);
 
-  &:hover {
-    background-color: var(--common-color);
+    &:hover {
+      background-color: var(--common-color);
+    }
   }
 }
 .delete {

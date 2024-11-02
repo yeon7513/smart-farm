@@ -8,7 +8,6 @@ const initialState = {
   randomCount: "",
   dashboardAlertContent: [],
   controlItems: [],
-  temperature: [],
 };
 const controlSlice = createSlice({
   name: "controlStatus",
@@ -28,9 +27,6 @@ const controlSlice = createSlice({
     },
     postsLengthData: (state, action) => {
       state.postsLength = action.payload;
-    },
-    temperatureData: (state, action) => {
-      state.temperature = action.payload;
     },
   },
 
@@ -69,5 +65,4 @@ export const {
   countData,
   randomCountData,
   postsLengthData,
-  temperatureData,
 } = controlSlice.actions;

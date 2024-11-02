@@ -4,7 +4,7 @@ import {
   addComment,
   deleteComment,
   getComment,
-  updateComment, // 댓글 수정 함수 추가
+  updateComment,
 } from "../../api/board";
 import { addComplain } from "../../store/complain/complainSlice.js";
 import CmRadio from "../complain/CmRadio.js";
@@ -20,10 +20,8 @@ function Comment({ item }) {
   const [selectedComment, setSelectedComment] = useState(null);
   const docId = item.docId;
   const collectionName = item.collection;
-  // const { isAuthenticated } = useSelector((state) => state.userSlice);
 
   const dispatch = useDispatch();
-  // const { comments } = useSelector((state) => state.commentSlice);
 
   const [errorMessage, setErrorMessage] = useState("");
   const [selectedReason, setSelectedReason] = useState("");
@@ -132,7 +130,7 @@ function Comment({ item }) {
     );
     if (success) {
       handleCancelEdit(); // 수정 모드 해제 및 초기화
-      getComments(); // 업데이트된 댓글 목록 가져오기
+      getComments();
     }
   };
 

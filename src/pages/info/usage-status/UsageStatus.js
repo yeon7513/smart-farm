@@ -22,6 +22,7 @@ function UsageStatus() {
   const [sort, setSort] = useState('local');
   const [localName, setLocalName] = useState('');
   const [localFarm, setLocalFarm] = useState(null);
+
   const mapRef = useRef(null);
 
   // 차트 타입 변경
@@ -78,12 +79,7 @@ function UsageStatus() {
 
   return (
     <div className={styles.usageStatus}>
-      <Maps
-        className={styles.map}
-        onRegionClick={handleLocalClick}
-        ref={mapRef}
-      />
-      <div className={styles.container}>
+      <div className={styles.sort}>
         <div className={styles.sortBtns}>
           <button onClick={handleResetClick}>
             <GrPowerReset />
@@ -101,6 +97,13 @@ function UsageStatus() {
             작물별
           </button>
         </div>
+        <Maps
+          className={styles.map}
+          onRegionClick={handleLocalClick}
+          ref={mapRef}
+        />
+      </div>
+      <div className={styles.container}>
         <div className={styles.content}>
           {!localFarm ? (
             <div className={styles.entrie}>

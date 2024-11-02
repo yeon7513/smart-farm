@@ -5,7 +5,7 @@ import styles from './SelectChartType.module.scss';
 function SelectChartType({ value, label, type, handleChange }) {
   return (
     <button
-      className={cn(styles.select, type === value ? styles.on : '')}
+      className={cn(styles.selectBtn, type === value ? styles.active : '')}
       onClick={() => handleChange(value)}
     >
       {label}

@@ -1,12 +1,12 @@
-import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { Link, Outlet, useLocation } from 'react-router-dom';
-import Container from '../../components/layout/container/Container';
-import CustomMaps from '../../components/map/CustomMaps';
-import { useComponentContext } from '../../context/ComponentContext';
-import { fetchCommonInfo } from '../../store/dashboard/dashboardSlice';
-import FarmList from './my-farm-list/FarmList';
-import styles from './MyFarm.module.scss';
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, Outlet, useLocation } from "react-router-dom";
+import Container from "../../components/layout/container/Container";
+import CustomMaps from "../../components/map/CustomMaps";
+import { useComponentContext } from "../../context/ComponentContext";
+import { fetchCommonInfo } from "../../store/dashboard/dashboardSlice";
+import FarmList from "./my-farm-list/FarmList";
+import styles from "./MyFarm.module.scss";
 
 function MyFarm() {
   const { currComp } = useComponentContext();
@@ -16,16 +16,15 @@ function MyFarm() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(fetchCommonInfo('dashboard'));
+    dispatch(fetchCommonInfo("dashboard"));
   }, [dispatch]);
 
-  const userStorage = JSON.parse(localStorage.getItem('user'));
-  const isAdmin = userStorage.email.includes('addmin');
+  const userStorage = JSON.parse(localStorage.getItem("user"));
+  const isAdmin = userStorage.email.includes("addmin");
 
   const geoCode = commonInfo
     .filter((info) => {
       if (isAdmin) {
-        console.log(info);
         return info;
       } else {
         return info.userId === userStorage.email;
@@ -49,7 +48,7 @@ function MyFarm() {
       </div>
       <div className={styles.content}>
         <Outlet />
-        {currComp && location.pathname !== '/my-farm' ? (
+        {currComp && location.pathname !== "/my-farm" ? (
           <Link to="details">
             <FarmList />
           </Link>

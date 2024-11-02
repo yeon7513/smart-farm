@@ -80,7 +80,6 @@ function Board({ nopost, category, complain, myPosts }) {
   };
 
   // 검색
-
   const handleChangeSearch = (e) => {
     let value = !e.target[0] ? e.target.value : e.target[0].value;
     setSearchValue(value);

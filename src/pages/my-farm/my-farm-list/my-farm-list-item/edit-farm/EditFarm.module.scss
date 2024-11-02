@@ -1,3 +1,20 @@
 .edit {
   padding: 20px;
+
+  .editContent {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    margin-bottom: 5px;
+
+    > label {
+      width: 100px;
+    }
+    > input,
+    select {
+      padding: 8px;
+      width: 180px;
+      border: 1px solid #ccc;
+    }
+  }
 }

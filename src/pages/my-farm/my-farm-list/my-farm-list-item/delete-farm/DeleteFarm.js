@@ -15,7 +15,7 @@ function DeleteFarm({ farmName, crop, setIsDelete }) {
   return (
     <div className={styles.deleteConfirm}>
       <div className={styles.info}>
-        <span>농장 정보</span>
+        <span>[농장 정보]</span>
         <h2>
           {farmName} / {crop}
         </h2>

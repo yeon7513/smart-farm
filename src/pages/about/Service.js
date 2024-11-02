@@ -30,7 +30,7 @@ function Service(props) {
           trigger: technology_img,
           start: "top 100%", // 스크롤 위치 설정
           end: "top 100%",
-          markers: true,
+          // markers: true,
           toggleActions: "restart none none none",
         },
       });

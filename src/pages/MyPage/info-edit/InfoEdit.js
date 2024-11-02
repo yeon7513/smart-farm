@@ -67,12 +67,10 @@ function InfoEdit() {
     if (value === '' || !pwCheck) {
       // 비밀번호가 일치하지 않을 경우
       setCheckPw(true);
-      console.log('비밀번호 불일치');
     } else if (value !== '' && pwCheck) {
       // 비밀번호가 일치할 경우
       setCheckPw(false);
       handleChange(name, value);
-      console.log('비밀번호 일치');
     }
   };
 
@@ -96,7 +94,6 @@ function InfoEdit() {
 
       // 재인증 후 사용자 토큰 갱신
       await user.getIdToken(true);
-      console.log('비밀번호 변경 완료');
     } catch (error) {
       console.error('비밀번호 변경 실패: ', error);
     }

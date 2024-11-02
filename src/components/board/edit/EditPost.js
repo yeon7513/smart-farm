@@ -1,12 +1,10 @@
-import React, { useState } from 'react';
-import { updatePost } from '../../../api/board';
-import styles from './EditPost.module.scss';
+import React, { useState } from "react";
+import { updatePost } from "../../../api/board";
+import styles from "./EditPost.module.scss";
 
 function EditPost({ post, setIsEditing, onPostUpdate }) {
-  // const navigate = useNavigate();
-  const [title, setTitle] = useState(post?.title || '');
-  const [summary, setSummary] = useState(post?.summary || '');
-  //   const [file, setfile] = useState(post?.file || "");
+  const [title, setTitle] = useState(post?.title || "");
+  const [summary, setSummary] = useState(post?.summary || "");
 
   const handleUpdatePost = async () => {
     if (!post?.collection || !post?.docId) return;
@@ -23,7 +21,7 @@ function EditPost({ post, setIsEditing, onPostUpdate }) {
         await onPostUpdate();
       }
     } catch (error) {
-      console.error('Error updating post: ', error);
+      console.error("Error updating post: ", error);
     }
   };
 
@@ -56,10 +54,6 @@ function EditPost({ post, setIsEditing, onPostUpdate }) {
         ※ 부적절한 콘텐츠가 포함될 경우 관리자에 의해 게시글이 삭제될 수 있으며,
         해당 아이디가 정지 처리될 수 있습니다.
       </b>
-      {/* <div className={styles.file}>
-        <p>첨부:</p>
-        <input type="file" value={file} />
-      </div> */}
 
       <div className={styles.btn}>
         <div>

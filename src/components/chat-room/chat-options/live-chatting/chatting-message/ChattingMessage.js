@@ -2,14 +2,14 @@ import React from 'react';
 import styles from './ChattingMessage.module.scss';
 import { auth } from '../../../../../api/firebase';
 
-// 날짜 비교 함수 (같은 날짜인지 확인)
-const isSameDate = (date1, date2) => {
-  return (
-    date1.getFullYear() === date2.getFullYear() &&
-    date1.getMonth() === date2.getMonth() &&
-    date1.getDate() === date2.getDate()
-  );
-};
+// // 날짜 비교 함수 (같은 날짜인지 확인)
+// const isSameDate = (date1, date2) => {
+//   return (
+//     date1.getFullYear() === date2.getFullYear() &&
+//     date1.getMonth() === date2.getMonth() &&
+//     date1.getDate() === date2.getDate()
+//   );
+// };
 
 function ChattingMessage({ messages = []  }) {
   // 현재 로그인한 사용자의 UID 가져오기

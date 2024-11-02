@@ -10,12 +10,13 @@ import {
   countData,
   randomCountData,
 } from "../../../../../store/controlData/controlSlice";
-import { useSectorContext } from "../../../../../context/SectorContext";
+import { fetchGrowthData } from "../../../../../store/bestfarm/bestfarmSlice";
 
 function DashboardContent({ docId }) {
   const { sectorInfo } = useSelector((state) => state.dashboardSlice);
   const { currComp } = useComponentContext();
-  const { selectedSector } = useSectorContext();
+  // const [farmState, setFarmState] = useState("");
+  const { growthData } = useSelector((state) => state.bestfarmSlice);
   const [count, setCount] = useState(1);
   const [randomCount, setRandomCount] = useState(1);
   const dispatch = useDispatch();
@@ -59,6 +60,9 @@ function DashboardContent({ docId }) {
 
   //   return () => clearInterval(interval);
   // }, []);
+  useEffect(() => {
+    dispatch(fetchGrowthData("pageSize=30&searchFrmhsCode=43"));
+  }, [dispatch]);
 
   useEffect(() => {
     dispatch(countData(count));
@@ -68,8 +72,6 @@ function DashboardContent({ docId }) {
     dispatch(randomCountData(randomCount));
   }, [randomCount, dispatch]);
 
-  console.log(count);
-  console.log(randomCount);
   return (
     <div className={styles.content}>
       {currComp === "Briefing" && (

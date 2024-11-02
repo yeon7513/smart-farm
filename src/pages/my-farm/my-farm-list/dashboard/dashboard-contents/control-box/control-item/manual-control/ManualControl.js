@@ -7,7 +7,6 @@ import {
 } from "../../../../../../../../utils/renameOptions";
 import styles from "./ManualControl.module.scss";
 import { useDispatch } from "react-redux";
-import { temperatureData } from "../../../../../../../../store/controlData/controlSlice";
 
 function ManualControl({
   isChecked,
@@ -23,14 +22,10 @@ function ManualControl({
   const handleSetClick = () => {
     setIsSet(true);
   };
-  console.log(settings);
   const handleSave = (e) => {
     handleSubmit(e);
     setIsSet(false);
   };
-  useEffect(() => {
-    dispatch(temperatureData([settings]));
-  }, [dispatch]);
 
   useEffect(() => {
     const interval = setInterval(() => {

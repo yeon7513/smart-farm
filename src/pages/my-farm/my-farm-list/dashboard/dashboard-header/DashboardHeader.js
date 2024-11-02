@@ -1,6 +1,6 @@
 import React from 'react';
 import { IoArrowBackCircle } from 'react-icons/io5';
-import { TbBellFilled, TbHomeFilled, TbUserFilled } from 'react-icons/tb';
+import { TbHomeFilled, TbUserFilled } from 'react-icons/tb';
 import { useNavigate } from 'react-router-dom';
 import Clock from './../../../../../components/clock/Clock';
 import styles from './DashboardHeader.module.scss';
@@ -23,9 +23,6 @@ function DashboardHeader({ info }) {
         <div className={styles.icons}>
           <button className={styles.gotoHome} onClick={() => navigate('/')}>
             <TbHomeFilled />
-          </button>
-          <button className={styles.gotoAlert} onClick={() => navigate('/')}>
-            <TbBellFilled />
           </button>
           <button
             className={styles.gotoMypage}

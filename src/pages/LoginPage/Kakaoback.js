@@ -211,33 +211,3 @@ const Kakaoback = () => {
 };
 
 export default Kakaoback;
-
-// function KaKaoLogout(props) {
-//   const navigate = useNavigate();
-//   const KaKaoLogout = () => {
-//     if (window.Kakao.Auth.getAccessToken()) {
-//       console.log("로그아웃 중입니다.");
-//       window.Kakao.Auth.logout(function () {
-//         console.log("로그아웃 성공");
-//         // 로그아웃 후 추가로 처리할 작업이 있다면 여기에 작성합니다.
-//       });
-//     } else {
-//       console.log("로그인 상태가 아닙니다.");
-//     }
-//   };
-//   const Box = `
-//     color: "#3E0C02";
-//     border: "none";
-//     border-radius: "10px";
-//     cursor: "pointer";
-//     font-size: "12px";
-//     font-weight: "bold";
-//     transition: "background-color 0.3s";
-//   `;
-
-//   return (
-//     <div>
-//       <button onClick={KaKaoLogout}>로그아웃</button>
-//     </div>
-//   );
-// }

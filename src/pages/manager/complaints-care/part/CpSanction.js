@@ -9,7 +9,6 @@ import {
 import styles from "./CpSanction.module.scss";
 
 function CpSanction({ complainant, complainId }) {
-  // const [values, setValues] = useState();
   const [noModalOpen, setNoModalOpen] = useState(false);
   const openNoModal = () => setNoModalOpen(true);
   const closeNoModal = () => setNoModalOpen(false);
@@ -38,7 +37,6 @@ function CpSanction({ complainant, complainId }) {
   };
 
   const dispatch = useDispatch();
-  // // const {processing} = useSelector((state) => state.complainSlice);
   const { items } = useSelector((state) => state.userSlice);
 
   useEffect(() => {

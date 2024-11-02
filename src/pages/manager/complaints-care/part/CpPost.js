@@ -12,19 +12,16 @@ import {
 } from "../../../../store/complain/complainSlice";
 
 function CpPost({ item, process }) {
-  // console.log(item);
   const processYy = {
     y: "거부",
     Y: "승인",
   };
 
-  // console.log(item);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
 
   const dispatch = useDispatch();
-  // const { processing } = useSelector((state) => state.complainSlice);
 
   const goProcessed = () => {
     dispatch(
@@ -63,7 +60,7 @@ function CpPost({ item, process }) {
       deleteBoardDatas({ category: item.category, docId: item.postDocId })
     )
       .then(() => {
-        // alert("게시글이 성공적으로 삭제되었습니다.");
+        alert("게시글이 성공적으로 삭제되었습니다.");
         // setIsModalOpen(false);
       })
       .catch((error) => {

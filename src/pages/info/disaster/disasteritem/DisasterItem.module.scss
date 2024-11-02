@@ -250,30 +250,31 @@
     align-items: center;
 
     .button_items {
+      width: 300px;
       gap: 3px;
       .button_item {
-        font-size: 14px;
+        font-size: 11px;
         padding: 6px 0;
         width: 100%;
       }
     }
 
     .measures {
-      width: 80%;
+      width: 100%;
       display: flex;
       gap: 0.5rem;
       .measures_title {
         h1 {
           padding: 0px;
-          font-size: 30px;
+          font-size: 26px;
 
           &:hover + img {
-            left: 30px;
+            left: 15px;
             top: 40px;
           }
         }
         img {
-          width: 300px;
+          width: 250px;
           height: 200px;
         }
       }
@@ -285,7 +286,7 @@
         ul {
           li {
             padding: 4px 0;
-            font-size: 18px;
+            font-size: 16px;
           }
         }
       }
